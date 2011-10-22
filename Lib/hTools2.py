@@ -1,14 +1,13 @@
 # hTools 2
 
 import os
-
 import plistlib
 
 #---------
 # objects
 #---------
 
-ROOT = u"/Users/gferreira0/Dropbox/hipertipo/hFonts"
+from __ROOT__ import root
 
 class hSettings:
 
@@ -24,7 +23,7 @@ class hSettings:
 
 	def __init__(self):
 		print 'hPaths : init...'
-		self.root = ROOT
+		self.root = root
 		self.file = os.path.join(self.root, 'hSettings.plist')
 		if os.path.exists(self.file):
 			self.read()
