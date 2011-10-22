@@ -6,7 +6,7 @@ class hFont:
 	ufo = None
 
 	def __init__(self):
-		print 'hFont : init...'
+		#print 'hFont : init...'
 		self.project = hProject()
 		self._make_parameters_dict()
 
@@ -28,3 +28,8 @@ class hFont:
 
 	def fontName(self):
 		return '%s %s' % (self.project.name, self.name())
+
+	def clear_fontinfo(self, tables=[]):
+		if len(tables) > 0:
+			for t in tables:
+				print 'clearing %s...' % t

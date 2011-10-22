@@ -1,4 +1,5 @@
 from hWorld import hWorld
+from hTools2.modules.filesystem import walk
 
 class hProject:
 
@@ -20,7 +21,7 @@ class hProject:
 	]
 	
 	def __init__(self, name=None):
-		print 'hProject : init...'
+		# print 'hProject : init...'
 		if name != None:
 			self.name = name
 		self.world = hWorld()
@@ -33,13 +34,14 @@ class hProject:
 		pass
 
 	def makePaths(self):
-		self.paths['root'] = '%s/%s.%s/' % (self.world.settings.root, self.name, self.extension)
-		self.paths['docs'] = '%s%s/' % (self.paths['root'], 'docs')
-		self.paths['ufos'] = '%s%s/' % (self.paths['root'], 'ufos')
-		self.paths['otfs'] = '%s%s/' % (self.paths['root'], 'otfs')
-		self.paths['libs'] = '%s%s/' % (self.paths['root'], 'libs')
-		self.paths['temp'] = '%s%s/' % (self.paths['root'], 'temp')
-		self.paths['inst'] = '%s%s/' % (self.paths['root'], 'ufos')
+		#self.paths['root'] = '%s/%s.%s/' % (self.world.settings.root, self.name, self.extension)
+		self.paths['root'] = '%s/_%s/' % (self.world.settings.root, self.name)
+		self.paths['docs'] = '%s%s/' % (self.paths['root'], '_docs')
+		self.paths['ufos'] = '%s%s/' % (self.paths['root'], '_ufos')
+		self.paths['otfs'] = '%s%s/' % (self.paths['root'], '_otfs')
+		self.paths['libs'] = '%s%s/' % (self.paths['root'], '_libs')
+		self.paths['temp'] = '%s%s/' % (self.paths['root'], '_temp')
+		self.paths['inst'] = '%s%s/' % (self.paths['root'], '_ufos')
 
 	def printPaths(self):
 		print 'hProject : printing paths...'
@@ -48,7 +50,9 @@ class hProject:
 		print
 
 	def masters(self):
-		return 'hProject : collecting masters...\n'
+		#return 'hProject : collecting masters...\n'
+		return walk(self.paths['ufos'], 'ufo')
 
 	def instances(self):
-		return 'hProject : collecting instances...\n'
+		#return 'hProject : collecting instances...\n'
+		return walk(self.paths['inst'], 'ufo')

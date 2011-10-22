@@ -8,7 +8,7 @@ class hSettings:
 	root = '$ROOT'
 
 	def __init__(self):
-		print 'hPaths : init...'
+		# print 'hPaths : init...'
 		self.root = hTools2.ROOT
 		self.file = os.path.join(self.root, 'hSettings.plist')
 		if os.path.exists(self.file):
@@ -17,11 +17,11 @@ class hSettings:
 			self.write()			
 
 	def read(self):
-		print 'hPaths : reading settings...\n'
+		# print 'hPaths : reading settings...\n'
 		self.hDict = plistlib.readPlist(self.file)
 
 	def write(self):
-		print 'hPaths : writing settings...\n'
+		# print 'hPaths : writing settings...\n'
 		plistlib.writePlist(self.hDict, self.file)
 
 	def edit_dialog(self):

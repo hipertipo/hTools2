@@ -1,3 +1,4 @@
 import fontinfo
+import filesystem
 
-__all__ = [ 'fontinfo' ]
+__all__ = [ 'filesystem' ]
