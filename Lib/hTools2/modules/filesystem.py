@@ -10,3 +10,7 @@ def walk(folder, extension):
 		if n[-3:] == extension:
 			files.append(p)
 	return files
+
+def deleteFiles(fileList):
+	for f in fileList:
+		os.remove(f)

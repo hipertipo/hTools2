@@ -1,6 +1,3 @@
-import objects
-import modules
+'''hTools2'''
 
 ROOT = u"/Users/gferreira0/Dropbox/hipertipo/hFonts"
-
-__all__ = [ 'objects', 'modules', 'ROOT' ]
