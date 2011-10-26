@@ -4,7 +4,8 @@ import os
 import plistlib
 
 import hTools2
-from hTools2.modules.filesystem import walk
+
+from modules.fileutils import walk
 
 
 class hSettings:
@@ -163,7 +164,18 @@ class hFont:
 			return otf_path
 		else:
 			return otf_path_test
-			
+				
+	def getGlyphs(self):
+		gNames = []
+		cg = CurrentGlyph()
+		if cg != None:
+			gNames.append(cg.name)
+		for g in f:
+			if g.selected == True:
+				if g.name not in gNames:
+					gNames.append(g.name)
+		return gNames
+
 
 class hGlyph:
 
