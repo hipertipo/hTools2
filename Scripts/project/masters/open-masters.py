@@ -2,7 +2,7 @@
 
 from hTools2.objects import hProject
 
-pNames = [ 'Quantica' ]
+pNames = [ 'Publica' ]
 
 masters = True
 instances = False

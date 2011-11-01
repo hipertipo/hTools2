@@ -1,4 +1,4 @@
-# read/write plist
+# [h] read/write plist
 
 from plistlib import writePlist, readPlist
 import datetime

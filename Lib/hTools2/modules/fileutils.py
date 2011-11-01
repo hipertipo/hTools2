@@ -7,7 +7,8 @@ def walk(folder, extension):
 	names = os.listdir(folder)
 	for n in names:
 		p = os.path.join(folder, n)
-		if n[-3:] == extension:
+		file_name, file_extension = os.path.splitext(n)
+		if file_extension[1:] == extension:
 			files.append(p)
 	return files
 
@@ -16,6 +17,7 @@ def deleteFiles(fileList):
 		os.remove(f)
 
 def getGlyphs(f):
+	from robofab.world import CurrentGlyph
 	gNames = []
 	cg = CurrentGlyph()
 	if cg is not None:

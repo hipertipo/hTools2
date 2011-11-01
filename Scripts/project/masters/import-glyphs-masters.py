@@ -15,7 +15,7 @@ def tempFont():
 	return t
 
 projects = [ 'Magnetica', 'Synthetica', 'Guarana'  ]
-glyphs = [ 'H', 'O',]
+glyphs = [ 'n', 'o',]
 
 t = tempFont()
 
@@ -35,3 +35,4 @@ for glyphName in glyphs:
 			 tmpGlyph.unicodes = ufoGlyph.unicodes
 			 tmpGlyph.update()
 print '...done.\n'
+

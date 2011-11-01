@@ -5,6 +5,9 @@ import plistlib
 
 import hTools2
 
+import modules.fileutils
+reload(modules.fileutils)
+
 from modules.fileutils import walk
 
 
@@ -68,6 +71,7 @@ class hProject:
 		'docs' : None,
 		'temp' : None,
 		'test' : None,
+		'woffs' : None,
 		'ftp': None,
 	}
   
@@ -101,6 +105,7 @@ class hProject:
 		self.paths['temp'] = os.path.join(self.paths['root'], '_temp')
 		self.paths['inst'] = os.path.join(self.paths['root'], '_ufos/_instances')
 		self.paths['test'] = os.path.join(self.world.settings.hDict['test'], '_' + self.name)
+		self.paths['woffs'] = os.path.join(self.paths['root'], '_woffs')
 
 	def print_paths(self):
 		print 'hProject : printing paths...'
@@ -113,6 +118,12 @@ class hProject:
 
 	def instances(self):
 		return walk(self.paths['inst'], 'ufo')
+
+	def otfs(self):
+		return walk(self.paths['otfs'], 'otf')
+
+	def woffs(self):
+		return walk(self.paths['woffs'], 'woff')
 
 
 class hFont:
@@ -175,6 +186,14 @@ class hFont:
 				return otf_path_test
 		except:
 			print 'no otf path available, please save the ufo file first.\n'
+
+	def woff_path(self):
+		try:
+			woff_file = self.file_name + '.woff'
+			woff_path = os.path.join(self.project.paths['woffs'], woff_file)
+			return woff_path
+		except:
+			print 'no woff path available, please save the ufo file first.\n'
 				
 	def getGlyphs(self):
 		gNames = []
