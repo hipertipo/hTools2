@@ -1,4 +1,23 @@
-# fontinfo
+# [h] modules.fontinfo
+
+import os
+
+#------------
+# set info
+#------------
+
+def set_names(font):
+    file_name = os.path.split(font.path)[1].split('.')[0]
+    family_name, style_name = file_name.split('_')
+    font.info.familyName = family_name
+    font.info.styleName = style_name
+
+def set_metrics(font):
+    font.info.unitsPerEm = 1000
+    font.info.descender = -200
+    font.info.xHeight = 700
+    font.info.capHeight = 860
+    font.info.ascender = 900
 
 #------------
 # print info

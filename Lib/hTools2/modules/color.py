@@ -1,4 +1,4 @@
-# tools for working with colors
+# [h] modules.color
 
 def randomColor():
 	from random import random

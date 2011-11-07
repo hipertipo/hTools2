@@ -1,12 +1,9 @@
-# hTools.objects
+# [h] objects
 
 import os
 import plistlib
 
 import hTools2
-
-import modules.fileutils
-reload(modules.fileutils)
 
 from modules.fileutils import walk
 
@@ -43,6 +40,7 @@ class hSettings:
 class hWorld:
 
 	projects = []
+	selected = []
 
 	def __init__(self):
 		self.settings = hSettings()

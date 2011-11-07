@@ -1,4 +1,4 @@
-# fileutils
+# [h] modules.fileutils
 
 import os
 

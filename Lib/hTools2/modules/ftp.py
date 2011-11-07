@@ -1,4 +1,4 @@
-# FTP Tools
+# [h] modules.ftp
 
 import os
 

@@ -14,7 +14,7 @@ def tempFont():
 		t = CurrentFont()
 	return t
 
-projects = [ 'Magnetica', 'Synthetica', 'Guarana'  ]
+projects = [ 'Magnetica', 'Quantica', 'Jornalistica'  ]
 glyphs = [ 'n', 'o',]
 
 t = tempFont()

@@ -1,4 +1,4 @@
-# tools for working with anchors and accented glyphs
+# [h] modules.anchors
 
 def getAnchorsDict(font, gNames=None):
 	anchorsDict = { }
