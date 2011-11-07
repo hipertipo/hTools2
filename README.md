@@ -3,12 +3,12 @@ hTools2
 
 hTools2 is a rewrite of hTools for RoboFont.
 
-(Early days, not much to see/use at the moment.)
+*...work is still in early days, there's not much to see/use at the moment...*
 
 Installation
 ------------
 
-To install hTools2, first download and unzip the latest version from the [repository on github](http://github.com/gferreira/hTools2).
+To install hTools2, first download and unzip the latest package from the [repository on github](http://github.com/gferreira/hTools2).
 
 Then:
 
@@ -22,10 +22,11 @@ To test if hTools2 is installed, try to run this in the RoboFont scripting windo
 
     import hTools2
     
-If there's no error, we're good to go.
+If no error message is returned, we're good to go.
 
 
 Feedback
 --------
 
-For feedback and questions, just drop a message to gustavo (at) hipertipo.com. 
+For feedback and questions, simply [drop me a message](mailto:gustavo@hipertipo.com).
+
