@@ -2,7 +2,7 @@
 
 from hTools2.objects import hProject
 
-pNames = [ 'Synthetica' ]
+pNames = [ 'Magnetica' ]
 
 masters = True
 instances = False

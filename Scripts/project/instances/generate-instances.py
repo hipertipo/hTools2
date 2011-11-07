@@ -7,11 +7,11 @@ from mojo.roboFont import RFont
 from hTools2.objects import hSettings, hProject, hFont
 from hTools2.modules.fileutils import walk, deleteFiles
 
-projects = [ 'Synthetica' ]
+projects = [ 'Publica' ]
 
 _clear = True
-_otf = False
-_test = True
+_otf = True
+_test = False
 
 for pName in projects:
     p = hProject(pName)
