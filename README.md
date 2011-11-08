@@ -3,12 +3,15 @@ hTools2
 
 hTools2 is a rewrite of hTools for RoboFont.
 
-*...work is still in early days, there's not much to see/use at the moment...*
+hTools is a collection of tools and high-level objects to help with common font-production tasks. It is written in Python on top of existing free/open libraries (RoboFab, dialogKit, NodeBox), and was originally developed around FontLab Studio. 
+
+*Work is still in early days, there’s not much to see/use at the moment.*
+
 
 Installation
 ------------
 
-To install hTools2, first download and unzip the latest package from the [repository on github](http://github.com/gferreira/hTools2).
+To install hTools2, first download and unzip the [latest package](https://github.com/gferreira/hTools2/zipball/master) from the [repository on github](https://github.com/gferreira/hTools2).
 
 Then:
 
@@ -29,4 +32,3 @@ Feedback
 --------
 
 For feedback and questions, simply [drop me a message](mailto:gustavo@hipertipo.com).
-
