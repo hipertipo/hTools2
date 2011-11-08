@@ -21,16 +21,12 @@ def centerGlyph(glyph):
     glyph.leftMargin = whitespace / 2
     glyph.rightMargin = whitespace / 2    
 
-#----------
 # settings
-#----------
 
 _width = 1000
 _center = True
 
-#------------
 # run script
-#------------
 
 f = CurrentFont()
 gNames = getGlyphs(f)

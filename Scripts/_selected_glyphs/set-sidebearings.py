@@ -17,7 +17,7 @@ def getGlyphs(f):
 # settings
 
 _left = 0
-_right = None
+_right = 0
 
 # run script
 

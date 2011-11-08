@@ -17,8 +17,10 @@ _remove_overlap = True
 
 print 'transforming all open fonts...\n'
 for font in AllFonts():
+    # decompose
     print '\tdecomposing %s %s...' % (font.info.familyName, font.info.styleName)
     decompose(font)
+    # remove overlap
     print '\tremoving overlaps from %s %s...' % (font.info.familyName, font.info.styleName)
     font.removeOverlap()
     print
