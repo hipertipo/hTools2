@@ -1,29 +1,11 @@
 # [h] transform selected glyphs
 
 from vanilla import *
+from AppKit import NSColor
 
 # from hTools2.modules.fileutils import getGlyphs
 
-def getGlyphs(f):
-	from robofab.world import CurrentGlyph
-	gNames = []
-	cg = CurrentGlyph()
-	if cg is not None:
-		gNames.append(cg.name)
-	for g in f:
-		if g.selected == True:
-			if g.name not in gNames:
-				gNames.append(g.name)
-	return gNames
-
-# from hTools2.modules.color import randomColor
-
-def randomColor():
-	from random import random
-	c = (random(), random(), random(), 1)
-	return c
-
-class transform_glyphs_dialog(object):
+class transformSelectedGlyphsDialog(object):
 
     _title = 'transform selected glyphs'
     _round = False
@@ -33,6 +15,7 @@ class transform_glyphs_dialog(object):
     _overlaps = True
     _mark = True
     _gNames = []
+    _mark_color = (1, 0, 0, 1)
 
     def __init__(self, font):
         self.font = font
@@ -44,6 +27,7 @@ class transform_glyphs_dialog(object):
         self.w.direction_checkBox = CheckBox((15, 90, -15, 15), "auto contour direction", callback=self.direction_Callback, value=self._direction)
         self.w.overlaps_checkBox = CheckBox((15, 115, -15, 15), "remove overlaps", callback=self.overlaps_Callback, value=self._overlaps)
         self.w.mark_checkBox = CheckBox((15, 140, -15, 15), "mark", callback=self.mark_Callback, value=self._mark)
+        self.w.mark_color = ColorWell((80, 140, 80, 20), color=NSColor.colorWithCalibratedRed_green_blue_alpha_(*self._mark_color))
         # buttons
         self.w.button_apply = Button((25, -55, 80, 0), "apply", callback=self.apply_Callback)
         self.w.button_close = Button((-105, -55, 80, 0), "close", callback=self.close_Callback)
@@ -68,9 +52,12 @@ class transform_glyphs_dialog(object):
         self._mark = sender.get()
 
     def apply_Callback(self, sender):
-        c = randomColor()
+
+        _mark_color = self.w.mark_color.get()
+        _mark_color = (_mark_color.redComponent(), _mark_color.greenComponent(), _mark_color.blueComponent(), _mark_color.alphaComponent())
+
         print 'transforming selected glyphs...\n'
-        for gName in getGlyphs(self.font):
+        for gName in f.selection:
             print '\ttransforming %s...' % gName
             if self._round:
                 print '\trounding %s' % gName
@@ -100,7 +87,7 @@ class transform_glyphs_dialog(object):
             if self._mark:
                 print '\t\tmark glyphs...'
                 f[gName].prepareUndo('mark')
-                f[gName].mark = c
+                f[gName].mark = _mark_color
                 f[gName].performUndo()
             print
         print '...done.\n'
@@ -112,7 +99,7 @@ class transform_glyphs_dialog(object):
 f = CurrentFont()
 
 if f is not None:
-    transform_glyphs_dialog(f)
+    transformSelectedGlyphsDialog(f)
 
 else:
     print 'please open a font.\n'
