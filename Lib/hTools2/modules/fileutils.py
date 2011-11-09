@@ -27,3 +27,12 @@ def getGlyphs(f):
 			if g.name not in gNames:
 				gNames.append(g.name)
 	return gNames
+
+def get_names_from_path(fontpath):
+	_file = os.path.basename(fontpath)
+	_file_name = os.path.splitext(_file)[0]
+	try:
+		family_name, style_name = _file_name.split('_')
+	except ValueError:
+		family_name, style_name = _file_name.split('-')
+	return '%s %s' % ( family_name, style_name )

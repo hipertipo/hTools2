@@ -1,25 +1,7 @@
 # [h] set width for selected glyphs
 
-# from hTools2.modules.fileutils import getGlyphs
-
-def getGlyphs(f):
-	from robofab.world import CurrentGlyph
-	gNames = []
-	cg = CurrentGlyph()
-	if cg is not None:
-		gNames.append(cg.name)
-	for g in f:
-		if g.selected == True:
-			if g.name not in gNames:
-				gNames.append(g.name)
-	return gNames
-
-# from hTools2.modules.glyphutils import centerGlyph
-
-def centerGlyph(glyph):
-    whitespace = glyph.leftMargin + glyph.rightMargin
-    glyph.leftMargin = whitespace / 2
-    glyph.rightMargin = whitespace / 2    
+from hTools2.modules.fileutils import getGlyphs
+from hTools2.modules.glyphutils import centerGlyph
 
 # settings
 
@@ -42,4 +24,3 @@ for gName in gNames:
         centerGlyph(f[gName])
         f[gName].performUndo()
 print '...done.\n'
-

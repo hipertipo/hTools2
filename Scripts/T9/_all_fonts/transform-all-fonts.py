@@ -1,6 +1,12 @@
 # [h] transform all open fonts
 
-from hTools2.modules.glyphutils import decompose
+# from hTools2.modules.glyphutils import decompose, autoContourOrderDirection
+
+def decompose(f):
+	for g in f:
+		g.decompose()
+		g.update()
+	f.update()	
 
 # settings
 
