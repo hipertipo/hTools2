@@ -2,8 +2,26 @@
 
 from vanilla import *
 
-from hTools2.modules.fileutils import getGlyphs
-from hTools2.modules.color import randomColor
+# from hTools2.modules.fileutils import getGlyphs
+
+def getGlyphs(f):
+	from robofab.world import CurrentGlyph
+	gNames = []
+	cg = CurrentGlyph()
+	if cg is not None:
+		gNames.append(cg.name)
+	for g in f:
+		if g.selected == True:
+			if g.name not in gNames:
+				gNames.append(g.name)
+	return gNames
+
+# from hTools2.modules.color import randomColor
+
+def randomColor():
+	from random import random
+	c = (random(), random(), random(), 1)
+	return c
 
 class transform_glyphs_dialog(object):
 
@@ -29,7 +47,6 @@ class transform_glyphs_dialog(object):
         # buttons
         self.w.button_apply = Button((25, -55, 80, 0), "apply", callback=self.apply_Callback)
         self.w.button_close = Button((-105, -55, 80, 0), "close", callback=self.close_Callback)
-
         self.w.open()
 
     def round_Callback(self, sender):
