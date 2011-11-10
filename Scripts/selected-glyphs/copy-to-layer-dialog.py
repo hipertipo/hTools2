@@ -3,12 +3,6 @@
 from vanilla import *
 from AppKit import NSColor
 
-# from hTools2.modules.fileutils import getGlyphs
-
-#f = CurrentFont()
-#for gName in f.selection:
-#    print gName
-
 class copySelectedGlyphsToLayerDialog(object):
 
     _title = 'copy to layer'
@@ -36,7 +30,7 @@ class copySelectedGlyphsToLayerDialog(object):
         _mark_color = self.w.mark_color.get()
         _mark_color = (_mark_color.redComponent(), _mark_color.greenComponent(), _mark_color.blueComponent(), _mark_color.alphaComponent())
 
-        print 'copying outlines to %s...' % _layer_name
+        print 'copying outlines to layer "%s"...' % _layer_name
         for gName in self.font.selection:
             f[gName].prepareUndo('change sidebearings')
             print '\t%s' % gName,
@@ -44,16 +38,12 @@ class copySelectedGlyphsToLayerDialog(object):
             if _mark:
                 f[gName].mark = _mark_color
             f[gName].performUndo()
-            f[gName].update()
-        print '...done.\n'
+            f[gName].update()            
+        print '\n...done.\n'
 
     def close_callback(self, sender):
         self.w.close()
 
 f = CurrentFont()
 copySelectedGlyphsToLayerDialog(f)
-
-
-#swapToLayer(layerName)
-#font.removeLayer(layerName)
 
