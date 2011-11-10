@@ -19,7 +19,7 @@ class transformSelectedGlyphsDialog(object):
 
     def __init__(self, font):
         self.font = font
-        self.w = Window((220, 220), self._title, closable=False, miniaturizable=False)
+        self.w = FloatingWindow((220, 220), self._title, closable=False)
         # checkboxes
         self.w.round_checkBox = CheckBox((15, 15, -15, 15), "round", callback=self.round_Callback, value=self._round)
         self.w.decompose_checkBox = CheckBox((15, 40, -15, 15), "decompose", callback=self.decompose_Callback, value=self._decompose)

@@ -7,7 +7,6 @@ from vanilla.dialogs import getFolder
 
 from defconAppKit.windows.baseWindow import BaseWindowController
 
-
 from lib.UI.path import PathBox
 from AppKit import NSWorkspace
 

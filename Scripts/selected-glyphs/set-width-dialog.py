@@ -17,7 +17,7 @@ class setWidthDialog(object):
     _default_width = 400    
     
     def __init__(self, font):
-        self.w = Window((210, 102), self._title, closable=False, miniaturizable=False)
+        self.w = FloatingWindow((210, 102), self._title, closable=False)
         # left
         self.w.width_label = TextBox((10, 10, -10, 20), "width")
         self.w.width_value = EditText((80, 10, -15, 20), placeholder='set value', text=self._default_width)

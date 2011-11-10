@@ -12,7 +12,7 @@ class sidebearingsDialog(object):
     _mark_color = (1, 0, 0, 1)
     
     def __init__(self, font):
-        self.w = Window((300, 110), self._title, closable=False, miniaturizable=False)
+        self.w = FloatingWindow((300, 110), self._title, closable=False)
         # left
         self.w.left_label = TextBox((10, 10, -10, 17), "left")
         self.w.left_mode = PopUpButton((60, 10, 140, 20), self._modes, callback=self.left_mode_callback)
