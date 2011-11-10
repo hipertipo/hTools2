@@ -35,22 +35,22 @@ class setWidthDialog(object):
         
     def apply_callback(self, sender):
 
-        _width =        self.w.width_value.get()
-        _mark =         self.w.mark_checkbox.get()
-        _mark_color =   self.w.mark_color.get()
-        _center =       self.w.center_checkbox.get()
-        _gNames =       f.selection
+        _width = self.w.width_value.get()
+        _mark = self.w.mark_checkbox.get()
+        _mark_color = self.w.mark_color.get()
+        _center = self.w.center_checkbox.get()
+        _gNames = f.selection
 
         print 'setting character widths...'
 
         # print info
-        print 'width: %s'       % _width
-        print 'mark: %s'        % _mark
-        print 'mark color: %s'  % _mark_color
-        print 'center: %s'      % _center
-        print 'glyphs: %s'      % _gNames
+        print 'width: %s' % _width
+        print 'mark: %s' % _mark
+        print 'mark color: %s' % _mark_color
+        print 'center: %s' % _center
+        print 'glyphs: %s' % _gNames
         print 
-
+        
         _mark_color = (_mark_color.redComponent(), _mark_color.greenComponent(), _mark_color.blueComponent(), _mark_color.alphaComponent())
 
         for gName in _gNames:

@@ -60,6 +60,7 @@ class BatchGenerateFolderDialog(object):
             _ufo_paths = walk(_ufos_folder, 'ufo')
 
             if len(_ufo_paths) > 0:
+
                 if _otfs_folder == None:
                     _otfs_folder = _ufos_folder
 
@@ -82,15 +83,18 @@ class BatchGenerateFolderDialog(object):
                 for ufo_path in _ufo_paths:
                     print '\tgenerating otf for %s...' % os.path.split(ufo_path)[1]
                     ufo = RFont(ufo_path, showUI=False)
+
                     # remove overlaps
                     if _overlaps:
                         print '\t\tremoving overlaps...'
                         ufo.removeOverlap()
+
                     # generate otf
                     print '\t\tgenerating otf...'
                     otf_file = os.path.splitext(os.path.split(ufo_path)[1])[0] + '.otf'
                     otf_path = os.path.join(_otfs_folder, otf_file)
                     ufo.generate(otf_path, 'otf', decompose=_decompose, autohint=_autohint, glyphOrder=[])
+
                     # close
                     ufo.close()
                     print '\t\tdone.\n'
