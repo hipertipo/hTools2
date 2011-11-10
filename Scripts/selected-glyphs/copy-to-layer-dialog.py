@@ -31,7 +31,7 @@ class copySelectedGlyphsToLayerDialog(object):
         if len(_layer_name) > 0:
             print 'copying outlines to layer "%s"...' % _layer_name
             for gName in self.font.selection:
-                f[gName].prepareUndo('change sidebearings')
+                f[gName].prepareUndo('copy to layer')
                 print '\t%s' % gName,
                 f[gName].copyToLayer(_layer_name, clear=True)
                 if _mark:

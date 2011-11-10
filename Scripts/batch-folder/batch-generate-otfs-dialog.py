@@ -22,6 +22,7 @@ class BatchGenerateFolderDialog(object):
     _title = "batch generate .otfs for all .ufos in folder"
     _ufos_folder_default = "/Users/gferreira0/Dropbox/hipertipo/hFonts/_Magnetica/_ufos"
     _otfs_folder_default = None
+    _otfs_folder_message = 'leave empty to generate .ofts in the same folder as .ufos'
 
     def __init__(self):
         self.w = FloatingWindow((355, 235), self._title, closable=False)
@@ -32,7 +33,7 @@ class BatchGenerateFolderDialog(object):
         # otfs folder
         self.w.otfs_label = TextBox((10, 75, -10, 70), "folder for .otf fonts")
         self.w.otfs_get_folder_button = Button((-100, 75, -15, 20), "get folder...", callback=self.otfs_get_folder_callback, sizeStyle="small")
-        self.w.otfs_folder_value = EditText((10, 105, -15, 22), text=self._otfs_folder_default, sizeStyle="mini", placeholder='leave empty to generate .ofts in the same folder as .ufos')
+        self.w.otfs_folder_value = EditText((10, 105, -15, 22), text=self._otfs_folder_default, sizeStyle="mini", placeholder=self._otfs_folder_message)
         # options
         self.w._overlaps = CheckBox((10, 140, -10, 20), "remove overlaps", value=True)
         self.w._decompose = CheckBox((155, 140, -10, 20), "decompose", value=True)
@@ -81,11 +82,10 @@ class BatchGenerateFolderDialog(object):
                 print '\tautohint: %s' % boolstring[_autohint]
                 print
 
-                #import time
-                #self.w.bar.set(0)
+                # batch generate
+
                 self.w.bar.start()
 
-                # batch generate
                 for ufo_path in _ufo_paths:
                     print '\tgenerating otf for %s...' % os.path.split(ufo_path)[1]
                     ufo = RFont(ufo_path, showUI=False)
