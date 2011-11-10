@@ -25,4 +25,4 @@ Up to date info on hTools2:
   https://github.com/gferreira/hTools2/
 	
 This is the BSD license:
-	http://www.opensource.org/licenses/bsd-license.php
+  http://www.opensource.org/licenses/bsd-license.php
