@@ -32,7 +32,7 @@ class BatchGenerateFolderDialog(object):
         # otfs folder
         self.w.otfs_label = TextBox((10, 75, -10, 70), "folder for .otf fonts")
         self.w.otfs_get_folder_button = Button((-100, 75, -15, 20), "get folder...", callback=self.otfs_get_folder_callback, sizeStyle="small")
-        self.w.otfs_folder_value = EditText((10, 105, -15, 22), text=self._otfs_folder_default, sizeStyle="mini")
+        self.w.otfs_folder_value = EditText((10, 105, -15, 22), text=self._otfs_folder_default, sizeStyle="mini", placeholder='leave empty to generate .ofts in the same folder as .ufos')
         # options
         self.w._overlaps = CheckBox((10, 140, -10, 20), "remove overlaps", value=True)
         self.w._decompose = CheckBox((155, 140, -10, 20), "decompose", value=True)
