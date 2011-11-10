@@ -24,22 +24,24 @@ class BatchGenerateFolderDialog(object):
     _otfs_folder_default = None
 
     def __init__(self):
-        self.w = FloatingWindow((355, 230), self._title, closable=False)
+        self.w = FloatingWindow((355, 235), self._title, closable=False)
         # ufos folder
         self.w.ufos_label = TextBox((10, 10, -10, 70), "folder with .ufo sources")
         self.w.ufos_get_folder_button = Button((-100, 10, -15, 20), "get folder...", callback=self.ufos_get_folder_callback, sizeStyle="small")
         self.w.ufos_folder_value = EditText((10, 40, -15, 22), text=self._ufos_folder_default, sizeStyle="mini")
         # otfs folder
-        self.w.otfs_label = TextBox((10, 80, -10, 70), "folder for .otf fonts")
-        self.w.otfs_get_folder_button = Button((-100, 80, -15, 20), "get folder...", callback=self.otfs_get_folder_callback, sizeStyle="small")
-        self.w.otfs_folder_value = EditText((10, 110, -15, 22), text=self._otfs_folder_default, sizeStyle="mini")
+        self.w.otfs_label = TextBox((10, 75, -10, 70), "folder for .otf fonts")
+        self.w.otfs_get_folder_button = Button((-100, 75, -15, 20), "get folder...", callback=self.otfs_get_folder_callback, sizeStyle="small")
+        self.w.otfs_folder_value = EditText((10, 105, -15, 22), text=self._otfs_folder_default, sizeStyle="mini")
         # options
-        self.w._overlaps = CheckBox((10, 150, -10, 20), "remove overlaps", value=True)
-        self.w._decompose = CheckBox((155, 150, -10, 20), "decompose", value=True)
-        self.w._autohint = CheckBox((270, 150, -10, 20), "autohint", value=True)
+        self.w._overlaps = CheckBox((10, 140, -10, 20), "remove overlaps", value=True)
+        self.w._decompose = CheckBox((155, 140, -10, 20), "decompose", value=True)
+        self.w._autohint = CheckBox((270, 140, -10, 20), "autohint", value=True)
+        # progress bar
+        self.w.bar = ProgressBar((10, 175, -10, 16), isIndeterminate=True)
         # apply / close
-        self.w.button_close = Button((10, -35, 160, 15), "close", callback=self.button_close_callback)
-        self.w.button_apply = Button((185, -35, 160, 15), "apply", callback=self.button_apply_callback)
+        self.w.button_close = Button((10, -30, 160, 15), "close", callback=self.button_close_callback)
+        self.w.button_apply = Button((185, -30, 160, 15), "apply", callback=self.button_apply_callback)
         self.w.open()
 
     def ufos_get_folder_callback(self, sender):
@@ -63,7 +65,7 @@ class BatchGenerateFolderDialog(object):
 
                 if _otfs_folder == None:
                     _otfs_folder = _ufos_folder
-
+                    
                 _decompose = self.w._decompose.get()
                 _overlaps = self.w._overlaps.get()
                 _autohint = self.w._autohint.get()
@@ -78,6 +80,10 @@ class BatchGenerateFolderDialog(object):
                 print '\tdecompose: %s' % boolstring[_decompose]
                 print '\tautohint: %s' % boolstring[_autohint]
                 print
+
+                #import time
+                #self.w.bar.set(0)
+                self.w.bar.start()
 
                 # batch generate
                 for ufo_path in _ufo_paths:
@@ -98,6 +104,8 @@ class BatchGenerateFolderDialog(object):
                     # close
                     ufo.close()
                     print '\t\tdone.\n'
+
+                self.w.bar.stop()
 
                 print '...done.\n'
 
