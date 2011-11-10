@@ -33,3 +33,8 @@ Feedback
 
 For feedback and questions, simply [drop me a message](mailto:gustavo@hipertipo.com).
 
+
+License
+-------
+
+[BSD License](http://www.opensource.org/licenses/bsd-license.php)
