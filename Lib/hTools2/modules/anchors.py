@@ -1,4 +1,4 @@
-# [h] modules.anchors
+# [h] hTools2.modules.anchors
 
 def getAnchorsDict(font, gNames=None):
 	anchorsDict = { }

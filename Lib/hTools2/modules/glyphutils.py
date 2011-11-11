@@ -1,4 +1,4 @@
-# [h] modules.glyphutils
+# [h] hTools2.modules.glyphutils
 
 def decompose(f):
 	for g in f:

@@ -59,21 +59,17 @@ class BatchGenerateFolderDialog(object):
         _otfs_folder = self.w.otfs_folder_value.get()
 
         if _ufos_folder != None:
-
             _ufo_paths = walk(_ufos_folder, 'ufo')
-
             if len(_ufo_paths) > 0:
-
+                # set otfs folder
                 if _otfs_folder == None:
                     _otfs_folder = _ufos_folder
-                    
+                # get parameters                    
                 _decompose = self.w._decompose.get()
                 _overlaps = self.w._overlaps.get()
                 _autohint = self.w._autohint.get()
-
-                boolstring = ("False", "True")
-
                 # print settings
+                boolstring = ("False", "True")
                 print 'batch generating all fonts in folder...\n'
                 print '\tufos folder: %s' % _ufos_folder
                 print '\totfs folder: %s' % _otfs_folder
@@ -81,36 +77,30 @@ class BatchGenerateFolderDialog(object):
                 print '\tdecompose: %s' % boolstring[_decompose]
                 print '\tautohint: %s' % boolstring[_autohint]
                 print
-
                 # batch generate
-
                 self.w.bar.start()
-
                 for ufo_path in _ufo_paths:
                     print '\tgenerating otf for %s...' % os.path.split(ufo_path)[1]
                     ufo = RFont(ufo_path, showUI=False)
-
                     # remove overlaps
                     if _overlaps:
                         print '\t\tremoving overlaps...'
                         ufo.removeOverlap()
-
                     # generate otf
                     print '\t\tgenerating otf...'
                     otf_file = os.path.splitext(os.path.split(ufo_path)[1])[0] + '.otf'
                     otf_path = os.path.join(_otfs_folder, otf_file)
                     ufo.generate(otf_path, 'otf', decompose=_decompose, autohint=_autohint, glyphOrder=[])
-
                     # close
                     ufo.close()
                     print '\t\tdone.\n'
-
+                # done
                 self.w.bar.stop()
-
                 print '...done.\n'
 
     def button_close_callback(self, sender):
         self.w.close()
+
 
 BatchGenerateFolderDialog()
 

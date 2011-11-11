@@ -1,4 +1,4 @@
-# [h] modules.ftp
+# [h] hTools2.modules.ftp
 
 import os
 

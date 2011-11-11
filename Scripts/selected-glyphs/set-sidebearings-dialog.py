@@ -110,5 +110,5 @@ class setSidebearingsDialog(object):
     def close_callback(self, sender):
         self.w.close()
 
-
 setSidebearingsDialog()
+

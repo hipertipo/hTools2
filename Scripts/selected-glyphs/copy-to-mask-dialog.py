@@ -5,6 +5,8 @@
 from vanilla import *
 from AppKit import NSColor
 
+# from hTools2.modules.fontutils import full_name
+
 def full_name(font):
     full_name = '%s %s' % (font.info.familyName, font.info.styleName)
     return full_name 

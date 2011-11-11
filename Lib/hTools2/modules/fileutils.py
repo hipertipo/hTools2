@@ -1,4 +1,4 @@
-# [h] modules.fileutils
+# [h] hTools2.modules.fileutils
 
 import os
 

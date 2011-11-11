@@ -1,4 +1,4 @@
-# [h] modules.color
+# [h] hTools2.modules.color
 
 def randomColor():
 	from random import random
