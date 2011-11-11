@@ -1,5 +1,7 @@
 # [h] set width dialog
 
+'''dialog to set the advance width of selected glyphs'''
+
 from vanilla import *
 from AppKit import NSColor
 
@@ -13,10 +15,10 @@ def centerGlyph(glyph):
 class setWidthDialog(object):
 
     _title = 'set character width'
-    _mark_color = (1, 0, 0, 1)
+    _mark_color = (0.5, 0, 1, 1)
     _default_width = 400    
     
-    def __init__(self, font):
+    def __init__(self):
         self.w = FloatingWindow((210, 102), self._title, closable=False)
         # left
         self.w.width_label = TextBox((10, 10, -10, 20), "width")
@@ -34,46 +36,49 @@ class setWidthDialog(object):
         self.w.open()
         
     def apply_callback(self, sender):
-
-        _width = self.w.width_value.get()
-        _mark = self.w.mark_checkbox.get()
-        _mark_color = self.w.mark_color.get()
-        _center = self.w.center_checkbox.get()
-        _gNames = f.selection
-
-        print 'setting character widths...'
-
-        # print info
-        print 'width: %s' % _width
-        print 'mark: %s' % _mark
-        print 'mark color: %s' % _mark_color
-        print 'center: %s' % _center
-        print 'glyphs: %s' % _gNames
-        print 
-        
-        _mark_color = (_mark_color.redComponent(), _mark_color.greenComponent(), _mark_color.blueComponent(), _mark_color.alphaComponent())
-
-        for gName in _gNames:
-            f[gName].prepareUndo('set glyph width')
-            f[gName].width = int(_width)
-            if _center:
-                centerGlyph(f[gName])
-            if _mark:
-                f[gName].mark = _mark_color
-            f[gName].performUndo()
-            f[gName].update()
-
-        f.update()
-        print '...done.\n'
+        f = CurrentFont()
+        if f is not None:
+            if len(f.selection) > 0:
+                # get parameters
+                _width = self.w.width_value.get()
+                _mark = self.w.mark_checkbox.get()
+                _mark_color = self.w.mark_color.get()
+                _center = self.w.center_checkbox.get()
+                _gNames = f.selection
+                boolstring = (False, True)
+                # print info
+                print 'setting character widths...\n'
+                print '\twidth: %s' % _width
+                print '\tmark: %s' % boolstring[_mark]
+                print '\tmark color: %s' % _mark_color
+                print '\tcenter: %s' % boolstring[_center]
+                print '\tglyphs: %s' % _gNames
+                print         
+                # batch set width for glyphs
+                _mark_color = (_mark_color.redComponent(), _mark_color.greenComponent(), _mark_color.blueComponent(), _mark_color.alphaComponent())
+                for gName in _gNames:
+                    f[gName].prepareUndo('set glyph width')
+                    f[gName].width = int(_width)
+                    if _center:
+                        centerGlyph(f[gName])
+                    if _mark:
+                        f[gName].mark = _mark_color
+                    f[gName].performUndo()
+                    f[gName].update()
+                # done
+                print 
+                f.update()
+                print '...done.\n'
+            # no glyph selected
+            else:
+                print 'please select one or more glyphs before running the script.\n'
+        # no glyph selected
+        else:
+            print 'please open a font first.\n'
 
     def close_callback(self, sender):
         self.w.close()
 
 # run script
 
-f = CurrentFont()
-if f is not None:
-    setWidthDialog(f)
-else:
-    print 'please open a font first.\n'
-
+setWidthDialog()

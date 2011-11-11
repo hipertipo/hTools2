@@ -1,5 +1,7 @@
 # [h] copy glyphs to mask
 
+'''copy current layer of selected glyphs in source font into "mask" layer in target font'''
+
 from vanilla import *
 from AppKit import NSColor
 
@@ -7,15 +9,15 @@ def full_name(font):
     full_name = '%s %s' % (font.info.familyName, font.info.styleName)
     return full_name 
 
-class copyToLayerDialog(object):
+class copyToMaskDialog(object):
 
     _title = 'copy glyphs to mask'
     _all_fonts_names = []
-    _source_mark_color = (1, 0, 0, 1)
-    _target_mark_color = (0, 1, 0, 1)
+    _source_mark_color = (0, 0.5, 1, 1)
+    _target_mark_color = (1, 0, 0.5, 1)
     _target_layer_name = 'mask'
 
-    def __init__(self, font):
+    def __init__(self):
         if len(AllFonts()) > 0:
             self._all_fonts = AllFonts()
             for f in self._all_fonts:
@@ -39,52 +41,51 @@ class copyToLayerDialog(object):
             print 'please open one or more fonts to use this dialog.\n'
 
     def apply_callback(self, sender):
-
+        # get source font parameters
         _source_font = self._all_fonts[self.w._source_value.get()]
         _source_mark = self.w.source_mark_checkbox.get()
         _source_mark_color = self.w.source_mark_color.get()
         _source_mark_color = (_source_mark_color.redComponent(), _source_mark_color.greenComponent(), _source_mark_color.blueComponent(), _source_mark_color.alphaComponent())
-
+        # get target font parameters
         _target_layer_name = self._target_layer_name
         _target_font = self._all_fonts[self.w._target_value.get()]
         _target_mark = self.w.target_mark_checkbox.get()
         _target_mark_color = self.w.target_mark_color.get()
         _target_mark_color = (_target_mark_color.redComponent(), _target_mark_color.greenComponent(), _target_mark_color.blueComponent(), _target_mark_color.alphaComponent())
-
+        # print info
         print 'copying glyphs to mask...\n'
-        print '\tsource font: %s (current layer)' % full_name(_source_font)
-        print '\ttarget font: %s (layer: %s)' % (full_name(_target_font), self._target_layer_name)
+        print '\tsource font: %s (current layer, color: %s)' % ( full_name(_source_font), _source_mark_color)
+        print '\ttarget font: %s (layer: %s, color: %s)' % (full_name(_target_font), self._target_layer_name, _target_mark_color)
         print
-
+        # batch copy glyphs to mask
         for gName in _source_font.selection:
             print '\t%s' % gName,
             # prepare undo
-            _source_font[gName].prepareUndo('copy glyphs to layer')
-            _target_font[gName].prepareUndo('copy glyphs to layer')
+            _source_font[gName].prepareUndo('copy glyphs to mask')
+            _target_font[gName].prepareUndo('copy glyphs to mask')
             # mark
             if _source_mark:
                 _source_font[gName].mark = _source_mark_color                
             if _target_mark:
                 _target_font[gName].mark = _target_mark_color
-            # copy oulines to layer
-            _target_glyph_layer = _target_font[gName].getLayer(_target_layer_name) # clear=True
+            # copy oulines to mask
+            _target_glyph_layer = _target_font[gName].getLayer(_target_layer_name)
             pen = _target_glyph_layer.getPointPen()
             _source_font[gName].drawPoints(pen)
             # update
             _source_font[gName].update()
             _target_font[gName].update()
-            # set undo
+            # activate undo
             _source_font[gName].performUndo()
             _target_font[gName].performUndo()
+        # done
         print
-
         _target_font.update()
         _source_font.update()
-
         print '\n...done.\n'
 
     def close_callback(self, sender):
         self.w.close()
 
-f = CurrentFont()
-copyToLayerDialog(f)
+copyToMaskDialog()
+
