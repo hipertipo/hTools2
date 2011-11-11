@@ -66,7 +66,6 @@ class BatchGenerateFolderDialog(BaseWindowController):
     def ufos_get_folder_callback(self, sender):
         self.showGetFolder(self._ufos_get_folder_callback)
         
-
     def otfs_get_folder_callback(self, sender):
         folder_otfs = getFolder()
         self.w.otfs_folder_value.set(folder_otfs[0])

@@ -9,11 +9,11 @@ def full_name(font):
 
 class copyToLayerDialog(object):
 
-    _title = 'copy glyphs to layer'
+    _title = 'copy glyphs to mask'
     _all_fonts_names = []
     _source_mark_color = (1, 0, 0, 1)
     _target_mark_color = (0, 1, 0, 1)
-    _target_layer = 'background'
+    _target_layer_name = 'mask'
 
     def __init__(self, font):
         if len(AllFonts()) > 0:
@@ -45,7 +45,7 @@ class copyToLayerDialog(object):
         _source_mark_color = self.w.source_mark_color.get()
         _source_mark_color = (_source_mark_color.redComponent(), _source_mark_color.greenComponent(), _source_mark_color.blueComponent(), _source_mark_color.alphaComponent())
 
-        _target_layer = self._target_layer
+        _target_layer_name = self._target_layer_name
         _target_font = self._all_fonts[self.w._target_value.get()]
         _target_mark = self.w.target_mark_checkbox.get()
         _target_mark_color = self.w.target_mark_color.get()
@@ -53,36 +53,34 @@ class copyToLayerDialog(object):
 
         print 'copying glyphs to mask...\n'
         print '\tsource font: %s (current layer)' % full_name(_source_font)
-        print '\ttarget font: %s (layer: %s)' % (full_name(_target_font), self._target_layer)
+        print '\ttarget font: %s (layer: %s)' % (full_name(_target_font), self._target_layer_name)
         print
 
         for gName in _source_font.selection:
             print '\t%s' % gName,
-
-            # source glyph
-            #_source_font[gName].prepareUndo('copy glyphs to layer')
-
-            if _target_mark:
-                _source_font[gName].mark = _source_mark_color
-                
-            #pen = _source_font[gName].getPointPen()
-
-            # target glyph
-            #_target_font[gName].prepareUndo('copy glyphs to layer')
-            #_target_font[gName].getLayer(_target_layer, clear=True)
-            #_target_font[gName].drawPoints(pen)
-
+            # prepare undo
+            _source_font[gName].prepareUndo('copy glyphs to layer')
+            _target_font[gName].prepareUndo('copy glyphs to layer')
+            # mark
+            if _source_mark:
+                _source_font[gName].mark = _source_mark_color                
             if _target_mark:
                 _target_font[gName].mark = _target_mark_color
-
+            # copy oulines to layer
+            _target_glyph_layer = _target_font[gName].getLayer(_target_layer_name) # clear=True
+            pen = _target_glyph_layer.getPointPen()
+            _source_font[gName].drawPoints(pen)
+            # update
+            _source_font[gName].update()
+            _target_font[gName].update()
             # set undo
-            #_source_font[gName].performUndo()
-            #_source_font[gName].update()
-
-            #_target_font[gName].performUndo()
-            #_target_font[gName].update()
-
+            _source_font[gName].performUndo()
+            _target_font[gName].performUndo()
         print
+
+        _target_font.update()
+        _source_font.update()
+
         print '\n...done.\n'
 
     def close_callback(self, sender):
