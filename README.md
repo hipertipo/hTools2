@@ -3,9 +3,13 @@ hTools2
 
 hTools2 is a rewrite of hTools for RoboFont.
 
-hTools is a collection of simple tools and high-level objects to help with common font-production tasks. It is written in Python on top of existing free/open libraries (RoboFab, dialogKit, NodeBox), and was originally developed around FontLab Studio. 
+*...Work has just started, not much to see at the moment...*
 
-*...Work is still in very early days, there’s not much to see/use at the moment...*
+docs docs docs
+
+Looking forward to [RoboThon 2012](http://twitter.com/#!/robothonconf).
+
+If you would like to support hTools development, consider [comissioning more work](mailto:gustavo@hipertipo.com?subject=custom-scripts-and-tools) on custom or additional tools and functionality.
 
 
 Installation
@@ -38,3 +42,4 @@ License
 -------
 
 [BSD License](http://www.opensource.org/licenses/bsd-license.php)
+
