@@ -68,39 +68,36 @@ class BatchGenerateFolderDialog(object):
                 _decompose = self.w._decompose.get()
                 _overlaps = self.w._overlaps.get()
                 _autohint = self.w._autohint.get()
+                _release_mode = True
                 # print settings
                 boolstring = ("False", "True")
-                print 'batch generating all fonts in folder...\n'
+                print 'batch generating .otfs for all fonts in folder...\n'
                 print '\tufos folder: %s' % _ufos_folder
                 print '\totfs folder: %s' % _otfs_folder
                 print '\tremove overlaps: %s' % boolstring[_overlaps]
                 print '\tdecompose: %s' % boolstring[_decompose]
                 print '\tautohint: %s' % boolstring[_autohint]
+                print '\trelease mode: %s' % _release_mode
                 print
                 # batch generate
                 self.w.bar.start()
                 for ufo_path in _ufo_paths:
-                    print '\tgenerating otf for %s...' % os.path.split(ufo_path)[1]
+                    print '\tgenerating .otf for %s...' % os.path.split(ufo_path)[1]
                     ufo = RFont(ufo_path, showUI=False)
-                    # remove overlaps
-                    if _overlaps:
-                        print '\t\tremoving overlaps...'
-                        ufo.removeOverlap()
                     # generate otf
-                    print '\t\tgenerating otf...'
                     otf_file = os.path.splitext(os.path.split(ufo_path)[1])[0] + '.otf'
                     otf_path = os.path.join(_otfs_folder, otf_file)
-                    ufo.generate(otf_path, 'otf', decompose=_decompose, autohint=_autohint, glyphOrder=[])
+                    ufo.generate(otf_path, 'otf', decompose=_decompose, autohint=_autohint, \
+                        checkOutlines=_overlaps, releaseMode=_release_mode, glyphOrder=[])
                     # close
                     ufo.close()
-                    print '\t\tdone.\n'
+                    print '\t\tgeneration sucessful? %s\n' % os.path.exists(otf_path)
                 # done
                 self.w.bar.stop()
                 print '...done.\n'
 
     def button_close_callback(self, sender):
         self.w.close()
-
 
 BatchGenerateFolderDialog()
 

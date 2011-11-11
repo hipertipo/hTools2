@@ -11,14 +11,6 @@ def full_name(font):
     full_name = '%s %s' % (font.info.familyName, font.info.styleName)
     return full_name 
 
-def prepare_undo(font, undo_name):
-    for glyphName in font:
-        font[glyphName].prepareUndo(undo_name)
-
-def perform_undo(font, undo_name):
-    for glyphName in font:
-        font[glyphName].performUndo(undo_name)
-    
 class GenerateAllOpenFontsDialog(object):
 
     _title = "generate .otfs for all open fonts"
@@ -69,17 +61,17 @@ class GenerateAllOpenFontsDialog(object):
             for font in _all_fonts:          
                 if font.path is not None:
                     _font_path = font.path
-                    print '\tgenerating otf for %s...' % os.path.split(full_name(font))[1]
+                    print '\tgenerating .otf for %s...' % os.path.split(full_name(font))[1]
                     # generate otf
                     otf_file = os.path.splitext(os.path.split(font.path)[1])[0] + '.otf'
                     otf_path = os.path.join(_otfs_folder, otf_file)
                     font.generate(otf_path, 'otf', decompose=_decompose, autohint=_autohint, \
                         checkOutlines=_overlaps, releaseMode=_release_mode, glyphOrder=[])
+                    print '\t\tgeneration sucessful? %s\n' % os.path.exists(otf_path)
                 # skip unsaved open fonts
                 else:
                     print '\tskipping "%s", please save this font to file first.\n' % os.path.split(full_name(font))[1]
             # done all
-            print 
             self.w.bar.stop()
             print '...done.\n'
         # no font open
