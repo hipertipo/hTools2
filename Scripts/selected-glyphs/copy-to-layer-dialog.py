@@ -25,7 +25,8 @@ class copyToLayerDialog(object):
 
     def apply_callback(self, sender):
         f = CurrentFont()
-        if f != None:
+        print f
+        if f is not None:
             # get layer
             _layer_index = self.w._layers_value.get()
             _layer_name = self.w._layers_value.get()
