@@ -10,13 +10,13 @@ class slideLayerDialog(object):
     def __init__(self):
         self._moveX = 0
         self._moveY = 0
-        self.w = FloatingWindow((260, 150-40), "Slide Layer")
+        self.w = FloatingWindow((260, 110), "Slide Layer")
         # x slider
-        self.w.x_label = TextBox((10, 45-35, -10, 17), "slide x")
-        self.w.x_slider = Slider((65, 45-35, -12, 22), value=0, maxValue=self._xMax, minValue=self._xMin, callback=self.slide)
+        self.w.x_label = TextBox((10, 10, -10, 17), "slide x")
+        self.w.x_slider = Slider((65, 10, -12, 22), value=0, maxValue=self._xMax, minValue=self._xMin, callback=self.slide)
         # y slider
-        self.w.y_label = TextBox((10, 75-35, -10, 17), "slide y")
-        self.w.y_slider = Slider((65, 75-35, -12, 22), value=0, maxValue=self._yMax, minValue=self._yMin, callback=self.slide)
+        self.w.y_label = TextBox((10, 40, -10, 17), "slide y")
+        self.w.y_slider = Slider((65, 40, -12, 22), value=0, maxValue=self._yMax, minValue=self._yMin, callback=self.slide)
         # flip layers button
         self.w.button_apply = Button((10, -35, -10, 20), "flip foreground / mask", callback=self.flip_layers_callback)
         self.w.open()
