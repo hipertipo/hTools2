@@ -5,6 +5,7 @@ import os
 from hTools2.modules.fileutils import walk
 
 # settings
+
 ufos_folder = u"/Users/gferreira0/Desktop/_Guarana/_ufos"
 otfs_folder = u"/Users/gferreira0/Desktop/_Guarana/_otfs"
 _remove_overlaps = True
@@ -12,6 +13,7 @@ _decompose = True
 _autohint = True
 
 # batch generate
+
 ufo_paths = walk(ufos_folder, 'ufo')
 print 'batch generating fonts...'
 for ufo_path in ufo_paths:

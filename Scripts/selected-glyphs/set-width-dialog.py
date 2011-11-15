@@ -5,6 +5,8 @@
 from vanilla import *
 from AppKit import NSColor
 
+# from hTools2.modules.glyphutils import centerGlyph
+
 def centerGlyph(glyph):
     whitespace = glyph.leftMargin + glyph.rightMargin
     glyph.leftMargin = whitespace / 2

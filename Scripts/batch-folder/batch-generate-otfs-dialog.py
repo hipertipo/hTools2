@@ -1,9 +1,5 @@
 # [h] batch genenerate folder dialog
 
-#-------------
-# imports etc
-#-------------
-
 import os
 
 from vanilla import *
@@ -21,12 +17,7 @@ def walk(folder, extension):
 			files.append(p)
 	return files
 
-#------------
-# the dialog
-#------------
-
 class BatchGenerateFolderDialog(object):
-
     _title = "batch generate .otfs for all .ufos in folder"
     _ufos_folder_default = "/Users/gferreira0/Dropbox/hipertipo/hFonts/_Magnetica/_ufos"
     _otfs_folder_default = None
@@ -62,10 +53,8 @@ class BatchGenerateFolderDialog(object):
         self.w.otfs_folder_value.set(folder_otfs[0])
 
     def button_apply_callback(self, sender):
-
         _ufos_folder = self.w.ufos_folder_value.get()
         _otfs_folder = self.w.otfs_folder_value.get()
-
         if _ufos_folder != None:
             _ufo_paths = walk(_ufos_folder, 'ufo')
             if len(_ufo_paths) > 0:
@@ -91,14 +80,14 @@ class BatchGenerateFolderDialog(object):
                 self.w.bar.start()
                 for ufo_path in _ufo_paths:
                     print '\tgenerating .otf for %s...' % os.path.split(ufo_path)[1]
-                    ufo = RFont(ufo_path, showUI=False)
+                    ufo = RFont(ufo_path, showUI=True)
                     # generate otf
                     otf_file = os.path.splitext(os.path.split(ufo_path)[1])[0] + '.otf'
                     otf_path = os.path.join(_otfs_folder, otf_file)
-                    ufo.generate(otf_path, 'otf', decompose=_decompose, autohint=_autohint, \
-                        checkOutlines=_overlaps, releaseMode=_release_mode, glyphOrder=[])
+                    ufo.generate(otf_path, 'otf', decompose=_decompose, autohint=_autohint, checkOutlines=_overlaps, releaseMode=_release_mode, glyphOrder=[])
                     # close
                     ufo.close()
+                    print '\t\totf path: %s' % otf_path
                     print '\t\tgeneration sucessful? %s\n' % os.path.exists(otf_path)
                 # done
                 self.w.bar.stop()
@@ -107,9 +96,6 @@ class BatchGenerateFolderDialog(object):
     def button_close_callback(self, sender):
         self.w.close()
 
-#------
-# run!
-#------
 
 BatchGenerateFolderDialog()
 

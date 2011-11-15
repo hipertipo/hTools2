@@ -1,9 +1,5 @@
 # [h] batch transform all fonts in folder
 
-#-------------
-# imports etc
-#-------------
-
 import os
 
 # from hTools2.modules.fileutils import walk
@@ -28,10 +24,6 @@ def autoContourOrderDirection(font):
 	for g in font:
 		g.autoContourOrder()
 		g.correctDirection()
-
-#------------
-# the script
-#------------
 
 # settings
 

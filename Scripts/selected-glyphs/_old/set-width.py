@@ -3,13 +3,6 @@
 from hTools2.modules.fileutils import getGlyphs
 from hTools2.modules.glyphutils import centerGlyph
 
-# settings
-
-_width = 1000
-_center = True
-
-# run script
-
 f = CurrentFont()
 gNames = getGlyphs(f)
 

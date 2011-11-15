@@ -65,8 +65,8 @@ class GenerateAllOpenFontsDialog(object):
                     # generate otf
                     otf_file = os.path.splitext(os.path.split(font.path)[1])[0] + '.otf'
                     otf_path = os.path.join(_otfs_folder, otf_file)
-                    font.generate(otf_path, 'otf', decompose=_decompose, autohint=_autohint, \
-                        checkOutlines=_overlaps, releaseMode=_release_mode, glyphOrder=[])
+                    font.generate(otf_path, 'otf', decompose=_decompose, autohint=_autohint, checkOutlines=_overlaps, releaseMode=_release_mode, glyphOrder=[])
+                    print '\t\totf path: %s' % otf_path
                     print '\t\tgeneration sucessful? %s\n' % os.path.exists(otf_path)
                 # skip unsaved open fonts
                 else:
