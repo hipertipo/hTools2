@@ -3,8 +3,6 @@
 from vanilla import *
 from AppKit import NSColor
 
-# from hTools2.modules.fileutils import getGlyphs
-
 class transformSelectedGlyphsDialog(object):
 
     _title = 'transform selected glyphs'

@@ -11,3 +11,4 @@ for pName in pNames:
     for dir_name in p.paths.keys():
         if p.paths[dir_name]:        
             print dir_name, p.paths[dir_name], os.path.exists(p.paths[dir_name])
+            # ...unfinished...

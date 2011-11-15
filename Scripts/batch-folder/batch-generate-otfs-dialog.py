@@ -1,5 +1,9 @@
 # [h] batch genenerate folder dialog
 
+#-------------
+# imports etc
+#-------------
+
 import os
 
 from vanilla import *
@@ -16,6 +20,10 @@ def walk(folder, extension):
 		if file_extension[1:] == extension:
 			files.append(p)
 	return files
+
+#------------
+# the dialog
+#------------
 
 class BatchGenerateFolderDialog(object):
 
@@ -98,6 +106,10 @@ class BatchGenerateFolderDialog(object):
 
     def button_close_callback(self, sender):
         self.w.close()
+
+#------
+# run!
+#------
 
 BatchGenerateFolderDialog()
 
