@@ -84,7 +84,8 @@ class BatchGenerateFolderDialog(object):
                     # generate otf
                     otf_file = os.path.splitext(os.path.split(ufo_path)[1])[0] + '.otf'
                     otf_path = os.path.join(_otfs_folder, otf_file)
-                    ufo.generate(otf_path, 'otf', decompose=_decompose, autohint=_autohint, checkOutlines=_overlaps, releaseMode=_release_mode, glyphOrder=[])
+                    ufo.generate(otf_path, 'otf', decompose=_decompose, autohint=_autohint, \
+                                 checkOutlines=_overlaps, releaseMode=_release_mode, glyphOrder=[])
                     # close
                     ufo.close()
                     print '\t\totf path: %s' % otf_path
