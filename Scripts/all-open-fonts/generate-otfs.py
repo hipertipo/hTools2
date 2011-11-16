@@ -15,22 +15,25 @@ class GenerateAllOpenFontsDialog(object):
 
     _title = "generate .otfs for all open fonts"
     _otfs_folder_default = "/Users/gferreira0/Dropbox/hipertipo/hFonts/_Magnetica/_otfs"
+    _width = 480
+    _height = 160
 
     def __init__(self):
-        self.w = FloatingWindow((355, 160), self._title, closable=False)
+        self.w = FloatingWindow((self._width, self._height), self._title, closable=False)
         # ufos folder
         self.w.otfs_label = TextBox((10, 10, -10, 70), "otfs folder")
-        self.w.otfs_get_folder_button = Button((-100, 10, -15, 20), "get folder...", callback=self.otfs_get_folder_callback, sizeStyle="small")
-        self.w.otfs_folder_value = EditText((10, 40, -15, 22), text=self._otfs_folder_default, sizeStyle="mini")
+        self.w.otfs_get_folder_button = Button((-100, 10, -10, 20), "get folder...", callback=self.otfs_get_folder_callback, sizeStyle="small")
+        self.w.otfs_folder_value = EditText((10, 40, -10, 22), text=self._otfs_folder_default, sizeStyle="mini")
         # options
-        self.w._overlaps = CheckBox((10, 70, -10, 20), "remove overlaps", value=True)
+        self.w._overlaps = CheckBox((15, 70, -10, 20), "remove overlaps", value=True)
         self.w._decompose = CheckBox((155, 70, -10, 20), "decompose", value=True)
-        self.w._autohint = CheckBox((270, 70, -10, 20), "autohint", value=True)
+        self.w._autohint = CheckBox((265, 70, -10, 20), "autohint", value=True)
+        self.w._release_mode = CheckBox((355, 70, -10, 20), "release mode", value=True)
         # progress bar
         self.w.bar = ProgressBar((10, 100, -10, 16), isIndeterminate=True)
         # apply / close
-        self.w.button_close = Button((10, -30, 160, 15), "close", callback=self.button_close_callback)
-        self.w.button_apply = Button((185, -30, 160, 15), "apply", callback=self.button_apply_callback)
+        self.w.button_close = Button((10, -30, self._width/2-10, 15), "close", callback=self.button_close_callback)
+        self.w.button_apply = Button((self._width/2+10, -30, -10, 15), "apply", callback=self.button_apply_callback)
         self.w.open()
 
     def otfs_get_folder_callback(self, sender):
@@ -45,7 +48,7 @@ class GenerateAllOpenFontsDialog(object):
             _decompose = self.w._decompose.get()
             _overlaps = self.w._overlaps.get()
             _autohint = self.w._autohint.get()
-            _release_mode = True
+            _release_mode = self.w._release_mode.get()
             # print settings
             boolstring = ("False", "True")
             print 'generating .otfs for all open fonts...\n'
@@ -53,7 +56,7 @@ class GenerateAllOpenFontsDialog(object):
             print '\tremove overlaps: %s' % boolstring[_overlaps]
             print '\tdecompose: %s' % boolstring[_decompose]
             print '\tautohint: %s' % boolstring[_autohint]
-            print '\trelease mode: %s' % _release_mode
+            print '\trelease mode: %s' % boolstring[_release_mode]
             print
             # batch generate
             self.w.bar.start()
