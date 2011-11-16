@@ -1,4 +1,4 @@
-# [h] batch genenerate folder dialog
+# [h] batch genenerate .otfs from folder dialog
 
 import os
 
@@ -18,30 +18,34 @@ def walk(folder, extension):
 	return files
 
 class BatchGenerateFolderDialog(object):
+
     _title = "batch generate .otfs for all .ufos in folder"
     _ufos_folder_default = "/Users/gferreira0/Dropbox/hipertipo/hFonts/_Magnetica/_ufos"
     _otfs_folder_default = None
     _otfs_folder_message = 'leave empty to generate .ofts in the same folder as .ufos'
+    _width = 480
+    _height = 235
 
     def __init__(self):
-        self.w = FloatingWindow((355, 235), self._title, closable=False)
+        self.w = FloatingWindow((self._width, self._height), self._title, closable=False)
         # ufos folder
         self.w.ufos_label = TextBox((10, 10, -10, 70), "folder with .ufo sources")
-        self.w.ufos_get_folder_button = Button((-100, 10, -15, 20), "get folder...", callback=self.ufos_get_folder_callback, sizeStyle="small")
-        self.w.ufos_folder_value = EditText((10, 40, -15, 22), text=self._ufos_folder_default, sizeStyle="mini")
+        self.w.ufos_get_folder_button = Button((-100, 10, -10, 20), "get folder...", callback=self.ufos_get_folder_callback, sizeStyle="small")
+        self.w.ufos_folder_value = EditText((10, 40, -10, 22), text=self._ufos_folder_default, sizeStyle="mini")
         # otfs folder
         self.w.otfs_label = TextBox((10, 75, -10, 70), "folder for .otf fonts")
-        self.w.otfs_get_folder_button = Button((-100, 75, -15, 20), "get folder...", callback=self.otfs_get_folder_callback, sizeStyle="small")
-        self.w.otfs_folder_value = EditText((10, 105, -15, 22), text=self._otfs_folder_default, sizeStyle="mini", placeholder=self._otfs_folder_message)
+        self.w.otfs_get_folder_button = Button((-100, 75, -10, 20), "get folder...", callback=self.otfs_get_folder_callback, sizeStyle="small")
+        self.w.otfs_folder_value = EditText((10, 105, -10, 22), text=self._otfs_folder_default, sizeStyle="mini", placeholder=self._otfs_folder_message)
         # options
-        self.w._overlaps = CheckBox((10, 140, -10, 20), "remove overlaps", value=True)
+        self.w._overlaps = CheckBox((15, 140, -10, 20), "remove overlaps", value=True)
         self.w._decompose = CheckBox((155, 140, -10, 20), "decompose", value=True)
-        self.w._autohint = CheckBox((270, 140, -10, 20), "autohint", value=True)
+        self.w._autohint = CheckBox((265, 140, -10, 20), "autohint", value=True)
+        self.w._release_mode = CheckBox((355, 140, -10, 20), "release mode", value=True)
         # progress bar
         self.w.bar = ProgressBar((10, 175, -10, 16), isIndeterminate=True)
         # apply / close
-        self.w.button_close = Button((10, -30, 160, 15), "close", callback=self.button_close_callback)
-        self.w.button_apply = Button((185, -30, 160, 15), "apply", callback=self.button_apply_callback)
+        self.w.button_close = Button((10, -30, self._width/2-10, 15), "close", callback=self.button_close_callback)
+        self.w.button_apply = Button((self._width/2+10, -30, -10, 15), "apply", callback=self.button_apply_callback)
         self.w.open()
 
     def ufos_get_folder_callback(self, sender):
@@ -65,7 +69,7 @@ class BatchGenerateFolderDialog(object):
                 _decompose = self.w._decompose.get()
                 _overlaps = self.w._overlaps.get()
                 _autohint = self.w._autohint.get()
-                _release_mode = True
+                _release_mode = self.w._release_mode.get()
                 # print settings
                 boolstring = ("False", "True")
                 print 'batch generating .otfs for all fonts in folder...\n'
@@ -74,7 +78,7 @@ class BatchGenerateFolderDialog(object):
                 print '\tremove overlaps: %s' % boolstring[_overlaps]
                 print '\tdecompose: %s' % boolstring[_decompose]
                 print '\tautohint: %s' % boolstring[_autohint]
-                print '\trelease mode: %s' % _release_mode
+                print '\trelease mode: %s' % boolstring[_release_mode]
                 print
                 # batch generate
                 self.w.bar.start()
