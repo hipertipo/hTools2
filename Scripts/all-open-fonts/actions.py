@@ -1,13 +1,17 @@
-# [h] transform all open fonts
+# [h] perform actions on all open fonts
 
-from hTools2.modules.glyphutils import decompose
+# from hTools2.modules.fontutils import decompose, autoContourOrderDirection
 
+def decompose(font):
+	for g in font:
+		g.decompose()
+		
 # settings
 
 _decompose = True
 _remove_overlap = True
 
-# transform
+# run
 
 print 'transforming all open fonts...\n'
 for font in AllFonts():

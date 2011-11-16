@@ -1,4 +1,4 @@
-# [h] batch transform all fonts in folder
+# [h] batch perform actions to all fonts in folder
 
 import os
 
