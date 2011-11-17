@@ -3,7 +3,7 @@ hTools2
 
 hTools2 is a rewrite of hTools for RoboFont.
 
-(hTools1 is an unpublished collection of Python tools and objects for font-production work in FontLab.)
+(hTools1 is an unpublished collection of Python tools and objects for type-design & font-production work in FontLab.)
 
 *...work has just started, so there is not much to see at the moment...*
 
@@ -37,7 +37,7 @@ RoboFont is developed by Frederik Berlaen / TypeMyType.
 * [typemytype.com](http://typemytype.com)
 * [robofont.com](http://robofont.com)
 
-Both RoboFont and hTools are built on top of fundamental work and Python libraries by LettError and TypeSupply (RoboFab, vanilla etc).
+Both RoboFont and hTools are built on top of foundation work and Python libraries by LettError and TypeSupply (RoboFab, vanilla etc).
 
 * [letterror.com](http://letterror.com)
 * [typesupply.com](http://typesupply.com)
