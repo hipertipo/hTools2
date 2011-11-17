@@ -3,7 +3,7 @@ hTools2
 
 hTools2 is a rewrite of hTools for RoboFont.
 
-(hTools1 is an [unpublished] collection of Python tools and objects for font-production work in FontLab.)
+(hTools1 is an unpublished collection of Python tools and objects for font-production work in FontLab.)
 
 *...work has just started, so there is not much to see at the moment...*
 
