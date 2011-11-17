@@ -26,15 +26,16 @@ class hSettings:
 	def write(self):
 		plistlib.writePlist(self.hDict, self.file)
 
-	def edit_dialog(self):
-		print 'hPaths : editing settings...\n'
-
 	def print_info(self):
-		print 'hPaths : printing settings...'
-		print '\troot folder: %s' % self.root
-		print '\ttest fonts folder: %s' % self.hDict['test']
-		print '\tFTP settings: %s' % self.hDict['ftp']
-		print
+		print 'printing hWorld settings...\n'
+		print '\troot folder:'
+		print '\t\t%s\n' % self.root
+		print '\ttest fonts folder:'
+		print '\t\t%s\n' % self.hDict['test']
+		print '\tFTP settings:'
+		for _ftp_setting in self.hDict['ftp']:
+			print '\t\t%s: %s' % (_ftp_setting, self.hDict['ftp'][_ftp_setting])
+		print '\n...done.\n'
 
 
 class hWorld:
@@ -70,15 +71,16 @@ class hProject:
 		'temp' : None,
 		'test' : None,
 		'woffs' : None,
-		'ftp': None,
+		# 'ftp': None,
+		'bkp' : None,
 	}
   
 	name = '$PROJECT'
 	extension = 'HPTP'
 
 	parameters = [
-#		['weight', (1, 5, 9)],
-#		['width', (3, 5)],
+		# ['weight', (1, 5, 9)],
+		# ['width', (3, 5)],
 	]
 	
 	def __init__(self, name=None):
@@ -104,6 +106,8 @@ class hProject:
 		self.paths['inst'] = os.path.join(self.paths['root'], '_ufos/_instances')
 		self.paths['test'] = os.path.join(self.world.settings.hDict['test'], '_' + self.name)
 		self.paths['woffs'] = os.path.join(self.paths['root'], '_woffs')
+		self.paths['bkp'] = os.path.join(self.paths['root'], '_bkp')
+		# self.paths['ftp'] = os.path.join(self.world.settings.hDict['ftp']['folder'], self.name.lower())
 
 	def print_paths(self):
 		print 'hProject : printing paths...'

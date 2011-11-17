@@ -8,27 +8,28 @@ import vanilla
 class hWorld_Dialog(object):
 
     _col1 = 180
-    _col2 = 240
-    _col3 = 240
+    _col2 = 180
+    _col3 = 180
     _margin = 15
     _footer = 100
-    _height = 300
+    _height = 400
 
     def __init__(self, world):
         self.world = world
         self.projects = world.projects()
-        self.w = vanilla.Window((self._col1 + self._col2 + self._col3 + (self._margin * 4), self._height), "batch project")
+        self.w = vanilla.Window((self._col1+self._col2+self._col3+(self._margin*4), self._height), "batch project")
         # projects list
-        #self.w.popUpButton = PopUpButton((10, 320, -10, 20), ["A", "B", "C"], callback=self.popUpButtonCallback)
         self.w.projects_list = vanilla.List(
             (self._margin, self._margin, self._col1, -self._footer),
             world.projects(),
             selectionCallback = self.projects_selection,
-            allowsMultipleSelection=False)
+            # rowHeight = 13, #styleSize = 'small',
+            allowsMultipleSelection=True)
         # masters list
         self.w.masters_list = vanilla.List(
             (self._col1 + (self._margin * 2), self._margin, self._col2, -self._footer),
             [],
+            allowsMultipleSelection=True,
             selectionCallback = self.masters_selection )
         # instances list
         self.w.instances_list = vanilla.List(
