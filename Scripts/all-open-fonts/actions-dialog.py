@@ -94,15 +94,15 @@ class actionsDialog(object):
                 if self._decompose:
                     print '\t\tdecomposing...'
                     decompose(font)
+                if self._overlaps:
+                    print '\t\tremoving overlaps...'
+                    font.removeOverlap()
                 if self._order:
                     print '\t\tauto contour order...'
                     autoContourOrder(font)
                 if self._direction:
                     print '\t\tauto contour direction...'
                     autoContourDirection(font)
-                if self._overlaps:
-                    print '\t\tremoving overlaps...'
-                    font.removeOverlap()
                 if self._save:
                     print '\t\tsaving font...'
                     font.save()

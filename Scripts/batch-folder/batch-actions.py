@@ -42,12 +42,12 @@ for ufo_path in ufo_paths:
     if _decompose:
         print '\t\tdecomposing...'
         decompose(ufo)
-    if _auto_order_direction:
-        print '\t\tsetting auto contour order & direction...'
-        autoContourOrderDirection(ufo)
     if _remove_overlaps:
         print '\t\tremoving overlaps...'
         ufo.removeOverlap()
+    if _auto_order_direction:
+        print '\t\tsetting auto contour order & direction...'
+        autoContourOrderDirection(ufo)
     ufo.save()
     ufo.close()
     print

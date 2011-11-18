@@ -78,6 +78,11 @@ class transformSelectedGlyphsDialog(object):
                     f[gName].prepareUndo('decompose')
                     f[gName].decompose()
                     f[gName].performUndo()
+                if self._overlaps:
+                    print '\t\tremoving overlaps...'
+                    f[gName].prepareUndo('remove overlaps')
+                    f[gName].removeOverlap()
+                    f[gName].performUndo()
                 if self._order:
                     print '\t\tauto contour order...'
                     f[gName].prepareUndo('auto contour order')
@@ -87,11 +92,6 @@ class transformSelectedGlyphsDialog(object):
                     print '\t\tauto contour direction...'
                     f[gName].prepareUndo('auto contour directions')
                     f[gName].correctDirection()
-                    f[gName].performUndo()
-                if self._overlaps:
-                    print '\t\tremoving overlaps...'
-                    f[gName].prepareUndo('remove overlaps')
-                    f[gName].removeOverlap()
                     f[gName].performUndo()
                 if self._mark:
                     print '\t\tmark glyphs...'

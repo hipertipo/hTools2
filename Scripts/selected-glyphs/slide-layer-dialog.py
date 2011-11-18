@@ -74,7 +74,7 @@ class slideLayerDialog(object):
             try:
                 self.font[gName].move((x, y))
             except:
-                print 'cannot transform %s' gName
+                print 'cannot transform %s' % gName
 
     def restore_callback(self, sender):
         self.restore_move()
