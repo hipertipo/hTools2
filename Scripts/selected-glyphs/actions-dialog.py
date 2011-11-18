@@ -62,43 +62,47 @@ class transformSelectedGlyphsDialog(object):
             _mark_color = (_mark_color.redComponent(), _mark_color.greenComponent(), _mark_color.blueComponent(), _mark_color.alphaComponent())
             print 'transforming selected glyphs...\n'
             for gName in f.selection:
-                print '\ttransforming %s...' % gName
-                if self._clear:
-                    print '\tdeleting outlines %s' % gName
-                    f[gName].prepareUndo('clear glyph contents')
-                    f.newGlyph(gName, clear=True)
-                    f[gName].performUndo()
-                if self._round:
-                    print '\trounding %s' % gName
-                    f[gName].prepareUndo('round point positions')
-                    f[gName].round()
-                    f[gName].performUndo()
-                if self._decompose:
-                    print '\t\tdecomposing...'
-                    f[gName].prepareUndo('decompose')
-                    f[gName].decompose()
-                    f[gName].performUndo()
-                if self._overlaps:
-                    print '\t\tremoving overlaps...'
-                    f[gName].prepareUndo('remove overlaps')
-                    f[gName].removeOverlap()
-                    f[gName].performUndo()
-                if self._order:
-                    print '\t\tauto contour order...'
-                    f[gName].prepareUndo('auto contour order')
-                    f[gName].autoContourOrder()
-                    f[gName].performUndo()    
-                if self._direction:
-                    print '\t\tauto contour direction...'
-                    f[gName].prepareUndo('auto contour directions')
-                    f[gName].correctDirection()
-                    f[gName].performUndo()
-                if self._mark:
-                    print '\t\tmark glyphs...'
-                    f[gName].prepareUndo('mark')
-                    f[gName].mark = _mark_color
-                    f[gName].performUndo()
-                print
+                try:
+                    print '\ttransforming %s...' % gName
+                    if self._clear:
+                        print '\tdeleting outlines %s' % gName
+                        f[gName].prepareUndo('clear glyph contents')
+                        f.newGlyph(gName, clear=True)
+                        f[gName].performUndo()
+                    if self._round:
+                        print '\trounding %s' % gName
+                        f[gName].prepareUndo('round point positions')
+                        f[gName].round()
+                        f[gName].performUndo()
+                    if self._decompose:
+                        print '\t\tdecomposing...'
+                        f[gName].prepareUndo('decompose')
+                        f[gName].decompose()
+                        f[gName].performUndo()
+                    if self._overlaps:
+                        print '\t\tremoving overlaps...'
+                        f[gName].prepareUndo('remove overlaps')
+                        f[gName].removeOverlap()
+                        f[gName].performUndo()
+                    if self._order:
+                        print '\t\tauto contour order...'
+                        f[gName].prepareUndo('auto contour order')
+                        f[gName].autoContourOrder()
+                        f[gName].performUndo()    
+                    if self._direction:
+                        print '\t\tauto contour direction...'
+                        f[gName].prepareUndo('auto contour directions')
+                        f[gName].correctDirection()
+                        f[gName].performUndo()
+                    if self._mark:
+                        print '\t\tmark glyphs...'
+                        f[gName].prepareUndo('mark')
+                        f[gName].mark = _mark_color
+                        f[gName].performUndo()
+                    print
+                except:
+                    print '\tcannot transform %s\n' % gName
+            # done
             print '...done.\n'
         # no font open 
         else:

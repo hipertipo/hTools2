@@ -26,14 +26,19 @@ class slideLayerDialog(object):
         self.w.box.text = TextBox((5, 1, -10, 20), full_name(self.font))
         # x slider
         self.w.x_label = TextBox((10, 55, -10, 17), "slide x")
-        self.w.x_slider = Slider((70, 55, -15, 22), value=0, maxValue=self._xMax, minValue=self._xMin, callback=self.slide_callback)
+        self.w.x_slider = Slider((70, 55, -15, 22), value=0,
+            maxValue=self._xMax, minValue=self._xMin, callback=self.slide_callback)
         # y slider
         self.w.y_label = TextBox((10, 85, -10, 17), "slide y")
-        self.w.y_slider = Slider((70, 85, -15, 22), value=0, maxValue=self._yMax, minValue=self._yMin, callback=self.slide_callback)
+        self.w.y_slider = Slider((70, 85, -15, 22), value=0,
+            maxValue=self._yMax, minValue=self._yMin, callback=self.slide_callback)
         # buttons
-        self.w.button_restore = Button((10, -95, -10, 20), "restore slider positions", callback=self.restore_callback)
-        self.w.button_update_font = Button((10, -65, -10, 20), "switch to current font", callback=self.update_font_callback)
-        self.w.button_flip = Button((10, -35, -10, 20), "flip foreground / mask", callback=self.flip_callback)
+        self.w.button_restore = Button((10, -95, -10, 20),
+            "restore slider positions", callback=self.restore_callback, sizeStyle='small')
+        self.w.button_update_font = Button((10, -65, -10, 20),
+            "switch to current font", callback=self.update_font_callback, sizeStyle='small')
+        self.w.button_flip = Button((10, -35, -10, 20),
+            "flip foreground / mask", callback=self.flip_callback, sizeStyle='small')
         self.w.open()
 
     def restore_move(self):

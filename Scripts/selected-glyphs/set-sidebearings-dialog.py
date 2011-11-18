@@ -50,56 +50,57 @@ class setSidebearingsDialog(object):
                 _left_value = self.w.left_value.get()
                 _right_mode = self.w.right_mode.get()
                 _right_value = self.w.right_value.get()
-
-                print _left_mode, _right_mode
-                print _left_value, _right_value
-
                 # get mark color
                 _mark_color = self.w.mark_color.get()
                 _mark_color = (_mark_color.redComponent(), _mark_color.greenComponent(), _mark_color.blueComponent(), _mark_color.alphaComponent())
                 # print info
-                print '\tsetting sidebearings...\n'
-                print '\tleft: %s %s' % (_left_mode, _left_value)
-                print '\tright: %s %s' % (_right_mode, _right_value)
-                print '\tmark color: ', _mark_color
+                print 'setting sidebearings for selected glyphs...\n'
+                print '\tleft: %s %s' % (self._modes[_left_mode], _left_value)
+                print '\tright: %s %s' % (self._modes[_right_mode], _right_value)
+                print '\tmark color: %s' % (False, True)[self.w.mark_checkbox.get()]
                 # batch set left/right sidebearings in one pass
-                for gName in f.selection:
-                    f[gName].prepareUndo('change sidebearings')
-                    # left sidebearing
-                    if _left_mode != 0:
-                        if _left_value != None:
-                            # calculate left sidebearing
-                            if _left_mode == 1: # set equal to
-                                _left_value_new = int(_left_value)
-                            elif _left_mode == 2: # increase by
-                                _left_value_new = f[gName].leftMargin + int(_left_value)
-                            elif _left_mode == 3: # decrease by
-                                _left_value_new = f[gName].leftMargin - int(_left_value)
-                            # set left sidebearing
-                            f[gName].leftMargin = _left_value_new
-                            f[gName].mark = _mark_color
-                            f[gName].update()
-                            f.update()
-                    # right sidebearing
-                    if _right_mode != 0:
-                        if _right_value != None:
-                            # calculate right sidebearing                    
-                            if _right_mode == 1: # set equal to
-                                _right_value_new = int(_right_value)
-                            elif _right_mode == 2: # increase by
-                                _right_value_new = f[gName].rightMargin + int(_right_value)
-                            elif _right_mode == 3: # decrease by
-                                _right_value_new = f[gName].rightMargin - int(_right_value)
-                            # set right sidebearing
-                            f[gName].rightMargin = _right_value_new
-                            f[gName].mark = _mark_color
-                            f[gName].update()
-                            f.update()
-                    # done glyph
-                    f[gName].performUndo()
-                    f[gName].update()
+                for gName in f.selection:                    
+                    try:
+                        f[gName].prepareUndo('change sidebearings')
+                        # left sidebearing
+                        if _left_mode != 0:
+                            if _left_value != None:
+                                # calculate left sidebearing
+                                if _left_mode == 1: # set equal to
+                                    _left_value_new = int(_left_value)
+                                elif _left_mode == 2: # increase by
+                                    _left_value_new = f[gName].leftMargin + int(_left_value)
+                                elif _left_mode == 3: # decrease by
+                                    _left_value_new = f[gName].leftMargin - int(_left_value)
+                                # set left sidebearing
+                                f[gName].leftMargin = _left_value_new
+                                f[gName].mark = _mark_color
+                                f[gName].update()
+                                f.update()
+                        # right sidebearing
+                        if _right_mode != 0:
+                            if _right_value != None:
+                                # calculate right sidebearing                    
+                                if _right_mode == 1: # set equal to
+                                    _right_value_new = int(_right_value)
+                                elif _right_mode == 2: # increase by
+                                    _right_value_new = f[gName].rightMargin + int(_right_value)
+                                elif _right_mode == 3: # decrease by
+                                    _right_value_new = f[gName].rightMargin - int(_right_value)
+                                # set right sidebearing
+                                f[gName].rightMargin = _right_value_new
+                                f[gName].mark = _mark_color
+                                f[gName].update()
+                                f.update()
+                        # done glyph
+                        f[gName].performUndo()
+                        f[gName].update()
+                    # famous Cmd+A exception
+                    except:
+                        print '\tcannot transform %s' % gName
                 # done
                 f.update()
+                print '\n...done.\n'
             # no glyph selected
             else:
                 print 'please select one or more glyphsto transform.\n'

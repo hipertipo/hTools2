@@ -26,12 +26,12 @@ class copyToMaskDialog(object):
                 self._all_fonts_names.append(full_name(f))
             self.w = FloatingWindow((240, 225), self._title, closable=False)
             # source font
-            self.w._source_label = TextBox((10, 10, -10, 17), "source font:")
+            self.w._source_label = TextBox((10, 10, -10, 17), "source font")
             self.w._source_value = PopUpButton((10, 35, -10, 20), self._all_fonts_names)
             self.w.source_mark_checkbox = CheckBox((10, 65, -10, 20), "mark glyphs", value=True)
             self.w.source_mark_color = ColorWell((120, 65, -13, 20), color=NSColor.colorWithCalibratedRed_green_blue_alpha_(*self._source_mark_color))
             # target font
-            self.w._target_label = TextBox((10, 100, -10, 17), "target font:")
+            self.w._target_label = TextBox((10, 100, -10, 17), "target font")
             self.w._target_value = PopUpButton((10, 125, -10, 20), self._all_fonts_names)
             self.w.target_mark_checkbox = CheckBox((10, 155, -10, 20), "mark glyphs", value=True)
             self.w.target_mark_color = ColorWell((120, 155, -13, 20), color=NSColor.colorWithCalibratedRed_green_blue_alpha_(*self._target_mark_color))
@@ -61,25 +61,28 @@ class copyToMaskDialog(object):
         print
         # batch copy glyphs to mask
         for gName in _source_font.selection:
-            print '\t%s' % gName,
-            # prepare undo
-            _source_font[gName].prepareUndo('copy glyphs to mask')
-            _target_font[gName].prepareUndo('copy glyphs to mask')
-            # mark
-            if _source_mark:
-                _source_font[gName].mark = _source_mark_color                
-            if _target_mark:
-                _target_font[gName].mark = _target_mark_color
-            # copy oulines to mask
-            _target_glyph_layer = _target_font[gName].getLayer(_target_layer_name)
-            pen = _target_glyph_layer.getPointPen()
-            _source_font[gName].drawPoints(pen)
-            # update
-            _source_font[gName].update()
-            _target_font[gName].update()
-            # activate undo
-            _source_font[gName].performUndo()
-            _target_font[gName].performUndo()
+            try:
+                print '\t%s' % gName,
+                # prepare undo
+                _source_font[gName].prepareUndo('copy glyphs to mask')
+                _target_font[gName].prepareUndo('copy glyphs to mask')
+                # mark
+                if _source_mark:
+                    _source_font[gName].mark = _source_mark_color                
+                if _target_mark:
+                    _target_font[gName].mark = _target_mark_color
+                # copy oulines to mask
+                _target_glyph_layer = _target_font[gName].getLayer(_target_layer_name)
+                pen = _target_glyph_layer.getPointPen()
+                _source_font[gName].drawPoints(pen)
+                # update
+                _source_font[gName].update()
+                _target_font[gName].update()
+                # activate undo
+                _source_font[gName].performUndo()
+                _target_font[gName].performUndo()
+            except:
+                print '\tcannot transform %s' % gName                        
         # done
         print
         _target_font.update()

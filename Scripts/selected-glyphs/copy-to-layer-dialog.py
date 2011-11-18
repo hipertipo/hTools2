@@ -39,13 +39,17 @@ class copyToLayerDialog(object):
                 print 'copying outlines to layer "%s"...' % _layer_name
                 print _mark_color
                 for gName in f.selection:
-                    f[gName].prepareUndo('copy to layer')
-                    print '\t%s' % gName,
-                    f[gName].copyToLayer(_layer_name, clear=True)
-                    if _mark:
-                        f[gName].mark = _mark_color
-                    f[gName].performUndo()
-                    f[gName].update()            
+                    try:
+                        f[gName].prepareUndo('copy to layer')
+                        print '\t%s' % gName,
+                        f[gName].copyToLayer(_layer_name, clear=True)
+                        if _mark:
+                            f[gName].mark = _mark_color
+                        f[gName].performUndo()
+                        f[gName].update()            
+                    except:
+                        print '\tcannot transform %s' % gName                        
+                # done
                 print '\n...done.\n'
             else:
                 print 'please set a name for the target layer.\n'

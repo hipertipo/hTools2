@@ -57,19 +57,22 @@ class setWidthDialog(object):
                 # batch set width for glyphs
                 _mark_color = (_mark_color.redComponent(), _mark_color.greenComponent(), _mark_color.blueComponent(), _mark_color.alphaComponent())
                 for gName in _gNames:
-                    f[gName].prepareUndo('set glyph width')
-                    f[gName].width = int(_width)
-                    if _center:
-                        centerGlyph(f[gName])
-                    if _mark:
-                        f[gName].mark = _mark_color
-                    f[gName].performUndo()
-                    f[gName].update()
-                # done
-                print 
-                f.update()
-                print '...done.\n'
-            # no glyph selected
+                    try:
+                        f[gName].prepareUndo('set glyph width')
+                        f[gName].width = int(_width)
+                        if _center:
+                            centerGlyph(f[gName])
+                        if _mark:
+                            f[gName].mark = _mark_color
+                        f[gName].performUndo()
+                        f[gName].update()
+                    except:
+                        print '\tcannot transform %s' % gName
+                    # done
+                    print 
+                    f.update()
+                    print '...done.\n'
+                # no glyph selected
             else:
                 print 'please select one or more glyphs before running the script.\n'
         # no glyph selected
