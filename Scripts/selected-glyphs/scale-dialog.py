@@ -5,7 +5,7 @@ from vanilla import *
 class scaleGlyphsDialog(object):
 
     _title = "scale glyphs"
-    _button_w = 80
+    _button_w = 87
     _button_h = 40
     _padding = 10
 
