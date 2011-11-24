@@ -8,3 +8,4 @@ def randomColor():
 def clearColors(font):
 	for g in font:
 		g.mark = (1, 1, 1, 1)
+
