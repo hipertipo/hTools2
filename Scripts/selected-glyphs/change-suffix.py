@@ -1,4 +1,4 @@
-# [h] change glyph name suffix
+# [h] change glyphsuffix
 
 f = CurrentFont()
 

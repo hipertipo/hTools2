@@ -18,13 +18,15 @@ class copyToMaskDialog(object):
     _source_mark_color = (0, 0.5, 1, 1)
     _target_mark_color = (1, 0, 0.5, 1)
     _target_layer_name = 'mask'
+    _width = 240
+    _height = 225
 
     def __init__(self):
         if len(AllFonts()) > 0:
             self._all_fonts = AllFonts()
             for f in self._all_fonts:
                 self._all_fonts_names.append(full_name(f))
-            self.w = FloatingWindow((240, 225), self._title, closable=False)
+            self.w = FloatingWindow((self._width, self._height), self._title, closable=False)
             # source font
             self.w._source_label = TextBox((10, 10, -10, 17), "source font")
             self.w._source_value = PopUpButton((10, 35, -10, 20), self._all_fonts_names)
@@ -36,8 +38,8 @@ class copyToMaskDialog(object):
             self.w.target_mark_checkbox = CheckBox((10, 155, -10, 20), "mark glyphs", value=True)
             self.w.target_mark_color = ColorWell((120, 155, -13, 20), color=NSColor.colorWithCalibratedRed_green_blue_alpha_(*self._target_mark_color))
             # buttons
-            self.w.button_apply = Button((10, -45, 105, 0), "apply", callback=self.apply_callback)
-            self.w.button_close = Button((-115, -45, 105, 0), "close", callback=self.close_callback)
+            self.w.button_apply = Button((10, -45, self._width/2-15, 0), "apply", callback=self.apply_callback)
+            self.w.button_close = Button((self._width/2+5, -45, -10, 0), "close", callback=self.close_callback)
             self.w.open()
         else:
             print 'please open one or more fonts to use this dialog.\n'
