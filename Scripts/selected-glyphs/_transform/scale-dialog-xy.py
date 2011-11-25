@@ -166,8 +166,8 @@ class scaleGlyphsXYDialog(object):
         _y_metrics = boolstring[self.w._metrics_Y.get()]
         font = CurrentFont()
         print 'scaling selected glyphs...\n'
-        print '\tscale X: %s, metrics: %s' % ( factor_x, _x_metrics)
-        print '\tscale Y: %s, metrics: %s' % ( factor_y, _y_metrics)
+        print '\tX factor: %s (scale side-bearings: %s)' % ( factor_x, _x_metrics)
+        print '\tY factor: %s (scale vertical metrics: %s)' % ( factor_y, _y_metrics)
         print
         for gName in font.selection:
             try:
