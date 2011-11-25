@@ -77,7 +77,7 @@ class slideLayerDialog(object):
         self._moveY = yValue
         for gName in self.font.selection:
             try:
-                self.font[gName].move((x, y))
+                self.font[gName].move((-x, -y))
             except:
                 print 'cannot transform %s' % gName
 
