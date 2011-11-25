@@ -161,18 +161,21 @@ class scaleGlyphsXYDialog(object):
     #-----------
 
     def scale_glyphs(self, (factor_x, factor_y)):
-        _x_metrics = self.w._metrics_X.get()
-        _y_metrics = self.w._metrics_Y.get()
+        boolstring = [False, True]
+        _x_metrics = boolstring[self.w._metrics_X.get()]
+        _y_metrics = boolstring[self.w._metrics_Y.get()]
         font = CurrentFont()
-        print 'scaling selected glyphs...'
+        print 'scaling selected glyphs...\n'
         print '\tscale X: %s, metrics: %s' % ( factor_x, _x_metrics)
         print '\tscale Y: %s, metrics: %s' % ( factor_y, _y_metrics)
+        print
         for gName in font.selection:
             try:
                 font[gName].prepareUndo('scale')
                 _left = font[gName].leftMargin
                 _right = font[gName].rightMargin
                 # scale outlines
+                print '\t%s' % gName,
                 font[gName].scale((factor_x, factor_y))
                 # scale x metrics
                 if _x_metrics:
@@ -189,7 +192,8 @@ class scaleGlyphsXYDialog(object):
             font.info.ascender = font.info.ascender * factor_y
             font.info.descender = font.info.descender * factor_y
         # done
-        print '...done.\n'
+        print
+        print '\n...done.\n'
 
     def close_callback(self, sender):
         self.w.close()
