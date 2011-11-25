@@ -4,7 +4,7 @@ f = CurrentFont()
 
 print 'deleting unmarked glyphs...\n'
 for g in f:
-    if g.mark == None:
+    if g.mark == (1, 1, 1, 1):
         print '\tdeleting %s' % g.name
         f.removeGlyph(g.name)
 f.update()

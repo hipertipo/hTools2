@@ -1,6 +1,6 @@
-#[h] print selected glyphs
+# [h] print selected glyphs
 
-'''print selected glyphs'''
+# from hTools2.modules.fontutils import printSelectedGlyphs
 
 def printSelectedGlyphs(f, mode=1):
 	gNames = f.selection
@@ -19,5 +19,5 @@ def printSelectedGlyphs(f, mode=1):
 	else:
 		print "invalid mode.\n"
 
-f = CurrentFont()
-printSelectedGlyphs(f, mode=0)
+font = CurrentFont()
+printSelectedGlyphs(font, mode=0)

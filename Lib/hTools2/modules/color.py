@@ -1,11 +1,12 @@
 # [h] hTools2.modules.color
 
+from random import random
+
 def randomColor():
-	from random import random
 	c = (random(), random(), random(), 1)
 	return c
 
 def clearColors(font):
 	for g in font:
-		g.mark = (1, 1, 1, 1)
+		g.mark = None #(1, 1, 1, 1)
 

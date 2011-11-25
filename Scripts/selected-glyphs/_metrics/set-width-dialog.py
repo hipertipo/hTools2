@@ -16,10 +16,12 @@ class setWidthDialog(object):
 
     _title = 'set character width'
     _mark_color = (0.5, 0, 1, 1)
-    _default_width = 400    
+    _default_width = 400
+    _height = 102
+    _width = 210
     
     def __init__(self):
-        self.w = FloatingWindow((210, 102), self._title, closable=False)
+        self.w = FloatingWindow((self._width, self._height), self._title, closable=False)
         # left
         self.w.width_label = TextBox((10, 10, -10, 20), "width")
         self.w.width_value = EditText((80, 10, -15, 20), placeholder='set value', text=self._default_width)
@@ -28,8 +30,8 @@ class setWidthDialog(object):
         self.w.mark_checkbox = CheckBox((80, 40, -10, 20), "mark", value=True)
         self.w.mark_color = ColorWell((140, 40, -15, 20), color=NSColor.colorWithCalibratedRed_green_blue_alpha_(*self._mark_color))
         # buttons
-        self.w.button_close = Button((10, -30, 67, 20), "close", callback=self.close_callback)
-        self.w.button_apply = Button((-80, -30, 67, 20), "apply", callback=self.apply_callback)
+        self.w.button_close = Button((10, -30, (self._width/2)-15, 20), "close", callback=self.close_callback)
+        self.w.button_apply = Button(((self._width/2)+5, -30, -10, 20), "apply", callback=self.apply_callback)
         self.w.setDefaultButton(self.w.button_apply)
         self.w.button_close.bind(".", ["command"])
         self.w.button_close.bind(unichr(27), [])

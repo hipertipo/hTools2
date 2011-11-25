@@ -5,10 +5,6 @@ from random import random
 from robofab.world import RFont
 from fontTools.pens.basePen import BasePen
 
-#from hTools.objects.hProject import hProject
-#from hTools.tools.ETools import EWorld, EFont, ESpace, EName
-#from hTools.tools.EncodingTools import unicode2psnames
-
 class NodeBoxPen(BasePen):
 
 	'''a pen to draw .glyfs in a NodeBox canvas'''
@@ -161,3 +157,4 @@ def drawGlyph(gName, ufo_path, (x, y), context, gridsize, _color=None):
 	_font_info['descender'] = y - ((_ufo.info.descender / _units_per_element) * gridsize)
 	_font_info['ascender'] = y - ((_ufo.info.ascender / _units_per_element) * gridsize)
 	return _font_info
+

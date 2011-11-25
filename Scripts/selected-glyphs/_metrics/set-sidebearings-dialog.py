@@ -10,9 +10,11 @@ class setSidebearingsDialog(object):
     _title = 'set sidebearings'
     _modes = [ 'do nothing' , 'set equal to', 'increase by', 'decrease by', ]
     _mark_color = (0, 1, .5, 1)
+    _width = 280
+    _height = 150
     
     def __init__(self):
-        self.w = FloatingWindow((280, 150), self._title, closable=False)
+        self.w = FloatingWindow((self._width, self._height), self._title, closable=False)
         # left
         self.w.left_label = TextBox((10, 10, -10, 17), "left")
         self.w.left_mode = PopUpButton((60, 10, 120, 20), self._modes, callback=self.left_mode_callback)
@@ -27,8 +29,8 @@ class setSidebearingsDialog(object):
         self.w.mark_checkbox = CheckBox((10, 75, -170, 20), "mark glyphs", value=True)
         self.w.mark_color = ColorWell((120, 75, -10, 20), color=NSColor.colorWithCalibratedRed_green_blue_alpha_(*self._mark_color))
         # buttons
-        self.w.button_apply = Button((10, -35, 120, 20), "apply", callback=self.apply_callback)
-        self.w.button_close = Button((140, -35, -10, 20), "close", callback=self.close_callback)
+        self.w.button_apply = Button((10, -35, (self._width/2)-10, 20), "apply", callback=self.apply_callback)
+        self.w.button_close = Button(((self._width/2)+10, -35, -10, 20), "close", callback=self.close_callback)
         # window controls
         self.w.setDefaultButton(self.w.button_apply)
         self.w.button_close.bind(".", ["command"])

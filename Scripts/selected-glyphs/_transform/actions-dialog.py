@@ -15,11 +15,11 @@ class transformSelectedGlyphsDialog(object):
     _mark = True
     _gNames = []
     _mark_color = (1, 0, 0, 1)
-    _width = 240
-    _height =  220
+    _width = 220
+    _height = 260
 
     def __init__(self):
-        self.w = FloatingWindow((self._height, self._width), self._title, closable=False)
+        self.w = FloatingWindow((self._width, self._height), self._title, closable=False)
         # checkboxes
         self.w.clear_checkBox = CheckBox((15, 10, -15, 20), "clear outlines", callback=self.clear_Callback, value=self._clear)
         self.w.round_checkBox = CheckBox((15, 35, -15, 20), "round point positions", callback=self.round_Callback, value=self._round)
@@ -27,11 +27,13 @@ class transformSelectedGlyphsDialog(object):
         self.w.order_checkBox = CheckBox((15, 85, -15, 20), "auto contour order", callback=self.order_Callback, value=self._order)
         self.w.direction_checkBox = CheckBox((15, 110, -15, 20), "auto contour direction", callback=self.direction_Callback, value=self._direction)
         self.w.overlaps_checkBox = CheckBox((15, 135, -15, 20), "remove overlaps", callback=self.overlaps_Callback, value=self._overlaps)
-        self.w.mark_checkBox = CheckBox((15, 160, -15, 20), "mark", callback=self.mark_Callback, value=self._mark)
-        self.w.mark_color = ColorWell((80, 160, 80, 20), color=NSColor.colorWithCalibratedRed_green_blue_alpha_(*self._mark_color))
+        # mark
+        self.w.line = HorizontalLine((15, 170, -15, 1))
+        self.w.mark_checkBox = CheckBox((15, 185, -15, 20), "mark", callback=self.mark_Callback, value=self._mark)
+        self.w.mark_color = ColorWell((80, 185, -15, 20), color=NSColor.colorWithCalibratedRed_green_blue_alpha_(*self._mark_color))
         # buttons
-        self.w.button_apply = Button((25, -55, 80, 0), "apply", callback=self.apply_Callback)
-        self.w.button_close = Button((-105, -55, 80, 0), "close", callback=self.close_Callback)
+        self.w.button_apply = Button((15, -55, (self._width/2)-20, 0), "apply", callback=self.apply_Callback)
+        self.w.button_close = Button(((self._width/2)+5, -55, -15, 0), "close", callback=self.close_Callback)
         self.w.open()
 
     def clear_Callback(self, sender):
