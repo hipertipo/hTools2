@@ -8,11 +8,13 @@ class scaleGlyphsXYDialog(object):
     _button_w = 220
     _button_h = 30
     _padding = 10
+    _x_metrics = True
+    _y_metrics = False
 
     def __init__(self):
         self.w = FloatingWindow(
             ((self._button_w*1)+(self._padding*2),
-            (self._button_h*6)+(self._padding*4)-1),
+            (self._button_h*6)+(self._padding*4)-1+65),
             self._title)
         # + 1  
         self.w._scale_plus_x_button_1 = SquareButton(
@@ -104,9 +106,15 @@ class scaleGlyphsXYDialog(object):
             self._button_h),
             "Y -100%", sizeStyle='small',
             callback=self._scale_y_minus_100_callback)
+        # metrics
+        self.w._metrics_X = CheckBox((15, -60, -15, 20), "scale side-bearings (X)", value=self._x_metrics)
+        self.w._metrics_Y = CheckBox((15, -35, -15, 20), "scale vertical metrics (Y)", value=self._y_metrics)
+        # open window
         self.w.open()
 
+    #-------------
     # x callbacks
+    #-------------
 
     def _scale_x_minus_1_callback(self, sender):
         self.scale_glyphs((0.99, 1))
@@ -126,7 +134,9 @@ class scaleGlyphsXYDialog(object):
     def _scale_x_plus_100_callback(self, sender):
         self.scale_glyphs((2.0, 1))
 
+    #-------------
     # y callbacks
+    #-------------
 
     def _scale_y_minus_1_callback(self, sender):
         self.scale_glyphs((1, 0.99))
@@ -146,17 +156,40 @@ class scaleGlyphsXYDialog(object):
     def _scale_y_plus_100_callback(self, sender):
         self.scale_glyphs((1, 2.0))
 
+    #-----------
     # functions
+    #-----------
 
     def scale_glyphs(self, (factor_x, factor_y)):
+        _x_metrics = self.w._metrics_X.get()
+        _y_metrics = self.w._metrics_Y.get()
         font = CurrentFont()
+        print 'scaling selected glyphs...'
+        print '\tscale X: %s, metrics: %s' % ( factor_x, _x_metrics)
+        print '\tscale Y: %s, metrics: %s' % ( factor_y, _y_metrics)
         for gName in font.selection:
             try:
                 font[gName].prepareUndo('scale')
+                _left = font[gName].leftMargin
+                _right = font[gName].rightMargin
+                # scale outlines
                 font[gName].scale((factor_x, factor_y))
+                # scale x metrics
+                if _x_metrics:
+                    font[gName].leftMargin = _left * factor_x
+                    font[gName].rightMargin = _right * factor_x
+                # done glyph
                 font[gName].performUndo()
             except:
                 print '\tcannot transform %s' % gName                        
+        # scale y metrics
+        if _y_metrics:
+            font.info.xHeight = font.info.xHeight * factor_y
+            font.info.capHeight = font.info.capHeight * factor_y
+            font.info.ascender = font.info.ascender * factor_y
+            font.info.descender = font.info.descender * factor_y
+        # done
+        print '...done.\n'
 
     def close_callback(self, sender):
         self.w.close()
