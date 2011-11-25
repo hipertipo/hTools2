@@ -11,12 +11,13 @@ class transformSelectedGlyphsDialog(object):
     _decompose = False
     _order = False
     _direction = False
-    _overlaps = True
+    _overlaps = False
+    _extremes = False
     _mark = True
     _gNames = []
     _mark_color = (1, 0, 0, 1)
     _width = 220
-    _height = 260
+    _height = 285
 
     def __init__(self):
         self.w = FloatingWindow((self._width, self._height), self._title, closable=False)
@@ -27,10 +28,11 @@ class transformSelectedGlyphsDialog(object):
         self.w.order_checkBox = CheckBox((15, 85, -15, 20), "auto contour order", callback=self.order_Callback, value=self._order)
         self.w.direction_checkBox = CheckBox((15, 110, -15, 20), "auto contour direction", callback=self.direction_Callback, value=self._direction)
         self.w.overlaps_checkBox = CheckBox((15, 135, -15, 20), "remove overlaps", callback=self.overlaps_Callback, value=self._overlaps)
+        self.w.extremes_checkBox = CheckBox((15, 160, -15, 20), "add extreme points", callback=self.extremes_Callback, value=self._extremes)
         # mark
-        self.w.line = HorizontalLine((15, 170, -15, 1))
-        self.w.mark_checkBox = CheckBox((15, 185, -15, 20), "mark", callback=self.mark_Callback, value=self._mark)
-        self.w.mark_color = ColorWell((80, 185, -15, 20), color=NSColor.colorWithCalibratedRed_green_blue_alpha_(*self._mark_color))
+        self.w.line = HorizontalLine((15, 195, -15, 1))
+        self.w.mark_checkBox = CheckBox((15, 210, -15, 20), "mark", callback=self.mark_Callback, value=self._mark)
+        self.w.mark_color = ColorWell((80, 210, -15, 20), color=NSColor.colorWithCalibratedRed_green_blue_alpha_(*self._mark_color))
         # buttons
         self.w.button_apply = Button((15, -55, (self._width/2)-20, 0), "apply", callback=self.apply_Callback)
         self.w.button_close = Button(((self._width/2)+5, -55, -15, 0), "close", callback=self.close_Callback)
@@ -53,6 +55,9 @@ class transformSelectedGlyphsDialog(object):
 
     def overlaps_Callback(self, sender):
         self._overlaps = sender.get()
+
+    def extremes_Callback(self, sender):
+        self._extremes = sender.get()
 
     def mark_Callback(self, sender):
         self._mark = sender.get()
@@ -86,6 +91,11 @@ class transformSelectedGlyphsDialog(object):
                         f[gName].prepareUndo('remove overlaps')
                         f[gName].removeOverlap()
                         f[gName].performUndo()
+                    if self._extremes:
+                        print '\t\tadding extreme points...'
+                        f[gName].prepareUndo('add extreme points')
+                        f[gName].extremePoints()
+                        f[gName].performUndo()
                     if self._order:
                         print '\t\tauto contour order...'
                         f[gName].prepareUndo('auto contour order')
@@ -111,9 +121,9 @@ class transformSelectedGlyphsDialog(object):
             print 'please open a font.\n'
 
     def close_Callback(self, sender):
-        print 'closed transform glyphs dialog.\n'
         self.w.close()
 
+# run
 
 transformSelectedGlyphsDialog()
 

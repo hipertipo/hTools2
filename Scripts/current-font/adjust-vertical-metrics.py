@@ -16,8 +16,9 @@ class adjustVerticalMetrics(object):
     _moveX = 0
     _moveY = 0
     _row = 30
+    _top = 13
     _padding = 10
-    _column_1 = 120
+    _column_1 = 115
     _column_3 = 60
 
     def __init__(self, font):
@@ -38,13 +39,13 @@ class adjustVerticalMetrics(object):
         _xheight_max = self.font.info.unitsPerEm
         self.w.xheight_label = TextBox(
             (self._padding,
-            self._padding + (self._row * 1) + self._padding,
+            self._padding + (self._row * 1) + self._top,
             -self._padding,
             30),
             "x-height")
         self.w.xheight_slider = Slider(
             (self._column_1,
-            self._padding + (self._row * 1) - 5 + self._padding,
+            self._padding + (self._row * 1) - 5 + self._top,
             -(self._column_3 + (self._padding*2)),
             30),
             minValue=_xheight_min,
@@ -53,7 +54,7 @@ class adjustVerticalMetrics(object):
             callback=self.xheight_slider_callback)
         self.w.xheight_text = EditText(
             (-self._column_3,
-            self._padding + (self._row * 1) + self._padding,
+            self._padding + (self._row * 1) + self._top,
             -self._padding,
             20),
             _xheight,
@@ -64,13 +65,13 @@ class adjustVerticalMetrics(object):
         _ascender_max = self.font.info.unitsPerEm * 1.6
         self.w.ascender_label = TextBox(
             (self._padding,
-            self._padding + (self._row * 2) + self._padding,
+            self._padding + (self._row * 2) + self._top,
             -self._padding,
             30),
             "ascender")
         self.w.ascender_slider = Slider(
             (self._column_1,
-            self._padding + (self._row * 2) - 5 + self._padding,
+            self._padding + (self._row * 2) - 5 + self._top,
             -(self._column_3 + (self._padding*2)),
             30),
             minValue=_ascender_min,
@@ -79,7 +80,7 @@ class adjustVerticalMetrics(object):
             callback=self.ascender_slider_callback)
         self.w.ascender_text = EditText(
             (-self._column_3,
-            self._padding + (self._row * 2) + self._padding,
+            self._padding + (self._row * 2) + self._top,
             -self._padding,
             20),
             _ascender,
@@ -90,13 +91,13 @@ class adjustVerticalMetrics(object):
         _descender_max = 700
         self.w.descender_label = TextBox(
             (self._padding,
-            self._padding + (self._row * 3) + self._padding,
+            self._padding + (self._row * 3) + self._top,
             -self._padding,
             30),
             "descender")
         self.w.descender_slider = Slider(
             (self._column_1,
-            self._padding + (self._row * 3) - 5 + self._padding,
+            self._padding + (self._row * 3) - 5 + self._top,
             -(self._column_3 + (self._padding*2)),
             30),
             minValue=_descender_min,
@@ -105,7 +106,7 @@ class adjustVerticalMetrics(object):
             callback=self.descender_slider_callback)
         self.w.descender_text = EditText(
             (-self._column_3,
-            self._padding + (self._row * 3) + self._padding,
+            self._padding + (self._row * 3) + self._top,
             -self._padding,
             20),
             _descender,
@@ -116,13 +117,13 @@ class adjustVerticalMetrics(object):
         _capheight_max = self.font.info.unitsPerEm
         self.w.capheight_label = TextBox(
             (self._padding,
-            self._padding + (self._row * 4) + self._padding,
+            self._padding + (self._row * 4) + self._top,
             -self._padding,
             30),
             "cap-height")
         self.w.capheight_slider = Slider(
             (self._column_1,
-            self._padding + (self._row * 4) - 5 + self._padding,
+            self._padding + (self._row * 4) - 5 + self._top,
             -(self._column_3 + (self._padding*2)),
             30),
             minValue=_capheight_min,
@@ -131,7 +132,7 @@ class adjustVerticalMetrics(object):
             callback=self.capheight_slider_callback)
         self.w.capheight_text = EditText(
             (-self._column_3,
-            self._padding + (self._row * 4) + self._padding,
+            self._padding + (self._row * 4) + self._top,
             -self._padding,
             20),
             _capheight,
@@ -142,13 +143,13 @@ class adjustVerticalMetrics(object):
         _units_per_em_max = self.font.info.unitsPerEm * 2
         self.w.units_per_em_label = TextBox(
             (self._padding,
-            self._padding + (self._row * 5) + self._padding,
+            self._padding + (self._row * 5) + self._top,
             -self._padding,
             30),
-            "units per Em")
+            "units per em")
         self.w.units_per_em_slider = Slider(
             (self._column_1,
-            self._padding + (self._row * 5) - 5 + self._padding,
+            self._padding + (self._row * 5) - 5 + self._top,
             -(self._column_3 + (self._padding*2)),
             30),
             minValue=_units_per_em_min,
@@ -157,7 +158,7 @@ class adjustVerticalMetrics(object):
             callback=self.units_per_em_slider_callback)
         self.w.units_per_em_text = EditText(
             (-self._column_3,
-            self._padding + (self._row * 5) + self._padding,
+            self._padding + (self._row * 5) + self._top,
             -self._padding,
             20),
             _units_per_em,
@@ -246,6 +247,7 @@ class adjustVerticalMetrics(object):
     def close_callback(self, sender):
         self.w.close()
 
+# run
 
 f = CurrentFont()
 adjustVerticalMetrics(f)
