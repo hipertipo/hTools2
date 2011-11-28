@@ -1,6 +1,6 @@
 # [h] paing glyph groups
 
-from hTools2.modules.colorsys import *
+from hTools2.modules.colorsys import hls_to_rgb
 
 def paintGroups(font):
     colorStep = 1.0 / len(f.groups)

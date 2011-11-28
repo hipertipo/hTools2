@@ -212,8 +212,9 @@ class hFont:
 		pass
 
 
-class hGlyph:
+class hGlyph_base:
 
-	def __init__(self):
-		print 'hGlyph : init...'
-		self.font = hFont()
+	def __init__(self, gName, project):
+		#print 'hGlyph : init...'
+		self.gName = gName
+		self.project = project

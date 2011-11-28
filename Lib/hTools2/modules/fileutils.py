@@ -35,4 +35,4 @@ def get_names_from_path(fontpath):
 		family_name, style_name = _file_name.split('_')
 	except ValueError:
 		family_name, style_name = _file_name.split('-')
-	return '%s %s' % ( family_name, style_name )
+	return family_name, style_name

@@ -1,45 +1,20 @@
 # hTools2.modules.nodebox
 
 from random import random
-
 from robofab.world import RFont
 from fontTools.pens.basePen import BasePen
-
-class NodeBoxPen(BasePen):
-
-	'''a pen to draw .glyfs in a NodeBox canvas'''
-
-	def __init__(self, glyphSet, context):
-		self.ctx = context 
-		BasePen.__init__(self, glyphSet)
-
-	F = 1 /float(125)
-
-	def _moveTo(self, pt):
-		x, y = pt
-		self.ctx.moveto(x*self.F, -y*self.F)
-
-	def _lineTo(self, pt):
-		x, y = pt
-		self.ctx.lineto(x*self.F, -y*self.F)
-		
-	def _curveToOne(self, pt1, pt2, pt3):
-		x1, y1 = pt1
-		x2, y2 = pt2
-		x3, y3 = pt3
-		self.ctx.curveto(x1*self.F, y1*self.F, x2*self.F, y2*self.F, x3*self.F, y3*self.F)
-
-	def _closePath(self):
-		self.ctx.closepath()
+from hTools2.modules.pens import NodeBoxPen
 
 def drawHorzLine(Y, ctx, s=None, c=None):
-	_s = .35
+	_s = 1
 	_c = ctx.color(0, 1, 1)
-	if s is not None: _s = s
-	if c is not None: _c = c
+	if s is not None:
+		_s = s
+	if c is not None:
+		_c = c
 	ctx.stroke(_c)
 	ctx.strokewidth(_s) 
-	ctx.line(0, Y, ctx.WIDTH, Y)
+	ctx.line(0, Y+.5, ctx.WIDTH, Y+.5)
 
 def drawVertLine(X, ctx, s=None, c=None):
 	_s = .35
@@ -48,11 +23,11 @@ def drawVertLine(X, ctx, s=None, c=None):
 	if c is not None: _c = c
 	ctx.stroke(_c)
 	ctx.strokewidth(_s) 
-	ctx.line(X, 0, X, ctx.HEIGHT)
+	ctx.line(X+.5, 0, X+.5, ctx.HEIGHT)
 
 def drawCross((x, y), ctx, _size=10, _strokewidth=None, _strokecolor=None):
 	cross = _size
-	_s = .5
+	_s = 1
 	_c = ctx.color(.25)
 	if _strokewidth is not None:
 		_s = _strokewidth
@@ -62,21 +37,23 @@ def drawCross((x, y), ctx, _size=10, _strokewidth=None, _strokecolor=None):
 	ctx.stroke(_c)
 	ctx.strokewidth(_s)
 	ctx.fill(None)
-	ctx.line(x - cross, y, x + cross, y)
+	x += .5
+	y += .5
+	ctx.line(x -cross, y, x + cross, y)
 	ctx.line(x, y - cross, x, y + cross)
 	ctx.pop()
 
 def drawGrid(ctx, pos=(0,0), _size=1):
 	x, y = pos
 	# drawing defaults
-	ctx.strokewidth(.5)
-	ctx.stroke(0, 1, 1, .5)
+	ctx.strokewidth(1)
+	ctx.stroke(.9)
 	# draw lines
 	for i in range(ctx.HEIGHT/_size):
-		ctx.line(0, y, ctx.WIDTH, y)
+		ctx.line(0, y+.5, ctx.WIDTH, y+.5)
 		y += _size
 	for j in range(ctx.WIDTH/_size):
-		ctx.line(x, 0, x, ctx.HEIGHT)
+		ctx.line(x+.5, 0, x+.5, ctx.HEIGHT)
 		x += _size
 
 def gridfit(x, y, grid):
@@ -91,7 +68,6 @@ def capstyle(path, style):
 def joinstyle(path, style): 
 	path._nsBezierPath.setLineJoinStyle_(style)
 	return path
-
 
 def makeString(gNamesList, spacer=None):
 	if spacer is not None:
@@ -129,10 +105,12 @@ def allGlyphs(groups, spacer=None):
 			allGlyphs += makeString(gNamesList, spacer)
 	return allGlyphs
 
-def drawGlyph(gName, ufo_path, (x, y), context, gridsize, _color=None):
+def drawGlyph(gName, ufo_path, (x, y), context, _color=None, _scale=1):
 	_ufo = RFont(ufo_path)
 	_pen = NodeBoxPen(_ufo._glyphSet, context)
-	_units_per_element = 125
+	_units_per_em = _ufo.info.unitsPerEm
+	_units_per_element = 64
+	_ppem = _units_per_em / _units_per_element
 	# draw glyph outline
 	context.stroke(None)
 	if _color is not None:
@@ -143,18 +121,25 @@ def drawGlyph(gName, ufo_path, (x, y), context, gridsize, _color=None):
 	context.push()
 	context.transform(mode='CORNER')
 	context.translate(x, y)
-	context.scale(gridsize)
+	context.scale(_scale)
 	context.beginpath()
 	g.draw(_pen)
 	P = context.endpath(draw=False)
-	context.drawpath(P) 
+	context.drawpath(P)
 	context.pop()	 
+
+def glyphMetrics(gName, ufo_path, (x, y), _scale=1, _print=False):
+	_ufo = RFont(ufo_path)
+	_units_per_element = 64
+	g = _ufo[gName]
 	# get glyph & font info
 	_font_info = {}
-	_font_info['width'] = x + ((g.width / _units_per_element) * gridsize)
-	_font_info['xHeight'] = y - ((_ufo.info.xHeight / _units_per_element) * gridsize)
-	_font_info['capHeight'] = y - ((_ufo.info.capHeight / _units_per_element) * gridsize)
-	_font_info['descender'] = y - ((_ufo.info.descender / _units_per_element) * gridsize)
-	_font_info['ascender'] = y - ((_ufo.info.ascender / _units_per_element) * gridsize)
+	_font_info['width'] = (g.width / _units_per_element) * _scale
+	_font_info['xHeight'] = (_ufo.info.xHeight / _units_per_element) * _scale
+	_font_info['capHeight'] = (_ufo.info.capHeight / _units_per_element) * _scale
+	_font_info['descender'] = (_ufo.info.descender /_units_per_element) * _scale
+	_font_info['ascender'] = (_ufo.info.ascender / _units_per_element) * _scale
+	if _print:
+		for k in _font_info.keys():
+			print k, _font_info[k]
 	return _font_info
-
