@@ -15,12 +15,12 @@ def autoContourOrderDirection(font):
 
 def printSelectedGlyphs(f, mode=1):
 	gNames = f.selection
-	# mode 1 = plain gNames list
+	# mode 1 : plain gNames list
 	if mode == 1:
 		for gName in gNames:
 			print gName
 		print
-	# mode 0 = Python string
+	# mode 0 : Python string
 	elif mode == 0:
 		s = ''
 		for gName in gNames:
@@ -29,3 +29,10 @@ def printSelectedGlyphs(f, mode=1):
 		print
 	else:
 		print "invalid mode.\n"
+
+def alignToGrid( f, (sizeX, sizeY) ):
+	from hTools2.modules.glyphutils import alignPointsToGrid
+	for g in f:
+		alignPointsToGrid(g, sizeX, sizeY)
+		g.update()
+	f.update()

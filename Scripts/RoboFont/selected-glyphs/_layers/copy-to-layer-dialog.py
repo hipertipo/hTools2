@@ -33,7 +33,10 @@ class copyToLayerDialog(object):
             # get mark color
             _mark = self.w.mark_checkbox.get()
             _mark_color = self.w.mark_color.get()
-            _mark_color = (_mark_color.redComponent(), _mark_color.greenComponent(), _mark_color.blueComponent(), _mark_color.alphaComponent())
+            _mark_color = (_mark_color.redComponent(),
+                _mark_color.greenComponent(),
+                _mark_color.blueComponent(),
+                _mark_color.alphaComponent())
             # batch copy to layer
             if len(_layer_name) > 0:
                 print 'copying outlines to layer "%s"...' % _layer_name
