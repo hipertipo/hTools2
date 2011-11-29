@@ -14,50 +14,50 @@ class scaleGlyphsDialog(object):
             ((self._button_w * 3) + (self._padding * 2) - 2,
             (self._button_h * 2) + (self._padding * 2) - 1),
             self._title)
-        # decrease
-        self.w._scale_x_minus_button_1 = SquareButton(
-            (self._padding,
-            self._padding,
-            self._button_w,
-            self._button_h),
-            "-1%",
-            callback = self._scale_x_minus_1)
-        self.w._scale_x_minus_button_10 = SquareButton(
-            (self._button_w + ((self._padding * 1) - 1),
-            self._padding,
-            self._button_w,
-            self._button_h),
-            "-10%",
-            callback = self._scale_x_minus_10)
-        self.w._scale_x_minus_button_100 = SquareButton(
-            ((self._button_w * 2) + ((self._padding * 1) - 2),
-            self._padding,
-            self._button_w,
-            self._button_h),
-            "-100%",
-            callback = self._scale_x_minus_100)
         # increase
         self.w._scale_x_plus_button_1 = SquareButton(
             (self._padding,
-            self._button_h + (self._padding - 1),
+            self._padding + (self._button_h * 0),
             self._button_w,
             self._button_h),
             "+1%",
             callback = self._scale_x_plus_1)
         self.w._scale_x_plus_button_10 = SquareButton(
             (self._button_w + ((self._padding * 1) - 1),
-            self._button_h + (self._padding - 1),
+            self._padding + (self._button_h * 0),
             self._button_w,
             self._button_h),
             "+10%",
             callback = self._scale_x_plus_10)
         self.w._scale_x_plus_button_100 = SquareButton(
             ((self._button_w * 2) + (self._padding * 1) - 2,
-            self._button_h + (self._padding - 1),
+            self._padding + (self._button_h * 0),
             self._button_w,
             self._button_h),
             "+100%",
             callback = self._scale_x_plus_100)
+        # decrease
+        self.w._scale_x_minus_button_1 = SquareButton(
+            (self._padding,
+            self._padding + (self._button_h * 1) - 1,
+            self._button_w,
+            self._button_h),
+            "-1%",
+            callback = self._scale_x_minus_1)
+        self.w._scale_x_minus_button_10 = SquareButton(
+            (self._button_w + ((self._padding * 1) - 1),
+            self._padding + (self._button_h * 1) - 1,
+            self._button_w,
+            self._button_h),
+            "-10%",
+            callback = self._scale_x_minus_10)
+        self.w._scale_x_minus_button_100 = SquareButton(
+            ((self._button_w * 2) + ((self._padding * 1) - 2),
+            self._padding + (self._button_h * 1) - 1,
+            self._button_w,
+            self._button_h),
+            "-100%",
+            callback = self._scale_x_minus_100)
         # open window
         self.w.open()
 
