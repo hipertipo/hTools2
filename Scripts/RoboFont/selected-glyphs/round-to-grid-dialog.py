@@ -1,14 +1,50 @@
-# [h] align to grid dialog
+# [h] round to grid dialog
 
 from AppKit import NSColor
 from vanilla import * 
+
 from robofab.world import CurrentFont
 
-from hTools2.modules.glyphutils import alignPointsToGrid, alignAnchorsToGrid, roundMargins
+# from hTools2.modules.glyphutils import alignPointsToGrid, alignAnchorsToGrid, roundMargins
 
-class alignToGridDialog(object):
+def roundPointsToGrid(glyph, (sizeX, sizeY)):
+	for contour in glyph.contours:
+		for point in contour.points:
+			_x_round = round(point.x / sizeX)
+			_y_round = round(point.y / sizeY)
+			point.x = int(_x_round * sizeX)
+			point.y = int(_y_round * sizeY)
+	glyph.update()	
 
-    _title = 'align to grid'
+def roundAnchorsToGrid(glyph, (sizeX, sizeY)):
+	if len(glyph.anchors) > 0:
+		for anchor in glyph.anchors:
+			_x_round = round(float(anchor.x)/sizeX)
+			_y_round = round(float(anchor.y)/sizeY)
+			x_new = int(_x_round * sizeX)
+			y_new = int(_y_round * sizeY)
+			x_delta = x_new - anchor.x
+			y_delta = y_new - anchor.y
+			anchor.move((x_delta, y_delta))
+		glyph.update()
+
+def roundMargins(glyph, gridsize, left=True, right=True):
+	if left:
+		_left_round = round(glyph.leftMargin / gridsize)
+		_left = int(_left_round * gridsize)
+		glyph.leftMargin = _left
+		glyph.update()
+	if right:
+		_right_round = round(glyph.rightMargin / gridsize)
+		_right = int(_right_round * gridsize)
+		glyph.rightMargin = _right
+		glyph.update()
+
+# dialog
+
+class roundToGridDialog(object):
+
+    _title = 'round to grid'
     _gNames = []
     _width = 200
     _height = 210
@@ -131,9 +167,9 @@ class alignToGridDialog(object):
                 print gName,
                 f[gName].prepareUndo('align to grid')
                 if _points:
-                    alignPointsToGrid(f[gName], (_gridsize, _gridsize))
+                    roundPointsToGrid(f[gName], (_gridsize, _gridsize))
                 if _anchors:
-                    alignAnchorsToGrid(f[gName], (_gridsize, _gridsize))
+                    roundAnchorsToGrid(f[gName], (_gridsize, _gridsize))
                 if _sidebearings:
                     roundMargins(f[gName], _gridsize, left=True, right=True)
                 if _mark:
@@ -150,5 +186,5 @@ class alignToGridDialog(object):
 
 # run
 
-alignToGridDialog()
+roundToGridDialog()
 

@@ -13,102 +13,116 @@ class scaleGlyphsXYDialog(object):
 
     def __init__(self):
         self.w = FloatingWindow(
-            ((self._button_w*1)+(self._padding*2),
-            (self._button_h*6)+(self._padding*4)-1+65),
+            ((self._button_w * 1) + (self._padding * 2),
+            (self._button_h * 6) + (self._padding * 4) - 1 + 65),
             self._title)
         # + 1  
         self.w._scale_plus_x_button_1 = SquareButton(
             (self._padding,
-            (self._button_h*4) + (self._padding*3),
-            (self._button_w/2)+1,
+            (self._button_h * 4) + (self._padding *3),
+            (self._button_w / 2) + 1,
             self._button_h),
-            "X +1%", sizeStyle='small',
-            callback=self._scale_x_plus_1_callback)
+            "X +1%",
+            sizeStyle = 'small',
+            callback = self._scale_x_plus_1_callback)
         self.w._scale_plus_y_button_1 = SquareButton(
-            (self._padding + (self._button_w/2),
-            (self._button_h*4) + (self._padding*3),
-            self._button_w/2,
+            (self._padding + (self._button_w / 2),
+            (self._button_h * 4) + (self._padding * 3),
+            (self._button_w / 2),
             self._button_h),
-            "Y +1%", sizeStyle='small',
-            callback=self._scale_y_plus_1_callback)            
+            "Y +1%",
+            sizeStyle = 'small',
+            callback = self._scale_y_plus_1_callback)            
         # + 10
         self.w._scale_plus_x_button_10 = SquareButton(
-            ((self._padding*1),
-            (self._padding*2) + (self._button_h*2),
-            (self._button_w/2)+1,
+            ((self._padding * 1),
+            (self._padding *2) + (self._button_h * 2),
+            (self._button_w / 2) + 1,
             self._button_h),
-            "X +10%", sizeStyle='small',
-            callback=self._scale_x_plus_10_callback)
+            "X +10%",
+            sizeStyle = 'small',
+            callback = self._scale_x_plus_10_callback)
         self.w._scale_plus_y_button_10 = SquareButton(
-            ((self._padding*1) + (self._button_w/2),
-            (self._padding*2) + (self._button_h*2),
-            self._button_w/2,
+            ((self._padding * 1) + (self._button_w / 2),
+            (self._padding * 2) + (self._button_h * 2),
+            (self._button_w / 2),
             self._button_h),
-            "Y +10%", sizeStyle='small',
-            callback=self._scale_y_plus_10_callback)
+            "Y +10%",
+            sizeStyle = 'small',
+            callback = self._scale_y_plus_10_callback)
         # + 100
         self.w._scale_plus_x_button_100 = SquareButton(
-            ((self._padding*1),
-            (self._padding*1) + (self._button_h*0),
-            self._button_w/2+1,
+            ((self._padding * 1),
+            (self._padding * 1) + (self._button_h * 0),
+            (self._button_w / 2) + 1,
             self._button_h),
-            "X +100%", sizeStyle='small',
-            callback=self._scale_x_plus_100_callback)            
+            "X +100%",
+            sizeStyle = 'small',
+            callback = self._scale_x_plus_100_callback)            
         self.w._scale_plus_y_button_100 = SquareButton(
-            ((self._padding*1) + (self._button_w/2),
-            (self._padding*1) + (self._button_h*0),
-            self._button_w/2,
+            ((self._padding * 1) + (self._button_w / 2),
+            (self._padding * 1) + (self._button_h * 0),
+            (self._button_w / 2),
             self._button_h),
-            "Y +100%", sizeStyle='small',
-            callback=self._scale_y_plus_100_callback)
+            "Y +100%",
+            sizeStyle = 'small',
+            callback = self._scale_y_plus_100_callback)
         # - 1
         self.w._scale_minus_x_button_1 = SquareButton(
             (self._padding,
-            (self._button_h*5) + (self._padding*3) - 1,
-            (self._button_w/2) + 1,
+            (self._button_h * 5) + (self._padding * 3) - 1,
+            (self._button_w / 2) + 1,
             self._button_h),
-            "X -1%", sizeStyle='small',
-            callback=self._scale_x_minus_1_callback)
+            "X -1%",
+            sizeStyle = 'small',
+            callback = self._scale_x_minus_1_callback)
         self.w._scale_minus_y_button_1 = SquareButton(
-            (self._padding+(self._button_w/2),
-            (self._button_h*5) + (self._padding*3) - 1,
-            self._button_w/2,
+            (self._padding + (self._button_w / 2),
+            (self._button_h * 5) + (self._padding * 3) - 1,
+            (self._button_w / 2),
             self._button_h),
-            "Y -1%", sizeStyle='small',
-            callback=self._scale_y_minus_1_callback)            
+            "Y -1%",
+            sizeStyle = 'small',
+            callback = self._scale_y_minus_1_callback)            
         # - 10
         self.w._scale_minus_x_button_10 = SquareButton(
             (self._padding,
-            (self._button_h*3) + (self._padding*2) - 1,
-            (self._button_w/2) + 1,
+            (self._button_h * 3) + (self._padding * 2) - 1,
+            (self._button_w / 2) + 1,
             self._button_h),
-            "X -10%", sizeStyle='small',
+            "X -10%",
+            sizeStyle = 'small',
             callback=self._scale_x_minus_10_callback)
         self.w._scale_minus_y_button_10 = SquareButton(
-            (self._padding + self._button_w/2,
-            (self._button_h*3) + (self._padding*2) - 1,
-            self._button_w/2,
+            (self._padding + (self._button_w / 2),
+            (self._button_h * 3) + (self._padding * 2) - 1,
+            (self._button_w / 2),
             self._button_h),
-            "Y -10%", sizeStyle='small',
-            callback=self._scale_y_minus_10_callback)            
+            "Y -10%",
+            sizeStyle = 'small',
+            callback = self._scale_y_minus_10_callback)            
         # - 100
         self.w._scale_minus_x_button_100 = SquareButton(
-            ((self._padding*1),
-            (self._button_h*1) + (self._padding*1) - 1,
-            self._button_w/2 + 1,
+            ((self._padding * 1),
+            (self._button_h * 1) + (self._padding * 1) - 1,
+            (self._button_w / 2) + 1,
             self._button_h),
             "X -100%", sizeStyle='small',
             callback=self._scale_x_minus_100_callback)            
         self.w._scale_minus_y_button_100 = SquareButton(
-            ((self._padding*1) + (self._button_w/2),
-            (self._button_h*1) + (self._padding*1) - 1,
-            self._button_w/2,
+            ((self._padding * 1) + (self._button_w / 2),
+            (self._button_h * 1) + (self._padding * 1) - 1,
+            (self._button_w / 2),
             self._button_h),
             "Y -100%", sizeStyle='small',
             callback=self._scale_y_minus_100_callback)
         # metrics
-        self.w._metrics_X = CheckBox((15, -60, -15, 20), "scale side-bearings (X)", value=self._x_metrics)
-        self.w._metrics_Y = CheckBox((15, -35, -15, 20), "scale vertical metrics (Y)", value=self._y_metrics)
+        self.w._metrics_X = CheckBox(
+            (15, -60, -15, 20),
+            "scale side-bearings (X)", value=self._x_metrics)
+        self.w._metrics_Y = CheckBox(
+            (15, -35, -15, 20),
+            "scale vertical metrics (Y)", value=self._y_metrics)
         # open window
         self.w.open()
 
@@ -177,7 +191,7 @@ class scaleGlyphsXYDialog(object):
                 # scale outlines
                 print '\t%s' % gName,
                 font[gName].scale((factor_x, factor_y))
-                # scale x metrics
+                # scale horizontal metrics
                 if _x_metrics:
                     font[gName].leftMargin = _left * factor_x
                     font[gName].rightMargin = _right * factor_x
@@ -185,7 +199,7 @@ class scaleGlyphsXYDialog(object):
                 font[gName].performUndo()
             except:
                 print '\tcannot transform %s' % gName                        
-        # scale y metrics
+        # scale vertical metrics
         if _y_metrics:
             font.info.xHeight = font.info.xHeight * factor_y
             font.info.capHeight = font.info.capHeight * factor_y
@@ -198,5 +212,6 @@ class scaleGlyphsXYDialog(object):
     def close_callback(self, sender):
         self.w.close()
 
+# run
 
 scaleGlyphsXYDialog()

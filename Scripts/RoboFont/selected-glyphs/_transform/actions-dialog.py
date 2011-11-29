@@ -27,7 +27,7 @@ class transformSelectedGlyphsDialog(object):
             (self._width, self._height),
             self._title,
             closable=False)
-        # checkboxes
+        # clear outlines
         self.w.clear_checkBox = CheckBox(
             (self._padding,
             self._padding_top + (self._row_height * 0),
@@ -36,6 +36,7 @@ class transformSelectedGlyphsDialog(object):
             "clear outlines",
             callback = self.clear_Callback,
             value = self._clear)
+        # round point positions
         self.w.round_checkBox = CheckBox(
             (self._padding,
             self._padding_top + (self._row_height * 1),
@@ -44,6 +45,7 @@ class transformSelectedGlyphsDialog(object):
             "round point positions",
             callback = self.round_Callback,
             value = self._round)
+        # decompose
         self.w.decompose_checkBox = CheckBox(
             (self._padding,
             self._padding_top + (self._row_height * 2),
@@ -52,6 +54,7 @@ class transformSelectedGlyphsDialog(object):
             "decompose",
             callback = self.decompose_Callback,
             value = self._decompose)
+        # auto contour order
         self.w.order_checkBox = CheckBox(
             (self._padding,
             self._padding_top + (self._row_height * 3),
@@ -60,6 +63,7 @@ class transformSelectedGlyphsDialog(object):
             "auto contour order",
             callback = self.order_Callback,
             value = self._order)
+        # auto contour direction
         self.w.direction_checkBox = CheckBox(
             (self._padding,
             self._padding_top + (self._row_height * 4),
@@ -68,6 +72,7 @@ class transformSelectedGlyphsDialog(object):
             "auto contour direction",
             callback = self.direction_Callback,
             value = self._direction)
+        # remove overlaps
         self.w.overlaps_checkBox = CheckBox(
             (self._padding,
             self._padding_top + (self._row_height * 5),
@@ -76,6 +81,7 @@ class transformSelectedGlyphsDialog(object):
             "remove overlaps",
             callback = self.overlaps_Callback,
             value = self._overlaps)
+        # add extreme points
         self.w.extremes_checkBox = CheckBox(
             (self._padding,
             self._padding_top + (self._row_height * 6),
@@ -119,6 +125,7 @@ class transformSelectedGlyphsDialog(object):
             0),
             "close",
             callback = self.close_Callback)
+        # open window
         self.w.open()
 
     def clear_Callback(self, sender):

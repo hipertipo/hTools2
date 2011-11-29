@@ -12,26 +12,86 @@ class setSidebearingsDialog(object):
     _mark_color = (0, 1, .5, 1)
     _width = 280
     _height = 150
+    _padding = 10
+    _column_1 = 120
     
     def __init__(self):
-        self.w = FloatingWindow((self._width, self._height), self._title, closable=False)
+        self.w = FloatingWindow(
+            (self._width, self._height),
+            self._title,
+            closable = False)
         # left
-        self.w.left_label = TextBox((10, 10, -10, 17), "left")
-        self.w.left_mode = PopUpButton((60, 10, 120, 20), self._modes, callback=self.left_mode_callback)
-        self.w.left_value = EditText((195, 10, -10, 20), placeholder='set value')
+        self.w.left_label = TextBox(
+            (self._padding,
+            self._padding,
+            -self._padding,
+            17),
+            "left")
+        self.w.left_mode = PopUpButton(
+            (60,
+            self._padding,
+            self._column_1,
+            20),
+            self._modes,
+            callback = self.left_mode_callback)
+        self.w.left_value = EditText(
+            (195,
+            self._padding,
+            -self._padding,
+            20),
+            placeholder = 'set value')
         self.w.left_value.enable(False)
         # right
-        self.w.right_label = TextBox((10, 40, -10, 17), "right")
-        self.w.right_mode = PopUpButton((60, 40, 120, 20), self._modes, callback=self.right_mode_callback)
-        self.w.right_value = EditText((195, 40, -10, 20), placeholder='set value')
+        self.w.right_label = TextBox(
+            (self._padding,
+            40,
+            -self._padding,
+            17),
+            "right")
+        self.w.right_mode = PopUpButton(
+            (60,
+            40,
+            self._column_1,
+            20),
+            self._modes,
+            callback = self.right_mode_callback)
+        self.w.right_value = EditText(
+            (195,
+            40,
+            -self._padding,
+            20),
+            placeholder = 'set value')
         self.w.right_value.enable(False)
         # colors
-        self.w.mark_checkbox = CheckBox((10, 75, -170, 20), "mark glyphs", value=True)
-        self.w.mark_color = ColorWell((120, 75, -10, 20), color=NSColor.colorWithCalibratedRed_green_blue_alpha_(*self._mark_color))
+        self.w.mark_checkbox = CheckBox(
+            (self._padding,
+             75,
+             -170,
+             20),
+            "mark glyphs",
+            value = True)
+        self.w.mark_color = ColorWell(
+            (120,
+            75,
+            -self._padding,
+            20),
+            color = NSColor.colorWithCalibratedRed_green_blue_alpha_(*self._mark_color))
         # buttons
-        self.w.button_apply = Button((10, -35, (self._width/2)-10, 20), "apply", callback=self.apply_callback)
-        self.w.button_close = Button(((self._width/2)+10, -35, -10, 20), "close", callback=self.close_callback)
-        # window controls
+        self.w.button_apply = Button(
+            (self._padding,
+            -35,
+            (self._width / 2) - self._padding,
+            20),
+            "apply",
+            callback = self.apply_callback)
+        self.w.button_close = Button(
+            ((self._width / 2) + self._padding,
+            -35,
+            -self._padding,
+            20),
+            "close",
+            callback = self.close_callback)
+        # open window
         self.w.setDefaultButton(self.w.button_apply)
         self.w.button_close.bind(".", ["command"])
         self.w.button_close.bind(unichr(27), [])
@@ -54,7 +114,10 @@ class setSidebearingsDialog(object):
                 _right_value = self.w.right_value.get()
                 # get mark color
                 _mark_color = self.w.mark_color.get()
-                _mark_color = (_mark_color.redComponent(), _mark_color.greenComponent(), _mark_color.blueComponent(), _mark_color.alphaComponent())
+                _mark_color = (_mark_color.redComponent(),
+                    _mark_color.greenComponent(),
+                    _mark_color.blueComponent(),
+                    _mark_color.alphaComponent())
                 # print info
                 print 'setting sidebearings for selected glyphs...\n'
                 print '\tleft: %s %s' % (self._modes[_left_mode], _left_value)

@@ -11,28 +11,53 @@ class skewGlyphsDialog(object):
 
     def __init__(self):
         self.w = FloatingWindow(
-            ((self._button_w*3)+(self._padding*2)-2, (self._button_h*2)+(self._padding*2)-1),
+            ((self._button_w * 3) + (self._padding * 2) - 2,
+            (self._button_h * 2) + (self._padding * 2) - 1),
             self._title)
         # decrease
         self.w._skew_x_minus_button_1 = SquareButton(
-            (self._padding, self._padding, self._button_w, self._button_h),
-            "-1", callback=self._skew_x_minus_1)
+            (self._padding,
+            self._padding,
+            self._button_w,
+            self._button_h),
+            "-1",
+            callback=self._skew_x_minus_1)
         self.w._skew_x_minus_button_10 = SquareButton(
-            (self._button_w+((self._padding*1)-1), self._padding, self._button_w, self._button_h),
-            "-15", callback=self._skew_x_minus_15)
+            (self._button_w + ((self._padding * 1) - 1),
+             self._padding,
+             self._button_w,
+             self._button_h),
+            "-15",
+            callback = self._skew_x_minus_15)
         self.w._skew_x_minus_button_100 = SquareButton(
-            ((self._button_w*2)+((self._padding*1)-2), self._padding, self._button_w, self._button_h),
-            "-30", callback=self._skew_x_minus_30)
+            ((self._button_w * 2) + ((self._padding * 1) - 2),
+            self._padding,
+            self._button_w,
+            self._button_h),
+            "-30",
+            callback = self._skew_x_minus_30)
         # increase
         self.w._skew_x_plus_button_1 = SquareButton(
-            (self._padding, self._button_h+(self._padding-1), self._button_w, self._button_h),
-            "+1", callback=self._skew_x_plus_1)
+            (self._padding,
+            self._button_h + (self._padding - 1),
+            self._button_w,
+            self._button_h),
+            "+1",
+            callback = self._skew_x_plus_1)
         self.w._skew_x_plus_button_10 = SquareButton(
-            (self._button_w+((self._padding*1)-1), self._button_h+(self._padding-1), self._button_w, self._button_h),
-            "+15", callback=self._skew_x_plus_15)
+            (self._button_w + ((self._padding * 1) - 1),
+            self._button_h + (self._padding - 1),
+            self._button_w,
+            self._button_h),
+            "+15",
+            callback = self._skew_x_plus_15)
         self.w._skew_x_plus_button_100 = SquareButton(
-            ((self._button_w*2)+(self._padding*1)-2, self._button_h+(self._padding-1), self._button_w, self._button_h),
-            "+30", callback=self._skew_x_plus_30)
+            ((self._button_w * 2) + (self._padding * 1) - 2,
+            self._button_h + (self._padding - 1),
+            self._button_w,
+            self._button_h),
+            "+30",
+            callback = self._skew_x_plus_30)
         self.w.open()
 
     def skew_glyphs(self, angle):
@@ -66,6 +91,8 @@ class skewGlyphsDialog(object):
     def close_callback(self, sender):
         self.w.close()
 
+
+# run
 
 skewGlyphsDialog()
 
