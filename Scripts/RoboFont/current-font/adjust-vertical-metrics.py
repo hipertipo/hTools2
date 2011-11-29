@@ -2,11 +2,8 @@
 
 from vanilla import *
 
-# from hTools2.modules.fontutils import full_name
+from hTools2.modules.fontutils import get_full_name
 
-def full_name(font):
-    full_name = '%s %s' % (font.info.familyName, font.info.styleName)
-    return full_name 
 
 class adjustVerticalMetrics(object):
 
@@ -32,7 +29,7 @@ class adjustVerticalMetrics(object):
             30))
         self.w.box.text = TextBox(
             (5, 1, -10, 20),
-            full_name(font))
+            get_full_name(font))
         # xheight
         _xheight = self.font.info.xHeight
         _xheight_min = 1

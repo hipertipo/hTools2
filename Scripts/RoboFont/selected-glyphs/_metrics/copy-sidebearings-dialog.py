@@ -5,11 +5,8 @@
 from vanilla import *
 from AppKit import NSColor
 
-# from hTools2.modules.fontutils import full_name
+from hTools2.modules.fontutils import get_full_name
 
-def full_name(font):
-    full_name = '%s %s' % (font.info.familyName, font.info.styleName)
-    return full_name 
 
 class copySidebearingsDialog(object):
 
@@ -30,7 +27,7 @@ class copySidebearingsDialog(object):
             closable = False)
         self._all_fonts = AllFonts()
         for f in self._all_fonts:
-            self._all_fonts_names.append(full_name(f))
+            self._all_fonts_names.append(get_full_name(f))
         # source font
         self.w._source_label = TextBox(
             (self._padding,

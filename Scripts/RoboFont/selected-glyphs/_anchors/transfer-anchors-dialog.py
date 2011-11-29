@@ -1,19 +1,20 @@
-# [h] copy glyphs to mask
-
-'''copy current layer of selected glyphs in source font into "mask" layer in target font'''
+# [h] transfer anchors dialog
 
 from vanilla import *
 from AppKit import NSColor
 
+import hTools2.modules.anchors
+reload(hTools2.modules.anchors)
+
 from hTools2.modules.fontutils import get_full_name
+from hTools2.modules.anchors import transferAnchors
 
-class copyToMaskDialog(object):
+class transferAnchorsDialog(object):
 
-    _title = 'copy glyphs to mask'
+    _title = 'transfer anchors'
     _all_fonts_names = []
     _source_mark_color = (0, 0.5, 1, 1)
     _target_mark_color = (1, 0, 0.5, 1)
-    _target_layer_name = 'mask'
     _width = 280
     _height = 247
     _padding = 15
@@ -126,7 +127,6 @@ class copyToMaskDialog(object):
             _source_mark_color.blueComponent(),
             _source_mark_color.alphaComponent())
         # get target font parameters
-        _target_layer_name = self._target_layer_name
         _target_font = self._all_fonts[self.w._target_value.get()]
         _target_mark = self.w.target_mark_checkbox.get()
         _target_mark_color = self.w.target_mark_color.get()
@@ -135,26 +135,29 @@ class copyToMaskDialog(object):
             _target_mark_color.blueComponent(),
             _target_mark_color.alphaComponent())
         # print info
-        print 'copying glyphs to mask...\n'
-        print '\tsource font: %s (current layer, color: %s)' % (get_full_name(_source_font), _source_mark_color)
-        print '\ttarget font: %s (layer: %s, color: %s)' % (get_full_name(_target_font), self._target_layer_name, _target_mark_color)
+        boolstring = [ False, True ]
+        print 'transfering anchors...\n'
+        print '\tsource font: %s' % get_full_name(_source_font)
+        print '\tsource color: %s, %s' % (_source_mark_color, boolstring[_source_mark])
         print
+        print '\ttarget font: %s' % get_full_name(_target_font)
+        print '\ttarget color: %s, %s' % (_target_mark_color, boolstring[_target_mark])
+        print
+        print '\t', 
         # batch copy glyphs to mask
         for gName in _source_font.selection:
             try:
-                print '\t%s' % gName,
+                print gName,
                 # prepare undo
-                _source_font[gName].prepareUndo('copy glyphs to mask')
-                _target_font[gName].prepareUndo('copy glyphs to mask')
-                # mark
-                if _source_mark:
-                    _source_font[gName].mark = _source_mark_color                
-                if _target_mark:
-                    _target_font[gName].mark = _target_mark_color
-                # copy oulines to mask
-                _target_glyph_layer = _target_font[gName].getLayer(_target_layer_name)
-                pen = _target_glyph_layer.getPointPen()
-                _source_font[gName].drawPoints(pen)
+                _target_font[gName].prepareUndo('transfer anchors')
+                # transfer anchors
+                has_anchor = transferAnchors(_source_font[gName], _target_font[gName])
+                if has_anchor:
+                    # mark
+                    if _source_mark:
+                        _source_font[gName].mark = _source_mark_color                
+                    if _target_mark:
+                        _target_font[gName].mark = _target_mark_color
                 # update
                 _source_font[gName].update()
                 _target_font[gName].update()
@@ -174,5 +177,6 @@ class copyToMaskDialog(object):
 
 # run
 
-copyToMaskDialog()
+transferAnchorsDialog()
+
 

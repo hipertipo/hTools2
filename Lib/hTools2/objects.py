@@ -60,6 +60,12 @@ class hWorld:
 		return projects
 
 
+class hSpace:
+
+	def __init__(self):
+		self.world = hWorld()
+
+
 class hProject:
 
 	paths = {

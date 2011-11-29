@@ -1,8 +1,10 @@
 # hTools2.modules.nodebox
 
 from random import random
+
 from robofab.world import RFont
 from fontTools.pens.basePen import BasePen
+
 from hTools2.modules.pens import NodeBoxPen
 
 def drawHorzLine(Y, ctx, s=None, c=None):

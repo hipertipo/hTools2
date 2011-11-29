@@ -5,12 +5,7 @@ import os
 from vanilla import *
 from vanilla.dialogs import getFolder
 
-# from hTools2.modules.fontutils import full_name
-
-def full_name(font):
-
-    full_name = '%s %s' % (font.info.familyName, font.info.styleName)
-    return full_name 
+from hTools2.modules.fontutils import get_full_name
 
 class GenerateAllOpenFontsDialog(object):
 
@@ -65,7 +60,7 @@ class GenerateAllOpenFontsDialog(object):
             for font in _all_fonts:          
                 if font.path is not None:
                     _font_path = font.path
-                    print '\tgenerating .otf for %s...' % os.path.split(full_name(font))[1]
+                    print '\tgenerating .otf for %s...' % os.path.split(get_full_name(font))[1]
                     # generate otf
                     otf_file = os.path.splitext(os.path.split(font.path)[1])[0] + '.otf'
                     otf_path = os.path.join(_otfs_folder, otf_file)
@@ -74,7 +69,7 @@ class GenerateAllOpenFontsDialog(object):
                     print '\t\tgeneration sucessful? %s\n' % os.path.exists(otf_path)
                 # skip unsaved open fonts
                 else:
-                    print '\tskipping "%s", please save this font to file first.\n' % os.path.split(full_name(font))[1]
+                    print '\tskipping "%s", please save this font to file first.\n' % os.path.split(get_full_name(font))[1]
             # done all
             self.w.bar.stop()
             print '...done.\n'

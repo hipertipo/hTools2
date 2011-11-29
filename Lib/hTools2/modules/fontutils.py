@@ -1,17 +1,68 @@
 # [h] hTools2.modules.fontutils
 
-def full_name(font):
+#-----------
+# font info
+#-----------
+
+def get_full_name(font):
     full_name = '%s %s' % (font.info.familyName, font.info.styleName)
     return full_name 
 
-def decompose(font):
-	for g in font:
-		g.decompose()
+'''
+def fullName(familyName, styleName):
+	if styleName == 'Regular':
+		fullName = familyName
+	else:
+		fullName = familyName + ' ' + styleName
+	return fullName
 
-def autoContourOrderDirection(font):
-	for g in font:
-		g.autoContourOrder()
-		g.correctDirection()
+def fontName(familyName, styleName):
+	if styleName == 'Regular':
+		fontName = familyName
+	else:
+		fontName = familyName + '-' + styleName
+	return fontName
+'''
+
+def setDesignerAndFoundry(font, fontInfoDict):
+	font.info.year = fontInfoDict['year']
+	font.info.openTypeNameDesigner = fontInfoDict['designer']
+	font.info.openTypeNameDesignerURL = fontInfoDict['designerURL']
+	font.info.openTypeNameManufacturerURL = fontInfoDict['vendorURL']
+	font.info.openTypeNameManufacturer = fontInfoDict['vendor']
+	font.info.openTypeOS2VendorID = fontInfoDict['vendor']
+	font.info.copyright = fontInfoDict['copyright']
+	font.info.trademark = fontInfoDict['trademark']
+	font.info.openTypeNameLicense = fontInfoDict['license']
+	font.info.openTypeNameLicenseURL = fontInfoDict['licenseURL']
+	font.info.openTypeNameDescription = fontInfoDict['notice']
+	font.info.versionMajor = fontInfoDict['versionMajor']
+	font.info.versionMinor = fontInfoDict['versionMinor']
+	font.info.openTypeNameUniqueID = "%s : %s : %s" % (fontInfoDict['foundry'], font.info.postscriptFullName, font.info.year)
+	setPSUniqueID(font)
+	f.update()
+
+def setFontNames(f, familyName, styleName):
+	# family name
+	f.info.familyName = familyName
+	f.info.openTypeNamePreferredFamilyName = familyName
+	# style name
+	f.info.styleName = styleName
+	f.infoopenTypeNamePreferredSubfamilyName = styleName
+	# fallback name
+	f.info.styleMapFamilyName = '%s%s' % (familyName, styleName)
+	f.info.styleMapStyleName = "regular"
+	# composed names
+	f.info.postscriptFontName = '%s-%s' % (familyName, styleName)
+	f.info.postscriptFullName = '%s %s' % (familyName, styleName)
+	f.info.macintoshFONDName = '%s-%s' % (familyName, styleName)
+	setPSUniqueID(f)
+	# done
+	f.update()
+
+#-------------
+# glyph names
+#-------------
 
 def printSelectedGlyphs(f, mode=1):
 	gNames = f.selection
@@ -27,12 +78,52 @@ def printSelectedGlyphs(f, mode=1):
 			s = s + '"%s", ' % gName
 		print s
 		print
+	# ...add more modes here...
 	else:
 		print "invalid mode.\n"
 
-def alignToGrid( f, (sizeX, sizeY) ):
+#-----------------
+# transformations
+#-----------------
+
+def decompose(font):
+	for g in font:
+		g.decompose()
+
+def autoContourOrderDirection(font):
+	for g in font:
+		g.autoContourOrder()
+		g.correctDirection()
+
+def alignToGrid(f, (sizeX, sizeY)):
 	from hTools2.modules.glyphutils import alignPointsToGrid
 	for g in f:
 		alignPointsToGrid(g, sizeX, sizeY)
 		g.update()
 	f.update()
+
+
+
+
+
+
+
+
+
+
+def setPSUniqueID(font):
+	a, b, c, d, e, f = randint(0,9), randint(0,9), randint(0,9), randint(0,9), randint(0,9), randint(0,9)
+	_psID = "%s%s%s%s%s%s" % ( a, b, c, d, e, f )
+	font.info.postscriptUniqueID = int(_psID)
+
+def getNamesFromFontPath(fontPath):
+	dir, file = os.path.split(fontPath)
+	name, extension = os.path.splitext(file)
+	try:
+		familyName, styleName = name.split("_")
+		return familyName, styleName
+	except ValueError:
+		familyName, styleName = name.split("-")
+		return familyName, styleName	
+	except:
+		print "font path not splitable.\n"

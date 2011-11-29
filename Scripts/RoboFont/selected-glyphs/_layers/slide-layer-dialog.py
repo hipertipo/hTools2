@@ -2,11 +2,8 @@
 
 from vanilla import *
 
-# from hTools2.modules.fontutils import full_name
+from hTools2.modules.fontutils import get_full_name
 
-def full_name(font):
-    full_name = '%s %s' % (font.info.familyName, font.info.styleName)
-    return full_name 
 
 class slideLayerDialog(object):
 
@@ -23,7 +20,7 @@ class slideLayerDialog(object):
         # get all fonts
         self.w = FloatingWindow((self._width, self._height), self._title)
         self.w.box = Box((10, 10, -10, 30))
-        self.w.box.text = TextBox((5, 1, -10, 20), full_name(self.font))
+        self.w.box.text = TextBox((5, 1, -10, 20), get_full_name(self.font))
         # x slider
         self.w.x_label = TextBox((10, 55, -10, 17), "slide x")
         self.w.x_slider = Slider((70, 55, -15, 22), value=0,
@@ -49,7 +46,7 @@ class slideLayerDialog(object):
 
     def update_font(self):
         self.font = CurrentFont()
-        self.w.box.text.set(full_name(self.font))
+        self.w.box.text.set(get_full_name(self.font))
         self.set_defaults_from_font_metrics()
         self.restore_move()
 

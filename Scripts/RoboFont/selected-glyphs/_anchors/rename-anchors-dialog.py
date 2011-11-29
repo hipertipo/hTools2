@@ -3,15 +3,7 @@
 from AppKit import NSColor
 from vanilla import *
 
-def renameAnchor(glyph, old_name, new_name):
-    has_name = False
-    if len(glyph.anchors) > 0:
-        for a in glyph.anchors:
-            if a.name == old_name:
-                has_name = True
-                a.name = new_name
-                glyph.update()
-    return has_name
+from hTools2.modules.anchors import renameAnchor
 
 # dialog
 

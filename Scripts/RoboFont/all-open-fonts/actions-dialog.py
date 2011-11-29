@@ -3,23 +3,7 @@
 from vanilla import *
 from AppKit import NSColor
 
-# from hTools2.modules.fontutils import *
-
-def decompose(font):
-	for g in font:
-		g.decompose()
-
-def autoContourOrder(font):
-	for g in font:
-		g.autoContourOrder()
-
-def autoContourDirection(font):
-	for g in font:
-		g.correctDirection()
-
-def full_name(font):
-    full_name = '%s %s' % (font.info.familyName, font.info.styleName)
-    return full_name 
+from hTools2.modules.fontutils import *
 
 # the dialog
 
@@ -87,7 +71,7 @@ class actionsDialog(object):
             print 'transforming all open fonts...\n'
             self.w.bar.start()
             for font in _all_fonts:
-                print '\ttransforming %s...' % full_name(font)
+                print '\ttransforming %s...' % get_full_name(font)
                 if self._round:
                     print '\t\trounding...'
                     font.round()
