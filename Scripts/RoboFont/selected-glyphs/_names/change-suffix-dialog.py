@@ -3,20 +3,7 @@
 from vanilla import *
 from AppKit import NSColor
 
-# from hTools2.modules.glyphutils import has_suffix, change_suffix
-
-def has_suffix(glyph_name, suffix):
-    has_suffix = False
-    nameParts = glyph_name.split(".")
-    if len(nameParts) == 2:
-        if nameParts[1] == suffix:
-            has_suffix = True
-    return has_suffix
-
-def change_suffix(glyph_name, old_suffix, new_suffix):
-    nameParts = glyph_name.split(".")
-    new_name = "%s.%s" % (nameParts[0], new_suffix)
-    return new_name
+from hTools2.modules.glyphutils import has_suffix, change_suffix
 
 # dialog
 

@@ -8,7 +8,6 @@ def get_full_name(font):
     full_name = '%s %s' % (font.info.familyName, font.info.styleName)
     return full_name 
 
-'''
 def fullName(familyName, styleName):
 	if styleName == 'Regular':
 		fullName = familyName
@@ -22,7 +21,23 @@ def fontName(familyName, styleName):
 	else:
 		fontName = familyName + '-' + styleName
 	return fontName
-'''
+
+def setPSUniqueID(font):
+	a, b, c, d, e, f = randint(0,9), randint(0,9), randint(0,9), randint(0,9), randint(0,9), randint(0,9)
+	_psID = "%s%s%s%s%s%s" % ( a, b, c, d, e, f )
+	font.info.postscriptUniqueID = int(_psID)
+
+def getNamesFromFontPath(fontPath):
+	dir, file = os.path.split(fontPath)
+	name, extension = os.path.splitext(file)
+	try:
+		familyName, styleName = name.split("_")
+		return familyName, styleName
+	except ValueError:
+		familyName, styleName = name.split("-")
+		return familyName, styleName	
+	except:
+		print "font path not splitable.\n"
 
 def setDesignerAndFoundry(font, fontInfoDict):
 	font.info.year = fontInfoDict['year']
@@ -66,19 +81,18 @@ def setFontNames(f, familyName, styleName):
 
 def printSelectedGlyphs(f, mode=1):
 	gNames = f.selection
-	# mode 1 : plain gNames list
+	# mode 1 = plain gNames list
 	if mode == 1:
 		for gName in gNames:
 			print gName
 		print
-	# mode 0 : Python string
+	# mode 0 = Python string
 	elif mode == 0:
 		s = ''
 		for gName in gNames:
 			s = s + '"%s", ' % gName
 		print s
 		print
-	# ...add more modes here...
 	else:
 		print "invalid mode.\n"
 
@@ -101,29 +115,3 @@ def alignToGrid(f, (sizeX, sizeY)):
 		alignPointsToGrid(g, sizeX, sizeY)
 		g.update()
 	f.update()
-
-
-
-
-
-
-
-
-
-
-def setPSUniqueID(font):
-	a, b, c, d, e, f = randint(0,9), randint(0,9), randint(0,9), randint(0,9), randint(0,9), randint(0,9)
-	_psID = "%s%s%s%s%s%s" % ( a, b, c, d, e, f )
-	font.info.postscriptUniqueID = int(_psID)
-
-def getNamesFromFontPath(fontPath):
-	dir, file = os.path.split(fontPath)
-	name, extension = os.path.splitext(file)
-	try:
-		familyName, styleName = name.split("_")
-		return familyName, styleName
-	except ValueError:
-		familyName, styleName = name.split("-")
-		return familyName, styleName	
-	except:
-		print "font path not splitable.\n"

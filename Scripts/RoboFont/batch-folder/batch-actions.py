@@ -2,28 +2,8 @@
 
 import os
 
-# from hTools2.modules.fileutils import walk
-
-def walk(folder, extension):
-	files = []
-	names = os.listdir(folder)
-	for n in names:
-		p = os.path.join(folder, n)
-		file_name, file_extension = os.path.splitext(n)
-		if file_extension[1:] == extension:
-			files.append(p)
-	return files
-
-# from hTools2.modules.fontutils import decompose, autoContourOrderDirection
-
-def decompose(font):
-	for g in font:
-		g.decompose()
-
-def autoContourOrderDirection(font):
-	for g in font:
-		g.autoContourOrder()
-		g.correctDirection()
+from hTools2.modules.fileutils import walk
+from hTools2.modules.fontutils import decompose, autoContourOrderDirection
 
 # settings
 

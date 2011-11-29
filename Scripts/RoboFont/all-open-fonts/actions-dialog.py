@@ -19,22 +19,95 @@ class actionsDialog(object):
     _overlaps = True
     _save = False
     _close = False    
+    _padding = 15
+    _padding_top = 10
+    _row_height = 25
 
     def __init__(self):
-        self.w = FloatingWindow((self._width, self._height), self._title, closable=False)
-        # checkboxes
-        self.w.round_checkBox = CheckBox((15, 10, -15, 20), "round point positions", callback=self.round_callback, value=self._round)
-        self.w.decompose_checkBox = CheckBox((15, 35, -15, 20), "decompose", callback=self.decompose_callback, value=self._decompose)
-        self.w.order_checkBox = CheckBox((15, 60, -15, 20), "auto contour order", callback=self.order_callback, value=self._order)
-        self.w.direction_checkBox = CheckBox((15, 85, -15, 20), "auto contour direction", callback=self.direction_callback, value=self._direction)
-        self.w.overlaps_checkBox = CheckBox((15, 110, -15, 20), "remove overlaps", callback=self.overlaps_callback, value=self._overlaps)
-        self.w.save_checkBox = CheckBox((15, 135, -15, 20), "save", callback=self.save_callback, value=self._save)
-        self.w.close_checkBox = CheckBox((-95, 135, -15, 20), "close", callback=self.close_font_callback, value=self._close)
+        self.w = FloatingWindow(
+            (self._width,
+            self._height),
+            self._title,
+            closable = False)
+        # round to integers
+        self.w.round_checkBox = CheckBox(
+            (self._padding,
+            self._padding_top + (self._row_height * 0),
+            -self._padding,
+            20),
+            "round point positions",
+            callback = self.round_callback,
+            value = self._round)
+        # decompose
+        self.w.decompose_checkBox = CheckBox(
+            (self._padding,
+            self._padding_top + (self._row_height * 1),
+            -self._padding,
+            20),
+            "decompose",
+            callback = self.decompose_callback,
+            value = self._decompose)
+        self.w.order_checkBox = CheckBox(
+            (self._padding,
+            self._padding_top + (self._row_height * 2),
+            -self._padding,
+            20),
+            "auto contour order",
+            callback = self.order_callback,
+            value = self._order)
+        self.w.direction_checkBox = CheckBox(
+            (self._padding,
+            self._padding_top + (self._row_height * 3),
+            -self._padding,
+            20),
+            "auto contour direction",
+            callback = self.direction_callback,
+            value = self._direction)
+        self.w.overlaps_checkBox = CheckBox(
+            (self._padding,
+            self._padding_top + (self._row_height * 4),
+            -self._padding,
+            20),
+            "remove overlaps",
+            callback = self.overlaps_callback,
+            value = self._overlaps)
+        self.w.save_checkBox = CheckBox(
+            (self._padding,
+            self._padding_top + (self._row_height * 5),
+            -self._padding,
+            20),
+            "save",
+            callback = self.save_callback,
+            value = self._save)
+        self.w.close_checkBox = CheckBox(
+            (-95,
+            self._padding_top + (self._row_height * 5),
+            -self._padding,
+            20),
+            "close",
+            callback = self.close_font_callback,
+            value = self._close)
         # progress bar
-        self.w.bar = ProgressBar((15, -65, -15, 16), isIndeterminate=True)
+        self.w.bar = ProgressBar(
+            (self._padding,
+            -65,
+            -self._padding,
+            16),
+            isIndeterminate = True)
         # buttons
-        self.w.button_apply = Button((15, -55, 80, 0), "apply", callback=self.apply_callback)
-        self.w.button_close = Button((-95, -55, -15, 0), "close", callback=self.close_callback)
+        self.w.button_apply = Button(
+            (self._padding,
+            -55,
+            80,
+            0),
+            "apply",
+            callback = self.apply_callback)
+        self.w.button_close = Button(
+            (-95,
+            -55,
+            -self._padding,
+            0), "close", callback=self.close_callback)
+        # open window
         self.w.open()
 
     def clear_callback(self, sender):
@@ -104,6 +177,8 @@ class actionsDialog(object):
     def close_callback(self, sender):
         self.w.close()
 
+
+# run
 
 actionsDialog()
 

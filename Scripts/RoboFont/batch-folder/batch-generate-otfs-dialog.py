@@ -5,17 +5,7 @@ import os
 from vanilla import *
 from vanilla.dialogs import getFolder
 
-# from hTools2.modules.fileutils import walk
-
-def walk(folder, extension):
-	files = []
-	names = os.listdir(folder)
-	for n in names:
-		p = os.path.join(folder, n)
-		file_name, file_extension = os.path.splitext(n)
-		if file_extension[1:] == extension:
-			files.append(p)
-	return files
+from hTools2.modules.fileutils import walk
 
 class BatchGenerateFolderDialog(object):
 
@@ -25,27 +15,109 @@ class BatchGenerateFolderDialog(object):
     _otfs_folder_message = 'leave empty to generate .ofts in the same folder as .ufos'
     _width = 480
     _height = 235
+    _padding = 10
 
     def __init__(self):
-        self.w = FloatingWindow((self._width, self._height), self._title, closable=False)
+        self.w = FloatingWindow(
+            (self._width, self._height),
+            self._title,
+            closable = False)
         # ufos folder
-        self.w.ufos_label = TextBox((10, 10, -10, 70), "folder with .ufo sources")
-        self.w.ufos_get_folder_button = Button((-100, 10, -10, 20), "get folder...", callback=self.ufos_get_folder_callback, sizeStyle="small")
-        self.w.ufos_folder_value = EditText((10, 40, -10, 22), text=self._ufos_folder_default, sizeStyle="mini")
+        self.w.ufos_label = TextBox(
+            (self._padding,
+            self._padding,
+            -self._padding,
+            70),
+            "folder with .ufo sources")
+        self.w.ufos_get_folder_button = Button(
+            (-100,
+            self._padding,
+            -self._padding, 20),
+            "get folder...",
+            callback = self.ufos_get_folder_callback,
+            sizeStyle = "small")
+        self.w.ufos_folder_value = EditText(
+            (self._padding,
+            40,
+            -self._padding,
+            22),
+            text = self._ufos_folder_default,
+            sizeStyle = "mini")
         # otfs folder
-        self.w.otfs_label = TextBox((10, 75, -10, 70), "folder for .otf fonts")
-        self.w.otfs_get_folder_button = Button((-100, 75, -10, 20), "get folder...", callback=self.otfs_get_folder_callback, sizeStyle="small")
-        self.w.otfs_folder_value = EditText((10, 105, -10, 22), text=self._otfs_folder_default, sizeStyle="mini", placeholder=self._otfs_folder_message)
+        self.w.otfs_label = TextBox(
+            (self._padding,
+            75,
+            -self._padding,
+            70),
+            "folder for .otf fonts")
+        self.w.otfs_get_folder_button = Button(
+            (-100,
+            75, 
+            -self._padding,
+            20),
+            "get folder...",
+            callback = self.otfs_get_folder_callback,
+            sizeStyle = "small")
+        self.w.otfs_folder_value = EditText(
+            (self._padding,
+            105,
+            -self._padding,
+            22),
+            text = self._otfs_folder_default,
+            sizeStyle = "mini",
+            placeholder = self._otfs_folder_message)
         # options
-        self.w._overlaps = CheckBox((15, 140, -10, 20), "remove overlaps", value=True)
-        self.w._decompose = CheckBox((155, 140, -10, 20), "decompose", value=True)
-        self.w._autohint = CheckBox((265, 140, -10, 20), "autohint", value=True)
-        self.w._release_mode = CheckBox((355, 140, -10, 20), "release mode", value=True)
+        self.w._overlaps = CheckBox(
+            (15,
+            140,
+            -self._padding,
+            20),
+            "remove overlaps",
+            value = True)
+        self.w._decompose = CheckBox(
+            (155,
+            140,
+            -self._padding,
+            20),
+            "decompose",
+            value = True)
+        self.w._autohint = CheckBox(
+            (265,
+            140,
+            -self._padding,
+            20),
+            "autohint",
+            value = True)
+        self.w._release_mode = CheckBox(
+            (355,
+            140,
+            -self._padding,
+            20),
+            "release mode",
+            value = True)
         # progress bar
-        self.w.bar = ProgressBar((10, 175, -10, 16), isIndeterminate=True)
-        # apply / close
-        self.w.button_close = Button((10, -30, self._width/2-10, 15), "close", callback=self.button_close_callback)
-        self.w.button_apply = Button((self._width/2+10, -30, -10, 15), "apply", callback=self.button_apply_callback)
+        self.w.bar = ProgressBar(
+            (self._padding,
+            175,
+            -self._padding,
+            16),
+            isIndeterminate = True)
+        # buttons
+        self.w.button_close = Button(
+            (self._padding,
+            -30,
+            (self._width / 2) - 10,
+            15),
+            "close",
+            callback = self.button_close_callback)
+        self.w.button_apply = Button(
+            ((self._width / 2) + 10,
+            -30,
+            -self._padding,
+            15),
+            "apply",
+            callback = self.button_apply_callback)
+        # open window
         self.w.open()
 
     def ufos_get_folder_callback(self, sender):

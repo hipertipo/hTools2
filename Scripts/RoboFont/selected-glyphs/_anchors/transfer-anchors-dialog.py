@@ -3,9 +3,6 @@
 from vanilla import *
 from AppKit import NSColor
 
-import hTools2.modules.anchors
-reload(hTools2.modules.anchors)
-
 from hTools2.modules.fontutils import get_full_name
 from hTools2.modules.anchors import transferAnchors
 

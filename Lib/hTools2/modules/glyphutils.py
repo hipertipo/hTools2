@@ -4,6 +4,11 @@
 # side-bearings
 #---------------
 
+def centerGlyph(glyph):
+    whitespace = glyph.leftMargin + glyph.rightMargin
+    glyph.leftMargin = whitespace / 2
+    glyph.rightMargin = whitespace / 2
+
 def roundMargins(glyph, gridsize, left=True, right=True):
 	if left:
 		_left_round = round(glyph.leftMargin / gridsize)
@@ -15,11 +20,6 @@ def roundMargins(glyph, gridsize, left=True, right=True):
 		_right = int(_right_round * gridsize)
 		glyph.rightMargin = _right
 		glyph.update()
-
-def centerGlyph(glyph):
-    whitespace = glyph.leftMargin + glyph.rightMargin
-    glyph.leftMargin = whitespace / 2
-    glyph.rightMargin = whitespace / 2
 
 #-------------
 # glyph names
@@ -39,10 +39,10 @@ def change_suffix(glyph_name, old_suffix, new_suffix):
     return new_name
 
 #---------------
-# align to grid
+# round to grid
 #---------------
 
-def alignPointsToGrid(glyph, (sizeX, sizeY)):
+def roundPointsToGrid(glyph, (sizeX, sizeY)):
 	for contour in glyph.contours:
 		for point in contour.points:
 			_x_round = round(point.x / sizeX)
@@ -51,7 +51,7 @@ def alignPointsToGrid(glyph, (sizeX, sizeY)):
 			point.y = int(_y_round * sizeY)
 	glyph.update()	
 
-def alignAnchorsToGrid(glyph, (sizeX, sizeY)):
+def roundAnchorsToGrid(glyph, (sizeX, sizeY)):
 	if len(glyph.anchors) > 0:
 		for anchor in glyph.anchors:
 			_x_round = round(float(anchor.x)/sizeX)

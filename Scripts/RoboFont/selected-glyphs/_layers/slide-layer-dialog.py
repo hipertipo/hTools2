@@ -4,7 +4,6 @@ from vanilla import *
 
 from hTools2.modules.fontutils import get_full_name
 
-
 class slideLayerDialog(object):
 
     _title = "slide layer"

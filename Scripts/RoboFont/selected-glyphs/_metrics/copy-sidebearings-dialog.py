@@ -7,7 +7,6 @@ from AppKit import NSColor
 
 from hTools2.modules.fontutils import get_full_name
 
-
 class copySidebearingsDialog(object):
 
     _title = 'copy side-bearings'
