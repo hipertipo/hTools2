@@ -5,11 +5,15 @@
 from vanilla import *
 from AppKit import NSColor
 
+from random import random
+from hTools2.modules.colorsys import hsv_to_rgb
+
 class setSidebearingsDialog(object):
 
     _title = 'set sidebearings'
     _modes = [ 'do nothing' , 'set equal to', 'increase by', 'decrease by', ]
-    _mark_color = (0, 1, .5, 1)
+    R, G, B = hsv_to_rgb(random(), 1.0, 1.0)
+    _mark_color = (R, G, B, 1)
     _width = 280
     _height = 150
     _padding = 10

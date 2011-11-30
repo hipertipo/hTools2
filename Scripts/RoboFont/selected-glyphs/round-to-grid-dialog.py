@@ -5,6 +5,9 @@ from vanilla import *
 
 from robofab.world import CurrentFont
 
+from random import random
+
+from hTools2.modules.colorsys import hsv_to_rgb
 from hTools2.modules.glyphutils import alignPointsToGrid, alignAnchorsToGrid, roundMargins
 
 # dialog
@@ -16,9 +19,9 @@ class roundToGridDialog(object):
     _width = 200
     _height = 210
     _gridsize = 120
-    _mark_color = (0, 1, .5, 1)
+    R, G, B = hsv_to_rgb(random(), 1.0, 1.0)
+    _mark_color = (R, G, B, 1)
     _mark = True
-
     _points = True
     _sidebearings = True
     _anchors = True

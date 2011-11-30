@@ -3,6 +3,9 @@
 from AppKit import NSColor
 from vanilla import *
 
+from random import random
+
+from hTools2.modules.colorsys import hsv_to_rgb
 from hTools2.modules.anchors import renameAnchor
 
 # dialog
@@ -10,7 +13,8 @@ from hTools2.modules.anchors import renameAnchor
 class renameAnchorsDialog(object):
 
     _title = 'rename anchors'
-    _mark_color = (0, 0.3, 1, 1)
+    R, G, B = hsv_to_rgb(random(), 1.0, 1.0)
+    _mark_color = (R, G, B, 1)
     _height = 140
     _width = 210
     _padding = 10
