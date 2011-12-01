@@ -7,20 +7,21 @@ from random import random
 
 from hTools2.modules.fontutils import get_full_name
 from hTools2.modules.colorsys import hsv_to_rgb
+from hTools2.modules.encoding import unicodeHexstrToInt
 
 # dialog
 
 class createSpaceGlyphsDialog(object):
 
     _title = 'create space glyphs'
-    R, G, B = hsv_to_rgb(random(), 1.0, 1.0)
-    _mark_color = (R, G, B, 1)
-    _height = 350
+    _height = 320
     _padding = 15
     _padding_top = 10
     _column_1 = 160
     _field_width = 60
     _row_height = 30
+    R, G, B = hsv_to_rgb(random(), 1.0, 1.0)
+    _mark_color = (R, G, B, 1)
     _hairspace_factor = .08
     _thinspace_factor = .16
     _thickspace_factor = .333
@@ -117,25 +118,17 @@ class createSpaceGlyphsDialog(object):
                 self._padding_top + (self._row_height * 6) + 15,
                 -self._padding,
                 1))
-            # auto unicodes
-            self.w._set_unicode_checkbox = CheckBox(
-                (self._padding,
-                self._padding_top + (self._row_height * 7),
-                self._column_1,
-                20),
-                "auto unicodes",
-                value = True)
             # mark color
             self.w._mark_checkbox = CheckBox(
                 (self._padding,
-                self._padding_top + (self._row_height * 8),
+                self._padding_top + (self._row_height * 7),
                 self._column_1,
                 20),
                 "mark",
                 value = True)
             self.w._mark_color = ColorWell(
                 (self._column_1 + (self._padding * 2),
-                self._padding_top + (self._row_height * 8),
+                self._padding_top + (self._row_height * 7),
                 self._field_width,
                 20),
                 color = NSColor.colorWithCalibratedRed_green_blue_alpha_(*self._mark_color))
@@ -167,7 +160,6 @@ class createSpaceGlyphsDialog(object):
         _thinspace = int(self.w._thinspace_value.get())
         _thickspace = int(self.w._thickspace_value.get())
         _figurespace = int(self.w._figurespace_value.get())
-        _set_unicode = int(self.w._set_unicode_checkbox.get())
         _mark = self.w._mark_checkbox.get()
         _mark_color = self.w._mark_color.get()
         _mark_color = (_mark_color.redComponent(),
@@ -182,32 +174,38 @@ class createSpaceGlyphsDialog(object):
             print '\tthin space: %s units' % _thinspace
             print '\tthick space: %s units' % _thickspace
             print '\tfigure space: %s units' % _figurespace
-            print '\tset unicode: %s' % boolstring[_set_unicode]
+            print '\tzero-width space: 0'
             print '\tmark: %s' % boolstring[_mark]
             # hair space
             self.font.newGlyph('hairspace')
             self.font['hairspace'].width = _hairspace
             self.font['hairspace'].mark = _mark_color
-            self.font['hairspace'].autoUnicodes()
+            self.font['hairspace'].unicode = unicodeHexstrToInt('uni200A')
             self.font['hairspace'].update()
             # thin space
             self.font.newGlyph('thinspace')
             self.font['thinspace'].width = _thinspace
             self.font['thinspace'].mark = _mark_color
-            self.font['thinspace'].autoUnicodes()
+            self.font['thinspace'].unicode = unicodeHexstrToInt('uni2009')
             self.font['thinspace'].update()
             # thick space
             self.font.newGlyph('thickspace')
             self.font['thickspace'].width = _thickspace
             self.font['thickspace'].mark = _mark_color
-            self.font['thickspace'].autoUnicodes()
+            self.font['thickspace'].unicode = unicodeHexstrToInt('uni2004')
             self.font['thickspace'].update()
             # figure space
             self.font.newGlyph('figurespace')
             self.font['figurespace'].width = _figurespace
             self.font['figurespace'].mark = _mark_color
-            self.font['figurespace'].autoUnicodes()
+            self.font['figurespace'].unicode = unicodeHexstrToInt('uni2007')
             self.font['figurespace'].update()
+            # zero-width space
+            self.font.newGlyph('zerowidthspace')
+            self.font['zerowidthspace'].width = 0
+            self.font['zerowidthspace'].mark = _mark_color
+            self.font['zerowidthspace'].unicode = unicodeHexstrToInt('uni200B')
+            self.font['zerowidthspace'].update()
             # done
             self.font.update()
             print

@@ -1,5 +1,106 @@
 # hTools2.modules.encoding
 
+#------------------
+# font-level tools
+#------------------
+
+def clearUnicodes(f):
+	for g in f:
+		g.unicodes = []
+	f.update()
+
+def autoUnicodes(font):
+	clearUnicodes(font)
+	for glyph in font:
+		autoUnicode(glyph)
+	font.update()
+
+#-------------------
+# glyph-level tools
+#-------------------
+
+def autoUnicode(g):
+	# handle 'uni' names
+	if g.name[:3] == "uni" and len(g.name) == 7:
+		c = g.name
+		g.unicode = int(c.split('uni')[1], 16)
+	# handle extra cases
+	elif g.name in _extra_unicodes.keys():
+		uString = 'uni%s' % _extra_unicodes[g.name]
+		g.unicode = unicodeHexstrToInt(uString)
+	# use auto unicode for everything else
+	else:
+		g.autoUnicodes()
+	g.update()
+
+#------------------------------
+# unicode-to-string conversion
+# (code by Karsten Luecke)
+#------------------------------
+
+def unicodeIntToHexstr(intUnicode, add0x=False, addUni=False):
+	hexUnicode = "%X".lstrip("0x") % intUnicode
+	hexUnicode = "0" * (4 - len(hexUnicode)) + hexUnicode
+	if add0x:
+		return "0x%s" % hexUnicode
+	elif addUni:
+		return "uni%s" % hexUnicode
+	return hexUnicode
+
+def unicodeHexstrToInt(hexUnicode, replaceUni=True):
+	if replaceUni:
+		return int(hexUnicode.replace("uni",""), 16)
+	return int(hexUnicode.lstrip("x"), 16)
+
+#---------------------------------------
+# additional mappings for autoUnicode()
+#---------------------------------------
+
+_extra_unicodes = {
+	# extended latin
+	'schwa' : '0259',
+	'dotlessj' : '0237',
+	'aemacron' : '01E3',
+	'AEmacron' : '01E2',
+	'nbspace' : '00A0',
+	'ymacron' : '0233',
+	# ligatures
+	'fi' : 'FB01',
+	'fl' : 'FB02',
+	# greek exceptions
+	'mu' : '00B5',
+	'Omega' : '2126',	
+	'Delta' : '2206',
+	# superiors
+	'zerosuperior' : '2070',
+	'onesuperior' : '00B9',
+	'twosuperior' : '00B2',
+	'threesuperior' : '00B3',
+	'foursuperior' : '2074',
+	'fivesuperior' : '2075',
+	'sixsuperior' : '2076',
+	'sevensuperior' : '2077',
+	'eightsuperior' : '2078',
+	'ninesuperior' : '2079',
+	# inferiors
+	'zeroinferior' : '2080',
+	'oneinferior' : '2081',
+	'twoinferior' : '2082',
+	'threeinferior' : '2083',
+	'fourinferior' : '2084',
+	'fiveinferior' : '2085',
+	'sixinferior' : '2086',
+	'seveninferior' : '2087',
+	'eightinferior' : '2088',
+	'nineinferior' : '2089',
+	# spaces 
+	'hairspace' : '200A',
+	'thinspace' : '2009',
+	'thickspace' : '2004',
+	'figurespace' : '2007',
+	'zerowidthspace' : '200B'
+}
+
 #-------------------------------
 # unicode-to-psnames conversion 
 #-------------------------------
