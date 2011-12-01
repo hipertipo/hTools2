@@ -1,7 +1,7 @@
 hTools2
 =======
 
-hTools2 is a collection of Python scripts, tools and objects for type-design & font-production work with [RoboFont](http://robofont.com).
+hTools2 is a collection of Python scripts, tools and objects for type-design & font-production work with [RoboFont](http://robofont.com) and [FontLab Studio](http://www.fontlab.com/font-editor/fontlab-studio/).
 
 It is built on top of [RoboFab](http://robofag.org), [vanilla](http://code.typesupply.com/wiki/Vanilla) and the [UFO font format](http://unifiedfontobject.org/).
 
@@ -37,12 +37,12 @@ Installation
 
 1. Get the latest version of hTools2 from the [.zip package](https://github.com/gferreira/hTools2/zipball/master) or directly from the [git repository](https://github.com/gferreira/hTools2).
 
-2. Move the folder to the desired location on your hard disk, for example `~/code/`.
+2. Move the folder to the desired location on your hard disk, for example `/code/`.
 
 3. Create a simple text file named `hTools2.pth`, containing the path to the `Lib` folder in hTools2: 
 
 ```
-~/code/hTools2/Lib/
+/code/hTools2/Lib/
 ```
 
 4. Save this file in the `site-packages` folder for the current Python, for example `/Library/Python/2.6/site-packages`.
