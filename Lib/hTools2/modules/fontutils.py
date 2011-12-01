@@ -110,8 +110,9 @@ def autoContourOrderDirection(font):
 		g.correctDirection()
 
 def alignToGrid(f, (sizeX, sizeY)):
-	from hTools2.modules.glyphutils import alignPointsToGrid
+	from hTools2.modules.glyphutils import roundPointsToGrid
 	for g in f:
-		alignPointsToGrid(g, sizeX, sizeY)
+		print g
+		roundPointsToGrid(g, (sizeX, sizeY))
 		g.update()
 	f.update()

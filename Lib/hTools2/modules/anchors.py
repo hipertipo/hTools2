@@ -19,19 +19,19 @@ def getAnchorsDict(font, gNames=None):
 			anchorsDict[g.name] = anchors
 	return anchorsDict
 
-'''
-def transferAnchors(source_font, dest_font):
-	for gName in source_font.selection:
-		if len(source_font[gName].anchors) > 0 :
-			anchorsDict = {}
-			for a in source_font[gName].anchors:
-				anchorsDict[a.name] = a.position
-			dest_font[gName].clearAnchors()
-			for anchor in anchorsDict:
-				dest_font[gName].appendAnchor(anchor, anchorsDict[anchor])
-				dest_font[gName].update()
-			dest_font.update()
-'''
+#
+#	def transferAnchors(source_font, dest_font):
+#		for gName in source_font.selection:
+#			if len(source_font[gName].anchors) > 0 :
+#				anchorsDict = {}
+#				for a in source_font[gName].anchors:
+#					anchorsDict[a.name] = a.position
+#				dest_font[gName].clearAnchors()
+#				for anchor in anchorsDict:
+#					dest_font[gName].appendAnchor(anchor, anchorsDict[anchor])
+#					dest_font[gName].update()
+#				dest_font.update()
+#
 
 #-------------------
 # glyph-level tools
