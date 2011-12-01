@@ -12,9 +12,9 @@ class slideLayerDialog(object):
     _moveX = 0
     _moveY = 0
 
-    def __init__(self, font):
+    def __init__(self):
         # get font & defaults
-        self.font = font
+        self.font = CurrentFont()
         self.set_defaults_from_font_metrics()
         # get all fonts
         self.w = FloatingWindow((self._width, self._height), self._title)
@@ -83,6 +83,6 @@ class slideLayerDialog(object):
     def close_callback(self, sender):
         self.w.close()
 
-f = CurrentFont()
-slideLayerDialog(f)
+# run
 
+slideLayerDialog()

@@ -1,16 +1,17 @@
-# [h] copy side-bearings between fonts
+# [h] copy widths dialog
 
-'''copy side-bearings from selected glyphs in one font to the same glyphs in another font'''
+'''copy width of selected glyphs in one font to the same glyphs in another font'''
 
 from vanilla import *
 from AppKit import NSColor
 
 from hTools2.modules.fontutils import get_full_name
+from hTools2.modules.glyphutils import centerGlyph
 from hTools2.modules.color import randomColor
 
-class copySidebearingsDialog(object):
+class copyWidthsDialog(object):
 
-    _title = 'copy side-bearings'
+    _title = 'copy widths'
     _mark_color_source = randomColor()
     _mark_color_dest = randomColor()
     _all_fonts_names = []
@@ -87,27 +88,19 @@ class copySidebearingsDialog(object):
             200,
             -self._padding,
             1))
-        # left / right
-        self.w.left_checkbox = CheckBox(
+        # center
+        self.w.center_checkbox = CheckBox(
             (self._padding,
             215,
             -self._padding,
             20),
-            "copy left",
-            value = True)
-        self.w.right_checkbox = CheckBox(
-            (self._width / 2,
-            215,
-            -self._padding,
-            20),
-            "copy right",
+            "center glyphs",
             value = True)
         self.w.line2 = HorizontalLine(
             (self._padding,
             250,
             -self._padding,
-            1)
-            )
+            1))
         # buttons
         self.w.button_apply = Button(
             (self._padding,
@@ -148,52 +141,48 @@ class copySidebearingsDialog(object):
             _dest_mark_color.greenComponent(),
             _dest_mark_color.blueComponent(),
             _dest_mark_color.alphaComponent())
-        # left / right
-        _left = self.w.left_checkbox.get()
-        _right = self.w.right_checkbox.get()
-        # batch process glyphs
-        if _left or _right:
-            # print info
-            print 'copying side-bearings...\n'
-            print '\tsource font: %s' % _source_font_name
-            print '\ttarget font: %s' % _dest_font_name
-            print
-            print '\tcopy left: %s' % boolstring[_left]
-            print '\tcopy right: %s' % boolstring[_right]
-            print
-            # batch copy side-bearings
-            for gName in _source_font.selection:
-                try:
-                    # set undo
-                    _source_font[gName].prepareUndo('copy side-bearings')
-                    _dest_font[gName].prepareUndo('copy side-bearings')
-                    print '\t%s' % gName,
-                    # copy
-                    if _left:
-                        _dest_font[gName].leftMargin = _source_font[gName].leftMargin
-                    if _right:
-                        _dest_font[gName].rightMargin = _source_font[gName].rightMargin
-                    # mark
-                    if _source_mark:
-                        _source_font[gName].mark = _source_mark_color
-                    if _dest_mark:
-                        _dest_font[gName].mark = _dest_mark_color
-                    # call undo
-                    _dest_font.performUndo()
-                    _dest_font.update()            
-                    _dest_font.performUndo()
-                    _dest_font.update()
-                except:
-                    print '\tcannot process %s' % gName
-            print
-            print '\n...done.\n'
-        # nothing selected
-        else:
-            print 'Aborted, nothing to copy. Please select "left" or "right" side-bearings, and try again.\n'
+        # center
+        _center = self.w.center_checkbox.get()
+        # print info
+        print 'copying widths...\n'
+        print '\tsource font: %s' % _source_font_name
+        print '\ttarget font: %s' % _dest_font_name
+        print
+        print '\tcenter: %s' % boolstring[_center]
+        print
+        # batch copy side-bearings
+        for gName in _source_font.selection:
+            try:
+                # set undo
+                _source_font[gName].prepareUndo('copy width')
+                _dest_font[gName].prepareUndo('copy width')
+                # copy
+                print '\t%s' % gName,
+                _dest_font[gName].width = _source_font[gName].width
+                # center
+                if _center:
+                    centerGlyph(_dest_font[gName])
+                # mark
+                if _source_mark:
+                    _source_font[gName].mark = _source_mark_color
+                    _source_font[gName].update()
+                if _dest_mark:
+                    _dest_font[gName].mark = _dest_mark_color
+                    _dest_font[gName].update()
+                # call undo
+                _dest_font.performUndo()
+                _dest_font.update()
+                _dest_font.performUndo()
+                _dest_font.update()
+            except:
+                print '\tcannot process %s' % gName
+        print
+        print '\n...done.\n'
 
     def close_callback(self, sender):
         self.w.close()
 
 # run
 
-copySidebearingsDialog()
+copyWidthsDialog()
+

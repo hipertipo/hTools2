@@ -7,14 +7,13 @@ from AppKit import NSColor
 
 from random import random
 
-from hTools2.modules.colorsys import hsv_to_rgb
+from hTools2.modules.color import randomColor
 from hTools2.modules.glyphutils import centerGlyph
 
 class setWidthDialog(object):
 
     _title = 'set character width'
-    R, G, B = hsv_to_rgb(random(), 1.0, 1.0)
-    _mark_color = (R, G, B, 1)
+    _mark_color = randomColor()
     _default_width = 400
     _height = 102
     _width = 210

@@ -5,10 +5,12 @@
 from vanilla import *
 from AppKit import NSColor
 
+from hTools2.modules.color import randomColor
+
 class copyToLayerDialog(object):
 
     _title = 'copy to layer'
-    _mark_color = (1, 0.5, 0, 1)
+    _mark_color = randomColor()
     _padding = 10
 
     def __init__(self, ):

@@ -2,8 +2,6 @@
 
 '''select all glyphs with the same color as the currently selected glyph'''
 
-from robofab.world import CurrentFont, CurrentGlyph
-
 font = CurrentFont()
 glyph = CurrentGlyph()
 

@@ -1,7 +1,6 @@
 # [h] delete unmarked glyphs
 
 f = CurrentFont()
-
 print 'deleting unmarked glyphs...\n'
 for g in f:
     if g.mark == (1, 1, 1, 1):

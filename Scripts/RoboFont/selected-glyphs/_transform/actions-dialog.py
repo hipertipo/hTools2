@@ -3,8 +3,7 @@
 from vanilla import *
 from AppKit import NSColor
 
-from random import random
-from hTools2.modules.colorsys import hsv_to_rgb
+from hTools2.modules.color import randomColor
 
 class transformSelectedGlyphsDialog(object):
 
@@ -18,8 +17,7 @@ class transformSelectedGlyphsDialog(object):
     _extremes = False
     _mark = True
     _gNames = []
-    R, G, B = hsv_to_rgb(random(), 1.0, 1.0)
-    _mark_color = (R, G, B, 1)
+    _mark_color = randomColor()
     _width = 220
     _height = 285
     _row_height = 25

@@ -3,10 +3,8 @@
 from AppKit import NSColor
 from vanilla import *
 
-from random import random
-
 from hTools2.modules.fontutils import get_full_name
-from hTools2.modules.colorsys import hsv_to_rgb
+from hTools2.modules.color import randomColor
 from hTools2.modules.encoding import unicodeHexstrToInt
 
 # dialog
@@ -20,8 +18,7 @@ class createSpaceGlyphsDialog(object):
     _column_1 = 160
     _field_width = 60
     _row_height = 30
-    R, G, B = hsv_to_rgb(random(), 1.0, 1.0)
-    _mark_color = (R, G, B, 1)
+    _mark_color = randomColor()
     _hairspace_factor = .08
     _thinspace_factor = .16
     _thickspace_factor = .333

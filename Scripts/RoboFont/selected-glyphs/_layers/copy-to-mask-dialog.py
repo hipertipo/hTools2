@@ -6,13 +6,14 @@ from vanilla import *
 from AppKit import NSColor
 
 from hTools2.modules.fontutils import get_full_name
+from hTools2.modules.color import randomColor
 
 class copyToMaskDialog(object):
 
     _title = 'copy glyphs to mask'
     _all_fonts_names = []
-    _source_mark_color = (0, 0.5, 1, 1)
-    _target_mark_color = (1, 0, 0.5, 1)
+    _source_mark_color = randomColor()
+    _target_mark_color = randomColor()
     _target_layer_name = 'mask'
     _width = 280
     _height = 247

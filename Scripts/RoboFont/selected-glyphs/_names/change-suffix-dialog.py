@@ -6,7 +6,7 @@ from AppKit import NSColor
 from random import random
 
 from hTools2.modules.glyphutils import has_suffix, change_suffix
-from hTools2.modules.colorsys import hsv_to_rgb
+from hTools2.modules.color import randomColor
 
 # dialog
 
@@ -18,8 +18,7 @@ class changeSuffixDialog(object):
     _padding = 10
     _column_1 = 100
     _row_height = 30
-    R, G, B = hsv_to_rgb(random(), 1.0, 1.0)
-    _mark_color = (R, G, B, 1)
+    _mark_color = randomColor()
     _old_suffix = ''
     _new_suffix = ''
     
