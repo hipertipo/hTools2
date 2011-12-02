@@ -23,7 +23,7 @@ class skewGlyphsDialog(object):
                 "+1",
                 callback=self._skew_x_plus_1)
         # +5
-            self.w._skew_x_plus_button_5 = SquareButton(
+        self.w._skew_x_plus_button_5 = SquareButton(
                 (self._button_w + ((self._padding * 1) - 1),
                 self._padding,
                 self._button_w,
@@ -31,7 +31,7 @@ class skewGlyphsDialog(object):
                 "+5",
                 callback=self._skew_x_plus_5)
         # +25
-            self.w._skew_x_plus_button_25 = SquareButton(
+        self.w._skew_x_plus_button_25 = SquareButton(
                 ((self._button_w * 2) + (self._padding * 1) - 2,
                 self._padding,
                 self._button_w,

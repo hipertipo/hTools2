@@ -22,7 +22,7 @@ class BatchGenerateFolderDialog(object):
         self.w = FloatingWindow(
                 (self._width, self._height),
                 self._title,
-                closable = False)
+                closable=False)
         # ufos folder
         self.w.ufos_label = TextBox(
                 (self._padding,
@@ -35,15 +35,15 @@ class BatchGenerateFolderDialog(object):
                 self._padding,
                 -self._padding, 20),
                 "get folder...",
-                callback = self.ufos_get_folder_callback,
-                sizeStyle = "small")
+                callback=self.ufos_get_folder_callback,
+                sizeStyle="small")
         self.w.ufos_folder_value = EditText(
                 (self._padding,
                 40,
                 -self._padding,
                 22),
-                text = self._ufos_folder_default,
-                sizeStyle = "mini",
+                text=self._ufos_folder_default,
+                sizeStyle="mini",
                 placeholder = self._ufos_folder_message)
         # otfs folder
         self.w.otfs_label = TextBox(
@@ -58,15 +58,15 @@ class BatchGenerateFolderDialog(object):
                 -self._padding,
                 20),
                 "get folder...",
-                callback = self.otfs_get_folder_callback,
-                sizeStyle = "small")
+                callback=self.otfs_get_folder_callback,
+                sizeStyle="small")
         self.w.otfs_folder_value = EditText(
                 (self._padding,
                 105,
                 -self._padding,
                 22),
-                text = self._otfs_folder_default,
-                sizeStyle = "mini",
+                text=self._otfs_folder_default,
+                sizeStyle="mini",
                 placeholder = self._otfs_folder_message)
         # options
         self.w._overlaps = CheckBox(
@@ -75,35 +75,35 @@ class BatchGenerateFolderDialog(object):
                 -self._padding,
                 20),
                 "remove overlaps",
-                value = True)
+                value=True)
         self.w._decompose = CheckBox(
                 (155,
                 140,
                 -self._padding,
                 20),
                 "decompose",
-                value = True)
+                value=True)
         self.w._autohint = CheckBox(
                 (265,
                 140,
                 -self._padding,
                 20),
                 "autohint",
-                value = True)
+                value=True)
         self.w._release_mode = CheckBox(
                 (355,
                 140,
                 -self._padding,
                 20),
                 "release mode",
-                value = True)
+                value=True)
         # progress bar
         self.w.bar = ProgressBar(
                 (self._padding,
                 175,
                 -self._padding,
                 16),
-                isIndeterminate = True)
+                isIndeterminate=True)
         # buttons
         self.w.button_close = Button(
                 (self._padding,
@@ -111,14 +111,14 @@ class BatchGenerateFolderDialog(object):
                 (self._width / 2) - 10,
                 15),
                 "close",
-                callback = self.button_close_callback)
+                callback=self.button_close_callback)
         self.w.button_apply = Button(
                 ((self._width / 2) + 10,
                 -30,
                 -self._padding,
                 15),
                 "apply",
-                callback = self.button_apply_callback)
+                callback=self.button_apply_callback)
         # open window
         self.w.open()
 
@@ -165,10 +165,10 @@ class BatchGenerateFolderDialog(object):
                     ufo.generate(
                             otf_path,
                             'otf',
-                            decompose = _decompose,
-                            autohint = _autohint,
-                            checkOutlines = _overlaps,
-                            releaseMode = _release_mode,
+                            decompose=_decompose,
+                            autohint=_autohint,
+                            checkOutlines=_overlaps,
+                            releaseMode=_release_mode,
                             glyphOrder=[])
                     # close
                     ufo.close()

@@ -18,7 +18,7 @@ class GenerateAllOpenFontsDialog(object):
         self.w = FloatingWindow(
                 (self._width, self._height),
                 self._title,
-                closable = False)
+                closable=False)
         # ufos folder
         self.w.otfs_label = TextBox(
                 (10, 10, -10, 70),
@@ -26,33 +26,33 @@ class GenerateAllOpenFontsDialog(object):
         self.w.otfs_get_folder_button = Button(
                 (-100, 10, -10, 20),
                 "get folder...",
-                callback = self.otfs_get_folder_callback,
-                sizeStyle = "small")
+                callback=self.otfs_get_folder_callback,
+                sizeStyle="small")
         self.w.otfs_folder_value = EditText(
                 (10, 40, -10, 22),
-                text = self._otfs_folder_default,
-                sizeStyle = "mini")
+                text=self._otfs_folder_default,
+                sizeStyle="mini")
         # options
         self.w._overlaps = CheckBox(
                 (15, 70, -10, 20),
                 "remove overlaps",
-                value = True)
+                value=True)
         self.w._decompose = CheckBox(
                 (155, 70, -10, 20),
                 "decompose",
-                value = True)
+                value=True)
         self.w._autohint = CheckBox(
                 (265, 70, -10, 20),
                 "autohint",
-                value = True)
+                value=True)
         self.w._release_mode = CheckBox(
                 (355, 70, -10, 20),
                 "release mode",
-                value = True)
+                value=True)
         # progress bar
         self.w.bar = ProgressBar(
                 (10, 100, -10, 16),
-                isIndeterminate = True)
+                isIndeterminate=True)
         # apply / close
         self.w.button_close = Button(
                 (10,
@@ -67,7 +67,7 @@ class GenerateAllOpenFontsDialog(object):
                 -10,
                 15),
                 "apply",
-                callback = self.button_apply_callback)
+                callback=self.button_apply_callback)
         self.w.open()
 
     def otfs_get_folder_callback(self, sender):
@@ -106,10 +106,10 @@ class GenerateAllOpenFontsDialog(object):
                     font.generate(
                             otf_path,
                             'otf',
-                            decompose = _decompose,
-                            autohint = _autohint,
-                            checkOutlines = _overlaps,
-                            releaseMode = _release_mode,
+                            decompose=_decompose,
+                            autohint=_autohint,
+                            checkOutlines=_overlaps,
+                            releaseMode=_release_mode,
                             glyphOrder=[])
                     print '\t\totf path: %s' % otf_path
                     print '\t\tgeneration sucessful? %s\n' % os.path.exists(otf_path)
