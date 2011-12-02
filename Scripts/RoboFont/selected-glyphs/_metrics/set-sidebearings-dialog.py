@@ -19,80 +19,80 @@ class setSidebearingsDialog(object):
     
     def __init__(self):
         self.w = FloatingWindow(
-            (self._width, self._height),
-            self._title,
-            closable = False)
+                (self._width, self._height),
+                self._title,
+                closable=False)
         # left
         self.w.left_label = TextBox(
-            (self._padding,
-            self._padding,
-            -self._padding,
-            17),
-            "left")
+                (self._padding,
+                self._padding,
+                -self._padding,
+                17),
+                "left")
         self.w.left_mode = PopUpButton(
-            (60,
-            self._padding,
-            self._column_1,
-            20),
-            self._modes,
-            callback = self.left_mode_callback)
+                (60,
+                self._padding,
+                self._column_1,
+                20),
+                self._modes,
+                callback=self.left_mode_callback)
         self.w.left_value = EditText(
-            (195,
-            self._padding,
-            -self._padding,
-            20),
-            placeholder = 'set value')
+                (195,
+                self._padding,
+                -self._padding,
+                20),
+                placeholder = 'set value')
         self.w.left_value.enable(False)
         # right
         self.w.right_label = TextBox(
-            (self._padding,
-            40,
-            -self._padding,
-            17),
-            "right")
+                (self._padding,
+                40,
+                -self._padding,
+                17),
+                "right")
         self.w.right_mode = PopUpButton(
-            (60,
-            40,
-            self._column_1,
-            20),
-            self._modes,
-            callback = self.right_mode_callback)
+                (60,
+                40,
+                self._column_1,
+                20),
+                self._modes,
+                callback=self.right_mode_callback)
         self.w.right_value = EditText(
-            (195,
-            40,
-            -self._padding,
-            20),
-            placeholder = 'set value')
+                (195,
+                40,
+                -self._padding,
+                20),
+                placeholder='set value')
         self.w.right_value.enable(False)
         # colors
         self.w.mark_checkbox = CheckBox(
-            (self._padding,
-             75,
-             -170,
-             20),
-            "mark glyphs",
-            value = True)
+                (self._padding,
+                 75,
+                 -170,
+                 20),
+                "mark glyphs",
+                value = True)
         self.w.mark_color = ColorWell(
-            (120,
-            75,
-            -self._padding,
-            20),
-            color = NSColor.colorWithCalibratedRed_green_blue_alpha_(*self._mark_color))
+                (120,
+                75,
+                -self._padding,
+                20),
+                color=NSColor.colorWithCalibratedRed_green_blue_alpha_(*self._mark_color))
         # buttons
         self.w.button_apply = Button(
-            (self._padding,
-            -35,
-            (self._width / 2) - self._padding,
-            20),
-            "apply",
-            callback = self.apply_callback)
+                (self._padding,
+                -35,
+                (self._width / 2) - self._padding,
+                20),
+                "apply",
+                callback=self.apply_callback)
         self.w.button_close = Button(
-            ((self._width / 2) + self._padding,
-            -35,
-            -self._padding,
-            20),
-            "close",
-            callback = self.close_callback)
+                ((self._width / 2) + self._padding,
+                -35,
+                -self._padding,
+                20),
+                "close",
+                callback=self.close_callback)
         # open window
         self.w.setDefaultButton(self.w.button_apply)
         self.w.button_close.bind(".", ["command"])
@@ -117,9 +117,9 @@ class setSidebearingsDialog(object):
                 # get mark color
                 _mark_color = self.w.mark_color.get()
                 _mark_color = (_mark_color.redComponent(),
-                    _mark_color.greenComponent(),
-                    _mark_color.blueComponent(),
-                    _mark_color.alphaComponent())
+                        _mark_color.greenComponent(),
+                        _mark_color.blueComponent(),
+                        _mark_color.alphaComponent())
                 # print info
                 print 'setting sidebearings for selected glyphs...\n'
                 print '\tleft: %s %s' % (self._modes[_left_mode], _left_value)
@@ -177,6 +177,8 @@ class setSidebearingsDialog(object):
 
     def close_callback(self, sender):
         self.w.close()
+
+# run
 
 setSidebearingsDialog()
 

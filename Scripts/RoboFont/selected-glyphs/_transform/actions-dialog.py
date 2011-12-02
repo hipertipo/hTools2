@@ -26,107 +26,107 @@ class transformSelectedGlyphsDialog(object):
 
     def __init__(self):
         self.w = FloatingWindow(
-            (self._width, self._height),
-            self._title,
-            closable=False)
+                (self._width, self._height),
+                self._title,
+                closable = False)
         # clear outlines
         self.w.clear_checkBox = CheckBox(
-            (self._padding,
-            self._padding_top + (self._row_height * 0),
-            -self._padding,
-            20),
-            "clear outlines",
-            callback = self.clear_Callback,
-            value = self._clear)
+                (self._padding,
+                self._padding_top + (self._row_height * 0),
+                -self._padding,
+                20),
+                "clear outlines",
+                callback = self.clear_Callback,
+                value = self._clear)
         # round point positions
         self.w.round_checkBox = CheckBox(
-            (self._padding,
-            self._padding_top + (self._row_height * 1),
-            -self._padding,
-            20),
-            "round point positions",
-            callback = self.round_Callback,
-            value = self._round)
+                (self._padding,
+                self._padding_top + (self._row_height * 1),
+                -self._padding,
+                20),
+                "round point positions",
+                callback = self.round_Callback,
+                value = self._round)
         # decompose
         self.w.decompose_checkBox = CheckBox(
-            (self._padding,
-            self._padding_top + (self._row_height * 2),
-            -self._padding,
-            20),
-            "decompose",
-            callback = self.decompose_Callback,
-            value = self._decompose)
+                (self._padding,
+                self._padding_top + (self._row_height * 2),
+                -self._padding,
+                20),
+                "decompose",
+                callback = self.decompose_Callback,
+                value = self._decompose)
         # auto contour order
         self.w.order_checkBox = CheckBox(
-            (self._padding,
-            self._padding_top + (self._row_height * 3),
-            -self._padding,
-            20),
-            "auto contour order",
-            callback = self.order_Callback,
-            value = self._order)
+                (self._padding,
+                self._padding_top + (self._row_height * 3),
+                -self._padding,
+                20),
+                "auto contour order",
+                callback = self.order_Callback,
+                value = self._order)
         # auto contour direction
         self.w.direction_checkBox = CheckBox(
-            (self._padding,
-            self._padding_top + (self._row_height * 4),
-            -self._padding,
-            20),
-            "auto contour direction",
-            callback = self.direction_Callback,
-            value = self._direction)
+                (self._padding,
+                self._padding_top + (self._row_height * 4),
+                -self._padding,
+                20),
+                "auto contour direction",
+                callback = self.direction_Callback,
+                value = self._direction)
         # remove overlaps
         self.w.overlaps_checkBox = CheckBox(
-            (self._padding,
-            self._padding_top + (self._row_height * 5),
-            -self._padding,
-            20),
-            "remove overlaps",
-            callback = self.overlaps_Callback,
-            value = self._overlaps)
+                (self._padding,
+                self._padding_top + (self._row_height * 5),
+                -self._padding,
+                20),
+                "remove overlaps",
+                callback = self.overlaps_Callback,
+                value = self._overlaps)
         # add extreme points
         self.w.extremes_checkBox = CheckBox(
-            (self._padding,
-            self._padding_top + (self._row_height * 6),
-            -self._padding,
-            20),
-            "add extreme points",
-            callback = self.extremes_Callback,
-            value = self._extremes)
+                (self._padding,
+                self._padding_top + (self._row_height * 6),
+                -self._padding,
+                20),
+                "add extreme points",
+                callback = self.extremes_Callback,
+                value = self._extremes)
         # mark
         self.w.line = HorizontalLine(
-            (self._padding,
-            self._padding_top + (self._row_height * 7) + 10,
-            -self._padding,
-            1))
+                (self._padding,
+                self._padding_top + (self._row_height * 7) + 10,
+                -self._padding,
+                1))
         self.w.mark_checkBox = CheckBox(
-            (self._padding,
-            self._padding_top + (self._row_height * 8),
-            -self._padding,
-            20),
-            "mark",
-            callback = self.mark_Callback,
-            value = self._mark)
+                (self._padding,
+                self._padding_top + (self._row_height * 8),
+                -self._padding,
+                20),
+                "mark",
+                callback = self.mark_Callback,
+                value = self._mark)
         self.w.mark_color = ColorWell(
-            (80,
-            self._padding_top + (self._row_height * 8),
-            -self._padding,
-            20),
-            color = NSColor.colorWithCalibratedRed_green_blue_alpha_(*self._mark_color))
+                (80,
+                self._padding_top + (self._row_height * 8),
+                -self._padding,
+                20),
+                color = NSColor.colorWithCalibratedRed_green_blue_alpha_(*self._mark_color))
         # buttons
         self.w.button_apply = Button(
-            (self._padding,
-            -55,
-            (self._width/2) - 20,
-            0),
-            "apply",
-            callback = self.apply_Callback)
+                (self._padding,
+                -55,
+                (self._width/2) - 20,
+                0),
+                "apply",
+                callback = self.apply_Callback)
         self.w.button_close = Button(
-            ((self._width/2) + 5,
-            -55,
-            -self._padding,
-            0),
-            "close",
-            callback = self.close_Callback)
+                ((self._width/2) + 5,
+                -55,
+                -self._padding,
+                0),
+                "close",
+                callback = self.close_Callback)
         # open window
         self.w.open()
 

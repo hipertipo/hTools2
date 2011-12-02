@@ -15,51 +15,51 @@ class copyToLayerDialog(object):
 
     def __init__(self, ):
         self.w = FloatingWindow(
-            (190, 140),
-            self._title,
-            closable = False)
+                (190, 140),
+                self._title,
+                closable=False)
         # layer
         self.w._layers_label = TextBox(
-            (self._padding,
-            self._padding,
-            -self._padding,
-            17),
-            "target layer:")
+                (self._padding,
+                self._padding,
+                -self._padding,
+                17),
+                "target layer:")
         self.w._layers_value = EditText(
-            (self._padding,
-            35,
-            -self._padding,
-            21),
-            placeholder = 'layer name')
+                (self._padding,
+                35,
+                -self._padding,
+                21),
+                placeholder='layer name')
         # mark color
         self.w.mark_checkbox = CheckBox(
-            (self._padding,
-            70,
-            -self._padding,
-            20),
-            "mark glyphs",
-            value = True)
+                (self._padding,
+                70,
+                -self._padding,
+                20),
+                "mark glyphs",
+                value=True)
         self.w.mark_color = ColorWell(
-            (120,
-            70,
-            -13,
-            20),
-            color = NSColor.colorWithCalibratedRed_green_blue_alpha_(*self._mark_color))
+                (120,
+                70,
+                -13,
+                20),
+                color=NSColor.colorWithCalibratedRed_green_blue_alpha_(*self._mark_color))
         # buttons
         self.w.button_apply = Button(
-            (self._padding,
-            -45,
-            80, 
-            0),
-            "apply",
-            callback = self.apply_callback)
+                (self._padding,
+                -45,
+                80, 
+                0),
+                "apply",
+                callback=self.apply_callback)
         self.w.button_close = Button(
-            (-90,
-            -45,
-            80,
-            0),
-            "close",
-            callback = self.close_callback)
+                (-90,
+                -45,
+                80,
+                0),
+                "close",
+                callback=self.close_callback)
         # open window
         self.w.open()
 
@@ -74,9 +74,9 @@ class copyToLayerDialog(object):
             _mark = self.w.mark_checkbox.get()
             _mark_color = self.w.mark_color.get()
             _mark_color = (_mark_color.redComponent(),
-                _mark_color.greenComponent(),
-                _mark_color.blueComponent(),
-                _mark_color.alphaComponent())
+                    _mark_color.greenComponent(),
+                    _mark_color.blueComponent(),
+                    _mark_color.alphaComponent())
             # batch copy to layer
             if len(_layer_name) > 0:
                 print 'copying outlines to layer "%s"...' % _layer_name

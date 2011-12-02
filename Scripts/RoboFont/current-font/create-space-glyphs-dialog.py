@@ -29,123 +29,123 @@ class createSpaceGlyphsDialog(object):
         if CurrentFont() is not None:
             self.font = CurrentFont()
             self.w = FloatingWindow(
-                (self._width,
-                self._height),
-                self._title,
-                closable = True)
+                    (self._width,
+                    self._height),
+                    self._title,
+                    closable=True)
             # current font
             self.w.box = Box(
-                (self._padding,
-                self._padding_top + (self._row_height * 0),
-                -self._padding,
-                26))
+                    (self._padding,
+                    self._padding_top + (self._row_height * 0),
+                    -self._padding,
+                    26))
             self.w.box.text = TextBox(
-                (5, 1, -10, 20),
-                text = get_full_name(self.font),
-                sizeStyle = 'small')
+                    (5, 1, -10, 20),
+                    text=get_full_name(self.font),
+                    sizeStyle='small')
             # hair space
             self.w._hairspace_label = TextBox(
-                (self._padding,
-                self._padding_top + (self._row_height * 1) + 10,
-                self._column_1,
-                20),
-                "hair space")
+                    (self._padding,
+                    self._padding_top + (self._row_height * 1) + 10,
+                    self._column_1,
+                    20),
+                    "hair space")
             self.w._hairspace_value = EditText(
-                (self._column_1 + (self._padding * 2),
-                self._padding_top + (self._row_height * 1) + 10,
-                self._field_width,
-                20),
-                text = int(self.font.info.unitsPerEm * self._hairspace_factor))
+                    (self._column_1 + (self._padding * 2),
+                    self._padding_top + (self._row_height * 1) + 10,
+                    self._field_width,
+                    20),
+                    text=int(self.font.info.unitsPerEm * self._hairspace_factor))
             # thin space
             self.w._thinspace_label = TextBox(
-                (self._padding,
-                self._padding_top + (self._row_height * 2) + 10,
-                self._column_1,
-                20),
-                "thin space")
+                    (self._padding,
+                    self._padding_top + (self._row_height * 2) + 10,
+                    self._column_1,
+                    20),
+                    "thin space")
             self.w._thinspace_value = EditText(
-                (self._column_1 + (self._padding * 2),
-                self._padding_top + (self._row_height * 2) + 10,
-                self._field_width,
-                20),
-                text = int(self.font.info.unitsPerEm * self._thinspace_factor))
+                    (self._column_1 + (self._padding * 2),
+                    self._padding_top + (self._row_height * 2) + 10,
+                    self._field_width,
+                    20),
+                    text=int(self.font.info.unitsPerEm * self._thinspace_factor))
             # thick space
             self.w._thickspace_label = TextBox(
-                (self._padding,
-                self._padding_top + (self._row_height * 3) + 10,
-                self._column_1,
-                20),
-                "thick space")
+                    (self._padding,
+                    self._padding_top + (self._row_height * 3) + 10,
+                    self._column_1,
+                    20),
+                    "thick space")
             self.w._thickspace_value = EditText(
-                (self._column_1 + (self._padding * 2),
-                self._padding_top + (self._row_height * 3) + 10,
-                self._field_width,
-                20),
-                text = int(self.font.info.unitsPerEm * self._thickspace_factor))
+                    (self._column_1 + (self._padding * 2),
+                    self._padding_top + (self._row_height * 3) + 10,
+                    self._field_width,
+                    20),
+                    text=int(self.font.info.unitsPerEm * self._thickspace_factor))
             # figure space
             self.w._figurespace_label = TextBox(
-                (self._padding,
-                self._padding_top + (self._row_height * 4) + 10,
-                self._column_1,
-                20),
-                "figure space")
+                    (self._padding,
+                    self._padding_top + (self._row_height * 4) + 10,
+                    self._column_1,
+                    20),
+                    "figure space")
             self.w._figurespace_value = EditText(
-                (self._column_1 + (self._padding * 2),
-                self._padding_top + (self._row_height * 4) + 10,
-                self._field_width,
-                20),
-                text = int(self.font.info.unitsPerEm * self._figurespace_factor))
+                    (self._column_1 + (self._padding * 2),
+                    self._padding_top + (self._row_height * 4) + 10,
+                    self._field_width,
+                    20),
+                    text=int(self.font.info.unitsPerEm * self._figurespace_factor))
             # zero width space
             self.w._zerowidth_label = TextBox(
-                (self._padding,
-                self._padding_top + (self._row_height * 5) + 10,
-                self._column_1,
-                20),
-                "zero-width space")
+                    (self._padding,
+                    self._padding_top + (self._row_height * 5) + 10,
+                    self._column_1,
+                    20),
+                    "zero-width space")
             self.w._zerowidth_value = EditText(
-                (self._column_1 + (self._padding * 2),
-                self._padding_top + (self._row_height * 5) + 10,
-                self._field_width,
-                20),
-                text = '0',
-                readOnly = True)
+                    (self._column_1 + (self._padding * 2),
+                    self._padding_top + (self._row_height * 5) + 10,
+                    self._field_width,
+                    20),
+                    text='0',
+                    readOnly=True)
             # division
             self.w.line_1 = HorizontalLine(
-                (self._padding,
-                self._padding_top + (self._row_height * 6) + 15,
-                -self._padding,
-                1))
+                    (self._padding,
+                    self._padding_top + (self._row_height * 6) + 15,
+                    -self._padding,
+                    1))
             # mark color
             self.w._mark_checkbox = CheckBox(
-                (self._padding,
-                self._padding_top + (self._row_height * 7),
-                self._column_1,
-                20),
-                "mark",
-                value = True)
+                    (self._padding,
+                    self._padding_top + (self._row_height * 7),
+                    self._column_1,
+                    20),
+                    "mark",
+                    value=True)
             self.w._mark_color = ColorWell(
-                (self._column_1 + (self._padding * 2),
-                self._padding_top + (self._row_height * 7),
-                self._field_width,
-                20),
-                color = NSColor.colorWithCalibratedRed_green_blue_alpha_(*self._mark_color))
+                    (self._column_1 + (self._padding * 2),
+                    self._padding_top + (self._row_height * 7),
+                    self._field_width,
+                    20),
+                    color=NSColor.colorWithCalibratedRed_green_blue_alpha_(*self._mark_color))
             # buttons
             self.w._button_apply = Button(
-                (self._padding,
-                -65,
-                -self._padding,
-                20),
-                "create glyphs",
-                sizeStyle = 'small',
-                callback = self.apply_callback)
+                    (self._padding,
+                    -65,
+                    -self._padding,
+                    20),
+                    "create glyphs",
+                    sizeStyle='small',
+                    callback = self.apply_callback)
             self.w._button_switch = Button(
-                (self._padding,
-                -35,
-                -self._padding,
-                20),
-                "switch to current font",
-                sizeStyle = 'small',
-                callback = self.update_font_callback)
+                    (self._padding,
+                    -35,
+                    -self._padding,
+                    20),
+                    "switch to current font",
+                    sizeStyle='small',
+                    callback=self.update_font_callback)
             # open window
             self.w.open()
         # no font open
@@ -160,9 +160,9 @@ class createSpaceGlyphsDialog(object):
         _mark = self.w._mark_checkbox.get()
         _mark_color = self.w._mark_color.get()
         _mark_color = (_mark_color.redComponent(),
-            _mark_color.greenComponent(),
-            _mark_color.blueComponent(),
-            _mark_color.alphaComponent())
+                _mark_color.greenComponent(),
+                _mark_color.blueComponent(),
+                _mark_color.alphaComponent())
         boolstring = (False, True)
         if self.font is not None:
             # print info

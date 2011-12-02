@@ -21,59 +21,59 @@ class setWidthDialog(object):
     
     def __init__(self):
         self.w = FloatingWindow(
-            (self._width, self._height),
-            self._title,
-            closable=False)
+                (self._width, self._height),
+                self._title,
+                closable=False)
         # left
         self.w.width_label = TextBox(
-            (self._padding,
-            self._padding,
-            -self._padding,
-            20),
-            "width")
+                (self._padding,
+                self._padding,
+                -self._padding,
+                20),
+                "width")
         self.w.width_value = EditText(
-            (80,
-            self._padding,
-            -15,
-            20),
-            placeholder = 'set value',
-            text = self._default_width)
+                (80,
+                self._padding,
+                -15,
+                20),
+                placeholder = 'set value',
+                text = self._default_width)
         # center
         self.w.center_checkbox = CheckBox(
-            (self._padding,
-            40,
-            -self._padding,
-            20),
-            "center",
-            value = False)
+                (self._padding,
+                40,
+                -self._padding,
+                20),
+                "center",
+                value = False)
         self.w.mark_checkbox = CheckBox(
-            (80,
-            40,
-            -self._padding,
-            20),
-            "mark",
-            value = True)
+                (80,
+                40,
+                -self._padding,
+                20),
+                "mark",
+                value = True)
         self.w.mark_color = ColorWell(
-            (140,
-            40,
-            -15,
-            20),
-            color = NSColor.colorWithCalibratedRed_green_blue_alpha_(*self._mark_color))
+                (140,
+                40,
+                -15,
+                20),
+                color = NSColor.colorWithCalibratedRed_green_blue_alpha_(*self._mark_color))
         # buttons
         self.w.button_close = Button(
-            (self._padding,
-            -30,
-            (self._width / 2) - 15,
-            20),
-            "close",
-            callback = self.close_callback)
+                (self._padding,
+                -30,
+                (self._width / 2) - 15,
+                20),
+                "close",
+                callback = self.close_callback)
         self.w.button_apply = Button(
-            ((self._width / 2) + 5,
-            -30,
-            -self._padding,
-            20),
-            "apply",
-            callback = self.apply_callback)
+                ((self._width / 2) + 5,
+                -30,
+                -self._padding,
+                20),
+                "apply",
+                callback = self.apply_callback)
         # open window
         self.w.setDefaultButton(self.w.button_apply)
         self.w.button_close.bind(".", ["command"])

@@ -24,69 +24,69 @@ class changeSuffixDialog(object):
     
     def __init__(self):
         self.w = FloatingWindow(
-            (self._width,
-            self._height),
-            self._title,
-            closable = False)
+                (self._width,
+                self._height),
+                self._title,
+                closable=False)
         # old suffix
         self.w._old_suffix_label = TextBox(
-            (self._padding,
-            self._padding + (self._row_height * 0),
-            -self._padding,
-            20),
-            "old suffix")
+                (self._padding,
+                self._padding + (self._row_height * 0),
+                -self._padding,
+                20),
+                "old suffix")
         self.w._old_suffix_value = EditText(
-            ((self._width / 2),
-            self._padding + (self._row_height * 0),
-            -self._padding,
-            20),
-            placeholder = 'old suffix',
-            text = self._old_suffix,
-            callback = self.old_suffix_callback)
+                ((self._width / 2),
+                self._padding + (self._row_height * 0),
+                -self._padding,
+                20),
+                placeholder = 'old suffix',
+                text = self._old_suffix,
+                callback=self.old_suffix_callback)
         # new suffix
         self.w._new_suffix_label = TextBox(
-            (self._padding,
-            self._padding + (self._row_height * 1),
-            -self._padding,
-            20),
-            "new suffix")
+                (self._padding,
+                self._padding + (self._row_height * 1),
+                -self._padding,
+                20),
+                "new suffix")
         self.w._new_suffix_value = EditText(
-            ((self._width / 2),
-            self._padding + (self._row_height * 1),
-            -self._padding,
-            20),
-            placeholder = 'optional',
-            text = self._new_suffix,
-            callback = self.new_suffix_callback)
+                ((self._width / 2),
+                self._padding + (self._row_height * 1),
+                -self._padding,
+                20),
+                placeholder = 'optional',
+                text = self._new_suffix,
+                callback=self.new_suffix_callback)
         # mark color
         self.w.mark_checkbox = CheckBox(
-            (self._padding,
-            self._padding + (self._row_height * 2),
-            -self._padding,
-            20),
-            "mark",
-            value = True)
+                (self._padding,
+                self._padding + (self._row_height * 2),
+                -self._padding,
+                20),
+                "mark",
+                value = True)
         self.w.mark_color = ColorWell(
-            ((self._width / 2),
-            self._padding + (self._row_height * 2),
-            -self._padding,
-            20),
-            color = NSColor.colorWithCalibratedRed_green_blue_alpha_(*self._mark_color))
+                ((self._width / 2),
+                self._padding + (self._row_height * 2),
+                -self._padding,
+                20),
+                color=NSColor.colorWithCalibratedRed_green_blue_alpha_(*self._mark_color))
         # buttons
         self.w.button_close = Button(
-            (self._padding,
-            -35,
-            (self._width / 2) - 10,
-            20),
-            "close",
-            callback = self.close_callback)
+                (self._padding,
+                -35,
+                (self._width / 2) - 10,
+                20),
+                "close",
+                callback=self.close_callback)
         self.w.button_apply = Button(
-            ((self._width / 2) + 10,
-            -35,
-            -self._padding,
-            20),
-            "apply",
-            callback = self.apply_callback)
+                ((self._width / 2) + 10,
+                -35,
+                -self._padding,
+                20),
+                "apply",
+                callback=self.apply_callback)
         # open window
         self.w.setDefaultButton(self.w.button_apply)
         self.w.button_close.bind(".", ["command"])

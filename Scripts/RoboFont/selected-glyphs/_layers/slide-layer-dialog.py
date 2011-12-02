@@ -8,33 +8,89 @@ class slideLayerDialog(object):
 
     _title = "slide layer"
     _width = 280
-    _height = 217
+    _height = 212
     _moveX = 0
     _moveY = 0
+    _padding = 10
 
     def __init__(self):
         # get font & defaults
         self.font = CurrentFont()
         self.set_defaults_from_font_metrics()
         # get all fonts
-        self.w = FloatingWindow((self._width, self._height), self._title)
-        self.w.box = Box((10, 10, -10, 30))
-        self.w.box.text = TextBox((5, 1, -10, 20), get_full_name(self.font))
+        self.w = FloatingWindow(
+                (self._width,
+                self._height),
+                self._title)
+        self.w.box = Box(
+                (self._padding,
+                self._padding,
+                -self._padding,
+                26))
+        self.w.box.text = TextBox(
+                (5,
+                1,
+                -self._padding,
+                20),
+                get_full_name(self.font),
+                sizeStyle='small')
         # x slider
-        self.w.x_label = TextBox((10, 55, -10, 17), "slide x")
-        self.w.x_slider = Slider((70, 55, -15, 22), value=0,
-            maxValue=self._xMax, minValue=self._xMin, callback=self.slide_callback)
+        self.w.x_label = TextBox(
+                (self._padding,
+                50,
+                -self._padding,
+                17),
+                "slide x")
+        self.w.x_slider = Slider(
+                (70,
+                50,
+                -15,
+                22),
+                value = 0,
+                maxValue=self._xMax,
+                minValue=self._xMin,
+                callback=self.slide_callback)
         # y slider
-        self.w.y_label = TextBox((10, 85, -10, 17), "slide y")
-        self.w.y_slider = Slider((70, 85, -15, 22), value=0,
-            maxValue=self._yMax, minValue=self._yMin, callback=self.slide_callback)
+        self.w.y_label = TextBox(
+                (self._padding,
+                80,
+                -self._padding,
+                17),
+                "slide y")
+        self.w.y_slider = Slider(
+                (70,
+                80,
+                -15,
+                22),
+                value = 0,
+                maxValue=self._yMax,
+                minValue=self._yMin,
+                callback=self.slide_callback)
         # buttons
-        self.w.button_restore = Button((10, -95, -10, 20),
-            "restore slider positions", callback=self.restore_callback, sizeStyle='small')
-        self.w.button_update_font = Button((10, -65, -10, 20),
-            "switch to current font", callback=self.update_font_callback, sizeStyle='small')
-        self.w.button_flip = Button((10, -35, -10, 20),
-            "flip foreground / mask", callback=self.flip_callback, sizeStyle='small')
+        self.w.button_restore = Button(
+                (self._padding,
+                -95,
+                -self._padding,
+                20),
+                "restore slider positions",
+                callback=self.restore_callback,
+                sizeStyle='small')
+        self.w.button_update_font = Button(
+                (self._padding,
+                -65,
+                -self._padding,
+                20),
+                "switch to current font",
+                callback=self.update_font_callback,
+                sizeStyle='small')
+        self.w.button_flip = Button(
+                (self._padding,
+                -35,
+                -self._padding,
+                20),
+                "flip foreground / mask",
+                callback=self.flip_callback,
+                sizeStyle='small')
         self.w.open()
 
     def restore_move(self):
@@ -59,8 +115,8 @@ class slideLayerDialog(object):
         self.update_font()
         
     def flip_callback(self, sender):
-        _layer_name_1 = 'foreground'
-        _layer_name_2 = 'mask'
+        _layer_name_1= 'foreground'
+        _layer_name_2= 'mask'
         for gName in self.font.selection:
             self.font[gName].flipLayers(_layer_name_1, _layer_name_2)
 
@@ -86,3 +142,4 @@ class slideLayerDialog(object):
 # run
 
 slideLayerDialog()
+
