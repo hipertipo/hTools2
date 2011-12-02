@@ -29,31 +29,31 @@ Special thanks to Frederik Berlaen for the many tips, comments and corrections.
 
 RoboFont is developed by [Frederik Berlaen (TypeMyType)](http://typemytype.com).
 
-RoboFont and hTools are built on fundamental work and libraries by Erik van Blokland & Just van Rossum [LettError](http://letterror.com) and [Tal Leming (TypeSupply)](http://typesupply.com).
+RoboFont and hTools are built on fundamental work and libraries by [Erik van Blokland & Just van Rossum (LettError)](http://letterror.com) and [Tal Leming (TypeSupply)](http://typesupply.com).
 
 
 Installation
 ------------
 
-1. Get the latest version of hTools2 from the [.zip package](https://github.com/gferreira/hTools2/zipball/master) or directly from the [git repository](https://github.com/gferreira/hTools2).
+- Get the latest version of hTools2 from the [zip package](https://github.com/gferreira/hTools2/zipball/master) or directly from the [git repository](https://github.com/gferreira/hTools2).
 
-2. Move the folder to the desired location on your hard disk, for example `/code/`.
+- Move the folder to the desired location on your hard disk, for example `/code/`.
 
-3. Create a simple text file named `hTools2.pth`, containing the path to the `Lib` folder in hTools2: 
+- Create a simple text file named `hTools2.pth`, containing the path to the `Lib` folder in hTools2: 
 
 ```
 /code/hTools2/Lib/
 ```
 
-4. Save this file in the `site-packages` folder for the current Python, for example `/Library/Python/2.6/site-packages`.
+- Save this file in the `site-packages` folder for the current Python, for example `/Library/Python/2.6/site-packages`.
 
-5. To test if `hTools2` is installed, try to run this in the RoboFont scripting window:
+- To test if `hTools2` is installed, try to run this in the RoboFont scripting window:
 
 ```
 import hTools2
 ```
     
-6. If no error message is returned, the library has been installed sucessfully.
+- If no error message is returned, the library has been installed sucessfully.
 
 
 Feedback
