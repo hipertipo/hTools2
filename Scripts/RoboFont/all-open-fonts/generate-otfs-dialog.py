@@ -10,7 +10,7 @@ from hTools2.modules.fontutils import get_full_name
 class GenerateAllOpenFontsDialog(object):
 
     _title = "generate .otfs for all open fonts"
-    _otfs_folder_default = "/"
+    _otfs_folder_default = None
     _width = 480
     _height = 160
 
@@ -22,7 +22,7 @@ class GenerateAllOpenFontsDialog(object):
         # ufos folder
         self.w.otfs_label = TextBox(
                 (10, 10, -10, 70),
-                "otfs folder")
+                ".otfs folder")
         self.w.otfs_get_folder_button = Button(
                 (-100, 10, -10, 20),
                 "get folder...",
@@ -75,6 +75,7 @@ class GenerateAllOpenFontsDialog(object):
         self.w.otfs_folder_value.set(folder_otfs[0])
 
     def button_apply_callback(self, sender):
+        print 'hello world'
         _all_fonts = AllFonts()
         if len(_all_fonts) > 0:
             # get settings
@@ -98,25 +99,17 @@ class GenerateAllOpenFontsDialog(object):
             for font in _all_fonts:          
                 if font.path is not None:
                     _font_path = font.path
-                    print '\tgenerating .otf for %s...' % 
-                            os.path.split(get_full_name(font))[1]
+                    print '\tgenerating .otf for %s...' % os.path.split(get_full_name(font))[1]
                     # generate otf
                     otf_file = os.path.splitext(os.path.split(font.path)[1])[0] + '.otf'
                     otf_path = os.path.join(_otfs_folder, otf_file)
-                    font.generate(
-                            otf_path,
-                            'otf',
-                            decompose=_decompose,
-                            autohint=_autohint,
-                            checkOutlines=_overlaps,
-                            releaseMode=_release_mode,
-                            glyphOrder=[])
+                    font.generate(otf_path, 'otf', decompose=_decompose, autohint=_autohint, 
+                            checkOutlines=_overlaps, releaseMode=_release_mode, glyphOrder=[])
                     print '\t\totf path: %s' % otf_path
                     print '\t\tgeneration sucessful? %s\n' % os.path.exists(otf_path)
                 # skip unsaved open fonts
                 else:
-                    print '\tskipping "%s", please save this font to file first.\n' % 
-                            os.path.split(get_full_name(font))[1]
+                    print '\tskipping "%s", please save this font to file first.\n' % os.path.split(get_full_name(font))[1]
             # done all
             self.w.bar.stop()
             print '...done.\n'

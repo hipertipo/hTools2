@@ -16,82 +16,86 @@ class slideLayerDialog(object):
     def __init__(self):
         # get font & defaults
         self.font = CurrentFont()
-        self.set_defaults_from_font_metrics()
-        # get all fonts
-        self.w = FloatingWindow(
-                (self._width,
-                self._height),
-                self._title)
-        self.w.box = Box(
-                (self._padding,
-                self._padding,
-                -self._padding,
-                26))
-        self.w.box.text = TextBox(
-                (5,
-                1,
-                -self._padding,
-                20),
-                get_full_name(self.font),
-                sizeStyle='small')
-        # x slider
-        self.w.x_label = TextBox(
-                (self._padding,
-                50,
-                -self._padding,
-                17),
-                "slide x")
-        self.w.x_slider = Slider(
-                (70,
-                50,
-                -15,
-                22),
-                value = 0,
-                maxValue=self._xMax,
-                minValue=self._xMin,
-                callback=self.slide_callback)
-        # y slider
-        self.w.y_label = TextBox(
-                (self._padding,
-                80,
-                -self._padding,
-                17),
-                "slide y")
-        self.w.y_slider = Slider(
-                (70,
-                80,
-                -15,
-                22),
-                value = 0,
-                maxValue=self._yMax,
-                minValue=self._yMin,
-                callback=self.slide_callback)
-        # buttons
-        self.w.button_restore = Button(
-                (self._padding,
-                -95,
-                -self._padding,
-                20),
-                "restore slider positions",
-                callback=self.restore_callback,
-                sizeStyle='small')
-        self.w.button_update_font = Button(
-                (self._padding,
-                -65,
-                -self._padding,
-                20),
-                "switch to current font",
-                callback=self.update_font_callback,
-                sizeStyle='small')
-        self.w.button_flip = Button(
-                (self._padding,
-                -35,
-                -self._padding,
-                20),
-                "flip foreground / mask",
-                callback=self.flip_callback,
-                sizeStyle='small')
-        self.w.open()
+        if self.font is not None:
+
+            self.set_defaults_from_font_metrics()
+            # get all fonts
+            self.w = FloatingWindow(
+                    (self._width,
+                    self._height),
+                    self._title)
+            self.w.box = Box(
+                    (self._padding,
+                    self._padding,
+                    -self._padding,
+                    26))
+            self.w.box.text = TextBox(
+                    (5,
+                    1,
+                    -self._padding,
+                    20),
+                    get_full_name(self.font),
+                    sizeStyle='small')
+            # x slider
+            self.w.x_label = TextBox(
+                    (self._padding,
+                    50,
+                    -self._padding,
+                    17),
+                    "slide x")
+            self.w.x_slider = Slider(
+                    (70,
+                    50,
+                    -15,
+                    22),
+                    value = 0,
+                    maxValue=self._xMax,
+                    minValue=self._xMin,
+                    callback=self.slide_callback)
+            # y slider
+            self.w.y_label = TextBox(
+                    (self._padding,
+                    80,
+                    -self._padding,
+                    17),
+                    "slide y")
+            self.w.y_slider = Slider(
+                    (70,
+                    80,
+                    -15,
+                    22),
+                    value = 0,
+                    maxValue=self._yMax,
+                    minValue=self._yMin,
+                    callback=self.slide_callback)
+            # buttons
+            self.w.button_restore = Button(
+                    (self._padding,
+                    -95,
+                    -self._padding,
+                    20),
+                    "restore slider positions",
+                    callback=self.restore_callback,
+                    sizeStyle='small')
+            self.w.button_update_font = Button(
+                    (self._padding,
+                    -65,
+                    -self._padding,
+                    20),
+                    "switch to current font",
+                    callback=self.update_font_callback,
+                    sizeStyle='small')
+            self.w.button_flip = Button(
+                    (self._padding,
+                    -35,
+                    -self._padding,
+                    20),
+                    "flip foreground / mask",
+                    callback=self.flip_callback,
+                    sizeStyle='small')
+            self.w.open()
+        else:
+            print 'No font selected, please open a font and try again.\n'
 
     def restore_move(self):
         self._moveX = 0
@@ -107,7 +111,7 @@ class slideLayerDialog(object):
 
     def set_defaults_from_font_metrics(self):
         self._xMax = self.font.info.unitsPerEm
-        self._yMax = self.font.info.unitsPerEm/2
+        self._yMax = self.font.info.unitsPerEm / 2
         self._xMin = -self._xMax
         self._yMin = -self._yMax
 
@@ -115,8 +119,8 @@ class slideLayerDialog(object):
         self.update_font()
         
     def flip_callback(self, sender):
-        _layer_name_1= 'foreground'
-        _layer_name_2= 'mask'
+        _layer_name_1 = 'foreground'
+        _layer_name_2 = 'mask'
         for gName in self.font.selection:
             self.font[gName].flipLayers(_layer_name_1, _layer_name_2)
 

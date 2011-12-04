@@ -29,7 +29,7 @@ class BatchGenerateFolderDialog(object):
                 self._padding,
                 -self._padding,
                 70),
-                "folder with .ufo fontssources")
+                "folder with .ufo fonts")
         self.w.ufos_get_folder_button = Button(
                 (-100,
                 self._padding,

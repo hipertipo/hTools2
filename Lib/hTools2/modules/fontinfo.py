@@ -32,7 +32,7 @@ def printFontInfo(font):
 	print_opentype_head(font)
 	print_opentype_hhea(font)
 	print_opentype_name(font)
-	print_opentype_OS2(font)
+	print_opentype_os2(font)
 	print_openType_vhea(font)
 	print_postscript_data(font)
 	
@@ -104,7 +104,7 @@ def print_opentype_name(font):
 	print 'openTypeNameWWSSubfamilyName: %s' % font.info.openTypeNameWWSSubfamilyName
 	print
 
-def print_opentype_OS2(font):
+def print_opentype_os2(font):
 	print 'OpenType OS/2 Table Fields'
 	print 'openTypeOS2WidthClass: %s' % font.info.openTypeOS2WidthClass
 	print 'openTypeOS2WeightClass: %s' % font.info.openTypeOS2WeightClass
@@ -181,7 +181,7 @@ def clearFontInfo(font):
 	clear_opentype_head(font)
 	clear_opentype_hhea(font)
 	clear_opentype_name(font)
-	clear_opentype_OS2(font)
+	clear_opentype_os2(font)
 	clear_openType_vhea(font)
 	clear_postscript_data(font)
 
@@ -246,7 +246,7 @@ def clear_opentype_name(font):
 	font.info.openTypeNameWWSFamilyName = None
 	font.info.openTypeNameWWSSubfamilyName = None
 
-def clear_opentype_OS2(font):
+def clear_opentype_os2(font):
 	# print 'deleting OpenType OS/2 Table Fields'
 	font.info.openTypeOS2WidthClass = None
 	font.info.openTypeOS2WeightClass = None

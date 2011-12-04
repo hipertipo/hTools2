@@ -30,7 +30,7 @@ class copyToMaskDialog(object):
             self.w = FloatingWindow(
                     (self._width, self._height),
                     self._title,
-                    closable = False)
+                    closable=False)
             # source font
             self.w._source_label = TextBox(
                     (self._padding,
@@ -51,13 +51,13 @@ class copyToMaskDialog(object):
                     -self._padding,
                     20),
                     "mark glyphs",
-                    value = True)
+                    value=True)
             self.w.source_mark_color = ColorWell(
                     (self._column_1,
                     self._padding_top + (self._row_height * 2) + 8,
                     -self._padding,
                     20),
-                    color = NSColor.colorWithCalibratedRed_green_blue_alpha_(*self._source_mark_color))
+                    color=NSColor.colorWithCalibratedRed_green_blue_alpha_(*self._source_mark_color))
             # division 1
             self.w.line_1 = HorizontalLine(
                     (self._padding,

@@ -120,11 +120,13 @@ class scaleGlyphsXYDialog(object):
                 callback=self._scale_y_minus_100_callback)
         # metrics
         self.w._metrics_X = CheckBox(
-            (15, -60, -15, 20),
-            "scale side-bearings (X)", value=self._x_metrics)
+                (15, -60, -15, 20),
+                "scale side-bearings (X)",
+                value=self._x_metrics)
         self.w._metrics_Y = CheckBox(
-            (15, -35, -15, 20),
-            "scale vertical metrics (Y)", value=self._y_metrics)
+                (15, -35, -15, 20),
+                "scale vertical metrics (Y)",
+                value=self._y_metrics)
         # open window
         self.w.open()
 
