@@ -23,37 +23,47 @@ Have a look inside the `Scripts` folder for more.
 Credits
 -------
 
-hTools2 is developed by [Gustavo Ferreira (Hipertipo)](http://hipertipo.com) and [Nikola Djurek (Typonine)](http://typonine.com), with help from collaborators.
+hTools2 is developed by Gustavo Ferreira ([Hipertipo](http://hipertipo.com)) and Nikola Djurek ([Typonine](http://typonine.com)), with help from collaborators.
 
 Special thanks to Frederik Berlaen for the many tips, comments and corrections.
 
-RoboFont is developed by [Frederik Berlaen (TypeMyType)](http://typemytype.com).
+RoboFont is developed by Frederik Berlaen ([TypeMyType](http://typemytype.com)).
 
-RoboFont and hTools are built on fundamental work and libraries by [Erik van Blokland & Just van Rossum (LettError)](http://letterror.com) and [Tal Leming (TypeSupply)](http://typesupply.com).
+RoboFont and hTools are built on fundamental work and libraries by Erik van Blokland & Just van Rossum ([LettError](http://letterror.com)) and Tal Leming ([TypeSupply](http://typesupply.com)).
 
 
 Installation
 ------------
 
-- Get the latest version of hTools2 from the [zip package](https://github.com/gferreira/hTools2/zipball/master) or directly from the [git repository](https://github.com/gferreira/hTools2).
+### 1. Get the code
 
-- Move the folder to the desired location on your hard disk, for example `/code/`.
+Download the latest version of hTools2 from the [zip package](https://github.com/gferreira/hTools2/zipball/master), or pull it directly from the [git repository](https://github.com/gferreira/hTools2).
 
-- Create a simple text file named `hTools2.pth`, containing the path to the `Lib` folder in hTools2: 
+Move the folder to the desired location on your hard disk, for example `/code/`.
+
+### 2. Add the module to Python
+
+Create a simple text file named `hTools2.pth`, containing the path to the `Lib` folder in hTools2: 
 
 ```
 /code/hTools2/Lib/
 ```
 
-- Save this file in the `site-packages` folder for the current Python, for example `/Library/Python/2.6/site-packages`.
+Save this file in the `site-packages` folder for the desired Python, for example:
 
-- To test if `hTools2` is installed, try to run this in the RoboFont scripting window:
+```
+/Library/Python/2.X/site-packages
+```
+
+### 3. Test installation
+
+To test if `hTools2` is installed, try to run this in the RoboFont scripting window:
 
 ```
 import hTools2
 ```
     
-- If no error message is returned, the library has been installed sucessfully.
+If no error message is returned, the library has been installed sucessfully.
 
 
 Feedback
