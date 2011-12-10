@@ -1,5 +1,20 @@
 # [h] hTools2.modules.fontutils
 
+from robofab.world import CurrentGlyph
+
+# from hTools2.modules.sysutils import context
+
+def getGlyphs(f):
+	gNames = []
+	cg = CurrentGlyph()
+	if cg != None:
+		gNames.append(cg.name)
+	for g in f:
+		if g.selected == True:
+			if g.name not in gNames:
+				gNames.append(g.name)
+	return gNames
+
 #-----------
 # font info
 #-----------

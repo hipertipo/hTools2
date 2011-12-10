@@ -2,18 +2,16 @@
 
 '''shift all points above/below movable line'''
 
-from robofab.world import CurrentFont, CurrentGlyph
+from robofab.world import CurrentFont
 from dialogKit import *
 
+from hTools2.modules.fontutils import getGlyphs
 from hTools2.modules.color import *
 from hTools2.modules.glyphutils import roundPointsToGrid, roundAnchorsToGrid, roundMargins
 
-# from hTools.tools.ColorTools import randomColor
-# from hTools.tools.UFOTools import getGlyphs
-# from hTools.tools.OutlineTools import selectPoints, deselectPoints, shiftSelectedPoints
-
-# --------------------------------------------------------------------------
-#  dialog
+#------------
+# the dialog
+#------------
 
 class RoundToGridDialog(object):
 
@@ -21,9 +19,8 @@ class RoundToGridDialog(object):
 	_anchors = True
 	_sidebearings = True
 	_mark = True
-	_mark_color = randomColor_FL()
+	_mark_color = randomColor()
 	_gridsize = 30
-
 	_height = 235
 	_column_1 = 120
 	_title = 'round to grid'
@@ -33,7 +30,8 @@ class RoundToGridDialog(object):
 	_row_height = 30
 	_bSpacing = 0
 
-	def __init__(self):
+	def __init__(self, verbose=True):
+		self._verbose = verbose
 		self._width = self._column_1 + self._bWidth + (self._padding_top * 3)
 		self.w = ModalDialog(
 				(self._width,
@@ -119,15 +117,19 @@ class RoundToGridDialog(object):
 	def apply_callback(self, sender):
 		self.font = CurrentFont()
 		if self.font is not None:
-			gNames = self.font.selection
+			gNames = getGlyphs(self.font)
 			if len(gNames) > 0:
-				print 'rounding glyphs to grid...\n'
-				print '\tgrid size: %s' % self._gridsize
-				print '\tpoints: %s' % self._points
-				print '\tanchors: %s' % self._anchors
-				print '\tside-bearings: %s' % self._sidebearings
-				print '\tmark: %s' % self._mark
-				print '\t',
+				# print info
+				if self._verbose:
+					print 'rounding glyphs to grid...\n'
+					print '\tgrid size: %s' % self._gridsize
+					print '\tpoints: %s' % self._points
+					print '\tanchors: %s' % self._anchors
+					print '\tside-bearings: %s' % self._sidebearings
+					print '\tmark: %s' % self._mark
+					print
+					print '\t',
+				# batch process glyphs
 				for gName in gNames:
 					print gName,
 					if self._points:
@@ -139,9 +141,17 @@ class RoundToGridDialog(object):
 					if self._mark:
 						self.font[gName].mark = self._mark_color
 					self.font[gName].update()
+				# done
 				print
 				self.font.update()
-				print '\n...done.\n'
+				if self._verbose:
+					print '\n...done.\n'
+			# no glyphs selected
+			else:
+				print 'no glyph to process, please select one or more glyphs and try again.\n'
+		# no font open
+		else:
+			print 'please open a font and try again.\n'
 			
 	def okCallback(self, sender):
 		# print "...done.\n"
@@ -151,5 +161,4 @@ class RoundToGridDialog(object):
 # run!
 #------
 
-RoundToGridDialog()
-
+RoundToGridDialog(verbose=False)
