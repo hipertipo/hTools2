@@ -37,7 +37,9 @@ def printFontInfo(font):
 	print_postscript_data(font)
 	
 def print_generic_identification(font):
+	print '-' * 60
 	print 'Generic Identification Information'
+	print '-' * 60
 	print 'familyName:', font.info.familyName
 	print 'styleName:', font.info.styleName
 	print 'styleMapFamilyName:', font.info.styleMapFamilyName
@@ -48,13 +50,17 @@ def print_generic_identification(font):
 	print
 
 def print_generic_legal(font):
+	print '-' * 60
 	print 'Generic Legal Information'
+	print '-' * 60
 	print 'copyright: %s' % font.info.copyright
 	print 'trademark: %s' % font.info.trademark
 	print
  
 def print_generic_dimension(font):
+	print '-' * 60
 	print 'Generic Dimension Information'
+	print '-' * 60
 	print 'unitsPerEm: %s' % font.info.unitsPerEm
 	print 'descender: %s' % font.info.descender
 	print 'xHeight: %s' % font.info.xHeight
@@ -64,19 +70,25 @@ def print_generic_dimension(font):
 	print
 
 def print_generic_miscellaneous(font):
+	print '-' * 60
 	print 'Generic Miscellaneous Information'
+	print '-' * 60
 	print 'note: %s' % font.info.note
 	print
 
 def print_opentype_head(font):
+	print '-' * 60
 	print 'OpenType head Table Fields'
+	print '-' * 60
 	print 'openTypeHeadCreated: %s' % font.info.openTypeHeadCreated
 	print 'openTypeHeadLowestRecPPEM: %s' % font.info.openTypeHeadLowestRecPPEM
 	print 'openTypeHeadFlags: %s' % font.info.openTypeHeadFlags
 	print
 
 def print_opentype_hhea(font):
+	print '-' * 60
 	print 'OpenType hhea Table Fields'
+	print '-' * 60
 	print 'openTypeHheaAscender: %s' % font.info.openTypeHheaAscender
 	print 'openTypeHheaDescender: %s' % font.info.openTypeHheaDescender
 	print 'openTypeHheaLineGap: %s' % font.info.openTypeHheaLineGap
@@ -86,7 +98,9 @@ def print_opentype_hhea(font):
 	print
 
 def print_opentype_name(font):
+	print '-' * 60
 	print 'OpenType Name Table Fields'
+	print '-' * 60
 	print 'openTypeNameDesigner: %s' % font.info.openTypeNameDesigner
 	print 'openTypeNameDesignerURL: %s' % font.info.openTypeNameDesignerURL
 	print 'openTypeNameManufacturer: %s' % font.info.openTypeNameManufacturer
@@ -105,7 +119,9 @@ def print_opentype_name(font):
 	print
 
 def print_opentype_os2(font):
+	print '-' * 60
 	print 'OpenType OS/2 Table Fields'
+	print '-' * 60
 	print 'openTypeOS2WidthClass: %s' % font.info.openTypeOS2WidthClass
 	print 'openTypeOS2WeightClass: %s' % font.info.openTypeOS2WeightClass
 	print 'openTypeOS2Selection: %s' % font.info.openTypeOS2Selection
@@ -133,7 +149,9 @@ def print_opentype_os2(font):
 	print
 
 def print_openType_vhea(font):
+	print '-' * 60
 	print 'OpenType vhea Table Fields'
+	print '-' * 60
 	print 'openTypeVheaVertTypoAscender: %s' % font.info.openTypeVheaVertTypoAscender
 	print 'openTypeVheaVertTypoDescender: %s' % font.info.openTypeVheaVertTypoDescender
 	print 'openTypeVheaVertTypoLineGap: %s' % font.info.openTypeVheaVertTypoLineGap
@@ -143,7 +161,9 @@ def print_openType_vhea(font):
 	print
 
 def print_postscript_data(font):
+	print '-' * 60
 	print 'PostScript Specific Data'
+	print '-' * 60
 	print 'postscriptFontName: %s' % font.info.postscriptFontName
 	print 'postscriptFullName: %s' % font.info.postscriptFullName
 	print 'postscriptSlantAngle: %s' % font.info.postscriptSlantAngle

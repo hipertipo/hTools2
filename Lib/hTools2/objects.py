@@ -47,16 +47,12 @@ class hWorld:
 		self.settings = hSettings()
 
 	def projects(self):
-
-		# convention:
-		# project folders start with underscore
-
+		# convention: project folders start with underscore
 		allFiles = os.listdir(self.settings.root)
 		projects = []
 		for n in allFiles:
 			if n[:1] == "_":
 				projects.append(n[1:])
-
 		return projects
 
 

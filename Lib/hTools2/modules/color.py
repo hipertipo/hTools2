@@ -5,6 +5,17 @@ from random import random
 from hTools2.modules.sysutils import context
 from hTools2.modules.colorsys import *
 
+namedColors = {	
+	'red' : hsv_to_rgb(.0, 1, 1) + (1,),
+	'orange' : hsv_to_rgb(.11, 1, 1) + (1,),
+	'yellow' : hsv_to_rgb(.15, 1, 1) + (1,),
+	'green' : hsv_to_rgb(.35, 1, 1) + (1,),
+	'cyan' : hsv_to_rgb(.5, 1, 1) + (1,),
+	'blue' : hsv_to_rgb(.7, 1, 1) + (1,),
+	'purple' : hsv_to_rgb(.8, 1, 1) + (1,),
+	'pink' : hsv_to_rgb(.9, 1, 1) + (1,),
+}
+
 def randomColor():
 	# FontLab
 	if context == 'FontLab':
