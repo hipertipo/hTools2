@@ -1,5 +1,7 @@
 # [h] skew glyphs dialog
 
+import math
+
 from vanilla import *
 
 class skewGlyphsDialog(object):
@@ -8,11 +10,12 @@ class skewGlyphsDialog(object):
     _button_w = 60
     _button_h = 30
     _padding = 10
+    _offset_x = True
 
     def __init__(self):
         self.w = FloatingWindow(
                 ((self._button_w * 3) + (self._padding * 2) - 2,
-                (self._button_h * 2) + (self._padding * 2) - 1),
+                (self._button_h * 2) + (self._padding * 2) + 20),
                 self._title)
         # +1
         self.w._skew_x_plus_button_1 = SquareButton(
@@ -62,15 +65,29 @@ class skewGlyphsDialog(object):
                 self._button_h),
                 "-25",
                 callback=self._skew_x_minus_25)
+        # checkbox
+        self.w.offset_x_checkbox = CheckBox(
+                (self._padding,
+                self._button_h + (self._padding * 2) + 25,
+                -self._padding,
+                20),
+                "skew half way from x-height",
+                sizeStyle="small",
+                value=self._offset_x)
         # open window
         self.w.open()
 
     def skew_glyphs(self, angle):
         font = CurrentFont()
+        _offset_x = self.w.offset_x_checkbox.get()
         for gName in font.selection:
             try:
                 font[gName].prepareUndo('skew')
-                font[gName].skew(angle)
+                if _offset_x:
+                    offset_x = math.tan(math.radians(angle)) * (font.info.xHeight / 2)
+                else:
+                    offset_x = 0
+                font[gName].skew(angle, offset=(offset_x, 0))
                 font[gName].performUndo()
             except:
                 print '\tcannot transform %s' % gName                        
