@@ -5,8 +5,8 @@ from vanilla import *
 class scaleGlyphsDialog(object):
 
     _title = "scale glyphs"
-    _button_w = 87
-    _button_h = 40
+    _button_w = 60
+    _button_h = 30
     _padding = 10
 
     def __init__(self):
@@ -21,6 +21,7 @@ class scaleGlyphsDialog(object):
                 self._button_w,
                 self._button_h),
                 "+1%",
+                sizeStyle='small',
                 callback=self._scale_x_plus_1)
         self.w._scale_x_plus_button_10 = SquareButton(
                 (self._button_w + ((self._padding * 1) - 1),
@@ -28,6 +29,7 @@ class scaleGlyphsDialog(object):
                 self._button_w,
                 self._button_h),
                 "+10%",
+                sizeStyle='small',
                 callback=self._scale_x_plus_10)
         self.w._scale_x_plus_button_100 = SquareButton(
                 ((self._button_w * 2) + (self._padding * 1) - 2,
@@ -35,6 +37,7 @@ class scaleGlyphsDialog(object):
                 self._button_w,
                 self._button_h),
                 "+100%",
+                sizeStyle='small',
                 callback=self._scale_x_plus_100)
         # decrease
         self.w._scale_x_minus_button_1 = SquareButton(
@@ -43,6 +46,7 @@ class scaleGlyphsDialog(object):
                 self._button_w,
                 self._button_h),
                 "-1%",
+                sizeStyle='small',
                 callback=self._scale_x_minus_1)
         self.w._scale_x_minus_button_10 = SquareButton(
                 (self._button_w + ((self._padding * 1) - 1),
@@ -50,6 +54,7 @@ class scaleGlyphsDialog(object):
                 self._button_w,
                 self._button_h),
                 "-10%",
+                sizeStyle='small',
                 callback=self._scale_x_minus_10)
         self.w._scale_x_minus_button_100 = SquareButton(
                 ((self._button_w * 2) + ((self._padding * 1) - 2),
@@ -57,6 +62,7 @@ class scaleGlyphsDialog(object):
                 self._button_w,
                 self._button_h),
                 "-100%",
+                sizeStyle='small',
                 callback=self._scale_x_minus_100)
         # open window
         self.w.open()

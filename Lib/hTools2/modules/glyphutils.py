@@ -66,3 +66,73 @@ def roundAnchorsToGrid(glyph, (sizeX, sizeY)):
 			y_delta = y_new - anchor.y
 			anchor.move((x_delta, y_delta))
 		glyph.update()
+
+#-------------
+# shift points
+#-------------
+
+def selectPoints_y(g, linePos, above=True):
+	for c in g.contours:
+		for p in c.points:
+			# select points above the line
+			if above == True: 
+				if p.y >= linePos:
+					p.selected = True
+			# select points below the line
+			else:
+				if p.y <= linePos:
+					p.selected = True
+	g.update()
+
+def selectPoints_x(g, linePos, left=True):
+	for c in g.contours:
+		for p in c.points:
+			# select points left of the line
+			if left == True: 
+				if p.x <= linePos:
+					p.selected = True
+			# select points right the line
+			else:
+				if p.x >= linePos:
+					p.selected = True
+	g.update()
+
+def deselectPoints(g):
+	for c in g.contours:
+		for p in c.points:
+			p.selected = False
+	g.update()
+
+def shiftSelectedPoints_y(g, delta, anchors=False):
+	for c in g.contours:
+		for p in c.points:
+			if p.selected == True:
+				p.y = p.y + delta
+	# shift anchors
+	if anchors == True:
+		if len(g.anchors) > 0:
+			for a in g.anchors:
+				if mode == 1:
+					if a.y >= linePos:
+						a.y = a.y + delta
+				else:
+					if a.y <= linePos:
+						a.y = a.y + delta
+	g.update()
+
+def shiftSelectedPoints_x(g, delta, anchors=False):
+	for c in g.contours:
+		for p in c.points:
+			if p.selected == True:
+				p.x = p.x + delta
+	# shift anchors
+	if anchors == True:
+		if len(g.anchors) > 0:
+			for a in g.anchors:
+				if mode == 1:
+					if a.x >= linePos:
+						a.x = a.x + delta
+				else:
+					if a.x <= linePos:
+						a.x = a.x + delta
+	g.update()
