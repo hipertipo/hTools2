@@ -11,6 +11,20 @@
 from vanilla import *
 
 from hTools2.plugins.nudge import *
+from hTools2.modules.glyphutils import *
+
+def nudgeSelected(x):
+    g = CurrentGlyph()
+    for c in g.contours:
+        i = 0
+        for p in c.bPoints:
+            n = c.bPoints[i]
+            if n.selected:
+                g.prepareUndo(undoTitle='InterpolatedNudge')
+                interpolateNode(i, g, c, x)
+                g.performUndo()
+                g.update()
+            i = i + 1
 
 class interpolatedNudgeDialog(object):
 
@@ -20,8 +34,9 @@ class interpolatedNudgeDialog(object):
     _padding = 10
     _box_height = 20
     _width = (_button_1 * 3) + (_padding * 2) - 2
-    _height = (_button_1 * 4) + (_padding * 3) + _box_height - 2
+    _height = (_button_1 * 4) + (_padding * 2) # + _box_height + _padding - 2
     _nudge = 10
+    _interpolate = True
 
     def __init__(self):
         self.w = FloatingWindow(
@@ -85,14 +100,15 @@ class interpolatedNudgeDialog(object):
                 callback=self.nudge_minus_callback)
         # interpolate
         y = (self._button_1 * 3) + (self._padding * 2) + self._button_2 + 5
-        self.w._interpolate = CheckBox(
-                (x,
-                y + self._padding,
-                -self._padding,
-                self._box_height),
-                "interpolate",
-                value=True,
-                sizeStyle='small')
+        # self.w._interpolate = CheckBox(
+        #         (x,
+        #         y + self._padding,
+        #         -self._padding,
+        #         self._box_height),
+        #         "interpolate",
+        #         value=self._interpolate,
+        #         sizeStyle='small',
+        #         callback=self._interpolate_callback)
         # open dialog
         self.w.open()
 
@@ -106,17 +122,32 @@ class interpolatedNudgeDialog(object):
         self._nudge = int(self.w._nudge_value.get()) + 10
         self.w._nudge_value.set(self._nudge)
 
+    def _interpolate_callback(self, sender):
+        self._interpolate = self.w._interpolate.get()
+
     def _left_callback(self, sender):
-        nudgeSelected((-self._nudge, 0))
+        if self._interpolate:
+            nudgeSelected((-self._nudge, 0))
+        else:
+            shiftSelectedPoints_x(CurrentGlyph(), -self._nudge)
 
     def _right_callback(self, sender):
-        nudgeSelected((self._nudge, 0))
+        if self._interpolate:
+            nudgeSelected((self._nudge, 0))
+        else:
+            shiftSelectedPoints_x(CurrentGlyph(), self._nudge)
 
     def _up_callback(self, sender):
-        nudgeSelected((0, self._nudge))
+        if self._interpolate:
+            nudgeSelected((0, self._nudge))
+        else:
+            shiftSelectedPoints_y(CurrentGlyph(), self._nudge)
 
     def _down_callback(self, sender):
-        nudgeSelected((0, -self._nudge))
+        if self._interpolate:
+            nudgeSelected((0, -self._nudge))
+        else:
+            shiftSelectedPoints_y(CurrentGlyph(), -self._nudge)
 
 # run
 
