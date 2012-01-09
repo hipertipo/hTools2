@@ -4,9 +4,12 @@
 # interpolation
 #---------------
 
-def interpolateGlyph(gName, f1, f2, f3, factor):
+def interpolateGlyph(gName, f1, f2, f3, factor, clear=True):
 	if f2.has_key(gName):
-		g = f3.newGlyph(gName, clear=True)
+		if clear:
+			g = f3.newGlyph(gName, clear=True)
+		else:
+			g = f3[gName]
 		g.interpolate(factor, f1[gName], f2[gName])
 		g.update()
 		f3.update()
