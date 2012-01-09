@@ -5,9 +5,6 @@
 from vanilla import *
 from AppKit import NSColor
 
-import hTools2.modules.interpol
-reload(hTools2.modules.interpol)
-
 from hTools2.modules.fontutils import get_full_name
 from hTools2.modules.interpol import *
 from hTools2.modules.color import randomColor
@@ -39,7 +36,7 @@ class interpolateGlyphsDialog(object):
     _factor_y = 0.50
     _proportional = True
 
-    def __init__(self):
+    def __init__(self)
         if len(AllFonts()) > 0:
             self._all_fonts = AllFonts()
             for f in self._all_fonts:
@@ -179,7 +176,7 @@ class interpolateGlyphsDialog(object):
             #-----------
             # factors x
             #-----------
-            y += 15
+            y += 13
             # x label
             self.w._factor_x_label = TextBox(
                     (x,

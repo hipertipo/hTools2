@@ -10,7 +10,7 @@ class adjustVerticalMetrics(object):
     _moveX = 0
     _moveY = 0
     _row_height = 28
-    _box_height = 20
+    _box_height = 18
     _box_width = 60
     _button_2 = _box_height
     #_padding_top = 10
@@ -18,7 +18,7 @@ class adjustVerticalMetrics(object):
     _column_1 = 90
     _column_2 = 300
     _column_3 = 60
-    _width = _column_1 + _column_2 + _column_3 + (_padding * 4) + (_button_2 * 4) - 9
+    _width = _column_1 + _column_2 + _column_3 + (_padding * 5) + (_button_2 * 4) - 8
     _height = (_row_height * 4) + (_padding * 5) + 1
 
     def __init__(self):
@@ -33,7 +33,7 @@ class adjustVerticalMetrics(object):
         x1 = self._padding
         x2 = x1 + self._column_1
         x3 = x2 + self._column_2 + 15
-        x4 = x3 + self._column_3 - 1
+        x4 = x3 + self._column_3 + self._padding
         x5 = x4 + self._button_2 - 1
         x6 = x5 + self._button_2 - 1
         x7 = x6 + self._button_2 - 1

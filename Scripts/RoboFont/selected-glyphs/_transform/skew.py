@@ -6,114 +6,197 @@ from vanilla import *
 
 class skewGlyphsDialog(object):
 
-    _title = "skew glyphs"
-    _button_w = 60
-    _button_h = 30
+    _title = "skew"
     _padding = 10
+    _button_1_height = 35
+    _button_2 = 18
+    _box_height = 20
+    _width = (_button_2 * 6) + (_padding * 2) - 5
+    _button_1_width = (_width - (_padding * 2) + 2) / 2
+    _height = _button_1_height + (_padding * 5) + (_button_2 * 2) + _box_height - 4
     _offset_x = True
+    _skew_value_default = 7.0
+    _skew_min = 0
+    _skew_max = 61 # max possible = 89
 
     def __init__(self):
         self.w = FloatingWindow(
-                ((self._button_w * 3) + (self._padding * 2) - 2,
-                (self._button_h * 2) + (self._padding * 2) + 20),
+                (self._width,
+                self._height),
                 self._title)
-        # plus
-        self.w._skew_x_plus_button_1 = SquareButton(
-                (self._padding,
-                self._padding,
-                self._button_w,
-                self._button_h),
-                "+1",
-                sizeStyle='small',
-                callback=self._skew_x_plus_1)
-        self.w._skew_x_plus_button_5 = SquareButton(
-                (self._button_w + ((self._padding * 1) - 1),
-                self._padding,
-                self._button_w,
-                self._button_h),
-                "+5",
-                sizeStyle='small',
-                callback=self._skew_x_plus_5)
-        self.w._skew_x_plus_button_25 = SquareButton(
-                ((self._button_w * 2) + (self._padding * 1) - 2,
-                self._padding,
-                self._button_w,
-                self._button_h),
-                "+25",
-                sizeStyle='small',
-                callback=self._skew_x_plus_25)
-        # minus
-        self.w._skew_x_minus_button_1 = SquareButton(
-                (self._padding,
-                self._button_h + (self._padding - 1),
-                self._button_w,
-                self._button_h),
-                "-1",
-                sizeStyle='small',
-                callback=self._skew_x_minus_1)
-        self.w._skew_x_minus_button_5 = SquareButton(
-                (self._button_w + ((self._padding * 1) - 1),
-                self._button_h + (self._padding - 1),
-                self._button_w,
-                self._button_h),
-                "-5",
-                sizeStyle='small',
-                callback=self._skew_x_minus_5)
-        self.w._skew_x_minus_button_25 = SquareButton(
-                ((self._button_w * 2) + ((self._padding * 1) - 2),
-                self._button_h + (self._padding - 1),
-                self._button_w,
-                self._button_h),
-                "-25",
-                sizeStyle='small',
-                callback=self._skew_x_minus_25)
-        # offset
-        self.w.offset_x_checkbox = CheckBox(
-                (self._padding,
-                self._button_h + (self._padding * 2) + 25,
+        x = self._padding
+        y = self._padding
+        #--------------
+        # skew buttons
+        #--------------
+        self.w._skew_x_minus_button = SquareButton(
+                (x,
+                y,
+                self._button_1_width,
+                self._button_1_height),
+                "-",
+                callback=self._skew_minus_callback)
+        x += self._button_1_width - 1
+        self.w._skew_x_plus_button = SquareButton(
+                (x,
+                y,
+                self._button_1_width,
+                self._button_1_height),
+                "+",
+                callback=self._skew_plus_callback)
+        # skew angle
+        x = self._padding
+        y += self._padding + self._button_1_height
+        self.w._skew_value = EditText(
+                (x,
+                y,
                 -self._padding,
-                20),
-                "skew half way from x-height",
+                self._button_2),
+                self._skew_value_default,
+                sizeStyle='small',
+                readOnly=True)
+        #-----------------
+        # angle spinners
+        #-----------------
+        x = self._padding
+        y += self._button_2 + self._padding
+        self.w._nudge_minus_001 = SquareButton(
+                (x,
+                y,
+                self._button_2,
+                self._button_2),
+                '-',
+                sizeStyle='small',
+                callback=self._minus_001_callback)
+        x += self._button_2 - 1
+        self.w._nudge_plus_001 = SquareButton(
+                (x,
+                y,
+                self._button_2,
+                self._button_2),
+                '+',
+                sizeStyle='small',
+                callback=self._plus_001_callback)
+        x += self._button_2 - 1
+        self.w._nudge_minus_010 = SquareButton(
+                (x,
+                y,
+                self._button_2,
+                self._button_2),
+                '-',
+                sizeStyle='small',
+                callback=self._minus_010_callback)
+        x += self._button_2 - 1
+        self.w._nudge_plus_010 = SquareButton(
+                (x,
+                y,
+                self._button_2,
+                self._button_2),
+                '+',
+                sizeStyle='small',
+                callback=self._plus_010_callback)
+        x += self._button_2 - 1
+        self.w._nudge_minus_100 = SquareButton(
+                (x,
+                y,
+                self._button_2,
+                self._button_2),
+                '-',
+                sizeStyle='small',
+                callback=self._minus_100_callback)
+        x += self._button_2 - 1
+        self.w._nudge_plus_100 = SquareButton(
+                (x,
+                y,
+                self._button_2,
+                self._button_2),
+                '+',
+                sizeStyle='small',
+                callback=self._plus_100_callback)
+        #------------
+        # checkboxes
+        #------------
+        x = self._padding
+        y += 28
+        self.w.offset_x_checkbox = CheckBox(
+                (x,
+                y,
+                -self._padding,
+                self._box_height),
+                "from middle",
                 sizeStyle="small",
-                value=self._offset_x)
+                value=self._offset_x,
+                callback=self._offset_x_callback)
         # open window
         self.w.open()
 
+    #-----------
+    # functions
+    #-----------
+
+    def _offset_x_callback(self, sender):
+        self._offset_x = self.w.offset_x_checkbox.get()
+
+    def _skew_minus_callback(self, sender):
+        _value = float(self.w._skew_value.get())
+        # print 'skew -%s' % _value
+        self.skew_glyphs(-_value)
+
+    def _skew_plus_callback(self, sender):
+        _value = float(self.w._skew_value.get())
+        # print 'skew +%s' % _value
+        self.skew_glyphs(_value)
+
     def skew_glyphs(self, angle):
         font = CurrentFont()
-        _offset_x = self.w.offset_x_checkbox.get()
+        if self._offset_x:
+            self.offset_x = math.tan(math.radians(angle)) * (font.info.xHeight / 2)
+        else:
+            self.offset_x = 0
         for gName in font.selection:
-            try:
-                font[gName].prepareUndo('skew')
-                if _offset_x:
-                    offset_x = math.tan(math.radians(angle)) * (font.info.xHeight / 2)
-                else:
-                    offset_x = 0
-                font[gName].skew(angle, offset=(offset_x, 0))
-                font[gName].performUndo()
-            except:
-                print '\tcannot transform %s' % gName                        
+            font[gName].prepareUndo('skew')
+            font[gName].skew(angle, offset=(self.offset_x, 0))
+            font[gName].performUndo()
 
-    def _skew_x_minus_1(self, sender):
-        self.skew_glyphs(-1)
+    #---------
+    # buttons
+    #---------
 
-    def _skew_x_minus_5(self, sender):
-        self.skew_glyphs(-5)
+    def _minus_001_callback(self, sender):
+        _value = float(self.w._skew_value.get()) - .1
+        if self._skew_min < _value < self._skew_max:
+            _value = '%.1f' % _value
+            self.w._skew_value.set(_value)
 
-    def _skew_x_minus_25(self, sender):
-        self.skew_glyphs(-25)
+    def _plus_001_callback(self, sender):
+        _value = float(self.w._skew_value.get()) + .1
+        if self._skew_min < _value < self._skew_max:
+            _value = '%.1f' % _value
+            self.w._skew_value.set(_value)
 
-    def _skew_x_plus_1(self, sender):
-        self.skew_glyphs(1)
+    def _minus_010_callback(self, sender):
+        _value = float(self.w._skew_value.get()) - 1
+        if self._skew_min < _value < self._skew_max:
+            _value = '%.1f' % _value
+            self.w._skew_value.set(_value)
 
-    def _skew_x_plus_5(self, sender):
-        self.skew_glyphs(5)
+    def _plus_010_callback(self, sender):
+        _value = float(self.w._skew_value.get()) + 1
+        if self._skew_min < _value < self._skew_max:
+            _value = '%.1f' % _value
+            self.w._skew_value.set(_value)
 
-    def _skew_x_plus_25(self, sender):
-        self.skew_glyphs(25)
+    def _minus_100_callback(self, sender):
+        _value = float(self.w._skew_value.get()) - 10
+        if self._skew_min < _value < self._skew_max:
+            _value = '%.1f' % _value
+            self.w._skew_value.set(_value)
 
-    def close_callback(self, sender):
-        self.w.close()
+    def _plus_100_callback(self, sender):
+        _value = float(self.w._skew_value.get()) + 10
+        if self._skew_min < _value < self._skew_max:
+            _value = '%.1f' % _value
+            self.w._skew_value.set(_value)
 
 # run
 
