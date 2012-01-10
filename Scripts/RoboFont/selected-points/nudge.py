@@ -1,4 +1,4 @@
-# [h] interpolated nudge dialog
+# [h] nudge dialog
 
 '''a simple RoboFont dialog for the famous "interpolated nudge" script'''
 

@@ -8,11 +8,11 @@ class skewGlyphsDialog(object):
 
     _title = "skew"
     _padding = 10
-    _button_1_height = 35
     _button_2 = 18
     _box_height = 20
     _width = (_button_2 * 6) + (_padding * 2) - 5
     _button_1_width = (_width - (_padding * 2) + 2) / 2
+    _button_1_height = _button_1_width # 35
     _height = _button_1_height + (_padding * 5) + (_button_2 * 2) + _box_height - 4
     _offset_x = True
     _skew_value_default = 7.0
