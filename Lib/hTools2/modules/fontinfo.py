@@ -12,7 +12,7 @@ def set_names(font):
     font.info.familyName = family_name
     font.info.styleName = style_name
 
-def set_metrics(font):
+def set_vmetrics(font):
     font.info.unitsPerEm = 1000
     font.info.descender = -200
     font.info.xHeight = 700
@@ -326,3 +326,4 @@ def clear_postscript_data(font):
 	font.info.postscriptWeightName = None
 	font.info.postscriptDefaultCharacter = None
 	font.info.postscriptWindowsCharacterSet = None
+

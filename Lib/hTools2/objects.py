@@ -4,38 +4,81 @@ import os
 import plistlib
 
 import hTools2
+reload(hTools2)
 
-from modules.fileutils import walk
+from hTools2.modules.fileutils import walk
+from hTools2.modules.ftp import connectToServer, uploadFile
+from hTools2.plugins.KLTF_WOFF import compressFont
 
 
 class hSettings:
 
-    root = '$ROOT'
+    _params = [
+        'root',
+        'ftp_url',
+        'ftp_login',
+        'ftp_password',
+        'ftp_folder',
+    ]
+    
+    _filename = 'hSettings.plist'
 
-    def __init__(self):
-        self.root = hTools2.ROOT
-        self.file = os.path.join(self.root, 'hSettings.plist')
-        if os.path.exists(self.file):
-            self.read()
+    def __init__(self, path=None):
+        if path is not None:
+            if os.path.exists(path):
+                _settings_path = os.path.join(path, self._filename)
+                if os.path.exists(_settings_path):
+                    self.read(_settings_path)
+                    self.hDict['root'] = _settings_path
+                else:
+                    print 'no hSettings file in this folder, initializing an empty hDict.\n'
+                    self.create_dict()
+            else:
+                print 'folder does not exist, please create it first (or try a different one).\n'
         else:
-            self.write()            
+            self.create_dict()
+            self.hDict['root'] = hTools2.ROOT
+            self.read()
 
-    def read(self):
-        self.hDict = plistlib.readPlist(self.file)
+    def create_dict(self):
+        self.hDict = {}
+        for p in self._params:
+            self.hDict[p] = ''
+
+    def trim_settings(self):
+        _dict = {}
+        for k in self.hDict.keys():
+            if k in self._params:
+                _dict[k] = self.hDict[k]
+        self.hDict = _dict
+
+    def read(self, plist_path=None):
+        if plist_path is None:
+            if self.hDict['root'] is '':
+                print 'cannot read, no root folder available.\n'
+            else:
+                _path = self.hDict['root']
+                _filename = os.path.join(_path, self._filename)
+                self.hDict = plistlib.readPlist(_filename)
+                self.trim_settings()
+        else:
+            self.hDict = plistlib.readPlist(plist_path)
+            self.trim_settings()
 
     def write(self):
-        plistlib.writePlist(self.hDict, self.file)
+        if self.hDict['root'] is '':
+            print "cannot save hSettings, please set the 'root' parameter first.\n"
+        else:
+            if os.path.exists(self.hDict['root']):
+                _filepath = os.path.join(self.hDict['root'], self._filename)
+                plistlib.writePlist(self.hDict, _filepath)
+            else:
+                print 'cannot save hSettings, root folder does not exist.\n'
 
-    def print_info(self):
-        print 'printing hWorld settings...\n'
-        print '\troot folder:'
-        print '\t\t%s\n' % self.root
-        print '\ttest fonts folder:'
-        print '\t\t%s\n' % self.hDict['test']
-        print '\tFTP settings:'
-        for _ftp_setting in self.hDict['ftp']:
-            print '\t\t%s: %s' % (_ftp_setting, self.hDict['ftp'][_ftp_setting])
-        print '\n...done.\n'
+    def print_(self):
+        for k in self.hDict.keys():
+            print '%s: %s' % (k, self.hDict[k])
+        print
 
 
 class hWorld:
@@ -47,18 +90,19 @@ class hWorld:
         self.settings = hSettings()
 
     def projects(self):
-        allFiles = os.listdir(self.settings.root)
+        allFiles = os.listdir(self.settings.hDict['root'])
         projects = []
         for n in allFiles:
-            # convention:
-            # all project folders start with an underscore
-            # ex: _Publica, _Publica-Serif etc.
+            # project folders start with an underscore
             if n[:1] == "_":
                 projects.append(n[1:])
         return projects
 
 
 class hSpace:
+
+    params_dict = {}
+    params_order = []
 
     def __init__(self):
         self.world = hWorld()
@@ -76,12 +120,8 @@ class hProject:
         'test' : None,
         'vfbs' : None,
         'woffs' : None,
-        'bkp' : None,
-        # 'ftp': None,
+        'bkp' : None
     }
-
-    params = {}
-    params_order = []
 
     def __init__(self, name=None):
         self.name = name
@@ -99,7 +139,7 @@ class hProject:
     # paths
 
     def make_paths(self):
-        self.paths['root'] = os.path.join(self.world.settings.root, '_' + self.name)
+        self.paths['root'] = os.path.join(self.world.settings.hDict['root'], '_' + self.name)
         self.paths['docs'] = os.path.join(self.paths['root'], '_docs')
         self.paths['ufos'] = os.path.join(self.paths['root'], '_ufos')
         self.paths['otfs'] = os.path.join(self.paths['root'], '_otfs')
@@ -108,14 +148,13 @@ class hProject:
         self.paths['temp'] = os.path.join(self.paths['root'], '_temp')
         self.paths['woffs'] = os.path.join(self.paths['root'], '_woffs')
         self.paths['bkp'] = os.path.join(self.paths['root'], '_bkp')
-        # mutable paths
+        # unstable paths
         self.paths['instances'] = os.path.join(self.paths['root'], '_ufos/_instances')
         self.paths['interpol'] = os.path.join(self.paths['root'], '_ufos/_interpol')
         self.paths['interpol_instances'] = os.path.join(self.paths['root'], '_ufos/_interpol/_instances')
-        self.paths['test'] = os.path.join(self.world.settings.hDict['test'], '_' + self.name)
 
     def ftp_path(self):
-        return os.path.join(self.world.settings.hDict['ftp']['folder'], self.name.lower())
+        return os.path.join(self.world.settings.hDict['ftp_folder'], self.name.lower())
 
     def print_paths(self):
         print 'printing paths in project %s...' % self.name
@@ -179,23 +218,14 @@ class hFont:
             self.get_names_from_ufo_filename()
         except:
             print 'Untitled font, please save ufo to project folder before proceeding.\n'
-        #self._make_parameters_dict()
+            # self._make_parameters_dict()
 
-#   def _make_parameters_dict(self):  
-#       param_names = []
-#       param_values = []
-#       for param in self.project.parameters:
-#           param_names.append(param[0])
-#           param_values.append('$' + param[0].upper())
-#       self.parameters = dict(zip(param_names, param_values))
-#       self.parameters_order = param_names
-#
-#   def name(self):
-#       name = [ ]
-#       for param in self.parameters_order:
-#           name.append(self.parameters[param])
-#       name = '-'.join(name)
-#       return name
+    def name(self):
+        name = [ ]
+        for param in self.parameters_order:
+            name.append(self.parameters[param])
+            name = '-'.join(name)
+        return name
 
     def full_name(self):
         return '%s %s' % (self.project.name, self.style_name)
@@ -210,30 +240,15 @@ class hFont:
         self.project = hProject(family_name)
         self.style_name = style_name    
 
-#   def clear_fontinfo(self, tables=[]):
-#       if len(tables) > 0:
-#           for t in tables:
-#               print 'clearing %s...' % t
-
-    def otf_path(self, test=False):
-        try:
-            otf_file = self.file_name + '.otf'
-            otf_path = os.path.join(self.project.paths['otfs'], otf_file)
-            otf_path_test = os.path.join(self.project.paths['test'], otf_file)
-            if test != True:
-                return otf_path
-            else:
-                return otf_path_test
-        except:
-            print 'no otf path available, please save the ufo file first.\n'
+    def otf_path(self):
+        otf_file = self.file_name + '.otf'
+        otf_path = os.path.join(self.project.paths['otfs'], otf_file)
+        return otf_path
 
     def woff_path(self):
-        try:
-            woff_file = self.file_name + '.woff'
-            woff_path = os.path.join(self.project.paths['woffs'], woff_file)
-            return woff_path
-        except:
-            print 'no woff path available, please save the ufo file first.\n'
+        woff_file = self.file_name + '.woff'
+        woff_path = os.path.join(self.project.paths['woffs'], woff_file)
+        return woff_path
                 
     def getGlyphs(self):
         gNames = []
@@ -249,10 +264,29 @@ class hFont:
     def print_info(self):
         pass
 
+    def generate_otf(self):
+        self.ufo.generate(self.otf_path(),
+                    'otf',
+                    decompose=True,
+                    autohint=True,
+                    checkOutlines=True,
+                    releaseMode=True,
+                    glyphOrder=[])
 
-class hGlyph_base:
+    def generate_woff(self):
+        compressFont(self.otf_path(), self.woff_path())
+
+    def upload_woff(self):
+        _url = self.project.world.settings.hDict['ftp_url']
+        _login = self.project.world.settings.hDict['ftp_login']
+        _password = self.project.world.settings.hDict['ftp_password']
+        _folder = self.project.ftp_path()
+        F = connectToServer(_url, _login, _password, _folder, verbose=False)
+        uploadFile(self.woff_path(), F)
+        F.quit()
+
+class hGlyph:
 
     def __init__(self, gName, project):
-        #print 'hGlyph : init...'
         self.gName = gName
         self.project = project

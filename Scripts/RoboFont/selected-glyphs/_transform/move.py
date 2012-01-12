@@ -3,12 +3,10 @@
 '''move selected glyphs'''
 
 from vanilla import *
-
 from hTools2.plugins.nudge import *
 from hTools2.modules.glyphutils import *
 
-
-class moveDialog(object):
+class moveGlyphsDialog(object):
 
     _title = "move"
     _padding = 10
@@ -55,7 +53,7 @@ class moveDialog(object):
                 callback=self._left_callback)
         self.w._right = SquareButton(
                 (x2, y, b1, b1),
-                "+",
+                "+",k
                 callback=self._right_callback)
         y += b1 - 1
         self.w._down_left = SquareButton(
@@ -199,4 +197,4 @@ class moveDialog(object):
 
 # run
 
-moveDialog()
+moveGlyphsDialog()

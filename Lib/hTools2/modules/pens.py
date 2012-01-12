@@ -37,7 +37,7 @@ class NodeBoxPen(BasePen):
 		self.ctx = context 
 		BasePen.__init__(self, glyphSet)
 
-	F = 1 /float(64) # remove scaling from pen -- move it to drawing function
+	F = 1 / float(64) # remove scaling from pen -- move it to drawing function
 
 	def _moveTo(self, pt):
 		x, y = pt
@@ -55,3 +55,4 @@ class NodeBoxPen(BasePen):
 
 	def _closePath(self):
 		self.ctx.closepath()
+
