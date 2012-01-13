@@ -4,7 +4,7 @@ from robofab.world import CurrentGlyph
 
 # from hTools2.modules.sysutils import context
 
-def getGlyphs(f):
+def get_glyphs(f):
 	gNames = []
 	cg = CurrentGlyph()
 	if cg != None:

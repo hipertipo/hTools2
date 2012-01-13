@@ -4,6 +4,8 @@ from vanilla import *
 from AppKit import NSColor
 
 from hTools2.modules.color import randomColor
+from hTools2.modules.fontutils import get_glyphs
+
 
 class transformSelectedGlyphsDialog(object):
 
@@ -162,7 +164,7 @@ class transformSelectedGlyphsDialog(object):
                 _mark_color.blueComponent(),
                 _mark_color.alphaComponent())
             print 'transforming selected glyphs...\n'
-            for gName in f.selection:
+            for gName in get_glyphs(f):
                 try:
                     print '\ttransforming %s...' % gName
                     if self._clear:

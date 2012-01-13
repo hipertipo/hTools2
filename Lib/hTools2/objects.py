@@ -4,81 +4,34 @@ import os
 import plistlib
 
 import hTools2
-reload(hTools2)
 
 from hTools2.modules.fileutils import walk
 from hTools2.modules.ftp import connectToServer, uploadFile
+from hTools2.modules.color import hls_to_rgb
+from hTools2.modules.encoding import autoUnicodes
 from hTools2.plugins.KLTF_WOFF import compressFont
 
 
 class hSettings:
 
-    _params = [
-        'root',
-        'ftp_url',
-        'ftp_login',
-        'ftp_password',
-        'ftp_folder',
-    ]
-    
+    _root = hTools2.ROOT
     _filename = 'hSettings.plist'
 
-    def __init__(self, path=None):
-        if path is not None:
-            if os.path.exists(path):
-                _settings_path = os.path.join(path, self._filename)
-                if os.path.exists(_settings_path):
-                    self.read(_settings_path)
-                    self.hDict['root'] = _settings_path
-                else:
-                    print 'no hSettings file in this folder, initializing an empty hDict.\n'
-                    self.create_dict()
-            else:
-                print 'folder does not exist, please create it first (or try a different one).\n'
+    def __init__(self):
+        self.path = os.path.join(self._root, self._filename)
+        self.read()
+
+    def read(self, trim=True):
+        if os.path.exists(self.path):
+            self.hDict = plistlib.readPlist(self.path)
         else:
-            self.create_dict()
-            self.hDict['root'] = hTools2.ROOT
-            self.read()
-
-    def create_dict(self):
-        self.hDict = {}
-        for p in self._params:
-            self.hDict[p] = ''
-
-    def trim_settings(self):
-        _dict = {}
-        for k in self.hDict.keys():
-            if k in self._params:
-                _dict[k] = self.hDict[k]
-        self.hDict = _dict
-
-    def read(self, plist_path=None):
-        if plist_path is None:
-            if self.hDict['root'] is '':
-                print 'cannot read, no root folder available.\n'
-            else:
-                _path = self.hDict['root']
-                _filename = os.path.join(_path, self._filename)
-                self.hDict = plistlib.readPlist(_filename)
-                self.trim_settings()
-        else:
-            self.hDict = plistlib.readPlist(plist_path)
-            self.trim_settings()
+            self.hDict = {}
 
     def write(self):
-        if self.hDict['root'] is '':
-            print "cannot save hSettings, please set the 'root' parameter first.\n"
+        if os.path.exists(self._root):
+            plistlib.writePlist(self.hDict, self.path)
         else:
-            if os.path.exists(self.hDict['root']):
-                _filepath = os.path.join(self.hDict['root'], self._filename)
-                plistlib.writePlist(self.hDict, _filepath)
-            else:
-                print 'cannot save hSettings, root folder does not exist.\n'
-
-    def print_(self):
-        for k in self.hDict.keys():
-            print '%s: %s' % (k, self.hDict[k])
-        print
+            print 'cannot save hSettings, root folder does not exist.\n'
 
 
 class hWorld:
@@ -90,7 +43,7 @@ class hWorld:
         self.settings = hSettings()
 
     def projects(self):
-        allFiles = os.listdir(self.settings.hDict['root'])
+        allFiles = os.listdir(self.settings._root)
         projects = []
         for n in allFiles:
             # project folders start with an underscore
@@ -110,51 +63,78 @@ class hSpace:
 
 class hProject:
 
-    paths = {
-        'root' : None,
-        'ufos' : None,
-        'otfs' : None,
-        'libs' : None,
-        'docs' : None,
-        'temp' : None,
-        'test' : None,
-        'vfbs' : None,
-        'woffs' : None,
-        'bkp' : None
-    }
+    paths = {}
+    _path_names = [ 'root', 'ufos', 'otfs' 'libs', 'docs', 'temp', 'test', 'vfbs', 'woffs' , 'bkp' ]
+
+    libs = {}
+    _lib_names = [ 'project', 'info', 'vmetrics', 'accents', 'composed', 'spacing', 'interpol', 'groups' ]
+    _extension = 'plist'
 
     def __init__(self, name=None):
         self.name = name
         self.world = hWorld()
-        self.make_paths()
+        if self.name is not None:
+            self.make_paths()
+            self.make_lib_paths()
+            self.read_libs()
 
-    # settings
+    # libs
 
-    def read_settings(self):
-        pass
+    def read_libs(self):
+        # read all libs into one big dict
+        self.libs = {}
+        for lib_name in self.lib_paths.keys():
+            _lib_path = self.lib_paths[lib_name]
+            if os.path.exists(_lib_path):
+                self.libs[lib_name] = plistlib.readPlist(_lib_path)
+            else:
+                self.libs[lib_name] = {}
 
-    def write_settings(self):
-        pass
+    def write_lib(self, lib_name):
+        _filename = '%s.%s' % (lib_name, self._extension)
+        _lib_path = os.path.join(self.paths['libs'], _filename)
+        print 'saving %s lib to file %s...' % (lib_name, _lib_path),
+        plistlib.writePlist(self.libs[lib_name], _lib_path)
+        print '...done.\n'
+                
+    def write_libs(self):
+        print 'saving project libs...\n'
+        for lib_name in self.libs.keys():
+            _filename = '%s.%s' % (lib_name, self._extension)
+            _lib_path = os.path.join(self.paths['libs'], _filename)
+            print 'saving %s lib to file %s...' % (lib_name, _lib_path)
+            plistlib.writePlist(self.libs[lib_name], _lib_path)
+        print '...done.\n'
 
     # paths
 
     def make_paths(self):
-        self.paths['root'] = os.path.join(self.world.settings.hDict['root'], '_' + self.name)
-        self.paths['docs'] = os.path.join(self.paths['root'], '_docs')
-        self.paths['ufos'] = os.path.join(self.paths['root'], '_ufos')
-        self.paths['otfs'] = os.path.join(self.paths['root'], '_otfs')
-        self.paths['libs'] = os.path.join(self.paths['root'], '_libs')
-        self.paths['vfbs'] = os.path.join(self.paths['root'], '_vfbs')
-        self.paths['temp'] = os.path.join(self.paths['root'], '_temp')
-        self.paths['woffs'] = os.path.join(self.paths['root'], '_woffs')
-        self.paths['bkp'] = os.path.join(self.paths['root'], '_bkp')
-        # unstable paths
-        self.paths['instances'] = os.path.join(self.paths['root'], '_ufos/_instances')
-        self.paths['interpol'] = os.path.join(self.paths['root'], '_ufos/_interpol')
-        self.paths['interpol_instances'] = os.path.join(self.paths['root'], '_ufos/_interpol/_instances')
+        _paths = {}
+        _project_root = os.path.join(self.world.settings._root, '_' + self.name)
+        _paths['root'] = _project_root
+        _paths['docs'] = os.path.join(_project_root, '_docs')
+        _paths['ufos'] = os.path.join(_project_root, '_ufos')
+        _paths['otfs'] = os.path.join(_project_root, '_otfs')
+        _paths['libs'] = os.path.join(_project_root, '_libs')
+        _paths['vfbs'] = os.path.join(_project_root, '_vfbs')
+        _paths['temp'] = os.path.join(_project_root, '_temp')
+        _paths['woffs'] = os.path.join(_project_root, '_woffs')
+        _paths['bkp'] = os.path.join(_project_root, '_bkp')
+        _paths['instances'] = os.path.join(_project_root, '_ufos/_instances')
+        _paths['interpol'] = os.path.join(_project_root, '_ufos/_interpol')
+        _paths['interpol_instances'] = os.path.join(_project_root, '_ufos/_interpol/_instances')
+        self.paths = _paths
+
+    def make_lib_paths(self):
+        _lib_paths = {}
+        for _lib_name in self._lib_names:
+            _filename = '%s.%s' % (_lib_name, self._extension)
+            _lib_path = os.path.join(self.paths['libs'], _filename)
+            _lib_paths[_lib_name] = _lib_path
+        self.lib_paths = _lib_paths
 
     def ftp_path(self):
-        return os.path.join(self.world.settings.hDict['ftp_folder'], self.name.lower())
+        return os.path.join(self.world.settings.hDict['ftp']['folder'], self.name.lower())
 
     def print_paths(self):
         print 'printing paths in project %s...' % self.name
@@ -209,16 +189,67 @@ class hFont:
 
     project = None
     ufo = None
-
     file_name = None
 
     def __init__(self, ufo):
         self.ufo = ufo
         try:
-            self.get_names_from_ufo_filename()
+            self.init_from_filename()
         except:
             print 'Untitled font, please save ufo to project folder before proceeding.\n'
             # self._make_parameters_dict()
+
+    def init_from_filename(self):
+        ufo_file = os.path.basename(self.ufo.path)
+        self.file_name = os.path.splitext(ufo_file)[0]
+        try:
+            family_name, style_name = self.file_name.split('_')
+        except ValueError:
+            family_name, style_name = self.file_name.split('-')
+        self.project = hProject(family_name)
+        self.style_name = style_name    
+
+    # def get_glyphs(self):
+    #     gNames = []
+    #     cg = CurrentGlyph()
+    #     if cg != None:
+    #         gNames.append(cg.name)
+    #     for g in f:
+    #         if g.selected == True:
+    #             if g.name not in gNames:
+    #                 gNames.append(g.name)
+    #     return gNames
+
+    def auto_unicodes(self):
+        autoUnicodes(self.ufo)
+
+    def order_glyphs(self):
+        _glyph_order = []
+        for group in self.project.libs['groups']['order']:
+            for glyph in self.project.libs['groups']['glyphs'][group]:
+                _glyph_order.append(glyph)
+        # update font
+        self.ufo.glyphOrder = _glyph_order
+        self.ufo.update()
+
+    def paint_groups(self):
+        count = 0
+        for group in self.project.libs['groups']['order']:
+            color_step = 1.0 / len(self.project.libs['groups']['order'])
+            color = color_step * count
+            R, G, B = hls_to_rgb(color, 0.5, 1.0)
+            for gName in self.project.libs['groups']['glyphs'][group]:        
+                if self.ufo.has_key(gName) is not True:
+                    self.ufo.newGlyph(gName)
+                self.ufo[gName].mark = (R, G, B, .5)
+                self.ufo[gName].update()
+            count += 1
+        self.ufo.update()
+
+    def print_info(self):
+        pass
+
+    # font names
 
     def name(self):
         name = [ ]
@@ -230,15 +261,7 @@ class hFont:
     def full_name(self):
         return '%s %s' % (self.project.name, self.style_name)
 
-    def get_names_from_ufo_filename(self):
-        ufo_file = os.path.basename(self.ufo.path)
-        self.file_name = os.path.splitext(ufo_file)[0]
-        try:
-            family_name, style_name = self.file_name.split('_')
-        except ValueError:
-            family_name, style_name = self.file_name.split('-')
-        self.project = hProject(family_name)
-        self.style_name = style_name    
+    # paths
 
     def otf_path(self):
         otf_file = self.file_name + '.otf'
@@ -250,19 +273,7 @@ class hFont:
         woff_path = os.path.join(self.project.paths['woffs'], woff_file)
         return woff_path
                 
-    def getGlyphs(self):
-        gNames = []
-        cg = CurrentGlyph()
-        if cg != None:
-            gNames.append(cg.name)
-        for g in f:
-            if g.selected == True:
-                if g.name not in gNames:
-                    gNames.append(g.name)
-        return gNames
-
-    def print_info(self):
-        pass
+    # font generation
 
     def generate_otf(self):
         self.ufo.generate(self.otf_path(),
@@ -277,16 +288,18 @@ class hFont:
         compressFont(self.otf_path(), self.woff_path())
 
     def upload_woff(self):
-        _url = self.project.world.settings.hDict['ftp_url']
-        _login = self.project.world.settings.hDict['ftp_login']
-        _password = self.project.world.settings.hDict['ftp_password']
+        _url = self.project.world.settings.hDict['ftp']['url']
+        _login = self.project.world.settings.hDict['ftp']['login']
+        _password = self.project.world.settings.hDict['ftp']['password']
         _folder = self.project.ftp_path()
         F = connectToServer(_url, _login, _password, _folder, verbose=False)
         uploadFile(self.woff_path(), F)
         F.quit()
+
 
 class hGlyph:
 
     def __init__(self, gName, project):
         self.gName = gName
         self.project = project
+

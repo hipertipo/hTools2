@@ -4,7 +4,7 @@ import os
 
 from vanilla import *
 
-import hTools2.objects
+import hTools2.objects 
 reload(hTools2.objects)
 
 from hTools2.objects import hFont
@@ -24,74 +24,62 @@ class generateFontDialog(object):
     _remove_overlap = True
     _autohint = False
     _release_mode = False
-    _upload_woff = False
+    _upload_woff = True
 
     def __init__(self):
         self.w = FloatingWindow(
                     (self._width, self._height),
                     self._title)
-        x = self._padding
-        y = self._padding_top
+        p = self._padding
+        pt = self._padding_top
+        x = p
+        y = pt
+        bh1 = self._box_height
+        bh2 = self._button_height
         self.w._test_install = SquareButton(
-                    (x, y,
-                    -self._padding,
-                    self._button_height),
+                    (x, y, -p, bh2),
                     "test install",
                     sizeStyle='small',
                     callback=self.test_install_callback)
-        y += self._button_height + self._padding_top
+        y += bh2 + pt
         self.w.generate_otf = SquareButton(
-                    (x, y,
-                    -self._padding,
-                    self._button_height),
+                    (x, y, -p, bh2),
                     "generate .otf",
                     sizeStyle="small",
                     callback=self.generate_otf_callback)
-        y += self._button_height + self._padding_top
+        y += bh2 + pt
         self.w._decompose = CheckBox(
-                    (x, y,
-                    -self._padding,
-                    self._box_height),
+                    (x, y, -p, bh1),
                     "decompose",
                     value=self._decompose,
                     sizeStyle='small')
-        y += self._box_height
+        y += bh1
         self.w._remove_overlap = CheckBox(
-                    (x, y,
-                    -self._padding,
-                    self._box_height),
+                    (x, y, -p, bh1),
                     "remove overlaps",
                     value=self._remove_overlap,
                     sizeStyle='small')
-        y += self._box_height
+        y += bh1
         self.w._autohint = CheckBox(
-                    (x, y,
-                    -self._padding,
-                    self._box_height),
+                    (x, y, -p, bh1),
                     "ps autohint",
                     value=self._autohint,
                     sizeStyle='small')
-        y += self._box_height
+        y += bh1
         self.w._release_mode = CheckBox(
-                    (x, y,
-                    -self._padding,
-                    self._box_height),
+                    (x, y, -p, bh1),
                     "release mode",
                     value=self._release_mode,
                     sizeStyle='small')
-        y += self._box_height + self._padding_top
+        y += bh1 + pt
         self.w._generate_woff = SquareButton(
-                    (x, y,
-                    -self._padding,
-                    self._button_height),
+                    (x, y, -p, bh2),
                     "generate .woff",
                     sizeStyle='small',
                     callback=self.generate_woff_callback)                    
-        y += self._button_height + self._padding_top
+        y += bh2 + pt
         self.w._upload_woff = CheckBox(
-                    (x, y,
-                    -self._padding,
-                    self._box_height),
+                    (x, y, -p, bh1),
                     "upload to ftp",
                     sizeStyle='small',
                     value=self._upload_woff)

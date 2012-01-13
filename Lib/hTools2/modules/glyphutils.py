@@ -1,24 +1,29 @@
 # [h] hTools2.modules.glyphutils
 
+from math import floor, ceil
+
 #---------------
 # side-bearings
 #---------------
 
-def centerGlyph(glyph):
+def center_glyph(glyph):
 	whitespace = glyph.leftMargin + glyph.rightMargin
 	glyph.leftMargin = whitespace / 2
 	glyph.rightMargin = whitespace / 2
 
-def roundMargins(glyph, gridsize, left=True, right=True):
+def round_width(glyph, gridsize):
+	_width = glyph.width / gridsize
+	glyph.width = round(_width) * gridsize
+	glyph.update()
+
+def round_margins(glyph, gridsize, left=True, right=True):
 	if left:
-		_left_round = round(glyph.leftMargin / gridsize)
-		_left = int(_left_round * gridsize)
-		glyph.leftMargin = _left
+		_left = glyph.leftMargin / gridsize
+		glyph.leftMargin = round(_left) * gridsize
 		glyph.update()
 	if right:
-		_right_round = round(glyph.rightMargin / gridsize)
-		_right = int(_right_round * gridsize)
-		glyph.rightMargin = _right
+		_right = glyph.rightMargin / gridsize
+		glyph.rightMargin = round(_right) * gridsize
 		glyph.update()
 
 #-------------
@@ -46,16 +51,18 @@ def change_suffix(glyph_name, old_suffix, new_suffix=''):
 # round to grid
 #---------------
 
-def roundPointsToGrid(glyph, (sizeX, sizeY)):
+def round_points(glyph, (sizeX, sizeY)):
 	for contour in glyph.contours:
 		for point in contour.points:
-			_x_round = round(point.x / sizeX)
-			_y_round = round(point.y / sizeY)
-			point.x = int(_x_round * sizeX)
-			point.y = int(_y_round * sizeY)
-	glyph.update()	
+			_x = float(point.x)
+			_y = float(point.y)
+			_x_round = round(_x/sizeX) * sizeX
+			_y_round = round(_y/sizeY) * sizeY
+			point.x = _x_round
+			point.y = _y_round
+	glyph.update()
 
-def roundAnchorsToGrid(glyph, (sizeX, sizeY)):
+def round_anchors(glyph, (sizeX, sizeY)):
 	if len(glyph.anchors) > 0:
 		for anchor in glyph.anchors:
 			_x_round = round(float(anchor.x)/sizeX)
@@ -71,7 +78,7 @@ def roundAnchorsToGrid(glyph, (sizeX, sizeY)):
 # shift points
 #-------------
 
-def selectPoints_y(g, linePos, above=True):
+def select_points_y(g, linePos, above=True):
 	for c in g.contours:
 		for p in c.points:
 			# select points above the line
@@ -84,7 +91,7 @@ def selectPoints_y(g, linePos, above=True):
 					p.selected = True
 	g.update()
 
-def selectPoints_x(g, linePos, left=True):
+def select_points_x(g, linePos, left=True):
 	for c in g.contours:
 		for p in c.points:
 			# select points left of the line
@@ -97,13 +104,13 @@ def selectPoints_x(g, linePos, left=True):
 					p.selected = True
 	g.update()
 
-def deselectPoints(g):
+def deselect_points(g):
 	for c in g.contours:
 		for p in c.points:
 			p.selected = False
 	g.update()
 
-def shiftSelectedPoints_y(g, delta, anchors=False):
+def shift_selected_points_y(g, delta, anchors=False):
 	for c in g.contours:
 		for p in c.points:
 			if p.selected == True:
@@ -120,7 +127,7 @@ def shiftSelectedPoints_y(g, delta, anchors=False):
 						a.y = a.y + delta
 	g.update()
 
-def shiftSelectedPoints_x(g, delta, anchors=False):
+def shift_selected_points_x(g, delta, anchors=False):
 	for c in g.contours:
 		for p in c.points:
 			if p.selected == True:
