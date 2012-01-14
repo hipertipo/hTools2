@@ -2,9 +2,7 @@
 
 import os
 
-#------------
 # set info
-#------------
 
 def set_names(font):
     file_name = os.path.split(font.path)[1].split('.')[0]
@@ -19,9 +17,7 @@ def set_vmetrics(font):
     font.info.capHeight = 860
     font.info.ascender = 900
 
-#------------
 # print info
-#------------
 
 def printFontInfo(font):
 	print 'printing font info'

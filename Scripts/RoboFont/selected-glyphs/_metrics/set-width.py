@@ -10,6 +10,7 @@ from random import random
 from hTools2.modules.color import randomColor
 from hTools2.modules.glyphutils import center_glyph
 
+
 class setWidthDialog(object):
 
     _title = 'set character width'

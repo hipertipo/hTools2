@@ -5,12 +5,26 @@ import plistlib
 
 import hTools2
 
-from hTools2.modules.fileutils import walk
-from hTools2.modules.ftp import connectToServer, uploadFile
-from hTools2.modules.color import hls_to_rgb
-from hTools2.modules.encoding import autoUnicodes
-from hTools2.plugins.KLTF_WOFF import compressFont
+import hTools2.modules.color
+import hTools2.modules.encoding
+import hTools2.modules.fileutils
+import hTools2.modules.ftp
+import hTools2.modules.sysutils
+import hTools2.plugins.KLTF_WOFF
 
+reload(hTools2.modules.color)
+reload(hTools2.modules.encoding)
+reload(hTools2.modules.fileutils)
+reload(hTools2.modules.ftp)
+reload(hTools2.modules.sysutils)
+reload(hTools2.plugins.KLTF_WOFF)
+
+from hTools2.modules.color import hls_to_rgb, paint_groups
+from hTools2.modules.encoding import auto_unicodes, import_encoding
+from hTools2.modules.fileutils import walk
+from hTools2.modules.ftp import connect_to_server, upload_file
+from hTools2.modules.sysutils import _ctx
+from hTools2.plugins.KLTF_WOFF import compressFont
 
 class hSettings:
 
@@ -33,7 +47,6 @@ class hSettings:
         else:
             print 'cannot save hSettings, root folder does not exist.\n'
 
-
 class hWorld:
 
     projects = []
@@ -41,6 +54,7 @@ class hWorld:
 
     def __init__(self):
         self.settings = hSettings()
+        self.context = _ctx
 
     def projects(self):
         allFiles = os.listdir(self.settings._root)
@@ -51,7 +65,6 @@ class hWorld:
                 projects.append(n[1:])
         return projects
 
-
 class hSpace:
 
     params_dict = {}
@@ -59,7 +72,6 @@ class hSpace:
 
     def __init__(self):
         self.world = hWorld()
-
 
 class hProject:
 
@@ -89,6 +101,15 @@ class hProject:
                 self.libs[lib_name] = plistlib.readPlist(_lib_path)
             else:
                 self.libs[lib_name] = {}
+
+    def import_encoding(self):
+        _file_name = '%s.enc' % self.name
+        _file_path = os.path.join(self.paths['libs'], _file_name)
+        _groups, _order = import_encoding(_file_path)
+        # print self.libs['groups']['glyphs'].has_key('')
+        # print '' in self.libs['groups']['order']
+        self.libs['groups']['glyphs'] = _groups
+        self.libs['groups']['order'] = _order
 
     def write_lib(self, lib_name):
         _filename = '%s.%s' % (lib_name, self._extension)
@@ -184,7 +205,6 @@ class hProject:
     def vfbs(self):
         return walk(self.paths['vfbs'], 'vfb')
 
-
 class hFont:
 
     project = None
@@ -209,19 +229,11 @@ class hFont:
         self.project = hProject(family_name)
         self.style_name = style_name    
 
-    # def get_glyphs(self):
-    #     gNames = []
-    #     cg = CurrentGlyph()
-    #     if cg != None:
-    #         gNames.append(cg.name)
-    #     for g in f:
-    #         if g.selected == True:
-    #             if g.name not in gNames:
-    #                 gNames.append(g.name)
-    #     return gNames
+    def get_glyphs(self):
+        pass
 
     def auto_unicodes(self):
-        autoUnicodes(self.ufo)
+        auto_unicodes(self.ufo)
 
     def order_glyphs(self):
         _glyph_order = []
@@ -233,21 +245,17 @@ class hFont:
         self.ufo.update()
 
     def paint_groups(self):
-        count = 0
-        for group in self.project.libs['groups']['order']:
-            color_step = 1.0 / len(self.project.libs['groups']['order'])
-            color = color_step * count
-            R, G, B = hls_to_rgb(color, 0.5, 1.0)
-            for gName in self.project.libs['groups']['glyphs'][group]:        
-                if self.ufo.has_key(gName) is not True:
-                    self.ufo.newGlyph(gName)
-                self.ufo[gName].mark = (R, G, B, .5)
-                self.ufo[gName].update()
-            count += 1
-        self.ufo.update()
+        paint_groups(self.ufo)
 
     def print_info(self):
         pass
+
+    def import_groups_from_encoding(self):
+        self.project.import_encoding()
+        self.ufo.groups.clear()
+        for group in self.project.libs['groups']['glyphs'].keys():
+            self.ufo.groups[group] = self.project.libs['groups']['glyphs'][group]
+        self.ufo.lib['groups_order'] = self.project.libs['groups']['order']
 
     # font names
 
@@ -272,7 +280,7 @@ class hFont:
         woff_file = self.file_name + '.woff'
         woff_path = os.path.join(self.project.paths['woffs'], woff_file)
         return woff_path
-                
+              
     # font generation
 
     def generate_otf(self):
@@ -296,10 +304,8 @@ class hFont:
         uploadFile(self.woff_path(), F)
         F.quit()
 
-
 class hGlyph:
 
-    def __init__(self, gName, project):
-        self.gName = gName
+    def __init__(self, glyph_name, project):
+        self.name = glyph_name
         self.project = project
-

@@ -4,9 +4,6 @@ import os
 
 from vanilla import *
 
-import hTools2.objects 
-reload(hTools2.objects)
-
 from hTools2.objects import hFont
 
 

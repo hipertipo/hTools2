@@ -29,49 +29,49 @@ class transformSelectedGlyphsDialog(object):
 
     def __init__(self):
         self.w = FloatingWindow(
-                (self._width, self._height),
-                self._title,
-                closable=True)
+                    (self._width, self._height),
+                    self._title,
+                    closable=True)
         # clear outlines
         self.w.clear_checkBox = CheckBox(
-                (self._padding,
-                self._padding_top + (self._row_height * 0),
-                -self._padding,
-                20),
-                "clear outlines",
-                callback=self.clear_Callback,
-                value=self._clear,
-                sizeStyle='small')
+                    (self._padding,
+                    self._padding_top + (self._row_height * 0),
+                    -self._padding,
+                    20),
+                    "clear outlines",
+                    callback=self.clear_Callback,
+                    value=self._clear,
+                    sizeStyle='small')
         # round point positions
         self.w.round_checkBox = CheckBox(
-                (self._padding,
-                self._padding_top + (self._row_height * 1),
-                -self._padding,
-                20),
-                "round points to integers",
-                callback=self.round_Callback,
-                value=self._round,
-                sizeStyle='small')
+                    (self._padding,
+                    self._padding_top + (self._row_height * 1),
+                    -self._padding,
+                    20),
+                    "round points to integers",
+                    callback=self.round_Callback,
+                    value=self._round,
+                    sizeStyle='small')
         # decompose
         self.w.decompose_checkBox = CheckBox(
-                (self._padding,
-                self._padding_top + (self._row_height * 2),
-                -self._padding,
-                20),
-                "decompose",
-                callback=self.decompose_Callback,
-                value=self._decompose,
-                sizeStyle='small')
+                    (self._padding,
+                    self._padding_top + (self._row_height * 2),
+                    -self._padding,
+                    20),
+                    "decompose",
+                    callback=self.decompose_Callback,
+                    value=self._decompose,
+                    sizeStyle='small')
         # auto contour order
         self.w.order_checkBox = CheckBox(
-                (self._padding,
-                self._padding_top + (self._row_height * 3),
-                -self._padding,
-                20),
-                "auto contour order",
-                callback=self.order_Callback,
-                value=self._order,
-                sizeStyle='small')
+                    (self._padding,
+                    self._padding_top + (self._row_height * 3),
+                    -self._padding,
+                    20),
+                    "auto contour order",
+                    callback=self.order_Callback,
+                    value=self._order,
+                    sizeStyle='small')
         # auto contour direction
         self.w.direction_checkBox = CheckBox(
                 (self._padding,

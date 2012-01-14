@@ -1,10 +1,8 @@
 # hTools2.modules.interpol
 
-#---------------
 # interpolation
-#---------------
 
-def interpolateGlyph(gName, f1, f2, f3, factor, clear=True):
+def interpolate_glyph(gName, f1, f2, f3, factor, clear=True):
 	if f2.has_key(gName):
 		if clear:
 			g = f3.newGlyph(gName, clear=True)
@@ -16,18 +14,16 @@ def interpolateGlyph(gName, f1, f2, f3, factor, clear=True):
 	else:
 		print 'glyph %s not contained in font 2' % gName 
 
-def interpolateKerning(f1, f2, f3, factor):
+def interpolate_kerning(f1, f2, f3, factor):
 	k1 = f1.kerning
 	k2 = f2.kerning
 	k3 = f3.kerning
 	k3.interpolate(k1, k2, factor, True)
 	f3.update()
 
-#---------------
 # compatibility
-#---------------
 
-def checkCompatibility_FL(f1, f2, glyphNames=None, report=True):
+def check_compatibility_FL(f1, f2, glyphNames=None, report=True):
 	if glyphNames != None:
 		gNames = glyphNames
 	else:

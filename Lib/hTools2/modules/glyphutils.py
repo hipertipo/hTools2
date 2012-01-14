@@ -2,9 +2,7 @@
 
 from math import floor, ceil
 
-#---------------
-# side-bearings
-#---------------
+# margins
 
 def center_glyph(glyph):
 	whitespace = glyph.leftMargin + glyph.rightMargin
@@ -26,9 +24,7 @@ def round_margins(glyph, gridsize, left=True, right=True):
 		glyph.rightMargin = round(_right) * gridsize
 		glyph.update()
 
-#-------------
 # glyph names
-#-------------
 
 def has_suffix(glyph_name, suffix):
 	has_suffix = False
@@ -47,9 +43,7 @@ def change_suffix(glyph_name, old_suffix, new_suffix=''):
 		_new_name = _base_name
 	return _new_name
 
-#---------------
 # round to grid
-#---------------
 
 def round_points(glyph, (sizeX, sizeY)):
 	for contour in glyph.contours:
@@ -74,9 +68,7 @@ def round_anchors(glyph, (sizeX, sizeY)):
 			anchor.move((x_delta, y_delta))
 		glyph.update()
 
-#-------------
 # shift points
-#-------------
 
 def select_points_y(g, linePos, above=True):
 	for c in g.contours:

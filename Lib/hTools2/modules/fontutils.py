@@ -2,7 +2,8 @@
 
 from robofab.world import CurrentGlyph
 
-# from hTools2.modules.sysutils import context
+from hTools2.modules.glyphutils import round_points
+
 
 def get_glyphs(f):
 	gNames = []
@@ -13,36 +14,35 @@ def get_glyphs(f):
 		if g.selected == True:
 			if g.name not in gNames:
 				gNames.append(g.name)
+	gNames.sort()
 	return gNames
 
-#-----------
 # font info
-#-----------
 
 def get_full_name(font):
     full_name = '%s %s' % (font.info.familyName, font.info.styleName)
     return full_name 
 
-def fullName(familyName, styleName):
+def full_name(familyName, styleName):
 	if styleName == 'Regular':
 		fullName = familyName
 	else:
 		fullName = familyName + ' ' + styleName
 	return fullName
 
-def fontName(familyName, styleName):
+def font_name(familyName, styleName):
 	if styleName == 'Regular':
 		fontName = familyName
 	else:
 		fontName = familyName + '-' + styleName
 	return fontName
 
-def setPSUniqueID(font):
+def set_unique_ps_id(font):
 	a, b, c, d, e, f = randint(0,9), randint(0,9), randint(0,9), randint(0,9), randint(0,9), randint(0,9)
 	_psID = "%s%s%s%s%s%s" % ( a, b, c, d, e, f )
 	font.info.postscriptUniqueID = int(_psID)
 
-def getNamesFromFontPath(fontPath):
+def get_names_from_Path(fontPath):
 	dir, file = os.path.split(fontPath)
 	name, extension = os.path.splitext(file)
 	try:
@@ -54,7 +54,7 @@ def getNamesFromFontPath(fontPath):
 	except:
 		print "font path not splitable.\n"
 
-def setDesignerAndFoundry(font, fontInfoDict):
+def set_foundry_info(font, fontInfoDict):
 	font.info.year = fontInfoDict['year']
 	font.info.openTypeNameDesigner = fontInfoDict['designer']
 	font.info.openTypeNameDesignerURL = fontInfoDict['designerURL']
@@ -72,7 +72,7 @@ def setDesignerAndFoundry(font, fontInfoDict):
 	setPSUniqueID(font)
 	f.update()
 
-def setFontNames(f, familyName, styleName):
+def set_font_names(f, familyName, styleName):
 	# family name
 	f.info.familyName = familyName
 	f.info.openTypeNamePreferredFamilyName = familyName
@@ -90,11 +90,9 @@ def setFontNames(f, familyName, styleName):
 	# done
 	f.update()
 
-#-------------
 # glyph names
-#-------------
 
-def printSelectedGlyphs(f, mode=1):
+def print_selected_glyphs(f, mode=1):
 	gNames = f.selection
 	# mode 1 = plain gNames list
 	if mode == 1:
@@ -111,23 +109,21 @@ def printSelectedGlyphs(f, mode=1):
 	else:
 		print "invalid mode.\n"
 
-#-----------------
 # transformations
-#-----------------
 
 def decompose(font):
 	for g in font:
 		g.decompose()
 
-def autoContourOrderDirection(font):
+def auto_order_direction(font):
 	for g in font:
 		g.autoContourOrder()
 		g.correctDirection()
 
-def alignToGrid(f, (sizeX, sizeY)):
-	from hTools2.modules.glyphutils import roundPointsToGrid
+def align_to_grid(f, (sizeX, sizeY)):
 	for g in f:
 		print g
 		roundPointsToGrid(g, (sizeX, sizeY))
 		g.update()
 	f.update()
+
