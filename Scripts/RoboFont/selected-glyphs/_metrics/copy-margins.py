@@ -5,125 +5,94 @@
 from vanilla import *
 from AppKit import NSColor
 
+import hTools2.modules.fontutils
+reload(hTools2.modules.fontutils)
+
 from hTools2.modules.fontutils import get_full_name
-from hTools2.modules.color import randomColor
 
-class copySidebearingsDialog(object):
+class copyMarginsDialog(object):
 
-    _title = 'copy side-bearings'
-    _mark_color_source = randomColor()
-    _mark_color_dest = randomColor()
+    _title = 'copy margins'
+    _padding = 10
+    _padding_top = 8
+    _line_height = 20
+    _button_height = 35
+    _column_1 = 180
+    _width = _column_1 + (_padding * 2)
+    _height = (_button_height * 2) + (_line_height * 2) + (_padding_top * 5) + _button_height
+
     _all_fonts_names = []
-    _width = 280
-    _height = 300
-    _padding = 15
-    _padding_top = 10
 
     def __init__(self, ):
-        self.w = FloatingWindow(
-                (self._width,
-                self._height),
-                self._title,
-                closable = False)
-        self._all_fonts = AllFonts()
-        for f in self._all_fonts:
-            self._all_fonts_names.append(get_full_name(f))
-        # source font
-        self.w._source_label = TextBox(
-                (self._padding,
-                self._padding_top,
-                -self._padding,
-                17),
-                "source font:")
-        self.w._source_value = PopUpButton(
-                (self._padding,
-                35,
-                -self._padding,
-                20),
-                self._all_fonts_names)
-        # mark source
-        self.w.mark_source_checkbox = CheckBox(
-                (self._padding,
-                65,
-                -self._padding,
-                20),
-                "mark glyphs",
-                value = True)
-        self.w.mark_source_color = ColorWell(
-                (120,
-                65,
-                -13,
-                20),
-                color = NSColor.colorWithCalibratedRed_green_blue_alpha_(*self._mark_color_source))
-        # dest font
-        self.w._dest_label = TextBox(
-                (self._padding,
-                100,
-                -self._padding,
-                17),
-                "target font:")
-        self.w._dest_value = PopUpButton(
-                (self._padding,
-                125,
-                -self._padding,
-                20),
-                self._all_fonts_names)
-        # mark dest
-        self.w.mark_dest_checkbox = CheckBox(
-                (self._padding,
-                155,
-                -self._padding,
-                20),
-                "mark glyphs",
-                value = True)
-        self.w.mark_dest_color = ColorWell(
-                (120,
-                155,
-                -13,
-                20),
-                color = NSColor.colorWithCalibratedRed_green_blue_alpha_(*self._mark_color_dest))
-        self.w.line = HorizontalLine(
-                (self._padding,
-                200,
-                -self._padding,
-                1))
-        # left / right
-        self.w.left_checkbox = CheckBox(
-                (self._padding,
-                215,
-                -self._padding,
-                20),
-                "copy left",
-                value = True)
-        self.w.right_checkbox = CheckBox(
-                (self._width / 2,
-                215,
-                -self._padding,
-                20),
-                "copy right",
-                value = True)
-        self.w.line2 = HorizontalLine(
-                (self._padding,
-                250,
-                -self._padding,
-                1))
-        # buttons
-        self.w.button_apply = Button(
-                (self._padding,
-                -50,
-                self._width / 2 - 15,
-                0),
-                "apply",
-                callback = self.apply_callback)
-        self.w.button_close = Button(
-                (self._width / 2 + 5,
-                -50,
-                -self._padding,
-                0),
-                "close",
-                callback = self.close_callback)
-        # open window 
-        self.w.open()
+        if len(AllFonts()) > 0:
+            self._all_fonts = AllFonts()
+            for f in self._all_fonts:
+                self._all_fonts_names.append(get_full_name(f))
+            self.w = FloatingWindow(
+                        (self._width,
+                        self._height),
+                        self._title,
+                        closable=True)
+            # source font
+            x = self._padding
+            y = self._padding_top
+            self.w._source_label = TextBox(
+                        (x, y,
+                        -self._padding,
+                        self._line_height),
+                        "source font",
+                        sizeStyle='small')
+            y += self._line_height
+            self.w._source_value = PopUpButton(
+                        (x, y,
+                        -self._padding,
+                        self._line_height),
+                        self._all_fonts_names,
+                        sizeStyle='small')
+            # dest font
+            y += self._line_height + self._padding_top
+            self.w._dest_label = TextBox(
+                        (x, y,
+                        -self._padding,
+                        self._line_height),
+                        "target font",
+                        sizeStyle='small')
+            y += self._line_height
+            self.w._dest_value = PopUpButton(
+                        (x, y,
+                        -self._padding,
+                        self._line_height),
+                        self._all_fonts_names,
+                        sizeStyle='small')
+            # left / right
+            y += self._line_height + self._padding_top + 7
+            self.w.left_checkbox = CheckBox(
+                        (x, y,
+                        -self._padding,
+                        self._line_height),
+                        "left margin",
+                        value=True,
+                        sizeStyle='small')
+            x += (self._width / 2) - 8
+            self.w.right_checkbox = CheckBox(
+                        (x, y,
+                        -self._padding,
+                        self._line_height),
+                        "right margin",
+                        value=True,
+                        sizeStyle='small')
+            # buttons
+            x = self._padding
+            y += self._line_height + self._padding_top
+            self.w.button_apply = SquareButton(
+                        (x, y,
+                        -self._padding,
+                        self._button_height),
+                        "apply",
+                        sizeStyle='small',
+                        callback=self.apply_callback)
+            # open window 
+            self.w.open()
 
     def apply_callback(self, sender):
         boolstring = [False, True]
@@ -131,22 +100,10 @@ class copySidebearingsDialog(object):
         _source_font_index = self.w._source_value.get()
         _source_font = self._all_fonts[_source_font_index]
         _source_font_name = self._all_fonts_names[_source_font_index]
-        _source_mark = self.w.mark_source_checkbox.get()
-        _source_mark_color = self.w.mark_source_color.get()
-        _source_mark_color = (_source_mark_color.redComponent(),
-                _source_mark_color.greenComponent(),
-                _source_mark_color.blueComponent(),
-                _source_mark_color.alphaComponent())
         # dest font
         _dest_font_index = self.w._dest_value.get()            
         _dest_font = self._all_fonts[_dest_font_index]
         _dest_font_name = self._all_fonts_names[_dest_font_index]
-        _dest_mark = self.w.mark_dest_checkbox.get()
-        _dest_mark_color = self.w.mark_dest_color.get()
-        _dest_mark_color = (_dest_mark_color.redComponent(),
-                _dest_mark_color.greenComponent(),
-                _dest_mark_color.blueComponent(),
-                _dest_mark_color.alphaComponent())
         # left / right
         _left = self.w.left_checkbox.get()
         _right = self.w.right_checkbox.get()
@@ -164,22 +121,14 @@ class copySidebearingsDialog(object):
             for gName in _source_font.selection:
                 try:
                     # set undo
-                    _source_font[gName].prepareUndo('copy side-bearings')
-                    _dest_font[gName].prepareUndo('copy side-bearings')
+                    _dest_font[gName].prepareUndo('copy margins')
                     print '\t%s' % gName,
                     # copy
                     if _left:
                         _dest_font[gName].leftMargin = _source_font[gName].leftMargin
                     if _right:
                         _dest_font[gName].rightMargin = _source_font[gName].rightMargin
-                    # mark
-                    if _source_mark:
-                        _source_font[gName].mark = _source_mark_color
-                    if _dest_mark:
-                        _dest_font[gName].mark = _dest_mark_color
                     # call undo
-                    _dest_font.performUndo()
-                    _dest_font.update()            
                     _dest_font.performUndo()
                     _dest_font.update()
                 except:
@@ -195,5 +144,5 @@ class copySidebearingsDialog(object):
 
 # run
 
-copySidebearingsDialog()
+copyMarginsDialog()
 

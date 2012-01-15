@@ -4,18 +4,17 @@ from robofab.world import CurrentGlyph
 
 from hTools2.modules.glyphutils import round_points
 
-
-def get_glyphs(f):
-	gNames = []
-	cg = CurrentGlyph()
-	if cg != None:
-		gNames.append(cg.name)
-	for g in f:
-		if g.selected == True:
-			if g.name not in gNames:
-				gNames.append(g.name)
-	gNames.sort()
-	return gNames
+def get_glyphs(font):
+	_glyph_names = []
+	_glyph = CurrentGlyph()
+	if _glyph != None:
+		_glyph_names.append(_glyph.name)
+	for glyph in font:
+		if glyph.selected == True:
+			if glyph.name not in _glyph_names:
+				_glyph_names.append(glyph.name)
+	_glyph_names.sort()
+	return _glyph_names
 
 # font info
 
@@ -23,19 +22,19 @@ def get_full_name(font):
     full_name = '%s %s' % (font.info.familyName, font.info.styleName)
     return full_name 
 
-def full_name(familyName, styleName):
-	if styleName == 'Regular':
-		fullName = familyName
+def full_name(family, style):
+	if style == 'Regular':
+		full_name = family
 	else:
-		fullName = familyName + ' ' + styleName
-	return fullName
+		full_name = family + ' ' + style
+	return full_name
 
-def font_name(familyName, styleName):
-	if styleName == 'Regular':
-		fontName = familyName
+def font_name(family, style):
+	if style == 'Regular':
+		font_name = family
 	else:
-		fontName = familyName + '-' + styleName
-	return fontName
+		font_name = family + '-' + style
+	return font_name
 
 def set_unique_ps_id(font):
 	a, b, c, d, e, f = randint(0,9), randint(0,9), randint(0,9), randint(0,9), randint(0,9), randint(0,9)
@@ -43,14 +42,14 @@ def set_unique_ps_id(font):
 	font.info.postscriptUniqueID = int(_psID)
 
 def get_names_from_Path(fontPath):
-	dir, file = os.path.split(fontPath)
-	name, extension = os.path.splitext(file)
+	_dir, _file = os.path.split(fontPath)
+	name, extension = os.path.splitext(_file)
 	try:
-		familyName, styleName = name.split("_")
-		return familyName, styleName
+		family, style = name.split("_")
+		return family, style
 	except ValueError:
-		familyName, styleName = name.split("-")
-		return familyName, styleName	
+		family, style = name.split("-")
+		return family, style	
 	except:
 		print "font path not splitable.\n"
 
@@ -123,7 +122,7 @@ def auto_order_direction(font):
 def align_to_grid(f, (sizeX, sizeY)):
 	for g in f:
 		print g
-		roundPointsToGrid(g, (sizeX, sizeY))
+		round_points(g, (sizeX, sizeY))
 		g.update()
 	f.update()
 

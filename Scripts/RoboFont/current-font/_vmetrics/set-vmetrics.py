@@ -52,62 +52,7 @@ class adjustVerticalMetrics(object):
                     'update font',
                     sizeStyle='small',
                     callback=self.switch_font_callback)
-        # xheight
-        _xheight = self.font.info.xHeight
-        self._xheight_min = 1
-        self._xheight_max = self.font.info.unitsPerEm
         y += self._row_height + self._padding
-        self.w.xheight_label = TextBox(
-                    (x1, y,
-                    self._column_1,
-                    self._row_height),
-                    "x-height",
-                    sizeStyle='small')
-        self.w.xheight_slider = Slider(
-                    (x2, y - 5,
-                    self._column_2,
-                    self._row_height),
-                    minValue=self._xheight_min,
-                    maxValue=self._xheight_max,
-                    value=_xheight,
-                    callback=self.xheight_slider_callback,
-                    sizeStyle='small')
-        self.w.xheight_value = EditText(
-                    (x3, y,
-                    self._column_3,
-                    self._box_height),
-                    _xheight,
-                    callback=self.xheight_value_callback,
-                    sizeStyle='small')
-        self.w.xheight_minus_01 = SquareButton(
-                    (x4, y,
-                    self._button_2,
-                    self._button_2),
-                    '-',
-                    sizeStyle='small',
-                    callback=self.xheight_minus_01_callback)
-        self.w.xheight_plus_01 = SquareButton(
-                    (x5, y,
-                    self._button_2,
-                    self._button_2),
-                    '+',
-                    sizeStyle='small',
-                    callback=self.xheight_plus_01_callback)
-        self.w.xheight_minus_10 = SquareButton(
-                    (x6, y,
-                    self._button_2,
-                    self._button_2),
-                    '-',
-                    sizeStyle='small',
-                    callback=self.xheight_minus_10_callback)
-        self.w.xheight_plus_10 = SquareButton(
-                    (x7, y,
-                    self._button_2,
-                    self._button_2),
-                    '+',
-                    sizeStyle='small',
-                    callback=self.xheight_plus_10_callback)
-        y += self._row_height
         #----------
         # ascender
         #----------
@@ -164,6 +109,120 @@ class adjustVerticalMetrics(object):
                     '+',
                     sizeStyle='small',
                     callback=self.ascender_plus_10_callback)
+        y += self._row_height
+        #-----------
+        # capheight
+        #-----------
+        _capheight = self.font.info.capHeight
+        self._capheight_min = 1
+        self._capheight_max = self.font.info.unitsPerEm
+        self.w.capheight_label = TextBox(
+                    (x1, y,
+                    self._column_1,
+                    self._row_height),
+                    "cap-height",
+                    sizeStyle='small')
+        self.w.capheight_slider = Slider(
+                    (x2, y - 5,
+                    self._column_2,
+                    self._row_height),
+                    minValue=self._capheight_min,
+                    maxValue=self._capheight_max,
+                    value=_capheight,
+                    callback=self.capheight_slider_callback,
+                    sizeStyle='small')
+        self.w.capheight_value = EditText(
+                    (x3, y,
+                    self._column_3,
+                    self._box_height),
+                    _capheight,
+                    callback=self.capheight_value_callback,
+                    sizeStyle='small')
+        self.w.capheight_minus_01 = SquareButton(
+                    (x4, y,
+                    self._button_2,
+                    self._button_2),
+                    '-',
+                    sizeStyle='small',
+                    callback=self.capheight_minus_01_callback)
+        self.w.capheight_plus_01 = SquareButton(
+                    (x5, y,
+                    self._button_2,
+                    self._button_2),
+                    '+',
+                    sizeStyle='small',
+                    callback=self.capheight_plus_01_callback)
+        self.w.capheight_minus_10 = SquareButton(
+                    (x6, y,
+                    self._button_2,
+                    self._button_2),
+                    '-',
+                    sizeStyle='small',
+                    callback=self.capheight_minus_10_callback)
+        self.w.capheight_plus_10 = SquareButton(
+                    (x7, y,
+                    self._button_2,
+                    self._button_2),
+                    '+',
+                    sizeStyle='small',
+                    callback=self.capheight_plus_10_callback)
+        y += self._row_height
+        #---------
+        # xheight
+        #---------
+        _xheight = self.font.info.xHeight
+        self._xheight_min = 1
+        self._xheight_max = self.font.info.unitsPerEm
+        self.w.xheight_label = TextBox(
+                    (x1, y,
+                    self._column_1,
+                    self._row_height),
+                    "x-height",
+                    sizeStyle='small')
+        self.w.xheight_slider = Slider(
+                    (x2, y - 5,
+                    self._column_2,
+                    self._row_height),
+                    minValue=self._xheight_min,
+                    maxValue=self._xheight_max,
+                    value=_xheight,
+                    callback=self.xheight_slider_callback,
+                    sizeStyle='small')
+        self.w.xheight_value = EditText(
+                    (x3, y,
+                    self._column_3,
+                    self._box_height),
+                    _xheight,
+                    callback=self.xheight_value_callback,
+                    sizeStyle='small')
+        self.w.xheight_minus_01 = SquareButton(
+                    (x4, y,
+                    self._button_2,
+                    self._button_2),
+                    '-',
+                    sizeStyle='small',
+                    callback=self.xheight_minus_01_callback)
+        self.w.xheight_plus_01 = SquareButton(
+                    (x5, y,
+                    self._button_2,
+                    self._button_2),
+                    '+',
+                    sizeStyle='small',
+                    callback=self.xheight_plus_01_callback)
+        self.w.xheight_minus_10 = SquareButton(
+                    (x6, y,
+                    self._button_2,
+                    self._button_2),
+                    '-',
+                    sizeStyle='small',
+                    callback=self.xheight_minus_10_callback)
+        self.w.xheight_plus_10 = SquareButton(
+                    (x7, y,
+                    self._button_2,
+                    self._button_2),
+                    '+',
+                    sizeStyle='small',
+                    callback=self.xheight_plus_10_callback)
         y += self._row_height
         #-----------
         # descender
@@ -228,69 +287,10 @@ class adjustVerticalMetrics(object):
                     '+',
                     sizeStyle='small',
                     callback=self.descender_plus_10_callback)
-        y += self._row_height
-        #-----------
-        # capheight
-        #-----------
-        _capheight = self.font.info.capHeight
-        self._capheight_min = 1
-        self._capheight_max = self.font.info.unitsPerEm
-        self.w.capheight_label = TextBox(
-                    (x1, y,
-                    self._column_1,
-                    self._row_height),
-                    "cap-height",
-                    sizeStyle='small')
-        self.w.capheight_slider = Slider(
-                    (x2, y - 5,
-                    self._column_2,
-                    self._row_height),
-                    minValue=self._capheight_min,
-                    maxValue=self._capheight_max,
-                    value=_capheight,
-                    callback=self.capheight_slider_callback,
-                    sizeStyle='small')
-        self.w.capheight_value = EditText(
-                    (x3, y,
-                    self._column_3,
-                    self._box_height),
-                    _capheight,
-                    callback=self.capheight_value_callback,
-                    sizeStyle='small')
-        self.w.capheight_minus_01 = SquareButton(
-                    (x4, y,
-                    self._button_2,
-                    self._button_2),
-                    '-',
-                    sizeStyle='small',
-                    callback=self.capheight_minus_01_callback)
-        self.w.capheight_plus_01 = SquareButton(
-                    (x5, y,
-                    self._button_2,
-                    self._button_2),
-                    '+',
-                    sizeStyle='small',
-                    callback=self.capheight_plus_01_callback)
-        self.w.capheight_minus_10 = SquareButton(
-                    (x6, y,
-                    self._button_2,
-                    self._button_2),
-                    '-',
-                    sizeStyle='small',
-                    callback=self.capheight_minus_10_callback)
-        self.w.capheight_plus_10 = SquareButton(
-                    (x7, y,
-                    self._button_2,
-                    self._button_2),
-                    '+',
-                    sizeStyle='small',
-                    callback=self.capheight_plus_10_callback)
         # open window
         self.w.open()
 
-    #------------------
-    # update functions
-    #------------------
+    # updates
 
     def xheight_update(self, value):
         self.w.xheight_value.set(value)
@@ -322,14 +322,10 @@ class adjustVerticalMetrics(object):
         self.font.info.unitsPerEm = value
         self.font.update()
 
-    #---------
     # buttons
-    #---------
 
     def switch_font_callback(self, sender):
         print 'switch to current font'
-
-    # xheight
 
     def xheight_minus_01_callback(self, sender):
         _xheight_value = int(self.w.xheight_value.get()) - 1
@@ -347,8 +343,6 @@ class adjustVerticalMetrics(object):
         _xheight_value = int(self.w.xheight_value.get()) + 10
         self.xheight_update(_xheight_value)
 
-    # cap height
-
     def capheight_minus_01_callback(self, sender):
         _capheight_value = int(self.w.capheight_value.get()) - 1
         self.capheight_update(_capheight_value)
@@ -364,8 +358,6 @@ class adjustVerticalMetrics(object):
     def capheight_plus_10_callback(self, sender):
         _capheight_value = int(self.w.capheight_value.get()) + 10
         self.capheight_update(_capheight_value)
-
-    # ascender
 
     def ascender_minus_01_callback(self, sender):
         _ascender_value = int(self.w.ascender_value.get()) - 1
@@ -383,8 +375,6 @@ class adjustVerticalMetrics(object):
         _ascender_value = int(self.w.ascender_value.get()) + 10
         self.ascender_update(_ascender_value)
 
-    # descender
-
     def descender_minus_01_callback(self, sender):
         _descender_value = abs(int(self.w.descender_value.get())) - 1
         self.descender_update(-_descender_value)
@@ -400,8 +390,6 @@ class adjustVerticalMetrics(object):
     def descender_plus_10_callback(self, sender):
         _descender_value = int(self.w.descender_value.get()) + 10
         self.descender_update(_descender_value)
-
-    # units per em
 
     def units_per_em_minus_01_callback(self, sender):
         _units_per_em_value = int(self.w.units_per_em_value.get()) - 1
@@ -419,9 +407,7 @@ class adjustVerticalMetrics(object):
         _units_per_em_value = int(self.w.units_per_em_value.get()) + 10
         self.units_per_em_update(_units_per_em_value)
 
-    #---------
     # sliders
-    #---------
 
     def xheight_slider_callback(self, sender):
         _xheight_value = int(self.w.xheight_slider.get())
@@ -458,9 +444,7 @@ class adjustVerticalMetrics(object):
         self.font.info.unitsPerEm = _units_per_em_value
         self.font.update()
 
-    #--------
     # values
-    #--------
 
     def xheight_value_callback(self, sender):
         _xheight_value = int(sender.get())

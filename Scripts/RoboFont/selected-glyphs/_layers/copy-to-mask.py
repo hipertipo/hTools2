@@ -5,22 +5,26 @@
 from vanilla import *
 from AppKit import NSColor
 
+import hTools2.modules.fontutils
+reload(hTools2.modules.fontutils)
+
 from hTools2.modules.fontutils import get_full_name
-from hTools2.modules.color import randomColor
+
 
 class copyToMaskDialog(object):
 
-    _title = 'copy glyphs to mask'
-    _all_fonts_names = []
-    _source_mark_color = randomColor()
-    _target_mark_color = randomColor()
-    _target_layer_name = 'mask'
-    _width = 280
-    _height = 247
-    _padding = 15
+    _title = 'copy to mask'
+    _padding = 10
     _padding_top = 8
     _row_height = 25
-    _column_1 = 130
+    _line_height = 20
+    _button_height = 35
+    _column_1 = 180
+    _width = _column_1 + (_padding * 2)
+    _height = (_line_height * 2) + (_row_height * 2) + _button_height + (_padding_top * 4)
+
+    _target_layer_name = 'mask'
+    _all_fonts_names = []
 
     def __init__(self):
         if len(AllFonts()) > 0:
@@ -28,90 +32,50 @@ class copyToMaskDialog(object):
             for f in self._all_fonts:
                 self._all_fonts_names.append(get_full_name(f))
             self.w = FloatingWindow(
-                    (self._width, self._height),
-                    self._title,
-                    closable=False)
+                        (self._width,
+                        self._height),
+                        self._title,
+                        closable=True)
             # source font
+            x = self._padding
+            y = self._padding_top
             self.w._source_label = TextBox(
-                    (self._padding,
-                    self._padding_top + (self._row_height * 0),
-                    -self._padding,
-                    17),
-                    "source font")
+                        (x, y,
+                        -self._padding,
+                        self._line_height),
+                        "source font",
+                        sizeStyle='small')
+            y += self._line_height
             self.w._source_value = PopUpButton(
-                    (self._padding,
-                    self._padding_top + (self._row_height * 1),
-                    -self._padding,
-                    20),
-                    self._all_fonts_names)
-            # source color
-            self.w.source_mark_checkbox = CheckBox(
-                    (self._padding,
-                    self._padding_top + (self._row_height * 2) + 6,
-                    -self._padding,
-                    20),
-                    "mark glyphs",
-                    value=True)
-            self.w.source_mark_color = ColorWell(
-                    (self._column_1,
-                    self._padding_top + (self._row_height * 2) + 8,
-                    -self._padding,
-                    20),
-                    color=NSColor.colorWithCalibratedRed_green_blue_alpha_(*self._source_mark_color))
-            # division 1
-            self.w.line_1 = HorizontalLine(
-                    (self._padding,
-                    self._padding_top + (self._row_height * 4) - 8,
-                    -self._padding,
-                    1))
+                        (x, y,
+                        -self._padding,
+                        self._line_height),
+                        self._all_fonts_names,
+                        sizeStyle='small')
             # target font
+            y += self._line_height + self._padding_top
             self.w._target_label = TextBox(
-                    (self._padding,
-                    self._padding_top + (self._row_height * 4),
-                    -self._padding,
-                    17),
-                    "target font")
+                        (x, y,
+                        -self._padding,
+                        self._line_height),
+                        "target font",
+                        sizeStyle='small')
+            y += self._line_height
             self.w._target_value = PopUpButton(
-                    (self._padding,
-                    self._padding_top + (self._row_height * 5),
-                    -self._padding,
-                    20),
-                    self._all_fonts_names)
-            # target color
-            self.w.target_mark_checkbox = CheckBox(
-                    (self._padding,
-                    self._padding_top + (self._row_height * 6) + 6,
-                    -self._padding,
-                    20),
-                    "mark glyphs",
-                    value=True)
-            self.w.target_mark_color = ColorWell(
-                    (self._column_1,
-                    self._padding_top + (self._row_height * 6) + 8,
-                    -self._padding - 3,
-                    20),
-                    color=NSColor.colorWithCalibratedRed_green_blue_alpha_(*self._target_mark_color))
-            # division 2
-            self.w.line_2 = HorizontalLine(
-                    (self._padding,
-                    self._padding_top + (self._row_height * 8) - 8,
-                    -self._padding,
-                    1))
+                        (x, y,
+                        -self._padding,
+                        self._line_height),
+                        self._all_fonts_names,
+                        sizeStyle='small')
             # buttons
-            self.w.button_apply = Button(
-                    (self._padding,
-                    -45,
-                    (self._width/2) - 15,
-                    0),
-                    "apply",
-                    callback=self.apply_callback)
-            self.w.button_close = Button(
-                    (self._width/2 + 5,
-                     -45,
-                     -self._padding,
-                     0),
-                    "close",
-                    callback=self.close_callback)
+            y += self._line_height + self._padding_top + 7
+            self.w.button_apply = SquareButton(
+                        (x, y,
+                        -self._padding,
+                        self._button_height),
+                        "apply",
+                        sizeStyle='small',
+                        callback=self.apply_callback)
             # open window
             self.w.open()
         else:
@@ -120,27 +84,13 @@ class copyToMaskDialog(object):
     def apply_callback(self, sender):
         # get source font parameters
         _source_font = self._all_fonts[self.w._source_value.get()]
-        _source_mark = self.w.source_mark_checkbox.get()
-        _source_mark_color = self.w.source_mark_color.get()
-        _source_mark_color = (_source_mark_color.redComponent(),
-                _source_mark_color.greenComponent(),
-                _source_mark_color.blueComponent(),
-                _source_mark_color.alphaComponent())
         # get target font parameters
         _target_layer_name = self._target_layer_name
         _target_font = self._all_fonts[self.w._target_value.get()]
-        _target_mark = self.w.target_mark_checkbox.get()
-        _target_mark_color = self.w.target_mark_color.get()
-        _target_mark_color = (_target_mark_color.redComponent(),
-                _target_mark_color.greenComponent(),
-                _target_mark_color.blueComponent(),
-                _target_mark_color.alphaComponent())
         # print info
         print 'copying glyphs to mask...\n'
-        print '\tsource font: %s (current layer, color: %s)' % (
-                get_full_name(_source_font), _source_mark_color)
-        print '\ttarget font: %s (layer: %s, color: %s)' % (
-                get_full_name(_target_font), self._target_layer_name, _target_mark_color)
+        print '\tsource font: %s (current layer)' % get_full_name(_source_font)
+        print '\ttarget font: %s (layer: %s)' % (get_full_name(_target_font), self._target_layer_name)
         print
         # batch copy glyphs to mask
         for gName in _source_font.selection:
@@ -150,10 +100,6 @@ class copyToMaskDialog(object):
                 _source_font[gName].prepareUndo('copy glyphs to mask')
                 _target_font[gName].prepareUndo('copy glyphs to mask')
                 # mark
-                if _source_mark:
-                    _source_font[gName].mark = _source_mark_color                
-                if _target_mark:
-                    _target_font[gName].mark = _target_mark_color
                 # copy oulines to mask
                 _target_glyph_layer = _target_font[gName].getLayer(_target_layer_name)
                 pen = _target_glyph_layer.getPointPen()

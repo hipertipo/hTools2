@@ -51,7 +51,8 @@ class slideLayerDialog(object):
                     value = 0,
                     maxValue=self._xMax,
                     minValue=self._xMin,
-                    callback=self.slide_callback)
+                    callback=self.slide_callback,
+                    sizeStyle='small')
             # y slider
             self.w.y_label = TextBox(
                     (self._padding,
@@ -67,7 +68,8 @@ class slideLayerDialog(object):
                     value = 0,
                     maxValue=self._yMax,
                     minValue=self._yMin,
-                    callback=self.slide_callback)
+                    callback=self.slide_callback,
+                    sizeStyle='small')
             # buttons
             self.w.button_restore = Button(
                     (self._padding,

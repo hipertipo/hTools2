@@ -5,89 +5,75 @@
 from vanilla import *
 from AppKit import NSColor
 
-from hTools2.modules.color import randomColor
+import hTools2.modules.fontutils
+import hTools2.modules.color
+
+reload(hTools2.modules.fontutils)
+reload(hTools2.modules.color)
+
+from hTools2.modules.fontutils import get_full_name
+from hTools2.modules.color import random_color
 
 class copyToLayerDialog(object):
 
     _title = 'copy to layer'
-    _mark_color = randomColor()
     _padding = 10
+    _padding_top = 8
+    _line_height = 20
+    _column_1 = 75
+    _box_width = 170
+    _button_width = 80
+    _width = _column_1 + _button_width + _box_width + (_padding * 3)
+    _height = (_padding_top * 2) + _line_height
 
     def __init__(self, ):
         self.w = FloatingWindow(
-                (190, 140),
-                self._title,
-                closable=False)
+                    (self._width,
+                    self._height),
+                    self._title,
+                    closable=True)
         # layer
+        x = self._padding
+        y = self._padding_top
         self.w._layers_label = TextBox(
-                (self._padding,
-                self._padding,
-                -self._padding,
-                17),
-                "target layer:")
+                    (x, y+3,
+                    self._column_1,
+                    self._line_height),
+                    "target layer",
+                    sizeStyle='small')
+        x += self._column_1
         self.w._layers_value = EditText(
-                (self._padding,
-                35,
-                -self._padding,
-                21),
-                placeholder='layer name')
-        # mark color
-        self.w.mark_checkbox = CheckBox(
-                (self._padding,
-                70,
-                -self._padding,
-                20),
-                "mark glyphs",
-                value=True)
-        self.w.mark_color = ColorWell(
-                (120,
-                70,
-                -13,
-                20),
-                color=NSColor.colorWithCalibratedRed_green_blue_alpha_(*self._mark_color))
+                    (x, y,
+                    self._box_width,
+                    self._line_height),
+                    placeholder='layer name',
+                    sizeStyle='small')
+        x += self._box_width + self._padding
         # buttons
-        self.w.button_apply = Button(
-                (self._padding,
-                -45,
-                80, 
-                0),
-                "apply",
-                callback=self.apply_callback)
-        self.w.button_close = Button(
-                (-90,
-                -45,
-                80,
-                0),
-                "close",
-                callback=self.close_callback)
+        self.w.button_apply = SquareButton(
+                    (x, y,
+                    self._button_width, 
+                    self._line_height),
+                    "copy",
+                    callback=self.apply_callback,
+                    sizeStyle='small')
         # open window
         self.w.open()
 
     def apply_callback(self, sender):
         f = CurrentFont()
-        print f
         if f is not None:
             # get layer
             _layer_index = self.w._layers_value.get()
             _layer_name = self.w._layers_value.get()
-            # get mark color
-            _mark = self.w.mark_checkbox.get()
-            _mark_color = self.w.mark_color.get()
-            _mark_color = (_mark_color.redComponent(),
-                    _mark_color.greenComponent(),
-                    _mark_color.blueComponent(),
-                    _mark_color.alphaComponent())
             # batch copy to layer
             if len(_layer_name) > 0:
                 print 'copying outlines to layer "%s"...' % _layer_name
-                print _mark_color
                 for gName in f.selection:
                     try:
                         f[gName].prepareUndo('copy to layer')
                         print '\t%s' % gName,
                         f[gName].copyToLayer(_layer_name, clear=True)
-                        if _mark:
-                            f[gName].mark = _mark_color
                         f[gName].performUndo()
                         f[gName].update()            
                     except:

@@ -4,8 +4,8 @@ from AppKit import NSColor
 from vanilla import *
 
 from hTools2.modules.fontutils import get_full_name
-from hTools2.modules.color import randomColor
-from hTools2.modules.encoding import unicodeHexstrToInt
+# from hTools2.modules.color import random_color
+from hTools2.modules.encoding import unicode_hexstr_to_int
 
 # dialog
 

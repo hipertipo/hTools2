@@ -7,14 +7,14 @@ from AppKit import NSColor
 
 from random import random
 
-from hTools2.modules.color import randomColor
+from hTools2.modules.color import random_color
 from hTools2.modules.glyphutils import center_glyph
 
 
 class setWidthDialog(object):
 
     _title = 'set character width'
-    _mark_color = randomColor()
+    _mark_color = random_color()
     _default_width = 400
     _height = 102
     _width = 210

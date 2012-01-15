@@ -18,13 +18,13 @@ named_colors = {
 
 def random_color():
     # FontLab
-    if context == 'FontLab':
+    if _ctx == 'FontLab':
         c = int(255 * random())
     # RoboFont & NoneLab
     else:
         R, G, B = hsv_to_rgb(random(), 1.0, 1.0)
         _alpha = 1.0
-        c = (R, G, B, _alpha)
+        c = (R,     G, B, _alpha)
     return c
 
 def clear_colors(font):
