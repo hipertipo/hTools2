@@ -382,9 +382,9 @@ class interpolateGlyphsDialog(object):
                 f3[gName].update()
                 # create undo
                 f3[gName].performUndo()
-                f3.update()
             else:
                 print '\tfont 2 does not have glyph %s' % gName
+        f3.update()
         # done
         print
         print '...done.\n'

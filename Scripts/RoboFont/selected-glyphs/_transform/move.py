@@ -13,6 +13,7 @@ reload(hTools2.modules.glyphutils)
 from hTools2.plugins.nudge import *
 from hTools2.modules.glyphutils import *
 
+
 class moveGlyphsDialog(object):
 
     _title = "move"

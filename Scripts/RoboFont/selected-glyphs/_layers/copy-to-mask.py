@@ -1,4 +1,4 @@
-# [h] copy glyphs to mask
+# [h] transfer glyphs to mask
 
 '''copy current layer of selected glyphs in source font into "mask" layer in target font'''
 
@@ -13,7 +13,7 @@ from hTools2.modules.fontutils import get_full_name
 
 class copyToMaskDialog(object):
 
-    _title = 'copy to mask'
+    _title = 'transfer to mask'
     _padding = 10
     _padding_top = 8
     _row_height = 25
@@ -97,8 +97,8 @@ class copyToMaskDialog(object):
             try:
                 print '\t%s' % gName,
                 # prepare undo
-                _source_font[gName].prepareUndo('copy glyphs to mask')
-                _target_font[gName].prepareUndo('copy glyphs to mask')
+                _source_font[gName].prepareUndo('transfer glyphs to mask')
+                _target_font[gName].prepareUndo('transfer glyphs to mask')
                 # mark
                 # copy oulines to mask
                 _target_glyph_layer = _target_font[gName].getLayer(_target_layer_name)
@@ -117,9 +117,6 @@ class copyToMaskDialog(object):
         _target_font.update()
         _source_font.update()
         print '\n...done.\n'
-
-    def close_callback(self, sender):
-        self.w.close()
 
 # run
 

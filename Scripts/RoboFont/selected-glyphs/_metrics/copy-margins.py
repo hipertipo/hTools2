@@ -10,6 +10,7 @@ reload(hTools2.modules.fontutils)
 
 from hTools2.modules.fontutils import get_full_name
 
+
 class copyMarginsDialog(object):
 
     _title = 'copy margins'
