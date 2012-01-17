@@ -7,6 +7,7 @@ import hTools2
 
 import hTools2.modules.color
 import hTools2.modules.encoding
+import hTools2.modules.fontutils
 import hTools2.modules.fileutils
 import hTools2.modules.ftp
 import hTools2.modules.sysutils
@@ -14,6 +15,7 @@ import hTools2.plugins.KLTF_WOFF
 
 reload(hTools2.modules.color)
 reload(hTools2.modules.encoding)
+reload(hTools2.modules.fontutils)
 reload(hTools2.modules.fileutils)
 reload(hTools2.modules.ftp)
 reload(hTools2.modules.sysutils)
@@ -21,6 +23,7 @@ reload(hTools2.plugins.KLTF_WOFF)
 
 from hTools2.modules.color import hls_to_rgb, paint_groups
 from hTools2.modules.encoding import auto_unicodes, import_encoding
+from hTools2.modules.fontutils import get_glyphs
 from hTools2.modules.fileutils import walk
 from hTools2.modules.ftp import connect_to_server, upload_file
 from hTools2.modules.sysutils import _ctx
@@ -49,8 +52,8 @@ class hSettings:
 
 class hWorld:
 
-    projects = []
-    selected = []
+    # projects = []
+    # selected = []
 
     def __init__(self):
         self.settings = hSettings()
@@ -221,7 +224,7 @@ class hFont:
 
     def init_from_filename(self):
         ufo_file = os.path.basename(self.ufo.path)
-        self.file_name = os.path.splitext(ufo_file)[0]
+        self._file_name = os.path.splitext(ufo_file)[0]
         try:
             family_name, style_name = self.file_name.split('_')
         except ValueError:
@@ -230,7 +233,7 @@ class hFont:
         self.style_name = style_name    
 
     def get_glyphs(self):
-        pass
+        get_glyphs(self.ufo)
 
     def auto_unicodes(self):
         auto_unicodes(self.ufo)
@@ -259,12 +262,12 @@ class hFont:
 
     # font names
 
-    def name(self):
-        name = [ ]
-        for param in self.parameters_order:
-            name.append(self.parameters[param])
-            name = '-'.join(name)
-        return name
+    # def name(self):
+    #     name = [ ]
+    #     for param in self.parameters_order:
+    #         name.append(self.parameters[param])
+    #         name = '-'.join(name)
+    #     return name
 
     def full_name(self):
         return '%s %s' % (self.project.name, self.style_name)
@@ -309,3 +312,4 @@ class hGlyph:
     def __init__(self, glyph_name, project):
         self.name = glyph_name
         self.project = project
+
