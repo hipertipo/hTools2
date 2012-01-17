@@ -210,25 +210,21 @@ class hProject:
 
 class hFont:
 
-    project = None
-    ufo = None
-    file_name = None
-
     def __init__(self, ufo):
         self.ufo = ufo
         try:
             self.init_from_filename()
         except:
-            print 'Untitled font, please save ufo to project folder before proceeding.\n'
-            # self._make_parameters_dict()
+            print 'Cannot get project name from ufo path, please check and try again.\n'
+        # self._make_parameters_dict()
 
     def init_from_filename(self):
         ufo_file = os.path.basename(self.ufo.path)
         self._file_name = os.path.splitext(ufo_file)[0]
         try:
-            family_name, style_name = self.file_name.split('_')
+            family_name, style_name = self._file_name.split('_')
         except ValueError:
-            family_name, style_name = self.file_name.split('-')
+            family_name, style_name = self._file_name.split('-')
         self.project = hProject(family_name)
         self.style_name = style_name    
 

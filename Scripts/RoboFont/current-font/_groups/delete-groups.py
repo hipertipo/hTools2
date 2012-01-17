@@ -1,9 +1,9 @@
 # [h] delete groups
 
-def deleteGroups(font):
-	for group in font.groups.keys():
-		del font.groups[group]
-	font.update()
+import hTools2.modules.fontutils
+reload(hTools2.modules.fontutils)
+
+from hTools2.modules.fontutils import delete_groups
 
 f = CurrentFont()
-deleteGroups(f)
+delete_groups(font)
