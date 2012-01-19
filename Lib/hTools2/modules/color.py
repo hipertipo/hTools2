@@ -55,7 +55,7 @@ def paint_groups(f):
             color_step = 1.0 / len(f.groups)
             color = color_step * count
             R, G, B = hls_to_rgb(color, 0.5, 1.0)
-            print '\tpainting group %s with color %s (hue)' % (group, color)
+            print '\tpainting group %s...' % group # with color %s' % color)
             for glyph_name in f.groups[group]:
                 if f.has_key(glyph_name) is not True:
                     f.newGlyph(glyph_name)

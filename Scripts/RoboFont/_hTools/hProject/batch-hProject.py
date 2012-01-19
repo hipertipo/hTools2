@@ -20,19 +20,21 @@ from hTools2.modules.color import clear_colors
 
 class batchProjectDialog(object):
 
-    _col1 = 160
-    _col2 = 180
-    _col3 = 100
-    _col4 = 140
-    _col5 = 120
+    _col1 = 140
+    _col2 = 200
+    _col3 = 80
+    _col4 = 40
+    _col5 = 140
     _col6 = 125
+    _col7 = 110
     _padding = 10
     _height = 120
     _row_height = 18
     _button_height = 20
-    _width = _col1 + _col2 + _col3 + _col4 + _col5 + _col6 + (_padding * 5) + 100
+    _width = _col1 + _col2 + _col3 + _col4 + _col5 + _col6 + _col7 + (_padding * 5) + 100
 
     _masters = []
+    _masters_i = []
     _instances = []
     _selected_projects = []
     _open = True
@@ -60,30 +62,39 @@ class batchProjectDialog(object):
                     self.projects,
                     selectionCallback=self.projects_selection,
                     allowsMultipleSelection=False)
+        #------------------
+        # interpol masters
+        #------------------
+        x += self._col1 - 1
+        self.w.masters_i_list = List(
+                    (x, y,
+                    self._col2,
+                    -self._padding),
+                    self._masters_i)
         #--------------
         # masters list
         #--------------
-        x =+ self._col1 + (self._padding * 1) - 1
+        x += self._col2 - 1
         self.w.masters_list = List(
                     (x, y,
-                    self._col2,
+                    self._col3,
                     -self._padding),
                     self._masters,
                     allowsMultipleSelection=True)
         #----------------
         # instances list
         #----------------
-        x =+ self._col1 + self._col2 + (self._padding * 1) - 2
+        x += self._col3 - 1
         self.w.instances_list = List(
                     (x, y,
-                    self._col3,
+                    self._col4,
                     -self._padding),
                     self._instances)
         #--------------
         # checkboxes 1
         #--------------
         # open font in UI
-        x = self._col1 + self._col2 + self._col3 + (self._padding * 2)
+        x = self._col1 + self._col2 + self._col3 + self._col4 + (self._padding * 2)
         y = self._padding
         self.w.open_checkbox = CheckBox(
                     (x,
@@ -129,7 +140,7 @@ class batchProjectDialog(object):
         #--------------
         _checkboxes = 0
         # set glyph order
-        x += self._col4
+        x += self._col5
         self.w.import_encoding_checkbox = CheckBox(
                     (x,
                     y + (self._row_height * _checkboxes),
@@ -173,7 +184,7 @@ class batchProjectDialog(object):
         #--------------
         # test install
         _checkboxes = 0
-        x += self._col5 + self._padding
+        x += self._col6 + self._padding
         # auto unicodes
         self.w.auto_unicodes_checkbox = CheckBox(
                     (x,
@@ -215,7 +226,7 @@ class batchProjectDialog(object):
         #--------------
         # checkboxes 4
         #--------------
-        x += self._col5 + self._padding
+        x += self._col7 + self._padding
         _checkboxes = 0
         # upload to FTP
         self.w.upload_woff_checkbox = CheckBox(
@@ -257,7 +268,7 @@ class batchProjectDialog(object):
                     callback=self.apply_callback,
                     sizeStyle='small')
         # progress bar
-        x = self._col1 + self._col2 + self._col3 + (self._padding * 2)
+        x = self._col1 + self._col2 + self._col3 + self._col4 + (self._padding * 2)
         self.w.bar = ProgressBar(
                     (x,
                     -self._padding -self._button_height + 1,
@@ -268,8 +279,13 @@ class batchProjectDialog(object):
         # open
         self.w.open()
 
+    #-----------
+    # callbacks
+    #-----------
+
     def projects_selection(self, sender):
         _selected_projects = self.w.projects_list.getSelection()
+        self.masters_i_clear()
         self.masters_clear()
         self.instances_clear()
         for _selected_project in _selected_projects:
@@ -283,7 +299,7 @@ class batchProjectDialog(object):
                     self._masters.append(master)
                     self.w.masters_list.extend([font_name])
             else:
-                self.w.masters_list.extend(['none'])
+                self.w.masters_list.extend(['.'])
             # get instances
             instances = p.instances()
             if len(instances) > 0:
@@ -292,11 +308,24 @@ class batchProjectDialog(object):
                     self._instances.append(instance)
                     self.w.instances_list.extend([font_name])
             else:
-                self.w.instances_list.extend(['none'])
+                self.w.instances_list.extend(['.'])
+            # get interpol masters
+            masters_i = p.masters_interpol()
+            if len(masters_i) > 0:
+                for master_i in masters_i:
+                    font_name = '%s' % get_names_from_path(master_i)[1]
+                    self._masters_i.append(master_i)
+                    self.w.masters_i_list.extend([font_name])
+            else:
+                self.w.masters_i_list.extend(['.'])
 
     def masters_clear(self):
         self._masters = []
         self.w.masters_list.set([])
+
+    def masters_i_clear(self):
+        self._masters_i = []
+        self.w.masters_i_list.set([])
 
     def instances_clear(self):
         self._instances = []
@@ -314,6 +343,12 @@ class batchProjectDialog(object):
         if len(_instances_selection) > 0:
             for n in _instances_selection:
                 _font_paths.append(self._instances[n])
+        # collect masters interpol
+        _masters_i_selection = self.w.masters_i_list.getSelection()
+        if len(_masters_i_selection) > 0:
+            for k in _masters_i_selection:
+                _font_paths.append(self._masters_i[k])
+        # return
         return _font_paths
 
     def _get_actions(self):

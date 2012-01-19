@@ -47,7 +47,9 @@ def print_groups(font, mode=0):
     if len(groups) > 0:
         print 'printing groups in font %s...' % font
         print
-        # print groups as OpenType classes syntax
+        #----------------------------------
+        # print groups as OpenType classes
+        #----------------------------------
         if mode == 1:
             _groups = groups.keys()
             _groups.sort()
@@ -62,11 +64,35 @@ def print_groups(font, mode=0):
               otGlyphs = otGlyphs + " ]"
               # print class in OpenType syntax
               print "%s = %s;" % (otClassName, otGlyphs)
+        #-------------------------------
         # print groups as Python lists
-        else:
+        #-------------------------------
+        elif mode == 2:
+            # print groups order (if available)
+            if font.lib.has_key('groups_order'):
+                print font.lib['groups_order']
+            # print groups
             for group in groups.keys():
                 print group
                 print font.groups[group]
+                print
+        #----------------------
+        # print groups as text
+        #----------------------
+        else:
+            # print groups order (if available)
+            if font.lib.has_key('groups_order'):
+                print 'groups order:\n'
+                for group_name in font.lib['groups_order']:
+                    print '\t%s' % group_name
+                print
+            # print groups
+            print 'groups:\n'
+            for group_name in groups.keys():
+                print '%s:' % group_name
+                for glyph_name in font.groups[group_name]:
+                    print glyph_name,
+                print
                 print
         print
         print '...done.\n'

@@ -3,28 +3,23 @@
 from vanilla import *
 from AppKit import NSColor
 
-import hTools2.modules.color
 import hTools2.modules.fontutils
-
-reload(hTools2.modules.color)
 reload(hTools2.modules.fontutils)
 
-from hTools2.modules.color import random_color
 from hTools2.modules.fontutils import get_glyphs
 
 
 class transformSelectedGlyphsDialog(object):
 
-    _title = 'transform'
+    _title = 'actions'
     _row_height = 20
-    _button_height = 30
+    _button_height = 25
     _padding = 10
     _padding_top = 8
     _width = 180
-    _height = (_padding_top * 4) + (_row_height * 8) + _button_height + 13
+    _height = (_padding_top * 3) + (_row_height * 7) + _button_height + 3
 
     _gNames = []
-    _mark_color = random_color()
     _clear = False
     _round = False
     _decompose = False
@@ -32,7 +27,6 @@ class transformSelectedGlyphsDialog(object):
     _direction = False
     _overlaps = False
     _extremes = False
-    _mark = False
 
     def __init__(self):
         self.w = FloatingWindow(
@@ -47,7 +41,7 @@ class transformSelectedGlyphsDialog(object):
                     -self._padding,
                     self._row_height),
                     "clear outlines",
-                    callback=self.clear_Callback,
+                    callback=self.clear_callback,
                     value=self._clear,
                     sizeStyle='small')
         # round point positions
@@ -57,7 +51,7 @@ class transformSelectedGlyphsDialog(object):
                     -self._padding,
                     self._row_height),
                     "round points to integers",
-                    callback=self.round_Callback,
+                    callback=self.round_callback,
                     value=self._round,
                     sizeStyle='small')
         # decompose
@@ -67,7 +61,7 @@ class transformSelectedGlyphsDialog(object):
                     -self._padding,
                     self._row_height),
                     "decompose",
-                    callback=self.decompose_Callback,
+                    callback=self.decompose_callback,
                     value=self._decompose,
                     sizeStyle='small')
         # auto contour order
@@ -77,7 +71,7 @@ class transformSelectedGlyphsDialog(object):
                     -self._padding,
                     self._row_height),
                     "auto contour order",
-                    callback=self.order_Callback,
+                    callback=self.order_callback,
                     value=self._order,
                     sizeStyle='small')
         # auto contour direction
@@ -87,7 +81,7 @@ class transformSelectedGlyphsDialog(object):
                     -self._padding,
                     self._row_height),
                     "auto contour direction",
-                    callback=self.direction_Callback,
+                    callback=self.direction_callback,
                     value=self._direction,
                     sizeStyle='small')
         # remove overlaps
@@ -97,7 +91,7 @@ class transformSelectedGlyphsDialog(object):
                     -self._padding,
                     self._row_height),
                     "remove overlaps",
-                    callback=self.overlaps_Callback,
+                    callback=self.overlaps_callback,
                     value=self._overlaps,
                     sizeStyle='small')
         # add extreme points
@@ -107,70 +101,51 @@ class transformSelectedGlyphsDialog(object):
                     -self._padding,
                     self._row_height),
                     "add extreme points",
-                    callback=self.extremes_Callback,
+                    callback=self.extremes_callback,
                     value=self._extremes,
                     sizeStyle='small')
-        # mark
-        y += self._row_height + self._padding_top + 5
-        self.w.mark_checkBox = CheckBox(
-                    (x, y,
-                    -self._padding,
-                    self._row_height),
-                    "mark",
-                    callback=self.mark_Callback,
-                    value=self._mark,
-                    sizeStyle='small')
-        x += (self._width / 2) - self._padding
-        self.w.mark_color = ColorWell(
-                    (x, y,
-                    -self._padding,
-                    self._row_height),
-                    color=NSColor.colorWithCalibratedRed_green_blue_alpha_(*self._mark_color))
         # buttons
         x = self._padding
-        y += self._row_height + self._padding_top + 5
+        y += self._row_height + self._padding_top
         self.w.button_apply = SquareButton(
                     (x, y,
                     -self._padding,
                     self._button_height),
                     "apply",
-                    callback=self.apply_Callback,
+                    callback=self.apply_callback,
                     sizeStyle='small')
         # open window
         self.w.open()
 
-    def clear_Callback(self, sender):
+    # callbacks
+
+    def clear_callback(self, sender):
         self._clear = sender.get()
 
-    def round_Callback(self, sender):
+    def round_callback(self, sender):
         self._round = sender.get()
 
-    def decompose_Callback(self, sender):
+    def decompose_callback(self, sender):
         self._decompose = sender.get()
 
-    def order_Callback(self, sender):
+    def order_callback(self, sender):
         self._order = sender.get()
 
-    def direction_Callback(self, sender):
+    def direction_callback(self, sender):
         self._direction = sender.get()
 
-    def overlaps_Callback(self, sender):
+    def overlaps_callback(self, sender):
         self._overlaps = sender.get()
 
-    def extremes_Callback(self, sender):
+    def extremes_callback(self, sender):
         self._extremes = sender.get()
 
-    def mark_Callback(self, sender):
+    def mark_callback(self, sender):
         self._mark = sender.get()
 
-    def apply_Callback(self, sender):
+    def apply_callback(self, sender):
         f = CurrentFont()
         if f is not None:
-            _mark_color = self.w.mark_color.get()
-            _mark_color = (_mark_color.redComponent(),
-                        _mark_color.greenComponent(),
-                        _mark_color.blueComponent(),
-                        _mark_color.alphaComponent())
             print 'transforming selected glyphs...\n'
             for gName in get_glyphs(f):
                 if self._clear:
@@ -208,17 +183,12 @@ class transformSelectedGlyphsDialog(object):
                     f[gName].prepareUndo('auto contour directions')
                     f[gName].correctDirection()
                     f[gName].performUndo()
-                if self._mark:
-                    print '\t\tmark glyphs...'
-                    f[gName].prepareUndo('mark')
-                    f[gName].mark = _mark_color
-                    f[gName].performUndo()
                 print
             # done
             print '...done.\n'
         # no font open 
         else:
-            print 'please open a font.\n'
+            print 'please open a font first.\n'
 
 # run
 

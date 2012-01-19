@@ -21,7 +21,7 @@ reload(hTools2.modules.ftp)
 reload(hTools2.modules.sysutils)
 reload(hTools2.plugins.KLTF_WOFF)
 
-from hTools2.modules.color import hls_to_rgb, paint_groups
+from hTools2.modules.color import hls_to_rgb, paint_groups, clear_colors
 from hTools2.modules.encoding import auto_unicodes, import_encoding
 from hTools2.modules.fontutils import get_glyphs
 from hTools2.modules.fileutils import walk
@@ -245,6 +245,28 @@ class hFont:
 
     def paint_groups(self):
         paint_groups(self.ufo)
+
+    def import_spacing_groups(self):
+        _spacing_dict = self.project.libs['spacing']
+        print _spacing_dict
+
+    def paint_spacing_groups(self, side):
+        clear_colors(self.ufo)
+        count = 0
+        print 'painting spacing groups...'
+        _groups = self.project.libs['spacing'][side]
+        color_step = 1.0 / len(_groups.keys())
+        for master in _groups.keys():
+            color = color_step * count
+            R, G, B = hls_to_rgb(color, 0.5, 1.0)
+            self.ufo[master].mark = (R, G, B, .5)
+            self.ufo[master].update()
+            for clone in _groups[master]:
+                self.ufo[clone].mark = (R, G, B, .5)
+                self.ufo[clone].update()
+            count += 1
+        self.ufo.update()
+        print '...done.\n'
 
     def print_info(self):
         pass

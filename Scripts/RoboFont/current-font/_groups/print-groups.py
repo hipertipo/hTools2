@@ -66,7 +66,7 @@ class printGroupsDialog(object):
     def print_callback(self, sender):
         ufo = CurrentFont()
         _mode = self.w._ot_syntax.get()
-        print_groups(ufo, _mode)
+        print_groups(ufo, mode=_mode)
 
 # run
 
