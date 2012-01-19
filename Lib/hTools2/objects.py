@@ -248,24 +248,41 @@ class hFont:
 
     def import_spacing_groups(self):
         _spacing_dict = self.project.libs['spacing']
-        print _spacing_dict
+        for side in _spacing_dict.keys():
+            for group in _spacing_dict[side].keys():
+                _class_name = '_%s_%s' % (side, group)
+                _glyphs = [ group ] + _spacing_dict[side][group]
+                self.ufo.groups[_class_name] = _glyphs
+        self.ufo.update()
 
     def paint_spacing_groups(self, side):
-        clear_colors(self.ufo)
-        count = 0
+        # collect groups & glyphs to paint
+        _groups = {}
+        for _group in self.ufo.groups.keys():
+            if _group[:1] == '_':
+                if side is 'left':
+                    if _group[1:5] == 'left':
+                        _groups[_group] = self.ufo.groups[_group]
+                if side is 'right':
+                    if _group[1:6] == 'right':
+                        _groups[_group] = self.ufo.groups[_group]
+        # paint
         print 'painting spacing groups...'
-        _groups = self.project.libs['spacing'][side]
-        color_step = 1.0 / len(_groups.keys())
-        for master in _groups.keys():
+        print
+        _group_names = _groups.keys() 
+        clear_colors(self.ufo)
+        color_step = 1.0 / len(_group_names)
+        count = 0
+        for group in _group_names:
+            print '\tpainting group %s...' % group
             color = color_step * count
             R, G, B = hls_to_rgb(color, 0.5, 1.0)
-            self.ufo[master].mark = (R, G, B, .5)
-            self.ufo[master].update()
-            for clone in _groups[master]:
-                self.ufo[clone].mark = (R, G, B, .5)
-                self.ufo[clone].update()
+            for glyph_name in _groups[group]:
+                self.ufo[glyph_name].mark = (R, G, B, .5)
+                self.ufo[glyph_name].update()
             count += 1
         self.ufo.update()
+        print
         print '...done.\n'
 
     def print_info(self):

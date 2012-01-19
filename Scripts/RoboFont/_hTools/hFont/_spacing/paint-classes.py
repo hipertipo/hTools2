@@ -16,12 +16,12 @@ class spacingGroupsDialog(object):
 
     _title = 'spacing'
     _padding = 10
-    _padding_top = 8
+    _padding_top = 10
     _row_height = 23
     _button_height = 30
     _button_width =  80
     _width = 160
-    _height = (_row_height * 1) + (_button_height * 3) + (_padding_top * 4) + 3
+    _height = (_row_height * 1) + (_button_height * 3) + (_padding_top * 4)
     
     def __init__(self):
         self.w = FloatingWindow(
@@ -84,6 +84,8 @@ class spacingGroupsDialog(object):
 
     def _import_callback(self, sender):
         print 'import groups from project'
+        font = hFont(CurrentFont())
+        font.import_spacing_groups()
 
     def _export_callback(self, sender):
         print 'export groups to project'
