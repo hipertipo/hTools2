@@ -6,6 +6,18 @@ from hTools2.modules.glyphutils import round_points
 
 # glyphs
 
+def get_spacing_groups(font):
+    _groups = {}
+    _groups['left'] = {}
+    _groups['right'] = {}
+    for _group in font.groups.keys():
+        if _group[:1] == '_':
+            if _group[1:5] == 'left':
+                _groups['left'][_group] = font.groups[_group]
+            if _group[1:6] == 'right':
+                _groups['right'][_group] = font.groups[_group]
+    return _groups
+
 def get_glyphs(font):
     _glyph_names = []
     _glyph = CurrentGlyph()

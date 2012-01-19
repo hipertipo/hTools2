@@ -23,7 +23,7 @@ reload(hTools2.plugins.KLTF_WOFF)
 
 from hTools2.modules.color import hls_to_rgb, paint_groups, clear_colors
 from hTools2.modules.encoding import auto_unicodes, import_encoding
-from hTools2.modules.fontutils import get_glyphs
+from hTools2.modules.fontutils import *
 from hTools2.modules.fileutils import walk
 from hTools2.modules.ftp import connect_to_server, upload_file
 from hTools2.modules.sysutils import _ctx
@@ -246,44 +246,51 @@ class hFont:
     def paint_groups(self):
         paint_groups(self.ufo)
 
-    def import_spacing_groups(self):
+    def import_spacing_groups(self, mode=0):
         _spacing_dict = self.project.libs['spacing']
-        for side in _spacing_dict.keys():
-            for group in _spacing_dict[side].keys():
-                _class_name = '_%s_%s' % (side, group)
-                _glyphs = [ group ] + _spacing_dict[side][group]
-                self.ufo.groups[_class_name] = _glyphs
+        # old hTools1 format
+        if mode == 1:
+            for side in _spacing_dict.keys():
+                for group in _spacing_dict[side].keys():
+                    _class_name = '_%s_%s' % (side, group)
+                    _glyphs = [ group ] + _spacing_dict[side][group]
+                    self.ufo.groups[_class_name] = _glyphs
+        # new hTools2 format
+        else:
+            for side in _spacing_dict.keys():
+                for group in _spacing_dict[side].keys():
+                    self.ufo.groups[group] = _spacing_dict[side][group]
+        # update font
         self.ufo.update()
 
     def paint_spacing_groups(self, side):
         # collect groups & glyphs to paint
-        _groups = {}
-        for _group in self.ufo.groups.keys():
-            if _group[:1] == '_':
-                if side is 'left':
-                    if _group[1:5] == 'left':
-                        _groups[_group] = self.ufo.groups[_group]
-                if side is 'right':
-                    if _group[1:6] == 'right':
-                        _groups[_group] = self.ufo.groups[_group]
+        _groups_dict = get_spacing_groups(self.ufo)
+        if side == 'left':
+            _groups = _groups_dict['left']
+        else:
+            _groups = _groups_dict['right']
         # paint
-        print 'painting spacing groups...'
-        print
-        _group_names = _groups.keys() 
-        clear_colors(self.ufo)
-        color_step = 1.0 / len(_group_names)
-        count = 0
-        for group in _group_names:
-            print '\tpainting group %s...' % group
-            color = color_step * count
-            R, G, B = hls_to_rgb(color, 0.5, 1.0)
-            for glyph_name in _groups[group]:
-                self.ufo[glyph_name].mark = (R, G, B, .5)
-                self.ufo[glyph_name].update()
-            count += 1
-        self.ufo.update()
-        print
-        print '...done.\n'
+        if len(_groups) > 0:
+            print 'painting spacing groups...'
+            print
+            _group_names = _groups.keys() 
+            clear_colors(self.ufo)
+            color_step = 1.0 / len(_group_names)
+            count = 0
+            for group in _group_names:
+                print '\tpainting group %s...' % group
+                color = color_step * count
+                R, G, B = hls_to_rgb(color, 0.5, 1.0)
+                for glyph_name in _groups[group]:
+                    self.ufo[glyph_name].mark = (R, G, B, .5)
+                    self.ufo[glyph_name].update()
+                count += 1
+            self.ufo.update()
+            print
+            print '...done.\n'
+        else:
+            print 'there are no spacing groups to paint.\n'
 
     def print_info(self):
         pass
