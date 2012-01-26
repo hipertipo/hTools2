@@ -68,7 +68,7 @@ class renameAnchorsDialog(object):
                     (x, y,
                     -self._padding,
                     self._row_height),
-                    "apply",
+                    "rename",
                     callback=self.apply_callback,
                     sizeStyle='small')
         # open window

@@ -13,13 +13,13 @@ from hTools2.modules.fontutils import get_full_name
 
 class copyToMaskDialog(object):
 
-    _title = 'copy to mask'
+    _title = 'copy'
     _padding = 10
     _padding_top = 8
     _row_height = 25
     _line_height = 20
     _button_height = 25
-    _column_1 = 180
+    _column_1 = 103
     _width = _column_1 + (_padding * 2)
     _height = (_line_height * 2) + (_row_height * 2) + _button_height + (_padding_top * 4)
 
@@ -43,7 +43,7 @@ class copyToMaskDialog(object):
                         (x, y,
                         -self._padding,
                         self._line_height),
-                        "source font (foreground)",
+                        "source",
                         sizeStyle='small')
             y += self._line_height
             self.w._source_value = PopUpButton(
@@ -58,7 +58,7 @@ class copyToMaskDialog(object):
                         (x, y,
                         -self._padding,
                         self._line_height),
-                        "target font (mask)",
+                        "target",
                         sizeStyle='small')
             y += self._line_height
             self.w._target_value = PopUpButton(

@@ -3,7 +3,6 @@
 '''copy side-bearings from selected glyphs in one font to the same glyphs in another font'''
 
 from vanilla import *
-from AppKit import NSColor
 
 import hTools2.modules.fontutils
 reload(hTools2.modules.fontutils)
@@ -13,14 +12,14 @@ from hTools2.modules.fontutils import get_full_name
 
 class copyMarginsDialog(object):
 
-    _title = 'copy margins'
+    _title = 'margins'
     _padding = 10
     _padding_top = 8
     _line_height = 20
-    _button_height = 35
+    _button_height = 30
     _column_1 = 180
-    _width = _column_1 + (_padding * 2)
-    _height = (_button_height * 2) + (_line_height * 2) + (_padding_top * 5) + _button_height
+    _width = 123 # _column_1 + (_padding * 2)
+    _height = (_button_height * 2) + (_line_height * 2) + (_padding_top * 5) + _button_height + 8
 
     _all_fonts_names = []
 
@@ -71,7 +70,7 @@ class copyMarginsDialog(object):
                         (x, y,
                         -self._padding,
                         self._line_height),
-                        "left margin",
+                        "left",
                         value=True,
                         sizeStyle='small')
             x += (self._width / 2) - 8
@@ -79,7 +78,7 @@ class copyMarginsDialog(object):
                         (x, y,
                         -self._padding,
                         self._line_height),
-                        "right margin",
+                        "right",
                         value=True,
                         sizeStyle='small')
             # buttons
@@ -89,7 +88,7 @@ class copyMarginsDialog(object):
                         (x, y,
                         -self._padding,
                         self._button_height),
-                        "apply",
+                        "copy",
                         sizeStyle='small',
                         callback=self.apply_callback)
             # open window 

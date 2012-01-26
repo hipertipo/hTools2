@@ -8,14 +8,14 @@ class slideGlyphsDialog(object):
 
     _title = "slide"
     _padding = 10
-    _box_height = 26
+    _box_height = 20
     _button_height = 30
     _button_width = 70
     _line_height = 20
     _column_1 = 20
     _column_2 = 240
     _width = _column_1 + _column_2 + _button_width + (_padding * 3) # 600
-    _height = (_button_height * 3) + (_padding * 3) - 2
+    _height = (_box_height * 3) + (_padding * 4) 
 
     _moveX = 0
     _moveY = 0
@@ -37,7 +37,7 @@ class slideGlyphsDialog(object):
                         self._column_1 + self._column_2,
                         self._box_height))
             self.w.box.text = TextBox(
-                        (5, 1,
+                        (5, 0,
                         self._column_1 + self._column_2,
                         self._line_height),
                         get_full_name(self.font),

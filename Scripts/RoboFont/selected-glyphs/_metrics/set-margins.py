@@ -11,19 +11,19 @@ from hTools2.modules.fontutils import get_glyphs
 
 class setMarginsDialog(object):
 
-    _title = 'set margins'
+    _title = 'margins'
     _padding = 10
     _padding_top = 8
     _line_height = 20
-    _button_height = 25
+    _button_height = 30
     _button_2 = 18
-    _box_height = 20
+    _box_height = 18
     _column_1 = 40
     _column_2 = 100
     _column_3 = 80
     _column_4 = 60
-    _width = _column_1 + _column_2 + _column_3 + (_box_height * 6) + (_padding * 3) + 4
-    _height = _button_height + (_line_height * 2) + (_padding_top * 4) + 6
+    _width = 123
+    _height = 228
 
     _modes = [ 'do nothing' , 'set equal to', 'increase by', 'decrease by', ]
     _left_mode = 0
@@ -41,7 +41,16 @@ class setMarginsDialog(object):
         #-------------
         x = self._padding
         y = self._padding_top
+        # mode
+        self.w.left_mode = PopUpButton(
+                    (x, y,
+                    -self._padding,
+                    self._line_height),
+                    self._modes,
+                    sizeStyle='small',
+                    callback=self.left_mode_callback)
         # label
+        y += self._line_height + 10
         self.w.left_label = TextBox(
                     (x, y + 3,
                     self._column_1,
@@ -49,25 +58,17 @@ class setMarginsDialog(object):
                     "left",
                     sizeStyle='small')
         x += self._column_1
-        # mode
-        self.w.left_mode = PopUpButton(
-                    (x, y,
-                    self._column_2,
-                    self._line_height),
-                    self._modes,
-                    sizeStyle='small',
-                    callback=self.left_mode_callback)
-        x += self._column_2 + self._padding
         # value
         self.w.left_value = EditText(
                     (x, y,
-                    self._column_3,
+                    -self._padding,
                     self._line_height),
                     self._left_value,
                     sizeStyle='small',
                     readOnly=True)
-        x += self._column_3 + self._padding
         # spinners
+        x = self._padding
+        y += self._line_height + 10
         self.w._left_minus_001 = SquareButton(
                     (x, y,
                     self._box_height,
@@ -120,6 +121,15 @@ class setMarginsDialog(object):
         #--------------
         x = self._padding
         y += self._line_height + self._padding
+        # mode
+        self.w.right_mode = PopUpButton(
+                    (x, y,
+                    -self._padding,
+                    self._line_height),
+                    self._modes,
+                    sizeStyle='small',
+                    callback=self.right_mode_callback)
+        y += self._line_height + 10
         # label
         self.w.right_label = TextBox(
                     (x, y + 3,
@@ -128,24 +138,16 @@ class setMarginsDialog(object):
                     "right",
                     sizeStyle='small')
         x += self._column_1
-        # mode
-        self.w.right_mode = PopUpButton(
-                    (x, y,
-                    self._column_2,
-                    self._line_height),
-                    self._modes,
-                    sizeStyle='small',
-                    callback=self.right_mode_callback)
-        x += self._column_2 + self._padding
         # value
         self.w.right_value = EditText(
                     (x, y,
-                    self._column_3,
+                    -self._padding,
                     self._line_height),
                     self._right_value,
                     sizeStyle='small',
                     readOnly=True)
-        x += self._column_3 + self._padding
+        x = self._padding
+        y += self._line_height + 10
         # spinners
         self.w._right_minus_001 = SquareButton(
                     (x, y,

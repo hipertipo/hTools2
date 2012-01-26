@@ -3,7 +3,6 @@
 '''copy width of selected glyphs in one font to the same glyphs in another font'''
 
 from vanilla import *
-from AppKit import NSColor
 
 import hTools2.modules.fontutils
 import hTools2.modules.glyphutils
@@ -17,14 +16,14 @@ from hTools2.modules.glyphutils import center_glyph
 
 class copyWidthsDialog(object):
 
-    _title = 'copy widths'
+    _title = 'widths'
     _padding = 10
     _padding_top = 8
     _line_height = 20
-    _button_height = 35
+    _button_height = 30
     _column_1 = 180
-    _width = _column_1 + (_padding * 2)
-    _height = (_button_height * 2) + (_line_height * 2) + (_padding_top * 5) + _button_height
+    _width = 123
+    _height = (_button_height * 2) + (_line_height * 2) + (_padding_top * 5) + _button_height + 8
 
     _all_fonts_names = []
 
@@ -85,7 +84,7 @@ class copyWidthsDialog(object):
                         (x, y,
                         -self._padding,
                         self._button_height),
-                        "apply",
+                        "copy",
                         callback=self.apply_callback,
                         sizeStyle='small')
             # open window 

@@ -1,11 +1,14 @@
 # [h] mark composed glyphs
 
-from hTools2.modules.color import clearColors, randomColor
+import hTools2.modules.color
+reload(hTools2.modules.color)
+
+from hTools2.modules.color import *
 
 f = CurrentFont()
 
-clearColors(f)
-mark_color = randomColor()
+clear_colors(f)
+mark_color = random_color()
 
 for g in f:
 	if len(g.components) > 0:

@@ -17,16 +17,16 @@ from hTools2.modules.color import random_color
 
 class interpolateGlyphsDialog(object):
 
-    _title = 'interpolate glyphs'
+    _title = 'interpol'
     _padding = 10
     _padding_top = 8
     _row_height = 25
-    _button_height = 25
-    _button_2 = 20
+    _button_height = 30
+    _button_2 = 18
     _value_box = 60
     _column_2 = _value_box + (_button_2 * 6) + _button_2 - 6
-    _width = _column_2 + (_padding * 2) + 65
-    _height = (_padding_top * 7) + (_row_height * 3) + _button_height + _button_2 + 4
+    _width = 123
+    _height = 262
 
     _all_fonts_names = []
     _factor_x = 0.50
@@ -39,125 +39,110 @@ class interpolateGlyphsDialog(object):
             for f in self._all_fonts:
                 self._all_fonts_names.append(get_full_name(f))
             self.w = FloatingWindow(
-                    (self._width,
-                    self._height),
-                    self._title,
-                    closable=True)
-            #--------
-            # font 1
-            #--------
+                        (self._width,
+                        self._height),
+                        self._title,
+                        closable=True)
+            # master 1
             x = self._padding
             y = self._padding_top
             self.w._f1_font = PopUpButton(
-                    (x, y,
-                    self._column_2, 20),
-                    self._all_fonts_names,
-                    sizeStyle='small')
-            x += self._column_2 + self._padding
-            self.w._f1_label = TextBox(
-                    (x, y + 3,
-                    -self._padding, 17),
-                    "master 1",
-                    sizeStyle='small')
-            x = self._padding
+                        (x, y,
+                        -self._padding,
+                        self._button_2),
+                        self._all_fonts_names,
+                        sizeStyle='small')
             y += self._row_height
-            #--------
-            # font 2
-            #--------
+            # master 2
             self.w._f2_font = PopUpButton(
-                    (x, y,
-                    self._column_2, 20),
-                    self._all_fonts_names,
-                    sizeStyle='small')
-            x += self._column_2 + self._padding
-            self.w._f2_label = TextBox(
-                    (x, y + 3,
-                    -self._padding, 17),
-                    "master 2",
-                    sizeStyle='small')
-            x = self._padding
+                        (x, y,
+                        -self._padding,
+                        self._button_2),
+                        self._all_fonts_names,
+                        sizeStyle='small')
             y += self._row_height
-            #--------
-            # font 3
-            #--------
+            # target
             self.w._f3_font = PopUpButton(
-                    (x, y,
-                    self._column_2, 20),
-                    self._all_fonts_names,
-                    sizeStyle='small')
-            x += self._column_2 + self._padding
-            self.w._f3_label = TextBox(
-                    (x, y + 3,
-                    -self._padding, 17),
-                    "target",
-                    sizeStyle='small')
-            x = self._padding
-            y += self._row_height + self._padding - 5
+                        (x, y,
+                        -self._padding,
+                        self._button_2),
+                        self._all_fonts_names,
+                        sizeStyle='small')
+            y += self._row_height + self._padding - 3
             #-----------
             # factors x
             #-----------
             # x label
             self.w._factor_x_label = TextBox(
-                    (x, y + 2,
-                    self._button_2, 20),
-                    "x",
-                    sizeStyle='small')
+                        (x, y + 2,
+                        self._button_2,
+                        self._button_2),
+                        "x",
+                        sizeStyle='small')
             x += self._button_2
             # x value
             self.w._factor_x_value = EditText(
-                    (x, y,
-                    self._value_box, 20),
-                    '%0.2f' % self._factor_x,
-                    sizeStyle='small',
-                    readOnly=False)
-            x += self._value_box - 1
+                        (x, y,
+                        -self._padding,
+                        self._button_2),
+                        '%0.2f' % self._factor_x,
+                        sizeStyle='small',
+                        readOnly=False)
             # x minus 001
+            x = self._padding
+            y += self._row_height
             self.w._factor_x_minus_001 = SquareButton(
-                    (x, y,
-                    self._button_2, self._button_2),
-                    '-',
-                    sizeStyle='small',
-                    callback=self._factor_x_minus_001_callback)
+                        (x, y,
+                        self._button_2,
+                        self._button_2),
+                        '-',
+                        sizeStyle='small',
+                        callback=self._factor_x_minus_001_callback)
             x += self._button_2 - 1
             # x plus 001
             self.w._factor_x_plus_001 = SquareButton(
-                    (x, y,
-                    self._button_2, self._button_2),
-                    '+',
-                    sizeStyle='small',
-                    callback=self._factor_x_plus_001_callback)
+                        (x, y,
+                        self._button_2,
+                        self._button_2),
+                        '+',
+                        sizeStyle='small',
+                        callback=self._factor_x_plus_001_callback)
             x += self._button_2 - 1
             # x minus 010
             self.w._factor_x_minus_010 = SquareButton(
-                    (x, y,
-                    self._button_2, self._button_2),
-                    '-',
-                    sizeStyle='small',
-                    callback=self._factor_x_minus_010_callback)
+                        (x, y,
+                        self._button_2,
+                        self._button_2),
+                        '-',
+                        sizeStyle='small',
+                        callback=self._factor_x_minus_010_callback)
             x += self._button_2 - 1
             # x plus 010
             self.w._factor_x_plus_010 = SquareButton(
-                    (x, y,
-                    self._button_2, self._button_2),
-                    '+',
-                    sizeStyle='small',
-                    callback=self._factor_x_plus_010_callback)
+                        (x, y,
+                        self._button_2,
+                        self._button_2),
+                        '+',
+                        sizeStyle='small',
+                        callback=self._factor_x_plus_010_callback)
             x += self._button_2 - 1
             # x minus 100
             self.w._factor_x_minus_100 = SquareButton(
-                    (x, y,
-                    self._button_2, self._button_2),
-                    '-',
-                    sizeStyle='small',
-                    callback=self._factor_x_minus_100_callback)
+                        (x, y,
+                        self._button_2,
+                        self._button_2),
+                        '-',
+                        sizeStyle='small',
+                        callback=self._factor_x_minus_100_callback)
             x += self._button_2 - 1
             # x plus 100
             self.w._factor_x_plus_100 = SquareButton(
-                    (x, y,
-                    self._button_2, self._button_2),
-                    '+',
-                    sizeStyle='small',
-                    callback=self._factor_x_plus_100_callback)            
+                        (x, y,
+                        self._button_2,
+                        self._button_2),
+                        '+',
+                        sizeStyle='small',
+                        callback=self._factor_x_plus_100_callback)            
             #-----------
             # factors y
             #-----------
@@ -165,88 +150,99 @@ class interpolateGlyphsDialog(object):
             x = self._padding
             # y label
             self.w._factor_y_label = TextBox(
-                    (x, y + 2,
-                    self._button_2, 20),
-                    "y",
-                    sizeStyle='small')
+                        (x, y + 2,
+                        self._button_2,
+                        self._button_2),
+                        "y",
+                        sizeStyle='small')
             x += self._button_2
             # y value
             self.w._factor_y_value = EditText(
-                    (x, y,
-                    self._value_box, 20),
-                    '%0.2f' % self._factor_y,
-                    sizeStyle='small',
-                    readOnly=False)
-            x += self._value_box - 1
+                        (x, y,
+                        -self._padding,
+                        self._button_2),
+                        '%0.2f' % self._factor_y,
+                        sizeStyle='small',
+                        readOnly=False)
             # y minus 001
+            x = self._padding
+            y += self._row_height
             self.w._factor_y_minus_001 = SquareButton(
-                    (x, y,
-                    self._button_2, self._button_2),
-                    '-',
-                    sizeStyle='small',
-                    callback=self._factor_y_minus_001_callback)
+                        (x, y,
+                        self._button_2,
+                        self._button_2),
+                        '-',
+                        sizeStyle='small',
+                        callback=self._factor_y_minus_001_callback)
             x += self._button_2 - 1
             # y plus 001
             self.w._factor_y_plus_001 = SquareButton(
-                    (x, y,
-                    self._button_2, self._button_2),
-                    '+',
-                    sizeStyle='small',
-                    callback=self._factor_y_plus_001_callback)
+                        (x, y,
+                        self._button_2,
+                        self._button_2),
+                        '+',
+                        sizeStyle='small',
+                        callback=self._factor_y_plus_001_callback)
             x += self._button_2 - 1
             # y minus 010
             self.w._factor_y_minus_010 = SquareButton(
-                    (x, y,
-                    self._button_2, self._button_2),
-                    '-',
-                    sizeStyle='small',
-                    callback=self._factor_y_minus_010_callback)
+                        (x, y,
+                        self._button_2,
+                        self._button_2),
+                        '-',
+                        sizeStyle='small',
+                        callback=self._factor_y_minus_010_callback)
             x += self._button_2 - 1
             # y plus 010
             self.w._factor_y_plus_010 = SquareButton(
-                    (x, y,
-                    self._button_2, self._button_2),
-                    '+',
-                    sizeStyle='small',
-                    callback=self._factor_y_plus_010_callback)
+                        (x, y,
+                        self._button_2,
+                        self._button_2),
+                        '+',
+                        sizeStyle='small',
+                        callback=self._factor_y_plus_010_callback)
             x += self._button_2 - 1
             # y minus 100
             self.w._factor_y_minus_100 = SquareButton(
-                    (x, y,
-                    self._button_2, self._button_2),
-                    '-',
-                    sizeStyle='small',
-                    callback=self._factor_y_minus_100_callback)
+                        (x, y,
+                        self._button_2,
+                        self._button_2),
+                        '-',
+                        sizeStyle='small',
+                        callback=self._factor_y_minus_100_callback)
             x += self._button_2 - 1
             # y plus 010
             self.w._factor_y_plus_100 = SquareButton(
-                    (x, y,
-                    self._button_2, self._button_2),
-                    '+',
-                    sizeStyle='small',
-                    callback=self._factor_y_plus_100_callback
-                    )
+                        (x, y,
+                        self._button_2,
+                        self._button_2),
+                        '+',
+                        sizeStyle='small',
+                        callback=self._factor_y_plus_100_callback)
             # proporional
-            x += self._button_2 + self._padding
+            #x += self._button_2 + self._padding
+            x = self._padding
+            y += self._row_height
             self.w._proportional_checkbox = CheckBox(
-                    (x, y - (self._button_2/2) - 2,
-                    -self._padding, 20),
-                    "prop.",
-                    value=self._proportional,
-                    sizeStyle='small',
-                    callback=self._proportional_callback)
+                        (x, y,
+                        -self._padding,
+                        self._button_2),
+                        "proportional",
+                        value=self._proportional,
+                        sizeStyle='small',
+                        callback=self._proportional_callback)
             #---------
             # buttons
             #---------
             x = self._padding
             y += self._button_2 + self._padding
             self.w.button_apply = SquareButton(
-                    (x, y,
-                    self._width - (self._padding * 2),
-                    self._button_height),
-                    "interpolate",
-                    callback=self.apply_callback,
-                    sizeStyle='small')
+                        (x, y,
+                        -self._padding,
+                        self._button_height),
+                        "interpolate",
+                        callback=self.apply_callback,
+                        sizeStyle='small')
             # open window
             self.w.open()
         else:
@@ -350,7 +346,6 @@ class interpolateGlyphsDialog(object):
     # interpolate
 
     def apply_callback(self, sender):
-
         # get fonts
         f1 = self._all_fonts[self.w._f1_font.get()]
         f2 = self._all_fonts[self.w._f2_font.get()]

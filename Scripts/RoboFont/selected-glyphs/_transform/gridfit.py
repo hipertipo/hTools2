@@ -28,7 +28,7 @@ class roundToGridDialog(object):
     _button_height = 30
     _button_2 = 18
     _width = 123
-    _height = _button_height + (_box_height * 6) + (_padding_top * 5) - 2
+    _height = _button_height + (_box_height * 6) + (_padding_top * 5) - 1
 
     _gridsize = 125
     _gNames = []

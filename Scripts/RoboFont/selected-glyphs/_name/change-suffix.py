@@ -27,7 +27,6 @@ class changeSuffixDialog(object):
                     self._height),
                     self._title,
                     closable=True)
-        print self._width
         # old suffix
         x = self._padding
         y = self._padding

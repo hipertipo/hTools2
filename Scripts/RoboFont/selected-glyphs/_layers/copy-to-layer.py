@@ -16,15 +16,15 @@ from hTools2.modules.color import random_color
 
 class copyToLayerDialog(object):
 
-    _title = 'copy to layer'
+    _title = 'layers'
     _padding = 10
     _padding_top = 8
     _line_height = 20
     _column_1 = 75
     _box_width = 170
-    _button_width = 80
-    _width = _column_1 + _button_width + _box_width + (_padding * 3)
-    _height = (_padding_top * 2) + _line_height
+    _button_height = 25
+    _width = 123
+    _height = (_padding_top * 3) + (_line_height * 2) + _button_height + 5
 
     def __init__(self, ):
         self.w = FloatingWindow(
@@ -36,24 +36,26 @@ class copyToLayerDialog(object):
         x = self._padding
         y = self._padding_top
         self.w._layers_label = TextBox(
-                    (x, y+3,
-                    self._column_1,
+                    (x, y,
+                    -self._padding,
                     self._line_height),
                     "target layer",
                     sizeStyle='small')
-        x += self._column_1
+        # x += self._column_1
+        y += self._line_height
         self.w._layers_value = EditText(
                     (x, y,
-                    self._box_width,
+                    -self._padding,
                     self._line_height),
                     placeholder='layer name',
                     sizeStyle='small')
-        x += self._box_width + self._padding
+        y += self._line_height + 10
+        # x += self._box_width + self._padding
         # buttons
         self.w.button_apply = SquareButton(
                     (x, y,
-                    self._button_width, 
-                    self._line_height),
+                    -self._padding,
+                    self._button_height),
                     "copy",
                     callback=self.apply_callback,
                     sizeStyle='small')
