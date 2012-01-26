@@ -13,73 +13,152 @@ from hTools2.modules.glyphutils import center_glyph
 
 class setWidthDialog(object):
 
-    _title = 'set character width'
-    _mark_color = random_color()
-    _default_width = 400
-    _height = 102
-    _width = 210
+    _title = 'width'
+    _padding_top = 12
     _padding = 10
+    _col_1 = 45
+    _col_2 = 60
+    _col_3 = 70
+    _button_2 = 18
+    _line_height = 20
+    _button_height = 30
+    #_height = _line_height + _button_height + (_padding * 3)
+    _height = _button_height + (_line_height * 2) + _button_2 + (_padding_top * 5) - 7
+    _width = 123
     
+    _width_ = 400
+
     def __init__(self):
         self.w = FloatingWindow(
-                (self._width, self._height),
-                self._title,
-                closable=False)
+                    (self._width,
+                    self._height),
+                    self._title,
+                    closable=True)
         # left
+        x = self._padding
+        y = self._padding
         self.w.width_label = TextBox(
-                (self._padding,
-                self._padding,
-                -self._padding,
-                20),
-                "width")
+                    (x, y,
+                    self._col_1,
+                    self._line_height),
+                    "width",
+                    sizeStyle='small')
+        x += self._col_1
         self.w.width_value = EditText(
-                (80,
-                self._padding,
-                -15,
-                20),
-                placeholder = 'set value',
-                text = self._default_width)
+                    (x, y,
+                    -self._padding,
+                    self._line_height),
+                    placeholder='set value',
+                    text=self._width_,
+                    sizeStyle='small')
+        # nudge spinners
+        x = self._padding
+        y += self._button_2 + self._padding_top
+        self.w._nudge_minus_001 = SquareButton(
+                (x, y,
+                self._button_2,
+                self._button_2),
+                '-',
+                sizeStyle='small',
+                callback=self._nudge_minus_001_callback)
+        x += (self._button_2 * 1) - 1
+        self.w._nudge_plus_001 = SquareButton(
+                (x, y,
+                self._button_2,
+                self._button_2),
+                '+',
+                sizeStyle='small',
+                callback=self._nudge_plus_001_callback)
+        x += (self._button_2 * 1) - 1
+        self.w._nudge_minus_010 = SquareButton(
+                (x, y,
+                self._button_2,
+                self._button_2),
+                '-',
+                sizeStyle='small',
+                callback=self._nudge_minus_010_callback)
+        x += (self._button_2 * 1) - 1
+        self.w._nudge_plus_010 = SquareButton(
+                (x, y,
+                self._button_2,
+                self._button_2),
+                '+',
+                sizeStyle='small',
+                callback=self._nudge_plus_010_callback)
+        x += (self._button_2 * 1) - 1
+        self.w._nudge_minus_100 = SquareButton(
+                (x, y,
+                self._button_2,
+                self._button_2),
+                '-',
+                sizeStyle='small',
+                callback=self._nudge_minus_100_callback)
+        x += (self._button_2 * 1) - 1
+        self.w._nudge_plus_100 = SquareButton(
+                (x, y,
+                self._button_2,
+                self._button_2),
+                '+',
+                sizeStyle='small',
+                callback=self._nudge_plus_100_callback)
         # center
+        x = self._padding
+        y += self._line_height + self._padding
         self.w.center_checkbox = CheckBox(
-                (self._padding,
-                40,
-                -self._padding,
-                20),
-                "center",
-                value = False)
-        self.w.mark_checkbox = CheckBox(
-                (80,
-                40,
-                -self._padding,
-                20),
-                "mark",
-                value = True)
-        self.w.mark_color = ColorWell(
-                (140,
-                40,
-                -15,
-                20),
-                color = NSColor.colorWithCalibratedRed_green_blue_alpha_(*self._mark_color))
+                    (x, y,
+                    self._col_3,
+                    self._line_height),
+                    "center",
+                    value=False,
+                    sizeStyle='small')
         # buttons
-        self.w.button_close = Button(
-                (self._padding,
-                -30,
-                (self._width / 2) - 15,
-                20),
-                "close",
-                callback = self.close_callback)
-        self.w.button_apply = Button(
-                ((self._width / 2) + 5,
-                -30,
-                -self._padding,
-                20),
-                "apply",
-                callback = self.apply_callback)
+        x = self._padding
+        y += self._line_height + self._padding
+        self.w.button_apply = SquareButton(
+                    (x, y,
+                    -self._padding,
+                    self._button_height),
+                    "apply",
+                    callback=self.apply_callback,
+                    sizeStyle='small')
         # open window
-        self.w.setDefaultButton(self.w.button_apply)
-        self.w.button_close.bind(".", ["command"])
-        self.w.button_close.bind(unichr(27), [])
         self.w.open()
+
+    #-----------
+    # callbacks
+    #-----------
+
+    def _nudge_minus_001_callback(self, sender):
+        _value = int(self.w.width_value.get()) - 1
+        if _value >= 0:
+            self._width_ = _value
+            self.w.width_value.set(self._width_)
+
+    def _nudge_minus_010_callback(self, sender):
+        _value = int(self.w.width_value.get()) - 10
+        if _value >= 0:
+            self._width_ = _value
+            self.w.width_value.set(self._width_)
+
+    def _nudge_minus_100_callback(self, sender):
+        _value = int(self.w.width_value.get()) - 100
+        if _value >= 0:
+            self._width_ = _value
+            self.w.width_value.set(self._width_)
+
+    def _nudge_plus_001_callback(self, sender):
+        self._width_ = int(self.w.width_value.get()) + 1
+        self.w.width_value.set(self._width_)
+
+    def _nudge_plus_010_callback(self, sender):
+        self._width_ = int(self.w.width_value.get()) + 10
+        self.w.width_value.set(self._width_)
+
+    def _nudge_plus_100_callback(self, sender):
+        self._width_ = int(self.w.width_value.get()) + 100
+        self.w.width_value.set(self._width_)
+
+    # apply
         
     def apply_callback(self, sender):
         f = CurrentFont()
@@ -87,32 +166,21 @@ class setWidthDialog(object):
             if len(f.selection) > 0:
                 # get parameters
                 _width = self.w.width_value.get()
-                _mark = self.w.mark_checkbox.get()
-                _mark_color = self.w.mark_color.get()
                 _center = self.w.center_checkbox.get()
                 _gNames = f.selection
                 boolstring = (False, True)
                 # print info
                 print 'setting character widths...\n'
                 print '\twidth: %s' % _width
-                print '\tmark: %s' % boolstring[_mark]
-                print '\tmark color: %s' % _mark_color
                 print '\tcenter: %s' % boolstring[_center]
                 print '\tglyphs: %s' % _gNames
                 print         
-                # batch set width for glyphs
-                _mark_color = (_mark_color.redComponent(),
-                    _mark_color.greenComponent(),
-                    _mark_color.blueComponent(),
-                    _mark_color.alphaComponent())
                 for gName in _gNames:
                     try:
                         f[gName].prepareUndo('set glyph width')
                         f[gName].width = int(_width)
                         if _center:
                             centerGlyph(f[gName])
-                        if _mark:
-                            f[gName].mark = _mark_color
                         f[gName].performUndo()
                         f[gName].update()
                     except:

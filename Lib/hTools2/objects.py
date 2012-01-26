@@ -50,6 +50,10 @@ class hSettings:
         else:
             print 'cannot save hSettings, root folder does not exist.\n'
 
+    def print_(self):
+        for k in self.hDict.keys():
+            print k, self.hDict[k]
+
 class hWorld:
 
     # projects = []
@@ -79,7 +83,7 @@ class hSpace:
 class hProject:
 
     paths = {}
-    _path_names = [ 'root', 'ufos', 'otfs' 'libs', 'docs', 'temp', 'test', 'vfbs', 'woffs' , 'bkp' ]
+    _path_names = [ 'root', 'ufos', 'otfs' 'libs', 'docs', 'temp', 'test', 'vfbs', 'woffs' , 'bkp', 'otfs_test' ]
 
     libs = {}
     _lib_names = [ 'project', 'info', 'vmetrics', 'accents', 'composed', 'spacing', 'interpol', 'groups' ]
@@ -147,6 +151,7 @@ class hProject:
         _paths['instances'] = os.path.join(_project_root, '_ufos/_instances')
         _paths['interpol'] = os.path.join(_project_root, '_ufos/_interpol')
         _paths['interpol_instances'] = os.path.join(_project_root, '_ufos/_interpol/_instances')
+        _paths['otfs_test'] = os.path.join(self.world.settings.hDict['test'], '_otfs')
         self.paths = _paths
 
     def make_lib_paths(self):
@@ -212,19 +217,20 @@ class hFont:
 
     def __init__(self, ufo):
         self.ufo = ufo
-        try:
-            self.init_from_filename()
-        except:
-            print 'Cannot get project name from ufo path, please check and try again.\n'
+        self.init_from_filename()
+        # try:
+        #     self.init_from_filename()
+        # except:
+        #     print 'Cannot get project name from ufo path, please check and try again.\n'
         # self._make_parameters_dict()
 
     def init_from_filename(self):
         ufo_file = os.path.basename(self.ufo.path)
-        self._file_name = os.path.splitext(ufo_file)[0]
+        self.file_name = os.path.splitext(ufo_file)[0]
         try:
-            family_name, style_name = self._file_name.split('_')
+            family_name, style_name = self.file_name.split('_')
         except ValueError:
-            family_name, style_name = self._file_name.split('-')
+            family_name, style_name = self.file_name.split('-')
         self.project = hProject(family_name)
         self.style_name = style_name    
 
@@ -283,8 +289,11 @@ class hFont:
                 color = color_step * count
                 R, G, B = hls_to_rgb(color, 0.5, 1.0)
                 for glyph_name in _groups[group]:
-                    self.ufo[glyph_name].mark = (R, G, B, .5)
-                    self.ufo[glyph_name].update()
+                    if self.ufo.has_key(glyph_name):
+                        self.ufo[glyph_name].mark = (R, G, B, .5)
+                        self.ufo[glyph_name].update()
+                    else:
+                        print '%s not in font' % glyph_name
                 count += 1
             self.ufo.update()
             print
@@ -316,9 +325,12 @@ class hFont:
 
     # paths
 
-    def otf_path(self):
+    def otf_path(self, test=False):
         otf_file = self.file_name + '.otf'
-        otf_path = os.path.join(self.project.paths['otfs'], otf_file)
+        if test is True:
+            otf_path = os.path.join(self.project.paths['otfs_test'], otf_file)
+        else:
+            otf_path = os.path.join(self.project.paths['otfs'], otf_file)
         return otf_path
 
     def woff_path(self):

@@ -1,90 +1,80 @@
 # [h] rename anchors in selected glyphs
 
-from AppKit import NSColor
 from vanilla import *
 
-from hTools2.modules.color import randomColor
-from hTools2.modules.anchors import renameAnchor
+import hTools2.modules.anchors
+reload(hTools2.modules.anchors)
+
+from hTools2.modules.anchors import rename_anchor
 
 # dialog
 
 class renameAnchorsDialog(object):
 
-    _title = 'rename anchors'
-    _mark_color = randomColor()
-    _height = 140
-    _width = 210
+    _title = 'anchors'
     _padding = 10
-    _column_1 = 100
+    _column_1 = 33
+    _column_2 = 70
+    _box_height = 20
     _row_height = 30
-    
+
+    _height = (_row_height * 3) + (_padding * 2) 
+    _width = _column_1 + _column_2 + (_padding * 2)
+
     def __init__(self):
         self.w = FloatingWindow(
-                (self._width,
-                self._height),
-                self._title,
-                closable = False)
+                    (self._width,
+                    self._height),
+                    self._title,
+                    closable=True)
         # old name
+        x = self._padding
+        y = self._padding
         self.w._old_name_label = TextBox(
-                (self._padding,
-                self._padding + (self._row_height * 0),
-                -self._padding,
-                20),
-                "old name")
+                    (x, y,
+                    self._column_1,
+                    self._box_height),
+                    "old",
+                    sizeStyle='small')
+        x += self._column_1
         self.w._old_name_value = EditText(
-                ((self._width / 2),
-                self._padding + (self._row_height * 0),
-                -self._padding,
-                20),
-                placeholder = 'old name',
-                text = '')
+                    (x, y,
+                    self._column_2,
+                    self._box_height),
+                    placeholder='old name',
+                    text='',
+                    sizeStyle='small')
         # new name
+        x = self._padding
+        y += self._row_height
         self.w._new_name_label = TextBox(
-                (self._padding,
-                self._padding + (self._row_height * 1),
-                -self._padding,
-                20),
-                "new name")
+                    (x, y,
+                    self._column_1,
+                    self._box_height),
+                    "new",
+                    sizeStyle='small')
+        x += self._column_1
         self.w._new_name_value = EditText(
-                ((self._width / 2),
-                self._padding + (self._row_height * 1),
-                -self._padding,
-                20),
-                placeholder = 'new name',
-                text = '')
-        # mark color
-        self.w.mark_checkbox = CheckBox(
-                (self._padding,
-                70,
-                -self._padding,
-                20),
-                "mark",
-                value = True)
-        self.w.mark_color = ColorWell(
-                ((self._width / 2),
-                70,
-                -self._padding,
-                20),
-                color = NSColor.colorWithCalibratedRed_green_blue_alpha_(*self._mark_color))
-        # buttons
-        self.w.button_close = Button(
-                (self._padding,
-                -35,
-                (self._width / 2) - 10,
-                20),
-                "close",
-                callback = self.close_callback)
-        self.w.button_apply = Button(
-                ((self._width / 2) + 10,
-                -35,
-                -self._padding,
-                20),
-                "apply",
-                callback = self.apply_callback)
+                    (x, y,
+                    self._column_2,
+                    self._box_height),
+                    placeholder='new name',
+                    text='',
+                    sizeStyle='small')
+        # button
+        x = self._padding
+        y += self._row_height
+        self.w.button_apply = SquareButton(
+                    (x, y,
+                    -self._padding,
+                    self._row_height),
+                    "apply",
+                    callback=self.apply_callback,
+                    sizeStyle='small')
         # open window
-        self.w.setDefaultButton(self.w.button_apply)
-        self.w.button_close.bind(".", ["command"])
-        self.w.button_close.bind(unichr(27), [])
+        # self.w.setDefaultButton(self.w.button_apply)
+        # self.w.button_close.bind(".", ["command"])
+        # self.w.button_close.bind(unichr(27), [])
         self.w.open()
         
     def apply_callback(self, sender):
@@ -94,28 +84,17 @@ class renameAnchorsDialog(object):
                 # get parameters
                 _old = self.w._old_name_value.get()
                 _new = self.w._new_name_value.get()
-                _mark = self.w.mark_checkbox.get()
-                _mark_color = self.w.mark_color.get()
                 boolstring = (False, True)
                 # print info
                 print 'changing anchor names...\n'
                 print '\told name: %s' % _old
                 print '\tnew name: %s' % _new
-                print '\tmark: %s' % boolstring[_mark]
-                print         
+                print 
                 # batch change anchors names
-                _mark_color = (_mark_color.redComponent(),
-                    _mark_color.greenComponent(),
-                    _mark_color.blueComponent(),
-                    _mark_color.alphaComponent())
                 for gName in f.selection:
                     if gName is not None:
                         # rename anchor                
-                        has_name = renameAnchor(f[gName], _old, _new)
-                        # mark
-                        if has_name:
-                            if _mark:
-                                f[gName].mark = _mark_color
+                        has_name = rename_anchor(f[gName], _old, _new)
                         f[gName].update()
                 # done
                 f.update()

@@ -56,6 +56,16 @@ def round_points(glyph, (sizeX, sizeY)):
 			point.y = _y_round
 	glyph.update()
 
+def round_bpoints(glyph, (sizeX, sizeY)):
+	for contour in glyph.contours:
+		for b_point in contour.bPoints:
+			_x = float(b_point.anchor[0])
+			_y = float(b_point.anchor[1])
+			_x_round = round(_x/sizeX) * sizeX
+			_y_round = round(_y/sizeY) * sizeY
+			b_point.anchor = (_x_round, _y_round)
+	glyph.update()
+
 def round_anchors(glyph, (sizeX, sizeY)):
 	if len(glyph.anchors) > 0:
 		for anchor in glyph.anchors:

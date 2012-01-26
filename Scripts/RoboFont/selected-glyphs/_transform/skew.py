@@ -4,6 +4,8 @@ import math
 
 from vanilla import *
 
+from hTools2.modules.fontutils import get_glyphs
+
 
 class skewGlyphsDialog(object):
 
@@ -35,7 +37,7 @@ class skewGlyphsDialog(object):
                 y,
                 self._button_1_width,
                 self._button_1_height),
-                "-",
+                unichr(8672),
                 callback=self._skew_minus_callback)
         x += self._button_1_width - 1
         self.w._skew_x_plus_button = SquareButton(
@@ -43,7 +45,7 @@ class skewGlyphsDialog(object):
                 y,
                 self._button_1_width,
                 self._button_1_height),
-                "+",
+                unichr(8674),
                 callback=self._skew_plus_callback)
         # skew angle
         x = self._padding
@@ -154,7 +156,7 @@ class skewGlyphsDialog(object):
             self.offset_x = math.tan(math.radians(angle)) * (font.info.xHeight / 2)
         else:
             self.offset_x = 0
-        for gName in font.selection:
+        for gName in get_glyphs(font):
             font[gName].prepareUndo('skew')
             font[gName].skew(angle, offset=(self.offset_x, 0))
             font[gName].performUndo()

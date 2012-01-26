@@ -1,96 +1,83 @@
 # [h] change glyph suffix
 
 from vanilla import *
-from AppKit import NSColor
-
-from random import random
 
 from hTools2.modules.glyphutils import has_suffix, change_suffix
-from hTools2.modules.color import randomColor
 
 # dialog
 
 class changeSuffixDialog(object):
 
-    _title = 'change suffix'
-    _height = 140
-    _width = 210
+    _title = 'suffix'
     _padding = 10
-    _column_1 = 100
+    _column_1 = 33
+    _column_2 = 70
+    _box_height = 20
     _row_height = 30
-    _mark_color = randomColor()
+
+    _height = (_row_height * 3) + (_padding * 2) 
+    _width = _column_1 + _column_2 + (_padding * 2)
+
     _old_suffix = ''
     _new_suffix = ''
     
     def __init__(self):
         self.w = FloatingWindow(
-                (self._width,
-                self._height),
-                self._title,
-                closable=False)
+                    (self._width,
+                    self._height),
+                    self._title,
+                    closable=True)
+        print self._width
         # old suffix
+        x = self._padding
+        y = self._padding
         self.w._old_suffix_label = TextBox(
-                (self._padding,
-                self._padding + (self._row_height * 0),
-                -self._padding,
-                20),
-                "old suffix")
+                    (x, y,
+                    self._column_1,
+                    self._box_height),
+                    "old",
+                    sizeStyle='small')
+        x += self._column_1
         self.w._old_suffix_value = EditText(
-                ((self._width / 2),
-                self._padding + (self._row_height * 0),
-                -self._padding,
-                20),
-                placeholder = 'old suffix',
-                text = self._old_suffix,
-                callback=self.old_suffix_callback)
+                    (x, y,
+                    self._column_2,
+                    self._box_height),
+                    placeholder='old suffix',
+                    text=self._old_suffix,
+                    callback=self.old_suffix_callback,
+                    sizeStyle='small')
         # new suffix
+        x = self._padding
+        y += self._row_height
         self.w._new_suffix_label = TextBox(
-                (self._padding,
-                self._padding + (self._row_height * 1),
-                -self._padding,
-                20),
-                "new suffix")
+                    (x, y,
+                    self._column_1,
+                    self._box_height),
+                    "new",
+                    sizeStyle='small')
+        x += self._column_1
         self.w._new_suffix_value = EditText(
-                ((self._width / 2),
-                self._padding + (self._row_height * 1),
-                -self._padding,
-                20),
-                placeholder = 'optional',
-                text = self._new_suffix,
-                callback=self.new_suffix_callback)
-        # mark color
-        self.w.mark_checkbox = CheckBox(
-                (self._padding,
-                self._padding + (self._row_height * 2),
-                -self._padding,
-                20),
-                "mark",
-                value = True)
-        self.w.mark_color = ColorWell(
-                ((self._width / 2),
-                self._padding + (self._row_height * 2),
-                -self._padding,
-                20),
-                color=NSColor.colorWithCalibratedRed_green_blue_alpha_(*self._mark_color))
-        # buttons
-        self.w.button_close = Button(
-                (self._padding,
-                -35,
-                (self._width / 2) - 10,
-                20),
-                "close",
-                callback=self.close_callback)
-        self.w.button_apply = Button(
-                ((self._width / 2) + 10,
-                -35,
-                -self._padding,
-                20),
-                "apply",
-                callback=self.apply_callback)
+                    (x, y,
+                    self._column_2,
+                    self._box_height),
+                    placeholder = 'optional',
+                    text = self._new_suffix,
+                    callback=self.new_suffix_callback,
+                    sizeStyle='small')
+        # apply button
+        x = self._padding
+        y += self._row_height
+        self.w.button_apply = SquareButton(
+                    (x, y,
+                    -self._padding,
+                    self._row_height),
+                    "apply",
+                    callback=self.apply_callback,
+                    sizeStyle='small')
         # open window
-        self.w.setDefaultButton(self.w.button_apply)
-        self.w.button_close.bind(".", ["command"])
-        self.w.button_close.bind(unichr(27), [])
+        #self.w.setDefaultButton(self.w.button_apply)
+        #self.w.button_close.bind(".", ["command"])
+        #self.w.button_close.bind(unichr(27), [])
         self.w.open()
 
     def old_suffix_callback(self, sender):
@@ -106,19 +93,12 @@ class changeSuffixDialog(object):
                 # get parameters
                 _old = self._old_suffix
                 _new = self._new_suffix
-                _mark = self.w.mark_checkbox.get()
-                _mark_color = self.w.mark_color.get()
                 boolstring = (False, True)
                 # print info
                 print 'changing glyph name suffixes...\n'
                 print '\told suffix: %s' % _old
                 print '\tnew suffix: %s' % _new
-                print '\tmark: %s' % boolstring[_mark]
                 print
-                _mark_color = (_mark_color.redComponent(),
-                    _mark_color.greenComponent(),
-                    _mark_color.blueComponent(),
-                    _mark_color.alphaComponent())
                 # batch change names
                 for gName in f.selection:
                     if gName is not None:
@@ -131,14 +111,10 @@ class changeSuffixDialog(object):
                                 print '\toverwriting %s' % _new_name
                                 f.removeGlyph(_new_name)
                                 g.name = _new_name
-                                g.mark = _mark_color
                                 g.update()
                                 print
                             else:
                                 g.name = _new_name
-                                if _mark:
-                                    g.mark = _mark_color
-                                    g.update()
                 # done
                 f.update()
                 print

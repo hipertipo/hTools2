@@ -15,15 +15,15 @@ reload(hTools2.modules.color)
 from hTools2.objects import hWorld, hProject, hFont
 from hTools2.modules.fileutils import get_names_from_path
 from hTools2.modules.fontinfo import *
-from hTools2.modules.color import clear_colors
+from hTools2.modules.color import hls_to_rgb, paint_groups, clear_colors
 
 
 class batchProjectDialog(object):
 
     _col1 = 140
-    _col2 = 200
+    _col2 = 180
     _col3 = 80
-    _col4 = 40
+    _col4 = 60
     _col5 = 140
     _col6 = 125
     _col7 = 110

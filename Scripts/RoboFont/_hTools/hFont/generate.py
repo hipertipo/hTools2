@@ -4,18 +4,21 @@ import os
 
 from vanilla import *
 
+import hTools2.objects
+reload(hTools2.objects)
+
 from hTools2.objects import hFont
 
 
 class generateFontDialog(object):
 
     _title = "generate"
-    _padding = 12
-    _padding_top = 10
+    _padding = 10
+    _padding_top = 12
     _box_height = 20
     _button_height = 30
     _width = 140
-    _height = (_box_height * 5) + (_button_height * 3) + (_padding_top * 6)
+    _height = (_box_height * 6) + (_button_height * 3) + (_padding_top * 9) - 9
 
     _decompose = True
     _remove_overlap = True
@@ -39,12 +42,20 @@ class generateFontDialog(object):
                     sizeStyle='small',
                     callback=self.test_install_callback)
         y += bh2 + pt
+        self.w.line_1 = HorizontalLine((0, y, -0, 1))
+        y += pt
         self.w.generate_otf = SquareButton(
                     (x, y, -p, bh2),
                     "generate .otf",
                     sizeStyle="small",
                     callback=self.generate_otf_callback)
         y += bh2 + pt
+        self.w._otfs_path = RadioGroup(
+                    (x - 3, y, -p, bh1),
+                    ["otfs", "test"],
+                    isVertical=False,
+                    sizeStyle='small')
+        y += bh1 + pt
         self.w._decompose = CheckBox(
                     (x, y, -p, bh1),
                     "decompose",
@@ -68,7 +79,9 @@ class generateFontDialog(object):
                     "release mode",
                     value=self._release_mode,
                     sizeStyle='small')
-        y += bh1 + pt
+        y += bh1 + 7 # pt
+        self.w.line_2 = HorizontalLine((0, y, -0, 1))
+        y += pt
         self.w._generate_woff = SquareButton(
                     (x, y, -p, bh2),
                     "generate .woff",
@@ -104,21 +117,28 @@ class generateFontDialog(object):
             self._remove_overlap = self.w._remove_overlap.get()
             self._autohint = self.w._autohint.get()
             self._release_mode = self.w._release_mode.get()
+            # make otf path
+            self._otfs_path = self.w._otfs_path.get()
+            if self._otfs_path is 0:
+                otf_path = font.otf_path()
+            else:
+                otf_path = font.otf_path(test=True)
+            # print generation info
             print 'generating .otf for %s...\n' % font.full_name()
             print '\tdecompose: %s' % boolstring[self._decompose]
             print '\tremove overlap: %s' % boolstring[self._remove_overlap]
             print '\tautohint: %s' % boolstring[self._autohint]
             print '\trelease mode: %s' % boolstring[self._release_mode]
+            print '\tfolder: %s' % otf_path
             print
             font.ufo.generate(
-                        font.otf_path(),
-                        'otf',
+                        otf_path, 'otf',
                         decompose=self._decompose,
                         autohint=self._autohint,
                         checkOutlines=self._remove_overlap,
                         releaseMode=self._release_mode,
                         glyphOrder=[])
-            print '\tgeneration succesfull? %s' % ['No', 'Yes'][os.path.exists(font.otf_path())]
+            print '\tgeneration succesfull? %s' % ['No', 'Yes'][os.path.exists(otf_path)]
             print
             print '...done.\n'
         else:

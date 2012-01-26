@@ -70,7 +70,7 @@ class hLibs_printDialog(object):
                     self._button_width,
                     self._button_height),
                     "clear",
-                    #callback=self.clear_callback,
+                    callback=self.clear_callback,
                     sizeStyle='small')
         x += self._button_width - 1
         #------------
@@ -131,8 +131,6 @@ class hLibs_printDialog(object):
                     "vmetrics lib",
                     value=self._lib_vmetrics,
                     sizeStyle='small')
-        y += self._row_height
-
         # open window
         self.w.open()
 
@@ -159,7 +157,9 @@ class hLibs_printDialog(object):
         self._lib_vmetrics = self.w._lib_vmetrics.set()
 
     def clear_callback(self, sender):
-        pass
+        for lib_name in self.ufo.lib.keys():
+            del self.ufo.lib[lib_name]
+        self.ufo.update()
 
     def print_callback(self, sender):
         font = hFont(self.ufo)

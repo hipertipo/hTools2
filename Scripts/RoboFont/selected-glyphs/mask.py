@@ -18,7 +18,7 @@ class copyToMaskDialog(object):
 
     _title = 'mask'
     _padding = 10
-    _button_height = 35
+    _button_height = 30
     _button_width = 103
     _width = (_button_width * 1) + (_padding * 2)
     _height = (_button_height * 3) + (_padding * 4)

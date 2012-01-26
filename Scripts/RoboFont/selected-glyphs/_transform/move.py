@@ -43,45 +43,49 @@ class moveGlyphsDialog(object):
         self.w._up = SquareButton(
                     (x1, y,
                     b1, b1),
-                    "+",
+                    unichr(8673),
                     callback=self._up_callback)
         self.w._up_left = SquareButton(
                     (x, y,
                     b1 - 8, b1 - 8),
-                    " ",
-                    callback=self._up_left_callback)
+                    unichr(8598),
+                    callback=self._up_left_callback,
+                    sizeStyle='small')
         self.w._up_right = SquareButton(
                     (x2 + 8, y,
                     b1 - 8, b1 - 8),
-                    "+",
-                    callback=self._up_right_callback)
+                    unichr(8599),
+                    callback=self._up_right_callback,
+                    sizeStyle='small')
         y += b1 - 1
         self.w._left = SquareButton(
                     (x, y,
                     b1, b1),
-                    "-",
+                    unichr(8672),
                     callback=self._left_callback)
         self.w._right = SquareButton(
                     (x2, y,
                     b1, b1),
-                    "+",
+                    unichr(8674),
                     callback=self._right_callback)
         y += b1 - 1
         self.w._down_left = SquareButton(
                     (x, y + 8,
                     b1 - 8, b1 - 8),
-                    "-",
-                    callback=self._down_left_callback)
+                    unichr(8601),
+                    callback=self._down_left_callback,
+                    sizeStyle='small')
         self.w._down = SquareButton(
                     (x1, y,
                     b1, b1),
-                    "-",
+                    unichr(8675),
                     callback=self._down_callback)
         self.w._down_right = SquareButton(
                     (x2 + 8, y + 8,
                     b1 - 8, b1 - 8),
-                    " ",
-                    callback=self._down_right_callback)
+                    unichr(8600),
+                    callback=self._down_right_callback,
+                    sizeStyle='small')
         # move offset
         y += b1 + p
         self.w._move_value = EditText(

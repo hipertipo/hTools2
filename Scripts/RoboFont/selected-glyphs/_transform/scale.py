@@ -35,31 +35,31 @@ class scaleGlyphsDialog(object):
         x2 = (b1 * 2) + p - 2
         y = p
         self.w._up = SquareButton(
-                (x1, y, b1, b1),
-                "+",
-                callback=self._up_callback)
+                    (x1, y, b1, b1),
+                    unichr(8673),
+                    callback=self._up_callback)
         self.w._up_right = SquareButton(
-                (x2 + 8, y, b1 - 8, b1 - 8),
-                "+",
-                callback=self._up_right_callback)
+                    (x2 + 8, y, b1 - 8, b1 - 8),
+                    unichr(8599),
+                    callback=self._up_right_callback)
         y += b1 - 1
         self.w._left = SquareButton(
-                (x, y, b1, b1),
-                "-",
-                callback=self._left_callback)
+                    (x, y, b1, b1),
+                    unichr(8672),
+                    callback=self._left_callback)
         self.w._right = SquareButton(
-                (x2, y, b1, b1),
-                "+",
-                callback=self._right_callback)
+                    (x2, y, b1, b1),
+                    unichr(8674),
+                    callback=self._right_callback)
         y += b1 - 1
         self.w._down_left = SquareButton(
-                (x, y+8, b1-8, b1-8),
-                "-",
-                callback=self._down_left_callback)
+                    (x, y+8, b1-8, b1-8),
+                    unichr(8601),
+                    callback=self._down_left_callback)
         self.w._down = SquareButton(
-                (x1, y, b1, b1),
-                "-",
-                callback=self._down_callback)
+                    (x1, y, b1, b1),
+                    unichr(8675),
+                    callback=self._down_callback)
         y += b1 + p
         #--------------
         # scale factor

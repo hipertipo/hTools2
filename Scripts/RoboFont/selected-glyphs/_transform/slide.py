@@ -74,7 +74,7 @@ class slideGlyphsDialog(object):
                         (x, y,
                         self._button_width,
                         self._box_height),
-                        "reset",
+                        "reset x",
                         callback=self.restore_x_callback,
                         sizeStyle='small')
             # y slider
@@ -101,7 +101,7 @@ class slideGlyphsDialog(object):
                         (x, y,
                         self._button_width,
                         self._box_height),
-                        "reset",
+                        "reset y",
                         callback=self.restore_y_callback,
                         sizeStyle='small')
             # open

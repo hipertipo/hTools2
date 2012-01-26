@@ -146,7 +146,7 @@ class hSettingsDialog(object):
         self.world.settings.hDict['ftp']['folder'] = self.w.ftp_folder_value.get()
         self.world.settings.write()
         print 'done.\n'
-        # self.world.settings.print_()
+        self.world.settings.print_()
 
 # run
 
