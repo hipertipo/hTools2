@@ -20,6 +20,7 @@ from hTools2.modules.color import hls_to_rgb, paint_groups, clear_colors
 
 class batchProjectDialog(object):
 
+    _title = "hProject"
     _col1 = 140
     _col2 = 180
     _col3 = 80
@@ -48,7 +49,7 @@ class batchProjectDialog(object):
         self.w = FloatingWindow(
                     (self._width,
                     self._height),
-                    "batch hProject")
+                    self._title)
         #---------------
         # projects list
         #---------------

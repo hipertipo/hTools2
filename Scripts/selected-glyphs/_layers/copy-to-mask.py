@@ -1,9 +1,6 @@
 # [h] transfer glyphs to mask
 
-'''copy current layer of selected glyphs in source font into "mask" layer in target font'''
-
 from vanilla import *
-from AppKit import NSColor
 
 import hTools2.modules.fontutils
 reload(hTools2.modules.fontutils)
@@ -13,12 +10,12 @@ from hTools2.modules.fontutils import get_full_name
 
 class copyToMaskDialog(object):
 
-    _title = 'copy'
+    _title = 'mask'
     _padding = 10
     _padding_top = 8
     _row_height = 25
     _line_height = 20
-    _button_height = 25
+    _button_height = 30
     _column_1 = 103
     _width = _column_1 + (_padding * 2)
     _height = (_line_height * 2) + (_row_height * 2) + _button_height + (_padding_top * 4)
@@ -43,7 +40,7 @@ class copyToMaskDialog(object):
                         (x, y,
                         -self._padding,
                         self._line_height),
-                        "source",
+                        "foreground",
                         sizeStyle='small')
             y += self._line_height
             self.w._source_value = PopUpButton(

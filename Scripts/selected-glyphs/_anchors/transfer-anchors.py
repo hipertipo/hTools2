@@ -1,12 +1,12 @@
 # [h] transfer anchors dialog
 
 from vanilla import *
-# from AppKit import NSColor
+
+import hTools2.modules.anchors
+reload(hTools2.modules.anchors)
 
 from hTools2.modules.fontutils import get_full_name
-from hTools2.modules.anchors import transferAnchors
-
-#from hTools2.modules.color import randomColor
+from hTools2.modules.anchors import transfer_anchors
 
 
 class transferAnchorsDialog(object):
@@ -83,10 +83,8 @@ class transferAnchorsDialog(object):
         # get target font parameters
         _target_font = self._all_fonts[self.w._target_value.get()]
         # print info
-        boolstring = [ False, True ]
         print 'transfering anchors...\n'
         print '\tsource font: %s' % get_full_name(_source_font)
-        print
         print '\ttarget font: %s' % get_full_name(_target_font)
         print
         print '\t', 
@@ -97,7 +95,7 @@ class transferAnchorsDialog(object):
                 # prepare undo
                 _target_font[gName].prepareUndo('transfer anchors')
                 # transfer anchors
-                transferAnchors(_source_font[gName], _target_font[gName])
+                transfer_anchors(_source_font[gName], _target_font[gName])
                 # update
                 _source_font[gName].update()
                 _target_font[gName].update()
@@ -112,11 +110,6 @@ class transferAnchorsDialog(object):
         _source_font.update()
         print '\n...done.\n'
 
-    def close_callback(self, sender):
-        self.w.close()
-
 # run
 
 transferAnchorsDialog()
-
-

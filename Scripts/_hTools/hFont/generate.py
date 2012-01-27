@@ -12,7 +12,7 @@ from hTools2.objects import hFont
 
 class generateFontDialog(object):
 
-    _title = "generate"
+    _title = "hGenerate"
     _padding = 10
     _padding_top = 12
     _box_height = 20
@@ -30,66 +30,83 @@ class generateFontDialog(object):
         self.w = FloatingWindow(
                     (self._width, self._height),
                     self._title)
-        p = self._padding
-        pt = self._padding_top
-        x = p
-        y = pt
-        bh1 = self._box_height
-        bh2 = self._button_height
+        x = self._padding
+        y = self._padding_top
+        # test install
         self.w._test_install = SquareButton(
-                    (x, y, -p, bh2),
+                    (x, y,
+                    -self._padding,
+                    self._button_height),
                     "test install",
                     sizeStyle='small',
                     callback=self.test_install_callback)
-        y += bh2 + pt
+        y += self._button_height + self._padding_top
         self.w.line_1 = HorizontalLine((0, y, -0, 1))
-        y += pt
+        y += self._padding_top
+        # generate otf
         self.w.generate_otf = SquareButton(
-                    (x, y, -p, bh2),
+                    (x, y,
+                    -self._padding,
+                    self._button_height),
                     "generate .otf",
                     sizeStyle="small",
                     callback=self.generate_otf_callback)
-        y += bh2 + pt
+        y += self._button_height + self._padding_top
         self.w._otfs_path = RadioGroup(
-                    (x - 3, y, -p, bh1),
+                    (x - 3, y,
+                    -self._padding,
+                    self._box_height),
                     ["otfs", "test"],
                     isVertical=False,
                     sizeStyle='small')
-        y += bh1 + pt
+        y += self._box_height + self._padding_top
         self.w._decompose = CheckBox(
-                    (x, y, -p, bh1),
+                    (x, y,
+                    -self._padding,
+                    self._box_height),
                     "decompose",
                     value=self._decompose,
                     sizeStyle='small')
-        y += bh1
+        y += self._box_height
         self.w._remove_overlap = CheckBox(
-                    (x, y, -p, bh1),
+                    (x, y,
+                    -self._padding,
+                    self._box_height),
                     "remove overlaps",
                     value=self._remove_overlap,
                     sizeStyle='small')
-        y += bh1
+        y += self._box_height
         self.w._autohint = CheckBox(
-                    (x, y, -p, bh1),
+                    (x, y,
+                    -self._padding,
+                    self._box_height),
                     "ps autohint",
                     value=self._autohint,
                     sizeStyle='small')
-        y += bh1
+        y += self._box_height
         self.w._release_mode = CheckBox(
-                    (x, y, -p, bh1),
+                    (x, y,
+                    -self._padding,
+                    self._box_height),
                     "release mode",
                     value=self._release_mode,
                     sizeStyle='small')
-        y += bh1 + 7 # pt
+        y += self._box_height + 7
         self.w.line_2 = HorizontalLine((0, y, -0, 1))
-        y += pt
+        y += self._padding_top
+        # generate & upload woff
         self.w._generate_woff = SquareButton(
-                    (x, y, -p, bh2),
+                    (x, y,
+                    -self._padding,
+                    self._button_height),
                     "generate .woff",
                     sizeStyle='small',
                     callback=self.generate_woff_callback)                    
-        y += bh2 + pt
+        y += self._button_height + self._padding_top
         self.w._upload_woff = CheckBox(
-                    (x, y, -p, bh1),
+                    (x, y,
+                    -self._padding,
+                    self._box_height),
                     "upload to ftp",
                     sizeStyle='small',
                     value=self._upload_woff)

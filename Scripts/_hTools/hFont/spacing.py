@@ -4,6 +4,7 @@ from vanilla import *
 
 import hTools2.objects
 import hTools2.modules.color
+import hTools2.modules.fontutils
 
 reload(hTools2.objects)
 reload(hTools2.modules.color)
@@ -16,7 +17,7 @@ from hTools2.modules.fontutils import *
 
 class spacingGroupsDialog(object):
 
-    _title = 'spacing'
+    _title = 'hSpacing'
     _padding = 10
     _padding_top = 10
     _row_height = 23
@@ -41,8 +42,8 @@ class spacingGroupsDialog(object):
                     "paint",
                     sizeStyle='small',
                     callback=self._apply_callback)
-        # sides
         y += self._button_height + self._padding_top
+        # sides
         self.w._side = RadioGroup(
                     (x, y,
                     -self._padding,
@@ -50,12 +51,8 @@ class spacingGroupsDialog(object):
                     ["left", "right"],
                     isVertical=False,
                     sizeStyle='small')
-        #---------
-        # buttons
-        #---------
         y += self._row_height + self._padding_top
         # import groups from project
-        # y += self._button_height + self._padding_top
         self.w._import_groups = SquareButton(
                     (x, y,
                     -self._padding,
@@ -64,6 +61,7 @@ class spacingGroupsDialog(object):
                     sizeStyle='small',
                     callback=self._import_callback)
         y += self._button_height - 1 
+        # save groups to project
         self.w._export_groups = SquareButton(
                     (x, y,
                     -self._padding,
@@ -71,12 +69,10 @@ class spacingGroupsDialog(object):
                     "export",
                     sizeStyle='small',
                     callback=self._export_callback)
-        # open
+        # open window
         self.w.open()
 
-    #-----------
     # callbacks
-    #-----------
 
     def _apply_callback(self, sender):
         font = hFont(CurrentFont())
@@ -101,4 +97,3 @@ class spacingGroupsDialog(object):
 # run
 
 spacingGroupsDialog()
-

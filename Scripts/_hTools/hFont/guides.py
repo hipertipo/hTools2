@@ -19,7 +19,7 @@ def delete_guides(f):
 
 class createGuidesDialog(object):
 
-    _title = 'guides'
+    _title = 'hGuides'
     _button_height = 20
     _button_width = 90
     _column_1 = 75

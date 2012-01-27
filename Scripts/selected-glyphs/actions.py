@@ -13,10 +13,10 @@ class transformSelectedGlyphsDialog(object):
 
     _title = 'actions'
     _row_height = 20
-    _button_height = 25
+    _button_height = 30
     _padding = 10
     _padding_top = 8
-    _width = 180
+    _width = 123
     _height = (_padding_top * 3) + (_row_height * 7) + _button_height + 3
 
     _gNames = []
@@ -50,7 +50,7 @@ class transformSelectedGlyphsDialog(object):
                     (x, y,
                     -self._padding,
                     self._row_height),
-                    "round points to integers",
+                    "round points",
                     callback=self.round_callback,
                     value=self._round,
                     sizeStyle='small')
@@ -70,7 +70,7 @@ class transformSelectedGlyphsDialog(object):
                     (x, y,
                     -self._padding,
                     self._row_height),
-                    "auto contour order",
+                    "auto order",
                     callback=self.order_callback,
                     value=self._order,
                     sizeStyle='small')
@@ -80,7 +80,7 @@ class transformSelectedGlyphsDialog(object):
                     (x, y,
                     -self._padding,
                     self._row_height),
-                    "auto contour direction",
+                    "auto direction",
                     callback=self.direction_callback,
                     value=self._direction,
                     sizeStyle='small')
@@ -90,7 +90,7 @@ class transformSelectedGlyphsDialog(object):
                     (x, y,
                     -self._padding,
                     self._row_height),
-                    "remove overlaps",
+                    "remove overlap",
                     callback=self.overlaps_callback,
                     value=self._overlaps,
                     sizeStyle='small')
@@ -100,7 +100,7 @@ class transformSelectedGlyphsDialog(object):
                     (x, y,
                     -self._padding,
                     self._row_height),
-                    "add extreme points",
+                    "add extremes",
                     callback=self.extremes_callback,
                     value=self._extremes,
                     sizeStyle='small')

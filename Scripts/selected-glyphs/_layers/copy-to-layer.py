@@ -1,7 +1,5 @@
 # [h] copy selected glyphs to layer dialog
 
-'''copy current layer of selected glyphs in current font to existing or new layer with given name'''
-
 from vanilla import *
 from AppKit import NSColor
 
@@ -26,7 +24,7 @@ class copyToLayerDialog(object):
     _width = 123
     _height = (_padding_top * 3) + (_line_height * 2) + _button_height + 5
 
-    def __init__(self, ):
+    def __init__(self):
         self.w = FloatingWindow(
                     (self._width,
                     self._height),
