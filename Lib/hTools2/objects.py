@@ -5,29 +5,13 @@ import plistlib
 
 import hTools2
 
-import hTools2.modules.color
-import hTools2.modules.encoding
-import hTools2.modules.fontutils
-import hTools2.modules.fileutils
-import hTools2.modules.ftp
-import hTools2.modules.sysutils
-import hTools2.plugins.KLTF_WOFF
-
-reload(hTools2.modules.color)
-reload(hTools2.modules.encoding)
-reload(hTools2.modules.fontutils)
-reload(hTools2.modules.fileutils)
-reload(hTools2.modules.ftp)
-reload(hTools2.modules.sysutils)
-reload(hTools2.plugins.KLTF_WOFF)
-
 from hTools2.modules.color import hls_to_rgb, paint_groups, clear_colors
 from hTools2.modules.encoding import auto_unicodes, import_encoding
 from hTools2.modules.fontutils import *
 from hTools2.modules.fileutils import walk
 from hTools2.modules.ftp import connect_to_server, upload_file
 from hTools2.modules.sysutils import _ctx
-from hTools2.plugins.KLTF_WOFF import compressFont
+
 
 class hSettings:
 
@@ -350,7 +334,11 @@ class hFont:
                     glyphOrder=[])
 
     def generate_woff(self):
-        compressFont(self.otf_path(), self.woff_path())
+        try:
+            from hTools2.plugins.KLTF_WOFF import compressFont
+            compressFont(self.otf_path(), self.woff_path())
+        except:
+            print 'KLTF WOFF generation plugin not available.\n '
 
     def upload_woff(self):
         _url = self.project.world.settings.hDict['ftp']['url']
