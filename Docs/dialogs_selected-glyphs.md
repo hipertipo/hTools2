@@ -1,3 +1,0 @@
-Selected glyphs dialogs
-=======================
-
