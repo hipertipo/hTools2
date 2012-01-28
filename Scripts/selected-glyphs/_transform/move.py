@@ -1,18 +1,9 @@
 # [h] move dialog
 
-'''move selected glyphs'''
-
 from vanilla import *
-
-import hTools2.plugins.nudge
-import hTools2.modules.glyphutils
-
-reload(hTools2.plugins.nudge)
-reload(hTools2.modules.glyphutils)
 
 from hTools2.plugins.nudge import *
 from hTools2.modules.glyphutils import *
-
 
 class moveGlyphsDialog(object):
 

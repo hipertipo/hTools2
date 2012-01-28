@@ -1,13 +1,8 @@
 # [h] transform selected glyphs
 
 from vanilla import *
-from AppKit import NSColor
-
-import hTools2.modules.fontutils
-reload(hTools2.modules.fontutils)
 
 from hTools2.modules.fontutils import get_glyphs
-
 
 class transformSelectedGlyphsDialog(object):
 
@@ -193,4 +188,3 @@ class transformSelectedGlyphsDialog(object):
 # run
 
 transformSelectedGlyphsDialog()
-

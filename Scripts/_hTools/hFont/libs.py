@@ -1,17 +1,9 @@
 # [h] print hLibs
 
-from AppKit import NSColor
 from vanilla import *
-
-import hTools2.objects
-import hTools2.modules.fontinfo
-
-reload(hTools2.objects)
-reload(hTools2.modules.fontinfo)
 
 from hTools2.objects import hFont
 from hTools2.modules.fontinfo import *
-
 
 class hLibs_printDialog(object):
 
@@ -203,4 +195,3 @@ class hLibs_printDialog(object):
 # run
 
 hLibs_printDialog()
-

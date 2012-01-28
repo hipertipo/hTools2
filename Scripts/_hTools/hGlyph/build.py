@@ -1,11 +1,5 @@
 # [h] build selected glyphs
 
-import hTools2.objects
-import hTools2.modules.fontutils
-
-reload(hTools2.objects)
-reload(hTools2.modules.fontutils)
-
 from hTools2.objects import hFont
 from hTools2.modules.fontutils import get_glyphs
 

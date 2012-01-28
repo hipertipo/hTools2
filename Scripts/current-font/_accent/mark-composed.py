@@ -1,8 +1,5 @@
 # [h] mark composed glyphs
 
-import hTools2.modules.color
-reload(hTools2.modules.color)
-
 from hTools2.modules.color import *
 
 f = CurrentFont()

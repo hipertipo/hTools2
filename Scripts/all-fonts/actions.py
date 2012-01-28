@@ -1,11 +1,8 @@
 # [h] transform all open fonts
 
 from vanilla import *
-from AppKit import NSColor
 
 from hTools2.modules.fontutils import *
-
-# the dialog
 
 class actionsDialog(object):
 
@@ -179,8 +176,6 @@ class actionsDialog(object):
     def close_callback(self, sender):
         self.w.close()
 
-
 # run
 
 actionsDialog()
-

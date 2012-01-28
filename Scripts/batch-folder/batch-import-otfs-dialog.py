@@ -141,4 +141,3 @@ class BatchConvertOTFsToUFOsDialog(object):
 # run 
 
 BatchConvertOTFsToUFOsDialog()
-

@@ -1,17 +1,9 @@
 # [h] clear font info
 
-from AppKit import NSColor
 from vanilla import *
-
-import hTools2.modules.fontinfo
-import hTools2.modules.color
-
-reload(hTools2.modules.fontinfo)
-reload(hTools2.modules.color)
 
 from hTools2.modules.fontinfo import *
 from hTools2.modules.color import random_color
-
 
 class clearFontInfoDialog(object):
 
@@ -277,4 +269,3 @@ class clearFontInfoDialog(object):
 # run
 
 clearFontInfoDialog()
-

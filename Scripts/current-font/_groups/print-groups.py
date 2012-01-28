@@ -2,11 +2,7 @@
 
 from vanilla import *
 
-import hTools2.modules.fontutils
-reload(hTools2.modules.fontutils)
-
 from hTools2.modules.fontutils import delete_groups, print_groups
-
 
 class printGroupsDialog(object):
 

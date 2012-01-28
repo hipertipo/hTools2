@@ -3,8 +3,6 @@
 import os
 import plistlib
 
-import hTools2
-
 from hTools2.modules.color import hls_to_rgb, paint_groups, clear_colors
 from hTools2.modules.encoding import auto_unicodes, import_encoding
 from hTools2.modules.fontutils import *

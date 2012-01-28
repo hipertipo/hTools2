@@ -2,9 +2,6 @@
 
 from vanilla import *
 
-import hTools2.modules.anchors
-reload(hTools2.modules.anchors)
-
 from hTools2.modules.anchors import rename_anchor
 
 # dialog
@@ -106,11 +103,7 @@ class renameAnchorsDialog(object):
         else:
             print 'please open a font first.\n'
         pass
-
-    def close_callback(self, sender):
-        self.w.close()
         
 # run
         
 renameAnchorsDialog()
-

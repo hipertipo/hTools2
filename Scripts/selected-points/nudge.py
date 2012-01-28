@@ -46,9 +46,7 @@ class interpolatedNudgeDialog(object):
                 (self._width,
                 self._height),
                 self._title)
-        #---------------
         # nudge buttons
-        #---------------
         x = self._padding
         y = self._padding
         self.w._up = SquareButton(
@@ -152,9 +150,7 @@ class interpolatedNudgeDialog(object):
         # open dialog
         self.w.open()
 
-    #-----------
     # callbacks
-    #-----------
 
     def _nudge_minus_001_callback(self, sender):
         _nudge = int(self.w._nudge_value.get()) - 1
@@ -189,9 +185,7 @@ class interpolatedNudgeDialog(object):
     def _interpolated_callback(self, sender):
         self._interpolated = self.w._interpolated.get()
 
-    #-------------
     # apply nudge 
-    #-------------
 
     def _left_callback(self, sender):
         if self._interpolated:

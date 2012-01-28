@@ -32,4 +32,3 @@ for ufo_path in ufo_paths:
     ufo.close()
     print
 print '...done.\n'
-

@@ -2,7 +2,6 @@
 
 from vanilla import *
 
-
 class deleteLayerDialog(object):
 
     _title = 'delete layer'
@@ -66,4 +65,3 @@ class deleteLayerDialog(object):
 # run
 
 deleteLayerDialog()
-

@@ -3,15 +3,8 @@
 from vanilla import *
 from vanilla.dialogs import getFolder
 
-import hTools2.objects
-import hTools2.modules.ftp
-
-reload(hTools2.objects)
-reload(hTools2.modules.ftp)
-
 from hTools2.objects import hSettings, hWorld
 from hTools2.modules.ftp import connect_to_server, upload_file
-
 
 class hSettingsDialog(object):
 
@@ -151,4 +144,3 @@ class hSettingsDialog(object):
 # run
 
 hSettingsDialog()
-

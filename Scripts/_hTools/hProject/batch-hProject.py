@@ -2,21 +2,10 @@
 
 from vanilla import *
 
-import hTools2.objects
-import hTools2.modules.color
-import hTools2.modules.fontinfo
-import hTools2.modules.color
-
-reload(hTools2.objects)
-reload(hTools2.modules.color)
-reload(hTools2.modules.fontinfo)
-reload(hTools2.modules.color)
-
 from hTools2.objects import hWorld, hProject, hFont
 from hTools2.modules.fileutils import get_names_from_path
 from hTools2.modules.fontinfo import *
 from hTools2.modules.color import hls_to_rgb, paint_groups, clear_colors
-
 
 class batchProjectDialog(object):
 

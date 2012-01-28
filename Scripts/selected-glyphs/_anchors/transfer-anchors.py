@@ -2,12 +2,8 @@
 
 from vanilla import *
 
-import hTools2.modules.anchors
-reload(hTools2.modules.anchors)
-
 from hTools2.modules.fontutils import get_full_name
 from hTools2.modules.anchors import transfer_anchors
-
 
 class transferAnchorsDialog(object):
 

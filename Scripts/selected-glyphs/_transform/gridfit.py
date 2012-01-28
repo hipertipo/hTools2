@@ -1,19 +1,11 @@
 # [h] fit to grid dialog
 
-from AppKit import NSColor
 from vanilla import * 
 
 from robofab.world import CurrentFont
 
-import hTools2.modules.glyphutils
-reload(hTools2.modules.glyphutils)
-
-import hTools2.modules.fontutils
-reload(hTools2.modules.fontutils)
-
 from hTools2.modules.fontutils import get_glyphs
 from hTools2.modules.glyphutils import *
-
 
 # dialog
 
@@ -250,4 +242,3 @@ class roundToGridDialog(object):
 # run
 
 roundToGridDialog()
-

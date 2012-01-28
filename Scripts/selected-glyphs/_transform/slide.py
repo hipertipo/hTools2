@@ -157,4 +157,3 @@ class slideGlyphsDialog(object):
 # run
 
 slideGlyphsDialog()
-

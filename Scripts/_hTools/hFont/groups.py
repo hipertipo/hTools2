@@ -2,17 +2,9 @@
 
 from vanilla import *
 
-import hTools2.objects
-import hTools2.modules.color
-
-reload(hTools2.objects)
-reload(hTools2.modules.color)
-reload(hTools2.modules.fontutils)
-
 from hTools2.objects import *
 from hTools2.modules.color import *
 from hTools2.modules.fontutils import *
-
 
 class groupsDialog(object):
 

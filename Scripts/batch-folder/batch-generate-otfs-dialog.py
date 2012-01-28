@@ -7,7 +7,6 @@ from vanilla.dialogs import getFolder
 
 from hTools2.modules.fileutils import walk
 
-
 class BatchGenerateFolderDialog(object):
 
     _title = "batch generate .otfs for all .ufos in folder"
@@ -185,4 +184,3 @@ class BatchGenerateFolderDialog(object):
 # run 
 
 BatchGenerateFolderDialog()
-

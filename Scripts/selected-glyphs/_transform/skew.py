@@ -6,7 +6,6 @@ from vanilla import *
 
 from hTools2.modules.fontutils import get_glyphs
 
-
 class skewGlyphsDialog(object):
 
     _title = "skew"
@@ -204,4 +203,3 @@ class skewGlyphsDialog(object):
 # run
 
 skewGlyphsDialog()
-

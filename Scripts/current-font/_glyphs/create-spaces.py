@@ -1,17 +1,9 @@
 # [h] create space glyphs
 
-from AppKit import NSColor
 from vanilla import *
-
-import hTools2.modules.fontutils
-import hTools2.modules.encoding
-
-reload(hTools2.modules.fontutils)
-reload(hTools2.modules.encoding)
 
 from hTools2.modules.fontutils import get_full_name
 from hTools2.modules.encoding import unicode_hexstr_to_int
-
 
 class createSpaceGlyphsDialog(object):
 
@@ -212,4 +204,3 @@ class createSpaceGlyphsDialog(object):
 # run
         
 createSpaceGlyphsDialog()
-
