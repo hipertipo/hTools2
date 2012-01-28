@@ -23,13 +23,13 @@ Have a look inside the `Scripts` folder for more.
 Credits
 -------
 
-hTools2 is developed by Gustavo Ferreira ([Hipertipo](http://hipertipo.com)) and Nikola Djurek ([Typonine](http://typonine.com)), with help from collaborators.
+hTools2 is developed by Gustavo Ferreira ([Hipertipo](http://hipertipo.com)), in colaboration with Nikola Djurek ([Typonine](http://typonine.com)).
 
 Special thanks to Frederik Berlaen for the many tips, comments and corrections.
 
 RoboFont is developed by Frederik Berlaen ([TypeMyType](http://typemytype.com)).
 
-RoboFont and hTools are built on fundamental work and libraries by Erik van Blokland & Just van Rossum ([LettError](http://letterror.com)) and Tal Leming ([TypeSupply](http://typesupply.com)).
+RoboFont and hTools are built with libraries by Erik van Blokland & Just van Rossum ([LettError](http://letterror.com)) and Tal Leming ([TypeSupply](http://typesupply.com)).
 
 
 Installation
