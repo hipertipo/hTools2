@@ -4,6 +4,9 @@ import os
 
 from vanilla import *
 
+import hTools2.objects
+reload(hTools2.objects)
+
 from hTools2.objects import hFont
 
 class generateFontDialog(object):
@@ -142,7 +145,7 @@ class generateFontDialog(object):
             print '\tremove overlap: %s' % boolstring[self._remove_overlap]
             print '\tautohint: %s' % boolstring[self._autohint]
             print '\trelease mode: %s' % boolstring[self._release_mode]
-            print '\tfolder: %s' % otf_path
+            print '\tfont path: %s' % otf_path
             print
             font.ufo.generate(
                         otf_path, 'otf',

@@ -10,12 +10,14 @@ class interpolateGlyphsDialog(object):
     _padding = 10
     _padding_top = 8
     _row_height = 25
+    _bar_height = 18
+    _line_height = 18
     _button_height = 30
     _button_2 = 18
     _value_box = 60
     _column_2 = _value_box + (_button_2 * 6) + _button_2 - 6
     _width = 123
-    _height = 262
+    _height = 260 + (_bar_height + _padding_top) + (_line_height * 3)
 
     _all_fonts_names = []
     _factor_x = 0.50
@@ -35,6 +37,13 @@ class interpolateGlyphsDialog(object):
             # master 1
             x = self._padding
             y = self._padding_top
+            self.w._f1_label = TextBox(
+                        (x, y,
+                        -self._padding,
+                        self._line_height),
+                        "master 1",
+                        sizeStyle='small')
+            y += self._line_height
             self.w._f1_font = PopUpButton(
                         (x, y,
                         -self._padding,
@@ -43,6 +52,13 @@ class interpolateGlyphsDialog(object):
                         sizeStyle='small')
             y += self._row_height
             # master 2
+            self.w._f2_label = TextBox(
+                        (x, y,
+                        -self._padding,
+                        self._line_height),
+                        "master 2",
+                        sizeStyle='small')
+            y += self._line_height
             self.w._f2_font = PopUpButton(
                         (x, y,
                         -self._padding,
@@ -51,6 +67,13 @@ class interpolateGlyphsDialog(object):
                         sizeStyle='small')
             y += self._row_height
             # target
+            self.w._f3_label = TextBox(
+                        (x, y,
+                        -self._padding,
+                        self._line_height),
+                        "target font",
+                        sizeStyle='small')
+            y += self._line_height
             self.w._f3_font = PopUpButton(
                         (x, y,
                         -self._padding,
@@ -224,13 +247,21 @@ class interpolateGlyphsDialog(object):
             # buttons
             #---------
             x = self._padding
-            y += self._button_2 + self._padding
+            y += self._button_2 + self._padding_top
             self.w.button_apply = SquareButton(
                         (x, y,
                         -self._padding,
                         self._button_height),
                         "interpolate",
                         callback=self.apply_callback,
+                        sizeStyle='small')
+            # progress bar
+            y += self._button_height + self._padding
+            self.w.bar = ProgressBar(
+                        (x, y,
+                        -self._padding,
+                        self._bar_height),
+                        isIndeterminate=True,
                         sizeStyle='small')
             # open window
             self.w.open()
@@ -353,6 +384,7 @@ class interpolateGlyphsDialog(object):
         print '\tfactor y: %s' % y
         print '\tproportional: %s' % boolstring[self._proportional]
         print
+        self.w.bar.start()
         # interpolate glyphs
         for gName in f1.selection:
             # check glyphs
@@ -370,6 +402,7 @@ class interpolateGlyphsDialog(object):
                 print '\tfont 2 does not have glyph %s' % gName
         f3.update()
         # done
+        self.w.bar.stop()
         print
         print '...done.\n'
 

@@ -2,6 +2,9 @@
 
 from vanilla import *
 
+import hTools2.objects
+reload(hTools2.objects)
+
 from hTools2.objects import hWorld, hProject, hFont
 from hTools2.modules.fileutils import get_names_from_path
 from hTools2.modules.fontinfo import *
@@ -15,8 +18,8 @@ class batchProjectDialog(object):
     _col3 = 80
     _col4 = 60
     _col5 = 140
-    _col6 = 125
-    _col7 = 110
+    _col6 = 120
+    _col7 = 120
     _padding = 10
     _height = 120
     _row_height = 18
@@ -140,16 +143,6 @@ class batchProjectDialog(object):
                     value=False,
                     sizeStyle='small')
         _checkboxes += 1
-        # set glyph order
-        self.w.set_glyph_order_checkbox = CheckBox(
-                    (x,
-                    y + (self._row_height * _checkboxes),
-                    -15,
-                    self._row_height),
-                    "set glyph order",
-                    value=False,
-                    sizeStyle='small')
-        _checkboxes += 1
         # clear colors
         self.w.clear_colors_checkbox = CheckBox(
                     (x,
@@ -169,12 +162,7 @@ class batchProjectDialog(object):
                     "paint groups",
                     value=False,
                     sizeStyle='small')
-        #--------------
-        # checkboxes 3
-        #--------------
-        # test install
-        _checkboxes = 0
-        x += self._col6 + self._padding
+        _checkboxes += 1
         # auto unicodes
         self.w.auto_unicodes_checkbox = CheckBox(
                     (x,
@@ -184,7 +172,12 @@ class batchProjectDialog(object):
                     "auto unicodes",
                     value=False,
                     sizeStyle='small')        
-        _checkboxes += 1
+        #--------------
+        # checkboxes 3
+        #--------------
+        # test install
+        _checkboxes = 0
+        x += self._col6 + self._padding
         self.w.test_install_checkbox = CheckBox(
                     (x,
                     y + (self._row_height * _checkboxes),
@@ -201,6 +194,15 @@ class batchProjectDialog(object):
                     -15,
                     self._row_height),
                     "generate otf",
+                    value=False,
+                    sizeStyle='small')
+        _checkboxes += 1
+        self.w.generate_otf_test_checkbox = CheckBox(
+                    (x,
+                    y + (self._row_height * _checkboxes),
+                    -15,
+                    self._row_height),
+                    "generate test otf",
                     value=False,
                     sizeStyle='small')
         _checkboxes += 1
@@ -347,7 +349,6 @@ class batchProjectDialog(object):
             'set names' : self.w.set_names_checkbox.get(),
             'set foundry' : self.w.set_foundry_checkbox.get(),
             'set vmetrics' : self.w.set_vmetrics_checkbox.get(),
-            'set glyph order' : self.w.set_glyph_order_checkbox.get(),
             'clear colors' : self.w.clear_colors_checkbox.get(),
             'import encoding' : self.w.import_encoding_checkbox.get(),
             'paint groups' : self.w.paint_groups_checkbox.get(),
@@ -355,6 +356,7 @@ class batchProjectDialog(object):
             'save ufo' : self.w.auto_unicodes_checkbox.get(),
             'test install' : self.w.test_install_checkbox.get(),
             'generate otf' : self.w.generate_otf_checkbox.get(),
+            'generate test otf' : self.w.generate_otf_test_checkbox.get(),
             'generate woff' : self.w.generate_woff_checkbox.get(),
             'upload woff' : self.w.upload_woff_checkbox.get(),
             'close font' : self.w.close_font_checkbox.get(),
@@ -375,7 +377,7 @@ class batchProjectDialog(object):
                     print '\topening font window for %s %s...' % (family, style)
                     ufo = RFont(font_path, showUI=True)
                 else:
-                    print '\t\topening .ufo font for %s %s...' % (family, style)
+                    print '\topening .ufo font for %s %s...' % (family, style)
                     ufo = RFont(font_path, showUI=False)
                 font = hFont(ufo)
                 # set font names
@@ -388,10 +390,6 @@ class batchProjectDialog(object):
                 if actions['set vmetrics']:
                     print '\t\tsetting vertical metrics...'
                     set_vmetrics(font.ufo)
-                # set glyph order
-                if actions['set glyph order']:
-                    print '\t\tsetting glyph order...'
-                    font.order_glyphs()
                 # clear colors
                 if actions['clear colors']:
                     print '\t\tclear colors...'
@@ -420,6 +418,10 @@ class batchProjectDialog(object):
                 if actions['generate otf']:
                     print '\t\tgenerating .otf...'
                     font.generate_otf()
+                # generate test otf
+                if actions['generate test otf']:
+                    print '\t\tgenerating test .otf...'
+                    font.generate_otf(test=True)
                 # generate woff
                 if actions['generate woff']:
                     print '\t\tgenerating .woff...'

@@ -44,7 +44,6 @@ def clear_color(glyph):
 def paint_groups(f):
     if len(f.groups) > 0:
         clear_colors(f)
-        print 'painting glyph groups...\n'
         count = 0
         _order = []
         if f.lib.has_key('groups_order'):
@@ -55,7 +54,6 @@ def paint_groups(f):
             color_step = 1.0 / len(f.groups)
             color = color_step * count
             R, G, B = hls_to_rgb(color, 0.5, 1.0)
-            print '\tpainting group %s...' % group
             for glyph_name in f.groups[group]:
                 if f.has_key(glyph_name) is not True:
                     f.newGlyph(glyph_name)
@@ -65,7 +63,5 @@ def paint_groups(f):
             count += 1
         f.glyphOrder = _order
         f.update()
-        print
-        print '...done.\n'
     else:
         print 'font has no groups.\n'

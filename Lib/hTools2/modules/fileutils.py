@@ -12,21 +12,9 @@ def walk(folder, extension):
 			files.append(p)
 	return files
 
-def deleteFiles(fileList):
-	for f in fileList:
-		os.remove(f)
-
-def getGlyphs(f):
-	from robofab.world import CurrentGlyph
-	gNames = []
-	cg = CurrentGlyph()
-	if cg is not None:
-		gNames.append(cg.name)
-	for g in f:
-		if g.selected == True:
-			if g.name not in gNames:
-				gNames.append(g.name)
-	return gNames
+def delete_files(files_list):
+	for _file in files_list:
+		os.remove(_file)
 
 def get_names_from_path(fontpath):
 	_file = os.path.basename(fontpath)

@@ -46,7 +46,7 @@ def auto_unicode(g):
 	# handle extra cases
 	elif g.name in _extra_unicodes.keys():
 		uString = 'uni%s' % _extra_unicodes[g.name]
-		g.unicode = unicodeHexstrToInt(uString)
+		g.unicode = unicode_hexstr_to_int(uString)
 	# use auto unicode for everything else
 	else:
 		g.autoUnicodes()

@@ -29,30 +29,28 @@ def temp_font():
 
 class hGlyphDialog(object):
 
-    _col1 = 180
+    _col1 = 120
     _col2 = 60
-    _col3 = 80
-    _col4 = 160
-    _col5 = 140
-    _col6 = 125
-    _col7 = 110
-    _col_height = 120
+    _col3 = 60
+    _col4 = 100
+    _col5 = 100
+    _col6 = 100
+    _col7 = 100
+    _col_height = 160
     _padding = 10
     _row_height = 18
     _button_height = 20
     _button_width = 60
     _height = _col_height + (_button_height * 2) + (_padding * 4) - 1
-    _width = _col1 + _col2 + (_padding * 2) - 1 #  + 100
+    _width = _col1 + _col2 + _col3 + (_padding * 2) - 2 #  + 100
 
-    _masters = []
     _masters_i = []
-    _instances = []
     _selected_projects = []
     _open = True
 
-    _projects = [ 'Synthetica', 'Guarana', 'Publica', 'Quantica', 'Magnetica', 'Mechanica' ]
+    _projects = [ 'Jornalistica', 'Guarana', 'Magnetica', 'Mechanica', 'Publica', 'Quantica', 'Synthetica' ]
     _masters = [ 15, 55, 95 ]
-    _order = [ "glyph, project, weight", "project, glyph, weight", "glyph, weight, project" ]
+    _instances = [ 25, 35, 45, 65, 75, 85 ]
 
     def __init__(self):
         self.world = hWorld()
@@ -78,6 +76,15 @@ class hGlyphDialog(object):
                     self._col2,
                     self._col_height),
                     self._masters,
+                    allowsMultipleSelection=True)
+
+        # instances list
+        x += self._col2 - 1
+        self.w.instances_list = List(
+                    (x, y,
+                    self._col3,
+                    self._col_height),
+                    self._instances,
                     allowsMultipleSelection=True)
         # import names
         x = self._padding
@@ -120,34 +127,56 @@ class hGlyphDialog(object):
 
     # callbacks
 
-    def _collect_masters(self):
+    def _collect_fonts(self):
         _projects_i = self.w.projects_list.getSelection()
         _masters_i = self.w.masters_list.getSelection()
-        _font_paths = []
+        _instances_i = self.w.instances_list.getSelection()
+        _fonts = {}
         for project_i in _projects_i:
             project_name = self._projects[project_i]
             p = hProject(project_name)
+            # collect masters
             for master_i in _masters_i:
                 master_name = self._masters[master_i]
                 file_name = '%s_%s.ufo' % (project_name, master_name)
                 file_path = os.path.join(p.paths['ufos'], file_name)
                 if os.path.exists(file_path):
-                    _font_paths.append(file_path)
-        return _font_paths
+                    _fonts[master_name] = file_path
+            # collect instances
+            for instance_i in _instances_i:
+                instance_name = self._instances[instance_i]
+                file_name = '%s_%s.ufo' % (project_name, instance_name)
+                file_path = os.path.join(p.paths['instances'], file_name)
+                if os.path.exists(file_path):
+                    _fonts[instance_name] = file_path
+        # _font_paths.sort()
+        self.fonts = _fonts
 
     def save_callback(self, sender):
         print 'saving hGlyphs...\n'
         font = CurrentFont()
         for glyph_name in font.selection:
-            g_name = glyph_name.split('.')[0]
-            f_name = glyph_name.split('.')[1] + '.ufo'
-            p_name = f_name.split('_')[0]
-            i_name = '_'.join(f_name.split('_'))
-            print '\twriting %s to %s...' % (g_name, f_name)
-            p = hProject(p_name)
-            glyphs_path = os.path.join(p.paths['ufos'], i_name, "glyphs")
-            gs = GlyphSet(glyphs_path, glyphNameToFileNameFunc=glyphNameToShortFileName)
-            gs.writeGlyph(g_name, font[glyph_name], font[glyph_name].drawPoints)
+            glyph_base = glyph_name.split('.')[0]
+            font_name = glyph_name.split('.')[1]
+            project_name, style_name = font_name.split('_')
+            file_name = '%s.ufo' % font_name
+            p = hProject(project_name)
+            # glyph belongs to master
+            if int(style_name) in self._masters:
+                glyphs_path = os.path.join(p.paths['ufos'], file_name, "glyphs")
+                gs = GlyphSet(glyphs_path, glyphNameToFileNameFunc=glyphNameToShortFileName)
+            # glyph belongs to instance
+            if int(style_name) in self._instances:
+                glyphs_path = os.path.join(p.paths['instances'], file_name, "glyphs")
+                gs = GlyphSet(glyphs_path, glyphNameToFileNameFunc=glyphNameToShortFileName)
+            print '\twriting %s to %s...' % (glyph_name, file_name)    
+            # f_name = glyph_name.split('.')[1] # + '.ufo'
+            # p_name, i_name = f_name.split('_')
+            # print g_name, f_name, p_name, i_name
+            # p = hProject(p_name)
+            # glyphs_path = os.path.join(p.paths['ufos'], i_name, "glyphs")
+            # gs = GlyphSet(glyphs_path, glyphNameToFileNameFunc=glyphNameToShortFileName)
+            gs.writeGlyph(glyph_base, font[glyph_name], font[glyph_name].drawPoints)
             gs.writeContents()
         print
         print '...done.\n'
@@ -155,10 +184,12 @@ class hGlyphDialog(object):
     def import_callback(self, sender):
         print 'importing hGlyphs...\n'
         tmp_font = temp_font()
-        _glyphs_order = []
+        _glyphs_order = tmp_font.glyphOrder
         # get font paths
-        font_paths = self._collect_masters()
-        if len(font_paths) > 0:
+        self._collect_fonts()
+        _font_names = self.fonts.keys()
+        _font_names.sort()
+        if len(_font_names) > 0:
             # get glyph names
             glyph_names = self.w.button_import_names.get()
             glyph_names = glyph_names.split(' ')
@@ -166,9 +197,10 @@ class hGlyphDialog(object):
                 glyph_names.sort()
                 self.w.bar.start()
                 for glyph_name in glyph_names:
-                    for font_path in font_paths:
+                    count = 0
+                    for font_name in _font_names:
                         # open hFont
-                        ufo = RFont(font_path, showUI=False)
+                        ufo = RFont(self.fonts[font_name], showUI=False)
                         font = hFont(ufo)
                         tmp_name = '%s.%s_%s' % (glyph_name, font.project.name, font.style_name)
                         print '\timporting %s as %s...' % (glyph_name, tmp_name)
@@ -178,13 +210,21 @@ class hGlyphDialog(object):
                         ufo_glyph.drawPoints(pen)
                         tmp_glyph.width = ufo_glyph.width
                         tmp_glyph.unicodes = ufo_glyph.unicodes
+                        # paint glyph
+                        color_step = 1.0 / len(_font_names)
+                        color = color_step * count
+                        R, G, B = hls_to_rgb(color, 0.5, 1.0)
+                        tmp_glyph.mark = (R, G, B, .5)
+                        # done with glyph
                         tmp_glyph.update()
                         tmp_font.update()
                         _glyphs_order.append(tmp_name)
+                        count += 1
                     # done with glyph_name
                     print     
                 self.w.bar.stop()
                 # done with all fonts
+                _glyphs_order.sort()
                 tmp_font.glyphOrder = _glyphs_order
                 tmp_font.update()
                 print "...done.\n"

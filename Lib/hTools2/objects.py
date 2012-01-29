@@ -3,13 +3,21 @@
 import os
 import plistlib
 
+import hTools2.modules.encoding
+reload(hTools2.modules.encoding)
+
+import hTools2.modules.color
+reload(hTools2.modules.color)
+
+from mojo.roboFont import OpenFont, NewFont
+
 from hTools2.modules.color import hls_to_rgb, paint_groups, clear_colors
 from hTools2.modules.encoding import auto_unicodes, import_encoding
 from hTools2.modules.fontutils import *
+from hTools2.modules.fontinfo import set_names
 from hTools2.modules.fileutils import walk
 from hTools2.modules.ftp import connect_to_server, upload_file
 from hTools2.modules.sysutils import _ctx
-
 
 class hSettings:
 
@@ -120,7 +128,7 @@ class hProject:
 
     def make_paths(self):
         _paths = {}
-        _project_root = os.path.join(self.world.settings._root, '_' + self.name)
+        _project_root = os.path.join(self.world.settings._root, '_%s') % self.name
         _paths['root'] = _project_root
         _paths['docs'] = os.path.join(_project_root, '_docs')
         _paths['ufos'] = os.path.join(_project_root, '_ufos')
@@ -133,7 +141,7 @@ class hProject:
         _paths['instances'] = os.path.join(_project_root, '_ufos/_instances')
         _paths['interpol'] = os.path.join(_project_root, '_ufos/_interpol')
         _paths['interpol_instances'] = os.path.join(_project_root, '_ufos/_interpol/_instances')
-        _paths['otfs_test'] = os.path.join(self.world.settings.hDict['test'], '_otfs')
+        _paths['otfs_test'] = os.path.join(self.world.settings.hDict['test'], '_%s') % self.name
         self.paths = _paths
 
     def make_lib_paths(self):
@@ -195,6 +203,43 @@ class hProject:
     def vfbs(self):
         return walk(self.paths['vfbs'], 'vfb')
 
+    def generate_instance(self, instance_name, verbose=False):
+        if self.libs['interpol'].has_key(instance_name):
+            # master 1
+            master_1 = self.libs['interpol'][instance_name][0]
+            master_1_filename = '%s_%s.ufo' % (self.name, master_1)
+            master_1_path = os.path.join(self.paths['ufos'], master_1_filename)
+            # master 2
+            master_2 = self.libs['interpol'][instance_name][1]    
+            master_2_filename = '%s_%s.ufo' % (self.name, master_2)
+            master_2_path = os.path.join(self.paths['ufos'], master_2_filename)
+            # interpolation factor
+            interpol_factor = self.libs['interpol'][instance_name][2]
+            # if both masters exist, generate instance
+            if os.path.exists(master_1_path) and os.path.exists(master_2_path):
+                if verbose:
+                    print 'generating %s %s (factor: %s, %s)...' % (self.name, instance_name,
+                            interpol_factor[0], interpol_factor[1]),
+                instance_filename = '%s_%s.ufo' % (self.name, instance_name)
+                instance_path = os.path.join(self.paths['instances'], instance_filename)
+                # open/create fonts
+                f1 = OpenFont(master_1_path, showUI=False)
+                f2 = OpenFont(master_2_path, showUI=False)
+                f3 = NewFont(showUI=False)
+                # interpolate
+                f3.interpolate((interpol_factor[0], interpol_factor[1]), f1, f2)
+                f3.update()
+                f1.close()
+                f2.close()
+                f3.save(instance_path)
+                f3.close()
+                if verbose:
+                    print 'done.\n'
+        # instance not in lib
+        else:
+            if verbose:
+                print 'instance not in interpol lib.\n'
+
 class hFont:
 
     def __init__(self, ufo):
@@ -251,7 +296,7 @@ class hFont:
         # update font
         self.ufo.update()
 
-    def paint_spacing_groups(self, side):
+    def paint_spacing_groups(self, side, verbose=False):
         # collect groups & glyphs to paint
         _groups_dict = get_spacing_groups(self.ufo)
         if side == 'left':
@@ -260,14 +305,16 @@ class hFont:
             _groups = _groups_dict['right']
         # paint
         if len(_groups) > 0:
-            print 'painting spacing groups...'
+            if verbose:
+                print 'painting spacing groups...'
             print
             _group_names = _groups.keys() 
             clear_colors(self.ufo)
             color_step = 1.0 / len(_group_names)
             count = 0
             for group in _group_names:
-                print '\tpainting group %s...' % group
+                if verbose:
+                    print '\tpainting group %s...' % group
                 color = color_step * count
                 R, G, B = hls_to_rgb(color, 0.5, 1.0)
                 for glyph_name in _groups[group]:
@@ -275,13 +322,16 @@ class hFont:
                         self.ufo[glyph_name].mark = (R, G, B, .5)
                         self.ufo[glyph_name].update()
                     else:
-                        print '%s not in font' % glyph_name
+                        if verbose:
+                            print '%s not in font' % glyph_name
                 count += 1
             self.ufo.update()
-            print
-            print '...done.\n'
+            if verbose:
+                print
+                print '...done.\n'
         else:
-            print 'there are no spacing groups to paint.\n'
+            if verbose:
+                print 'there are no spacing groups to paint.\n'
 
     def print_info(self):
         pass
@@ -305,6 +355,9 @@ class hFont:
     def full_name(self):
         return '%s %s' % (self.project.name, self.style_name)
 
+    def set_names(self):
+        set_names(self.ufo)
+
     # paths
 
     def otf_path(self, test=False):
@@ -322,8 +375,8 @@ class hFont:
               
     # font generation
 
-    def generate_otf(self):
-        self.ufo.generate(self.otf_path(),
+    def generate_otf(self, test=False):
+        self.ufo.generate(self.otf_path(test),
                     'otf',
                     decompose=True,
                     autohint=True,
