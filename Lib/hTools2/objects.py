@@ -1,18 +1,23 @@
-# [h] objects
+# hTools2.objects
 
 import os
 import plistlib
 
-from mojo.roboFont import OpenFont, NewFont
+try:
+    from mojo.roboFont import OpenFont, NewFont
+except:
+    from robofab.world import OpenFont, NewFont
 
 import hTools2
 
 from hTools2.modules.color import hls_to_rgb, paint_groups, clear_colors
-from hTools2.modules.encoding import auto_unicodes, import_encoding
+from hTools2.modules.encoding import auto_unicodes, import_encoding, unicode2psnames
 from hTools2.modules.fontutils import *
 from hTools2.modules.fontinfo import set_names
 from hTools2.modules.fileutils import walk
 from hTools2.modules.ftp import connect_to_server, upload_file
+from hTools2.modules.nodebox import draw_horizontal_line, draw_vertical_line, draw_cross
+from hTools2.modules.pens import NodeBoxPen
 from hTools2.modules.sysutils import _ctx
 
 class hSettings:
@@ -69,10 +74,13 @@ class hSpace:
 class hProject:
 
     paths = {}
-    _path_names = [ 'root', 'ufos', 'otfs' 'libs', 'docs', 'temp', 'test', 'vfbs', 'woffs' , 'bkp', 'otfs_test' ]
+    _path_names = [ 'root', 'ufos', 'otfs' 'libs', 'docs', \
+                'temp', 'test', 'vfbs', 'woffs' , 'bkp', 'otfs_test' ]
 
     libs = {}
-    _lib_names = [ 'project', 'info', 'vmetrics', 'accents', 'composed', 'spacing', 'interpol', 'groups' ]
+    _lib_names = [ 'project', 'info', 'vmetrics', 'accents', \
+                'composed', 'spacing', 'interpol', 'groups' ]
+
     _extension = 'plist'
 
     def __init__(self, name=None):
@@ -398,7 +406,102 @@ class hFont:
 
 class hGlyph:
 
-    def __init__(self, glyph_name, project):
-        self.name = glyph_name
-        self.project = project
+    def __init__(self, glyph):
+        self.name = glyph.name
+        self.glyph = glyph
+        self.font = hFont(self.glyph.getParent())
 
+    def draw(self, pos, ctx, scale_=.5, baseline=False, origin=False):
+        x, y = pos
+        if baseline:
+            draw_horizontal_line(y, ctx)
+        if origin:
+            draw_vertical_line(x, ctx)
+        pen = NodeBoxPen(self.font.ufo._glyphSet, ctx)
+        ctx.translate(x, y)
+        ctx.transform('CORNER')
+        ctx.scale(scale_)
+        ctx.nostroke()
+        ctx.beginpath()
+        self.glyph.draw(pen)
+        _path = ctx.endpath(draw=False)
+        ctx.drawpath(_path)
+
+class hLine:
+
+    def __init__(self, ufo, context):
+        self.ctx = context
+        self.font = hFont(ufo)
+        self.glyph_names =  []
+
+    def _text_to_gnames(self, txt):
+        gnames = []
+        for char in txt:
+            gname = unicode2psnames[ord(char)]
+            gnames.append(gname)
+        return gnames
+
+    def _gnames_to_gstring(self, gnames):   
+        gstring = '/%s' % '/'.join(gnames)
+        return gstring
+
+    def _gstring_to_gnames(self, gstring):
+        t = gstring.split('/')
+        gnames = t[1:]
+        return gnames
+
+    def txt(self, _text, mode='text'):
+        if mode is 'gstring':
+            self.glyph_names = self._gstring_to_gnames(_text)
+        else:
+            self.glyph_names = self._text_to_gnames(_text)
+
+    def draw(self, pos, color_=None, hmetrics=False, hmetrics_crop=False, anchors=False, scale_=.5, origin=False, baseline=False):
+        pen = NodeBoxPen(self.font.ufo._glyphSet, self.ctx)
+        self.x, self.y = pos
+        self.line_length = 0
+        for glyph_name in self.glyph_names:
+            # draw guidelines
+            if hmetrics:
+                if hmetrics_crop:
+                    y_min = self.font.ufo.info.descender * scale_
+                    y_max = self.font.ufo.info.ascender * scale_
+                    y_range_ = (self.y - y_min, self.y - y_max)
+                else:
+                    y_range_ = None
+                draw_vertical_line(self.x, self.ctx, y_range=y_range_)
+            if origin:
+                draw_cross((self.x, self.y), self.ctx)
+            if baseline:
+                draw_horizontal_line(self.y, self.ctx)
+            # set color
+            self.ctx.nostroke()
+            if color_ == None:
+                self.ctx.fill(1)
+            else:
+                self.ctx.fill(color_)
+            # draw glyph
+            g = self.font.ufo[glyph_name]
+            self.ctx.push()
+            self.ctx.translate(self.x, self.y)
+            self.ctx.transform('CORNER')
+            self.ctx.scale(scale_)
+            self.ctx.beginpath()
+            g.draw(pen)
+            P = self.ctx.endpath(draw=False)
+            self.ctx.drawpath(P)
+            # draw anchors
+            if anchors:
+                if len(g.anchors) > 0: 
+                    for a in g.anchors:
+                        x = (a.position[0] * scale_)
+                        y = - (a.position[1] * scale_)
+                        draw_cross((x, y), self.ctx)
+            self.ctx.pop()
+            self.line_length += (g.width * scale_)
+            self.x += (g.width * scale_)
+ 
+class hParagraph:
+
+    def __init__(self):
+        pass

@@ -18,14 +18,22 @@ def draw_horizontal_line(Y, ctx, s=None, c=None):
 	ctx.strokewidth(_s) 
 	ctx.line(0, Y+.5, ctx.WIDTH, Y+.5)
 
-def draw_vertical_line(X, ctx, s=None, c=None):
-	_s = .35
-	_c = ctx.color(0, 1, 1)
-	if s is not None: _s = s
-	if c is not None: _c = c
-	ctx.stroke(_c)
-	ctx.strokewidth(_s) 
-	ctx.line(X+.5, 0, X+.5, ctx.HEIGHT)
+def draw_vertical_line(x, ctx, stroke_=None, color_=None, y_range=None):
+	_stroke = 1
+	_color = ctx.color(0, 1, 1)
+	if stroke_ is not None:
+		_stroke = stroke_
+	if color_ is not None:
+		_color = color_
+	if y_range is not None:
+		y_min, y_max = y_range
+	else:
+		y_min = 0
+		y_max = ctx.HEIGHT
+	ctx.stroke(_color)
+	ctx.strokewidth(_stroke)
+	x += .5
+	ctx.line(x, y_min, x, y_max)
 
 def draw_cross((x, y), ctx, _size=10, _strokewidth=None, _strokecolor=None):
 	cross = _size
