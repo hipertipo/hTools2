@@ -2,8 +2,8 @@
 
 from random import random
 
-from robofab.world import RFont
 from fontTools.pens.basePen import BasePen
+from robofab.world import RFont
 
 from hTools2.modules.pens import NodeBoxPen
 

@@ -249,11 +249,6 @@ class hFont:
     def __init__(self, ufo):
         self.ufo = ufo
         self.init_from_filename()
-        # try:
-        #     self.init_from_filename()
-        # except:
-        #     print 'Cannot get project name from ufo path, please check and try again.\n'
-        # self._make_parameters_dict()
 
     def init_from_filename(self):
         ufo_file = os.path.basename(self.ufo.path)
@@ -348,13 +343,6 @@ class hFont:
         self.ufo.lib['groups_order'] = self.project.libs['groups']['order']
 
     # font names
-
-    # def name(self):
-    #     name = [ ]
-    #     for param in self.parameters_order:
-    #         name.append(self.parameters[param])
-    #         name = '-'.join(name)
-    #     return name
 
     def full_name(self):
         return '%s %s' % (self.project.name, self.style_name)
@@ -456,7 +444,8 @@ class hLine:
         else:
             self.glyph_names = self._text_to_gnames(_text)
 
-    def draw(self, pos, color_=None, hmetrics=False, hmetrics_crop=False, anchors=False, scale_=.5, origin=False, baseline=False):
+    def draw(self, pos, color_=None, hmetrics=False, hmetrics_crop=False, \
+                    anchors=False, scale_=.5, origin=False, baseline=False):
         pen = NodeBoxPen(self.font.ufo._glyphSet, self.ctx)
         self.x, self.y = pos
         self.line_length = 0

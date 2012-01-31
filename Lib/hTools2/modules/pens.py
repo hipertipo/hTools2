@@ -7,7 +7,6 @@ try:
 except:
 	pass
 
-
 class RoboFontPen(BasePen):
 
 	def __init__(self, glyphSet):
@@ -29,7 +28,6 @@ class RoboFontPen(BasePen):
 
 	def _closePath(self):
 		closePath()
-
 
 class NodeBoxPen(BasePen):
 
@@ -53,4 +51,3 @@ class NodeBoxPen(BasePen):
 
 	def _closePath(self):
 		self.ctx.closepath()
-

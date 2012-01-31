@@ -1,12 +1,8 @@
-# ETools_Rasterizer
+# hTools2.plugins.rasterizer
 
 from robofab.world import NewFont
 
 from hTools2.modules.primitives import *
-
-# from hTools.objects.hProject import hProject
-# from ETools import setENames, getENameFromPath, EWorld, EFont
-# from ColorTools import randomColor, colorNames
 
 class EGlyph:
 
@@ -40,16 +36,16 @@ class EGlyph:
 		self._save_bits_to_lib()
 
 	def _save_bits_to_lib(self):
-		self.g.lib["hTools.ETools_Rasterizer.coordenates"] = self.coordenates
-		self.g.lib["hTools.ETools_Rasterizer.margins"] = self.leftMargin, self.rightMargin
+		self.g.lib["rasterizer.coordenates"] = self.coordenates
+		self.g.lib["rasterizer.margins"] = self.leftMargin, self.rightMargin
 
 	def _read_bits_from_lib(self):
-		self.coordenates = self.g.lib["hTools.ETools_Rasterizer.coordenates"]
-		self.leftMargin, self.rightMargin = self.g.lib["hTools.ETools_Rasterizer.margins"]
+		self.coordenates = self.g.lib["rasterizer.coordenates"]
+		self.leftMargin, self.rightMargin = self.g.lib["rasterizer.margins"]
 
 	def _print(self, black="#", white="-"):
 		# see if glyph has been scanned already
-		if hasattr(self, 'coordenates') != True:
+		if hasattr(self, 'coordenates') is not True:
 			try:
 				self._read_bits_from_lib()
 			except:
@@ -69,7 +65,7 @@ class EGlyph:
 		belowBase.sort()
 		belowBase.reverse()
 		print "-" * 30
-		print "ETools_Rasterizer"
+		print "GlyphRasterizer"
 		print "name: %s, leftMargin: %s, rightMargin: %s" % ( self.g.name, self.leftMargin, self.rightMargin )
 		print "-" * 30
 		print
@@ -99,20 +95,20 @@ class EGlyph:
 			destGlyph = self.g
 		# see if glyph has been scanned already
 		noLib = False
-		if self.g.lib.has_key("hTools.ETools_Rasterizer.coordenates") != True:
+		if self.g.lib.has_key("rasterizer.coordenates") != True:
 			self.scan()
 		# make temp glyph
 		from robofab.objects.hProjectRF import RGlyph as _RGlyph
 		rg = _RGlyph()
 		myPen = rg.getPen()
 		# prepare lines
-		lineNumbers = self.g.lib["hTools.ETools_Rasterizer.coordenates"].keys()
+		lineNumbers = self.g.lib["rasterizer.coordenates"].keys()
 		lineNumbers.sort()
 		lineNumbers.reverse()
 		# draw elements to temp glyph
 		for line in lineNumbers:
 			bitCount = 0
-			for bit in self.g.lib["hTools.ETools_Rasterizer.coordenates"][line]:
+			for bit in self.g.lib["rasterizer.coordenates"][line]:
 				if bit == 1:
 					y = int(line) * eSpacing
 					x = bitCount * eSpacing
@@ -128,8 +124,8 @@ class EGlyph:
 		pen = destGlyph.getPointPen()				
 		rg.drawPoints(pen)
 		# set margins
-		destGlyph.leftMargin = self.g.lib["hTools.ETools_Rasterizer.margins"][0] * eSpacing
-		destGlyph.rightMargin = (self.g.lib["hTools.ETools_Rasterizer.margins"][1] * eSpacing) + (eSpacing-eSize)
+		destGlyph.leftMargin = self.g.lib["rasterizer.margins"][0] * eSpacing
+		destGlyph.rightMargin = (self.g.lib["rasterizer.margins"][1] * eSpacing) + (eSpacing-eSize)
 		# paint
 		if noLib == False:
 			destGlyph.mark = colorNames["green"]
@@ -144,20 +140,20 @@ class EGlyph:
 			destGlyph = self.g
 		# see if glyph has been scanned already
 		noLib = False
-		if self.g.lib.has_key("hTools.ETools_Rasterizer.coordenates") != True:
+		if self.g.lib.has_key("rasterizer.coordenates") != True:
 			self.scan(res)
 		# prepare glyphs
 		eSource = "_element"
 		destGlyph.clear()
 		# prepare lines
-		lineNumbers = self.g.lib["hTools.ETools_Rasterizer.coordenates"].keys()
+		lineNumbers = self.g.lib["rasterizer.coordenates"].keys()
 		lineNumbers.sort()
 		lineNumbers.reverse()
 	 	# place components from matrix 
 		# eSize = 125
 		for line in lineNumbers:
 			bitCount = 0
-			for bit in self.g.lib["hTools.ETools_Rasterizer.coordenates"][line]:
+			for bit in self.g.lib["rasterizer.coordenates"][line]:
 				if bit == 1:
 					x = bitCount * res
 					y = int(line) * res
@@ -166,8 +162,8 @@ class EGlyph:
 					pass
 				bitCount = bitCount+1
 		#set glyph data & update
-		destGlyph.leftMargin = self.g.lib["hTools.ETools_Rasterizer.margins"][0] * res
-		destGlyph.rightMargin = self.g.lib["hTools.ETools_Rasterizer.margins"][1] * res
+		destGlyph.leftMargin = self.g.lib["rasterizer.margins"][0] * res
+		destGlyph.rightMargin = self.g.lib["rasterizer.margins"][1] * res
 		destGlyph.autoUnicodes()
 		destGlyph.update()
 

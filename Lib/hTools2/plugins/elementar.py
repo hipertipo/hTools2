@@ -15,7 +15,6 @@ from hTools.tools.GenerationTools import generateOne
 from hTools.tools.OutlineTools import expandGlyphs
 from hTools.tools.VMetricsTools import ttinfoValue
 
-
 class EWorld:
 
 	def __init__(self, world="MacOSX", mode="ufo"):
