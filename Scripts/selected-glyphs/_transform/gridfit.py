@@ -160,8 +160,6 @@ class roundToGridDialog(object):
         # open
         self.w.open()
 
-
-
     #-----------
     # callbacks
     #-----------

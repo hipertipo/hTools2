@@ -135,8 +135,9 @@ class generateInstancesDialog(object):
                     print '\tgenerating instance for %s %s...' % (project_name, instance_name)
                     # generate ufo
                     if _ufo:
-                        print '\t\tgenerating ufo...'
-                        p.generate_instance(instance_name)
+                        print '\t\tgenerating ufo...',
+                        p.generate_instance(instance_name, verbose=False)
+                        print os.path.exists(file_path)
                     # set font data
                     if _set_info:
                         print '\t\tsetting data...'

@@ -3,13 +3,9 @@
 import os
 import plistlib
 
-import hTools2.modules.encoding
-reload(hTools2.modules.encoding)
-
-import hTools2.modules.color
-reload(hTools2.modules.color)
-
 from mojo.roboFont import OpenFont, NewFont
+
+import hTools2
 
 from hTools2.modules.color import hls_to_rgb, paint_groups, clear_colors
 from hTools2.modules.encoding import auto_unicodes, import_encoding
@@ -396,8 +392,8 @@ class hFont:
         _login = self.project.world.settings.hDict['ftp']['login']
         _password = self.project.world.settings.hDict['ftp']['password']
         _folder = self.project.ftp_path()
-        F = connectToServer(_url, _login, _password, _folder, verbose=False)
-        uploadFile(self.woff_path(), F)
+        F = connect_to_server(_url, _login, _password, _folder, verbose=False)
+        upload_file(self.woff_path(), F)
         F.quit()
 
 class hGlyph:

@@ -7,7 +7,7 @@ from fontTools.pens.basePen import BasePen
 
 from hTools2.modules.pens import NodeBoxPen
 
-def drawHorzLine(Y, ctx, s=None, c=None):
+def draw_horizontal_line(Y, ctx, s=None, c=None):
 	_s = 1
 	_c = ctx.color(0, 1, 1)
 	if s is not None:
@@ -18,7 +18,7 @@ def drawHorzLine(Y, ctx, s=None, c=None):
 	ctx.strokewidth(_s) 
 	ctx.line(0, Y+.5, ctx.WIDTH, Y+.5)
 
-def drawVertLine(X, ctx, s=None, c=None):
+def draw_vertical_line(X, ctx, s=None, c=None):
 	_s = .35
 	_c = ctx.color(0, 1, 1)
 	if s is not None: _s = s
@@ -27,7 +27,7 @@ def drawVertLine(X, ctx, s=None, c=None):
 	ctx.strokewidth(_s) 
 	ctx.line(X+.5, 0, X+.5, ctx.HEIGHT)
 
-def drawCross((x, y), ctx, _size=10, _strokewidth=None, _strokecolor=None):
+def draw_cross((x, y), ctx, _size=10, _strokewidth=None, _strokecolor=None):
 	cross = _size
 	_s = 1
 	_c = ctx.color(.25)
@@ -45,7 +45,7 @@ def drawCross((x, y), ctx, _size=10, _strokewidth=None, _strokecolor=None):
 	ctx.line(x, y - cross, x, y + cross)
 	ctx.pop()
 
-def drawGrid(ctx, pos=(0,0), _size=1):
+def draw_grid(ctx, pos=(0,0), _size=1):
 	x, y = pos
 	# drawing defaults
 	ctx.strokewidth(1)
@@ -71,7 +71,7 @@ def joinstyle(path, style):
 	path._nsBezierPath.setLineJoinStyle_(style)
 	return path
 
-def makeString(gNamesList, spacer=None):
+def make_string(gNamesList, spacer=None):
 	if spacer is not None:
 		_spacer = spacer
 	else:
@@ -86,7 +86,7 @@ def makeString(gNamesList, spacer=None):
 				continue
 	return _string
 
-def makeStringNames(gNamesList, spacer=None):
+def make_string_names(gNamesList, spacer=None):
 	if spacer is not None:
 		_spacer = '/' + spacer
 	else:
@@ -96,7 +96,7 @@ def makeStringNames(gNamesList, spacer=None):
 		_gNames = _gNames + '/' + gName + _spacer
 	return _gNames
 
-def allGlyphs(groups, spacer=None):
+def all_glyphs(groups, spacer=None):
 	allGlyphs = ""
 	skip = ['invisible']
 	for groupName in groups.keys():
@@ -107,7 +107,7 @@ def allGlyphs(groups, spacer=None):
 			allGlyphs += makeString(gNamesList, spacer)
 	return allGlyphs
 
-def drawGlyph(gName, ufo_path, (x, y), context, _color=None, _scale=1):
+def draw_glyph(gName, ufo_path, (x, y), context, _color=None, _scale=1):
 	_ufo = RFont(ufo_path)
 	_pen = NodeBoxPen(_ufo._glyphSet, context)
 	_units_per_em = _ufo.info.unitsPerEm
@@ -130,7 +130,7 @@ def drawGlyph(gName, ufo_path, (x, y), context, _color=None, _scale=1):
 	context.drawpath(P)
 	context.pop()	 
 
-def glyphMetrics(gName, ufo_path, (x, y), _scale=1, _print=False):
+def glyph_metrics(gName, ufo_path, (x, y), _scale=1, _print=False):
 	_ufo = RFont(ufo_path)
 	_units_per_element = 64
 	g = _ufo[gName]

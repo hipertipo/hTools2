@@ -1154,7 +1154,7 @@ class createGuidesDialog(object):
         # create guides
         for guide_name in self._vmetrics.keys():
             _guide_pos = self._vmetrics[guide_name]
-            font.addGuide((0, _guide_pos), 0, name=None)
+            font.addGuide((0, _guide_pos), 0, name=guide_name)
         # update font
         font.update()
 

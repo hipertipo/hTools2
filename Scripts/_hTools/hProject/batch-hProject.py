@@ -16,7 +16,7 @@ class batchProjectDialog(object):
     _col1 = 140
     _col2 = 180
     _col3 = 80
-    _col4 = 60
+    _col4 = 80
     _col5 = 140
     _col6 = 120
     _col7 = 120
@@ -31,13 +31,15 @@ class batchProjectDialog(object):
     _instances = []
     _selected_projects = []
     _open = True
-    _ignore = [ 'Elementar' ]
+
+    projects = [ 'Jornalistica', 'Gavea', 'Guarana', 'Magnetica', 'Mechanica', 'Publica', 'Quantica', 'Synthetica' ]
+    # _ignore = [ 'Elementar' ]
 
     def __init__(self):
         self.world = hWorld()
-        self.projects = self.world.projects()
-        for pName in self._ignore:
-            self.projects.remove(pName)
+        # self.projects = self.world.projects()
+        # for pName in self._ignore:
+        #     self.projects.remove(pName)
         self.w = FloatingWindow(
                     (self._width,
                     self._height),
