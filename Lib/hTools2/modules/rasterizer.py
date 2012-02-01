@@ -4,7 +4,7 @@ from robofab.world import NewFont
 
 from hTools2.modules.primitives import *
 
-class EGlyph:
+class RasterGlyph:
 
 	def __init__(self, sourceGlyph):
 		self.g = sourceGlyph
@@ -27,7 +27,7 @@ class EGlyph:
 			lineNumber = y / res
 			bits = []
 			for x in xValues:
-				if self.g.pointInside((x + (res/2), y + (res/2))):
+				if self.g.pointInside((x + (res / 2), y + (res / 2))):
 					bits.append(1,)
 				else:
 					bits.append(0,)
@@ -167,20 +167,7 @@ class EGlyph:
 		destGlyph.autoUnicodes()
 		destGlyph.update()
 
-def checkLib(g):
-	if len(g.lib.keys()) != 0:
-		return 1
-		print 'glyph libs:', g.lib.keys()
-	else:
-		print "glyph doesn't have any libs.\n"
-		return 0
-
-def clearGlyphLibs(g):
-	if checkLib(g) == True:
-		g.lib = {}
-		g.update()
-
-def setElement(f, size, type='rect', magic=None):
+def set_element(f, size, type='rect', magic=None):
 	g = f['_element']
 	g.clear()
 	p = g.getPen()
