@@ -1,6 +1,35 @@
 hProject
 ========
 
+The `hProject` object represents a family of fonts and related data, contained in a common folder with a pre-defoned sub-folder structure:
+
+```
+  _MyProject/
+    _docs/
+      *.*
+    _libs/
+      accents.plist
+      charset.enc
+      composed.plist
+      groups.plist
+      info.plist
+      interpol.plist
+      spacing.plist
+      vmetrics.plist
+    _otfs/
+      *.otf
+    _temp/
+      *.*
+    _ttfs/
+      *.ttf
+    _ufos/
+      *.ufo
+    _vfbs/
+      *.vfb
+    _woffs/
+      *.woff
+```
+
 Methods
 -------
 
