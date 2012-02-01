@@ -1,10 +1,12 @@
 class hWorld
 ============
 
+The `hWorld` object represents the local root folder where all projects live. It uses the root folder defined in the linked `hSettings` object to collect all existing projects in a list.
+
 Attributes
 ----------
 
-### settings
+### hWorld.settings
 
 A `hSettings` object, with information about the current system.
 
@@ -21,7 +23,7 @@ The possible options are:
 Methods
 -------
 
-### projects()
+### hWorld.projects()
 
 Returns a list of projects in the current root folder.
 
