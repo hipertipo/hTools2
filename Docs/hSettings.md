@@ -8,32 +8,32 @@ When initialized, `hSettings` reads the root folder for projects from `hTools2.R
 Attributes
 ----------
 
-### hDict
+### hSettings.hDict
 
 A dictionary containing several kinds of information about the local installation.
 
-### path
+### hSettings.path
 
 The full path to the `hSettings.plist` file.
 
-### _root
+### hSettings._root
 
 The path to the local root folder for project files, imported from `hTools2.ROOT`.
 
 This is the only path in `hTools2` that needs to be hardcoded.
 
-### _filename
+### hSettings._filename
 
 The name of the settings file. By default, `hSettings.plist`.
 
 Methods
 -------
 
-### read()
+### hSettings.read()
 
 Read the local `hSettings.plist` file at `hSettings.path` into `hSettings.hDict`.
 
-### write()
+### hSettings.write()
 
 Write the contents of `hSettings.hDict` to the `hSettings.plist` file.
 
