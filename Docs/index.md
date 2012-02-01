@@ -1,93 +1,88 @@
 hTools2 Docs
 ============
 
-Hipertipo font production toolkit.
+hTools2 is UFO-based Python-powered font production toolkit.
 
 Content
 -------
 
-- introduction
-- overview
-- object model
-- dialog contexts
-- settings and standards
+- [introduction](introduction.md)
+- [overview](#)
+- [object model](#)
+- [dialog contexts](#)
+- [settings and standards](#)
 
-- history
-- development
-- credits
+- [history](#)
+- [development](#)
+- [credits](#)
 
-- package contents
-- installation
-- licence
-- support
-- services
+- [package contents](#)
+- [installation](#)
+- [licence](#)
+- [support](#)
+- [services](#)
 
-- links and references
+- [links and references](#)
 
 Objects
 -------
 
-- hSettings
-- hWorld
-- hSpace
-- hProject
-- hFont
-- hGlyph
-- hLine
-- hParagraph
+- [hSettings](hSettings.md)
+- [hWorld](hWorld.md)
+- [hSpace](hSpace.md)
+- [hProject](hProject.md)
+- [hFont](hFont.md)
+- [hGlyph](hGlyph.md)
+- [hLine](hLine.md)
+- [hParagraph](hParagraph.md)
 
 Modules
 -------
 
-- accent
-- anchors
-- color
-- colorsys
-- encoding
-- fileutils
-- fontinfo
-- fontutils
-- fsml
-- ftp
-- glyphutils
-- interpol
-- pens
-- svg
+- [accent](#)
+- [anchors](#)
+- [color](#)
+- [colorsys](#)
+- [encoding](#)
+- [fileutils](#)
+- [fontinfo](#)
+- [fontutils](#)
+- [fsml](#)
+- [ftp](#)
+- [glyphutils](#)
+- [interpol](#)
+- [pens](#)
+- [svg](#)
 
 Dialogs
 -------
 
 ### Selected glyphs
 
-- moveGlyphsDialog
-- scaleGlyphsDialog
-- skewGlyphsDialog
-- glyphActionsDialog
-- glyphActionsDialog
-- copyGlyphsDialog
-- copyMarginsDialog
-- copyWidthDialog
-- slideGlyphsDialog
-- interpolateGlyphsDialog
-- renameAnchorsDialog
-- transferAnchorsDialog
+- [moveGlyphsDialog](#)
+- [scaleGlyphsDialog](#)
+- [skewGlyphsDialog](#)
+- [glyphActionsDialog](#)
+- [glyphActionsDialog](#)
+- [copyGlyphsDialog](#)
+- [copyMarginsDialog](#)
+- [copyWidthDialog](#)
+- [slideGlyphsDialog](#)
+- [interpolateGlyphsDialog](#)
+- [renameAnchorsDialog](#)
+- [transferAnchorsDialog](#)
 
 ### Selected points
 
-- nudgePointsDialog
-- namePointsDialog:
-- generateFontDialog
+- [nudgePointsDialog](#)
+- [namePointsDialog](#)
 
 ### CurrentFont
-
-- generateFontDialog
-- ...
-
+  
+- [generateFontDialog](#)
+- [deleteLayerDialog](#)
+  
 ### All fonts
-
-- actions
+  
+- [actionsDialog](#)
 - ...
-
-
-
-
