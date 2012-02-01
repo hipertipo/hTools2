@@ -10,9 +10,12 @@ except:
 
 import hTools2
 
+import hTools2.modules.fontutils
+reload(hTools2.modules.fontutils)
+
 from hTools2.modules.color import hls_to_rgb, paint_groups, clear_colors
 from hTools2.modules.encoding import auto_unicodes, import_encoding, unicode2psnames
-from hTools2.modules.fontutils import *
+from hTools2.modules.fontutils import get_names_from_path
 from hTools2.modules.fontinfo import set_names
 from hTools2.modules.fileutils import walk
 from hTools2.modules.ftp import connect_to_server, upload_file
@@ -29,7 +32,7 @@ class hSettings:
         self.path = os.path.join(self._root, self._filename)
         self.read()
 
-    def read(self, trim=True):
+    def read(self, trim=False):
         if os.path.exists(self.path):
             self.hDict = plistlib.readPlist(self.path)
         else:
@@ -76,12 +79,10 @@ class hProject:
     paths = {}
     _path_names = [ 'root', 'ufos', 'otfs' 'libs', 'docs', \
                 'temp', 'test', 'vfbs', 'woffs' , 'bkp', 'otfs_test' ]
-
     libs = {}
     _lib_names = [ 'project', 'info', 'vmetrics', 'accents', \
                 'composed', 'spacing', 'interpol', 'groups' ]
-
-    _extension = 'plist'
+    _lib_extension = 'plist'
 
     def __init__(self, name=None):
         self.name = name
@@ -90,6 +91,7 @@ class hProject:
             self.make_paths()
             self.make_lib_paths()
             self.read_libs()
+            self.collect_fonts()
 
     # libs
 
@@ -107,13 +109,11 @@ class hProject:
         _file_name = '%s.enc' % self.name
         _file_path = os.path.join(self.paths['libs'], _file_name)
         _groups, _order = import_encoding(_file_path)
-        # print self.libs['groups']['glyphs'].has_key('')
-        # print '' in self.libs['groups']['order']
         self.libs['groups']['glyphs'] = _groups
         self.libs['groups']['order'] = _order
 
     def write_lib(self, lib_name):
-        _filename = '%s.%s' % (lib_name, self._extension)
+        _filename = '%s.%s' % (lib_name, self._lib_extension)
         _lib_path = os.path.join(self.paths['libs'], _filename)
         print 'saving %s lib to file %s...' % (lib_name, _lib_path),
         plistlib.writePlist(self.libs[lib_name], _lib_path)
@@ -122,7 +122,7 @@ class hProject:
     def write_libs(self):
         print 'saving project libs...\n'
         for lib_name in self.libs.keys():
-            _filename = '%s.%s' % (lib_name, self._extension)
+            _filename = '%s.%s' % (lib_name, self._lib_extension)
             _lib_path = os.path.join(self.paths['libs'], _filename)
             print 'saving %s lib to file %s...' % (lib_name, _lib_path)
             plistlib.writePlist(self.libs[lib_name], _lib_path)
@@ -151,7 +151,7 @@ class hProject:
     def make_lib_paths(self):
         _lib_paths = {}
         for _lib_name in self._lib_names:
-            _filename = '%s.%s' % (_lib_name, self._extension)
+            _filename = '%s.%s' % (_lib_name, self._lib_extension)
             _lib_path = os.path.join(self.paths['libs'], _filename)
             _lib_paths[_lib_name] = _lib_path
         self.lib_paths = _lib_paths
@@ -197,6 +197,14 @@ class hProject:
 
     def instances(self):
         return walk(self.paths['instances'], 'ufo')
+
+    def collect_fonts(self):
+        _font_paths = self.masters() + self.instances()
+        _fonts = {}
+        for font_path in _font_paths:
+            _style_name = get_names_from_path(font_path)[1]
+            _fonts[_style_name] = font_path
+        self.fonts = _fonts
 
     def otfs(self):
         return walk(self.paths['otfs'], 'otf')

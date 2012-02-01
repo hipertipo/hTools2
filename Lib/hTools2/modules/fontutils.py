@@ -1,5 +1,7 @@
 # [h] hTools2.modules.fontutils
 
+import os
+
 from robofab.world import CurrentGlyph
 
 from hTools2.modules.glyphutils import round_points
@@ -137,7 +139,7 @@ def set_unique_ps_id(font):
     _psID = "%s%s%s%s%s%s" % ( a, b, c, d, e, f )
     font.info.postscriptUniqueID = int(_psID)
 
-def get_names_from_Path(fontPath):
+def get_names_from_path(fontPath):
     _dir, _file = os.path.split(fontPath)
     name, extension = os.path.splitext(_file)
     try:
