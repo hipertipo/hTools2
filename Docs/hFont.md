@@ -6,27 +6,27 @@ hFont
 Attributes
 ----------
 
-### project
+### hFont.project
 
 The parent `hProject` object to which the `hFont` belongs.
 
-### ufo
+### hFont.ufo
 
 The UFO file containing the actual font.
 
 For more information about the UFO format, see [unifiedfontobject.org](http://unifiedfontobject.org/).
 
-### file_name
+### hFont.file_name
 
 The name of the UFO file, for example `Publica.ufo`. 
 
-### style_name
+### hFont.style_name
 
 The style name of the font, imported from the name of the ufo file on initialization.
 
 See the documentation of the method `init_from_filename()` (below).
 
-### libs
+### hFont.libs
 
 A dictionary containing all data libs in project.
 
@@ -35,7 +35,7 @@ Each lib is a dictionary, imported from a .plist file when the `hProject` is ini
 Methods
 -------
 
-### init_from_filename()
+### hFont.init_from_filename()
 
 Initiates the `hFont` object from a ufo file in `hFont.ufo`.
 
@@ -51,7 +51,7 @@ For example:
 
 	Publica_55.ufo
 
-### get_glyphs()
+### hFont.get_glyphs()
 
 Get the selected glyphs in the currently open ufo font.
 
@@ -59,38 +59,38 @@ If a glyph window is open, a `CurrentGlyph()` is returned.
 
 If no glyph window is open, a list with the names of the selected glyphs in the font window is returned.
 
-### auto_unicodes()
+### hFont.auto_unicodes()
 
 Automatically sets unicodes for the glyphs in `hFont.ufo`.
 
-### order_glyphs()
+### hFont.order_glyphs()
 
 Automatically sets the order of the glyphs in the font, based on the list in `hFont.project.libs['groups']['order']`.
 
-### paint_groups()
+### hFont.paint_groups()
 
 Paint and order glyphs according to their group.
 
 Uses glyph groups and order from the project, in `hFont.project/libs.group['groups']['glyphs']` (a dict with group and glyph names) and `hFont.project.libs['groups']['order']` (a list of groups names).
 
-### print_info()
+### hFont.print_info()
 
 Print different kinds of font information.
 
-### import_groups_from_encoding()
+### hFont.import_groups_from_encoding()
 
 Import glyph names and order from the project’s encoding file.
 
-### full_name()
+### hFont.full_name()
 
 The full name of the font, made of the project’s name (family name) in `hFont.project.name` and the style name in `hFont.style_name`.
 
-### otf_path()
+### hFont.otf_path()
 
-### woff_path()
+### hFont.woff_path()
 
-### generate_otf()
+### hFont.generate_otf()
 
-### generate_woff()
+### hFont.generate_woff()
 
-### upload_woff()
+### hFont.upload_woff()
