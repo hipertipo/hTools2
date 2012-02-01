@@ -37,13 +37,21 @@ Read the local `hSettings.plist` file at `hSettings.path` into `hSettings.hDict`
 
 Write the contents of `hSettings.hDict` to the `hSettings.plist` file.
 
+### hSettings.print_()
+
+Prints the contents of `hSettings.hDict` to the output window.
+
 Example
 -------
+
+	# read the hSettings object
 
 	s = hSettings()
 	print s
 
 	>>> <hTools2.objects.hSettings instance at 0x11f6617a0\>
+
+	# view settings dictionary
 
 	print s.hDict.keys()
 
