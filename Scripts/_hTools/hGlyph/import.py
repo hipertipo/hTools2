@@ -140,16 +140,17 @@ class hGlyphDialog(object):
                 master_name = self._masters[master_i]
                 file_name = '%s_%s.ufo' % (project_name, master_name)
                 file_path = os.path.join(p.paths['ufos'], file_name)
+                font_name = '%s_%s' % (project_name, master_name)
                 if os.path.exists(file_path):
-                    _fonts[master_name] = file_path
+                    _fonts[font_name] = file_path
             # collect instances
             for instance_i in _instances_i:
                 instance_name = self._instances[instance_i]
                 file_name = '%s_%s.ufo' % (project_name, instance_name)
                 file_path = os.path.join(p.paths['instances'], file_name)
+                font_name = '%s_%s' % (project_name, instance_name)
                 if os.path.exists(file_path):
-                    _fonts[instance_name] = file_path
-        # _font_paths.sort()
+                    _fonts[font_name] = file_path
         self.fonts = _fonts
 
     def save_callback(self, sender):

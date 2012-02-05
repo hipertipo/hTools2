@@ -17,7 +17,7 @@ from hTools2.modules.fontinfo import set_names
 from hTools2.modules.fileutils import walk
 from hTools2.modules.ftp import connect_to_server, upload_file
 from hTools2.modules.nodebox import draw_horizontal_line, draw_vertical_line, draw_cross
-from hTools2.modules.pens impor
+from hTools2.modules.pens import *
 from hTools2.modules.sysutils import _ctx
 
 class hSettings:
