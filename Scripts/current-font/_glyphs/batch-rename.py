@@ -53,9 +53,7 @@ def renameGlyph(font, old_name, new_name, overwrite=True, mark=True):
     # done font
     f.update()
 
-#-----
 # run 
-#-----
 
 f = CurrentFont()
 
@@ -63,4 +61,3 @@ list_file = u"/Users/gferreira0/Desktop/nameslist.txt"
 names_list = readNamesListFromFile(list_file)
 
 renameGlyphsFromList(f, names_list, overwrite=True, mark=True)
-

@@ -10,17 +10,14 @@ except:
 
 import hTools2
 
-import hTools2.modules.fontutils
-reload(hTools2.modules.fontutils)
-
 from hTools2.modules.color import hls_to_rgb, paint_groups, clear_colors
 from hTools2.modules.encoding import auto_unicodes, import_encoding, unicode2psnames
-from hTools2.modules.fontutils import get_names_from_path
+from hTools2.modules.fontutils import get_names_from_path, get_spacing_groups
 from hTools2.modules.fontinfo import set_names
 from hTools2.modules.fileutils import walk
 from hTools2.modules.ftp import connect_to_server, upload_file
 from hTools2.modules.nodebox import draw_horizontal_line, draw_vertical_line, draw_cross
-from hTools2.modules.pens import NodeBoxPen
+from hTools2.modules.pens impor
 from hTools2.modules.sysutils import _ctx
 
 class hSettings:
@@ -502,3 +499,4 @@ class hParagraph:
 
     def __init__(self):
         pass
+

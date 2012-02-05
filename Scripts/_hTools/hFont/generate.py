@@ -4,14 +4,11 @@ import os
 
 from vanilla import *
 
-import hTools2.objects
-reload(hTools2.objects)
-
 from hTools2.objects import hFont
 
 class generateFontDialog(object):
 
-    _title = "hGenerate"
+    _title = "hFont"
     _padding = 10
     _padding_top = 12
     _box_height = 20
