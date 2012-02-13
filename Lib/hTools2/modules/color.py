@@ -13,7 +13,7 @@ def random_color():
     else:
         R, G, B = hsv_to_rgb(random(), 1.0, 1.0)
         _alpha = 1.0
-        c = (R,     G, B, _alpha)
+        c = (R, G, B, _alpha)
     return c
 
 def clear_colors(font):
@@ -30,9 +30,9 @@ def clear_color(glyph):
         glyph.mark = (1, 1, 1, 0)
     glyph.update()
 
-def RGB_to_color((R, G, B), ctx):
+def RGB_to_nodebox_color((R, G, B), ctx, alpha=1.0):
     colors = ctx.ximport("colors")
-    _alpha = 255
+    _alpha = 255 * alpha
     _color = colors.rgb(R, G, B, _alpha, range=255)
     return _color
 

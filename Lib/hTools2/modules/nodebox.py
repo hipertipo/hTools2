@@ -153,3 +153,9 @@ def glyph_metrics(gName, ufo_path, (x, y), _scale=1, _print=False):
 		for k in _font_info.keys():
 			print k, _font_info[k]
 	return _font_info
+
+def make_alpha(res):
+    factor = (1.0 / res)
+    alpha = .7 - (factor * .3)    
+    return alpha
+

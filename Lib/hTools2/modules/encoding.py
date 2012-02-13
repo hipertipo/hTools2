@@ -45,7 +45,7 @@ def auto_unicode(g):
 		g.unicode = int(c.split('uni')[1], 16)
 	# handle extra cases
 	elif g.name in _extra_unicodes.keys():
-		uString = 'uni%s' % _extra_unicodes[g.name]
+		uString = 'uni%s' % unicodes_extra[g.name]
 		g.unicode = unicode_hexstr_to_int(uString)
 	# use auto unicode for everything else
 	else:
@@ -70,7 +70,7 @@ def unicode_hexstr_to_int(hexUnicode, replaceUni=True):
 
 # additional unicode mappings
 
-_extra_unicodes = {
+unicodes_extra = {
 	# extended latin
 	'schwa' : '0259',
 	'dotlessj' : '0237',

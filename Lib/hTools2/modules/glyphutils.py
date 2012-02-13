@@ -146,13 +146,13 @@ def shift_selected_points_x(g, delta, anchors=False):
 
 def check_lib(g):
 	if len(g.lib.keys()) is not 0:
-		return 1
+		return True
 		print 'glyph libs:', g.lib.keys()
 	else:
 		print "glyph doesn't have any libs.\n"
-		return 0
+		return False
 
-def clear_glyph_Libs(g):
+def clear_glyph_libs(g):
 	if checkLib(g) is True:
 		g.lib = {}
 		g.update()

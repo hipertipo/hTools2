@@ -8,13 +8,13 @@ from hTools2.modules.fontinfo import *
 class hLibs_printDialog(object):
 
     _title = 'hLibs'
-    _padding = 13
-    _padding_top = 10
-    _row_height = 23
+    _padding = 10
+    _padding_top = 8
+    _row_height = 20
     _button_height = 30
     _button_width =  80
-    _width = (_button_width * 2) + (_padding * 2) - 1
-    _height = _button_height + (_row_height * 11) + (_padding * 3)
+    _width = 123 # (_button_width * 2) + (_padding * 2) - 1
+    _height = (_button_height * 2) + (_row_height * 7) + (_padding_top * 4) + 20
     
     _lib_project = True
     _lib_info = True
@@ -49,34 +49,42 @@ class hLibs_printDialog(object):
         y += self._row_height + self._padding_top
         # button : print data
         self.w.button_print = SquareButton(
-                    (x, y - 4,
-                    self._button_width,
+                    (x, y,
+                    -self._padding,
                     self._button_height),
                     "print",
                     callback=self.print_callback,
                     sizeStyle='small')
-        x += self._button_width - 1
+        y += self._button_height - 1
         # button : clear data
         self.w.button_clear = SquareButton(
-                    (x, y - 4,
-                    self._button_width,
+                    (x, y,
+                    -self._padding,
                     self._button_height),
                     "clear",
                     callback=self.clear_callback,
                     sizeStyle='small')
-        x += self._button_width - 1
         #------------
         # checkboxes
         #------------
         # accents
         x = self._padding
-        y += self._button_height + self._padding_top
+        y += self._button_height + self._padding #_top + 5
         self.w._lib_accents = CheckBox(
                     (x, y,
                     -self._padding,
                     self._row_height),
-                    "accents lib",
+                    "accents",
                     value=self._lib_accents,
+                    sizeStyle='small')
+        y += self._row_height
+        # composed
+        self.w._lib_composed = CheckBox(
+                    (x, y,
+                    -self._padding,
+                    self._row_height),
+                    "composed",
+                    value=self._lib_composed,
                     sizeStyle='small')
         y += self._row_height
         # info
@@ -84,7 +92,7 @@ class hLibs_printDialog(object):
                     (x, y,
                     -self._padding,
                     self._row_height),
-                    "info lib",
+                    "info",
                     value=self._lib_info,
                     sizeStyle='small')
         y += self._row_height
@@ -93,7 +101,7 @@ class hLibs_printDialog(object):
                     (x, y,
                     -self._padding,
                     self._row_height),
-                    "groups lib",
+                    "groups",
                     value=self._lib_groups,
                     sizeStyle='small')
         y += self._row_height
@@ -102,7 +110,7 @@ class hLibs_printDialog(object):
                     (x, y,
                     -self._padding,
                     self._row_height),
-                    "spacing lib",
+                    "spacing",
                     value=self._lib_groups,
                     sizeStyle='small')
         y += self._row_height
@@ -111,7 +119,7 @@ class hLibs_printDialog(object):
                     (x, y,
                     -self._padding,
                     self._row_height),
-                    "interpol lib",
+                    "interpol",
                     value=self._lib_interpol,
                     sizeStyle='small')
         y += self._row_height
@@ -120,7 +128,7 @@ class hLibs_printDialog(object):
                     (x, y,
                     -self._padding,
                     self._row_height),
-                    "vmetrics lib",
+                    "vmetrics",
                     value=self._lib_vmetrics,
                     sizeStyle='small')
         # open window
