@@ -463,17 +463,17 @@ class hFont:
 		F.quit()
 
 
-class hGlyph_base:
+class hGlyph:
 
 	def __init__(self, glyph):
 		self.name = glyph.name
 		self.glyph = glyph
 		self.font = hFont(self.glyph.getParent())
 
-class hGlyph:
+class hGlyph_NodeBox(hGlyph):
 
 	def __init__(self, glyph):
-		hGlyph_base.__init__(self, glyph)
+		hGlyph.__init__(self, glyph)
 
 	def draw(self, pos, ctx, scale_=.5, baseline=False, origin=False, margin=False, vmetrics=False):
 		x, y = pos

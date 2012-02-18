@@ -1,9 +1,0 @@
-Elementar is a parametric font system
-designed to bring more typographic
-flexibility to digital screens. Elementar
-embraces and explores the unique properties
-of digital media: the pixel and the coarse
-resolution grid, the dimension of time, and
-the powers of computation. Elementar 1.0
-comes in 3 styles, each with hundreds of
-fonts in many heights, weights and widths.
