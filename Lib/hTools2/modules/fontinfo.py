@@ -19,7 +19,7 @@ def set_vmetrics(font):
 
 # print info
 
-def printFontInfo(font):
+def print_font_info(font):
 	print 'printing font info'
 	print_generic_identification(font)
 	print_generic_legal(font)
