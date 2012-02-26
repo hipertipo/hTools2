@@ -225,7 +225,7 @@ class hGlyphDialog(object):
                     print     
                 self.w.bar.stop()
                 # done with all fonts
-                _glyphs_order.sort()
+                # _glyphs_order.sort()
                 tmp_font.glyphOrder = _glyphs_order
                 tmp_font.update()
                 print "...done.\n"

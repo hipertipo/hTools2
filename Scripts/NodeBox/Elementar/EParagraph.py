@@ -1,6 +1,6 @@
 # draw EParagraph
 
-from hTools.objects import hProject
+#from hTools.objects import hProject
 from hTools.tools.ETools_NodeBoxTools import *
 from hTools.tools.SampleTools import DeclarationOfRights
 

@@ -44,7 +44,7 @@ def auto_unicode(g):
 		c = g.name
 		g.unicode = int(c.split('uni')[1], 16)
 	# handle extra cases
-	elif g.name in _extra_unicodes.keys():
+	elif g.name in unicodes_extra.keys():
 		uString = 'uni%s' % unicodes_extra[g.name]
 		g.unicode = unicode_hexstr_to_int(uString)
 	# use auto unicode for everything else
@@ -54,12 +54,12 @@ def auto_unicode(g):
 
 # unicode-to-string conversion (thanks Karsten Luecke, 2010)
 
-def unicode_int_to_hexstr(intUnicode, add0x=False, addUni=False):
+def unicode_int_to_hexstr(intUnicode, _0x=False, uni=False):
 	hexUnicode = "%X".lstrip("0x") % intUnicode
 	hexUnicode = "0" * (4 - len(hexUnicode)) + hexUnicode
-	if add0x:
+	if _0x:
 		return "0x%s" % hexUnicode
-	elif addUni:
+	elif uni:
 		return "uni%s" % hexUnicode
 	return hexUnicode
 

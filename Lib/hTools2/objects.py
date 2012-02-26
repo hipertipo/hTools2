@@ -301,7 +301,7 @@ class hProject:
 				f2 = OpenFont(master_2_path, showUI=False)
 				f3 = NewFont(showUI=False)
 				# interpolate
-				f3.interpolate((interpol_factor[0], interpol_factor[1]), f1, f2)
+				f3.interpolate((interpol_factor[0], interpol_factor[1]), f2, f1)
 				f3.update()
 				f1.close()
 				f2.close()
@@ -461,7 +461,6 @@ class hFont:
 		F = connect_to_server(_url, _login, _password, _folder, verbose=False)
 		upload_file(self.woff_path(), F)
 		F.quit()
-
 
 class hGlyph:
 

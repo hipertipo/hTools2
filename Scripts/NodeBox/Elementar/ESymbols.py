@@ -9,7 +9,7 @@ class ESymbolsChart:
 	
 	_column_height = 600
 	_column_width = 200
-	_ufo_path = u"/Users/gferreira0/Dropbox/hipertipo/hFonts/_ESymbols/_ufos/ESymbols_17.ufo"
+	_ufo_path = u"/fonts/_ESymbols/_ufos/ESymbols_17.ufo"
 	_padding = 20
 	
 	def __init__(self):

@@ -4,9 +4,6 @@ import os
 
 from vanilla import *
 
-import hTools2.modules.fileutils
-reload(hTools2.modules.fileutils)
-
 import hTools2.objects
 reload(hTools2.objects)
 
@@ -16,7 +13,7 @@ from hTools2.modules.fileutils import delete_files
 
 class generateInstancesDialog(object):
 
-    _title = "hProject"
+    _title = "instances"
     _col1 = 120
     _col3 = 40
     _col_height = 160
@@ -71,7 +68,7 @@ class generateInstancesDialog(object):
                     -self._padding,
                     self._row_height),
                     "generate .ufo",
-                    value=False,
+                    value=True,
                     sizeStyle='small')
         y += self._row_height
         # set font data
@@ -97,7 +94,7 @@ class generateInstancesDialog(object):
                     (x, y,
                     -self._padding,
                     self._button_height),
-                    "generate instances",
+                    "apply",
                     callback=self._generate_callback,
                     sizeStyle='small')
         # progress bar

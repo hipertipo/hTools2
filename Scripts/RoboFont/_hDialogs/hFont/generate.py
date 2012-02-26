@@ -13,7 +13,7 @@ class generateFontDialog(object):
     _padding_top = 12
     _box_height = 20
     _button_height = 30
-    _width = 140
+    _width = 123
     _height = (_box_height * 6) + (_button_height * 3) + (_padding_top * 9) - 9
 
     _decompose = True
@@ -68,7 +68,7 @@ class generateFontDialog(object):
                     (x, y,
                     -self._padding,
                     self._box_height),
-                    "remove overlaps",
+                    "remove overlap",
                     value=self._remove_overlap,
                     sizeStyle='small')
         y += self._box_height
@@ -176,4 +176,3 @@ class generateFontDialog(object):
 # run
 
 generateFontDialog()
-

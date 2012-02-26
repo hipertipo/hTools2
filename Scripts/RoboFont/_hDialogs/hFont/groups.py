@@ -8,7 +8,7 @@ from hTools2.modules.fontutils import *
 
 class groupsDialog(object):
 
-    _title = 'hGroups'
+    _title = 'groups'
     _padding = 10
     _padding_top = 10
     _row_height = 23

@@ -8,18 +8,6 @@ from hTools2.modules.glyphutils import round_points
 
 # glyphs
 
-def get_spacing_groups(font):
-    _groups = {}
-    _groups['left'] = {}
-    _groups['right'] = {}
-    for _group in font.groups.keys():
-        if _group[:1] == '_':
-            if _group[1:5] == 'left':
-                _groups['left'][_group] = font.groups[_group]
-            if _group[1:6] == 'right':
-                _groups['right'][_group] = font.groups[_group]
-    return _groups
-
 def get_glyphs(font):
     _glyph_names = []
     _glyph = CurrentGlyph()
@@ -56,6 +44,18 @@ def delete_groups(font):
         del font.groups[group]
     font.update()
 
+def get_spacing_groups(font):
+    _groups = {}
+    _groups['left'] = {}
+    _groups['right'] = {}
+    for _group in font.groups.keys():
+        if _group[:1] == '_':
+            if _group[1:5] == 'left':
+                _groups['left'][_group] = font.groups[_group]
+            if _group[1:6] == 'right':
+                _groups['right'][_group] = font.groups[_group]
+    return _groups
+
 def print_groups(font, mode=0):
     groups = font.groups
     if len(groups) > 0:
@@ -81,11 +81,10 @@ def print_groups(font, mode=0):
             # print groups order (if available)
             if font.lib.has_key('groups_order'):
                 print font.lib['groups_order']
+                print
             # print groups
             for group in groups.keys():
-                print group
-                print font.groups[group]
-                print
+                print '%s = %s\n' % (group, font.groups[group])
         # print groups as text
         else:
             # print groups order (if available)
@@ -181,20 +180,41 @@ def set_font_names(f, familyName, styleName):
     # done
     f.update()
 
-# transformations
+# transform
 
 def decompose(font):
-    for g in font:
-        g.decompose()
+    for glyph in font:
+        glyph.decompose()
+
+def auto_contour_order(font):
+    for glyph in font:
+        glyph.correctDirection()
+
+def auto_contour_direction(font):
+    for glyph in font:
+        glyph.correctDirection()
 
 def auto_order_direction(font):
-    for g in font:
-        g.autoContourOrder()
-        g.correctDirection()
+    for glyph in font:
+        glyph.autoContourOrder()
+        glyph.correctDirection()
 
-def align_to_grid(f, (sizeX, sizeY)):
+def add_extremes(font):
+    for glyph in font:
+        glyph.extremePoints()
+
+def align_to_grid(font, (sizeX, sizeY)):
+    for glyph in font:
+        round_points(glyph, (sizeX, sizeY))
+        glyph.update()
+    font.update()
+
+def scale_glyphs(f, factor):
     for g in f:
-        print g
-        round_points(g, (sizeX, sizeY))
-        g.update()
+        if len(g.components) == 0:
+            leftMargin, rightMargin = g.leftMargin, g.rightMargin
+            g.scale((factor, factor))
+            g.leftMargin = leftMargin * factor
+            g.rightMargin = rightMargin * factor
+            g.update()
     f.update()

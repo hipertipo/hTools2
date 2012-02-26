@@ -11,7 +11,7 @@ from hTools2.modules.fileutils import walk
 
 class BatchConvertOTFsToUFOsDialog(object):
 
-    _title = "batch convert all .otfs in folder to .ufos"
+    _title = "otfs-2-ufos"
     _otfs_folder_default = None
     _otfs_folder_message = 'select a folder containing .otf fonts'
     _ufos_folder_default = None

@@ -11,6 +11,7 @@ def set_names(font):
     font.info.styleName = style_name
 
 def set_vmetrics(font):
+	# not ready
     font.info.unitsPerEm = 1000
     font.info.descender = -200
     font.info.xHeight = 700
@@ -29,7 +30,7 @@ def print_font_info(font):
 	print_opentype_hhea(font)
 	print_opentype_name(font)
 	print_opentype_os2(font)
-	print_openType_vhea(font)
+	print_opentype_vhea(font)
 	print_postscript_data(font)
 	
 def print_generic_identification(font):
@@ -144,7 +145,7 @@ def print_opentype_os2(font):
 	print 'openTypeOS2StrikeoutPosition: %s' % font.info.openTypeOS2StrikeoutPosition
 	print
 
-def print_openType_vhea(font):
+def print_opentype_vhea(font):
 	print '-' * 60
 	print 'OpenType vhea Table Fields'
 	print '-' * 60
@@ -198,7 +199,7 @@ def clearFontInfo(font):
 	clear_opentype_hhea(font)
 	clear_opentype_name(font)
 	clear_opentype_os2(font)
-	clear_openType_vhea(font)
+	clear_opentype_vhea(font)
 	clear_postscript_data(font)
 
 def clear_generic_identification(font):
@@ -289,7 +290,7 @@ def clear_opentype_os2(font):
 	font.info.openTypeOS2StrikeoutSize = None
 	font.info.openTypeOS2StrikeoutPosition = None
 
-def clear_openType_vhea(font):
+def clear_opentype_vhea(font):
 	# print 'deleting OpenType vhea Table Fields'
 	font.info.openTypeVheaVertTypoAscender = None
 	font.info.openTypeVheaVertTypoDescender = None

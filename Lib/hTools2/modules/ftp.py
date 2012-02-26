@@ -1,7 +1,6 @@
 # [h] hTools2.modules.ftp
 
 import os
-
 from ftplib import FTP
 
 def connect_to_server(url, login, password, folder, verbose=False):

@@ -1,6 +1,7 @@
 # hTools2.modules.interpol
 
-# interpolation
+from hTools2.modules.fontutils import get_full_name
+from hTools2.modules.color import clear_color, clear_colors, named_colors
 
 def interpolate_glyph(gName, f1, f2, f3, factor, clear=True):
 	if f2.has_key(gName):
@@ -21,43 +22,38 @@ def interpolate_kerning(f1, f2, f3, factor):
 	k3.interpolate(k1, k2, factor, True)
 	f3.update()
 
-# compatibility
-
-def check_compatibility_FL(f1, f2, glyphNames=None, report=True):
-	if glyphNames != None:
-		gNames = glyphNames
+def check_compatibility(f1, f2, names=None, report=True):
+	# glyph names
+	if names != None:
+		gNames = names
 	else:
 		gNames = f1.keys()
-	for g in f1:
-		g.mark = 0
-	f1.update()
-	green, red, blue = 100, 255, 160
+	# colors
+	clear_colors(f1)
+	green = named_colors['green']
+	red = named_colors['red']
+	blue = named_colors['blue']
+	# check glyphs
 	if report == True:
-		print 'checking compatibility between %s and %s...\n' % (f1.info.fullName, f2.info.fullName)
+		print 'checking compatibility between %s and %s...\n' % (get_full_name(f1), get_full_name(f2))
 	for name in gNames:
 		if f2.has_key(name):
-			f2[name].mark = 0
+			clear_color(f2[name])
 			# if not compatible
-			if f1[name].isCompatible(f2[name], False) == False:
+			if f1[name].isCompatible(f2[name], False) is not True:
 				f2[name].mark = red
-				f2[name].update()
 				if report == True:
-					print "\t%s is **not** compatible:" % name
-					for error in f1[name].isCompatible(f2[name], True)[1]:
-						print "\t\t%s" % error
+					print "\t### %s is not compatible" % name
 			# if compatible
 			else:
 				f2[name].mark = green
-				f2[name].update()
 				if report == True:
-					print "\t%s is compatible." % name
+					print "\t%s is compatible" % name
 		# if glyphs not in f2
 		else:
 			f1[name].mark = blue
-			f1[name].update()
 			if report == True:
-				print "\t%s is **not** compatible:" % name
-				print "\t\t%s is not in font 2." % name
+				print "\t### %s is not in font 2" % name
 	# update fonts
 	f2.update()
 	f1.update()

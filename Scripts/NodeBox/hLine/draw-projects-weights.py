@@ -11,22 +11,21 @@ bg_color = color(0) # RGB_to_nodebox_color(solarized('dark')[0], _ctx)
 size(960, 720)
 background(bg_color)
 
-x = 60
-y = 190
-
 _scale = 150 * 0.001
 line_height = 90 * _scale * 10
 column_width = 80 * _scale * 10
 gstrings = [ '/d', '/a', '/n', '/g' ]
 projects = [ 'Magnetica', 'Mechanica', 'Guarana', 'Quantica', \
             'Synthetica', 'Publica', 'Jornalistica' ]
-
 wts = [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]
 wds = [ 5 ]
 
-res = 2
+res = 1
 alpha_ = make_alpha(res)
 subtext = False
+
+x = 60
+y = 190
 
 for i in range(len(projects)):
     _color = RGB_to_nodebox_color(solarized('colors')[i], _ctx, alpha=alpha_)

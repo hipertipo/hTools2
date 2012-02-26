@@ -4,22 +4,27 @@ from robofab.objects.objectsRF import RFont
 
 from hTools2.objects import hGlyph, hLine
 
-size(600, 400)
+size(800, 600)
 background(0)
 
-x = 104
-y = 204
-s = 91 * 0.001
+x = 91
+y = 292
 
-ufo_path = u"/Users/gferreira0/Dropbox/hipertipo/hFonts/_Guarana/_ufos/Guarana_15.ufo"
+_scale = 89 * 0.001
+_color = color(0, 1, 0)
+
+ufo_path = u"/fonts/_EMono/_ufos/EMono_13.ufo"
 ufo = RFont(ufo_path)
 
+_text = 'hTools'
+
 L = hLine(ufo, _ctx)
-L.txt('hipertipo')
+L.txt(_text)
 L.draw((x, y),
-       scale_=s,
+       scale_=_scale,
        anchors=True,
        hmetrics=False,
        hmetrics_crop=False,
        origin=False,
-       baseline=False)
+       baseline=False,
+       color_=_color)
