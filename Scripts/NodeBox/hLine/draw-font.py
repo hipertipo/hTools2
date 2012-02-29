@@ -7,16 +7,16 @@ from hTools2.objects import hGlyph, hLine
 size(800, 600)
 background(0)
 
-x = 91
-y = 292
+x = 94
+y = 326
 
-_scale = 89 * 0.001
+_scale = 113 * 0.001
 _color = color(0, 1, 0)
 
-ufo_path = u"/fonts/_EMono/_ufos/EMono_13.ufo"
+ufo_path = u"/fonts/_Publica/_ufos/Publica_55.ufo"
 ufo = RFont(ufo_path)
 
-_text = 'hTools'
+_text = 'hello world'
 
 L = hLine(ufo, _ctx)
 L.txt(_text)

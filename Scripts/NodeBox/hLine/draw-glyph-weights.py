@@ -16,7 +16,7 @@ _scale = 65 * 0.01
 line_height = 0 * _scale * 10
 column_width = 60 * _scale * 10
 
-project = 'Jornalistica'
+project = 'Publica'
 gstring = '/e'
 
 wts = [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]

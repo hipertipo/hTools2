@@ -15,13 +15,13 @@ background(bg_color)
 _scale = 135 * 0.001
 line_height = 89 * _scale * 10
 column_width = 69 * _scale * 10
-_text = 'nsnanhn'
+_text = 'minimium'
 _text_mode = 'text'
 
 x = 36 * _scale * 10
 y = 95 * _scale * 10
 
-projects = [ 'Jornalistica' ]
+projects = [ 'Publica' ]
 
 wts = [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]
 wds = [ 5 ]
