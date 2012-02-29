@@ -2,6 +2,9 @@
 
 from vanilla import *
 
+import hTools2.modules.rasterizer
+reload(hTools2.modules.rasterizer)
+
 from hTools2.modules.rasterizer import *
 from hTools2.plugins.elementar import *
 
@@ -17,7 +20,7 @@ class setElementDialog(object):
     _button_height = 30
     _button_2 = 18
     _width = 123
-    _height = (_box_height * 2) + (_box * 2) + (_padding * 7) + _button_height - 10
+    _height = (_box_height * 2) + (_box * 3) + (_padding * 9) + _button_height - 10
 
     _scale = 100
     _super = .552
@@ -97,6 +100,16 @@ class setElementDialog(object):
                     sizeStyle='small',
                     callback=self._nudge_plus_100_callback)
         # shape
+        x = self._padding
+        y += self._button_2 + self._padding_top
+        self.w._shape = RadioGroup(
+                    (x, y,
+                    -self._padding,
+                    self._button_2),
+                    ['r', 'o', 's'],
+                    sizeStyle='small',
+                    isVertical=False)
+        # magic
         x = self._padding
         y += self._button_2 + self._padding_top
         self.w._super_label = TextBox(
@@ -248,10 +261,12 @@ class setElementDialog(object):
     # set element
 
     def _set_element_callback(self, sender):
+        _shapes = [ 'rect', 'oval', 'super' ]
+        _shape = _shapes[self.w._shape.get()]
         f = CurrentFont()
         _scale = float(self._scale)
         _super = float(self._super)
-        set_element(f, _scale, type='super', magic=_super)
+        set_element(f, _scale, type=_shape, magic=_super)
 
 # run
 

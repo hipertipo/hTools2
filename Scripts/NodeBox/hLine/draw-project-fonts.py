@@ -12,13 +12,13 @@ bg_color = color(0)
 size(1600, 1200)
 background(bg_color)
 
-_scale = 118 * 0.001
-line_height = 100 * _scale * 10
+_scale = 135 * 0.001
+line_height = 89 * _scale * 10
 column_width = 69 * _scale * 10
-_text = 'minimum'
+_text = 'nsnanhn'
 _text_mode = 'text'
 
-x = 38 * _scale * 10
+x = 36 * _scale * 10
 y = 95 * _scale * 10
 
 projects = [ 'Jornalistica' ]

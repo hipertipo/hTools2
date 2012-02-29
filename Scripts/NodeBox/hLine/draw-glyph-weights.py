@@ -9,15 +9,15 @@ from hTools2.modules.nodebox import make_alpha
 size(1280, 800)
 background(0)
 
-x = 41
-y = 477
+x = 108
+y = 509
 
 _scale = 65 * 0.01
 line_height = 0 * _scale * 10
 column_width = 60 * _scale * 10
 
 project = 'Jornalistica'
-gstring = '/j'
+gstring = '/e'
 
 wts = [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]
 wds = [ 5 ]

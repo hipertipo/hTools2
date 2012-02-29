@@ -507,7 +507,7 @@ class hLine:
 	def __init__(self, ufo, context):
 		self.ctx = context
 		self.font = hFont(ufo)
-		self.glyph_names =	[]
+		self.glyph_names = []
 
 	def _text_to_gnames(self, txt):
 		gnames = []

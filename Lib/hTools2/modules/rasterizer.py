@@ -132,6 +132,8 @@ class RasterGlyph:
 			pass
 
 def set_element(f, size, type='rect', magic=None):
+	if f.has_key('_element') is False:
+		f.newGlyph('_element')
 	g = f['_element']
 	g.clear()
 	p = g.getPen()

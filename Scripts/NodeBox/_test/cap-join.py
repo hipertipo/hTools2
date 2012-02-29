@@ -18,7 +18,7 @@ def cap_join_options((x, y), (cap, join)):
     drawpath(p)
     pop()
 
-x = -19
+x = -16
 y = -123
 c = 1.0 / 3
 
