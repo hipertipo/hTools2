@@ -3,7 +3,6 @@
 '''dialog to set the advance width of selected glyphs'''
 
 from vanilla import *
-from AppKit import NSColor
 
 from random import random
 
@@ -22,7 +21,6 @@ class setWidthDialog(object):
     _button_2 = 18
     _line_height = 20
     _button_height = 30
-    #_height = _line_height + _button_height + (_padding * 3)
     _height = _button_height + (_line_height * 2) + _button_2 + (_padding_top * 5) - 7
     _width = 123
     
@@ -55,52 +53,52 @@ class setWidthDialog(object):
         x = self._padding
         y += self._button_2 + self._padding_top
         self.w._nudge_minus_001 = SquareButton(
-                (x, y,
-                self._button_2,
-                self._button_2),
-                '-',
-                sizeStyle='small',
-                callback=self._nudge_minus_001_callback)
+                    (x, y,
+                    self._button_2,
+                    self._button_2),
+                    '-',
+                    sizeStyle='small',
+                    callback=self._nudge_minus_001_callback)
         x += (self._button_2 * 1) - 1
         self.w._nudge_plus_001 = SquareButton(
-                (x, y,
-                self._button_2,
-                self._button_2),
-                '+',
-                sizeStyle='small',
-                callback=self._nudge_plus_001_callback)
+                    (x, y,
+                    self._button_2,
+                    self._button_2),
+                    '+',
+                    sizeStyle='small',
+                    callback=self._nudge_plus_001_callback)
         x += (self._button_2 * 1) - 1
         self.w._nudge_minus_010 = SquareButton(
-                (x, y,
-                self._button_2,
-                self._button_2),
-                '-',
-                sizeStyle='small',
-                callback=self._nudge_minus_010_callback)
+                    (x, y,
+                    self._button_2,
+                    self._button_2),
+                    '-',
+                    sizeStyle='small',
+                    callback=self._nudge_minus_010_callback)
         x += (self._button_2 * 1) - 1
         self.w._nudge_plus_010 = SquareButton(
-                (x, y,
-                self._button_2,
-                self._button_2),
-                '+',
-                sizeStyle='small',
-                callback=self._nudge_plus_010_callback)
+                    (x, y,
+                    self._button_2,
+                    self._button_2),
+                    '+',
+                    sizeStyle='small',
+                    callback=self._nudge_plus_010_callback)
         x += (self._button_2 * 1) - 1
         self.w._nudge_minus_100 = SquareButton(
-                (x, y,
-                self._button_2,
-                self._button_2),
-                '-',
-                sizeStyle='small',
-                callback=self._nudge_minus_100_callback)
+                    (x, y,
+                    self._button_2,
+                    self._button_2),
+                    '-',
+                    sizeStyle='small',
+                    callback=self._nudge_minus_100_callback)
         x += (self._button_2 * 1) - 1
         self.w._nudge_plus_100 = SquareButton(
-                (x, y,
-                self._button_2,
-                self._button_2),
-                '+',
-                sizeStyle='small',
-                callback=self._nudge_plus_100_callback)
+                    (x, y,
+                    self._button_2,
+                    self._button_2),
+                    '+',
+                    sizeStyle='small',
+                    callback=self._nudge_plus_100_callback)
         # center
         x = self._padding
         y += self._line_height + self._padding

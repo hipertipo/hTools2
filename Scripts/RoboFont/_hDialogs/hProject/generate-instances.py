@@ -4,9 +4,6 @@ import os
 
 from vanilla import *
 
-import hTools2.objects
-reload(hTools2.objects)
-
 from hTools2.objects import hProject, hFont, hWorld
 from hTools2.modules.fontinfo import set_names
 from hTools2.modules.fileutils import delete_files

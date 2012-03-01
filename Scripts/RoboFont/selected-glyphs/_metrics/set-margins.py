@@ -1,10 +1,6 @@
 # [h] set side-bearings dialog
 
 from vanilla import *
-from AppKit import NSColor
-
-import hTools2.modules.fontutils
-reload(hTools2.modules.fontutils)
 
 from hTools2.modules.fontutils import get_glyphs
 

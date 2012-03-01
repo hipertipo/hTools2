@@ -2,9 +2,6 @@
 
 from vanilla import *
 
-import hTools2.modules.rasterizer
-reload(hTools2.modules.rasterizer)
-
 from hTools2.modules.rasterizer import *
 from hTools2.plugins.elementar import *
 

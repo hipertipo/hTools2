@@ -4,9 +4,6 @@
 
 from vanilla import *
 
-import hTools2.modules.fontutils
-reload(hTools2.modules.fontutils)
-
 from hTools2.modules.fontutils import get_full_name
 
 

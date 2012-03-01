@@ -43,110 +43,110 @@ class interpolatedNudgeDialog(object):
 
     def __init__(self):
         self.w = FloatingWindow(
-                (self._width,
-                self._height),
-                self._title)
+                    (self._width,
+                    self._height),
+                    self._title)
         # nudge buttons
         x = self._padding
         y = self._padding
         self.w._up = SquareButton(
-                (x + self._button_1 - 1,
-                y,
-                self._button_1,
-                self._button_1),
-                unichr(8673),
-                callback=self._up_callback)
+                    (x + self._button_1 - 1,
+                    y,
+                    self._button_1,
+                    self._button_1),
+                    unichr(8673),
+                    callback=self._up_callback)
         y += self._button_1 - 1
         self.w._left = SquareButton(
-                (x, y,
-                self._button_1,
-                self._button_1),
-                unichr(8672),
-                callback=self._left_callback)
+                    (x, y,
+                    self._button_1,
+                    self._button_1),
+                    unichr(8672),
+                    callback=self._left_callback)
         self.w._right = SquareButton(
-                ((self._button_1 * 2) + self._padding - 2,
-                y,
-                self._button_1,
-                self._button_1),
-                unichr(8674),
-                callback=self._right_callback)
+                    ((self._button_1 * 2) + self._padding - 2,
+                    y,
+                    self._button_1,
+                    self._button_1),
+                    unichr(8674),
+                    callback=self._right_callback)
         y += self._button_1 - 1
         self.w._down = SquareButton(
-                (x + self._button_1 - 1,
-                y,
-                self._button_1,
-                self._button_1),
-                unichr(8675),
-                callback=self._down_callback)
+                    (x + self._button_1 - 1,
+                    y,
+                    self._button_1,
+                    self._button_1),
+                    unichr(8675),
+                    callback=self._down_callback)
         # nudge size
         y += self._button_1 + self._padding
         self.w._nudge_value = EditText(
-                (x, y,
-                -self._padding,
-                self._box),
-                self._nudge,
-                sizeStyle='small',
-                readOnly=True)
+                    (x, y,
+                    -self._padding,
+                    self._box),
+                    self._nudge,
+                    sizeStyle='small',
+                    readOnly=True)
         # nudge spinners
         y += self._box + self._padding
         self.w._nudge_minus_001 = SquareButton(
-                (x, y,
-                self._button_2,
-                self._button_2),
-                '-',
-                sizeStyle='small',
-                callback=self._nudge_minus_001_callback)
+                    (x, y,
+                    self._button_2,
+                    self._button_2),
+                    '-',
+                    sizeStyle='small',
+                    callback=self._nudge_minus_001_callback)
         x += (self._button_2 * 1) - 1
         self.w._nudge_plus_001 = SquareButton(
-                (x, y,
-                self._button_2,
-                self._button_2),
-                '+',
-                sizeStyle='small',
-                callback=self._nudge_plus_001_callback)
+                    (x, y,
+                    self._button_2,
+                    self._button_2),
+                    '+',
+                    sizeStyle='small',
+                    callback=self._nudge_plus_001_callback)
         x += (self._button_2 * 1) - 1
         self.w._nudge_minus_010 = SquareButton(
-                (x, y,
-                self._button_2,
-                self._button_2),
-                '-',
-                sizeStyle='small',
-                callback=self._nudge_minus_010_callback)
+                    (x, y,
+                    self._button_2,
+                    self._button_2),
+                    '-',
+                    sizeStyle='small',
+                    callback=self._nudge_minus_010_callback)
         x += (self._button_2 * 1) - 1
         self.w._nudge_plus_010 = SquareButton(
-                (x, y,
-                self._button_2,
-                self._button_2),
-                '+',
-                sizeStyle='small',
-                callback=self._nudge_plus_010_callback)
+                    (x, y,
+                    self._button_2,
+                    self._button_2),
+                    '+',
+                    sizeStyle='small',
+                    callback=self._nudge_plus_010_callback)
         x += (self._button_2 * 1) - 1
         self.w._nudge_minus_100 = SquareButton(
-                (x, y,
-                self._button_2,
-                self._button_2),
-                '-',
-                sizeStyle='small',
-                callback=self._nudge_minus_100_callback)
+                    (x, y,
+                    self._button_2,
+                    self._button_2),
+                    '-',
+                    sizeStyle='small',
+                    callback=self._nudge_minus_100_callback)
         x += (self._button_2 * 1) - 1
         self.w._nudge_plus_100 = SquareButton(
-                (x, y,
-                self._button_2,
-                self._button_2),
-                '+',
-                sizeStyle='small',
-                callback=self._nudge_plus_100_callback)
+                    (x, y,
+                    self._button_2,
+                    self._button_2),
+                    '+',
+                    sizeStyle='small',
+                    callback=self._nudge_plus_100_callback)
         # interpolate
         x = self._padding
         y += self._button_2 + self._padding
         self.w._interpolated = CheckBox(
-                (x, y,
-                -self._padding,
-                self._box),
-                "interpolated",
-                value=self._interpolated,
-                sizeStyle='small',
-                callback=self._interpolated_callback)
+                    (x, y,
+                    -self._padding,
+                    self._box),
+                    "interpolated",
+                    value=self._interpolated,
+                    sizeStyle='small',
+                    callback=self._interpolated_callback)
         # open dialog
         self.w.open()
 

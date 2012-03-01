@@ -4,12 +4,6 @@
 
 from vanilla import *
 
-import hTools2.modules.fontutils
-import hTools2.modules.glyphutils
-
-reload(hTools2.modules.fontutils)
-reload(hTools2.modules.glyphutils)
-
 from hTools2.modules.fontutils import get_full_name
 from hTools2.modules.glyphutils import center_glyph
 

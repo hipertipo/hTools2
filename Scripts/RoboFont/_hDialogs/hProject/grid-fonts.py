@@ -2,9 +2,6 @@
 
 from vanilla import *
 
-import hTools2.modules.fontutils
-reload(hTools2.modules.fontutils)
-
 from hTools2.objects import hWorld, hProject, hFont
 from hTools2.modules.fileutils import get_names_from_path
 from hTools2.modules.fontutils import scale_glyphs
