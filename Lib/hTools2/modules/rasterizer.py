@@ -1,4 +1,4 @@
-# hTools2.plugins.rasterizer
+# hTools2.modules.rasterizer
 
 from robofab.world import NewFont
 
