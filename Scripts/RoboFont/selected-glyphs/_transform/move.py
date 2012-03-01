@@ -2,7 +2,7 @@
 
 from vanilla import *
 
-from hTools2.plugins.nudge import *
+from hTools2.extras.nudge import *
 from hTools2.modules.glyphutils import *
 
 class moveGlyphsDialog(object):

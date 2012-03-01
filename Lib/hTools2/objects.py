@@ -448,7 +448,7 @@ class hFont:
 
 	def generate_woff(self):
 		try:
-			from hTools2.plugins.KLTF_WOFF import compressFont
+			from hTools2.extras.KLTF_WOFF import compressFont
 			compressFont(self.otf_path(), self.woff_path())
 		except:
 			print 'KLTF WOFF generation plugin not available.\n '

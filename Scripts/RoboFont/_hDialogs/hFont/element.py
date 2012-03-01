@@ -3,7 +3,7 @@
 from vanilla import *
 
 from hTools2.modules.rasterizer import *
-from hTools2.plugins.elementar import *
+from hTools2.extras.elementar import *
 
 class setElementDialog(object):
 

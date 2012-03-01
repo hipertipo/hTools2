@@ -3,7 +3,7 @@
 from random import random
 
 from hTools2.modules.sysutils import _ctx
-from hTools2.plugins.colorsys import *
+from hTools2.extras.colorsys import *
 
 def random_color():
     # FontLab
