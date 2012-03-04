@@ -50,7 +50,6 @@ def paint_groups(f):
             color = color_step * count
             R, G, B = hls_to_rgb(color, 0.5, 1.0)
             for glyph_name in f.groups[group]:
-                print glyph_name
                 if f.has_key(glyph_name) is not True:
                     f.newGlyph(glyph_name)
                 _order.append(glyph_name)
@@ -92,8 +91,7 @@ def solarized(name):
         print 'name %s is not a solarized group or color.\n' % name
 
 solarized_groups = {
-    'colors' : [ 'yellow', 'orange', 'red', 'magenta', \
-                'violet', 'blue', 'cyan', 'green' ],
+    'colors' : [ 'yellow', 'orange', 'red', 'magenta', 'violet', 'blue', 'cyan', 'green' ],
     'dark' : [ 'base03', 'base02' ],
     'bright' : [ 'base3', 'base2' ],
     'content' : [ 'base01', 'base00', 'base0', 'base1' ],

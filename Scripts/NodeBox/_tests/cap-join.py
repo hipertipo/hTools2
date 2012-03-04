@@ -3,7 +3,6 @@
 from hTools2.modules.nodebox import capstyle, joinstyle, draw_cross
 
 def cap_join_options((x, y), (cap, join)):
-
     push()
     scale(540 * .001 )
     translate(x, y)

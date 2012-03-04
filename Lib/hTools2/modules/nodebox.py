@@ -60,10 +60,10 @@ def draw_grid(ctx, pos=(0,0), size_=1):
 	ctx.strokewidth(1)
 	ctx.stroke(.9)
 	# draw lines
-	for i in range(ctx.HEIGHT/size_):
+	for i in range(ctx.HEIGHT / size_):
 		ctx.line(0, y + .5, ctx.WIDTH, y + .5)
 		y += size_
-	for j in range(ctx.WIDTH/size_):
+	for j in range(ctx.WIDTH / size_):
 		ctx.line(x + .5, 0, x + .5, ctx.HEIGHT)
 		x += size_
 
@@ -121,7 +121,7 @@ def all_glyphs(groups, spacer=None):
 			pass
 		else:
 			glyph_names_list = groups[group_name]
-			all_glyphs += makeString(glyph_names_list, spacer)
+			all_glyphs += make_string(glyph_names_list, spacer)
 	return all_glyphs
 
 def draw_glyph(glyph_name, ufo_path, (x, y), context, _color=None, _scale=1):
@@ -143,32 +143,9 @@ def draw_glyph(glyph_name, ufo_path, (x, y), context, _color=None, _scale=1):
 	g.draw(_pen)
 	P = context.endpath(draw=False)
 	context.drawpath(P)
-	context.pop()	 
+	context.pop()
 
-def drawGlyph(gName, ufo_path, (x, y), context, _color=None, _scale=1):
-	_ufo = RFont(ufo_path)
-	_pen = NodeBoxPen(_ufo._glyphSet, context)
-	_units_per_em = _ufo.info.unitsPerEm
-	_units_per_element = 64
-	_ppem = _units_per_em / _units_per_element
-	# draw glyph outline
-	context.stroke(None)
-	if _color is not None:
-		context.fill(_color)
-	else:
-		context.fill(1, 0, .5, .3)
-	g = _ufo[gName]
-	context.push()
-	context.transform(mode='CORNER')
-	context.translate(x, y)
-	context.scale(_scale)
-	context.beginpath()
-	g.draw(_pen)
-	P = context.endpath(draw=False)
-	context.drawpath(P)
-	context.pop()	 
-
-def glyphMetrics(gName, ufo_path, (x, y), _scale=1, _print=False):
+def glyph_metrics(gName, ufo_path, (x, y), _scale=1, _print=False):
 	_ufo = RFont(ufo_path)
 	_units_per_element = 64
 	g = _ufo[gName]

@@ -1,5 +1,7 @@
 # hTools2.modules.rasterizer
 
+from random import random, randint
+
 from robofab.world import NewFont
 
 from hTools2.modules.primitives import *
@@ -146,3 +148,131 @@ def set_element(f, size, type='rect', magic=None):
 	g.width = size
 	g.update()
 	f.update()
+
+# NodeBox Rasterizer
+
+class Rasterizer:
+
+    elementSize = 20
+    elementSpace = 30
+    elementShape = "oval"
+    black = "."
+    fillColor = (.5)
+    strokeColor = (0)
+    strokeWidth = 3
+
+    def __init__(self, (x, y), rawText, context, element=0):
+    	self.ctx = context
+        self.lines = rawText.split("\n")
+        self.x = x
+        self.y = y
+        if element == 0:
+            self.element = element_0(self.elementSize, self.ctx)
+        elif element == 1:
+            self.element = element_1(self.elementSize, self.ctx)
+        else:
+            print "sorry, this element does not exist yet."
+
+    def draw(self, mode=0, element=0):
+        lines = self.lines
+        # eSize = self.element.
+        # eSpace = self.elementSpace
+        lineCount = 0
+        self.ctx.push()
+        self.ctx.translate(self.x, self.y)
+        # scan matrix and draw elements
+        for l in lines:
+            charCount = 0
+            for bit in l:
+                x = charCount * self.element.eSpace
+                y = lineCount * self.element.eSpace
+                if bit == self.black: 
+                    if mode== 1:
+                        self.element.draw((x, y), mode=1) # pos
+                    else:
+                        self.element.draw((x, y), mode=0) # neg
+                else:
+                    if mode == 1:
+                        self.element.draw((x, y), mode=0) # pos
+                    else:
+                        self.element.draw((x, y), mode=1) # neg
+                charCount += 1
+            lineCount += 1
+        self.ctx.pop()
+
+class element_0:
+
+    def __init__(self, eSize, context):
+    	self.ctx = context
+        self.eSize = eSize
+        self.eShape = "oval"
+        self.eFill = self.ctx.color(1, .5)
+        self.eStroke = self.ctx.color(0)
+        self.eStrokewidth = 1
+                
+    def draw(self, (x, y), mode=1):
+        if mode == 0:
+            pass
+        else:
+            # get position & size
+            x += (self.eSize / 2)
+            y += (self.eSize / 2)
+            s = self.eSize
+            # get fill
+            if self.eFill is not None:
+                self.ctx.fill(self.eFill)
+            else:
+                self.ctx.nofill()
+            # get stroke
+            if self.eStroke is not None:
+                self.ctx.strokewidth(self.eStrokewidth)
+                self.ctx.stroke(self.eStroke)
+            else:
+                self.ctx.nostroke()
+            # get shape & draw
+            if self.eShape is "oval":
+                self.ctx.oval(x - (s / 2), y - (s / 2), s, s)
+            else:
+                self.ctx.rect(x - (s / 2), y - (s / 2), s, s)
+
+class element_1:
+
+    def __init__(self, eSize, context):
+        self.ctx = context
+        self.eSize = eSize
+                
+    def draw(self, (x, y), mode=1):
+        self.x = x
+        self.y = y
+        if mode == 0:
+            pass
+        else:
+            self.layer_1(x, y)
+
+    def layer_1(self, x, y, rSize=1):
+        x = self.x + (self.eSize / 2)
+        y = self.y + (self.eSize / 2)
+        s = self.eSize * rSize * randint(8, 13) * .1
+        self.ctx.oval(x - (s / 2), y - (s / 2), s, s)
+
+
+class element_2(element_0):
+
+    def __init__(self, elementSize, x, y, context):
+        element_0.__init__(self, elementSize, x, y)
+                
+    def draw(self, mode=1):
+        if mode == 0:
+            pass
+        else:
+            rFactor = 1 # random(1, 1.1)
+            sWidth = float(randint(15, 25)) / 10
+            # _ctx.strokewidth(sWidth)
+            # _ctx.stroke(self.sColor)
+            # _ctx.nofill()
+            for r in range(self.rings):
+                s = float(self.elementSize / self.rings) * (r + 1) * rFactor
+                X = self.x - (s / 2)
+                Y = self.y - (s / 2)
+               #  _ctx.stroke(randint(4, 6)/10)
+                _ctx.oval(X, Y, s, s)
