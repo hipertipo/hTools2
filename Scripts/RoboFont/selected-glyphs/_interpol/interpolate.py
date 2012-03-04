@@ -394,7 +394,7 @@ class interpolateGlyphsDialog(object):
                 f3[gName].prepareUndo('interpolate')
                 # interpolate
                 print '\tinterpolating glyph %s...' % gName
-                f3[gName].interpolate((x, y), f1[gName], f2[gName])
+                f3[gName].interpolate((x, y), f2[gName], f1[gName])
                 f3[gName].update()
                 # create undo
                 f3[gName].performUndo()

@@ -91,7 +91,9 @@ class renameAnchorsDialog(object):
                 for gName in f.selection:
                     if gName is not None:
                         # rename anchor                
+                        f[gName].prepareUndo('rename anchor')
                         has_name = rename_anchor(f[gName], _old, _new)
+                        f[gName].performUndo()                        
                         f[gName].update()
                 # done
                 f.update()

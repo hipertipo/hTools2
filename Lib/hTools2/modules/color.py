@@ -50,6 +50,7 @@ def paint_groups(f):
             color = color_step * count
             R, G, B = hls_to_rgb(color, 0.5, 1.0)
             for glyph_name in f.groups[group]:
+                print glyph_name
                 if f.has_key(glyph_name) is not True:
                     f.newGlyph(glyph_name)
                 _order.append(glyph_name)

@@ -2,6 +2,12 @@
 
 from vanilla import *
 
+import hTools2.modules.color
+reload(hTools2.modules.color)
+
+import hTools2.objects
+reload(hTools2.objects)
+
 from hTools2.objects import hFont
 from hTools2.modules.color import *
 from hTools2.modules.fontutils import *
@@ -69,7 +75,7 @@ class spacingGroupsDialog(object):
         font = hFont(CurrentFont())
         _params = ['left', 'right']
         _side = _params[self.w._side.get()]
-        font.paint_spacing_groups(_side)
+        font.paint_spacing_groups(_side, verbose=True)
 
     def _import_callback(self, sender):
         print 'importing spacing groups from project...\n'

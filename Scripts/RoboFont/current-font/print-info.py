@@ -228,7 +228,7 @@ class clearFontInfoDialog(object):
             clear_opentype_os2(self.font)
         if self._opentype_vhea == True:
             print '\tclear OpenType vhea...'
-            clear_openType_vhea(self.font)
+            clear_opentype_vhea(self.font)
         if self._postscript_data == True:
             print '\tclear PostScript data...'
             clear_postscript_data(self.font)
@@ -256,7 +256,7 @@ class clearFontInfoDialog(object):
         if self._opentype_os2 == True:
             print_opentype_os2(self.font)
         if self._opentype_vhea == True:
-            print_openType_vhea(self.font)
+            print_opentype_vhea(self.font)
         if self._postscript_data == True:
             print_postscript_data(self.font)
         print
