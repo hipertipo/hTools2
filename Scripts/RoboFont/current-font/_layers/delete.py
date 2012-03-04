@@ -4,15 +4,15 @@ from vanilla import *
 
 class deleteLayerDialog(object):
 
-    _title = 'delete layer'
+    _title = 'layer'
     _row_height = 20
-    _button_height = 25
+    _button_height = 30
     _column_1 = 50
     _column_2 = 140
     _padding = 10
     _padding_top = 10
-    _width = _column_1 + _column_2 + (_padding * 2)
-    _height = _button_height + (_padding_top * 3) + _row_height
+    _width = 123
+    _height = _button_height + (_padding_top * 3) + (_row_height * 2) + 2
 
     _layer_name = 'mask'
 
@@ -24,15 +24,15 @@ class deleteLayerDialog(object):
         x = self._padding
         y = self._padding_top
         self.w._layer_name_label = TextBox(
-                    (x, y + 2,
+                    (x, y - 2,
                     -self._padding,
                     self._row_height),
-                    "layer",
+                    "name",
                     sizeStyle='small')
-        x += self._column_1
+        y += self._row_height
         self.w._layer_name = EditText(
                     (x, y,
-                    self._column_2,
+                    -self._padding,
                     self._row_height),
                     self._layer_name,
                     sizeStyle='small',
@@ -43,7 +43,7 @@ class deleteLayerDialog(object):
                     (x, y,
                     -self._padding,
                     self._button_height),
-                    "apply",
+                    "delete",
                     sizeStyle='small',
                     callback=self.apply_callback)
         # open
