@@ -6,6 +6,9 @@ from vanilla import *
 
 from random import random
 
+import hTools2.modules.glyphutils
+reload(hTools2.modules.glyphutils)
+
 from hTools2.modules.color import random_color
 from hTools2.modules.glyphutils import center_glyph
 
@@ -174,19 +177,16 @@ class setWidthDialog(object):
                 print '\tglyphs: %s' % _gNames
                 print         
                 for gName in _gNames:
-                    try:
-                        f[gName].prepareUndo('set glyph width')
-                        f[gName].width = int(_width)
-                        if _center:
-                            centerGlyph(f[gName])
-                        f[gName].performUndo()
-                        f[gName].update()
-                    except:
-                        print '\tcannot transform %s' % gName
-                    # done
-                    print 
-                    f.update()
-                    print '...done.\n'
+                    f[gName].prepareUndo('set glyph width')
+                    f[gName].width = int(_width)
+                    if _center:
+                        center_glyph(f[gName])
+                    f[gName].performUndo()
+                    f[gName].update()
+                # done
+                print 
+                f.update()
+                print '...done.\n'
                 # no glyph selected
             else:
                 print 'please select one or more glyphs before running the script.\n'

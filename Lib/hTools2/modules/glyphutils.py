@@ -5,7 +5,7 @@ from math import floor, ceil
 # margins
 
 def center_glyph(glyph):
-	whitespace = glyph.leftMargin + glyph.rightMargin
+	whitespace = glyph.leftMargin + glyph.rightMargin	
 	glyph.leftMargin = whitespace / 2
 	glyph.rightMargin = whitespace / 2
 

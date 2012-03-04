@@ -465,7 +465,6 @@ class hFont:
 class hGlyph:
 
 	def __init__(self, glyph):
-		self.name = glyph.name
 		self.glyph = glyph
 		self.font = hFont(self.glyph.getParent())
 

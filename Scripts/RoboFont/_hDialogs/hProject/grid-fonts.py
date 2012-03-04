@@ -27,13 +27,14 @@ class batchGridFontsDialog(object):
     _masters = []
     _selected_projects = []
     _open = True
-    _ignore = [ 'Jornalistica', 'Gavea', 'Guarana', 'Magnetica', 'Mechanica', 'Publica', 'Publica2', 'Quantica', 'Synthetica', 'Elementar' ]
+    _ignore = [ 'Jornalistica', 'Gavea', 'Guarana', 'Magnetica', 'Mechanica', 'Publica', 'PublicaPro', 'Quantica', 'Synthetica', 'Elementar' ]
 
     def __init__(self):
         self.world = hWorld()
         self.projects = self.world.projects()
         for pName in self._ignore:
-             self.projects.remove(pName)
+            if pName in self.projects:
+                self.projects.remove(pName)
         self.w = FloatingWindow(
                     (self._width,
                     self._height),
@@ -152,7 +153,7 @@ class batchGridFontsDialog(object):
                     (x, y,
                     self._width - (self._padding * 2),
                     self._button_height),
-                    "batch",
+                    "apply",
                     callback=self.apply_callback,
                     sizeStyle='small')
         # progress bar

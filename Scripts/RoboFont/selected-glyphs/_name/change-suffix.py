@@ -101,10 +101,10 @@ class changeSuffixDialog(object):
                 # batch change names
                 for gName in f.selection:
                     if gName is not None:
-                        if has_suffix(gName, _old):
-                            g = f[gName]
+                        g = f[gName]
+                        if has_suffix(g, _old):
                             # make new name
-                            _new_name = change_suffix(gName, _old, _new)
+                            _new_name = change_suffix(g, _old, _new)
                             print '\trenaming %s to %s...' % (gName, _new_name)
                             if f.has_key(_new_name):
                                 print '\toverwriting %s' % _new_name
