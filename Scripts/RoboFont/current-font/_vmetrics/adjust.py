@@ -14,8 +14,8 @@ class adjustVerticalMetrics(object):
     _box_width = 60
     _button_2 = _box_height
     _padding = 10
-    _column_1 = 90
-    _column_2 = 300
+    _column_1 = 80
+    _column_2 = 200
     _column_3 = 60
     _width = _column_1 + _column_2 + _column_3 + (_padding * 5) + (_button_2 * 4) - 8
     _height = (_row_height * 4) + (_padding * 5) + 1
@@ -30,7 +30,7 @@ class adjustVerticalMetrics(object):
         x1 = self._padding
         x2 = x1 + self._column_1
         x3 = x2 + self._column_2 + 15
-        x4 = x3 + self._column_3 + self._padding
+        x4 = x3 + self._column_3 - 1 # + self._padding
         x5 = x4 + self._button_2 - 1
         x6 = x5 + self._button_2 - 1
         x7 = x6 + self._button_2 - 1
@@ -49,7 +49,7 @@ class adjustVerticalMetrics(object):
                     (x3, y,
                     -self._padding,
                     23),
-                    'update font',
+                    'update',
                     sizeStyle='small',
                     callback=self.switch_font_callback)
         y += self._row_height + self._padding

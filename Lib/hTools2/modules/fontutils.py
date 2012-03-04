@@ -59,7 +59,7 @@ def get_spacing_groups(font):
 def print_groups(font, mode=0):
     groups = font.groups
     if len(groups) > 0:
-        print 'printing groups in font %s...' % font
+        print 'printing groups in font %s...' % get_full_name(font)
         print
         # print groups as OpenType classes
         if mode == 1:
