@@ -12,7 +12,7 @@ bg_color = color(0)
 size(1600, 1200)
 background(bg_color)
 
-_scale = 135 * 0.001
+_scale = 80 * 0.001
 line_height = 89 * _scale * 10
 column_width = 69 * _scale * 10
 _text = 'minimium'
@@ -25,7 +25,7 @@ projects = [ 'Publica' ]
 
 wts = [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]
 wds = [ 5 ]
-res = 2
+res = 1
 
 color_step = 1.0 / len(range(1, len(wts) + 1, res))
 

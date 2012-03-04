@@ -9,8 +9,8 @@ background(.5)
 
 fill(1)
 
-x = 157
-y = 266
+x = 171
+y = 268
 
 _scale = 24
 
