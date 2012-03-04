@@ -6,7 +6,7 @@ from hTools2.modules.fontutils import get_full_name
 
 class adjustVerticalMetrics(object):
 
-    _title = "adjust vertical metrics"
+    _title = "vmetrics"
     _moveX = 0
     _moveY = 0
     _row_height = 28
@@ -16,9 +16,9 @@ class adjustVerticalMetrics(object):
     _padding = 10
     _column_1 = 80
     _column_2 = 200
-    _column_3 = 60
-    _width = _column_1 + _column_2 + _column_3 + (_padding * 5) + (_button_2 * 4) - 8
-    _height = (_row_height * 4) + (_padding * 5) + 1
+    _column_3 = 45
+    _width = _column_1 + _column_2 + _column_3 + (_padding * 3) + (_button_2 * 4) + 2
+    _height = (_row_height * 4) + (_padding * 5)
 
     def __init__(self):
         self.w = FloatingWindow(
@@ -30,7 +30,7 @@ class adjustVerticalMetrics(object):
         x1 = self._padding
         x2 = x1 + self._column_1
         x3 = x2 + self._column_2 + 15
-        x4 = x3 + self._column_3 - 1 # + self._padding
+        x4 = x3 + self._column_3 - 1
         x5 = x4 + self._button_2 - 1
         x6 = x5 + self._button_2 - 1
         x7 = x6 + self._button_2 - 1
