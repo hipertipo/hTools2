@@ -1,63 +1,87 @@
 # [h] batch rename glyphs
 
-from hTools2.modules.color import *
+from vanilla import *
+from vanilla.dialogs import getFile
 
-def readNamesListFromFile(filePath):
-    lines_raw = open(filePath, 'r').readlines()
-    _names_list = []
-    for line in lines_raw:
-        if line[:1] != '#':
-            old_name, new_name = line.split(' ')
-            old_name = old_name.strip()
-            new_name = new_name.strip()
-            _names_list.append([old_name, new_name])
-    return _names_list
+from hTools2.modules.fileutils import read_names_list_from_file
+from hTools2.modules.fontutils import rename_glyphs_from_list
 
-def renameGlyphsFromList(font, namesList, overwrite=True, mark=True):
-    print 'renaming glyphs...\n'
-    for pair in namesList:
-        oldName, newName = pair
-        renameGlyph(f, oldName, newName, overwrite, mark)
-    print
-    print '...done.\n'
 
-def renameGlyph(font, old_name, new_name, overwrite=True, mark=True):
-    if font.has_key(old_name):
-        g = font[old_name]
-        # if new name already exists in font
-        if font.has_key(new_name):
-            # option [1] (default): overwrite
-            if overwrite is True:
-                print '\trenaming "%s" to "%s" (overwriting existing glyph)...' % (old_name, new_name)
-                font.removeGlyph(new_name)
-                g.name = new_name
-                if mark:
-                    g.mark = namedColors['orange']
-                g.update()
-            # option [2]: skip, do not overwrite
+class batchRenameGlyphs(object):
+
+    _title = 'rename'
+    _padding = 10
+    _padding_top = 10
+    _column_1 = 110
+    _row_height = 20
+    _button_height = 30
+    _height = (_button_height * 2) + (_row_height * 2) + (_padding * 4)
+    _width = 123
+    
+    def __init__(self):
+            self.w = FloatingWindow(
+                        (self._width,
+                        self._height),
+                        self._title,
+                        closable=True)
+            # current font
+            x = self._padding
+            y = self._padding
+            self.w.get_file = SquareButton(
+                        (x, y,
+                        -self._padding,
+                        self._button_height),
+                        "get file...",
+                        callback=self.get_file_callback,
+                        sizeStyle="small")
+            y += self._button_height + self._padding
+            # options
+            self.w._overwrite = CheckBox(
+                        (x, y,
+                        -self._padding,
+                        self._row_height),
+                        "overwrite",
+                        sizeStyle="small",
+                        value=True)
+            y += self._row_height
+            self.w._mark = CheckBox(
+                        (x, y,
+                        -self._padding,
+                        self._row_height),
+                        "mark",
+                        sizeStyle="small",
+                        value=True)
+            y += self._row_height + self._padding
+            self.w.apply_button = SquareButton(
+                        (x, y,
+                        -self._padding,
+                        self._button_height),
+                        "apply",
+                        callback=self.apply_callback,
+                        sizeStyle='small')
+            # open window
+            self.w.open()
+
+    # callbacks
+
+    def get_file_callback(self, sender):
+        self.list_path = getFile()[0]
+
+    def apply_callback(self, sender):
+        _overwrite = self.w._overwrite.get()
+        _mark = self.w._mark.get()
+        names_list = read_names_list_from_file(self.list_path)
+        f = CurrentFont()
+        if len(names_list) > 0:
+            if f is not None:
+                rename_glyphs_from_list(f, names_list, overwrite=_overwrite, mark=_mark)
+            # no font open
             else:
-                print '\tskipping "%s", "%s" already exists in font.' % (old_name, new_name)
-                if mark:
-                    g.mark = namedColors['red']
-                g.update()
-        # if new name not already in font, simply rename glyph
+                print 'please open a font first.\n'
+        # no font open
         else:
-            print '\trenaming "%s" to "%s"...' % (old_name, new_name)
-            g.name = new_name
-            if mark:
-                g.mark = namedColors['green']
-            g.update()
-        # done glyph
-    else:
-        print '\tskipping "%s", glyph does not exist in font.' % old_name
-    # done font
-    f.update()
+            print 'please create a valid names list first.\n'
 
-# run 
+# run
 
-f = CurrentFont()
-
-list_file = u"/Users/gferreira0/Desktop/nameslist.txt"
-names_list = readNamesListFromFile(list_file)
-
-renameGlyphsFromList(f, names_list, overwrite=True, mark=True)
+batchRenameGlyphs()

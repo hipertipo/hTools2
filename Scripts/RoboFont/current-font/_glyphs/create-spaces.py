@@ -10,13 +10,13 @@ class createSpaceGlyphsDialog(object):
     _title = 'spaces'
     _padding = 10
     _padding_top = 10
-    _column_1 = 110
+    _column_1 = 55
     _field_width = 40
     _row_height = 18
-    _button_height = 25
+    _button_height = 30
     _box_height = 23
-    _height = (_row_height * 5) + (_button_height * 2) + (_padding * 9) + _box_height + 4
-    _width = 180
+    _height = (_row_height * 5) + (_button_height * 1) + (_padding * 8) + _box_height + 4
+    _width = 123
 
     _hairspace_factor = .08
     _thinspace_factor = .16
@@ -50,7 +50,7 @@ class createSpaceGlyphsDialog(object):
                         (x, y,
                         self._column_1,
                         self._row_height),
-                        "hair space",
+                        "hair",
                         sizeStyle='small')
             x += self._column_1
             self.w._hairspace_value = EditText(
@@ -66,7 +66,7 @@ class createSpaceGlyphsDialog(object):
                         (x, y,
                         self._column_1,
                         self._row_height),
-                        "thin space",
+                        "thin",
                         sizeStyle='small')
             x += self._column_1
             self.w._thinspace_value = EditText(
@@ -82,7 +82,7 @@ class createSpaceGlyphsDialog(object):
                         (x, y,
                         self._column_1,
                         self._row_height),
-                        "thick space",
+                        "thick",
                         sizeStyle='small')
             x += self._column_1
             self.w._thickspace_value = EditText(
@@ -98,7 +98,7 @@ class createSpaceGlyphsDialog(object):
                         (x, y,
                         self._column_1,
                         self._row_height),
-                        "figure space",
+                        "figure",
                         sizeStyle='small')
             x += self._column_1
             self.w._figurespace_value = EditText(
@@ -114,7 +114,7 @@ class createSpaceGlyphsDialog(object):
                         (x, y,
                         self._column_1,
                         self._row_height),
-                        "0-width space",
+                        "0 width",
                         sizeStyle='small')
             x += self._column_1
             self.w._zerowidth_value = EditText(
@@ -131,17 +131,17 @@ class createSpaceGlyphsDialog(object):
                         (x, y,
                         -self._padding,
                         self._button_height),
-                        "create spaces",
+                        "create",
                         sizeStyle='small',
                         callback = self.apply_callback)
-            y += self._button_height + self._padding
-            self.w._button_switch = SquareButton(
-                        (x, y,
-                        -self._padding,
-                        self._button_height),
-                        "update font",
-                        sizeStyle='small',
-                        callback=self.update_font_callback)
+            # y += self._button_height + self._padding
+            # self.w._button_switch = SquareButton(
+            #             (x, y,
+            #             -self._padding,
+            #             self._button_height),
+            #             "update",
+            #             sizeStyle='small',
+            #             callback=self.update_font_callback)
             # open window
             self.w.open()
         # no font open
@@ -165,27 +165,27 @@ class createSpaceGlyphsDialog(object):
             # hair space
             self.font.newGlyph('hairspace')
             self.font['hairspace'].width = _hairspace
-            self.font['hairspace'].unicode = unicodeHexstrToInt('uni200A')
+            self.font['hairspace'].unicode = unicode_hexstr_to_int('uni200A')
             self.font['hairspace'].update()
             # thin space
             self.font.newGlyph('thinspace')
             self.font['thinspace'].width = _thinspace
-            self.font['thinspace'].unicode = unicodeHexstrToInt('uni2009')
+            self.font['thinspace'].unicode = unicode_hexstr_to_int('uni2009')
             self.font['thinspace'].update()
             # thick space
             self.font.newGlyph('thickspace')
             self.font['thickspace'].width = _thickspace
-            self.font['thickspace'].unicode = unicodeHexstrToInt('uni2004')
+            self.font['thickspace'].unicode = unicode_hexstr_to_int('uni2004')
             self.font['thickspace'].update()
             # figure space
             self.font.newGlyph('figurespace')
             self.font['figurespace'].width = _figurespace
-            self.font['figurespace'].unicode = unicodeHexstrToInt('uni2007')
+            self.font['figurespace'].unicode = unicode_hexstr_to_int('uni2007')
             self.font['figurespace'].update()
             # zero-width space
             self.font.newGlyph('zerowidthspace')
             self.font['zerowidthspace'].width = 0
-            self.font['zerowidthspace'].unicode = unicodeHexstrToInt('uni200B')
+            self.font['zerowidthspace'].unicode = unicode_hexstr_to_int('uni200B')
             self.font['zerowidthspace'].update()
             # done
             self.font.update()

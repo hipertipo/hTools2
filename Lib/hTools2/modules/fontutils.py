@@ -5,6 +5,7 @@ import os
 from robofab.world import CurrentGlyph
 
 from hTools2.modules.glyphutils import round_points
+from hTools2.modules.color import named_colors
 
 # glyphs
 
@@ -36,6 +37,46 @@ def print_selected_glyphs(f, mode=1):
         print
     else:
         print "invalid mode.\n"
+
+def rename_glyph(font, old_name, new_name, overwrite=True, mark=True):
+    if font.has_key(old_name):
+        g = font[old_name]
+        # if new name already exists in font
+        if font.has_key(new_name):
+            # option [1] (default): overwrite
+            if overwrite is True:
+                print '\trenaming "%s" to "%s" (overwriting existing glyph)...' % (old_name, new_name)
+                font.removeGlyph(new_name)
+                g.name = new_name
+                if mark:
+                    g.mark = named_colors['orange']
+                g.update()
+            # option [2]: skip, do not overwrite
+            else:
+                print '\tskipping "%s", "%s" already exists in font.' % (old_name, new_name)
+                if mark:
+                    g.mark = named_colors['red']
+                g.update()
+        # if new name not already in font, simply rename glyph
+        else:
+            print '\trenaming "%s" to "%s"...' % (old_name, new_name)
+            g.name = new_name
+            if mark:
+                g.mark = named_colors['green']
+            g.update()
+        # done glyph
+    else:
+        print '\tskipping "%s", glyph does not exist in font.' % old_name
+    # done font
+    font.update()
+
+def rename_glyphs_from_list(font, names_list, overwrite=True, mark=True):
+    print 'renaming glyphs...\n'
+    for pair in names_list:
+        old_name, new_name = pair
+        rename_glyph(font, old_name, new_name, overwrite, mark)
+    print
+    print '...done.\n'
 
 # groups
 
