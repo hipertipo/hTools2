@@ -104,7 +104,10 @@ class changeSuffixDialog(object):
                         g = f[gName]
                         if has_suffix(g, _old):
                             # make new name
-                            _new_name = change_suffix(g, _old, _new)
+                            if len(_new) > 0:
+                                _new_name = change_suffix(g, _old, _new)
+                            else:
+                                _new_name = change_suffix(g, _old, None)
                             print '\trenaming %s to %s...' % (gName, _new_name)
                             if f.has_key(_new_name):
                                 print '\toverwriting %s' % _new_name
