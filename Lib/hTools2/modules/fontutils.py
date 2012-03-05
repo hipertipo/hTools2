@@ -180,10 +180,7 @@ def get_names_from_path(fontPath):
         family, style = name.split("_")
         return family, style
     except ValueError:
-        family, style = name.split("-")
-        return family, style    
-    except:
-        print "font path not splitable.\n"
+        print "%s does not follow hTools2 conventions.\n" % fontPath
 
 def set_foundry_info(font, fontInfoDict):
     font.info.year = fontInfoDict['year']

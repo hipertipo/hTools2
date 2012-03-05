@@ -83,21 +83,23 @@ def interpol_serie(master_1, master_2, i):
 size(1280, 800)
 background(0)
 
-col_height = 302
+col_height = 263
 col_space = 10
 _x_graph = 147
-_y_graph = 613
+_y_graph = 626
 
 _graph_step = 59
-_graph_width = 603
+_graph_width = 592
 _oval_size = 11
 
 x_shift = 84
-y_shift = 14
+y_shift = 11
 
 x = 26
 y = 34
 
-master_1 = 30
-master_2 = 141
+master_1 = 20
+master_2 = 160
+
 interpol_serie(master_1, master_2, 3)
+

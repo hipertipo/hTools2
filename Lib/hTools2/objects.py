@@ -10,6 +10,9 @@ except:
 
 import hTools2
 
+import hTools2.modules.fontutils
+reload(hTools2.modules.fontutils)
+
 from hTools2.modules.color import hls_to_rgb, paint_groups, clear_colors
 from hTools2.modules.encoding import auto_unicodes, import_encoding, unicode2psnames
 from hTools2.modules.fontutils import get_names_from_path, get_spacing_groups, get_glyphs

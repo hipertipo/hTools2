@@ -68,7 +68,7 @@ class BatchGenerateFolderDialog(object):
                     (x, y,
                     -self._padding,
                     self._row_height),
-                    "autohint",
+                    "ps autohint",
                     sizeStyle="small",
                     value=True)
         y += self._row_height
@@ -92,7 +92,7 @@ class BatchGenerateFolderDialog(object):
                     (x, y,
                     -self._padding,
                     self._button_height),
-                    "apply",
+                    "generate",
                     callback=self.button_apply_callback,
                     sizeStyle="small")
         # open window

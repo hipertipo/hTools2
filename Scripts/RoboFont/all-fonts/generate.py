@@ -41,7 +41,7 @@ class GenerateAllOpenFontsDialog(object):
                     (x, y,
                     -self._padding,
                     self._button_height),
-                    "get folder...",
+                    "otfs folder...",
                     callback=self.otfs_get_folder_callback,
                     sizeStyle="small")
         y += self._button_height + self._padding_top

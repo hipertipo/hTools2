@@ -3,7 +3,7 @@
 import os
 
 from hTools2.modules.fileutils import walk
-from hTools2.modules.fontutils import decompose, auto_contour_order_direction
+from hTools2.modules.fontutils import decompose, auto_order_direction
 
 # settings
 
@@ -27,7 +27,7 @@ for ufo_path in ufo_paths:
         ufo.removeOverlap()
     if _auto_order_direction:
         print '\t\tsetting auto contour order & direction...'
-        auto_contour_order_direction(ufo)
+        auto_order_direction(ufo)
     ufo.save()
     ufo.close()
     print
