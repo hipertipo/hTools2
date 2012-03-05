@@ -107,8 +107,6 @@ class BatchGenerateFolderDialog(object):
         self._otfs_folder = folder_otfs[0]
 
     def button_apply_callback(self, sender):
-        #_ufos_folder = self.w.ufos_folder_value.get()
-        #_otfs_folder = self.w.otfs_folder_value.get()
         if self._ufos_folder != None:
             _ufo_paths = walk(self._ufos_folder, 'ufo')
             if len(_ufo_paths) > 0:
