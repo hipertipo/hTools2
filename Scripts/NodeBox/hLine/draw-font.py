@@ -19,7 +19,7 @@ ufo = RFont(ufo_path)
 _text = 'hello world'
 
 L = hLine(ufo, _ctx)
-L.txt(_text)
+L.txt(_text, mode='text')
 L.draw((x, y),
        scale_=_scale,
        anchors=True,

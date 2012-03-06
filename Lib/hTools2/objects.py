@@ -532,7 +532,7 @@ class hLine:
 
 	def draw(self, pos, color_=None, hmetrics=False, hmetrics_crop=False, \
 					anchors=False, scale_=.5, origin=False, baseline=False):
-		pen = NodeBoxPen(self.font.ufo._glyphSet, self.ctx)
+		pen = NodeBoxPen(self.font.ufo, self.ctx)
 		self.x, self.y = pos
 		self.line_length = 0
 		for glyph_name in self.glyph_names:

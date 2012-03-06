@@ -88,7 +88,7 @@ class paintGlyphsDialog(object):
                 glyph_name = get_glyphs(f)[0]
                 color = f[glyph_name].mark
                 print 'selecting glyphs...\n'
-                print '\tcolor: %s %s %s %s' % color
+                # print '\tcolor: %s %s %s %s' % color
                 glyph_names = []
                 for glyph in f:
                     if glyph.mark == color:

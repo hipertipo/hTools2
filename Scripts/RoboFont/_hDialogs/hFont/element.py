@@ -2,6 +2,9 @@
 
 from vanilla import *
 
+import hTools2.modules.rasterizer
+reload(hTools2.modules.rasterizer)
+
 from hTools2.modules.rasterizer import *
 from hTools2.extras.elementar import *
 
@@ -260,12 +263,14 @@ class setElementDialog(object):
     def _set_element_callback(self, sender):
         _shapes = [ 'rect', 'oval', 'super' ]
         _shape = _shapes[self.w._shape.get()]
-        f = CurrentFont()
+        font = CurrentFont()
         _scale = float(self._scale)
         _super = float(self._super)
-        f['_element'].prepareUndo('set element')
-        set_element(f, _scale, type=_shape, magic=_super)
-        f['_element'].performUndo()
+        element_glyph = '_element'
+        if font.has_key(element_glyph):
+            font[element_glyph].prepareUndo('set element')
+        set_element(font, _scale, type=_shape, magic=_super, element_=element_glyph)
+        font[element_glyph].performUndo()
 
 # run
 

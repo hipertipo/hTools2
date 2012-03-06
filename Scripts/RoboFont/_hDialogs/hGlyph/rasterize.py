@@ -2,26 +2,23 @@
 
 from vanilla import *
 
-import hTools2.modules.rasterizer
-reload(hTools2.modules.rasterizer)
-
 from hTools2.modules.rasterizer import *
 from hTools2.modules.fontutils import get_glyphs
 
 class rasterizeGlyphDialog(object):
 
-    _title = 'rasterize'
+    _title = 'rasterizer'
     _padding = 10
-    _padding_top = 12
+    _padding_top = 10
     _column_1 = 40
     _box_height = 22
     _box = 20
     _button_height = 30
     _button_2 = 18
     _width = 123
-    _height = 186
+    _height = 215
 
-    _gridsize = 120
+    _gridsize = 125
     _element_scale = 1.00
     
     def __init__(self):
@@ -114,7 +111,7 @@ class rasterizeGlyphDialog(object):
                     self._box),
                     isIndeterminate=True,
                     sizeStyle='small')
-
+        # print button
         y += self._box + self._padding_top - 1
         self.w.button_print = SquareButton(
                     (x, y,
@@ -123,6 +120,20 @@ class rasterizeGlyphDialog(object):
                     "print",
                     sizeStyle='small',
                     callback=self._print_callback)
+        # scan button
+        y += self._button_height + self._padding_top
+        self.w.button_scan = SquareButton(
+                    (x, y,
+                    -self._padding,
+                    self._button_height),
+                    "scan",
+                    callback=self._scan_callback,
+                    sizeStyle='small')
+
+        #y += self._button_height + self._padding_top
+
+
+
 
         # open window
         self.w.open()
@@ -158,6 +169,17 @@ class rasterizeGlyphDialog(object):
     def _nudge_plus_100_callback(self, sender):
         self._gridsize = int(self.w._gridsize_value.get()) + 100
         self.w._gridsize_value.set(self._gridsize)
+
+    def _scan_callback(self, sender):
+        f = CurrentFont()
+        glyph_names = get_glyphs(f)
+        if len(glyph_names) > 0:
+            print "scanning glyphs...\n"
+            for glyph_name in glyph_names:
+                g = RasterGlyph(f[glyph_name])
+                g.scan(res=self._gridsize)
+            f.update()
+            print "...done.\n"
 
     def _print_callback(self, sender):
         f = CurrentFont()

@@ -137,10 +137,10 @@ class RasterGlyph:
             # print '\tglyph %s is empty.\n' % destGlyph.name
             pass
 
-def set_element(f, size, type='rect', magic=None):
-    if f.has_key('_element') is False:
-        f.newGlyph('_element')
-    g = f['_element']
+def set_element(f, size, type='rect', magic=None, element_='_element'):
+    if f.has_key(element_) != True:
+        f.newGlyph(element_)
+    g = f[element_]
     g.clear()
     p = g.getPen()
     if type == 'oval':  

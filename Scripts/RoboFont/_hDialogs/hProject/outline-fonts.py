@@ -29,7 +29,7 @@ class batchProjectDialog(object):
     _selected_projects = []
     _open = True
 
-    projects = [ 'Jornalistica', 'Gavea', 'Guarana', 'Magnetica', 'Mechanica', 'Publica', 'Quantica', 'Synthetica' ]
+    projects = [ 'Jornalistica', 'Gavea', 'Guarana', 'Magnetica', 'Mechanica', 'Publica', 'PublicaPro', 'Quantica', 'Synthetica' ]
     # _ignore = [ 'Elementar' ]
 
     def __init__(self):
