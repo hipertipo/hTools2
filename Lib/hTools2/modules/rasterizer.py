@@ -57,7 +57,7 @@ class RasterGlyph:
             try:
                 self._read_bits_from_lib()
             except:
-                self.scan()
+                self.scan(res)
         marginLeft = white
         marginRight = white + ' '
         lineNumbers = self.coordenates.keys()

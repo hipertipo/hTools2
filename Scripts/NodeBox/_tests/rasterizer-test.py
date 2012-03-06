@@ -2,9 +2,6 @@
 
 colors = ximport("colors")
 
-import hTools2.modules.rasterizer
-reload(hTools2.modules.rasterizer)
-
 from hTools2.modules.rasterizer import *
 
 H ='''#########

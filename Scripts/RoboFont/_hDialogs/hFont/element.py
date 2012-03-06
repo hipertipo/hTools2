@@ -263,7 +263,9 @@ class setElementDialog(object):
         f = CurrentFont()
         _scale = float(self._scale)
         _super = float(self._super)
+        f['_element'].prepareUndo('set element')
         set_element(f, _scale, type=_shape, magic=_super)
+        f['_element'].performUndo()
 
 # run
 
