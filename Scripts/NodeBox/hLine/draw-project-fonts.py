@@ -15,7 +15,7 @@ background(bg_color)
 _scale = 117 * 0.001
 line_height = 89 * _scale * 10
 column_width = 69 * _scale * 10
-_text = 'minimium'
+_text = 'den haag'
 _text_mode = 'text'
 
 x = 36 * _scale * 10

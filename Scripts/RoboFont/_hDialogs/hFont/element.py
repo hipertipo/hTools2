@@ -17,7 +17,7 @@ class setElementDialog(object):
     _button_height = 30
     _button_2 = 18
     _width = 123
-    _height = (_box_height * 2) + (_box * 3) + (_padding * 9) + _button_height - 10
+    _height = (_box_height * 2) + (_box * 3) + (_padding * 7) + _button_height
 
     _scale = 100
     _super = .552

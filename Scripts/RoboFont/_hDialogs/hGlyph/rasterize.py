@@ -2,6 +2,9 @@
 
 from vanilla import *
 
+import hTools2.modules.rasterizer
+reload(hTools2.modules.rasterizer)
+
 from hTools2.modules.rasterizer import *
 from hTools2.modules.fontutils import get_glyphs
 
@@ -160,10 +163,10 @@ class rasterizeGlyphDialog(object):
         f = CurrentFont()
         glyph_names = get_glyphs(f)
         if len(glyph_names) > 0:
-            print "printing glyphs..."
+            print "printing glyphs...\n"
             for glyph_name in glyph_names:
                 g = RasterGlyph(f[glyph_name])
-                g._print()
+                g._print(res=self._gridsize)
             f.update()
             print "...done.\n"
 
