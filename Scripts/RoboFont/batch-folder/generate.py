@@ -107,12 +107,12 @@ class BatchGenerateFolderDialog(object):
         self._otfs_folder = folder_otfs[0]
 
     def button_apply_callback(self, sender):
-        if self._ufos_folder != None:
+        if self._ufos_folder is not None:
             _ufo_paths = walk(self._ufos_folder, 'ufo')
             if len(_ufo_paths) > 0:
                 # set otfs folder
-                if self._otfs_folder == None:
-                    _otfs_folder = self._ufos_folder
+                if self._otfs_folder is None:
+                    self._otfs_folder = self._ufos_folder
                 # get parameters                    
                 _decompose = self.w._decompose.get()
                 _overlaps = self.w._overlaps.get()

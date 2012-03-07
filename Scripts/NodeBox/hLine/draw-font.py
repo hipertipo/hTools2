@@ -22,7 +22,7 @@ L = hLine(ufo, _ctx)
 L.txt(_text, mode='text')
 L.draw((x, y),
        scale_=_scale,
-       anchors=True,
+       anchors=False,
        hmetrics=False,
        hmetrics_crop=False,
        origin=False,

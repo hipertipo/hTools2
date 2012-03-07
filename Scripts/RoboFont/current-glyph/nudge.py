@@ -191,25 +191,25 @@ class interpolatedNudgeDialog(object):
         if self._interpolated:
             nudgeSelected((-self._nudge, 0))
         else:
-            shiftSelectedPoints_x(CurrentGlyph(), -self._nudge)
+            shift_selected_points_x(CurrentGlyph(), -self._nudge)
 
     def _right_callback(self, sender):
         if self._interpolated:
             nudgeSelected((self._nudge, 0))
         else:
-            shiftSelectedPoints_x(CurrentGlyph(), self._nudge)
+            shift_selected_points_x(CurrentGlyph(), self._nudge)
 
     def _up_callback(self, sender):
         if self._interpolated:
             nudgeSelected((0, self._nudge))
         else:
-            shiftSelectedPoints_y(CurrentGlyph(), self._nudge)
+            shift_selected_points_y(CurrentGlyph(), self._nudge)
 
     def _down_callback(self, sender):
         if self._interpolated:
             nudgeSelected((0, -self._nudge))
         else:
-            shiftSelectedPoints_y(CurrentGlyph(), -self._nudge)
+            shift_selected_points_y(CurrentGlyph(), -self._nudge)
 
 # run
 

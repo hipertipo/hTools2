@@ -6,7 +6,7 @@ from hTools2.modules.fontutils import get_full_name
 
 class adjustVerticalMetrics(object):
 
-    _title = "vmetrics"
+    _title = "vertical metrics"
     _moveX = 0
     _moveY = 0
     _row_height = 28
@@ -27,6 +27,10 @@ class adjustVerticalMetrics(object):
                     self._title)
         # initialize font, alignments
         self.font = CurrentFont()
+        _ascender = self.font.info.ascender
+        _capheight = self.font.info.capHeight
+        _xheight = self.font.info.xHeight
+        _descender = abs(self.font.info.descender)
         x1 = self._padding
         x2 = x1 + self._column_1
         x3 = x2 + self._column_2 + 15
@@ -51,12 +55,11 @@ class adjustVerticalMetrics(object):
                     23),
                     'update',
                     sizeStyle='small',
-                    callback=self.switch_font_callback)
+                    callback=self.update_font_callback)
         y += self._row_height + self._padding
         #----------
         # ascender
         #----------
-        _ascender = self.font.info.ascender
         self._ascender_min = 1
         self._ascender_max = self.font.info.unitsPerEm * 1.6
         self.w.ascender_label = TextBox(
@@ -113,7 +116,6 @@ class adjustVerticalMetrics(object):
         #-----------
         # capheight
         #-----------
-        _capheight = self.font.info.capHeight
         self._capheight_min = 1
         self._capheight_max = self.font.info.unitsPerEm
         self.w.capheight_label = TextBox(
@@ -170,7 +172,6 @@ class adjustVerticalMetrics(object):
         #---------
         # xheight
         #---------
-        _xheight = self.font.info.xHeight
         self._xheight_min = 1
         self._xheight_max = self.font.info.unitsPerEm
         self.w.xheight_label = TextBox(
@@ -227,7 +228,6 @@ class adjustVerticalMetrics(object):
         #-----------
         # descender
         #-----------
-        _descender = abs(self.font.info.descender)
         self._descender_min = 1
         self._descender_max = self.font.info.unitsPerEm * .5
         self.w.descender_label = TextBox(
@@ -324,8 +324,9 @@ class adjustVerticalMetrics(object):
 
     # buttons
 
-    def switch_font_callback(self, sender):
-        print 'switch to current font'
+    def update_font_callback(self, sender):
+        self.font = CurrentFont()
+        self.w.box.text.set(get_full_name(self.font))
 
     def xheight_minus_01_callback(self, sender):
         _xheight_value = int(self.w.xheight_value.get()) - 1

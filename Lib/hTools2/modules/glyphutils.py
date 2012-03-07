@@ -142,6 +142,15 @@ def shift_selected_points_x(glyph, delta, anchors=False):
 						a.x = a.x + delta
 	glyph.update()
 
+# def shift_selected_bpoints_y(glyph, delta, anchors=False):
+# 	for c in glyph.contours:
+# 		for p in c.bPoints:
+# 			if p.selected is True:
+# 				x, y = p.anchor
+# 				y += delta
+# 			 	p.anchor = (x, y)
+# 	glyph.update()
+
 # glyph libs
 
 def check_lib(glyph):

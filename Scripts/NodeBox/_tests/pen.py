@@ -18,7 +18,6 @@ g.draw(pen)
 p = endpath(draw=False)
 drawpath(p)
 
-
 # http://nodebox.net/code/index.php/Manipulating_Paths
 
 nostroke()
