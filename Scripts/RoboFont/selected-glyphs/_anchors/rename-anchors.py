@@ -3,6 +3,7 @@
 from vanilla import *
 
 from hTools2.modules.anchors import rename_anchor
+from hTools2.modules.fontutils import get_glyphs
 
 # dialog
 
@@ -88,13 +89,14 @@ class renameAnchorsDialog(object):
                 print '\tnew name: %s' % _new
                 print 
                 # batch change anchors names
-                for gName in f.selection:
-                    if gName is not None:
+                glyph_names = get_glyphs(f)
+                for glyph_name in glyph_names:
+                    if glyph_name is not None:
                         # rename anchor                
-                        f[gName].prepareUndo('rename anchor')
-                        has_name = rename_anchor(f[gName], _old, _new)
-                        f[gName].performUndo()                        
-                        f[gName].update()
+                        f[glyph_name].prepareUndo('rename anchor')
+                        has_name = rename_anchor(f[glyph_name], _old, _new)
+                        f[glyph_name].performUndo()
+                        f[glyph_name].update()
                 # done
                 f.update()
                 print '...done.\n'
