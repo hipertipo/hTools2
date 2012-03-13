@@ -1,10 +1,9 @@
 # [h] hTools2.modules.ftp
 
 import os
-
 from ftplib import FTP
 
-def connectToServer(url, login, password, folder, verbose=False):
+def connect_to_server(url, login, password, folder, verbose=False):
 	# create FTP connection
 	ftp = FTP(url, login, password)
 	if verbose == True:
@@ -16,7 +15,7 @@ def connectToServer(url, login, password, folder, verbose=False):
 		print
 	return ftp
 
-def uploadFile(filePath, FTPconnection):
+def upload_file(filePath, FTPconnection):
 	file = open(filePath, 'rb')
 	fileName = os.path.split(filePath)[1]
 	FTPconnection.storbinary('STOR ' + fileName, file)

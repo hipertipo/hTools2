@@ -1,62 +1,76 @@
 # hTools2.modules.encoding
 
-#------------------
-# font-level tools
-#------------------
+import os
 
-def clearUnicodes(f):
+def import_encoding(file_path):
+    if os.path.exists(file_path):
+        lines = open(file_path, 'r').readlines()
+        groups = {}
+        order = []
+        count = 0
+    for line in lines:
+        if count == 0:
+            pass
+        elif line[:1] == '%':
+            if line[1:2] != '_':
+                group_name = line[18:-1]
+                if len(group_name) > 0:
+                    groups[group_name] = []
+                    order.append(group_name)
+        else:
+            glyph_name = line[:-1]
+            groups[group_name].append(glyph_name)
+        count = count + 1
+    return groups, order
+
+# font-level tools
+
+def clear_unicodes(f):
 	for g in f:
 		g.unicodes = []
 	f.update()
 
-def autoUnicodes(font):
-	clearUnicodes(font)
-	for glyph in font:
-		autoUnicode(glyph)
-	font.update()
+def auto_unicodes(f):
+	clear_unicodes(f)
+	for g in f:
+		auto_unicode(g)
+	f.update()
 
-#-------------------
 # glyph-level tools
-#-------------------
 
-def autoUnicode(g):
+def auto_unicode(g):
 	# handle 'uni' names
 	if g.name[:3] == "uni" and len(g.name) == 7:
 		c = g.name
 		g.unicode = int(c.split('uni')[1], 16)
 	# handle extra cases
-	elif g.name in _extra_unicodes.keys():
-		uString = 'uni%s' % _extra_unicodes[g.name]
-		g.unicode = unicodeHexstrToInt(uString)
+	elif g.name in unicodes_extra.keys():
+		uString = 'uni%s' % unicodes_extra[g.name]
+		g.unicode = unicode_hexstr_to_int(uString)
 	# use auto unicode for everything else
 	else:
 		g.autoUnicodes()
 	g.update()
 
-#------------------------------
-# unicode-to-string conversion
-# (code by Karsten Luecke)
-#------------------------------
+# unicode-to-string conversion (thanks Karsten Luecke, 2010)
 
-def unicodeIntToHexstr(intUnicode, add0x=False, addUni=False):
+def unicode_int_to_hexstr(intUnicode, _0x=False, uni=False):
 	hexUnicode = "%X".lstrip("0x") % intUnicode
 	hexUnicode = "0" * (4 - len(hexUnicode)) + hexUnicode
-	if add0x:
+	if _0x:
 		return "0x%s" % hexUnicode
-	elif addUni:
+	elif uni:
 		return "uni%s" % hexUnicode
 	return hexUnicode
 
-def unicodeHexstrToInt(hexUnicode, replaceUni=True):
+def unicode_hexstr_to_int(hexUnicode, replaceUni=True):
 	if replaceUni:
 		return int(hexUnicode.replace("uni",""), 16)
 	return int(hexUnicode.lstrip("x"), 16)
 
-#---------------------------------------
-# additional mappings for autoUnicode()
-#---------------------------------------
+# additional unicode mappings
 
-_extra_unicodes = {
+unicodes_extra = {
 	# extended latin
 	'schwa' : '0259',
 	'dotlessj' : '0237',
@@ -101,9 +115,7 @@ _extra_unicodes = {
 	'zerowidthspace' : '200B'
 }
 
-#-------------------------------
-# unicode-to-psnames conversion 
-#-------------------------------
+# unicode-to-psnames conversion (thanks Frederik Berlaen, 2007)
 
 unicode2psnames = {
 	None : '.notdef',

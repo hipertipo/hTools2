@@ -1,16 +1,13 @@
 # [h] clear anchors
 
-'''delete anchors in selected glyphs'''
-
-from robofab.world import CurrentFont
-
 f = CurrentFont()
+
 print "deleting anchors..."
 for g in f:
 	if g.selected == True:
-		# print g.name
+		g.prepareUndo('clear anchors')
 		g.clearAnchors()
 		g.update()
-
+		g.performUndo()
 f.update()
 print "done.\n"

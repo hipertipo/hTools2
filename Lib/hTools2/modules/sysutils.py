@@ -24,5 +24,4 @@ def get_context():
 	# 
 	return context
 
-
-context = get_context()
+_ctx = get_context()
