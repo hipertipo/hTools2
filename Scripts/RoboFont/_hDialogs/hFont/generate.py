@@ -8,7 +8,7 @@ from hTools2.objects import hFont
 
 class generateFontDialog(object):
 
-    _title = "hFont"
+    _title = "generate"
     _padding = 10
     _padding_top = 12
     _box_height = 20
@@ -55,6 +55,7 @@ class generateFontDialog(object):
                     ["otfs", "test"],
                     isVertical=False,
                     sizeStyle='small')
+        self.w._otfs_path.set(0)
         y += self._box_height + self._padding_top
         self.w._decompose = CheckBox(
                     (x, y,

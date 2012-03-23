@@ -9,7 +9,7 @@ from hTools2.modules.color import hls_to_rgb, paint_groups, clear_colors
 
 class batchProjectDialog(object):
 
-    _title = "hipertipo.fonts"
+    _title = "high-res fonts"
     _col1 = 140
     _col2 = 180
     _col3 = 80

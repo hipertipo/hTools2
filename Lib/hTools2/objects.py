@@ -70,7 +70,7 @@ class hSpace:
 	def __init__(self):
 		self.world = hWorld()
 
-	def build(self):
+	def build(self, separator=False):
 		parts = len(self.parameters_order)
 		fonts = {}
 		for project_name in self.projects:
@@ -87,7 +87,10 @@ class hSpace:
 				param_name_2 = self.parameters_order[1]	
 				for a in self.parameters[param_name_1]:
 					for b in self.parameters[param_name_2]:
-						style_name = '%s%s' % (a, b)
+						if separator:
+							style_name = '%s-%s' % (a, b)
+						else:
+							style_name = '%s%s' % (a, b)							
 						font_names.append(style_name)
 			elif parts == 3:
 				param_name_1 = self.parameters_order[0]	
@@ -96,19 +99,24 @@ class hSpace:
 				for a in self.parameters[param_name_1]:
 					for b in self.parameters[param_name_2]:
 						for c in self.parameters[param_name_3]:
-							style_name = '%s%s%s' % (a, b, c)
+							if separator:
+								style_name = '%s-%s-%s' % (a, b, c)
+							else:
+								style_name = '%s%s%s' % (a, b, c)
 							font_names.append(style_name)
 			elif parts == 4:
-				param_name_1 = self.parameters_order[0]	
-				param_name_2 = self.parameters_order[1]	
-				param_name_3 = self.parameters_order[2]	
-				param_name_4 = self.parameters_order[3]	
+				param_name_1 = self.parameters_order[0]
+				param_name_2 = self.parameters_order[1]
+				param_name_3 = self.parameters_order[2]
+				param_name_4 = self.parameters_order[3]
 				for a in self.parameters[param_name_1]:
 					for b in self.parameters[param_name_2]:
 						for c in self.parameters[param_name_3]:
 							for d in self.parameters[param_name_4]:
-								style_name = '%s%s%s%s' % (a, b, c, d)
-								font_name = '%s_%s' % (project_name, style_name)
+								if separator:
+									style_name = '%s-%s-%s-%s' % (a, b, c, d)
+								else:
+									style_name = '%s%s%s%s' % (a, b, c, d)
 								font_names.append(style_name)
 			else:
 				print 'too many parts, current hSpace implementation only supports 4 parameters.\n'
@@ -172,6 +180,14 @@ class hProject:
 		_groups, _order = import_encoding(_file_path)
 		self.libs['groups']['glyphs'] = _groups
 		self.libs['groups']['order'] = _order
+
+	def all_glyphs(self, ignore=['invisible']):
+		_all_glyphs = []
+		self.import_encoding()
+		for group in self.libs['groups']['order']:
+			if group not in ignore:
+				_all_glyphs += self.libs['groups']['glyphs'][group]
+		return _all_glyphs
 
 	def write_lib(self, lib_name):
 		_filename = '%s.%s' % (lib_name, self._lib_extension)
@@ -420,6 +436,30 @@ class hFont:
 	def set_names(self):
 		set_names(self.ufo)
 
+	def set_info(self):
+		set_names(self.ufo)
+		# font.info.styleMapFamilyName
+		# font.info.styleMapStyleName
+		# font.info.openTypeNameDesigner
+		# font.info.openTypeNameDesignerURL
+		# font.info.openTypeNameManufacturer
+		# font.info.openTypeNameManufacturerURL
+		# font.info.openTypeNameLicense
+		# font.info.openTypeNameLicenseURL
+		# font.info.openTypeNameVersion
+		# font.info.openTypeNameUniqueID
+		# font.info.openTypeNameDescription
+		# font.info.openTypeNamePreferredFamilyName
+		# font.info.openTypeNamePreferredSubfamilyName
+		# font.info.openTypeNameCompatibleFullName
+		# font.info.openTypeNameSampleText
+		# font.info.openTypeNameWWSFamilyName
+		# font.info.openTypeNameWWSSubfamilyName
+		# font.info.postscriptFontName
+		# font.info.postscriptFullName
+		# font.info.postscriptSlantAngle
+		# font.info.postscriptUniqueID
+
 	# paths
 
 	def otf_path(self, test=False):
@@ -530,24 +570,24 @@ class hLine:
 		else:
 			self.glyph_names = self._text_to_gnames(_text)
 
-	def draw(self, pos, color_=None, hmetrics=False, hmetrics_crop=False, \
+	def draw(self, pos, color_=None, hmetrics=False, hmetrics_crop=False,
 					anchors=False, scale_=.5, origin=False, baseline=False):
 		pen = NodeBoxPen(self.font.ufo, self.ctx)
 		self.x, self.y = pos
 		self.line_length = 0
 		for glyph_name in self.glyph_names:
 			# draw guidelines
-			if hmetrics:
-				if hmetrics_crop:
+			if hmetrics is True:
+				if hmetrics_crop is True:
 					y_min = self.font.ufo.info.descender * scale_
 					y_max = self.font.ufo.info.ascender * scale_
 					y_range_ = (self.y - y_min, self.y - y_max)
 				else:
 					y_range_ = None
 				draw_vertical_line(self.x, self.ctx, y_range=y_range_)
-			if origin:
+			if origin is True:
 				draw_cross((self.x, self.y), self.ctx)
-			if baseline:
+			if baseline is True:
 				draw_horizontal_line(self.y, self.ctx)
 			# set color
 			self.ctx.nostroke()
@@ -566,7 +606,7 @@ class hLine:
 			P = self.ctx.endpath(draw=False)
 			self.ctx.drawpath(P)
 			# draw anchors
-			if anchors:
+			if anchors is True:
 				if len(g.anchors) > 0: 
 					for a in g.anchors:
 						x = (a.position[0] * scale_)
@@ -575,7 +615,7 @@ class hLine:
 			self.ctx.pop()
 			self.line_length += (g.width * scale_)
 			self.x += (g.width * scale_)
- 
+
 class hParagraph:
 
 	def __init__(self):

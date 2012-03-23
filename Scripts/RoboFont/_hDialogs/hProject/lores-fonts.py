@@ -10,7 +10,7 @@ from hTools2.modules.rasterizer import set_element
 
 class batchGridFontsDialog(object):
 
-    _title = "hipertipo.gridfonts"
+    _title = "low-res fonts"
     _col1 = 160
     _col2 = 142
     _col3 = 110

@@ -21,7 +21,7 @@ gstring = '/a'
 
 wts = [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]
 wds = [ 5 ]
-res = 4
+res = 1
 
 # draw
 
