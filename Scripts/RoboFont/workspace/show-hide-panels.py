@@ -13,9 +13,7 @@ panels = [window for window in windows if isinstance(window, NSPanel)]
 
 # get state
 
-show_panels = getExtensionDefault('com.hipertipo.showHidePanels', fallback=dict())
-if type(show_panels) != bool:
-    show_panels = True
+show_panels = getExtensionDefault('com.hipertipo.showHidePanels', fallback=True)
 
 # show panels
 
