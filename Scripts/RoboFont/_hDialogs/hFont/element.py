@@ -109,6 +109,7 @@ class setElementDialog(object):
                     ['r', 'o', 's'],
                     sizeStyle='small',
                     isVertical=False)
+        self.w._shape.set(0)
         # magic
         x = self._padding
         y += self._button_2 + self._padding_top

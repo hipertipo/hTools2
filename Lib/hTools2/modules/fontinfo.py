@@ -2,11 +2,14 @@
 
 import os
 
+from hTools2.modules.fontutils import get_names_from_path
+
 # set info
 
 def set_names(font):
-    file_name = os.path.split(font.path)[1].split('.')[0]
-    family_name, style_name = file_name.split('_')
+    # file_name = os.path.split(font.path)[1].split('.')[0]
+    family_name, style_name = get_names_from_path(font.path)
+    print family_name, style_name
     font.info.familyName = family_name
     font.info.styleName = style_name
 

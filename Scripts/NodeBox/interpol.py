@@ -91,7 +91,7 @@ _y_graph = 599
 _graph_step = 37
 _oval_size = 11
 
-x_shift = 93
+x_shift = 102
 y_shift = 26
 
 x = 26
@@ -100,7 +100,7 @@ y = 34
 master_1 = 20
 master_2 = 140
 
-iter = 1
+iter = 4
 _graph_width = 394
 
 interpol_serie(master_1, master_2, iter)

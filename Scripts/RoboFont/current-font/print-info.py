@@ -28,7 +28,7 @@ class clearFontInfoDialog(object):
     _postscript_data = False
     
     def __init__(self):
-        self.font = CurrentFont()
+        #self.font = CurrentFont()
         self.w = FloatingWindow(
                     (self._width,
                     self._height),
@@ -163,6 +163,8 @@ class clearFontInfoDialog(object):
         # open window
         self.w.open()
 
+    # callbacks
+
     def _select_all_callback(self, sender):
         _value = self.w._select_all.get()
         self.set_values(_value)
@@ -179,6 +181,9 @@ class clearFontInfoDialog(object):
         self.w._opentype_vhea.set(value)
         self.w._postscript_data.set(value)
 
+    def get_font(self):
+        self.font = CurrentFont()
+
     def get_values(self):
         self._generic_identification = self.w._generic_identification.get()
         self._generic_legal = self.w._generic_legal.get()
@@ -192,6 +197,7 @@ class clearFontInfoDialog(object):
         self._postscript_data = self.w._postscript_data.get()
 
     def clear_callback(self, sender):
+        self.get_font()
         self.get_values()
         print 'clearing font info...\n'
         if self._generic_identification:
@@ -229,6 +235,7 @@ class clearFontInfoDialog(object):
         print '...done.\n'
 
     def print_callback(self, sender):
+        self.get_font()
         self.get_values()
         print 'print font info...\n'
         if self._generic_identification:

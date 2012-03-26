@@ -12,7 +12,7 @@ bg_color = color(0)
 size(1600, 1200)
 background(bg_color)
 
-_scale = 140 * 0.001
+_scale = 70 * 0.001
 line_height = 89 * _scale * 10
 column_width = 69 * _scale * 10
 _text = 'robothon'
@@ -21,7 +21,7 @@ _text_mode = 'text'
 x = 36 * _scale * 10
 y = 95 * _scale * 10
 
-projects = [ 'Publica' ]
+projects = [ 'Synthetica' ]
 
 wts = [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]
 wds = [ 5 ]
