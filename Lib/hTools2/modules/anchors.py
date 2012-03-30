@@ -41,3 +41,9 @@ def transfer_anchors(source_glyph, dest_glyph):
 			dest_glyph.appendAnchor(anchor, anchorsDict[anchor])
 			dest_glyph.update()
 	return has_anchor
+
+def move_anchors(glyph, anchor_names, (delta_x, delta_y)):
+	for anchor in glyph.anchors:
+		if anchor.name in anchor_names:
+			anchor.move((delta_x, delta_y))
+			glyph.update()

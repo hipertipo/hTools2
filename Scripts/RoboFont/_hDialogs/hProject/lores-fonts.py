@@ -22,7 +22,7 @@ class batchGridFontsDialog(object):
     _row_height = 18
     _button_height = 30
     _width = _col1 + _col2 + (_padding * 2)
-    _height = _col_height + _button_height + _row_height + (_padding * 5) + (_row_height * 6)
+    _height = _col_height + _button_height + _row_height + (_padding * 5) + (_row_height * 7)
 
     _masters = []
     _selected_projects = []
@@ -147,8 +147,26 @@ class batchGridFontsDialog(object):
                     text='1.2',
                     sizeStyle='small')
         y += self._row_height + self._padding
+        # set names
+        self.w.set_names = CheckBox(
+                    (x, y,
+                    -0,
+                    self._row_height),
+                    "set names",
+                    value=False,
+                    sizeStyle='small')
+        # set features
+        self.w.set_features = CheckBox(
+                    (x + self._col4,
+                    y,
+                    -0,
+                    self._row_height),
+                    "set features",
+                    value=False,
+                    sizeStyle='small')
         # apply button
-        x = self._padding
+        x = self._padding        
+        y += self._row_height + self._padding
         self.w.button_apply = SquareButton(
                     (x, y,
                     self._width - (self._padding * 2),
@@ -211,6 +229,8 @@ class batchGridFontsDialog(object):
                 self.w.scale_glyphs.get(),
                 self.w.scale_glyphs_value.get()
             ],
+            'set names' : self.w.set_names.get(),
+            'set features' : self.w.set_features.get(),
         }
         return _actions
 
@@ -243,6 +263,14 @@ class batchGridFontsDialog(object):
                     factor = float(actions['scale glyphs'][1])
                     print '\t\tscaling glyphs (%s)... ' % factor
                     scale_glyphs(font.ufo, factor)
+                # set names
+                if actions['set names']:
+                    print '\t\tsetting font names...'
+                    font.set_names()
+                # set features
+                if actions['set features']:
+                    print '\t\tsetting font names...'
+                    font.import_features()
                 # save
                 if actions['save ufo']:
                     print '\t\tsaving ufo...'

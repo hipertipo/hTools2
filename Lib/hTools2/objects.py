@@ -10,6 +10,9 @@ except:
 
 import hTools2
 
+import hTools2.modules.opentype
+reload(hTools2.modules.opentype)
+
 from hTools2.modules.color import hls_to_rgb, paint_groups, clear_colors
 from hTools2.modules.encoding import auto_unicodes, import_encoding, unicode2psnames
 from hTools2.modules.fontutils import get_names_from_path, get_spacing_groups, get_glyphs
@@ -19,6 +22,7 @@ from hTools2.modules.ftp import connect_to_server, upload_file
 from hTools2.modules.nodebox import draw_horizontal_line, draw_vertical_line, draw_cross
 from hTools2.modules.pens import *
 from hTools2.modules.sysutils import _ctx
+from hTools2.modules.opentype import import_features, export_features
 
 class hSettings:
 
@@ -175,9 +179,7 @@ class hProject:
 				self.libs[lib_name] = {}
 
 	def import_encoding(self):
-		_file_name = '%s.enc' % self.name
-		_file_path = os.path.join(self.paths['libs'], _file_name)
-		_groups, _order = import_encoding(_file_path)
+		_groups, _order = import_encoding(self.paths['encoding'])
 		self.libs['groups']['glyphs'] = _groups
 		self.libs['groups']['order'] = _order
 
@@ -224,6 +226,15 @@ class hProject:
 		_paths['interpol'] = os.path.join(_project_root, '_ufos/_interpol')
 		_paths['interpol_instances'] = os.path.join(_project_root, '_ufos/_interpol/_instances')
 		_paths['otfs_test'] = os.path.join(self.world.settings.hDict['test'], '_%s') % self.name
+		# encoding path
+		_enc_filename = '%s.enc' % self.name
+		_enc_path = os.path.join(_paths['libs'], _enc_filename)
+		_paths['encoding'] = _enc_path
+		# features path
+		_fea_filename = '%s.fea' % self.name
+		_fea_path = os.path.join(_paths['libs'], _fea_filename)
+		_paths['features'] = _fea_path
+		# save to project
 		self.paths = _paths
 
 	def make_lib_paths(self):
@@ -427,6 +438,12 @@ class hFont:
 		for group in self.project.libs['groups']['glyphs'].keys():
 			self.ufo.groups[group] = self.project.libs['groups']['glyphs'][group]
 		self.ufo.lib['groups_order'] = self.project.libs['groups']['order']
+
+	def import_features(self):
+		import_features(self.ufo, self.project.paths['features'])
+
+	def export_features(self):
+		export_features(self.ufo, self.project.paths['features'])
 
 	# font names
 
