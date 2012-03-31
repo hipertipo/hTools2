@@ -2,7 +2,7 @@
 
 import os
 
-from robofab.world import CurrentGlyph
+from robofab.world import CurrentGlyph, CurrentFont, NewFont
 
 from hTools2.modules.glyphutils import round_points
 from hTools2.modules.color import named_colors
@@ -256,3 +256,13 @@ def scale_glyphs(f, factor):
             g.rightMargin = rightMargin * factor
             g.update()
     f.update()
+
+
+# misc
+
+def temp_font():
+    if CurrentFont() is None:
+        t = NewFont()
+    else:
+        t = CurrentFont()
+    return t
