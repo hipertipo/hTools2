@@ -6,7 +6,6 @@ from vanilla.dialogs import getFile
 from hTools2.modules.fileutils import read_names_list_from_file
 from hTools2.modules.fontutils import rename_glyphs_from_list
 
-
 class batchRenameGlyphs(object):
 
     _title = 'rename'

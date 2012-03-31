@@ -4,7 +4,7 @@
 
 from vanilla import *
 
-from hTools2.modules.fontutils import get_full_name
+from hTools2.modules.fontutils import get_full_name, get_glyphs
 from hTools2.modules.glyphutils import center_glyph
 
 
@@ -104,26 +104,22 @@ class copyWidthsDialog(object):
         print '\tcenter: %s' % boolstring[_center]
         print
         # batch copy side-bearings
-        for gName in _source_font.selection:
-            # set undo
-            _source_font[gName].prepareUndo('copy width')
-            _dest_font[gName].prepareUndo('copy width')
-            # copy
-            print '\t%s' % gName,
-            _dest_font[gName].width = _source_font[gName].width
-            # center
-            if _center:
-                center_glyph(_dest_font[gName])
-            # call undo
-            _dest_font.performUndo()
-            _dest_font.update()
-            _dest_font.performUndo()
-            _dest_font.update()
+        for glyph_name in get_glyphs(_source_font):
+            if _dest_font.has_key(glyph_name):
+                # set undo
+                _dest_font[glyph_name].prepareUndo('copy width')
+                # copy
+                print '\t%s' % glyph_name,
+                _dest_font[glyph_name].width = _source_font[glyph_name].width
+                # center
+                if _center:
+                    center_glyph(_dest_font[glyph_name])
+                # call undo
+                _dest_font[glyph_name].performUndo()
+                _dest_font[glyph_name].update()
+        _dest_font.update()
         print
         print '\n...done.\n'
-
-    def close_callback(self, sender):
-        self.w.close()
 
 # run
 
