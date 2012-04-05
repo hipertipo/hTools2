@@ -158,44 +158,44 @@ class transformSelectedGlyphsDialog(object):
             print 'transforming selected glyphs...\n'
             for gName in get_glyphs(f):
                 if self._clear:
-                    print '\tdeleting outlines %s' % gName
+                    print '\tdeleting outlines in %s...' % gName
                     f[gName].prepareUndo('clear glyph contents')
                     f.newGlyph(gName, clear=True)
                     f[gName].performUndo()
                 if self._clear_layers:
-                    print '\tdeleting layers %s' % gName
+                    print '\tdeleting layers in %s...' % gName
                     f[gName].prepareUndo('clear layer contents')
                     for layer_name in f.layerOrder:
                         f[gName].getLayer(layer_name, clear=True)
                     f[gName].update()
                     f[gName].performUndo()
                 if self._round:
-                    print '\trounding %s' % gName
+                    print '\trounding point positions in %s...' % gName
                     f[gName].prepareUndo('round point positions')
                     f[gName].round()
                     f[gName].performUndo()
                 if self._decompose:
-                    print '\t\tdecomposing...'
+                    print '\t\tdecomposing %s...' % gName
                     f[gName].prepareUndo('decompose')
                     f[gName].decompose()
                     f[gName].performUndo()
                 if self._overlaps:
-                    print '\t\tremoving overlaps...'
+                    print '\t\tremoving overlaps in %s...' % gName
                     f[gName].prepareUndo('remove overlaps')
                     f[gName].removeOverlap()
                     f[gName].performUndo()
                 if self._extremes:
-                    print '\t\tadding extreme points...'
+                    print '\t\tadding extreme points to %s...' % gName
                     f[gName].prepareUndo('add extreme points')
                     f[gName].extremePoints()
                     f[gName].performUndo()
                 if self._order:
-                    print '\t\tauto contour order...'
+                    print '\t\tauto contour order in %s...' % gName
                     f[gName].prepareUndo('auto contour order')
                     f[gName].autoContourOrder()
                     f[gName].performUndo()    
                 if self._direction:
-                    print '\t\tauto contour direction...'
+                    print '\t\tauto contour direction in %s...' % gName
                     f[gName].prepareUndo('auto contour directions')
                     f[gName].correctDirection()
                     f[gName].performUndo()
