@@ -12,10 +12,11 @@ class transformSelectedGlyphsDialog(object):
     _padding = 10
     _padding_top = 8
     _width = 123
-    _height = (_padding_top * 3) + (_row_height * 7) + _button_height + 3
+    _height = (_padding_top * 3) + (_row_height * 8) + _button_height + 3
 
     _gNames = []
     _clear = False
+    _clear_layers = False
     _round = False
     _decompose = False
     _order = False
@@ -38,6 +39,16 @@ class transformSelectedGlyphsDialog(object):
                     "clear outlines",
                     callback=self.clear_callback,
                     value=self._clear,
+                    sizeStyle='small')
+        # clear layers
+        y += self._row_height
+        self.w.clear_layers_checkBox = CheckBox(
+                    (x, y,
+                    -self._padding,
+                    self._row_height),
+                    "clear layers",
+                    callback=self.clear_layers_callback,
+                    value=self._clear_layers,
                     sizeStyle='small')
         # round point positions
         y += self._row_height
@@ -117,6 +128,9 @@ class transformSelectedGlyphsDialog(object):
     def clear_callback(self, sender):
         self._clear = sender.get()
 
+    def clear_layers_callback(self, sender):
+        self._clear_layers = sender.get()
+
     def round_callback(self, sender):
         self._round = sender.get()
 
@@ -147,6 +161,13 @@ class transformSelectedGlyphsDialog(object):
                     print '\tdeleting outlines %s' % gName
                     f[gName].prepareUndo('clear glyph contents')
                     f.newGlyph(gName, clear=True)
+                    f[gName].performUndo()
+                if self._clear_layers:
+                    print '\tdeleting layers %s' % gName
+                    f[gName].prepareUndo('clear layer contents')
+                    for layer_name in f.layerOrder:
+                        f[gName].getLayer(layer_name, clear=True)
+                    f[gName].update()
                     f[gName].performUndo()
                 if self._round:
                     print '\trounding %s' % gName

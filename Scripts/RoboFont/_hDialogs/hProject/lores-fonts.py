@@ -22,7 +22,7 @@ class batchGridFontsDialog(object):
     _row_height = 18
     _button_height = 30
     _width = _col1 + _col2 + (_padding * 2)
-    _height = _col_height + _button_height + _row_height + (_padding * 5) + (_row_height * 7)
+    _height = _col_height + _button_height + _row_height + (_padding * 6) + (_row_height * 8)
 
     _masters = []
     _selected_projects = []
@@ -164,6 +164,26 @@ class batchGridFontsDialog(object):
                     "set features",
                     value=False,
                     sizeStyle='small')
+        # set encoding
+        self.w.import_encoding = CheckBox(
+                    (x + self._col4 + 100,
+                    y,
+                    -0,
+                    self._row_height),
+                    "order glyphs",
+                    value=False,
+                    sizeStyle='small')
+        # generate otf
+        y += self._row_height + self._padding
+        self.w.generate_otf = CheckBox(
+                    (x,
+                    y,
+                    -0,
+                    self._row_height),
+                    "generate .otf",
+                    value=False,
+                    sizeStyle='small')
+
         # apply button
         x = self._padding        
         y += self._row_height + self._padding
@@ -231,6 +251,8 @@ class batchGridFontsDialog(object):
             ],
             'set names' : self.w.set_names.get(),
             'set features' : self.w.set_features.get(),
+            'generate otf' : self.w.generate_otf.get(),
+            'order glyphs' : self.w.import_encoding.get()
         }
         return _actions
 
@@ -250,6 +272,12 @@ class batchGridFontsDialog(object):
                     ufo = RFont(font_path, showUI=False)
                     print '\topening font %s...' % ufo
                 font = hFont(ufo)       
+                # order glyphs
+                if actions['order glyphs']:
+                    print '\t\tordering glyphs...'
+                    font.import_groups_from_encoding()
+                    font.order_glyphs()
+                    font.paint_groups()
                 # set element
                 if actions['set element'][0]:
                     modes = [ 'rect', 'oval', 'super']
@@ -269,12 +297,22 @@ class batchGridFontsDialog(object):
                     font.set_names()
                 # set features
                 if actions['set features']:
-                    print '\t\tsetting font names...'
+                    print '\t\tsetting OpenType features...'
                     font.import_features()
                 # save
                 if actions['save ufo']:
                     print '\t\tsaving ufo...'
                     font.ufo.save()
+                # generate otf
+                    print '\t\tgenerating .otf font...'
+                if actions['generate otf']:    
+                    font.ufo.generate(
+                        font.otf_path(test=True), 'otf',
+                        decompose=True,
+                        autohint=False,
+                        checkOutlines=True,
+                        releaseMode=True,
+                        glyphOrder=[])
                 # open window
                 if actions['close font']:
                     print '\tclosing font.'

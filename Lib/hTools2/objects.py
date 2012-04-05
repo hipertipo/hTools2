@@ -10,9 +10,6 @@ except:
 
 import hTools2
 
-import hTools2.modules.opentype
-reload(hTools2.modules.opentype)
-
 from hTools2.modules.color import hls_to_rgb, paint_groups, clear_colors
 from hTools2.modules.encoding import auto_unicodes, import_encoding, unicode2psnames
 from hTools2.modules.fontutils import get_names_from_path, get_spacing_groups, get_glyphs
@@ -71,80 +68,74 @@ class hSpace:
 	projects = []
 	fonts = {}
 	
-	def __init__(self):
-		self.world = hWorld()
+	def __init__(self, project_name):
+		self.project = hProject(project_name)
 
 	def build(self, separator=False):
 		parts = len(self.parameters_order)
-		fonts = {}
-		for project_name in self.projects:
-			font_names = []
-			if parts == 0:
-				print 'parameters order is empty, please set some values first.\n'
-			elif parts == 1:
-				param_name = self.parameters_order[0]
-				for a in self.parameters[param_name]:
-					style_name = '%s' % a
+		font_names = []
+		if parts == 0:
+			print 'parameters order is empty, please set some values first.\n'
+		elif parts == 1:
+			param_name = self.parameters_order[0]
+			for a in self.parameters[param_name]:
+				style_name = '%s' % a
+				font_names.append(style_name)
+		elif parts == 2:
+			param_name_1 = self.parameters_order[0]	
+			param_name_2 = self.parameters_order[1]	
+			for a in self.parameters[param_name_1]:
+				for b in self.parameters[param_name_2]:
+					if separator:
+						style_name = '%s-%s' % (a, b)
+					else:
+						style_name = '%s%s' % (a, b)							
 					font_names.append(style_name)
-			elif parts == 2:
-				param_name_1 = self.parameters_order[0]	
-				param_name_2 = self.parameters_order[1]	
-				for a in self.parameters[param_name_1]:
-					for b in self.parameters[param_name_2]:
+		elif parts == 3:
+			param_name_1 = self.parameters_order[0]	
+			param_name_2 = self.parameters_order[1]	
+			param_name_3 = self.parameters_order[2]	
+			for a in self.parameters[param_name_1]:
+				for b in self.parameters[param_name_2]:
+					for c in self.parameters[param_name_3]:
 						if separator:
-							style_name = '%s-%s' % (a, b)
+							style_name = '%s-%s-%s' % (a, b, c)
 						else:
-							style_name = '%s%s' % (a, b)							
+							style_name = '%s%s%s' % (a, b, c)
 						font_names.append(style_name)
-			elif parts == 3:
-				param_name_1 = self.parameters_order[0]	
-				param_name_2 = self.parameters_order[1]	
-				param_name_3 = self.parameters_order[2]	
-				for a in self.parameters[param_name_1]:
-					for b in self.parameters[param_name_2]:
-						for c in self.parameters[param_name_3]:
+		elif parts == 4:
+			param_name_1 = self.parameters_order[0]
+			param_name_2 = self.parameters_order[1]
+			param_name_3 = self.parameters_order[2]
+			param_name_4 = self.parameters_order[3]
+			for a in self.parameters[param_name_1]:
+				for b in self.parameters[param_name_2]:
+					for c in self.parameters[param_name_3]:
+						for d in self.parameters[param_name_4]:
 							if separator:
-								style_name = '%s-%s-%s' % (a, b, c)
+								style_name = '%s-%s-%s-%s' % (a, b, c, d)
 							else:
-								style_name = '%s%s%s' % (a, b, c)
+								style_name = '%s%s%s%s' % (a, b, c, d)
 							font_names.append(style_name)
-			elif parts == 4:
-				param_name_1 = self.parameters_order[0]
-				param_name_2 = self.parameters_order[1]
-				param_name_3 = self.parameters_order[2]
-				param_name_4 = self.parameters_order[3]
-				for a in self.parameters[param_name_1]:
-					for b in self.parameters[param_name_2]:
-						for c in self.parameters[param_name_3]:
-							for d in self.parameters[param_name_4]:
-								if separator:
-									style_name = '%s-%s-%s-%s' % (a, b, c, d)
-								else:
-									style_name = '%s%s%s%s' % (a, b, c, d)
-								font_names.append(style_name)
-			else:
-				print 'too many parts, current hSpace implementation only supports 4 parameters.\n'
-			# save fonts
-			fonts[project_name] = font_names
-		# save projects
-		self.fonts = fonts
+		else:
+			print 'too many parts, current hSpace implementation only supports 4 parameters.\n'
+		# save font list
+		self.fonts = font_names
 
 	def existing_fonts(self):
 		font_paths = []
-		for project_name in self.fonts.keys():
-			p = hProject(project_name)
-			masters = p.masters()
-			instances = p.instances()
-			for style_name in self.fonts[project_name]:
-				font_name = '%s_%s.ufo' % (project_name, style_name)
-				master_path = os.path.join(p.paths['ufos'], font_name)
-				instance_path = os.path.join(p.paths['instances'], font_name)
-				if os.path.exists(master_path):
-					font_paths.append(master_path)
-				elif os.path.exists(master_path):
-					font_paths.append(instance_path)
-				else:
-					continue
+		masters = self.project.masters()
+		instances = self.project.instances()
+		for style_name in self.fonts:
+			font_name = '%s_%s.ufo' % (self.project.name, style_name)
+			master_path = os.path.join(self.project.paths['ufos'], font_name)
+			instance_path = os.path.join(self.project.paths['instances'], font_name)
+			if os.path.exists(master_path):
+				font_paths.append(master_path)
+			elif os.path.exists(master_path):
+				font_paths.append(instance_path)
+			else:
+				continue
 		return font_paths
 
 class hProject:
@@ -177,6 +168,8 @@ class hProject:
 				self.libs[lib_name] = plistlib.readPlist(_lib_path)
 			else:
 				self.libs[lib_name] = {}
+		# import encoding
+		self.import_encoding()
 
 	def import_encoding(self):
 		_groups, _order = import_encoding(self.paths['encoding'])
@@ -455,27 +448,8 @@ class hFont:
 
 	def set_info(self):
 		set_names(self.ufo)
-		# font.info.styleMapFamilyName
-		# font.info.styleMapStyleName
-		# font.info.openTypeNameDesigner
-		# font.info.openTypeNameDesignerURL
-		# font.info.openTypeNameManufacturer
-		# font.info.openTypeNameManufacturerURL
-		# font.info.openTypeNameLicense
-		# font.info.openTypeNameLicenseURL
-		# font.info.openTypeNameVersion
-		# font.info.openTypeNameUniqueID
-		# font.info.openTypeNameDescription
-		# font.info.openTypeNamePreferredFamilyName
-		# font.info.openTypeNamePreferredSubfamilyName
-		# font.info.openTypeNameCompatibleFullName
-		# font.info.openTypeNameSampleText
-		# font.info.openTypeNameWWSFamilyName
-		# font.info.openTypeNameWWSSubfamilyName
-		# font.info.postscriptFontName
-		# font.info.postscriptFullName
-		# font.info.postscriptSlantAngle
-		# font.info.postscriptUniqueID
+		# foundry info
+		# version info
 
 	# paths
 
@@ -564,6 +538,7 @@ class hLine:
 		self.ctx = context
 		self.font = hFont(ufo)
 		self.glyph_names = []
+		self.color_guidelines = self.ctx.color(.5)
 
 	def _text_to_gnames(self, txt):
 		gnames = []
@@ -587,11 +562,21 @@ class hLine:
 		else:
 			self.glyph_names = self._text_to_gnames(_text)
 
+	def width(self, scale_=.5):
+		line_length = 0
+		for glyph_name in self.glyph_names:
+			g = self.font.ufo[glyph_name]
+			line_length += (g.width * scale_)
+		return line_length
+
+	def height(self, scale_=.5):
+		return self.font.ufo.info.unitsPerEm * scale_
+
 	def draw(self, pos, color_=None, hmetrics=False, hmetrics_crop=False,
 					anchors=False, scale_=.5, origin=False, baseline=False):
 		pen = NodeBoxPen(self.font.ufo, self.ctx)
 		self.x, self.y = pos
-		self.line_length = 0
+		line_length = 0
 		for glyph_name in self.glyph_names:
 			# draw guidelines
 			if hmetrics is True:
@@ -601,11 +586,11 @@ class hLine:
 					y_range_ = (self.y - y_min, self.y - y_max)
 				else:
 					y_range_ = None
-				draw_vertical_line(self.x, self.ctx, y_range=y_range_)
+				draw_vertical_line(self.x, self.ctx, y_range=y_range_, color_=self.color_guidelines)
 			if origin is True:
-				draw_cross((self.x, self.y), self.ctx)
+				draw_cross((self.x, self.y), self.ctx, color_=self.color_guidelines)
 			if baseline is True:
-				draw_horizontal_line(self.y, self.ctx)
+				draw_horizontal_line(self.y, self.ctx, color_=self.color_guidelines)
 			# set color
 			self.ctx.nostroke()
 			if color_ == None:
@@ -630,11 +615,15 @@ class hLine:
 						y = - (a.position[1] * scale_)
 						draw_cross((x, y), self.ctx)
 			self.ctx.pop()
-			self.line_length += (g.width * scale_)
+			line_length += (g.width * scale_)
 			self.x += (g.width * scale_)
 
-class hParagraph:
+# class hParagraph:
 
-	def __init__(self):
-		pass
+# 	def __init__(self):
+# 		pass
 
+# class hDiagram(hSpace):
+
+# 	def __init__(self):
+# 		hSpace.__init__(self)

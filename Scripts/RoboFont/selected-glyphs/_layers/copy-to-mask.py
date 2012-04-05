@@ -92,16 +92,13 @@ class copyToMaskDialog(object):
                 # prepare undo
                 _source_font[gName].prepareUndo('transfer glyphs to mask')
                 _target_font[gName].prepareUndo('transfer glyphs to mask')
-                # mark
                 # copy oulines to mask
                 _target_glyph_layer = _target_font[gName].getLayer(_target_layer_name)
                 pen = _target_glyph_layer.getPointPen()
                 _source_font[gName].drawPoints(pen)
                 # update
-                _source_font[gName].update()
                 _target_font[gName].update()
                 # activate undo
-                _source_font[gName].performUndo()
                 _target_font[gName].performUndo()
             except:
                 print '\tcannot transform %s' % gName                        

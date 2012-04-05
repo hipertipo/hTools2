@@ -54,12 +54,18 @@ def draw_cross((x, y), ctx, size_=10, stroke_=None, color_=None):
 	ctx.line(x, y - cross, x, y + cross)
 	ctx.pop()
 
-def draw_grid(ctx, pos=(0,0), size_=1):
+def draw_grid(ctx, pos=(0,0), size_=1, stroke_=None, color_=None):
 	x, y = pos
-	# defaults
-	ctx.strokewidth(1)
-	ctx.stroke(.9)
+	_stroke = 1
+	_color = ctx.color(.25)
+	if stroke_ is not None:
+		_stroke = stroke_
+	if color_ is not None:
+		_color = color_
 	# draw lines
+	ctx.stroke(_color)
+	ctx.strokewidth(_stroke)
+	ctx.fill(None)
 	for i in range(ctx.HEIGHT / size_):
 		ctx.line(0, y + .5, ctx.WIDTH, y + .5)
 		y += size_
