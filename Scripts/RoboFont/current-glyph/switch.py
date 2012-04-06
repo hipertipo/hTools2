@@ -33,7 +33,7 @@ class glyphSwitcherDialog(object):
     _button_2 = 18
     _line_height = 18
     _box_height = 23
-    _width = 280
+    _width = 320
     _height = (_button_1 * 3) + (_padding_top * 2)
 
     _move_default = 70
@@ -152,11 +152,19 @@ class glyphSwitcherDialog(object):
         self.update()
 
     def layer_down(self):
-        self.glyph_window.layerDown()
+        try:
+            self.glyph_window.layerDown()
+        except AttributeError:
+            self.glyph_window = CurrentGlyphWindow()
+            self.glyph_window.layerDown()
         self.update()
 
     def layer_up(self):
-        self.glyph_window.layerUp()
+        try:
+            self.glyph_window.layerUp()
+        except AttributeError:
+            self.glyph_window = CurrentGlyphWindow()
+            self.glyph_window.layerUp()
         self.update()
 
     def _update_text_box(self):
@@ -174,9 +182,10 @@ class glyphSwitcherDialog(object):
             self._update_text_box()
             return True
         else:
-            f = CurrentFont() 
+            f = CurrentFont()
             if f is not None:
                 self.font = f
+                self.font_index = self.all_fonts.index(self.font)
                 glyph_names = get_glyphs(f) 
                 if len(glyph_names) > 0:
                     self.glyph = self.font[glyph_names[0]]
