@@ -135,12 +135,20 @@ class glyphSwitcherDialog(object):
 
     def next_glyph(self):
         next = next_glyph(self.font, self.glyph_index)
-        self.glyph_window.setGlyphByName(next)
+        try:
+            self.glyph_window.setGlyphByName(next)
+        except AttributeError:
+            self.glyph_window = CurrentGlyphWindow()
+            self.glyph_window.setGlyphByName(next)
         self.update()
 
     def previous_glyph(self):
         prev = previous_glyph(self.font, self.glyph_index)
-        self.glyph_window.setGlyphByName(prev)
+        try:
+            self.glyph_window.setGlyphByName(prev)
+        except AttributeError:
+            self.glyph_window = CurrentGlyphWindow()
+            self.glyph_window.setGlyphByName(prev)
         self.update()
 
     def layer_down(self):
