@@ -6,7 +6,7 @@ from hTools2.modules.fontutils import get_names_from_path
 
 # set info
 
-def set_names(font):
+def set_names_from_path(font):
     family_name, style_name = get_names_from_path(font.path)
     font.info.familyName = family_name
     font.info.styleName = style_name

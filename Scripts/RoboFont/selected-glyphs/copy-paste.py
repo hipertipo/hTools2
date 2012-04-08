@@ -93,23 +93,25 @@ class copyPasteGlyphDialog(object):
         print
 
     def paste_callback(self, sender):
+        print 'pasting data from glyph %s:\n' % self.source_glyph.name
         bool_string = ( False, True )
         foreground = self.w.foreground.get()
         layers = self.w.layers.get()
         metrics = self.w.metrics.get()
         anchors = self.w.anchors.get()
         color = self.w.color.get()
-        print 'foreground: %s' % bool_string[foreground]
-        print 'layers: %s' % bool_string[layers]
-        print 'metrics: %s' % bool_string[metrics]
-        print 'anchors: %s' % bool_string[anchors]
-        print 'color: %s' % bool_string[color]
+        print '\tforeground: %s' % bool_string[foreground]
+        print '\tlayers: %s' % bool_string[layers]
+        print '\tmetrics: %s' % bool_string[metrics]
+        print '\tanchors: %s' % bool_string[anchors]
+        print '\tcolor: %s' % bool_string[color]
         print
+        print '\tpasting in',
         f = CurrentFont()
         glyph_names = get_glyphs(f)
         if len(glyph_names) > 0:
             for glyph_name in glyph_names:
-                print 'pasting in glyph %s' % glyph_name
+                print glyph_name,
                 # prepare undo
                 f[glyph_name].prepareUndo('paste from glyph')
                 # copy outlines in foreground layer
