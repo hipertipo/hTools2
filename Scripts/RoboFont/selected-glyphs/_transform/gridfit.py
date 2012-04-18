@@ -113,7 +113,7 @@ class roundToGridDialog(object):
                     -self._padding,
                     self._button_height),
                     "apply",
-                    callback=self.apply_Callback,
+                    callback=self.apply_callback,
                     sizeStyle='small')
         # b-points
         y += self._button_height + self._padding_top
@@ -199,42 +199,52 @@ class roundToGridDialog(object):
 
     # apply callback
 
-    def apply_Callback(self, sender):
+    def gridfit(self, glyph, options):
+        gridsize = options['gridsize']
+        glyph.prepareUndo('align to grid')
+        if options['bpoints']:
+            round_bpoints(glyph, (gridsize, gridsize))
+        if options['points']:
+            round_points(glyph, (gridsize, gridsize))
+        if options['anchors']:
+            round_anchors(glyph, (gridsize, gridsize))
+        if options['margins']:
+            round_margins(glyph, gridsize, left=True, right=True)
+        if options['width']:
+            round_width(glyph, gridsize)
+        print
+        print '\t%s (w:%s, l:%s, r:%s)' % (glyph.name, glyph.width, glyph.leftMargin, glyph.rightMargin)
+        glyph.performUndo()
+
+    def apply_callback(self, sender):
         f = CurrentFont()
         if f is not None:
             print 'gridfitting glyphs...\n'
             # get options
             boolstring = [False, True]
-            _b_points = self.w._b_points_checkBox.get()
-            _points = self.w._points_checkBox.get()
-            _margins = self.w._margins_checkBox.get()
-            _glyph_width = self.w._width_checkBox.get()
-            _anchors = self.w._anchors_checkBox.get()
-            _gridsize = int(self.w._gridsize_value.get())
-            print '\tgrid size: %s' % _gridsize
-            print '\tbPoints: %s' % boolstring[_b_points]
-            print '\tpoints: %s' % boolstring[_points]
-            print '\tmargins: %s' % boolstring[_margins]
-            print '\twidth: %s' % boolstring[_glyph_width]
-            print '\tanchors: %s' % boolstring[_anchors]
+            params = {
+                'bpoints' : self.w._b_points_checkBox.get(),
+                'points' : self.w._points_checkBox.get(),
+                'margins' : self.w._margins_checkBox.get(),
+                'width' : self.w._width_checkBox.get(),
+                'anchors' : self.w._anchors_checkBox.get(),
+                'gridsize' : int(self.w._gridsize_value.get())
+            }
+            print '\tgrid size: %s' % params['gridsize']
+            print '\tbPoints: %s' % boolstring[params['bpoints']]
+            print '\tpoints: %s' % boolstring[params['points']]
+            print '\tmargins: %s' % boolstring[params['margins']]
+            print '\twidth: %s' % boolstring[params['width']]
+            print '\tanchors: %s' % boolstring[params['anchors']]
             print
-            # batch do stuff
-            for gName in get_glyphs(f):
-                f[gName].prepareUndo('align to grid')
-                if _b_points:
-                    round_bpoints(f[gName], (_gridsize, _gridsize))
-                if _points:
-                    round_points(f[gName], (_gridsize, _gridsize))
-                if _anchors:
-                    round_anchors(f[gName], (_gridsize, _gridsize))
-                if _margins:
-                    round_margins(f[gName], _gridsize, left=True, right=True)
-                if _glyph_width:
-                    round_width(f[gName], _gridsize)
-                print
-                print '\t%s (w:%s, l:%s, r:%s)' % (gName, f[gName].width, f[gName].leftMargin, f[gName].rightMargin)
-                # f[gName].update()
-                f[gName].performUndo()
+            # align current glyph
+            g = CurrentGlyph()
+            if g is not None:
+                self.gridfit(g, params)
+            # align selected glyphs
+            else:
+                for glyph_name in f.selection:
+                    self.gridfit(f[glyph_name], params)
             # done
             print
             f.update()

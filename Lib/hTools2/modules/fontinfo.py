@@ -11,13 +11,12 @@ def set_names_from_path(font):
     font.info.familyName = family_name
     font.info.styleName = style_name
 
-def set_vmetrics(font):
-	# not ready
-    font.info.unitsPerEm = 1000
-    font.info.descender = -200
-    font.info.xHeight = 700
-    font.info.capHeight = 860
-    font.info.ascender = 900
+def set_vmetrics(font, xheight, capheight, ascender, descender, emsquare, gridsize=1):
+    font.info.xHeight = xheight * gridsize
+    font.info.capHeight = capheight * gridsize
+    font.info.descender = -(descender * gridsize)
+    font.info.ascender = (xheight + ascender) * gridsize
+    font.info.unitsPerEm = emsquare * gridsize
 
 # print info
 
@@ -190,7 +189,7 @@ def print_postscript_data(font):
 # clear info
 #------------
 
-def clearFontInfo(font):
+def clear_font_info(font):
 	# print 'deleting font info'
 	clear_generic_identification(font)
 	clear_generic_legal(font)
@@ -324,4 +323,3 @@ def clear_postscript_data(font):
 	font.info.postscriptWeightName = None
 	font.info.postscriptDefaultCharacter = None
 	font.info.postscriptWindowsCharacterSet = None
-

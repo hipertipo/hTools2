@@ -25,6 +25,11 @@ def get_names_from_path(fontpath):
 		family_name, style_name = _file_name.split('-')
 	return family_name, style_name
 
+def get_parameters_from_path(fontpath):
+	family_name, style_name = get_names_from_path(fontpath)
+	parameters = style_name.split('-')
+	return parameters
+
 def read_names_list_from_file(file_path):
     lines_raw = open(file_path, 'r').readlines()
     names_list = []

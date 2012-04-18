@@ -10,6 +10,7 @@ import hTools2.modules.glyphutils
 reload(hTools2.modules.glyphutils)
 
 from hTools2.modules.color import random_color
+from hTools2.modules.fontutils import get_glyphs
 from hTools2.modules.glyphutils import center_glyph
 
 
@@ -24,10 +25,12 @@ class setWidthDialog(object):
     _button_2 = 18
     _line_height = 20
     _button_height = 30
-    _height = _button_height + (_line_height * 2) + _button_2 + (_padding_top * 5) - 7
+    _height = _button_height + (_line_height * 3) + _button_2 + (_padding_top * 5) + 2
     _width = 123
     
     _width_ = 400
+    _modes = [ 'set equal to', 'increase by', 'decrease by', ]
+    _mode = 0
 
     def __init__(self):
         self.w = FloatingWindow(
@@ -38,6 +41,16 @@ class setWidthDialog(object):
         # left
         x = self._padding
         y = self._padding
+        # mode
+        self.w.width_mode = PopUpButton(
+                    (x, y,
+                    -self._padding,
+                    self._line_height),
+                    self._modes,
+                    sizeStyle='small',
+                    callback=self.mode_callback)
+        # label
+        y += self._line_height + self._padding
         self.w.width_label = TextBox(
                     (x, y,
                     self._col_1,
@@ -129,6 +142,9 @@ class setWidthDialog(object):
     # callbacks
     #-----------
 
+    def mode_callback(self, sender):
+        self._mode = self.w.width_mode.get()
+
     def _nudge_minus_001_callback(self, sender):
         _value = int(self.w.width_value.get()) - 1
         if _value >= 0:
@@ -164,7 +180,8 @@ class setWidthDialog(object):
     def apply_callback(self, sender):
         f = CurrentFont()
         if f is not None:
-            if len(f.selection) > 0:
+            glyph_names = get_glyphs(f)
+            if len(glyph_names) > 0:
                 # get parameters
                 _width = self.w.width_value.get()
                 _center = self.w.center_checkbox.get()
@@ -174,11 +191,19 @@ class setWidthDialog(object):
                 print 'setting character widths...\n'
                 print '\twidth: %s' % _width
                 print '\tcenter: %s' % boolstring[_center]
+                print '\tmode: %s' % self._modes[self._mode]
                 print '\tglyphs: %s' % _gNames
                 print         
                 for gName in _gNames:
                     f[gName].prepareUndo('set glyph width')
-                    f[gName].width = int(_width)
+                    # set width
+                    if self._mode == 1:
+                        f[gName].width += int(_width)
+                    elif self._mode == 2:
+                        f[gName].width -= int(_width)
+                    else:
+                        f[gName].width = int(_width)
+                    # center glyph
                     if _center:
                         center_glyph(f[gName])
                     f[gName].performUndo()
