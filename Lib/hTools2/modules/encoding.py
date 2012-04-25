@@ -78,6 +78,7 @@ unicodes_extra = {
 	'AEmacron' : '01E2',
 	'nbspace' : '00A0',
 	'ymacron' : '0233',
+	'Uppercaseeszett' : '1E9E',
 	# ligatures
 	'fi' : 'FB01',
 	'fl' : 'FB02',
