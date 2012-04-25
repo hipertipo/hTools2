@@ -41,6 +41,21 @@ def print_selected_glyphs(f, mode=1):
     else:
         print "invalid mode.\n"
 
+def parse_glyphs_groups(names, groups):
+    glyph_names = []
+    for name in names:
+        # group names
+        if name[0] == '@':
+            group_name = name[1:]
+            if groups.has_key(group_name):
+                glyph_names += groups[group_name]
+            else:
+                print 'project does not have a group called %s.\n' % group_name
+        # glyph names
+        else:
+            glyph_names.append(name)
+    return glyph_names
+
 def rename_glyph(font, old_name, new_name, overwrite=True, mark=True):
     if font.has_key(old_name):
         g = font[old_name]

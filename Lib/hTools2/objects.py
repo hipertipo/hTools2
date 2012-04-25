@@ -14,13 +14,14 @@ from hTools2.modules.color import hls_to_rgb, paint_groups, clear_colors
 from hTools2.modules.encoding import auto_unicodes, import_encoding, unicode2psnames
 from hTools2.modules.fontutils import get_names_from_path, get_spacing_groups, get_glyphs, get_full_name
 from hTools2.modules.fontinfo import set_names_from_path
-from hTools2.modules.fileutils import walk
+from hTools2.modules.fileutils import walk, delete_files
 from hTools2.modules.ftp import connect_to_server, upload_file
 from hTools2.modules.glyphutils import *
 from hTools2.modules.nodebox import *
 from hTools2.modules.pens import *
 from hTools2.modules.sysutils import _ctx
 from hTools2.modules.opentype import import_features, export_features
+
 
 class hSettings:
 
@@ -47,6 +48,7 @@ class hSettings:
         for k in self.hDict.keys():
             print k, self.hDict[k]
 
+
 class hWorld:
 
     def __init__(self):
@@ -61,6 +63,7 @@ class hWorld:
             if n[:1] == "_":
                 projects.append(n[1:])
         return projects
+
 
 class hSpace:
 
@@ -235,6 +238,7 @@ class hSpace:
                     print
         print '...done.\n'
 
+
 class hProject:
 
     paths = {}
@@ -366,7 +370,7 @@ class hProject:
                     print '\t%s %s' % (k, os.path.exists(self.paths[k]))
         print '\n...done.\n'
 
-    # files
+    # file lists
 
     def masters(self):
         return walk(self.paths['ufos'], 'ufo')
@@ -393,6 +397,18 @@ class hProject:
 
     def vfbs(self):
         return walk(self.paths['vfbs'], 'vfb')
+
+    # delete files
+
+    def delete_otfs(self):
+        otf_paths = self.otfs()
+        delete_files(otf_paths)
+
+    def delete_woffs(self):
+        woff_paths = self.woffs()
+        delete_files(woff_paths)
+
+    # interpolation
 
     def generate_instance(self, instance_name, verbose=False):
         if self.libs['interpol'].has_key(instance_name):
@@ -431,6 +447,7 @@ class hProject:
             if verbose:
                 print 'instance not in interpol lib.\n'
 
+
 class hFont:
 
     def __init__(self, ufo):
@@ -456,6 +473,8 @@ class hFont:
 
     def auto_unicodes(self):
         auto_unicodes(self.ufo)
+
+    # groups and glyphs
 
     def order_glyphs(self):
         _glyph_order = []
@@ -523,15 +542,14 @@ class hFont:
             if verbose:
                 print 'there are no spacing groups to paint.\n'
 
-    def print_info(self):
-        pass
-
     def import_groups_from_encoding(self):
         self.project.import_encoding()
         self.ufo.groups.clear()
         for group in self.project.libs['groups']['glyphs'].keys():
             self.ufo.groups[group] = self.project.libs['groups']['glyphs'][group]
         self.ufo.lib['groups_order'] = self.project.libs['groups']['order']
+
+    # OT features
 
     def import_features(self):
         import_features(self.ufo, self.project.paths['features'])
@@ -558,12 +576,17 @@ class hFont:
             count += 1
         return name
 
+    # font info
+
     def set_info(self):
         set_names_from_path(self.ufo)
         # foundry info
         # version info
 
-    # paths
+    def print_info(self):
+        pass
+
+    # font paths
 
     def otf_path(self, test=False):
         otf_file = self.file_name + '.otf'
@@ -580,14 +603,42 @@ class hFont:
               
     # font generation
 
-    def generate_otf(self, test=False):
-        self.ufo.generate(self.otf_path(test),
-                    'otf',
-                    decompose=True,
-                    autohint=True,
-                    checkOutlines=True,
-                    releaseMode=True,
+    def generate_otf(self, options=None, verbose=False):
+        # get options
+        if options is None:
+            options = {
+                'decompose' : True,
+                'remove overlap' : True,
+                'autohint' : False,
+                'release mode' : False,
+                'test folder' : False
+            }
+        # get otf path
+        if options['test folder'] is True:
+            _otf_path = self.otf_path(test=True)
+        else:
+            _otf_path = self.otf_path()
+        # print info
+        if verbose:
+            print 'generating .otf for %s...\n' % self.full_name()
+            print '\tdecompose: %s' % options['decompose']
+            print '\tremove overlap: %s' % options['remove overlap']
+            print '\tautohint: %s' % options['autohint']
+            print '\trelease mode: %s' % options['release mode']
+            print '\tfont path: %s' % _otf_path
+            print
+        # generate
+        self.ufo.generate(_otf_path, 'otf',
+                    decompose=options['decompose'],
+                    autohint=options['autohint'],
+                    checkOutlines=options['remove overlap'],
+                    releaseMode=options['release mode'],
                     glyphOrder=[])
+        # check if sucessfull
+        if verbose:
+            print '\tgeneration succesfull? %s' % ['No', 'Yes'][os.path.exists(_otf_path)]
+            print
+            print '...done.\n'
 
     def generate_woff(self):
         try:
@@ -605,11 +656,13 @@ class hFont:
         upload_file(self.woff_path(), F)
         F.quit()
 
+
 class hGlyph:
 
     def __init__(self, glyph):
         self.glyph = glyph
         self.font = hFont(self.glyph.getParent())
+
 
 class hGlyph_NodeBox(hGlyph):
 
@@ -643,6 +696,7 @@ class hGlyph_NodeBox(hGlyph):
             draw_horizontal_line(y - xheight, ctx)
             draw_horizontal_line(y - descender, ctx)
             draw_horizontal_line(y - ascender, ctx)
+
 
 class hLine:
 
@@ -730,10 +784,12 @@ class hLine:
             line_length += (g.width * scale_)
             self.x += (g.width * scale_)
 
-# class hParagraph:
 
+# class hParagraph:
+#
 #   def __init__(self):
 #       pass
+
 
 class hDiagram:
 
@@ -818,3 +874,4 @@ class hDiagram:
                 if self.columns:
                     _x += line_width
                 _x += self.shift_x
+

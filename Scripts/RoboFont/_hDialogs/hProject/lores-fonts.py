@@ -29,17 +29,17 @@ class batchGridFontsDialog(object):
     _open = True
 
     _ignore = [
-                'Jornalistica',
-                'Gavea',
-                'Guarana',
-                'Magnetica',
-                'Mechanica',
-                'Publica',
-                'PublicaPro',
-                'Quantica',
-                'Synthetica',
-                'Elementar'
-            ]
+        'Jornalistica',
+        'Gavea',
+        'Guarana',
+        'Magnetica',
+        'Mechanica',
+        'Publica',
+        'PublicaPro',
+        'Quantica',
+        'Synthetica',
+        'Elementar'
+    ]
 
     def __init__(self):
         self.world = hWorld()
@@ -92,8 +92,7 @@ class batchGridFontsDialog(object):
         # set features
         _y += self._row_height
         self.w.set_features = CheckBox(
-                    (x,
-                    _y,
+                    (x, _y,
                     -0,
                     self._row_height),
                     "set features",
@@ -102,8 +101,7 @@ class batchGridFontsDialog(object):
         # order & paint glyphs
         _y += self._row_height
         self.w.import_encoding = CheckBox(
-                    (x,
-                    _y,
+                    (x, _y,
                     -0,
                     self._row_height),
                     "order glyphs",
@@ -112,8 +110,7 @@ class batchGridFontsDialog(object):
         # save font
         _y += self._row_height
         self.w.save_font = CheckBox(
-                    (x,
-                    _y,
+                    (x, _y,
                     -0,
                     self._row_height),
                     "save ufo",
@@ -122,8 +119,7 @@ class batchGridFontsDialog(object):
         # generate otf
         _y += self._row_height
         self.w.generate_otf = CheckBox(
-                    (x,
-                    _y,
+                    (x, _y,
                     -0,
                     self._row_height),
                     "generate .otf",
@@ -132,8 +128,7 @@ class batchGridFontsDialog(object):
         # generate test otf
         _y += self._row_height
         self.w.generate_otf_test = CheckBox(
-                    (x,
-                    _y,
+                    (x, _y,
                     -0,
                     self._row_height),
                     "generate test",
@@ -142,8 +137,7 @@ class batchGridFontsDialog(object):
         # generate WOFF
         _y += self._row_height
         self.w.generate_woff = CheckBox(
-                    (x,
-                    _y,
+                    (x, _y,
                     -0,
                     self._row_height),
                     "generate .woff",
@@ -152,8 +146,7 @@ class batchGridFontsDialog(object):
         # upload WOFF
         _y += self._row_height
         self.w.upload_woff = CheckBox(
-                    (x,
-                    _y,
+                    (x, _y,
                     -0,
                     self._row_height),
                     "upload .woff",
@@ -162,8 +155,7 @@ class batchGridFontsDialog(object):
         # close font
         _y += self._row_height
         self.w.close_font = CheckBox(
-                    (x,
-                    _y,
+                    (x, _y,
                     -0,
                     self._row_height),
                     "close window",
@@ -173,8 +165,7 @@ class batchGridFontsDialog(object):
         x += self._col2
         y_ = y
         self.w.set_element = CheckBox(
-                    (x,
-                    y_,
+                    (x, y_,
                     -0,
                     self._row_height),
                     "set element",
@@ -207,8 +198,7 @@ class batchGridFontsDialog(object):
         # rasterize
         y_ += self._row_height + self._padding
         self.w.rasterize = CheckBox(
-                    (x,
-                    y_,
+                    (x, y_,
                     -0,
                     self._row_height),
                     "rasterize",
@@ -224,8 +214,7 @@ class batchGridFontsDialog(object):
         # scale
         y_ += self._row_height + self._padding
         self.w.scale_glyphs = CheckBox(
-                    (x,
-                    y_,
+                    (x, y_,
                     -0,
                     self._row_height),
                     "scale glyphs",

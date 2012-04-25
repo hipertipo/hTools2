@@ -7,12 +7,12 @@ from hTools2.modules.fontutils import decompose, auto_order_direction
 
 # settings
 
-ufos_folder = u"/fonts/_Publica/_ufos/"
+ufos_folder = u"/fonts/_Modular/_ufos"
 _remove_overlaps = True
 _decompose = True
 _auto_order_direction = True
 
-# transform fonts
+# batch transform fonts
 
 ufo_paths = walk(ufos_folder, 'ufo')
 print 'batch transforming fonts...\n'
