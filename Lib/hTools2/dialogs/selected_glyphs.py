@@ -1,4 +1,4 @@
-# [h] copy glyphs to mask
+# [h] hTools2.dialogs.selected_glyphs
 
 from vanilla import *
 
@@ -77,5 +77,4 @@ class copyToMaskDialog(object):
         font.update()
 
 # run
-
-copyToMaskDialog()
+# copyToMaskDialog()

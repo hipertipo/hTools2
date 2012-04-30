@@ -12,12 +12,12 @@ class copyWidthsDialog(object):
 
     _title = 'widths'
     _padding = 10
-    _padding_top = 8
+    _padding_top = 10
     _line_height = 20
     _button_height = 30
     _column_1 = 180
     _width = 123
-    _height = (_button_height * 2) + (_line_height * 2) + (_padding_top * 5) + _button_height + 8
+    _height = (_button_height * 2) + (_line_height * 2) + (_padding_top * 6) + (_button_height * 2)
 
     _all_fonts_names = []
 
@@ -63,7 +63,7 @@ class copyWidthsDialog(object):
                         self._all_fonts_names,
                         sizeStyle='small')
             # center
-            y += self._line_height + self._padding_top + 7
+            y += self._line_height + self._padding_top
             self.w.center_checkbox = CheckBox(
                         (x, y,
                         -self._padding,
@@ -71,8 +71,7 @@ class copyWidthsDialog(object):
                         "center glyphs",
                         value=False,
                         sizeStyle='small')
-            # buttons
-            x = self._padding
+            # apply button
             y += self._line_height + self._padding_top
             self.w.button_apply = SquareButton(
                         (x, y,
@@ -81,8 +80,30 @@ class copyWidthsDialog(object):
                         "copy",
                         callback=self.apply_callback,
                         sizeStyle='small')
+            # update button
+            y += self._button_height + self._padding_top
+            self.w.button_update = SquareButton(
+                        (x, y,
+                        -self._padding,
+                        self._button_height),
+                        "update",
+                        callback=self.update_fonts_callback,
+                        sizeStyle='small')
             # open window 
             self.w.open()
+
+    # callbacks
+
+    def _update_fonts(self):
+        self._all_fonts = AllFonts()
+        self._all_fonts_names = []
+        for font in self._all_fonts:
+            self._all_fonts_names.append(get_full_name(font))
+
+    def update_fonts_callback(self, sender):
+        self._update_fonts()
+        self.w._source_value.setItems(self._all_fonts_names)
+        self.w._dest_value.setItems(self._all_fonts_names)
 
     def apply_callback(self, sender):
         boolstring = [False, True]
@@ -100,16 +121,16 @@ class copyWidthsDialog(object):
         print 'copying widths...\n'
         print '\tsource font: %s' % _source_font_name
         print '\ttarget font: %s' % _dest_font_name
-        print
         print '\tcenter: %s' % boolstring[_center]
         print
+        print '\t',
         # batch copy side-bearings
         for glyph_name in get_glyphs(_source_font):
             if _dest_font.has_key(glyph_name):
-                # set undo
+                 # set undo
                 _dest_font[glyph_name].prepareUndo('copy width')
                 # copy
-                print '\t%s' % glyph_name,
+                print glyph_name,
                 _dest_font[glyph_name].width = _source_font[glyph_name].width
                 # center
                 if _center:

@@ -4,9 +4,6 @@ from vanilla import *
 
 from robofab.world import CurrentFont
 
-import hTools2.modules.fontutils
-reload(hTools2.modules.fontutils)
-
 from hTools2.modules.fontutils import get_glyphs
 from hTools2.modules.glyphutils import *
 

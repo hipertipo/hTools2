@@ -12,7 +12,7 @@ class copyToLayerDialog(object):
     _line_height = 20
     _column_1 = 75
     _box_width = 170
-    _button_height = 25
+    _button_height = 30
     _width = 123
     _height = (_padding_top * 3) + (_line_height * 2) + _button_height + 5
 

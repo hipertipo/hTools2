@@ -2,6 +2,8 @@
 
 from random import random
 
+from AppKit import NSFontManager
+
 from fontTools.pens.basePen import BasePen
 from robofab.world import RFont
 
@@ -171,3 +173,6 @@ def make_alpha(res):
     factor = (1.0 / res)
     alpha = .7 - (factor * .3)    
     return alpha
+
+def local_fonts():
+    return NSFontManager.sharedFontManager().availableFonts()

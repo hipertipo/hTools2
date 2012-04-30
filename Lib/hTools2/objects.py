@@ -48,7 +48,6 @@ class hSettings:
         for k in self.hDict.keys():
             print k, self.hDict[k]
 
-
 class hWorld:
 
     def __init__(self):
@@ -63,7 +62,6 @@ class hWorld:
             if n[:1] == "_":
                 projects.append(n[1:])
         return projects
-
 
 class hSpace:
 
@@ -237,7 +235,6 @@ class hSpace:
                     print
                     print
         print '...done.\n'
-
 
 class hProject:
 
@@ -447,7 +444,6 @@ class hProject:
             if verbose:
                 print 'instance not in interpol lib.\n'
 
-
 class hFont:
 
     def __init__(self, ufo):
@@ -485,8 +481,8 @@ class hFont:
         self.ufo.glyphOrder = _glyph_order
         self.ufo.update()
 
-    def paint_groups(self):
-        paint_groups(self.ufo)
+    def paint_groups(self, crop=False):
+        paint_groups(self.ufo, crop)
 
     def import_spacing_groups(self, mode=0):
         _spacing_dict = self.project.libs['spacing']
@@ -656,13 +652,11 @@ class hFont:
         upload_file(self.woff_path(), F)
         F.quit()
 
-
 class hGlyph:
 
     def __init__(self, glyph):
         self.glyph = glyph
         self.font = hFont(self.glyph.getParent())
-
 
 class hGlyph_NodeBox(hGlyph):
 
@@ -696,7 +690,6 @@ class hGlyph_NodeBox(hGlyph):
             draw_horizontal_line(y - xheight, ctx)
             draw_horizontal_line(y - descender, ctx)
             draw_horizontal_line(y - ascender, ctx)
-
 
 class hLine:
 
@@ -784,12 +777,10 @@ class hLine:
             line_length += (g.width * scale_)
             self.x += (g.width * scale_)
 
-
 # class hParagraph:
 #
 #   def __init__(self):
 #       pass
-
 
 class hDiagram:
 

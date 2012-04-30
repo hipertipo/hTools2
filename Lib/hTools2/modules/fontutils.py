@@ -8,7 +8,7 @@ except:
     from robofab.world import CurrentGlyph, CurrentFont, NewFont
 
 from hTools2.modules.glyphutils import round_points
-from hTools2.modules.color import named_colors
+from hTools2.modules.color import *
 
 # glyphs
 
@@ -95,6 +95,12 @@ def rename_glyphs_from_list(font, names_list, overwrite=True, mark=True):
         rename_glyph(font, old_name, new_name, overwrite, mark)
     print
     print '...done.\n'
+
+def crop_glyphset(font, glyphset):
+    for g in font:
+        if g.name not in glyphset:
+            font.removeGlyph(g.name)
+    font.update()
 
 # groups
 

@@ -2,6 +2,7 @@
 
 from random import random
 
+from hTools2.modules.fontutils import *
 from hTools2.modules.sysutils import _ctx
 from hTools2.extras.colorsys import *
 
@@ -36,7 +37,7 @@ def RGB_to_nodebox_color((R, G, B), ctx, alpha=1.0):
     _color = colors.rgb(R, G, B, _alpha, range=255)
     return _color
 
-def paint_groups(f):
+def paint_groups(f, crop=False):
     if len(f.groups) > 0:
         clear_colors(f)
         count = 0
@@ -58,10 +59,12 @@ def paint_groups(f):
             count += 1
         f.glyphOrder = _order
         f.update()
+    if crop:
+        crop_glyphset(f, _order)
     else:
         print 'font has no groups.\n'
 
-named_colors = {    
+named_colors = {
     'red' : hsv_to_rgb(.0, 1, 1) + (1,),
     'orange' : hsv_to_rgb(.11, 1, 1) + (1,),
     'yellow' : hsv_to_rgb(.15, 1, 1) + (1,),

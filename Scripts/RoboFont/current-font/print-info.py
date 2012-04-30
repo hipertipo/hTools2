@@ -2,6 +2,9 @@
 
 from vanilla import *
 
+import hTools2.modules.color
+reload(hTools2.modules.color)
+
 from hTools2.modules.fontinfo import *
 from hTools2.modules.color import random_color
 
@@ -10,7 +13,7 @@ class clearFontInfoDialog(object):
     _title = 'font info'
     _padding = 13
     _padding_top = 10
-    _row_height = 23
+    _row_height = 20
     _button_height = 30
     _button_width =  80
     _width = (_button_width * 2) + (_padding * 2) - 1
@@ -28,7 +31,6 @@ class clearFontInfoDialog(object):
     _postscript_data = False
     
     def __init__(self):
-        #self.font = CurrentFont()
         self.w = FloatingWindow(
                     (self._width,
                     self._height),
@@ -261,9 +263,6 @@ class clearFontInfoDialog(object):
         print
         self.font.update()
         print '...done.\n'
-
-    def close_callback(self, sender):
-        self.w.close()
 
 # run
 
