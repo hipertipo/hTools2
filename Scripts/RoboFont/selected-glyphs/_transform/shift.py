@@ -1,544 +1,358 @@
-# [e] shifter
+# [h] shift points
 
 from vanilla import *
 
 from hTools2.modules.glyphutils import *
+from hTools2.modules.fontutils import get_glyphs
 
 class ShiftPointsDialog(object):
     
     _title = 'shift'
     _column1 = 51
     _padding = 10
-    _padding_top = 8
+    _padding_top = 10
     _box_width = 40
     _box_height = 18
+    _line_height = 20
     _button_height = 30
     _box_space = 10
     _width = 123
-    _height = 384
+    _height = 238
     _small_button = (_width - (_padding * 2)) / 2
 
-    _pos_x = 250
-    _delta_x = 125
-    _side_x = 1
-
-    _pos_y = 250
-    _delta_y = 125
-    _side_y = 1
+    _pos = 250
+    _delta = 125
+    _side = 1
+    _axis = 0
 
     def __init__(self):
         self.w = FloatingWindow(
                     (self._width,
                     self._height),
                     self._title)
-        #------------
-        # x position
-        #------------
+        # position
         x = self._padding
         y = self._padding_top
-        self.w.pos_x_label = TextBox(
+        self.w.pos_label = TextBox(
                     (x, y,
                     self._column1,
                     self._box_height),
-                    'x pos',
+                    'pos',
                     sizeStyle='small')
         x += self._column1
-        self.w.pos_x_input = EditText(
+        self.w.pos_input = EditText(
                     (x, y,
                     -self._padding,
                     self._box_height),
-                    self._pos_x,
-                    sizeStyle='small')
+                    self._pos,
+                    sizeStyle='small',
+                    readOnly=True)
         y += self._box_height + self._padding
         x = self._padding
-        self.w.pos_x_input_minus_001 = SquareButton(
+        self.w.pos_input_minus_001 = SquareButton(
                     (x, y,
                     self._box_height,
                     self._box_height),
                     '-',
                     sizeStyle='small',
-                    callback=self.pos_x_minus_001_callback)
+                    callback=self.pos_minus_001_callback)
         x += self._box_height - 1
-        self.w.pos_x_input_plus_001 = SquareButton(
+        self.w.pos_input_plus_001 = SquareButton(
                     (x, y,
                     self._box_height,
                     self._box_height),
                     '+',
                     sizeStyle='small',
-                    callback=self.pos_x_plus_001_callback)
+                    callback=self.pos_plus_001_callback)
         x += self._box_height - 1
-        self.w.pos_x_input_minus_010 = SquareButton(
+        self.w.pos_input_minus_010 = SquareButton(
                     (x, y,
                     self._box_height,
                     self._box_height),
                     '-',
                     sizeStyle='small',
-                    callback=self.pos_x_minus_010_callback)
+                    callback=self.pos_minus_010_callback)
         x += self._box_height - 1
-        self.w.pos_x_input_plus_010 = SquareButton(
+        self.w.pos_input_plus_010 = SquareButton(
                     (x, y,
                     self._box_height,
                     self._box_height),
                     '+',
                     sizeStyle='small',
-                    callback=self.pos_x_plus_010_callback)
+                    callback=self.pos_plus_010_callback)
         x += self._box_height - 1
-        self.w.pos_x_input_minus_100 = SquareButton(
+        self.w.pos_input_minus_100 = SquareButton(
                     (x, y,
                     self._box_height,
                     self._box_height),
                     '-',
                     sizeStyle='small',
-                    callback=self.pos_x_minus_100_callback)
+                    callback=self.pos_minus_100_callback)
         x += self._box_height - 1
-        self.w.pos_x_input_plus_100 = SquareButton(
+        self.w.pos_input_plus_100 = SquareButton(
                     (x, y,
                     self._box_height,
                     self._box_height),
                     '+',
                     sizeStyle='small',
-                    callback=self.pos_x_plus_100_callback)
-        #---------
-        # x delta
-        #---------
+                    callback=self.pos_plus_100_callback)
+        # delta
         x = self._padding
         y += self._box_height + self._padding
-        self.w.delta_x_label = TextBox(
+        self.w.delta_label = TextBox(
                     (x, y,
                     self._column1,
                     self._box_height),
-                    "x delta",
+                    "delta",
                     sizeStyle='small')
         x += self._column1
-        self.w.delta_x_input = EditText(
+        self.w.delta_input = EditText(
                     (x, y,
                     -self._padding,
                     self._box_height),
-                    self._delta_x,
+                    self._delta,
+                    sizeStyle='small',
+                    readOnly=True)
+        y += self._box_height + self._padding
+        x = self._padding
+        self.w.delta_input_minus_001 = SquareButton(
+                    (x, y,
+                    self._box_height,
+                    self._box_height),
+                    '-',
+                    sizeStyle='small',
+                    callback=self.delta_minus_001_callback)
+        x += self._box_height - 1
+        self.w.delta_input_plus_001 = SquareButton(
+                    (x, y,
+                    self._box_height,
+                    self._box_height),
+                    '+',
+                    sizeStyle='small',
+                    callback=self.delta_plus_001_callback)
+        x += self._box_height - 1
+        self.w.delta_input_minus_010 = SquareButton(
+                    (x, y,
+                    self._box_height,
+                    self._box_height),
+                    '-',
+                    sizeStyle='small',
+                    callback=self.delta_minus_010_callback)
+        x += self._box_height - 1
+        self.w.delta_input_plus_010 = SquareButton(
+                    (x, y,
+                    self._box_height,
+                    self._box_height),
+                    '+',
+                    sizeStyle='small',
+                    callback=self.delta_plus_010_callback)
+        x += self._box_height - 1
+        self.w.delta_input_minus_100 = SquareButton(
+                    (x, y,
+                    self._box_height,
+                    self._box_height),
+                    '-',
+                    sizeStyle='small',
+                    callback=self.delta_minus_100_callback)
+        x += self._box_height - 1
+        self.w.delta_input_plus_100 = SquareButton(
+                    (x, y,
+                    self._box_height,
+                    self._box_height),
+                    '+',
+                    sizeStyle='small',
+                    callback=self.delta_plus_100_callback)
+        # axis
+        x = self._padding
+        y += self._box_height + self._padding
+        self.w.axis_label = TextBox(
+                    (x, y,
+                    self._column1,
+                    self._box_height),
+                    "axis",
                     sizeStyle='small')
-        y += self._box_height + self._padding
-        x = self._padding
-        self.w.delta_x_input_minus_001 = SquareButton(
-                    (x, y,
-                    self._box_height,
-                    self._box_height),
-                    '-',
-                    sizeStyle='small',
-                    callback=self.delta_x_minus_001_callback)
-        x += self._box_height - 1
-        self.w.delta_x_input_plus_001 = SquareButton(
-                    (x, y,
-                    self._box_height,
-                    self._box_height),
-                    '+',
-                    sizeStyle='small',
-                    callback=self.delta_x_plus_001_callback)
-        x += self._box_height - 1
-        self.w.delta_x_input_minus_010 = SquareButton(
-                    (x, y,
-                    self._box_height,
-                    self._box_height),
-                    '-',
-                    sizeStyle='small',
-                    callback=self.delta_x_minus_010_callback)
-        x += self._box_height - 1
-        self.w.delta_x_input_plus_010 = SquareButton(
-                    (x, y,
-                    self._box_height,
-                    self._box_height),
-                    '+',
-                    sizeStyle='small',
-                    callback=self.delta_x_plus_010_callback)
-        x += self._box_height - 1
-        self.w.delta_x_input_minus_100 = SquareButton(
-                    (x, y,
-                    self._box_height,
-                    self._box_height),
-                    '-',
-                    sizeStyle='small',
-                    callback=self.delta_x_minus_100_callback)
-        x += self._box_height - 1
-        self.w.delta_x_input_plus_100 = SquareButton(
-                    (x, y,
-                    self._box_height,
-                    self._box_height),
-                    '+',
-                    sizeStyle='small',
-                    callback=self.delta_x_plus_100_callback)
-        # selection side
-        y += self._box_height + self._padding
-        x = self._padding
-        self.w.side_x = RadioGroup(
-                    (x, y,
+        self.w._axis = RadioGroup(
+                    (self._column1, y,
                     -self._padding,
                     self._box_height),
-                    ["left", "right"],
-                    sizeStyle='mini',
+                    ["x", "y"],
+                    sizeStyle='small',
                     isVertical=False)
-        # apply transformation
+        self.w._axis.set(self._axis)
+        # apply buttons
+        x = self._padding
         y += self._box_height + self._padding
-        self.w.button_x_minus = SquareButton(
+        self.w.button_minus = SquareButton(
                     (x, y,
                     self._small_button + 1,
                     self._button_height),
-                    unichr(8672),
-                    callback=self.shift_x_minus_callback)
-        x += self._small_button
-        self.w.button_x_plus = SquareButton(
-                    (x, y,
+                    '-',
+                    callback=self.shift_minus_callback)
+        self.w.button_plus = SquareButton(
+                    (x + self._small_button, y,
                     self._small_button,
                     self._button_height),
-                    unichr(8674),
-                    callback=self.shift_x_plus_callback)
-        #------------
-        # y position
-        #------------
-        x = self._padding
-        y += self._box_height + self._padding
-        self.w.line_1 = HorizontalLine((0, y + 15, -0, 1))
-        y += self._box_height + self._padding
-        self.w.pos_y_label = TextBox(
-                    (x, y,
-                    self._column1,
-                    self._box_height),
-                    'y pos',
-                    sizeStyle='small')
-        x += self._column1
-        self.w.pos_y_input = EditText(
-                    (x, y,
-                    -self._padding,
-                    self._box_height),
-                    self._pos_x,
-                    sizeStyle='small')
-        y += self._box_height + self._padding
-        x = self._padding
-        self.w.pos_y_input_minus_001 = SquareButton(
-                    (x, y,
-                    self._box_height,
-                    self._box_height),
-                    '-',
-                    sizeStyle='small',
-                    callback=self.pos_y_minus_001_callback)
-        x += self._box_height - 1
-        self.w.pos_y_input_plus_001 = SquareButton(
-                    (x, y,
-                    self._box_height,
-                    self._box_height),
                     '+',
-                    sizeStyle='small',
-                    callback=self.pos_y_plus_001_callback)
-        x += self._box_height - 1
-        self.w.pos_y_input_minus_010 = SquareButton(
-                    (x, y,
-                    self._box_height,
-                    self._box_height),
-                    '-',
-                    sizeStyle='small',
-                    callback=self.pos_y_minus_010_callback)
-        x += self._box_height - 1
-        self.w.pos_y_input_plus_010 = SquareButton(
-                    (x, y,
-                    self._box_height,
-                    self._box_height),
-                    '+',
-                    sizeStyle='small',
-                    callback=self.pos_y_plus_010_callback)
-        x += self._box_height - 1
-        self.w.pos_y_input_minus_100 = SquareButton(
-                    (x, y,
-                    self._box_height,
-                    self._box_height),
-                    '-',
-                    sizeStyle='small',
-                    callback=self.pos_y_minus_100_callback)
-        x += self._box_height - 1
-        self.w.pos_y_input_plus_100 = SquareButton(
-                    (x, y,
-                    self._box_height,
-                    self._box_height),
-                    '+',
-                    sizeStyle='small',
-                    callback=self.pos_y_plus_100_callback)
-        #---------
-        # y delta
-        #---------
-        x = self._padding
-        y += self._box_height + self._padding
-        self.w.delta_y_label = TextBox(
-                    (x, y,
-                    self._column1,
-                    self._box_height),
-                    "y delta",
-                    sizeStyle='small')
-        x += self._column1
-        self.w.delta_y_input = EditText(
-                    (x, y,
-                    -self._padding,
-                    self._box_height),
-                    self._delta_x,
-                    sizeStyle='small')
-        y += self._box_height + self._padding
-        x = self._padding
-        self.w.delta_y_input_minus_001 = SquareButton(
-                    (x, y,
-                    self._box_height,
-                    self._box_height),
-                    '-',
-                    sizeStyle='small',
-                    callback=self.delta_y_minus_001_callback)
-        x += self._box_height - 1
-        self.w.delta_y_input_plus_001 = SquareButton(
-                    (x, y,
-                    self._box_height,
-                    self._box_height),
-                    '+',
-                    sizeStyle='small',
-                    callback=self.delta_y_plus_001_callback)
-        x += self._box_height - 1
-        self.w.delta_y_input_minus_010 = SquareButton(
-                    (x, y,
-                    self._box_height,
-                    self._box_height),
-                    '-',
-                    sizeStyle='small',
-                    callback=self.delta_y_minus_010_callback)
-        x += self._box_height - 1
-        self.w.delta_y_input_plus_010 = SquareButton(
-                    (x, y,
-                    self._box_height,
-                    self._box_height),
-                    '+',
-                    sizeStyle='small',
-                    callback=self.delta_y_plus_010_callback)
-        x += self._box_height - 1
-        self.w.delta_y_input_minus_100 = SquareButton(
-                    (x, y,
-                    self._box_height,
-                    self._box_height),
-                    '-',
-                    sizeStyle='small',
-                    callback=self.delta_y_minus_100_callback)
-        x += self._box_height - 1
-        self.w.delta_y_input_plus_100 = SquareButton(
-                    (x, y,
-                    self._box_height,
-                    self._box_height),
-                    '+',
-                    sizeStyle='small',
-                    callback=self.delta_y_plus_100_callback)
-        # selection side
-        y += self._box_height + self._padding
-        x = self._padding
-        self.w.side_y = RadioGroup(
-                    (x, y,
-                    -self._padding,
-                    self._box_height),
-                    ["above", "below"],
-                    sizeStyle='mini',
-                    isVertical=False)
-        # apply transformation
-        y += self._box_height + self._padding
-        self.w.button_y_minus = SquareButton(
-                    (x, y,
-                    self._small_button + 1,
-                    self._button_height),
-                    unichr(8675),
-                    callback=self.shift_y_minus_callback)
-        x += self._small_button
-        self.w.button_y_plus = SquareButton(
-                    (x, y,
-                    self._small_button,
-                    self._button_height),
-                    unichr(8673),
-                    callback=self.shift_y_plus_callback)
+                    callback=self.shift_plus_callback)
+        # switch sides
+        y += self._button_height + self._padding
+        self.w._side = CheckBox(
+                (x, y,
+                -self._padding,
+                self._line_height),
+                "invert side",
+                value=False,
+                sizeStyle='small')
+        y += self._line_height
+        self.w._layers = CheckBox(
+                (x, y,
+                -self._padding,
+                self._line_height),
+                "all layers",
+                value=False,
+                sizeStyle='small')
         # open window
         self.w.open()
 
-    # pos x callbacks
+    # pos callbacks
 
-    def pos_x_plus_001_callback(self, sender):
-        _value = self.w.pos_x_input.get()
-        self.w.pos_x_input.set(int(_value) + 1)
+    def pos_plus_001_callback(self, sender):
+        _value = self.w.pos_input.get()
+        self.w.pos_input.set(int(_value) + 1)
 
-    def pos_x_minus_001_callback(self, sender):
-        _value = self.w.pos_x_input.get()
-        self.w.pos_x_input.set(int(_value) - 1)
+    def pos_minus_001_callback(self, sender):
+        _value = self.w.pos_input.get()
+        self.w.pos_input.set(int(_value) - 1)
 
-    def pos_x_plus_010_callback(self, sender):
-        _value = self.w.pos_x_input.get()
-        self.w.pos_x_input.set(int(_value) + 10)
+    def pos_plus_010_callback(self, sender):
+        _value = self.w.pos_input.get()
+        self.w.pos_input.set(int(_value) + 10)
 
-    def pos_x_minus_010_callback(self, sender):
-        _value = self.w.pos_x_input.get()
-        self.w.pos_x_input.set(int(_value) - 10)
+    def pos_minus_010_callback(self, sender):
+        _value = self.w.pos_input.get()
+        self.w.pos_input.set(int(_value) - 10)
 
-    def pos_x_plus_100_callback(self, sender):
-        _value = self.w.pos_x_input.get()
-        self.w.pos_x_input.set(int(_value) + 100)
+    def pos_plus_100_callback(self, sender):
+        _value = self.w.pos_input.get()
+        self.w.pos_input.set(int(_value) + 100)
 
-    def pos_x_minus_100_callback(self, sender):
-        _value = self.w.pos_x_input.get()
-        self.w.pos_x_input.set(int(_value) - 100)
+    def pos_minus_100_callback(self, sender):
+        _value = self.w.pos_input.get()
+        self.w.pos_input.set(int(_value) - 100)
 
-    # delta x callbacks
+    # delta callbacks
 
-    def delta_x_plus_001_callback(self, sender):
-        _value = self.w.delta_x_input.get()
-        self.w.delta_x_input.set(int(_value) + 1)
+    def delta_plus_001_callback(self, sender):
+        _value = self.w.delta_input.get()
+        self.w.delta_input.set(int(_value) + 1)
 
-    def delta_x_minus_001_callback(self, sender):
-        _value = self.w.delta_x_input.get()
-        self.w.delta_x_input.set(int(_value) - 1)
+    def delta_minus_001_callback(self, sender):
+        _value = self.w.delta_input.get()
+        self.w.delta_input.set(int(_value) - 1)
 
-    def delta_x_plus_010_callback(self, sender):
-        _value = self.w.delta_x_input.get()
-        self.w.delta_x_input.set(int(_value) + 10)
+    def delta_plus_010_callback(self, sender):
+        _value = self.w.delta_input.get()
+        self.w.delta_input.set(int(_value) + 10)
 
-    def delta_x_minus_010_callback(self, sender):
-        _value = self.w.delta_x_input.get()
-        self.w.delta_x_input.set(int(_value) - 10)
+    def delta_minus_010_callback(self, sender):
+        _value = self.w.delta_input.get()
+        self.w.delta_input.set(int(_value) - 10)
 
-    def delta_x_plus_100_callback(self, sender):
-        _value = self.w.delta_x_input.get()
-        self.w.delta_x_input.set(int(_value) + 100)
+    def delta_plus_100_callback(self, sender):
+        _value = self.w.delta_input.get()
+        self.w.delta_input.set(int(_value) + 100)
 
-    def delta_x_minus_100_callback(self, sender):
-        _value = self.w.delta_x_input.get()
-        self.w.delta_x_input.set(int(_value) - 100)
-
-    # pos y callbacks
-
-    def pos_y_plus_001_callback(self, sender):
-        _value = self.w.pos_y_input.get()
-        self.w.pos_y_input.set(int(_value) + 1)
-
-    def pos_y_minus_001_callback(self, sender):
-        _value = self.w.pos_y_input.get()
-        self.w.pos_y_input.set(int(_value) - 1)
-
-    def pos_y_plus_010_callback(self, sender):
-        _value = self.w.pos_y_input.get()
-        self.w.pos_y_input.set(int(_value) + 10)
-
-    def pos_y_minus_010_callback(self, sender):
-        _value = self.w.pos_y_input.get()
-        self.w.pos_y_input.set(int(_value) - 10)
-
-    def pos_y_plus_100_callback(self, sender):
-        _value = self.w.pos_y_input.get()
-        self.w.pos_y_input.set(int(_value) + 100)
-
-    def pos_y_minus_100_callback(self, sender):
-        _value = self.w.pos_y_input.get()
-        self.w.pos_y_input.set(int(_value) - 100)
-
-    # delta y callbacks
-
-    def delta_y_plus_001_callback(self, sender):
-        _value = self.w.delta_y_input.get()
-        self.w.delta_y_input.set(int(_value) + 1)
-
-    def delta_y_minus_001_callback(self, sender):
-        _value = self.w.delta_y_input.get()
-        self.w.delta_y_input.set(int(_value) - 1)
-
-    def delta_y_plus_010_callback(self, sender):
-        _value = self.w.delta_y_input.get()
-        self.w.delta_y_input.set(int(_value) + 10)
-
-    def delta_y_minus_010_callback(self, sender):
-        _value = self.w.delta_y_input.get()
-        self.w.delta_y_input.set(int(_value) - 10)
-
-    def delta_y_plus_100_callback(self, sender):
-        _value = self.w.delta_y_input.get()
-        self.w.delta_y_input.set(int(_value) + 100)
-
-    def delta_y_minus_100_callback(self, sender):
-        _value = self.w.delta_y_input.get()
-        self.w.delta_y_input.set(int(_value) - 100)
+    def delta_minus_100_callback(self, sender):
+        _value = self.w.delta_input.get()
+        self.w.delta_input.set(int(_value) - 100)
 
     # functions
 
     def _get_glyphs(self):
-        self.f = CurrentFont()
-        self.gNames = self.f.selection        
-
-    def _get_parameters_x(self):
+        f = CurrentFont()
+        if f is not None:      
+            self.font = f
+            self.glyph_names = get_glyphs(self.font)
+        else:
+            print 'please open a font first.\n'
+            return            
+            
+    def _get_parameters(self):
         self._get_glyphs()
-        self._pos_x = int(self.w.pos_x_input.get())
-        self._delta_x = int(self.w.delta_x_input.get())
-        self._side_x = int(self.w.side_x.get())
-
-    def _get_parameters_y(self):
-        self._get_glyphs()
-        self._pos_y = int(self.w.pos_y_input.get())
-        self._delta_y = int(self.w.delta_y_input.get())
-        self._side_y = int(self.w.side_y.get())
+        self._pos = int(self.w.pos_input.get())
+        self._delta = int(self.w.delta_input.get())
+        self._axis = self.w._axis.get()
+        self._side = self.w._side.get()
+        self._layers = self.w._layers.get()
 
     # apply callbacks
 
-    def shift_x_plus_callback(self, sender):
-        self._get_parameters_x()
-        self.shift_x_callback(mode=1)
+    def shift_plus_callback(self, sender):
+        self._get_parameters()
+        self.shift_callback(mode=1)
 
-    def shift_x_minus_callback(self, sender):
-        self._get_parameters_x()
-        self.shift_x_callback(mode=0)
+    def shift_minus_callback(self, sender):
+        self._get_parameters()
+        self.shift_callback(mode=0)
 
-    def shift_y_plus_callback(self, sender):
-        self._get_parameters_y()
-        self.shift_y_callback(mode=1)
-
-    def shift_y_minus_callback(self, sender):
-        self._get_parameters_y()
-        self.shift_y_callback(mode=0)
-
-    def shift_x_callback(self, mode):
-        _side = [ True, False ]
-        _side_names = [ 'left', 'right' ]
-        if mode:
-            _delta_x = self._delta_x
+    def shift_callback(self, mode):
+        _boolstring = [ 'False', 'True' ]
+        _modes = [ 'minus', 'plus' ]
+        _axes = [ 'x', 'y' ]
+        # set delta value
+        if mode == 1:
+            _delta = self._delta
         else:
-            _delta_x = -self._delta_x
+            _delta = -self._delta
         # print info
-        print "line position: %s" % self._pos_x
-        print "delta: %s" % self._delta_x
-        print "mode: %s" % self._side_x
-        print "mode: %s" % _side_names[mode]
+        print 'shifting points in glyphs...\n'
+        print '\tposition: %s' % self._pos
+        print '\tdelta: %s' % _delta
+        print '\taxis: %s' % _axes[self._axis]
+        print '\tmode: %s' % _modes[mode]
+        print '\tinvert: %s' % _boolstring[self._side]
+        print '\tlayers: %s' % _boolstring[self._layers]
+        print
+        print '\t',
         # transform
-        for gName in self.gNames:
-            self.f[gName].prepareUndo('shift points horizontally')
-            deselect_points(self.f[gName])
-            select_points_x(self.f[gName], self._pos_x, left=_side[self._side_x])
-            shift_selected_points_x(self.f[gName], _delta_x)
-            deselect_points(self.f[gName])
-            self.f[gName].update()
-            self.f[gName].performUndo()
-        self.f.update()
-
-    def shift_y_callback(self, mode):
-        _side = [ True, False ]
-        _side_names = [ 'above', 'below' ]
-        if mode:
-            _delta_y = self._delta_y
-        else:
-            _delta_y = -self._delta_y
-        # print info
-        print "line position: %s" % self._pos_y
-        print "delta: %s" % self._delta_y
-        print "mode: %s" % self._side_y
-        print "mode: %s" % _side_names[mode]
-        # transform
-        for gName in self.gNames:
-            self.f[gName].prepareUndo('shift points vertically')
-            deselect_points(self.f[gName])
-            select_points_y(self.f[gName], self._pos_y, above=_side[self._side_y])
-            shift_selected_points_y(self.f[gName], _delta_y)
-            deselect_points(self.f[gName])
-            self.f[gName].update()
-            self.f[gName].performUndo()
-        self.f.update()
+        for glyph_name in self.glyph_names:
+            print glyph_name,
+            # get glyph
+            g = self.font[glyph_name]
+            g.prepareUndo('shift points')
+            deselect_points(g)                        
+            # shift y
+            if self._axis:
+                # all layers
+                if self._layers:
+                    for layer_name in self.font.layerOrder:
+                        _g = g.getLayer(layer_name)
+                        select_points_y(g, self._pos, invert=self._side)
+                        shift_selected_points_y(_g, _delta)
+                # active layer only
+                else:
+                    select_points_y(g, self._pos, invert=self._side)
+                    shift_selected_points_y(g, _delta)
+            # shift x
+            else:
+                # all layers
+                if self._layers:
+                    for layer_name in self.font.layerOrder:
+                        _g = g.getLayer(layer_name)
+                        select_points_x(_g, self._pos, invert=self._side)
+                        shift_selected_points_x(_g, _delta)
+                # active layer only
+                else:
+                    select_points_x(g, self._pos, invert=self._side)
+                    shift_selected_points_x(g, _delta)
+            # done glyph
+            deselect_points(g)
+            g.update()
+            g.performUndo()
+        # done
+        self.font.update()
+        print
+        print '\n...done.\n'
 
 #  run
 

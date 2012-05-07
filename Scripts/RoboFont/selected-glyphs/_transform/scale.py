@@ -12,11 +12,12 @@ class scaleGlyphsDialog(object):
     _padding = 10
     _box_height = 20
     _width = (_button_2 * 6) + (_padding * 2) - 5
-    _height = (_button_1 * 3) + (_button_2 * 2) + (_padding * 5) + (_box_height * 2) - 6
+    _height = (_button_1 * 3) + (_button_2 * 2) + (_padding * 5) + (_box_height * 3) - 6
 
     _x_metrics = True
     _y_metrics = False
     _scale_value = 50
+    _layers = False
 
     def __init__(self):
         self.w = FloatingWindow(
@@ -145,6 +146,15 @@ class scaleGlyphsDialog(object):
                 value=self._y_metrics,
                 sizeStyle='small',
                 callback=self._metrics_y_callback)
+        y += self._box_height
+        self.w._layers = CheckBox(
+                (x, y,
+                -self._padding,
+                self._box_height),
+                "all layers",
+                value=self._layers,
+                sizeStyle='small',
+                callback=self._layers_callback)
         # open window
         self.w.open()
 
@@ -245,6 +255,9 @@ class scaleGlyphsDialog(object):
     def _metrics_y_callback(self, sender):
         self._y_metrics = self.w._metrics_y.get()
 
+    def _layers_callback(self, sender):
+        self._layers = self.w._layers.get()
+
     #-----------
     # functions
     #-----------
@@ -264,19 +277,31 @@ class scaleGlyphsDialog(object):
                 print '\tscale vertical metrics: %s' % boolstring[self._y_metrics]
                 print
                 for glyph_name in glyph_names:
-                    font[glyph_name].prepareUndo('scale')
-                    _left = font[glyph_name].leftMargin
-                    _right = font[glyph_name].rightMargin
-                    # scale outlines
                     print '\t%s' % glyph_name,
-                    font[glyph_name].scale((factor_x, factor_y))
+                    g = font[glyph_name]
+                    g.prepareUndo('scale')
+                    _left = g.leftMargin
+                    _right = g.rightMargin
+                    #----------------
+                    # scale outlines
+                    #----------------
+                    # scale all layers
+                    if self._layers:
+                        for layer_name in font.layerOrder:
+                            _g = g.getLayer(layer_name)
+                            _g.scale((factor_x, factor_y))
+                    # scale active layer only    
+                    else:
+                        g.scale((factor_x, factor_y))
                     # scale horizontal metrics
                     if self._x_metrics:
-                        font[glyph_name].leftMargin = _left * factor_x
-                        font[glyph_name].rightMargin = _right * factor_x
+                        g.leftMargin = _left * factor_x
+                        g.rightMargin = _right * factor_x
                     # done glyph
-                    font[glyph_name].performUndo()
+                    g.performUndo()
+                #------------------------
                 # scale vertical metrics
+                #------------------------
                 if self._y_metrics:
                     font.info.xHeight = font.info.xHeight * factor_y
                     font.info.capHeight = font.info.capHeight * factor_y

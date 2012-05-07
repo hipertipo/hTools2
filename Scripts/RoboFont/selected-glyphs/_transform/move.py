@@ -135,7 +135,7 @@ class moveGlyphsDialog(object):
                 (x, y,
                 -self._padding,
                 self._box_height),
-                "move all layers",
+                "all layers",
                 value=False,
                 sizeStyle='small')
         # open dialog

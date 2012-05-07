@@ -11,8 +11,11 @@ class mirrorGlyphsDialog(object):
     _padding = 10
     _width = 123
     _button_1 = (_width - (_padding * 2)) / 2
+    _line_height = 20
     _box_height = _button_1
-    _height = (_padding * 2) + _box_height
+    _height = (_padding * 3) + _box_height + _line_height - 3 
+
+    _layers = False
 
     def __init__(self):
         self.w = FloatingWindow(
@@ -36,10 +39,24 @@ class mirrorGlyphsDialog(object):
                     self._box_height),
                     '%s %s' % (unichr(8672), unichr(8674)),
                     callback=self._right_callback)
+        # checkbox
+        x = self._padding
+        y += self._box_height + self._padding 
+        self.w._layers = CheckBox(
+                (x, y,
+                -self._padding,
+                self._line_height),
+                "all layers",
+                value=self._layers,
+                sizeStyle='small',
+                callback=self._layers_callback)
         # open dialog
         self.w.open()
 
     # callbacks
+
+    def _layers_callback(self, sender):
+        self._layers = sender.get()
 
     def _mirror_glyph(self, glyph, (scale_x, scale_y)):
         # get center
@@ -57,19 +74,40 @@ class mirrorGlyphsDialog(object):
     def _mirror_glyphs(self, (scale_x, scale_y)):
         f = CurrentFont()
         if f is not None:
-            # glyph window mode
+            #--------------
+            # glyph window
             g = CurrentGlyph()
             if g is not None:
-                self._mirror_glyph(g, (scale_x, scale_y))
+                # mirror all layers
+                if self._layers:
+                    for layer_name in f.layerOrder:
+                        _g = g.getLayer(layer_name)
+                        self._mirror_glyph(_g, (scale_x, scale_y))
+                # mirror active layer only
+                else:
+                    self._mirror_glyph(g, (scale_x, scale_y))
+            #-----------------
+            # no glyph window
             else:
                 # selected glyphs
                 if len(f.selection) > 0:
                     for glyph_name in f.selection:
-                        self._mirror_glyph(f[glyph_name], (scale_x, scale_y))
+                        # mirror all layers
+                        if self._layers:
+                            for layer_name in f.layerOrder:
+                                _g = f[glyph_name].getLayer(layer_name)
+                                self._mirror_glyph(_g, (scale_x, scale_y))
+                        # mirror active layer only
+                        else:
+                            self._mirror_glyph(f[glyph_name], (scale_x, scale_y))
                     f.update()
                 # no glyph selected
                 else:
                     print 'please select one or more glyphs first.\n'                    
+        # no font
+        else:
+            print 'please open a font first'
+
 
     def _right_callback(self, sender):
         self._mirror_glyphs((-1, 1))

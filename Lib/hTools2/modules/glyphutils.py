@@ -80,11 +80,11 @@ def round_anchors(glyph, (sizeX, sizeY)):
 
 # shift points
 
-def select_points_y(glyph, linePos, above=True):
+def select_points_y(glyph, linePos, invert=False):
 	for c in glyph.contours:
 		for p in c.points:
 			# select points above the line
-			if above is True: 
+			if invert != True: 
 				if p.y >= linePos:
 					p.selected = True
 			# select points below the line
@@ -93,10 +93,10 @@ def select_points_y(glyph, linePos, above=True):
 					p.selected = True
 	glyph.update()
 
-def select_points_x(glyph, linePos, left=True):
+def select_points_x(glyph, linePos, invert=False):
 	for c in glyph.contours:
 		for p in c.points:
-			if left is True: 
+			if invert == True: 
 				if p.x <= linePos:
 					p.selected = True
 			else:
