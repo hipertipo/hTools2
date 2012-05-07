@@ -2,8 +2,10 @@
 
 from vanilla import *
 
-from hTools2.modules.fontutils import get_glyphs
+import hTools2.modules.fontutils
+reload(hTools2.modules.fontutils)
 
+from hTools2.modules.fontutils import get_glyphs
 
 class setMarginsDialog(object):
 
@@ -205,10 +207,11 @@ class setMarginsDialog(object):
                     sizeStyle='small',
                     callback=self.apply_callback)
         # open window
-        # self.w.setDefaultButton(self.w.button_apply)
-        # self.w.button_close.bind(".", ["command"])
-        # self.w.button_close.bind(unichr(27), [])
         self.w.open()
+    
+    #-----------
+    # callbacks
+    #-----------    
     
     # spinners left
 
@@ -277,69 +280,80 @@ class setMarginsDialog(object):
     # modes
 
     def left_mode_callback(self, sender):
-        # self.w.left_value.enable(sender.get() != 0)
         self._left_mode = self.w.left_mode.get()
 
     def right_mode_callback(self, sender):
-        # self.w.right_value.enable(sender.get() != 0)
         self._right_mode = self.w.right_mode.get()
 
     # apply
 
+    def set_margins(self, glyph, (left_value, left_mode), (right_value, right_mode)):
+        glyph.prepareUndo('set margins')
+        # left margin
+        if left_mode is not 0:
+            # increase by
+            if left_mode is 2:
+                _left_value_new = glyph.leftMargin + int(left_value)
+            # decrease by
+            elif left_mode is 3:
+                _left_value_new = glyph.leftMargin - int(left_value)
+            # set equal to
+            else:
+                _left_value_new = int(left_value)
+            # set left margin
+            glyph.leftMargin = _left_value_new
+            glyph.update()
+        # right margin
+        if right_mode is not 0:
+            # increase by
+            if right_mode is 2:
+                _right_value_new = glyph.rightMargin + int(right_value)
+            # decrease by
+            elif right_mode is 3:
+                _right_value_new = glyph.rightMargin - int(right_value)
+            # set equal to 
+            else:
+                _right_value_new = int(right_value)
+            # set right margin
+            glyph.rightMargin = _right_value_new
+            glyph.update()
+        # done glyph
+        glyph.performUndo()
+        glyph.update()
+
     def apply_callback(self, sender):
         f = CurrentFont()
         if f is not None:
-            glyph_names = get_glyphs(f)
-            if len(glyph_names) > 0:
-                print 'setting margins for selected glyphs...\n'
-                print '\tleft: %s (%s)' % (self._modes[self._left_mode], self._left_value)
-                print '\tright: %s (%s)' % (self._modes[self._right_mode], self._right_value)
-                # batch set left/right sidebearings in one pass
-                for glyph_name in glyph_names:
-                    f[glyph_name].prepareUndo('set margins')
-                    #-------------
-                    # left margin
-                    #-------------
-                    if self._left_mode is not 0:
-                        # increase by
-                        if self._left_mode is 2:
-                            _left_value_new = f[glyph_name].leftMargin + int(self._left_value)
-                        # decrease by
-                        elif self._left_mode is 3:
-                            _left_value_new = f[glyph_name].leftMargin - int(self._left_value)
-                        # set equal to
-                        else:
-                            _left_value_new = int(self._left_value)
-                        # set left margin
-                        f[glyph_name].leftMargin = _left_value_new
-                        f[glyph_name].update()
-                        f.update()
-                    #--------------
-                    # right margin
-                    #--------------
-                    if self._right_mode is not 0:
-                        # increase by
-                        if self._right_mode is 2:
-                            _right_value_new = f[glyph_name].rightMargin + int(self._right_value)
-                        # decrease by
-                        elif self._right_mode is 3:
-                            _right_value_new = f[glyph_name].rightMargin - int(self._right_value)
-                        # set equal to 
-                        else:
-                            _right_value_new = int(self._right_value)
-                        # set right margin
-                        f[glyph_name].rightMargin = _right_value_new
-                        f[glyph_name].update()
-                        f.update()
-                    # done glyph
-                    f[glyph_name].performUndo()
-                    f[glyph_name].update()
-                # done
+            # print info
+            print 'setting margins for selected glyphs...\n'
+            print '\tleft: %s (%s)' % (self._modes[self._left_mode], self._left_value)
+            print '\tright: %s (%s)' % (self._modes[self._right_mode], self._right_value)
+            print
+            # current glyph mode
+            g = CurrentGlyph()
+            print g.leftMargin, g.rightMargin
+            if g is not None:
+                print '\t\t%s' % g.name
+                self.set_margins(g,
+                            (self._left_value, self._modes[self._left_mode]),
+                            (self._right_value, self._modes[self._right_mode]))
                 f.update()
                 print '\n...done.\n'
-            # no glyph selected
+            # selected glyphs mode
             else:
-                print 'please select one or more glyphs to transform.\n'
+                glyph_names = font.selection
+                print '\t\t',
+                if len(glyph_names) > 0:
+                    for glyph_name in glyph_names:
+                        print glyph_name,
+                        self.set_margins(f[glyph_name],
+                                    (self._left_value, self._modes[self._left_mode]),
+                                    (self._right_value, self._modes[self._right_mode]))
+                    f.update()
+                    print '\n...done.\n'
+                # no glyph selected
+                else:
+                    print 'please select one or more glyphs to transform.\n'
         # no font open
         else:
             print 'please open a font first.\n'

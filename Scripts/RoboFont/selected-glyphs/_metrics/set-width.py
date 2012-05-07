@@ -4,15 +4,9 @@
 
 from vanilla import *
 
-from random import random
-
-import hTools2.modules.glyphutils
-reload(hTools2.modules.glyphutils)
-
 from hTools2.modules.color import random_color
 from hTools2.modules.fontutils import get_glyphs
 from hTools2.modules.glyphutils import center_glyph
-
 
 class setWidthDialog(object):
 
@@ -58,6 +52,7 @@ class setWidthDialog(object):
                     "width",
                     sizeStyle='small')
         x += self._col_1
+        # value
         self.w.width_value = EditText(
                     (x, y,
                     -self._padding,
@@ -120,12 +115,12 @@ class setWidthDialog(object):
         y += self._line_height + self._padding
         self.w.center_checkbox = CheckBox(
                     (x, y,
-                    self._col_3,
+                    -self._padding,
                     self._line_height),
-                    "center",
+                    "center glyphs",
                     value=False,
                     sizeStyle='small')
-        # buttons
+        # apply button
         x = self._padding
         y += self._line_height + self._padding
         self.w.button_apply = SquareButton(

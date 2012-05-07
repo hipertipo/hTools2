@@ -2,6 +2,8 @@
 
 from vanilla import *
 
+from hTools2.modules.fontutils import get_glyphs
+
 class scaleGlyphsDialog(object):
 
     _title = "scale"
@@ -248,41 +250,47 @@ class scaleGlyphsDialog(object):
     #-----------
 
     def scale_glyphs(self, (factor_x, factor_y)):
-        boolstring = [False, True]
+        boolstring = [ False, True ]
         font = CurrentFont()
-        print 'scaling selected glyphs...\n'
-        print '\tX factor: %s' % factor_x
-        print '\tY factor: %s' % factor_y
-        print
-        print '\tscale side-bearings: %s' % boolstring[self._x_metrics]
-        print '\tscale vertical metrics: %s' % boolstring[self._y_metrics]
-        print
-        for gName in font.selection:
-            try:
-                font[gName].prepareUndo('scale')
-                _left = font[gName].leftMargin
-                _right = font[gName].rightMargin
-                # scale outlines
-                print '\t%s' % gName,
-                font[gName].scale((factor_x, factor_y))
-                # scale horizontal metrics
-                if self._x_metrics:
-                    font[gName].leftMargin = _left * factor_x
-                    font[gName].rightMargin = _right * factor_x
-                # done glyph
-                font[gName].performUndo()
-            except:
-                print '\tcannot transform %s' % gName                        
-        # scale vertical metrics
-        if self._y_metrics:
-            font.info.xHeight = font.info.xHeight * factor_y
-            font.info.capHeight = font.info.capHeight * factor_y
-            font.info.ascender = font.info.ascender * factor_y
-            font.info.descender = font.info.descender * factor_y
-        # done
-        print
-        print '\n...done.\n'
-
+        if font is not None:
+            glyph_names = get_glyphs(font)
+            # scale glyphs
+            if len(glyph_names) > 0:
+                print 'scaling selected glyphs...\n'
+                print '\tX factor: %s' % factor_x
+                print '\tY factor: %s' % factor_y
+                print
+                print '\tscale side-bearings: %s' % boolstring[self._x_metrics]
+                print '\tscale vertical metrics: %s' % boolstring[self._y_metrics]
+                print
+                for glyph_name in glyph_names:
+                    font[glyph_name].prepareUndo('scale')
+                    _left = font[glyph_name].leftMargin
+                    _right = font[glyph_name].rightMargin
+                    # scale outlines
+                    print '\t%s' % glyph_name,
+                    font[glyph_name].scale((factor_x, factor_y))
+                    # scale horizontal metrics
+                    if self._x_metrics:
+                        font[glyph_name].leftMargin = _left * factor_x
+                        font[glyph_name].rightMargin = _right * factor_x
+                    # done glyph
+                    font[glyph_name].performUndo()
+                # scale vertical metrics
+                if self._y_metrics:
+                    font.info.xHeight = font.info.xHeight * factor_y
+                    font.info.capHeight = font.info.capHeight * factor_y
+                    font.info.ascender = font.info.ascender * factor_y
+                    font.info.descender = font.info.descender * factor_y
+                # done all glyphs
+                print
+                print '\n...done.\n'
+            # no glyph selected
+            else:
+                print 'please select one or more glyphs first.\n'
+        # no font open
+        else:
+            print 'please open a font first.\n'
 
 # run
 

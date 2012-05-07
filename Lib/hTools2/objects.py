@@ -693,11 +693,23 @@ class hGlyph_NodeBox(hGlyph):
 
 class hLine:
 
+    scale = .5
+    fill = True
+    fill_color = None
+    stroke_width = 1
+    stroke = False
+    stroke_color = None
+    hmetrics = False
+    hmetrics_crop = False
+    anchors = False
+    origin = False
+    baseline = False
+    color_guidelines = None
+
     def __init__(self, ufo, context):
         self.ctx = context
         self.font = hFont(ufo)
         self.glyph_names = []
-        self.color_guidelines = self.ctx.color(.5)
 
     def _text_to_gnames(self, txt):
         gnames = []
@@ -721,61 +733,87 @@ class hLine:
         else:
             self.glyph_names = self._text_to_gnames(_text)
 
-    def width(self, scale_=.5):
+    def width(self):
         line_length = 0
         for glyph_name in self.glyph_names:
             g = self.font.ufo[glyph_name]
-            line_length += (g.width * scale_)
+            line_length += (g.width * self.scale)
         return line_length
 
-    def height(self, scale_=.5):
-        return self.font.ufo.info.unitsPerEm * scale_
+    def height(self):
+        return self.font.ufo.info.unitsPerEm * self.scale
 
-    def draw(self, pos, color_=None, hmetrics=False, hmetrics_crop=False,
-                    anchors=False, scale_=.5, origin=False, baseline=False):
+    def draw(self, pos):
         pen = NodeBoxPen(self.font.ufo, self.ctx)
         self.x, self.y = pos
         line_length = 0
         for glyph_name in self.glyph_names:
+            #-----------------
             # draw guidelines
-            if hmetrics is True:
-                if hmetrics_crop is True:
-                    y_min = self.font.ufo.info.descender * scale_
-                    y_max = self.font.ufo.info.ascender * scale_
+            #-----------------
+            # draw horizontal metrics
+            if self.hmetrics is True:
+                # set guidelines color
+                if self.color_guidelines is None:
+                    self.color_guidelines = self.ctx.color(.3)
+                # crop hmetrics guides
+                if self.hmetrics_crop is True:
+                    y_min = self.font.ufo.info.descender * self.scale
+                    y_max = self.font.ufo.info.ascender * self.scale
                     y_range_ = (self.y - y_min, self.y - y_max)
                 else:
-                    y_range_ = None
+                    y_range_ = None                    
                 draw_vertical_line(self.x, self.ctx, y_range=y_range_, color_=self.color_guidelines)
-            if origin is True:
+            # draw origin points
+            if self.origin is True:
                 draw_cross((self.x, self.y), self.ctx, color_=self.color_guidelines)
-            if baseline is True:
+            # draw baseline
+            if self.baseline is True:
                 draw_horizontal_line(self.y, self.ctx, color_=self.color_guidelines)
-            # set color
-            self.ctx.nostroke()
-            if color_ == None:
-                self.ctx.fill(1)
+            #------------
+            # set stroke
+            #------------
+            if self.stroke:
+                self.ctx.strokewidth(self.stroke_width)
+                if self.stroke_color is None:
+                    self.ctx.stroke(1)
+                else:
+                    self.ctx.stroke(self.stroke_color)
             else:
-                self.ctx.fill(color_)
+                self.ctx.nostroke()
+            #----------------
+            # set fill color
+            #----------------
+            if self.fill:
+                if self.fill_color == None:
+                    self.ctx.fill(1)
+                else:
+                    self.ctx.fill(self.fill_color)
+            #------------
             # draw glyph
+            #------------
             g = self.font.ufo[glyph_name]
             self.ctx.push()
             self.ctx.translate(self.x, self.y)
             self.ctx.transform('CORNER')
-            self.ctx.scale(scale_)
+            self.ctx.scale(self.scale)
             self.ctx.beginpath()
             g.draw(pen)
             P = self.ctx.endpath(draw=False)
             self.ctx.drawpath(P)
+            #--------------
             # draw anchors
-            if anchors is True:
+            #--------------
+            if self.anchors is True:
                 if len(g.anchors) > 0: 
                     for a in g.anchors:
-                        x = (a.position[0] * scale_)
-                        y = - (a.position[1] * scale_)
+                        x = (a.position[0] * self.scale)
+                        y = - (a.position[1] * self.scale)
                         draw_cross((x, y), self.ctx)
             self.ctx.pop()
-            line_length += (g.width * scale_)
-            self.x += (g.width * scale_)
+            # done
+            line_length += (g.width * self.scale)
+            self.x += (g.width * self.scale)
 
 # class hParagraph:
 #
