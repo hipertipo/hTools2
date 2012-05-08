@@ -11,7 +11,9 @@ It is built with [RoboFab](http://robofag.org) & [vanilla](http://code.typesuppl
 Credits
 -------
 
-hTools2 is developed by Gustavo Ferreira ([Hipertipo](http://hipertipo.com)). Special thanks to Frederik Berlaen for the many tips, comments and corrections.
+hTools2 is developed by Gustavo Ferreira ([Hipertipo](http://hipertipo.com)).
+
+Special thanks to Frederik Berlaen for the many tips, comments and corrections.
 
 RoboFont is developed by Frederik Berlaen ([TypeMyType](http://typemytype.com)).
 
@@ -23,10 +25,20 @@ Support
 
 Work on hTools2 is partially funded by users and collaborators.
 
-I am specially grateful to the following designers who have comissioned new functionality for hTools2:
+I am specially grateful to the following designers who have comissioned new functionality for hTools2, and provided continuous feedback:
 
-- Nikola Djurek, [Typonine](http://typonine.com/)
-- Bas Jacobs, [Underware](http://underware.nl/)
+<table>
+<tr>
+<td>Nikola Djurek</td>
+<td><a href='http://typonine.com/'>Typonine</a></td>
+<td>kickstart for the initial release of hTools2, comissioned and tested most dialogs<</td>
+</tr>
+<tr>
+<td>Bas Jacobs</td>
+<td><a href='http://underware.nl/'>Underware</a></td>
+<td>several suggestions for new features, commision of a `import .ufo to layer` script</td>
+</tr>
+</table>
 
 If you use hTools2 on a regular basis, please consider making a donation to support the project.
 
@@ -34,7 +46,7 @@ If you use hTools2 on a regular basis, please consider making a donation to supp
 License
 -------
 
-[BSD License](http://www.opensource.org/licenses/BSD-3-Clause)
+[BSD 3-Clause License](http://www.opensource.org/licenses/BSD-3-Clause)
 
 
 ### Get the source
