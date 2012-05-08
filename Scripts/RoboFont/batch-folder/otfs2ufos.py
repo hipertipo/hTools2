@@ -19,10 +19,7 @@ class batchConvertOTFsToUFOsDialog(object):
     _height = (_button_height * 3) + (_padding * 5) + (_row_height) + 1
 
     _otfs_folder = None
-    _otfs_folder_message = 'select a folder containing .otf fonts'
-
     _ufos_folder = None
-    _ufos_folder_message = 'leave empty to generate .ufos in the same folder as the .otfs'
 
     def __init__(self):
         self.w = FloatingWindow(
