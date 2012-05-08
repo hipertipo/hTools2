@@ -21,7 +21,9 @@ hTools (and RoboFont) are built with libraries by Erik van Blokland & Just van R
 Support
 -------
 
-Work on hTools2 has been partially funded by users and collaborators.
+Work on hTools2 is partially funded by users and collaborators.
+
+I am specially grateful to the following designers who have comissioned new functionality for hTools2:
 
 - Nikola Djurek, [Typonine](http://typonine.com/)
 - Bas Jacobs, [Underware](http://underware.nl/)
