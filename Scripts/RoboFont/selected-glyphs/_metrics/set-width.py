@@ -36,13 +36,15 @@ class setWidthDialog(object):
         x = self._padding
         y = self._padding
         # mode
-        self.w.width_mode = PopUpButton(
+        self.w.width_mode = RadioGroup(
                     (x, y,
                     -self._padding,
                     self._line_height),
-                    self._modes,
+                    ['=', '+', '-'],
                     sizeStyle='small',
-                    callback=self.mode_callback)
+                    callback=self.mode_callback,
+                    isVertical=False)
+        self.w.width_mode.set(0)
         # label
         y += self._line_height + self._padding
         self.w.width_label = TextBox(
@@ -171,46 +173,59 @@ class setWidthDialog(object):
         self.w.width_value.set(self._width_)
 
     # apply
+
+    def set_width(self, glyph, width, center):
+        glyph.prepareUndo('set glyph width')
+        # set width
+        if self._mode == 1:
+            glyph.width += int(width)
+        elif self._mode == 2:
+            glyph.width -= int(width)
+        else:
+            glyph.width = int(width)
+        # center glyph
+        if center:
+            center_glyph(glyph)
+        # done
+        glyph.performUndo()
+        glyph.update()
         
     def apply_callback(self, sender):
         f = CurrentFont()
         if f is not None:
-            glyph_names = get_glyphs(f)
-            if len(glyph_names) > 0:
-                # get parameters
-                _width = self.w.width_value.get()
-                _center = self.w.center_checkbox.get()
-                _gNames = f.selection
-                boolstring = (False, True)
-                # print info
-                print 'setting character widths...\n'
-                print '\twidth: %s' % _width
-                print '\tcenter: %s' % boolstring[_center]
-                print '\tmode: %s' % self._modes[self._mode]
-                print '\tglyphs: %s' % _gNames
-                print         
-                for gName in _gNames:
-                    f[gName].prepareUndo('set glyph width')
-                    # set width
-                    if self._mode == 1:
-                        f[gName].width += int(_width)
-                    elif self._mode == 2:
-                        f[gName].width -= int(_width)
-                    else:
-                        f[gName].width = int(_width)
-                    # center glyph
-                    if _center:
-                        center_glyph(f[gName])
-                    f[gName].performUndo()
-                    f[gName].update()
-                # done
-                print 
+            # get parameters
+            _width = self.w.width_value.get()
+            _center = self.w.center_checkbox.get()
+            _gNames = f.selection
+            boolstring = (False, True)
+            # print info
+            print 'setting character widths...\n'
+            print '\twidth: %s' % _width
+            print '\tcenter: %s' % boolstring[_center]
+            print '\tmode: %s' % self._modes[self._mode]
+            print '\tglyphs: %s' % _gNames
+            print         
+            # current glyph
+            glyph = CurrentGlyph()
+            if glyph is not None:
+                print glyph.name
+                self.set_width(glyph, _width, _center)
                 f.update()
+                print
                 print '...done.\n'
-                # no glyph selected
+            # selected glyphs
             else:
-                print 'please select one or more glyphs before running the script.\n'
-        # no glyph selected
+                glyph_names = f.selection
+                if len(glyph_names) > 0:
+                    for glyph_name in glyph_names:
+                        print glyph_name,
+                        self.set_width(f[glyph_name], _width, _center)
+                    print
+                    print '...done.\n'
+                # no glyph selected
+                else:
+                    print 'please select one or more glyphs first.\n'
+        # no font open
         else:
             print 'please open a font first.\n'
 

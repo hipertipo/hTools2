@@ -270,9 +270,12 @@ class hProject:
         self.import_encoding()
 
     def import_encoding(self):
-        _groups, _order = import_encoding(self.paths['encoding'])
-        self.libs['groups']['glyphs'] = _groups
-        self.libs['groups']['order'] = _order
+        try:
+            _groups, _order = import_encoding(self.paths['encoding'])
+            self.libs['groups']['glyphs'] = _groups
+            self.libs['groups']['order'] = _order
+        except:
+            print 'could not import encoding.\n'
 
     def all_glyphs(self, ignore=['invisible']):
         _all_glyphs = []
@@ -370,21 +373,33 @@ class hProject:
     # file lists
 
     def masters(self):
-        return walk(self.paths['ufos'], 'ufo')
+        try:
+            return walk(self.paths['ufos'], 'ufo')
+        except:
+            return None
 
     def masters_interpol(self):
-        return walk(self.paths['interpol'], 'ufo')
+        try:
+            return walk(self.paths['interpol'], 'ufo')
+        except:
+            return None
 
     def instances(self):
-        return walk(self.paths['instances'], 'ufo')
+        try:
+            return walk(self.paths['instances'], 'ufo')
+        except:
+            return None            
 
     def collect_fonts(self):
-        _font_paths = self.masters() + self.instances()
-        _fonts = {}
-        for font_path in _font_paths:
-            _style_name = get_names_from_path(font_path)[1]
-            _fonts[_style_name] = font_path
-        self.fonts = _fonts
+        try:
+            _font_paths = self.masters() + self.instances()
+            _fonts = {}
+            for font_path in _font_paths:
+                _style_name = get_names_from_path(font_path)[1]
+                _fonts[_style_name] = font_path
+            self.fonts = _fonts
+        except:
+            self.fonts = []
 
     def otfs(self):
         return walk(self.paths['otfs'], 'otf')
@@ -610,7 +625,7 @@ class hFont:
                 'test folder' : False
             }
         # get otf path
-        if options['test folder'] is True:
+        if options['test folder'] == True:
             _otf_path = self.otf_path(test=True)
         else:
             _otf_path = self.otf_path()
@@ -705,6 +720,8 @@ class hLine:
     origin = False
     baseline = False
     color_guidelines = None
+    cap_style = 1
+    join_style = 1
 
     def __init__(self, ufo, context):
         self.ctx = context
@@ -786,7 +803,7 @@ class hLine:
             #----------------
             if self.fill:
                 if self.fill_color == None:
-                    self.ctx.fill(1)
+                    self.ctx.nofill()
                 else:
                     self.ctx.fill(self.fill_color)
             #------------
@@ -800,6 +817,9 @@ class hLine:
             self.ctx.beginpath()
             g.draw(pen)
             P = self.ctx.endpath(draw=False)
+            # set line properties
+            P = capstyle(P, self.cap_style)
+            P = joinstyle(P, self.join_style)
             self.ctx.drawpath(P)
             #--------------
             # draw anchors

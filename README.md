@@ -25,7 +25,7 @@ Support
 
 Work on hTools2 is partially funded by users and collaborators.
 
-I am specially grateful to the following designers who have comissioned new functionality for hTools2, and provided continuous feedback:
+I am specially grateful to the following designers who have comissioned new functionality for hTools2, and provided feedback:
 
 <table>
 <tr>

@@ -3,7 +3,6 @@
 from vanilla import *
 
 from hTools2.modules.glyphutils import *
-from hTools2.modules.fontutils import get_glyphs
 
 class moveGlyphsDialog(object):
 
@@ -174,44 +173,60 @@ class moveGlyphsDialog(object):
 
     def _move_glyphs(self, (x, y)):
         f = CurrentFont()
+        boolstring = [ False, True ]
+        _layers = self.w._layers.get()
         if f is not None:
-            glyph_names = get_glyphs(f)
-            # moveglyphs
-            if len(glyph_names) > 0:
-                boolstring = [ False, True ]
-                _layers = self.w._layers.get()
-                print 'moving selected glyphs...\n'
-                print '\tx: %s' % x
-                print '\ty: %s' % y
-                print '\tlayers: %s' % boolstring[_layers]
-                print
-                print '\t',
-                for glyph_name in glyph_names:
-                    print glyph_name,
-                    f[glyph_name].prepareUndo('scale')
-                    # move all layers
-                    if _layers:
-                        for layer_name in f.layerOrder:
-                            glyph = f[glyph_name].getLayer(layer_name)
-                            glyph.move((x, y))
-                    # move active layer only
-                    else:
-                        f[glyph_name].move((x, y))
-                    # done glyph
-                    f[glyph_name].performUndo()
-                    f[glyph_name].update()
-                # done font
-                f.update()
-                print
-                print '\n...done.\n'
-            # no glyph selected
+            # current glyph
+            g = CurrentGlyph()
+            if g is not None:
+                g.prepareUndo('scale')
+                # all layers
+                if _layers:
+                    for layer_name in f.layerOrder:
+                        glyph = g.getLayer(layer_name)
+                        glyph.move((x, y))
+                # active layer
+                else:
+                    g.move((x, y))
+                # done glyph
+                g.performUndo()
+                g.update()
+            # selected glyphs
             else:
-                print 'please select a one or more glyphs first.\n'
+                glyph_names = f.selection
+                # transform glyphs
+                if len(glyph_names) > 0:
+                    print 'moving selected glyphs...\n'
+                    print '\tx: %s' % x
+                    print '\ty: %s' % y
+                    print '\tlayers: %s' % boolstring[_layers]
+                    print
+                    print '\t',
+                    for glyph_name in glyph_names:
+                        print glyph_name,
+                        f[glyph_name].prepareUndo('scale')
+                        # all layers
+                        if _layers:
+                            for layer_name in f.layerOrder:
+                                glyph = f[glyph_name].getLayer(layer_name)
+                                glyph.move((x, y))
+                        # active layer
+                        else:
+                            f[glyph_name].move((x, y))
+                        # done glyph
+                        f[glyph_name].performUndo()
+                        f[glyph_name].update()
+                    # done font
+                    f.update()
+                    print
+                    print '\n...done.\n'
+                # no glyph selected
+                else:
+                    print 'please select a one or more glyphs first.\n'
         # no font open
         else:
             print 'please open a font first.\n'
         
-
     # callbacks
 
     def _up_left_callback(self, sender):
