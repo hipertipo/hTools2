@@ -2,7 +2,9 @@
 
 from math import floor, ceil
 
+#---------
 # margins
+#---------
 
 def center_glyph(glyph):
 	whitespace = glyph.leftMargin + glyph.rightMargin	
@@ -24,7 +26,9 @@ def round_margins(glyph, gridsize, left=True, right=True):
 		glyph.rightMargin = round(_right) * gridsize
 		glyph.update()
 
+#-------------
 # glyph names
+#-------------
 
 def has_suffix(glyph, suffix):
 	has_suffix = False
@@ -43,7 +47,9 @@ def change_suffix(glyph, old_suffix, new_suffix=None):
 		_new_name = _base_name
 	return _new_name
 
+#---------------
 # round to grid
+#---------------
 
 def round_points(glyph, (sizeX, sizeY)):
 	for contour in glyph.contours:
@@ -78,7 +84,9 @@ def round_anchors(glyph, (sizeX, sizeY)):
 			anchor.move((x_delta, y_delta))
 		glyph.update()
 
-# shift points
+#---------------
+# select points
+#---------------
 
 def select_points_y(glyph, linePos, invert=False):
 	for c in glyph.contours:
@@ -109,6 +117,10 @@ def deselect_points(glyph):
 		for p in c.points:
 			p.selected = False
 	glyph.update()
+
+#--------------
+# shift points
+#--------------
 
 def shift_selected_points_y(glyph, delta, anchors=False):
 	for c in glyph.contours:
@@ -142,16 +154,93 @@ def shift_selected_points_x(glyph, delta, anchors=False):
 						a.x = a.x + delta
 	glyph.update()
 
-# def shift_selected_bpoints_y(glyph, delta, anchors=False):
-# 	for c in glyph.contours:
-# 		for p in c.bPoints:
-# 			if p.selected is True:
-# 				x, y = p.anchor
-# 				y += delta
-# 			 	p.anchor = (x, y)
-# 	glyph.update()
+#---------------
+# center glyphs
+#---------------
 
+def draw_bounds(g, (x1, y1, x2, y2), (x3, y3)):
+    # x guides
+    g.addGuide((x1, 0), 90, name="x_min")
+    g.addGuide((x2, 0), 90, name="x_max")
+    g.addGuide((x3, 0), 90, name="x_mid")
+    # y guides
+    g.addGuide((0, y1), 0, name="y_min")
+    g.addGuide((0, y2), 0, name="y_max")
+    g.addGuide((0, y3), 0, name="y_mid")
+    # done
+    g.update()
+
+def get_bounds(g, layer_names):
+    lowest_x = False
+    lowest_y = False
+    highest_x = False
+    highest_y = False
+    for layer_name in layer_names:
+        glyph = g.getLayer(layer_name)
+        if glyph.box is not None:
+            xMin, yMin, xMax, yMax = glyph.box
+            # lowest x
+            if not lowest_x:
+                lowest_x = xMin
+            else:
+                if xMin < lowest_x:
+                   lowest_x = xMin
+            # lowest y            
+            if not lowest_y:
+                lowest_y = yMin
+            else:
+                if yMin < lowest_y:
+                   lowest_y = yMin
+            # highest x
+            if not highest_x:
+                highest_x = xMax
+            else:
+                if xMax > highest_x:
+                    highest_x = xMax
+            # highest y
+            if not highest_y:
+                highest_y = yMax
+            else:
+                if yMax > highest_y:
+                    highest_y = yMax
+    # done
+    return (lowest_x, lowest_y, highest_x, highest_y)
+
+def get_middle((lo_x, lo_y, hi_x, hi_y)):
+    width_all = hi_x - lo_x
+    height_all = hi_y - lo_y
+    middle_x = lo_x + (width_all * .5)
+    middle_y = lo_x + (height_all * .5)
+    return (middle_x, middle_y)
+
+def center_layers(g, layer_names, (middle_x, middle_y)):
+    for layer_name in layer_names:
+        glyph = g.getLayer(layer_name)
+        if glyph.box is not None:
+            xMin, yMin, xMax, yMax = glyph.box
+            w = xMax - xMin
+            h = yMax - yMin
+            center_x = xMin + (w * .5)
+            center_y = yMin + (h * .5)
+            shift_x = middle_x - center_x
+            shift_y = middle_y - center_y
+            glyph.move((shift_x, shift_y))
+        g.update()
+
+def center_glyph_layers(g, layers, guides=True):
+    # get center
+    _bounds = get_bounds(g, layers)
+    _middle = get_middle(_bounds)
+    # draw bounds
+    if guides:
+        clear_guides(g)
+        draw_bounds(g, _bounds, _middle)
+    # center layers
+    center_layers(g, layers, _middle)
+
+#------------
 # glyph libs
+#------------
 
 def check_lib(glyph):
 	if len(glyph.lib.keys()) > 0:
@@ -166,3 +255,12 @@ def clear_glyph_libs(glyph):
 		for k in glyph.lib.keys():
 			del glyph.lib[k]
 		glyph.update()
+
+#------------
+# guidelines
+#------------
+
+def clear_guides(glyph):
+    for guide in glyph.guides:
+        glyph.removeGuide(guide)
+	glyph.update()
