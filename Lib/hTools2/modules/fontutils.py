@@ -271,14 +271,20 @@ def align_to_grid(font, (sizeX, sizeY)):
         glyph.update()
     font.update()
 
-def scale_glyphs(f, factor):
+def scale_glyphs(f, (factor_x, factor_y)):
     for g in f:
         if len(g.components) == 0:
             leftMargin, rightMargin = g.leftMargin, g.rightMargin
-            g.scale((factor, factor))
-            g.leftMargin = leftMargin * factor
-            g.rightMargin = rightMargin * factor
+            g.scale((factor_x, factor_y))
+            g.leftMargin = leftMargin * factor_x
+            g.rightMargin = rightMargin * factor_x
             g.update()
+    f.update()
+
+def move_glyphs(f, (factor_x, factor_y)):
+    for g in f:
+        g.move((factor_x, factor_y))
+        g.update()
     f.update()
 
 # misc

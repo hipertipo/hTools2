@@ -1,13 +1,19 @@
 # [h] create custom menu item
 
 from AppKit import *
+
 from lib.UI.fileBrowser import PathItem
 
-#### make this a start up script and you will always have your own menu items around and can order as you like :)
+#-----------------------------
+# script by Frederik Berlaen
+# http://typemytype.com/
+# http://robofont.com/
+#-----------------------------
 
-path = u"/_code/hTools2/Scripts/RoboFont"
+## make this a start up script and you will always have your own menu items around and can order as you like :)
 
-menuName = "hTools2"
+path = u"/_code/hTools2/Scripts/RoboFont/_projects"
+menuName = "hFonts"
 
 ## create a new menu
 menu = NSMenu.alloc().initWithTitle_(menuName)

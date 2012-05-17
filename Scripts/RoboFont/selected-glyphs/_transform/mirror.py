@@ -78,6 +78,8 @@ class mirrorGlyphsDialog(object):
             # glyph window
             g = CurrentGlyph()
             if g is not None:
+                print 'reflecting current glyph...\n'
+                print '\t%s' % g.name
                 # mirror all layers
                 if self._layers:
                     for layer_name in f.layerOrder:
@@ -86,12 +88,16 @@ class mirrorGlyphsDialog(object):
                 # mirror active layer only
                 else:
                     self._mirror_glyph(g, (scale_x, scale_y))
+                print '...done.\n'
             #-----------------
             # no glyph window
             else:
                 # selected glyphs
                 if len(f.selection) > 0:
+                    print 'reflecting selected glyphs...\n'
+                    print '\t',
                     for glyph_name in f.selection:
+                        print glyph_name,
                         # mirror all layers
                         if self._layers:
                             for layer_name in f.layerOrder:
@@ -101,6 +107,8 @@ class mirrorGlyphsDialog(object):
                         else:
                             self._mirror_glyph(f[glyph_name], (scale_x, scale_y))
                     f.update()
+                    print
+                    print '...done.\n'
                 # no glyph selected
                 else:
                     print 'please select one or more glyphs first.\n'                    

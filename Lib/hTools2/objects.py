@@ -475,9 +475,12 @@ class hFont:
         self.project = hProject(family_name)
         self.style_name = style_name    
         # import parameters
-        name_parameters = self.style_name.split('-')
-        parameters_order = self.project.libs['project']['parameters_order']
-        self.parameters = dict(zip(parameters_order, name_parameters))
+        try:
+            name_parameters = self.style_name.split('-')
+            parameters_order = self.project.libs['project']['parameters_order']
+            self.parameters = dict(zip(parameters_order, name_parameters))
+        except:
+            print 'there is no parameters lib for this font.\n'
 
     def get_glyphs(self):
         get_glyphs(self.ufo)
