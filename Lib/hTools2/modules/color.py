@@ -1,5 +1,87 @@
 # [h] hTools2.modules.color
 
+'''
+hTools2.modules.color
+=====================
+
+Functions
+---------
+
+### `random_color()`
+
+Returns a random color.
+
+If the context is `RoboFont` or `NoneLab`, the returned value is a tuple of `(R,G,B,alpha)` values; if the context is FontLab, the returned value is an integer between `0` and `255`.
+
+Independent of the context, the visual result is a always color with random variation in the `hue` dimension, and constant saturation, brightness and opacity values.
+
+    # RoboFont / NoneLab
+    from hTools2.modules.color import random_color
+    c = random_color()
+    print c
+
+    >>> (0.0, 0.2447768481540229, 1.0, 1.0)
+
+    # FontLab
+    from hTools2.modules.color import random_color
+    c = random_color()
+    print c
+
+    >>> (196.0)
+
+### `clear_colors(font)`
+
+Removes the color of all glyphs in the given `font`.
+
+    from hTools2.modules.color import clear_colors
+    font = CurrentFont()
+    clear_colors(font)
+
+### `clear_color(glyph)`
+
+Removes the color of the given `glyph`.
+
+    from hTools2.modules.color import clear_color
+    font = CurrentFont()
+    clear_color(font['a'])
+
+### `RGB_to_nodebox_color((R, G, B), ctx)`
+
+Takes a tuple of `(R,G,B)` values and returns a NodeBox `color` object.
+
+The example below shows some sample code in NodeBox. The `_ctx` object is native to Nodebox, and gives access to its canvas, drawing state, primitives etc.
+
+    from hTools2.modules.color import RGB_to_nodebox_color
+    print RGB_to_nodebox_color((0, 1, 0), _ctx)
+
+    >>> Color(0.000, 0.004, 0.000, 1.000)
+
+### `paint_groups(font)`
+
+Paints the glyphs in the `font` according to their groups. If a `groups_order` lib is available, it is used to set the order of the glyphs in the font.
+
+    from hTools2.modules.color import paint_groups
+    font = CurrentFont()
+    paint_groups(font)
+
+Objects
+-------
+
+### `named_colors`
+
+A dictionary with color names and their corresponding color values, as `(R,G,B,alpha)` tuples.
+
+    from hTools2.modules.color import named_colors
+    print named_colors.keys()
+
+    >>> ['blue', 'purple', 'pink', 'green', 'yellow', 'orange', 'cyan', 'red']
+
+    print named_colors['orange']
+
+    >>> (1, 0.66, 0.0, 1)
+
+'''
+
 from random import random
 
 from hTools2.modules.fontutils import *

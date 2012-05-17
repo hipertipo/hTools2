@@ -25,6 +25,80 @@ from hTools2.modules.opentype import import_features, export_features
 
 class hSettings:
 
+    '''
+    hTools2.objects.hSettings
+    =========================
+
+    An object to store information about local settings and preferences.
+
+    When initialized, `hSettings` reads the root folder for projects from `hTools2.ROOT`, loads the `hSettings.plist` file from this directory into  a dictionary, and stores it in `hSettings.hDict`.
+
+    Attributes
+    ----------
+
+    ### `hSettings.hDict`
+
+    A dictionary containing general information about the local installation.
+
+    Currently, `hDict` contains only a few entries for FTP settings, and an  additional custom test folder for .otfs.
+
+        from hTools2.objects import hSettings
+        s = hSettings()
+        print s.hDict.keys()
+
+        >>> ['test', 'ftp']
+
+        for k in s.hDict['ftp'].keys():
+            print k, s.hDict['ftp'][k]
+
+        >>> url myserver.com
+        >>> folder www/mysite/assets/fonts
+        >>> password abcd1234
+        >>> login username
+
+    ### `hSettings.path`
+
+    The full path to the `hSettings.plist` file.
+
+        from hTools2.objects import hSettings
+        s = hSettings()
+        print s.path
+
+        >>> /fonts/hSettings.plist
+
+    ### `hSettings.root`
+
+    The path to the local root folder for project files, imported from `hTools2.ROOT`. This is the only hardcoded path in `hTools2`.
+
+        from hTools2.objects import hSettings
+        s = hSettings()
+        print s.root
+
+        >>> /fonts
+
+    ### `hSettings.filename`
+
+    The name of the settings file. By default, `hSettings.plist`.
+
+        from hTools2.objects import hSettings
+        s = hSettings()
+        print s.filename
+
+        >>> hSettings.plist
+
+    Methods
+    -------
+
+    ### `hSettings.read()`
+
+    Reads the local `hSettings.plist` file at `hSettings.path` into `hSettings.hDict`. This method is called when the `hSettings` object is initialized.
+
+    ### `hSettings.write()`
+
+    Writes the contents of `hSettings.hDict` to the `hSettings.plist` file.
+
+    '''
+
     root = hTools2.ROOT
     filename = 'hSettings.plist'
 
@@ -50,6 +124,54 @@ class hSettings:
 
 class hWorld:
 
+    '''
+    hTools2.objects.hWorld
+    ======================
+
+    The `hWorld` object represents the local root folder, where all project folders live.
+
+    Attributes
+    ----------
+
+    ### `hWorld.settings`
+
+    A `hSettings` object with information about the local system.
+
+        from hTools2.objects import hWorld
+        w = hWorld()
+        print w.settings
+
+        >>> <hTools2.objects.hSettings instance at 0x12ac6b560>
+
+    ### `hWorld.context`
+
+    The environment in which the current script is running.
+
+    The possible options are: `RoboFont`, `FontLab` and `NoneLab`.
+
+        from hTools2.objects import hWorld
+        w = hWorld()
+        print w.context
+
+        >>> RoboFont
+
+    Methods
+    -------
+
+    ### `hWorld.projects()`
+
+    Returns a list of all project folders contained in the root folder.
+
+    According to hTools conventions, project folder names need to start with an underscore.
+
+        from hTools2.objects import hWorld
+        w = hWorld()
+        print w.projects()
+
+        >>> ['Elementar', 'EMono', 'Modular', ... , 'Publica']
+
+    '''
+
     def __init__(self):
         self.settings = hSettings()
         self.context = _ctx
@@ -64,6 +186,80 @@ class hWorld:
         return projects
 
 class hSpace:
+
+    '''
+    hTools2.objects.hSpace
+    ======================
+
+    The `hSpace` object represents a parametric variation space inside `hWorld`. Its purpose is to quickly address collections and subsets of fonts, using parameter ranges for weight value, width value, project  name etc.
+
+    Attributes
+    ----------
+
+    ### hSpace.parameters
+
+    A dictionary containing parameter names and related value ranges.
+
+        parameters = {
+            'weight' : [1, 3, 5],
+            'width' : [3, 4, 5]
+        }
+
+    ### hSpace.parameters_order
+
+    A list with the order in which the parameters appear (for use in font names, lists etc).
+
+    ### hSpace.fonts
+
+    A dictionary of parametric font names for each project in the current `hSpace`.
+
+    The keys of the dictionary are `hProject` names, and the values are the combined numeric style names.
+
+    ### hSpace.projects
+
+    A list of projects included in the `hSpace` selection. (An `hSpace` can span across different projects.)
+
+    Methods
+    -------
+
+    ### hSpace.build()
+
+    Builds the variation space defined in `hSpace. params_dict`, using the order specified in `hSpace. params_order` to create the individual font names.
+
+    ### hSpace.existing_fonts()
+
+    Returns a list containing the .ufo paths of the existing fonts in the current `hSpace`.
+
+    ## Example
+
+        from hTools2.objects import hSpace
+        S = hSpace()
+        S.parameters['weight'] = [ 1, 5, 9 ]
+        S.parameters['width'] = [ 1, 5 ]
+        S.parameters_order = [ 'weight', 'width' ] 
+        S.projects = [ 'Publica', 'Quantica' ]
+        S.build()
+        print S.fonts.keys()
+
+        >>> ['Quantica', 'Publica']
+
+        for k in S.fonts.keys():
+            print k, S.fonts[k]
+
+        >>> Quantica ['11', '15', '51', '55', '91', '95']
+        >>> Publica ['11', '15', '51', '55', '91', '95']
+
+        for font in S.existing_fonts():
+            print font
+
+        >>> /fonts/_Quantica/_ufos/Quantica_15.ufo
+        >>> /fonts/_Quantica/_ufos/Quantica_55.ufo
+        >>> /fonts/_Quantica/_ufos/Quantica_95.ufo
+        >>> /fonts/_Publica/_ufos/Publica_15.ufo
+        >>> /fonts/_Publica/_ufos/Publica_55.ufo
+        >>> /fonts/_Publica/_ufos/Publica_95.ufo
+
+    '''
 
     parameters = {}
     parameters_order = []
@@ -237,6 +433,299 @@ class hSpace:
         print '...done.\n'
 
 class hProject:
+
+    '''
+    hTools2.objects.hProject
+    ========================
+
+    The `hProject` object represents a family of fonts and related data,  contained in a common folder with standardized sub-folder structure and file names.
+
+    The object is usually initialized with the project’s name:
+
+        from hTools2.objects import hProject      
+        p = hProject('Publica')  
+        print p  
+        print p.name  
+        
+        >>> <hTools2.objects.hProject instance at 0x10f052cb0>
+        >>> Publica  
+        
+        print p.paths.keys()  
+        
+        >>> ['interpol_instances', 'temp', 'docs', 'woffs', 'otfs', 'instances', 'otfs_test', 'bkp', 'interpol', 'libs', 'ufos', 'root', 'vfbs'] 
+        
+        print p.libs.keys()
+        
+        >>> ['info', 'composed', 'accents', 'spacing', 'project', 'groups', 'interpol', 'vmetrics']
+
+    Methods
+    -------
+
+    ### `hProject.read_libs()`
+
+    Read all project libs from their `.plist` source files into one single `hProject.lib` dictionary.
+
+    This function is called when the `hProject` object is initialized. It can also be called manually, to reload libs data in case it has been changed (for example when using a .plist editor).
+
+    ### `hProject.import_encoding()`
+
+    Imports groups, glyph names and glyph order from the project’s encoding file, and temporarily saves them into a ‘groups lib’.
+
+    Group and glyph names are stored in a dictionary in `hProject.libs['groups']['glyphs']`, while the glyph order is stored in `hProject.libs['groups']['order']`.
+
+        from hTools2.objects import hProject
+
+        p = hProject('Publica')
+        p.import_encoding()
+        print p.libs['groups']['glyphs'].keys()
+
+        >>> ['small_caps', 'punctuation', ..., 'uppercase_accents' ]
+
+        print p.libs['groups']['order']
+
+        >>> ['invisible', 'lowercase_basic', 'lowercase_extra', ... ]
+
+    ### `hProject.write_lib(lib_name)`
+
+    Write the lib with the given name to its `.plist` file.
+
+        from hTools2.objects import hProject
+        p = hProject('Publica')
+        p.write_lib('interpol')
+
+        >>> saving interpol lib to file ... done.
+
+    ### `hProject.write_libs()`
+
+    Write all libraries in project to their corresponding `.plist` files.
+
+        >>> saving project libs...
+        >>>
+        >>>    saving info lib to file ...
+        >>>    saving composed lib to file ...
+        >>>    saving accents lib to file ...
+        >>>    saving spacing lib to file ...
+        >>>    saving project lib to file ...
+        >>>    saving groups lib to file ...
+        >>>    saving interpol lib to file ...
+        >>>    saving vmetrics lib to file ...
+        >>> 
+        >>> ...done.
+
+    ### `hProject.check_folders()`
+
+    Checks if all the necessary project sub-folders exist.
+
+        from hTools2.objects import hProject
+        p = hProject('Publica')
+        p.check_folders()
+
+        >>> checking sub-folders in project Publica...
+        >>> 
+        >>>    interpol [True] /fonts/_Publica/_ufos/_interpol
+        >>>    libs [True] /fonts/_Publica/_libs
+        >>>    ufos [True] /fonts/_Publica/_ufos
+        >>>    root [True] /fonts/_Publica
+        >>>    vfbs [True] /fonts/_Publica/_vfbs
+        >>>    woffs [True] /fonts/_Publica/_woffs
+        >>>    otfs [True] /fonts/_Publica/_otfs
+        >>>    instances [True] /fonts/_Publica/_ufos/_instances
+        >>>    ...
+        >>> 
+        >>> ...done.
+
+    ### `hProject.make_folders()`
+
+        from hTools2.objects import hProject
+        p = hProject('Publica')
+        p.make_folders()
+
+        >>>    creating project sub-folders in project Publica...
+        >>>        creating folder ...
+        >>>        ...
+        >>>    ...done.
+
+    ### `hProject.masters()`
+
+    Returns a list of all masters in project.
+
+        from hTools2.objects import hProject
+        p = hProject('Publica')
+        for master in p.masters():
+            print master
+
+        >>> /fonts/_Publica/_ufos/Publica_15.ufo
+        >>> /fonts/_Publica/_ufos/Publica_55.ufo
+        >>> /fonts/_Publica/_ufos/Publica_95.ufo
+
+    ### `hProject.masters_interpol()`
+
+    Returns a list of all ‘super masters’ in project.
+
+        from hTools2.objects import hProject
+        p = hProject('Publica')
+        for master in p.masters_interpol():
+            print master
+
+        >>> /fonts/_Publica/_ufos/_interpol/Publica_Black.ufo
+        >>> /fonts/_Publica/_ufos/_interpol/Publica_Compressed.ufo
+        >>> /fonts/_Publica/_ufos/_interpol/Publica_UltraLight.ufo
+
+    ### `hProject.instances()`
+
+    Returns a list of all instances in project.
+
+        from hTools2.objects import hProject
+        p = hProject('Publica')
+        for instance in p.instances():
+            print instance
+
+        >>> /fonts/_Publica/_ufos/_instances/Publica_35.ufo
+        >>> /fonts/_Publica/_ufos/_instances/Publica_75.ufo
+
+    ### `hProject.collect_fonts()`
+
+    Updates the font names and file paths at `hProject.fonts`.
+
+    This method is called automatically when the `hProject` object is initialized.
+
+    ### `hProject.fonts`
+
+    Returns a dictionary with the style names and paths of all masters and instances in the project.
+
+        from hTools2.objects import hProject
+        p = hProject('Publica')
+        for font in p.fonts.keys():
+            print font, p.fonts[font]
+
+        >>> 15 /fonts/_Publica/_ufos/Publica_15.ufo
+        >>> 35 /fonts/_Publica/_ufos/_instances/Publica_35.ufo
+        >>> 55 /fonts/_Publica/_ufos/Publica_55.ufo
+        >>> 75 /fonts/_Publica/_ufos/_instances/Publica_75.ufo
+        >>> 95 /fonts/_Publica/_ufos/Publica_95.ufo
+
+    ### `hProject.otfs()`
+
+    Returns a list of all .otf files in project.
+
+        from hTools2.objects import hProject
+        p = hProject('Publica')
+        for otf in p.otfs():
+            print otf
+
+        >>> /fonts/_Publica/_otfs/Publica_15.otf
+        >>> /fonts/_Publica/_otfs/Publica_35.otf
+        >>> /fonts/_Publica/_otfs/Publica_55.otf
+        >>> /fonts/_Publica/_otfs/Publica_75.otf
+        >>> /fonts/_Publica/_otfs/Publica_95.otf
+
+    ### `hProject.woffs()`
+
+    Returns a list of all .woff files in project.
+
+        from hTools2.objects import hProject
+        p = hProject('Publica')
+        for woff in p.woffs():
+            print woff
+
+        >>> /fonts/_Publica/_woffs/Publica_15.woff
+        >>> /fonts/_Publica/_woffs/Publica_35.woff
+        >>> /fonts/_Publica/_woffs/Publica_55.woff
+        >>> /fonts/_Publica/_woffs/Publica_75.woff
+        >>> /fonts/_Publica/_woffs/Publica_95.woff
+
+    ### `hProject.vfbs()`
+
+    Returns a list of all .vfb files in project.
+
+        from hTools2.objects import hProject
+        p = hProject('Publica')
+        for vfb in p.vfbs():
+            print vfb
+
+        >>> /fonts/_Publica/_vfbs/Publica_15.vfb
+        >>> /fonts/_Publica/_vfbs/Publica_55.vfb
+        >>> /fonts/_Publica/_vfbs/Publica_95.vfb
+
+    ### `hProject.generate_instance(instance_name)`
+
+    Generates a .ufo instance with name `instance_name`, using data from the project’s interpol lib.
+
+        from hTools2.objects import hProject
+        p = hProject('Publica')
+        p.generate_instance('55')
+
+    ## Attributes
+
+    ### `hProject.name`
+
+    The name of the project.
+
+        from hTools2.objects import hProject  
+        p = hProject('Publica')
+        print p.name  
+
+        >>> Publica
+
+    ### `hProject.world`
+
+    An ‘embedded’ `hWorld` object, containing a list of all other projects and access to local settings.
+
+        from hTools2.objects import hProject
+        p = hProject('Publica')
+        print p.world
+
+        >>> <hTools2.objects.hWorld instance at 0x110bb9680>
+
+        print len(p.world.projects())
+
+        >>> 8
+
+        print p.world.settings
+
+        >>> <hTools2.objects.hSettings instance at 0x10cb6d710>
+
+    ### `hProject.libs`
+
+    A dictionary containing a working copy of all data libs in the project, imported on object initialization.
+
+        from hTools2.objects import hProject
+        p = hProject('Publica')
+        print p.libs.keys()
+
+        >>> ['info', 'composed', 'accents', 'spacing', 'project', 'groups', 'interpol', 'vmetrics']
+
+    For more information about each single lib, have a look at the [hLibs documentation](http://hipertipo.com/content/htools2/objects/hlibs). 
+
+    ### `hProject.paths`
+
+    A dictionary containing the paths to all relevant project sub-folders (libs, ufos, otfs, woffs etc).
+
+        from hTools2.objects import hProject
+        p = hProject('Publica')
+        print p.paths.keys()
+
+        >>> ['interpol_instances', 'temp', 'docs', 'woffs', 'otfs', 'instances', 'otfs_test', 'bkp', 'interpol', 'libs', 'ufos', 'root', 'vfbs']
+
+        print p.paths['ufos']
+
+        >>> /fonts/_Publica/_ufos
+
+    ### `hProject.lib_paths`
+
+    A dictionary containing the paths to all data libs in the project.
+
+        from hTools2.objects import hProject
+        p = hProject('Publica')
+        print p.lib_paths.keys()
+
+        >>> ['info', 'composed', 'accents', 'spacing', 'project', 'interpol', 'vmetrics']
+
+        print p.lib_paths['interpol']
+
+        >>> /fonts/_Publica/_libs/interpol.plist
+
+    '''
 
     paths = {}
     _path_names = [ 'root', 'ufos', 'otfs' 'libs', 'docs', \
@@ -461,6 +950,154 @@ class hProject:
 
 class hFont:
 
+    '''
+    hTools2.objects.hFont
+    =====================
+
+    The `hFont` object represents a .ufo font source, wrapped in a few useful functions. It should be initialized with a `RFont` object as argument:
+
+        from robofab.world import RFont
+        from hTools2.objects import hFont
+        ufo = RFont('/fonts/_Publica/_ufos/Publica_55.ufo', showUI=False) 
+        font = hFont(ufo)
+        print font
+
+        >>> <hTools2.objects.hFont instance at 0x1228591b8>
+
+    It’s also possible to initiate a `hFont` using `CurrentFont()`:
+       
+        from hTools2.objects import hFont
+        font = hFont(CurrentFont())
+        print font
+
+        >>> <hTools2.objects.hFont instance at 0x129af09e0>
+
+    Attributes
+    ----------
+
+    ### `hFont.project`
+
+    The parent `hProject` object to which the `hFont` belongs, with all its attributes and methods.
+
+        from hTools2.objects import hFont
+        font = hFont(CurrentFont())
+        print font.project
+        print font.project.name
+
+        >>> <hTools2.objects.hProject instance at 0x125c03ea8>
+        >>> Publica
+
+        print font.project.libs.keys()
+
+        >>> ['info', 'composed', 'accents', 'spacing', 'project', 'groups', 'interpol', 'vmetrics']
+
+    ### `hFont.ufo`
+
+    The .ufo file containing the actual font.
+
+    See the [UFO documentation](http://unifiedfontobject.org/) for more information about the UFO format, and the [RoboFab documentation](http://robofab.com/objects/font.html) for information about the available methods and attributes for `RFont`.
+
+    ### `hFont.file_name`
+
+    The name of the .ufo file, without the extension.
+
+    ### `hFont.style_name`
+
+    The `styleName` of the font, parsed from the name of the .ufo file on initialization. See the method `init_from_filename()` for details.
+
+        from hTools2.objects import hFont
+        font = hFont(CurrentFont())
+        print font.ufo
+        print font.file_name
+        print font.style_name
+
+        >>> <Font Publica 55>
+        >>> Publica_55
+        >>> 55
+
+    Methods
+    -------
+
+    ### `hFont.init_from_filename()`
+
+    Initiates the `hFont` object from the ufo file in `hFont.ufo`.
+
+    The method parses the .ufo file name, and uses the resulting names to initiate a parent `hProject` object. This object is then stored at `hFont.project`, and the parsed name parts become the attributes `file_name` and `style_name`.
+
+    This system only works if the .ufo files are named according to [hTools conventions](http://hipertipo.com/content/htools2/about/conventions/).
+
+    ### `hFont.auto_unicodes()`
+
+    Automatically sets unicodes for all glyphs in `hFont.ufo`.
+
+    ### `hFont.order_glyphs()`
+
+    Automatically sets the order of the glyphs in the font, based on the list in `hFont.project.libs['groups']['order']`.
+
+    ### `hFont.paint_groups()`
+
+    Paints and orders the glyphs in the font according to their groups, using glyph groups and order from the project’s group libs.
+
+    ### `hFont.print_info()`
+
+    Prints different kinds of font information.
+
+    ### `hFont.import_groups_from_encoding()`
+
+    Imports glyph names and order from the project’s encoding file, and stores it in a temporary `groups` lib.
+
+    ### `hFont.full_name()`
+
+    The full name of the font, made of the project’s name in `hFont.project.name` and the style name in `hFont.style_name`.
+
+    ### `hFont.otf_path()`
+
+    Returns the default path for .otf font generation, in the projects `_otfs/` folder.
+
+        from hTools2.objects import hFont
+        font = hFont(CurrentFont())
+        print font.otf_path()
+
+        >>> /fonts/_Publica/_otfs/Publica_55.otf
+
+    ### `hFont.woff_path()`
+
+    Returns the default path for .woff font generation, in the projects `_woffs/` folder.
+
+        from hTools2.objects import hFont
+        font = hFont(CurrentFont())
+        print font.woff_path()
+
+        >>> /fonts/_Publica/_woffs/Publica_55.woff
+
+    ### `hFont.generate_otf()`
+
+    Generates a .otf font file using the default settings.
+
+        from hTools2.objects import hFont
+        font = hFont(CurrentFont())
+        font.generate_otf()
+
+    ### `hFont.generate_woff()`
+
+    Generates a .woff font file from the available .otf font.
+
+        from hTools2.objects import hFont
+        font = hFont(CurrentFont())
+        font.generate_woff()
+
+    *Note: This function only works if the `KLTF_WOFF` plugin is installed. (It is not a part of hTools.)*
+
+    ### `hFont.upload_woff()`
+
+    Uploads the font’s woff file (if available) to the project’s folder in the FTP server.
+
+        from hTools2.objects import hFont
+        font = hFont(CurrentFont())
+        font.upload_woff()
+
+    '''
+
     def __init__(self, ufo):
         self.ufo = ufo
         self.init_from_filename()
@@ -480,7 +1117,7 @@ class hFont:
             parameters_order = self.project.libs['project']['parameters_order']
             self.parameters = dict(zip(parameters_order, name_parameters))
         except:
-            print 'there is no parameters lib for this font.\n'
+            print 'there is no parameters lib for this font.'
 
     def get_glyphs(self):
         get_glyphs(self.ufo)
@@ -672,6 +1309,27 @@ class hFont:
 
 class hGlyph:
 
+    '''
+    hTools2.objects.hGlyph
+    ======================
+
+    The `hGlyph` object wraps single glyphs, making it easier to access its parent `hFont` and `hProject` objects.
+
+    It is intended mainly as a base class for more specialized glyph-level objects, such as `hGlyph_NodeBox` (for drawing glyphs in a NodeBox canvas) or `RasterGlyph` (for converting an outline shape into a element matrix).
+
+    Attributes
+    ----------
+
+    ### hGlyph.glyph
+
+    The actual glyph from a .ufo font, as an `RGlyph` object.
+
+    ### hGlyph.font
+
+    The glyph’s parent `hFont` object.
+    
+    '''
+
     def __init__(self, glyph):
         self.glyph = glyph
         self.font = hFont(self.glyph.getParent())
@@ -710,6 +1368,62 @@ class hGlyph_NodeBox(hGlyph):
             draw_horizontal_line(y - ascender, ctx)
 
 class hLine:
+
+    '''
+    hTools2.objects.hLine
+    =====================
+
+    The `hLine` object makes it easy to typeset simple test strings in NodeBox.
+
+    Attributes
+    ----------
+
+    ### `hLine.ctx`
+
+    The NodeBox `context` object in which the glyphs and shapes are drawn.
+
+    ### `hLine.font`
+
+    The parent `hFont` object containing the glyphs to be drawn.
+
+    ### `hLine.glyph_names`
+
+    A list of glyph names to be drawn.
+
+    Methods
+    -------
+
+    ### `hLine._text_to_gnames(text)`
+
+    Converts a given character stream `text` into a list of glyph names, and returns the list.
+
+    ### `hLine._gnames_to_gstring(glyph_names)`
+
+    Joins a given list of `glyph_names` into a `gstring` (a string of glyph names separated by slashes), and returns it.
+
+    ### `hLine._gstring_to_gnames(gstring)`
+
+    Converts a given `gstring` into a list of `glyph_names`, and returns it.
+
+    ### `hLine.txt(text, mode='text')`
+
+    Sets the list `hLine.glyph_names` from the given `text` string.
+
+    If `text` is a normal stream of characters, use `mode='text'`; if `text` is a `gstring`, use `mode='gstring'`.
+
+    ### `hLine.draw(pos, color_, hmetrics, hmetrics_crop, anchors, scale_, origin, baseline)`
+
+    Draws the glyphs in `hLine.glyph_names` in the NodeBox context `hLine.ctx`, at position `(pos_x, pos_y)`. The other parameters are optional.
+
+    If `hmetrics=True`, the sample is drawn with additional guides for horizontal metrics.
+
+    If `origin=True`, an additional mark is added to the `(0,0)` point in each glyph.
+
+    The parameter `color_` makes it possible to pass a NodeBox `Color` object, to be used in the glyphs.
+
+    The parameter `scale_` accepts a floating point number for use as scaling factor.
+
+    '''
 
     scale = .5
     fill = True
