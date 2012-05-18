@@ -17,26 +17,26 @@ Special thanks to Frederik Berlaen for the many tips, comments and corrections.
 
 RoboFont is developed by Frederik Berlaen ([TypeMyType](http://typemytype.com)).
 
-hTools (and RoboFont) are built with libraries by Erik van Blokland & Just van Rossum ([LettError](http://letterror.com)) and Tal Leming ([TypeSupply](http://typesupply.com)).
+hTools2 (and RoboFont) are built with libraries by Erik van Blokland & Just van Rossum ([LettError](http://letterror.com)) and Tal Leming ([TypeSupply](http://typesupply.com)).
 
 
-Support
--------
+Development
+-----------
 
 Work on hTools2 is partially funded by users and collaborators.
 
-I am specially grateful to the following designers who have comissioned new functionality for hTools2, and provided feedback:
+Special thanks to the following designers/companies for funding work on hTools2:
 
 <table>
 <tr>
 <td>Nikola Djurek</td>
 <td><a href='http://typonine.com/'>Typonine</a></td>
-<td>kickstart for the initial release of hTools2, comissioned and tested most dialogs<</td>
+<td>kickstarter for the release of hTools2, comissioned and tested all initial dialogs<</td>
 </tr>
 <tr>
 <td>Bas Jacobs</td>
 <td><a href='http://underware.nl/'>Underware</a></td>
-<td>several suggestions for new features, commision of a `import .ufo to layer` script</td>
+<td>contributed suggestions for new features, commissioned a `import .ufo to layer` script</td>
 </tr>
 </table>
 
