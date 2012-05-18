@@ -14,7 +14,7 @@ from vanilla import *
 from hTools2.modules.fontutils import get_full_name, get_glyphs
 from hTools2.modules.glyphutils import *
 from hTools2.modules.color import random_color
-from hTools2.modules.anchors import transfer_anchors
+from hTools2.modules.anchors import *
 
 
 #--------
@@ -2112,9 +2112,9 @@ class slideGlyphsDialog(object):
 			except:
 				print 'cannot transform %s' % gName
 
-#---------------
-# interpolation
-#---------------
+#----------
+# interpol
+#----------
 
 class interpolateGlyphsDialog(object):
 
@@ -2637,9 +2637,873 @@ class paintGlyphsDialog(object):
 		else:
 			print 'please open a font first.\n'
 
-#------------
+#---------
+# metrics
+#---------
+
+class setMarginsDialog(object):
+
+	'''set margins dialog'''
+
+	#------------
+	# attributes
+	#------------
+
+	_title = 'margins'
+	_padding = 10
+	_padding_top = 8
+	_line_height = 20
+	_button_height = 30
+	_button_2 = 18
+	_box_height = 18
+	_column_1 = 40
+	_column_2 = 100
+	_column_3 = 80
+	_column_4 = 60
+	_width = 123
+	_height = 228
+
+	_modes = [ 'do nothing' , 'set equal to', 'increase by', 'decrease by', ]
+	_left_mode = 0
+	_right_mode = 0
+	_left_value = 100
+	_right_value = 100
+
+	#---------
+	# methods
+	#---------
+
+	def __init__(self):
+		self.w = FloatingWindow(
+					(self._width, self._height),
+					self._title,
+					closable=True)
+		#-------------
+		# left margin
+		#-------------
+		x = self._padding
+		y = self._padding_top
+		# mode
+		self.w.left_mode = PopUpButton(
+					(x, y,
+					-self._padding,
+					self._line_height),
+					self._modes,
+					sizeStyle='small',
+					callback=self.left_mode_callback)
+		# label
+		y += self._line_height + 10
+		self.w.left_label = TextBox(
+					(x, y + 3,
+					self._column_1,
+					self._line_height),
+					"left",
+					sizeStyle='small')
+		x += self._column_1
+		# value
+		self.w.left_value = EditText(
+					(x, y,
+					-self._padding,
+					self._line_height),
+					self._left_value,
+					sizeStyle='small',
+					readOnly=True)
+		# spinners
+		x = self._padding
+		y += self._line_height + 10
+		self.w._left_minus_001 = SquareButton(
+					(x, y,
+					self._box_height,
+					self._box_height),
+					"-",
+					sizeStyle='small',
+					callback=self._left_minus_001_callback)
+		x += self._box_height - 1
+		self.w._left_plus_001 = SquareButton(
+					(x, y,
+					self._box_height,
+					self._box_height),
+					"+",
+					sizeStyle='small',
+					callback=self._left_plus_001_callback)
+		x += self._box_height - 1
+		self.w._left_minus_010 = SquareButton(
+					(x, y,
+					self._box_height,
+					self._box_height),
+					"-",
+					sizeStyle='small',
+					callback=self._left_minus_010_callback)
+		x += self._box_height - 1
+		self.w._left_plus_010 = SquareButton(
+					(x, y,
+					self._box_height,
+					self._box_height),
+					"+",
+					sizeStyle='small',
+					callback=self._left_plus_010_callback)
+		x += self._box_height - 1
+		self.w._left_minus_100 = SquareButton(
+					(x, y,
+					self._box_height,
+					self._box_height),
+					"-",
+					sizeStyle='small',
+					callback=self._left_minus_100_callback)
+		x += self._box_height - 1
+		self.w._left_plus_100 = SquareButton(
+					(x, y,
+					self._box_height,
+					self._box_height),
+					"+",
+					sizeStyle='small',
+					callback=self._left_plus_100_callback)
+		#--------------
+		# right margin
+		#--------------
+		x = self._padding
+		y += self._line_height + self._padding
+		# mode
+		self.w.right_mode = PopUpButton(
+					(x, y,
+					-self._padding,
+					self._line_height),
+					self._modes,
+					sizeStyle='small',
+					callback=self.right_mode_callback)
+		y += self._line_height + 10
+		# label
+		self.w.right_label = TextBox(
+					(x, y + 3,
+					self._column_1,
+					self._line_height),
+					"right",
+					sizeStyle='small')
+		x += self._column_1
+		# value
+		self.w.right_value = EditText(
+					(x, y,
+					-self._padding,
+					self._line_height),
+					self._right_value,
+					sizeStyle='small',
+					readOnly=True)
+		x = self._padding
+		y += self._line_height + 10
+		# spinners
+		self.w._right_minus_001 = SquareButton(
+					(x, y,
+					self._box_height,
+					self._box_height),
+					"-",
+					sizeStyle='small',
+					callback=self._right_minus_001_callback)
+		x += self._box_height - 1
+		self.w._right_plus_001 = SquareButton(
+					(x, y,
+					self._box_height,
+					self._box_height),
+					"+",
+					sizeStyle='small',
+					callback=self._right_plus_001_callback)
+		x += self._box_height - 1
+		self.w._right_minus_010 = SquareButton(
+					(x, y,
+					self._box_height,
+					self._box_height),
+					"-",
+					sizeStyle='small',
+					callback=self._right_minus_010_callback)
+		x += self._box_height - 1
+		self.w._right_plus_010 = SquareButton(
+					(x, y,
+					self._box_height,
+					self._box_height),
+					"+",
+					sizeStyle='small',
+					callback=self._right_plus_010_callback)
+		x += self._box_height - 1
+		self.w._right_minus_100 = SquareButton(
+					(x, y,
+					self._box_height,
+					self._box_height),
+					"-",
+					sizeStyle='small',
+					callback=self._right_minus_100_callback)
+		x += self._box_height - 1
+		self.w._right_plus_100 = SquareButton(
+					(x, y,
+					self._box_height,
+					self._box_height),
+					"+",
+					sizeStyle='small',
+					callback=self._right_plus_100_callback)
+		#---------
+		# buttons
+		#---------
+		x = self._padding
+		y += self._line_height + self._padding
+		self.w.button_apply = SquareButton(
+					(x, y,
+					-self._padding,
+					self._button_height),
+					"apply",
+					sizeStyle='small',
+					callback=self.apply_callback)
+		# open window
+		self.w.open()
+	
+	# spinners left
+
+	def _left_minus_001_callback(self, sender):
+		_value = int(self.w.left_value.get()) - 1
+		self._left_value = _value
+		self.w.left_value.set(_value)
+
+	def _left_plus_001_callback(self, sender):
+		_value = int(self.w.left_value.get()) + 1
+		self._left_value = _value
+		self.w.left_value.set(_value)
+
+	def _left_minus_010_callback(self, sender):
+		_value = int(self.w.left_value.get()) - 10
+		self._left_value = _value
+		self.w.left_value.set(_value)
+
+	def _left_plus_010_callback(self, sender):
+		_value = int(self.w.left_value.get()) + 10
+		self._left_value = _value
+		self.w.left_value.set(_value)
+
+	def _left_minus_100_callback(self, sender):
+		_value = int(self.w.left_value.get()) - 100
+		self._left_value = _value
+		self.w.left_value.set(_value)
+
+	def _left_plus_100_callback(self, sender):
+		_value = int(self.w.left_value.get()) + 100
+		self._left_value = _value
+		self.w.left_value.set(_value)
+
+	# spinners right
+
+	def _right_minus_001_callback(self, sender):
+		_value = int(self.w.right_value.get()) - 1
+		self._right_value = _value
+		self.w.right_value.set(_value)
+
+	def _right_plus_001_callback(self, sender):
+		_value = int(self.w.right_value.get()) + 1
+		self._right_value = _value
+		self.w.right_value.set(_value)
+
+	def _right_minus_010_callback(self, sender):
+		_value = int(self.w.right_value.get()) - 10
+		self._right_value = _value
+		self.w.right_value.set(_value)
+
+	def _right_plus_010_callback(self, sender):
+		_value = int(self.w.right_value.get()) + 10
+		self._right_value = _value
+		self.w.right_value.set(_value)
+
+	def _right_minus_100_callback(self, sender):
+		_value = int(self.w.right_value.get()) - 100
+		self._right_value = _value
+		self.w.right_value.set(_value)
+
+	def _right_plus_100_callback(self, sender):
+		_value = int(self.w.right_value.get()) + 100
+		self._right_value = _value
+		self.w.right_value.set(_value)
+
+	# modes
+
+	def left_mode_callback(self, sender):
+		self._left_mode = self.w.left_mode.get()
+
+	def right_mode_callback(self, sender):
+		self._right_mode = self.w.right_mode.get()
+
+	# apply
+
+	def set_margins(self, glyph, (left_value, left_mode), (right_value, right_mode)):
+		glyph.prepareUndo('set margins')
+		# left margin
+		if left_mode is not 0:
+			# increase by
+			if left_mode is 2:
+				_left_value_new = glyph.leftMargin + int(left_value)
+			# decrease by
+			elif left_mode is 3:
+				_left_value_new = glyph.leftMargin - int(left_value)
+			# set equal to
+			else:
+				_left_value_new = int(left_value)
+			# set left margin
+			glyph.leftMargin = _left_value_new
+			glyph.update()
+		# right margin
+		if right_mode is not 0:
+			# increase by
+			if right_mode is 2:
+				_right_value_new = glyph.rightMargin + int(right_value)
+			# decrease by
+			elif right_mode is 3:
+				_right_value_new = glyph.rightMargin - int(right_value)
+			# set equal to 
+			else:
+				_right_value_new = int(right_value)
+			# set right margin
+			glyph.rightMargin = _right_value_new
+			glyph.update()
+		# done glyph
+		glyph.performUndo()
+		glyph.update()
+
+	def apply_callback(self, sender):
+		f = CurrentFont()
+		if f is not None:
+			glyph_names = get_glyphs(f)
+			if len(glyph_names) > 0:
+				# print info
+				print 'setting margins for selected glyphs...\n'
+				print '\tleft: %s (%s)' % (self._modes[self._left_mode], self._left_value)
+				print '\tright: %s (%s)' % (self._modes[self._right_mode], self._right_value)
+				print
+				print '\t\t',
+				# set margins
+				for glyph_name in glyph_names:
+					print glyph_name,
+					self.set_margins(f[glyph_name],
+								(self._left_value, self._modes[self._left_mode]),
+								(self._right_value, self._modes[self._right_mode]))
+				f.update()
+				print '\n...done.\n'
+			# no glyph selected
+			else:
+				print 'please select one or more glyphs to transform.\n'
+		# no font open
+		else:
+			print 'please open a font first.\n'
+
+class copyMarginsDialog(object):
+
+	'''copy margins from selected glyphs in one font to the same glyphs in another font'''
+
+	#------------
+	# attributes
+	#------------
+
+	_title = 'margins'
+	_padding = 10
+	_padding_top = 8
+	_line_height = 20
+	_button_height = 30
+	_column_1 = 180
+	_width = 123
+	_height = (_button_height * 2) + (_line_height * 2) + (_padding_top * 5) + _button_height + 8
+
+	_all_fonts_names = []
+
+	#---------
+	# methods
+	#---------
+
+	def __init__(self, ):
+		if len(AllFonts()) > 0:
+			self._all_fonts = AllFonts()
+			for f in self._all_fonts:
+				self._all_fonts_names.append(get_full_name(f))
+			self.w = FloatingWindow(
+						(self._width,
+						self._height),
+						self._title,
+						closable=True)
+			# source font
+			x = self._padding
+			y = self._padding_top
+			self.w._source_label = TextBox(
+						(x, y,
+						-self._padding,
+						self._line_height),
+						"source font",
+						sizeStyle='small')
+			y += self._line_height
+			self.w._source_value = PopUpButton(
+						(x, y,
+						-self._padding,
+						self._line_height),
+						self._all_fonts_names,
+						sizeStyle='small')
+			# dest font
+			y += self._line_height + self._padding_top
+			self.w._dest_label = TextBox(
+						(x, y,
+						-self._padding,
+						self._line_height),
+						"target font",
+						sizeStyle='small')
+			y += self._line_height
+			self.w._dest_value = PopUpButton(
+						(x, y,
+						-self._padding,
+						self._line_height),
+						self._all_fonts_names,
+						sizeStyle='small')
+			# left / right
+			y += self._line_height + self._padding_top + 7
+			self.w.left_checkbox = CheckBox(
+						(x, y,
+						-self._padding,
+						self._line_height),
+						"left",
+						value=True,
+						sizeStyle='small')
+			x += (self._width / 2) - 8
+			self.w.right_checkbox = CheckBox(
+						(x, y,
+						-self._padding,
+						self._line_height),
+						"right",
+						value=True,
+						sizeStyle='small')
+			# buttons
+			x = self._padding
+			y += self._line_height + self._padding_top
+			self.w.button_apply = SquareButton(
+						(x, y,
+						-self._padding,
+						self._button_height),
+						"copy",
+						sizeStyle='small',
+						callback=self.apply_callback)
+			# open window 
+			self.w.open()
+
+	# callbacks
+
+	def apply_callback(self, sender):
+		boolstring = [False, True]
+		# source font
+		_source_font_index = self.w._source_value.get()
+		_source_font = self._all_fonts[_source_font_index]
+		_source_font_name = self._all_fonts_names[_source_font_index]
+		# dest font
+		_dest_font_index = self.w._dest_value.get()            
+		_dest_font = self._all_fonts[_dest_font_index]
+		_dest_font_name = self._all_fonts_names[_dest_font_index]
+		# left / right
+		_left = self.w.left_checkbox.get()
+		_right = self.w.right_checkbox.get()
+		# batch process glyphs
+		if _left or _right:
+			# print info
+			print 'copying side-bearings...\n'
+			print '\tsource font: %s' % _source_font_name
+			print '\ttarget font: %s' % _dest_font_name
+			print
+			print '\tcopy left: %s' % boolstring[_left]
+			print '\tcopy right: %s' % boolstring[_right]
+			print
+			# batch copy side-bearings
+			for gName in _source_font.selection:
+				try:
+					# set undo
+					_dest_font[gName].prepareUndo('copy margins')
+					print '\t%s' % gName,
+					# copy
+					if _left:
+						_dest_font[gName].leftMargin = _source_font[gName].leftMargin
+					if _right:
+						_dest_font[gName].rightMargin = _source_font[gName].rightMargin
+					# call undo
+					_dest_font.performUndo()
+					_dest_font.update()
+				except:
+					print '\tcannot process %s' % gName
+			print
+			print '\n...done.\n'
+		# nothing selected
+		else:
+			print 'Aborted, nothing to copy. Please select "left" or "right" side-bearings, and try again.\n'
+
+class setWidthDialog(object):
+
+	'''dialog to set the advance width of selected glyphs'''
+
+	#------------
+	# attributes
+	#------------
+
+	_title = 'width'
+	_padding_top = 12
+	_padding = 10
+	_col_1 = 45
+	_col_2 = 60
+	_col_3 = 70
+	_button_2 = 18
+	_line_height = 20
+	_button_height = 30
+	_height = _button_height + (_line_height * 3) + _button_2 + (_padding_top * 5) + 2
+	_width = 123
+	
+	_width_ = 400
+	_modes = [ 'set equal to', 'increase by', 'decrease by', ]
+	_mode = 0
+
+	#---------
+	# methods
+	#---------
+
+	def __init__(self):
+		self.w = FloatingWindow(
+					(self._width,
+					self._height),
+					self._title,
+					closable=True)
+		# left
+		x = self._padding
+		y = self._padding
+		# mode
+		self.w.width_mode = RadioGroup(
+					(x, y,
+					-self._padding,
+					self._line_height),
+					['=', '+', '-'],
+					sizeStyle='small',
+					callback=self.mode_callback,
+					isVertical=False)
+		self.w.width_mode.set(0)
+		# label
+		y += self._line_height + self._padding
+		self.w.width_label = TextBox(
+					(x, y,
+					self._col_1,
+					self._line_height),
+					"width",
+					sizeStyle='small')
+		x += self._col_1
+		# value
+		self.w.width_value = EditText(
+					(x, y,
+					-self._padding,
+					self._line_height),
+					placeholder='set value',
+					text=self._width_,
+					sizeStyle='small')
+		# nudge spinners
+		x = self._padding
+		y += self._button_2 + self._padding_top
+		self.w._nudge_minus_001 = SquareButton(
+					(x, y,
+					self._button_2,
+					self._button_2),
+					'-',
+					sizeStyle='small',
+					callback=self._nudge_minus_001_callback)
+		x += (self._button_2 * 1) - 1
+		self.w._nudge_plus_001 = SquareButton(
+					(x, y,
+					self._button_2,
+					self._button_2),
+					'+',
+					sizeStyle='small',
+					callback=self._nudge_plus_001_callback)
+		x += (self._button_2 * 1) - 1
+		self.w._nudge_minus_010 = SquareButton(
+					(x, y,
+					self._button_2,
+					self._button_2),
+					'-',
+					sizeStyle='small',
+					callback=self._nudge_minus_010_callback)
+		x += (self._button_2 * 1) - 1
+		self.w._nudge_plus_010 = SquareButton(
+					(x, y,
+					self._button_2,
+					self._button_2),
+					'+',
+					sizeStyle='small',
+					callback=self._nudge_plus_010_callback)
+		x += (self._button_2 * 1) - 1
+		self.w._nudge_minus_100 = SquareButton(
+					(x, y,
+					self._button_2,
+					self._button_2),
+					'-',
+					sizeStyle='small',
+					callback=self._nudge_minus_100_callback)
+		x += (self._button_2 * 1) - 1
+		self.w._nudge_plus_100 = SquareButton(
+					(x, y,
+					self._button_2,
+					self._button_2),
+					'+',
+					sizeStyle='small',
+					callback=self._nudge_plus_100_callback)
+		# center
+		x = self._padding
+		y += self._line_height + self._padding
+		self.w.center_checkbox = CheckBox(
+					(x, y,
+					-self._padding,
+					self._line_height),
+					"center glyphs",
+					value=False,
+					sizeStyle='small')
+		# apply button
+		x = self._padding
+		y += self._line_height + self._padding
+		self.w.button_apply = SquareButton(
+					(x, y,
+					-self._padding,
+					self._button_height),
+					"apply",
+					callback=self.apply_callback,
+					sizeStyle='small')
+		# open window
+		self.w.open()
+
+	# callbacks
+
+	def mode_callback(self, sender):
+		self._mode = self.w.width_mode.get()
+
+	def _nudge_minus_001_callback(self, sender):
+		_value = int(self.w.width_value.get()) - 1
+		if _value >= 0:
+			self._width_ = _value
+			self.w.width_value.set(self._width_)
+
+	def _nudge_minus_010_callback(self, sender):
+		_value = int(self.w.width_value.get()) - 10
+		if _value >= 0:
+			self._width_ = _value
+			self.w.width_value.set(self._width_)
+
+	def _nudge_minus_100_callback(self, sender):
+		_value = int(self.w.width_value.get()) - 100
+		if _value >= 0:
+			self._width_ = _value
+			self.w.width_value.set(self._width_)
+
+	def _nudge_plus_001_callback(self, sender):
+		self._width_ = int(self.w.width_value.get()) + 1
+		self.w.width_value.set(self._width_)
+
+	def _nudge_plus_010_callback(self, sender):
+		self._width_ = int(self.w.width_value.get()) + 10
+		self.w.width_value.set(self._width_)
+
+	def _nudge_plus_100_callback(self, sender):
+		self._width_ = int(self.w.width_value.get()) + 100
+		self.w.width_value.set(self._width_)
+
+	# apply
+
+	def set_width(self, glyph, width, center):
+		glyph.prepareUndo('set glyph width')
+		# set width
+		if self._mode == 1:
+			glyph.width += int(width)
+		elif self._mode == 2:
+			glyph.width -= int(width)
+		else:
+			glyph.width = int(width)
+		# center glyph
+		if center:
+			center_glyph(glyph)
+		# done
+		glyph.performUndo()
+		glyph.update()
+		
+	def apply_callback(self, sender):
+		f = CurrentFont()
+		if f is not None:
+			# get parameters
+			_width = self.w.width_value.get()
+			_center = self.w.center_checkbox.get()
+			_gNames = f.selection
+			boolstring = (False, True)
+			# print info
+			print 'setting character widths...\n'
+			print '\twidth: %s' % _width
+			print '\tcenter: %s' % boolstring[_center]
+			print '\tmode: %s' % self._modes[self._mode]
+			print '\tglyphs: %s' % _gNames
+			print         
+			# current glyph
+			glyph = CurrentGlyph()
+			if glyph is not None:
+				print glyph.name
+				self.set_width(glyph, _width, _center)
+				f.update()
+				print
+				print '...done.\n'
+			# selected glyphs
+			else:
+				glyph_names = f.selection
+				if len(glyph_names) > 0:
+					for glyph_name in glyph_names:
+						print glyph_name,
+						self.set_width(f[glyph_name], _width, _center)
+					print
+					print '...done.\n'
+				# no glyph selected
+				else:
+					print 'please select one or more glyphs first.\n'
+		# no font open
+		else:
+			print 'please open a font first.\n'
+
+class copyWidthsDialog(object):
+
+	'''copy width of selected glyphs in one font to the same glyphs in another font'''
+
+	#------------
+	# attributes
+	#------------
+
+	_title = 'widths'
+	_padding = 10
+	_padding_top = 10
+	_line_height = 20
+	_button_height = 30
+	_column_1 = 180
+	_width = 123
+	_height = (_button_height * 2) + (_line_height * 2) + (_padding_top * 6) + (_button_height * 2)
+
+	_all_fonts_names = []
+
+	#---------
+	# methods
+	#---------
+
+	def __init__(self, ):
+		if len(AllFonts()) > 0:
+			self._all_fonts = AllFonts()
+			for f in self._all_fonts:
+				self._all_fonts_names.append(get_full_name(f))
+			self.w = FloatingWindow(
+						(self._width,
+						self._height),
+						self._title,
+						closable=True)
+			# source font
+			x = self._padding
+			y = self._padding_top
+			self.w._source_label = TextBox(
+						(x, y,
+						-self._padding,
+						self._line_height),
+						"source font",
+						sizeStyle='small')
+			y += self._line_height
+			self.w._source_value = PopUpButton(
+						(x, y,
+						-self._padding,
+						self._line_height),
+						self._all_fonts_names,
+						sizeStyle='small')
+			# dest font
+			y += self._line_height + self._padding_top
+			self.w._dest_label = TextBox(
+						(x, y,
+						-self._padding,
+						self._line_height),
+						"target font",
+						sizeStyle='small')
+			y += self._line_height
+			self.w._dest_value = PopUpButton(
+						(x, y,
+						-self._padding,
+						self._line_height),
+						self._all_fonts_names,
+						sizeStyle='small')
+			# center
+			y += self._line_height + self._padding_top
+			self.w.center_checkbox = CheckBox(
+						(x, y,
+						-self._padding,
+						self._line_height),
+						"center glyphs",
+						value=False,
+						sizeStyle='small')
+			# apply button
+			y += self._line_height + self._padding_top
+			self.w.button_apply = SquareButton(
+						(x, y,
+						-self._padding,
+						self._button_height),
+						"copy",
+						callback=self.apply_callback,
+						sizeStyle='small')
+			# update button
+			y += self._button_height + self._padding_top
+			self.w.button_update = SquareButton(
+						(x, y,
+						-self._padding,
+						self._button_height),
+						"update",
+						callback=self.update_fonts_callback,
+						sizeStyle='small')
+			# open window 
+			self.w.open()
+
+	# callbacks
+
+	def _update_fonts(self):
+		self._all_fonts = AllFonts()
+		self._all_fonts_names = []
+		for font in self._all_fonts:
+			self._all_fonts_names.append(get_full_name(font))
+
+	def update_fonts_callback(self, sender):
+		self._update_fonts()
+		self.w._source_value.setItems(self._all_fonts_names)
+		self.w._dest_value.setItems(self._all_fonts_names)
+
+	def apply_callback(self, sender):
+		boolstring = [False, True]
+		# source font
+		_source_font_index = self.w._source_value.get()
+		_source_font = self._all_fonts[_source_font_index]
+		_source_font_name = self._all_fonts_names[_source_font_index]
+		# dest font
+		_dest_font_index = self.w._dest_value.get()            
+		_dest_font = self._all_fonts[_dest_font_index]
+		_dest_font_name = self._all_fonts_names[_dest_font_index]
+		# center
+		_center = self.w.center_checkbox.get()
+		# print info
+		print 'copying widths...\n'
+		print '\tsource font: %s' % _source_font_name
+		print '\ttarget font: %s' % _dest_font_name
+		print '\tcenter: %s' % boolstring[_center]
+		print
+		print '\t',
+		# batch copy side-bearings
+		for glyph_name in get_glyphs(_source_font):
+			if _dest_font.has_key(glyph_name):
+				 # set undo
+				_dest_font[glyph_name].prepareUndo('copy width')
+				# copy
+				print glyph_name,
+				_dest_font[glyph_name].width = _source_font[glyph_name].width
+				# center
+				if _center:
+					center_glyph(_dest_font[glyph_name])
+				# call undo
+				_dest_font[glyph_name].performUndo()
+				_dest_font[glyph_name].update()
+		_dest_font.update()
+		print
+		print '\n...done.\n'
+
+#---------
 # actions
-#------------
+#---------
 
 class actionsGlyphsDialog(object):
 
@@ -3002,6 +3866,625 @@ class copyPasteGlyphDialog(object):
 		print
 		print '\n...done.\n'
 
+#---------
+# anchors
+#---------
 
+class moveAnchorsDialog(object):
 
+	#------------
+	# attributes
+	#------------
+
+	_title = "anchors"
+	_padding = 10
+	_button_1 = 35
+	_button_2 = 18
+	_box_height = 20
+	_width = (_button_1 * 3) + (_padding * 2) - 2
+	_height = (_button_1 * 3) + (_padding * 6) + (_box_height * 6) - 8
+
+	_move_default = 70
+	_anchors_top = True
+	_anchors_bottom = False
+	_anchors_base = True
+	_anchors_accents = True
+
+	#---------
+	# methods
+	#---------
+
+	def __init__(self):
+		self.w = FloatingWindow(
+					(self._width,
+					self._height),
+					self._title)
+		# move buttons
+		p = self._padding
+		b1 = self._button_1
+		b2 = self._button_2
+		box = self._box_height
+		x = p
+		x1 = x + b1 - 1
+		x2 = (b1 * 2) + p - 2
+		y = p
+		self.w._up = SquareButton(
+					(x1, y,
+					b1, b1),
+					unichr(8673),
+					callback=self._up_callback)
+		self.w._up_left = SquareButton(
+					(x, y,
+					b1 - 8, b1 - 8),
+					unichr(8598),
+					callback=self._up_left_callback,
+					sizeStyle='small')
+		self.w._up_right = SquareButton(
+					(x2 + 8, y,
+					b1 - 8, b1 - 8),
+					unichr(8599),
+					callback=self._up_right_callback,
+					sizeStyle='small')
+		y += b1 - 1
+		self.w._left = SquareButton(
+					(x, y,
+					b1, b1),
+					unichr(8672),
+					callback=self._left_callback)
+		self.w._right = SquareButton(
+					(x2, y,
+					b1, b1),
+					unichr(8674),
+					callback=self._right_callback)
+		y += b1 - 1
+		self.w._down_left = SquareButton(
+					(x, y + 8,
+					b1 - 8, b1 - 8),
+					unichr(8601),
+					callback=self._down_left_callback,
+					sizeStyle='small')
+		self.w._down = SquareButton(
+					(x1, y,
+					b1, b1),
+					unichr(8675),
+					callback=self._down_callback)
+		self.w._down_right = SquareButton(
+					(x2 + 8, y + 8,
+					b1 - 8, b1 - 8),
+					unichr(8600),
+					callback=self._down_right_callback,
+					sizeStyle='small')
+		# move offset
+		y += b1 + p
+		self.w._move_value = EditText(
+					(x, y,
+					-p, box),
+					self._move_default,
+					sizeStyle='small',
+					readOnly=True)
+		# nudge spinners
+		y += box + p
+		self.w._minus_001 = SquareButton(
+					(x, y,
+					b2, b2),
+					'-',
+					sizeStyle='small',
+					callback=self._minus_001_callback)
+		x += (b2 * 1) - 1
+		self.w._plus_001 = SquareButton(
+					(x, y,
+					b2, b2),
+					'+',
+					sizeStyle='small',
+					callback=self._plus_001_callback)
+		x += (b2 * 1) - 1
+		self.w._minus_010 = SquareButton(
+					(x, y,
+					b2, b2),
+					'-',
+					sizeStyle='small',
+					callback=self._minus_010_callback)
+		x += (b2 * 1) - 1
+		self.w._plus_010 = SquareButton(
+					(x, y,
+					b2, b2),
+					'+',
+					sizeStyle='small',
+					callback=self._plus_010_callback)
+		x += (b2 * 1) - 1
+		self.w._minus_100 = SquareButton(
+					(x, y,
+					b2, b2),
+					'-',
+					sizeStyle='small',
+					callback=self._minus_100_callback)
+		x += (b2 * 1) - 1
+		self.w._plus_100 = SquareButton(
+					(x, y,
+					b2, b2),
+					'+',
+					sizeStyle='small',
+					callback=self._plus_100_callback)
+		# select anchors 
+		x = self._padding
+		y += self._padding + b2
+		self.w._anchors_top = CheckBox(
+					(x, y,
+					-self._padding,
+					self._box_height),
+					"top",
+					value=self._anchors_top,
+					sizeStyle='small')
+		y += self._box_height
+		self.w._anchors_bottom = CheckBox(
+					(x, y,
+					-self._padding,
+					self._box_height),
+					"bottom",
+					value=self._anchors_bottom,
+					sizeStyle='small')
+		y += self._box_height + self._padding
+		self.w._anchors_base = CheckBox(
+					(x, y,
+					-self._padding,
+					self._box_height),
+					"base glyphs",
+					value=self._anchors_base,
+					sizeStyle='small')
+		y += self._box_height
+		self.w._anchors_accents = CheckBox(
+					(x, y,
+					-self._padding,
+					self._box_height),
+					"accents",
+					value=self._anchors_accents,
+					sizeStyle='small')
+		# open dialog
+		self.w.open()
+
+	# spinners
+
+	def _minus_001_callback(self, sender):
+		_value = int(self.w._move_value.get()) - 1
+		if _value >= 0:
+			self.w._move_value.set(_value)
+
+	def _minus_010_callback(self, sender):
+		_value = int(self.w._move_value.get()) - 10
+		if _value >= 0:
+			self.w._move_value.set(_value)
+
+	def _minus_100_callback(self, sender):
+		_value = int(self.w._move_value.get()) - 100
+		if _value >= 0:
+			self.w._move_value.set(_value)
+
+	def _plus_001_callback(self, sender):
+		_value = int(self.w._move_value.get()) + 1
+		self.w._move_value.set(_value)
+
+	def _plus_010_callback(self, sender):
+		_value = int(self.w._move_value.get()) + 10
+		self.w._move_value.set(_value)
+
+	def _plus_100_callback(self, sender):
+		_value = int(self.w._move_value.get()) + 100
+		self.w._move_value.set(_value)
+
+	# callbacks
+
+	def _up_left_callback(self, sender):
+		_value = int(self.w._move_value.get())
+		self._move_anchors((-_value, _value))
+
+	def _up_right_callback(self, sender):
+		_value = int(self.w._move_value.get())
+		self._move_anchors((_value, _value))
+
+	def _down_left_callback(self, sender):
+		_value = int(self.w._move_value.get())
+		self._move_anchors((-_value, -_value))
+
+	def _down_right_callback(self, sender):
+		_value = int(self.w._move_value.get())
+		self._move_anchors((_value, -_value))
+
+	def _left_callback(self, sender):
+		_value = int(self.w._move_value.get())
+		self._move_anchors((-_value, 0))
+
+	def _right_callback(self, sender):
+		_value = int(self.w._move_value.get())
+		self._move_anchors((_value, 0))
+
+	def _up_callback(self, sender):
+		_value = int(self.w._move_value.get())
+		self._move_anchors((0, _value))
+
+	def _down_callback(self, sender):
+		_value = int(self.w._move_value.get())
+		self._move_anchors((0, -_value))
+
+	# apply 
+
+	def _get_parameters(self):
+		_anchors_top = self.w._anchors_top.get()
+		_anchors_bottom = self.w._anchors_bottom.get()
+		_anchors_base = self.w._anchors_base.get()
+		_anchors_accents = self.w._anchors_accents.get()
+		# list anchor names
+		_anchor_names = []
+		if _anchors_top:
+			if _anchors_base:
+				_anchor_names.append('top')
+			if _anchors_accents:
+				_anchor_names.append('_top')
+		if _anchors_bottom:
+			if _anchors_base:
+				_anchor_names.append('bottom')
+			if _anchors_accents:
+				_anchor_names.append('_bottom')
+		self._anchor_names = _anchor_names
+
+	def _move_anchors(self, (x, y)):
+		f = CurrentFont()
+		if f is not None:
+			self._get_parameters()
+			for gName in get_glyphs(f):
+				f[gName].prepareUndo('move anchors')
+				move_anchors(f[gName], self._anchor_names, (x, y))
+				f[gName].performUndo()
+				f[gName].update()
+			f.update()
+			print 'moving anchors'
+		else:
+			print 'please open a font first.\n'
+
+class renameAnchorsDialog(object):
+
+	_title = 'anchors'
+	_padding = 10
+	_column_1 = 33
+	_column_2 = 70
+	_box_height = 20
+	_row_height = 30
+
+	_height = (_row_height * 3) + (_padding * 2) 
+	_width = _column_1 + _column_2 + (_padding * 2)
+
+	def __init__(self):
+		self.w = FloatingWindow(
+					(self._width,
+					self._height),
+					self._title,
+					closable=True)
+		# old name
+		x = self._padding
+		y = self._padding
+		self.w._old_name_label = TextBox(
+					(x, y,
+					self._column_1,
+					self._box_height),
+					"old",
+					sizeStyle='small')
+		x += self._column_1
+		self.w._old_name_value = EditText(
+					(x, y,
+					self._column_2,
+					self._box_height),
+					placeholder='old name',
+					text='',
+					sizeStyle='small')
+		# new name
+		x = self._padding
+		y += self._row_height
+		self.w._new_name_label = TextBox(
+					(x, y,
+					self._column_1,
+					self._box_height),
+					"new",
+					sizeStyle='small')
+		x += self._column_1
+		self.w._new_name_value = EditText(
+					(x, y,
+					self._column_2,
+					self._box_height),
+					placeholder='new name',
+					text='',
+					sizeStyle='small')
+		# button
+		x = self._padding
+		y += self._row_height
+		self.w.button_apply = SquareButton(
+					(x, y,
+					-self._padding,
+					self._row_height),
+					"rename",
+					callback=self.apply_callback,
+					sizeStyle='small')
+		# open window
+		# self.w.setDefaultButton(self.w.button_apply)
+		# self.w.button_close.bind(".", ["command"])
+		# self.w.button_close.bind(unichr(27), [])
+		self.w.open()
+		
+	def apply_callback(self, sender):
+		f = CurrentFont()
+		if f is not None:
+			if len(f.selection) > 0:
+				# get parameters
+				_old = self.w._old_name_value.get()
+				_new = self.w._new_name_value.get()
+				boolstring = (False, True)
+				# print info
+				print 'changing anchor names...\n'
+				print '\told name: %s' % _old
+				print '\tnew name: %s' % _new
+				print 
+				# batch change anchors names
+				glyph_names = get_glyphs(f)
+				for glyph_name in glyph_names:
+					if glyph_name is not None:
+						# rename anchor                
+						f[glyph_name].prepareUndo('rename anchor')
+						has_name = rename_anchor(f[glyph_name], _old, _new)
+						f[glyph_name].performUndo()
+						f[glyph_name].update()
+				# done
+				f.update()
+				print '...done.\n'
+				# no glyph selected
+			else:
+				print 'please select one or more glyphs before running the script.\n'
+		# no glyph selected
+		else:
+			print 'please open a font first.\n'
+		pass
+
+class transferAnchorsDialog(object):
+
+	'''transfer anchors from selected glyphs in one font to the same glyphs in another font'''
+
+	#------------
+	# attributes
+	#------------
+
+	_title = 'anchors'
+	_padding = 10
+	_padding_top = 8
+	_row_height = 20
+	_button_height = 30
+	_column_1 = 130
+	_width = 123
+	_height = 144
+
+	_all_fonts_names = []
+
+	#---------
+	# methods
+	#---------
+
+	def __init__(self):
+		if len(AllFonts()) > 0:
+			self._all_fonts = AllFonts()
+			for f in self._all_fonts:
+				self._all_fonts_names.append(get_full_name(f))
+			self.w = FloatingWindow(
+					(self._width,
+					self._height),
+					self._title,
+					closable=True)
+			# source font
+			x = self._padding
+			y = self._padding_top
+			self.w._source_label = TextBox(
+					(x, y,
+					-self._padding,
+					self._row_height),
+					"source font",
+					sizeStyle='small')
+			y += self._row_height - 5
+			self.w._source_value = PopUpButton(
+					(x, y,
+					-self._padding,
+					self._row_height),
+					self._all_fonts_names,
+					sizeStyle='small')
+			y += self._row_height + 10
+			# target font
+			self.w._target_label = TextBox(
+					(x, y,
+					-self._padding,
+					self._row_height),
+					"target font",
+					sizeStyle='small')
+			y += self._row_height - 5
+			self.w._target_value = PopUpButton(
+					(x, y,
+					-self._padding,
+					self._row_height),
+					self._all_fonts_names,
+					sizeStyle='small')
+			# buttons
+			y += self._row_height + 15
+			self.w.button_apply = SquareButton(
+					(x, y,
+					-self._padding,
+					self._button_height),
+					"transfer",
+					callback=self.apply_callback,
+					sizeStyle='small')
+			# open window
+			self.w.open()
+		else:
+			print 'please open one or more fonts to use this dialog.\n'
+
+	# callbacks
+
+	def apply_callback(self, sender):
+		# get source font parameters
+		_source_font = self._all_fonts[self.w._source_value.get()]
+		# get target font parameters
+		_target_font = self._all_fonts[self.w._target_value.get()]
+		# print info
+		print 'transfering anchors...\n'
+		print '\tsource font: %s' % get_full_name(_source_font)
+		print '\ttarget font: %s' % get_full_name(_target_font)
+		print
+		print '\t', 
+		# batch copy glyphs to mask
+		for gName in _source_font.selection:
+			try:
+				print gName,
+				# prepare undo
+				_target_font[gName].prepareUndo('transfer anchors')
+				# transfer anchors
+				transfer_anchors(_source_font[gName], _target_font[gName])
+				# update
+				_source_font[gName].update()
+				_target_font[gName].update()
+				# activate undo
+				_source_font[gName].performUndo()
+				_target_font[gName].performUndo()
+			except:
+				print '\tcannot transform %s' % gName                        
+		# done
+		print
+		_target_font.update()
+		_source_font.update()
+		print '\n...done.\n'
+
+#----------
+# encoding
+#----------
+
+class changeSuffixDialog(object):
+
+	'''change the suffix in selected glyphs'''
+
+	#------------
+	# attributes
+	#------------
+
+	_title = 'suffix'
+	_padding = 10
+	_column_1 = 33
+	_column_2 = 70
+	_box_height = 20
+	_row_height = 30
+
+	_height = (_row_height * 3) + (_padding * 2) 
+	_width = _column_1 + _column_2 + (_padding * 2)
+
+	_old_suffix = ''
+	_new_suffix = ''
+	
+	#---------
+	# methods
+	#---------
+
+	def __init__(self):
+		self.w = FloatingWindow(
+					(self._width,
+					self._height),
+					self._title,
+					closable=True)
+		# old suffix
+		x = self._padding
+		y = self._padding
+		self.w._old_suffix_label = TextBox(
+					(x, y,
+					self._column_1,
+					self._box_height),
+					"old",
+					sizeStyle='small')
+		x += self._column_1
+		self.w._old_suffix_value = EditText(
+					(x, y,
+					self._column_2,
+					self._box_height),
+					placeholder='old suffix',
+					text=self._old_suffix,
+					callback=self.old_suffix_callback,
+					sizeStyle='small')
+		# new suffix
+		x = self._padding
+		y += self._row_height
+		self.w._new_suffix_label = TextBox(
+					(x, y,
+					self._column_1,
+					self._box_height),
+					"new",
+					sizeStyle='small')
+		x += self._column_1
+		self.w._new_suffix_value = EditText(
+					(x, y,
+					self._column_2,
+					self._box_height),
+					placeholder='optional',
+					text=self._new_suffix,
+					callback=self.new_suffix_callback,
+					sizeStyle='small')
+		# apply button
+		x = self._padding
+		y += self._row_height
+		self.w.button_apply = SquareButton(
+					(x, y,
+					-self._padding,
+					self._row_height),
+					"apply",
+					callback=self.apply_callback,
+					sizeStyle='small')
+		# open window
+		self.w.open()
+
+	def old_suffix_callback(self, sender):
+		self._old_suffix = sender.get()
+
+	def new_suffix_callback(self, sender):
+		self._new_suffix = sender.get()
+
+	def apply_callback(self, sender):
+		f = CurrentFont()
+		if f is not None:
+			if len(f.selection) > 0:
+				# get parameters
+				_old = self._old_suffix
+				_new = self._new_suffix
+				boolstring = (False, True)
+				# print info
+				print 'changing glyph name suffixes...\n'
+				print '\told suffix: %s' % _old
+				print '\tnew suffix: %s' % _new
+				print
+				# batch change names
+				for gName in f.selection:
+					if gName is not None:
+						g = f[gName]
+						if has_suffix(g, _old):
+							# make new name
+							if len(_new) > 0:
+								_new_name = change_suffix(g, _old, _new)
+							else:
+								_new_name = change_suffix(g, _old, None)
+							print '\trenaming %s to %s...' % (gName, _new_name)
+							if f.has_key(_new_name):
+								print '\toverwriting %s' % _new_name
+								f.removeGlyph(_new_name)
+								g.name = _new_name
+								g.update()
+								print
+							else:
+								g.name = _new_name
+				# done
+				f.update()
+				print
+				print '...done.\n'
+				# no glyph selected
+			else:
+				print 'please select one or more glyphs before running the script.\n'
+		# no glyph selected
+		else:
+			print 'please open a font first.\n'
+		pass
 
