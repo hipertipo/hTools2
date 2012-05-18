@@ -1,59 +1,11 @@
 # [h] hTools2.modules.fileutils
 
-'''
-hTools2.modules.fileutils
-=========================
-
-Functions
----------
-
-### `walk(folder, extension)`
-
-A simple non-recursive `walk` function to collect files with a given extension. It walks all files in `folder`, and returns a list of matching file paths.
-
-    from hTools2.modules.fileutils import walk
-    folder = u"/fonts/_Publica/_ufos/"
-    print walk(folder, 'ufo')
-
-    >>> [u'/fonts/_Publica/_ufos/Publica_15.ufo', u'/fonts/_Publica/_ufos/Publica_55.ufo', u'/fonts/_Publica/_ufos/Publica_95.ufo']
-
-### `delete_files(files_list)`
-
-Deletes the files at the file paths in the list. Often used in combination with results from the `walk` function.
-
-    from hTools2.modules.fileutils import walk, delete_files
-    folder = u"/fonts/_Publica/_woffs/"
-    woffs = walk(folder, 'woff')
-    print len(woffs)
-
-    >>> 10
-
-    print delete_files(woffs)
-    woffs = walk(folder, 'woff')
-    print len(woffs)
-
-    >>> 0
-
-### `get_names_from_path(fontpath)`
-
-A simple function to parse underscore-separated font file names into `family` and `style` names.
-
-    from hTools2.modules.fileutils import walk, get_names_from_path
-    folder = u"/fonts/_Publica/_ufos/"
-    ufos = walk(folder, 'ufo')
-    for ufo in ufos:
-        family, style = get_names_from_path(ufo)
-        print family, style
-
-    >>> Publica 15
-    >>> Publica 55
-    >>> Publica 95
-
-'''
+'''simple tools to walk directories, collect and delete files etc.'''
 
 import os
 
 def walk(folder, extension):
+    '''A simple non-recursive `walk` function to collect files with a given extension. It walks all files in `folder`, and returns a list of matching file paths.'''
 	files = []
 	names = os.listdir(folder)
 	for n in names:
@@ -64,10 +16,12 @@ def walk(folder, extension):
 	return files
 
 def delete_files(files_list):
+    '''Deletes the files at the file paths in the list. Often used in combination with results from the `walk` function.'''
 	for _file in files_list:
 		os.remove(_file)
 
 def get_names_from_path(fontpath):
+    '''Parse underscore-separated font file names into `family` and `style` names.'''
 	_file = os.path.basename(fontpath)
 	_file_name = os.path.splitext(_file)[0]
 	try:
