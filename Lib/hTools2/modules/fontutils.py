@@ -17,7 +17,7 @@ from hTools2.modules.color import *
 #--------
 
 def get_glyphs(font):
-    '''Returns a list with the names of glyphs currently selected or active in the `font`. The result is different than RoboFab’s `f.selection`, because it also includes the contents of `CurrentGlyph()`.'''
+    '''Returns a list with the names of glyphs currently selected or active in the `font`. The result is different than RoboFab's `f.selection`, because it also includes the contents of `CurrentGlyph()`.'''
     _glyph_names = []
     _glyph = CurrentGlyph()
     if _glyph != None:
