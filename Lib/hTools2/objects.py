@@ -52,14 +52,14 @@ class hSettings:
         self.read()
 
     def read(self, trim=False):
-        '''reads the settings from `.plist` file into `self.hDict`'''
+        '''Read the settings from `.plist` file into `self.hDict`.'''
         if os.path.exists(self.path):
             self.hDict = plistlib.readPlist(self.path)
         else:
             self.hDict = {}
 
     def write(self):
-        '''writes the contents of `self.hDict` to `.plist` file'''
+        '''Write the contents of `self.hDict` to `.plist` file.'''
         if os.path.exists(self.root):
             plistlib.writePlist(self.hDict, self.path)
         else:
@@ -94,7 +94,7 @@ class hWorld:
         self.context = _ctx
 
     def projects(self):
-        '''return a list of all project folders contained in the root folder'''
+        '''Return a list of all project folders contained in the root folder.'''
         allFiles = os.listdir(self.settings.root)
         projects = []
         for n in allFiles:
@@ -139,7 +139,7 @@ class hSpace:
             print 'project %s has no parameters lib' % self.project.name
 
     def build(self):
-        '''build the defined variation space, using the parameters order, and create individual font names'''
+        '''Build the defined variation space, using the parameters order, and create individual font names.'''
         parts = len(self.parameters_order)
         font_names = []
         if parts == 0:
@@ -191,7 +191,7 @@ class hSpace:
         self.fonts = font_names
 
     def ufos(self):
-        '''returns a list containing the `.ufo` paths of the existing fonts in the current `hSpace`'''
+        '''Return a list containing the `.ufo` paths of the existing fonts in the current `hSpace`.'''
         font_paths = []
         masters = self.project.masters()
         instances = self.project.instances()
@@ -297,7 +297,7 @@ class hSpace:
 
 class hProject:
 
-    '''an object to represent a family of fonts and related data'''
+    '''An object to represent a family of fonts and related data.'''
 
     #------------
     # attributes
@@ -367,7 +367,7 @@ class hProject:
     # libs
 
     def read_libs(self):
-        '''read all project libs from their `.plist` source files into one single `hProject.lib` dictionary'''
+        '''Read all project libs from their `.plist` source files into one single `hProject.lib` dictionary.'''
         # import libs
         self.libs = {}
         for lib_name in self.lib_paths.keys():
@@ -380,7 +380,7 @@ class hProject:
         self.import_encoding()
 
     def import_encoding(self):
-        '''imports groups, glyph names and glyph order from the project's encoding file, and saves them into a lib'''
+        '''Import groups, glyph names and glyph order from the project's encoding file, and saves them into a lib.'''
         try:
             _groups, _order = import_encoding(self.paths['encoding'])
             self.libs['groups']['glyphs'] = _groups
@@ -389,7 +389,7 @@ class hProject:
             print 'could not import encoding.\n'
 
     def all_glyphs(self, ignore=['invisible']):
-        '''returns a list of all glyphs in project (character set)'''
+        '''Return a list of all glyphs in project (character set).'''
         _all_glyphs = []
         self.import_encoding()
         for group in self.libs['groups']['order']:
@@ -398,7 +398,7 @@ class hProject:
         return _all_glyphs
 
     def write_lib(self, lib_name):
-        '''write the lib with the given name to its `.plist` file'''
+        '''Write the lib with the given name to its `.plist` file.'''
         _filename = '%s.%s' % (lib_name, self._lib_extension)
         _lib_path = os.path.join(self.paths['libs'], _filename)
         print 'saving %s lib to file %s...' % (lib_name, _lib_path),
@@ -406,7 +406,7 @@ class hProject:
         print 'done.\n'
                 
     def write_libs(self):
-        '''write all libraries in project to their corresponding `.plist` files'''
+        '''Write all libraries in project to their corresponding `.plist` files.'''
         print 'saving project libs...\n'
         for lib_name in self.libs.keys():
             _filename = '%s.%s' % (lib_name, self._lib_extension)
@@ -465,7 +465,7 @@ class hProject:
     # folders
 
     def check_folders(self):
-        '''checks if all the necessary project sub-folders exist'''
+        '''Check if all the necessary project sub-folders exist.'''
         print 'checking sub-folders in project %s...\n' % self.name
         for k in self.paths.keys():
             if self.paths[k] is not None:
@@ -488,28 +488,28 @@ class hProject:
     # file lists
 
     def masters(self):
-        '''returns a list of all masters in project'''
+        '''Return a list of all masters in project.'''
         try:
             return walk(self.paths['ufos'], 'ufo')
         except:
             return None
 
     def masters_interpol(self):
-        '''returns a list of all 'super masters' in project'''
+        '''Return a list of all 'super masters' in project.'''
         try:
             return walk(self.paths['interpol'], 'ufo')
         except:
             return None
 
     def instances(self):
-        '''returns a list of all instances in project'''
+        '''Return a list of all instances in project.'''
         try:
             return walk(self.paths['instances'], 'ufo')
         except:
             return None            
 
     def collect_fonts(self):
-        '''updates the font names and file paths at `hProject.fonts`'''
+        '''Update the font names and file paths at `hProject.fonts`.'''
         try:
             _font_paths = self.masters() + self.instances()
             _fonts = {}
@@ -521,15 +521,15 @@ class hProject:
             self.fonts = {}
 
     def otfs(self):
-        '''returns a list of all .otf files in project'''
+        '''Return a list of all .otf files in project.'''
         return walk(self.paths['otfs'], 'otf')
 
     def woffs(self):
-        '''returns a list of all .woff files in project'''
+        '''Return a list of all .woff files in project.'''
         return walk(self.paths['woffs'], 'woff')
 
     def vfbs(self):
-        '''returns a list of all .vfb files in project'''
+        '''Return a list of all .vfb files in project.'''
         return walk(self.paths['vfbs'], 'vfb')
 
     # delete files
@@ -545,7 +545,7 @@ class hProject:
     # interpolation
 
     def generate_instance(self, instance_name, verbose=False):
-        '''generates a .ufo instance with name `instance_name`, using data from the project's interpol lib'''
+        '''Generate a .ufo instance with name `instance_name`, using data from the project's interpol lib.'''
         if self.libs['interpol'].has_key(instance_name):
             # master 1
             master_1 = self.libs['interpol'][instance_name][0]
@@ -585,7 +585,7 @@ class hProject:
 
 class hFont:
 
-    '''an object to represent a .ufo font source, wrapped in a few useful functions'''
+    '''An object to represent a .ufo font source, wrapped in a few useful functions.'''
 
     #------------
     # attributes
@@ -612,7 +612,7 @@ class hFont:
         self.init_from_filename()
 
     def init_from_filename(self):
-        '''initiates `hFont` object from ufo, get parent project, parse name parts'''
+        '''Initiate `hFont` object from ufo, get parent project, parse name parts.'''
         ufo_file = os.path.basename(self.ufo.path)
         self.file_name = os.path.splitext(ufo_file)[0]
         try:
@@ -633,13 +633,13 @@ class hFont:
         get_glyphs(self.ufo)
 
     def auto_unicodes(self):
-        '''automatically sets unicodes for all glyphs in the font'''
+        '''Automatically set unicodes for all glyphs in the font.'''
         auto_unicodes(self.ufo)
 
     # groups and glyphs
 
     def order_glyphs(self):
-        '''automatically sets the order of the glyphs in the font'''
+        '''Automatically set the order of the glyphs in the font.'''
         _glyph_order = []
         for group in self.project.libs['groups']['order']:
             for glyph in self.project.libs['groups']['glyphs'][group]:
@@ -649,7 +649,7 @@ class hFont:
         self.ufo.update()
 
     def paint_groups(self, crop=False):
-        '''paints and orders the glyphs in the font according to their group'''
+        '''Paint and order the glyphs in the font according to their group.'''
         paint_groups(self.ufo, crop)
 
     def import_spacing_groups(self, mode=0):
@@ -707,7 +707,7 @@ class hFont:
                 print 'there are no spacing groups to paint.\n'
 
     def import_groups_from_encoding(self):
-        '''imports glyph names and order from encoding file, and stores them in a lib'''
+        '''Import glyph names and order from encoding file, and stores them in a lib.'''
         self.project.import_encoding()
         self.ufo.groups.clear()
         for group in self.project.libs['groups']['glyphs'].keys():
@@ -725,7 +725,7 @@ class hFont:
     # font names
 
     def full_name(self):
-        '''the full name of the font, made of the `hProject.name` and `font.style_name`'''
+        '''Return the full name of the font, made of the `hProject.name` and `font.style_name`.'''
         return '%s %s' % (self.project.name, self.style_name)
 
     def set_names(self):
@@ -750,13 +750,13 @@ class hFont:
         # version info
 
     def print_info(self):
-        '''prints different kinds of font information'''
+        '''Print different kinds of font information.'''
         pass
 
     # font paths
 
     def otf_path(self, test=False):
-        '''returns the default path for .otf fonts, in the project's `_otfs/` folder'''
+        '''Return the default path for .otf fonts, in the project's `_otfs/` folder.'''
         otf_file = self.file_name + '.otf'
         if test is True:
             otf_path = os.path.join(self.project.paths['otfs_test'], otf_file)
@@ -765,7 +765,7 @@ class hFont:
         return otf_path
 
     def woff_path(self):
-        '''returns the default path for .woff fonts, in the project's `_woffs/` folder'''
+        '''Return the default path for .woff fonts, in the project's `_woffs/` folder.'''
         woff_file = self.file_name + '.woff'
         woff_path = os.path.join(self.project.paths['woffs'], woff_file)
         return woff_path
@@ -773,7 +773,7 @@ class hFont:
     # font generation
 
     def generate_otf(self, options=None, verbose=False):
-        '''generates a .otf font file using the default settings'''
+        '''Generate an .otf font file using the default settings.'''
         # get options
         if options is None:
             options = {
@@ -820,7 +820,7 @@ class hFont:
             print 'KLTF WOFF generation plugin not available.\n '
 
     def upload_woff(self):
-        '''uploads the font's woff file to the project's folder in the FTP server'''
+        '''Upload the font's woff file to the project's folder in the FTP server.'''
         _url = self.project.world.settings.hDict['ftp']['url']
         _login = self.project.world.settings.hDict['ftp']['login']
         _password = self.project.world.settings.hDict['ftp']['password']
@@ -832,7 +832,7 @@ class hFont:
 
 class hGlyph:
 
-    '''an object to wrap single glyphs, making it easier to access their parent `hFont` and `hProject` objects'''
+    '''An object to wrap single glyphs, making it easier to access their parent `hFont` and `hProject` objects.'''
 
     #------------
     # attributes
@@ -889,7 +889,7 @@ class hGlyph_NodeBox(hGlyph):
 
 class hLine:
 
-    '''an object to make it easier to typeset simple test strings of .ufos in NodeBox'''
+    '''An object to make it easier to typeset simple test strings of .ufos in NodeBox.'''
 
     #------------
     # attributes
@@ -955,7 +955,7 @@ class hLine:
         self.glyph_names = []
 
     def _text_to_gnames(self, txt):
-        '''converts a given character stream `text` into a list of glyph names, and returns the list'''
+        '''Convert a given character stream `text` into a list of glyph names, and returns the list.'''
         gnames = []
         for char in txt:
             gname = unicode2psnames[ord(char)]
@@ -963,18 +963,18 @@ class hLine:
         return gnames
 
     def _gnames_to_gstring(self, gnames):   
-        '''joins a given list of `glyph_names` into a `gstring` (a string of glyph names separated by slashes), and returns it'''
+        '''Join a given list of `glyph_names` into a `gstring` (a string of glyph names separated by slashes), and returns it.'''
         gstring = '/%s' % '/'.join(gnames)
         return gstring
 
     def _gstring_to_gnames(self, gstring):
-        '''converts a given `gstring` into a list of `glyph_names`, and returns it'''
+        '''Convert a given `gstring` into a list of `glyph_names`, and returns it.'''
         t = gstring.split('/')
         gnames = t[1:]
         return gnames
 
     def txt(self, _text, mode='text'):
-        '''sets the list `hLine.glyph_names` from the given `text` string'''
+        '''Set the list `hLine.glyph_names` from the given `text` string.'''
         # if `text` is a string, use `mode='text'`
         # if `text` is a `gstring`, use `mode='gstring'`
         if mode is 'gstring':
@@ -993,7 +993,7 @@ class hLine:
         return self.font.ufo.info.unitsPerEm * self.scale
 
     def draw(self, pos):
-        '''draws the glyphs in the NodeBox context'''
+        '''Draw the glyphs in the NodeBox context.'''
         pen = NodeBoxPen(self.font.ufo, self.ctx)
         self.x, self.y = pos
         line_length = 0
