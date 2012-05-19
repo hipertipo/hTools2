@@ -25,7 +25,7 @@ from hTools2.modules.opentype import import_features, export_features
 
 class hSettings:
 
-    '''an object to store information about local settings and preferences'''
+    '''An object to store information about local settings and preferences.'''
 
     #------------
     # attributes
@@ -72,7 +72,7 @@ class hSettings:
 
 class hWorld:
 
-    '''an object representing the local root folder, where all project folders live'''
+    '''An object representing the local root folder, where all project folders live.'''
 
     #------------
     # attributes
@@ -94,7 +94,7 @@ class hWorld:
         self.context = _ctx
 
     def projects(self):
-        '''returns a list of all project folders contained in the root folder'''
+        '''return a list of all project folders contained in the root folder'''
         allFiles = os.listdir(self.settings.root)
         projects = []
         for n in allFiles:
@@ -106,7 +106,7 @@ class hWorld:
 
 class hSpace:
 
-    '''an object to represent a parametric variation space inside `hWorld`'''
+    '''An object to represent a parametric variation space inside `hWorld`.'''
 
     #------------
     # attributes
@@ -139,7 +139,7 @@ class hSpace:
             print 'project %s has no parameters lib' % self.project.name
 
     def build(self):
-        '''builds the defined variation space, using the parameters order, and creates individual font names'''
+        '''build the defined variation space, using the parameters order, and create individual font names'''
         parts = len(self.parameters_order)
         font_names = []
         if parts == 0:
@@ -306,7 +306,7 @@ class hProject:
     # the name of the project
     name = None
 
-    # an ‘embedded’ `hWorld` object, with a list of all projects and local settings
+    # an 'embedded' `hWorld` object, with a list of all projects and local settings
     world = None
 
     # a dict with a working copy of all data libs in the project, imported on object initialization
@@ -495,7 +495,7 @@ class hProject:
             return None
 
     def masters_interpol(self):
-        '''returns a list of all ‘super masters’ in project'''
+        '''returns a list of all 'super masters' in project'''
         try:
             return walk(self.paths['interpol'], 'ufo')
         except:
@@ -545,7 +545,7 @@ class hProject:
     # interpolation
 
     def generate_instance(self, instance_name, verbose=False):
-        '''generates a .ufo instance with name `instance_name`, using data from the project’s interpol lib'''
+        '''generates a .ufo instance with name `instance_name`, using data from the project's interpol lib'''
         if self.libs['interpol'].has_key(instance_name):
             # master 1
             master_1 = self.libs['interpol'][instance_name][0]

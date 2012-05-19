@@ -9,7 +9,7 @@ from hTools2.modules.fontutils import get_names_from_path
 # set info
 
 def set_names_from_path(font):
-    '''Sets `font.info.familyName` and `font.info.styleName` from the font path's parts..'''
+    '''Set `font.info.familyName` and `font.info.styleName` from the font path's parts..'''
     family_name, style_name = get_names_from_path(font.path)
     full_name = '%s_%s' % (family_name, style_name)
     # main family/style names
@@ -42,7 +42,9 @@ def set_vmetrics(font, xheight, capheight, ascender, descender, emsquare, gridsi
 # print info
 
 def print_font_info(font):
-    '''Prints several kinds of font information, using a special method for each section. The data and related functions are organized according to the UFO 2 spec.'''
+    '''Print several kinds of font information, using a special method for each section.
+    The data and related functions are organized according to the UFO 2 spec.
+    '''
     print 'printing font info'
     print_generic_identification(font)
     print_generic_legal(font)

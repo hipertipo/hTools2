@@ -17,7 +17,9 @@ from hTools2.modules.color import *
 #--------
 
 def get_glyphs(font):
-    '''Returns a list with the names of glyphs currently selected or active in the `font`. The result is different than RoboFab's `f.selection`, because it also includes the contents of `CurrentGlyph()`.'''
+    '''Return a list with the names of glyphs currently selected or active in the `font`.
+    The result is different than RoboFab's `f.selection`, because it also includes the contents of `CurrentGlyph()`.
+    '''
     _glyph_names = []
     _glyph = CurrentGlyph()
     if _glyph != None:
@@ -30,7 +32,9 @@ def get_glyphs(font):
     return _glyph_names
 
 def print_selected_glyphs(f, mode=1):
-    '''Prints the selected glyphs to the output window. Two different modes are supported: `mode=0` prints the glyph names as a list of Python strings, while `mode=1` prints the glyph names as a plain list (with linebreaks).'''
+    '''Print the selected glyphs to the output window.
+    Two different modes are supported: `mode=0` prints the glyph names as a list of Python strings, while `mode=1` prints the glyph names as a plain list (with linebreaks).
+    '''
     gNames = f.selection
     # mode 1 : plain gNames list
     if mode == 1:
@@ -202,7 +206,7 @@ def get_full_name(font):
     return full_name 
 
 def full_name(family, style):
-    '''Returns a `full name` from `family` and `style` names, separated by a `space` character. If the `style` is Regular, only the `family` is used.'''
+    '''Return a `full name` from `family` and `style` names, separated by a `space` character. If the `style` is Regular, use only the `family`.'''
     if style == 'Regular':
         full_name = family
     else:
@@ -223,7 +227,7 @@ def set_unique_ps_id(font):
     font.info.postscriptUniqueID = int(_psID)
 
 def get_names_from_path(fontPath):
-    '''Returns `family` and `style` names from the given `font_path`.'''
+    '''Return `family` and `style` names from the given `font_path`.'''
     _dir, _file = os.path.split(fontPath)
     name, extension = os.path.splitext(_file)
     try:
@@ -273,22 +277,22 @@ def set_font_names(f, familyName, styleName):
 #-----------
 
 def decompose(font):
-    '''Decomposes all composed glyph in the `font`.'''
+    '''Decompose all composed glyph in the `font`.'''
     for glyph in font:
         glyph.decompose()
 
 def auto_contour_order(font):
-    '''Automatically sets contour order for all glyphs in the `font`.'''
+    '''Automatically set contour order for all glyphs in the `font`.'''
     for glyph in font:
         glyph.correctDirection()
 
 def auto_contour_direction(font):
-    '''Automatically sets contour directions for all glyphs in the `font`.'''
+    '''Automatically set contour directions for all glyphs in the `font`.'''
     for glyph in font:
         glyph.correctDirection()
 
 def auto_order_direction(font):
-    '''Automatically sets contour order and direction for all glyphs in the `font`, in one go.'''
+    '''Automatically set contour order and direction for all glyphs in the `font`, in one go.'''
     for glyph in font:
         glyph.autoContourOrder()
         glyph.correctDirection()
@@ -299,7 +303,7 @@ def add_extremes(font):
         glyph.extremePoints()
 
 def align_to_grid(font, (sizeX, sizeY)):
-    '''Aligns all points of all glyphs in the `font` to a grid with size `(sizeX,sizeY)`.'''
+    '''Align all points of all glyphs in the `font` to a grid with size `(sizeX,sizeY)`.'''
     for glyph in font:
         round_points(glyph, (sizeX, sizeY))
         glyph.update()
@@ -328,7 +332,7 @@ def move_glyphs(f, (delta_x, delta_y)):
 #------
 
 def temp_font():
-    '''Returns a temporary font for importing single .glyfs.'''
+    '''Return a temporary font for importing single .glyfs.'''
     if CurrentFont() is None:
         t = NewFont()
     else:

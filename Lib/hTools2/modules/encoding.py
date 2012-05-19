@@ -5,26 +5,28 @@
 import os
 
 def import_encoding(file_path):
-	'''Imports group and glyphs names from an `.enc` file. Returns a dictionary with glyph groups, and a list with the order of the groups.'''
-    if os.path.exists(file_path):
-        lines = open(file_path, 'r').readlines()
-        groups = {}
-        order = []
-        count = 0
-    for line in lines:
-        if count == 0:
-            pass
-        elif line[:1] == '%':
-            if line[1:2] != '_':
-                group_name = line[18:-1]
-                if len(group_name) > 0:
-                    groups[group_name] = []
-                    order.append(group_name)
-        else:
-            glyph_name = line[:-1]
-            groups[group_name].append(glyph_name)
-        count = count + 1
-    return groups, order
+	'''Import group and glyphs names from an `.enc` file.
+	Return a dictionary with glyph groups, and a list with the order of the groups.
+	'''
+	if os.path.exists(file_path):
+		lines = open(file_path, 'r').readlines()
+		groups = {}
+		order = []
+		count = 0
+	for line in lines:
+		if count == 0:
+			pass
+		elif line[:1] == '%':
+			if line[1:2] != '_':
+				group_name = line[18:-1]
+				if len(group_name) > 0:
+					groups[group_name] = []
+					order.append(group_name)
+		else:
+			glyph_name = line[:-1]
+			groups[group_name].append(glyph_name)
+		count = count + 1
+	return groups, order
 
 # font-level tools
 
@@ -35,7 +37,7 @@ def clear_unicodes(f):
 	f.update()
 
 def auto_unicodes(f):
-	'''Automatically sets unicode values for all glyphs in the font.'''
+	'''Automatically set unicode values for all glyphs in the font.'''
 	clear_unicodes(f)
 	for g in f:
 		auto_unicode(g)
@@ -44,7 +46,9 @@ def auto_unicodes(f):
 # glyph-level tools
 
 def auto_unicode(g):
-	'''Automatically sets unicode value(s) for the specified glyph. The method uses RoboFab’s `glyph.autoUnicodes()` function for  common glyphs, and complements it with additional values from `unicodes_extra`.'''
+	'''Automatically set unicode value(s) for the specified glyph.
+	The method uses RoboFab's `glyph.autoUnicodes()` function for common glyphs, and complements it with additional values from `unicodes_extra`.
+	'''
 	# handle 'uni' names
 	if g.name[:3] == "uni" and len(g.name) == 7:
 		c = g.name
@@ -61,7 +65,11 @@ def auto_unicode(g):
 # unicode-to-string conversion (thanks Karsten Luecke, 2010)
 
 def unicode_int_to_hexstr(intUnicode, _0x=False, uni=False):
-	'''Converts unicode integers to hexadecimal. See also the reverse function `unicode_hexstr_to_int`. Note that `glyph.unicodes` is a list (a glyph can have many unicodes), so we need to pass the first value only. The optional parameters `uni` and `_0x` add the respective prefixes.'''
+	'''Converts unicode integers to hexadecimal.
+	See also the reverse function `unicode_hexstr_to_int`.
+	Note that `glyph.unicodes` is a list (a glyph can have many unicodes), so we need to pass the first value only.
+	The optional parameters `uni` and `_0x` add the respective prefixes.
+	'''
 	hexUnicode = "%X".lstrip("0x") % intUnicode
 	hexUnicode = "0" * (4 - len(hexUnicode)) + hexUnicode
 	if _0x:
@@ -71,7 +79,9 @@ def unicode_int_to_hexstr(intUnicode, _0x=False, uni=False):
 	return hexUnicode
 
 def unicode_hexstr_to_int(hexUnicode, replaceUni=True):
-	'''Converts a unicode hexadecimal value into an integer. It does exactly the reverse of `unicode_int_to_hexstr`.'''
+	'''Converts a unicode hexadecimal value into an integer.
+	It does exactly the reverse of `unicode_int_to_hexstr`.
+	'''
 	if replaceUni:
 		return int(hexUnicode.replace("uni",""), 16)
 	return int(hexUnicode.lstrip("x"), 16)

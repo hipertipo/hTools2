@@ -9,7 +9,7 @@ from hTools2.modules.sysutils import _ctx
 from hTools2.extras.colorsys import *
 
 def random_color():
-    '''Returns a random color.
+    '''Return a random color.
     If the context is `RoboFont` or `NoneLab`, the returned value is a tuple of `(R,G,B,alpha)` values; if the context is FontLab, the returned value is an integer between `0` and `255`.
     Independent of the context, the visual result is a always color with random variation in the `hue` dimension, and constant saturation, brightness and opacity values.
     '''
@@ -24,13 +24,13 @@ def random_color():
     return c
 
 def clear_colors(font):
-    '''Removes the color of all glyphs in the given `font`.'''
+    '''Remove the color of all glyphs in the given `font`.'''
     for gName in font.keys():
         clear_color(font[gName])
     font.update()
 
 def clear_color(glyph):
-    '''Removes the color of the given `glyph`.'''
+    '''Remove the color of the given `glyph`.'''
     # FontLab
     if _ctx == 'FontLab':
         g.mark = 0
@@ -40,14 +40,16 @@ def clear_color(glyph):
     glyph.update()
 
 def RGB_to_nodebox_color((R, G, B), ctx, alpha=1.0):
-    '''Takes a tuple of `(R,G,B)` values and returns a NodeBox `color` object.'''
+    '''Take a tuple of `(R,G,B)` values and return a NodeBox `color` object.'''
     colors = ctx.ximport("colors")
     _alpha = 255 * alpha
     _color = colors.rgb(R, G, B, _alpha, range=255)
     return _color
 
 def paint_groups(f, crop=False):
-    '''Paints the glyphs in the `font` according to their groups. If a `groups_order` lib is available, it is used to set the order of the glyphs in the font.'''
+    '''Paint the glyphs in the `font` according to their groups.
+    If a `groups_order` lib is available, use it to set the order of the glyphs in the font.
+    '''
     font = CurrentFont()
     paint_groups(font)
     if len(f.groups) > 0:

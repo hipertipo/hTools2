@@ -9,19 +9,21 @@ from math import floor, ceil
 #---------
 
 def center_glyph(glyph):
-	'''Centers the `glyph` in its width, leaving `leftMargin` and `rightMargin` with equal values.'''
+	'''Center the `glyph` in its advance width, leaving `leftMargin` and `rightMargin` with equal values.'''
 	whitespace = glyph.leftMargin + glyph.rightMargin	
 	glyph.leftMargin = whitespace / 2
 	glyph.rightMargin = whitespace / 2
 
 def round_width(glyph, gridsize):
-	'''Rounds `glyph.width` to a multiple of `gridsize`.'''
+	'''Round `glyph.width` to a multiple of `gridsize`.'''
 	_width = glyph.width / gridsize
 	glyph.width = round(_width) * gridsize
 	glyph.update()
 
 def round_margins(glyph, gridsize, left=True, right=True):
-	'''Rounds `glyph.leftMargin` and `glyph.rightMargin` to multiples of `gridsize`. Use the optional parameters `left` and `right` to turn individual margins of/off.'''
+	'''Round `glyph.leftMargin` and `glyph.rightMargin` to multiples of `gridsize`.
+	Use the optional parameters `left` and `right` to turn individual margins of/off.
+	'''
 	if left:
 		_left = glyph.leftMargin / gridsize
 		glyph.leftMargin = round(_left) * gridsize
@@ -36,7 +38,7 @@ def round_margins(glyph, gridsize, left=True, right=True):
 #-------------
 
 def has_suffix(glyph, suffix):
-	'''Checks if the name of `glyph` has the extension `suffix`, and returns `True` or `False`.'''
+	'''Check if the name of `glyph` has the extension `suffix`, and returns `True` or `False`.'''
 	has_suffix = False
 	nameParts = glyph.name.split(".")
 	if len(nameParts) is 2:
@@ -45,7 +47,9 @@ def has_suffix(glyph, suffix):
 	return has_suffix
 
 def change_suffix(glyph, old_suffix, new_suffix=None):
-	'''Returns a new modified name for `glyph`, using `new_suffix` in place of `old_suffix`. If `new_suffix=None`, the suffix is removed and only the base glyph name is used.'''
+	'''Return a new modified name for `glyph`, using `new_suffix` in place of `old_suffix`.
+	If `new_suffix=None`, the suffix is removed and only the base glyph name is used.
+	'''
 	_base_name = glyph.name.split(".")[0]
 	_old_suffix = glyph.name.split(".")[1]
 	if new_suffix is not None:
@@ -59,7 +63,7 @@ def change_suffix(glyph, old_suffix, new_suffix=None):
 #---------------
 
 def round_points(glyph, (sizeX, sizeY)):
-	'''Rounds the position of all `points` in `glyph` to the gridsize `(sizeX,sizeY)`.'''
+	'''Round the position of all `points` in `glyph` to the gridsize `(sizeX,sizeY)`.'''
 	for contour in glyph.contours:
 		for point in contour.points:
 			_x = float(point.x)
@@ -71,7 +75,7 @@ def round_points(glyph, (sizeX, sizeY)):
 	glyph.update()
 
 def round_bpoints(glyph, (sizeX, sizeY)):
-	'''Rounds the position of all `bPoints` in `glyph` to the gridsize `(sizeX,sizeY)`.'''
+	'''Round the position of all `bPoints` in `glyph` to the gridsize `(sizeX,sizeY)`.'''
 	for contour in glyph.contours:
 		for b_point in contour.bPoints:
 			_x = float(b_point.anchor[0])
@@ -82,7 +86,7 @@ def round_bpoints(glyph, (sizeX, sizeY)):
 	glyph.update()
 
 def round_anchors(glyph, (sizeX, sizeY)):
-	'''Rounds the position of all `anchors` in `glyph` to the gridsize `(sizeX,sizeY)`.'''
+	'''Round the position of all `anchors` in `glyph` to the gridsize `(sizeX,sizeY)`.'''
 	if len(glyph.anchors) > 0:
 		for anchor in glyph.anchors:
 			_x_round = round(float(anchor.x) / sizeX)
@@ -99,7 +103,7 @@ def round_anchors(glyph, (sizeX, sizeY)):
 #---------------
 
 def select_points_x(glyph, linePos, invert=False):
-	'''Selects all points in `glyph` to left/right of `linePos(x)`.'''
+	'''Select all points in `glyph` to left/right of `linePos(x)`.'''
 	for c in glyph.contours:
 		for p in c.points:
 			if invert == True: 
@@ -111,7 +115,7 @@ def select_points_x(glyph, linePos, invert=False):
 	glyph.update()
 
 def select_points_y(glyph, linePos, invert=False):
-	'''Selects all points in `glyph` above/below the `linePos(y)`.'''
+	'''Select all points in `glyph` above/below the `linePos(y)`.'''
 	for c in glyph.contours:
 		for p in c.points:
 			# select points above the line

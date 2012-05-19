@@ -5,7 +5,9 @@
 import os
 
 def walk(folder, extension):
-	'''A simple non-recursive `walk` function to collect files with a given extension. It walks all files in `folder`, and returns a list of matching file paths.'''
+	'''A simple non-recursive `walk` function to collect files with a given extension.
+	It walks all files in `folder`, and returns a list of matching file paths.
+	'''
 	files = []
 	names = os.listdir(folder)
 	for n in names:
@@ -16,7 +18,9 @@ def walk(folder, extension):
 	return files
 
 def delete_files(files_list):
-	'''Deletes the files at the file paths in the list. Often used in combination with results from the `walk` function.'''
+	'''Delete the files at the file paths in the list.
+	Use in combination with results from the `walk` function.
+	'''
 	for _file in files_list:
 		os.remove(_file)
 

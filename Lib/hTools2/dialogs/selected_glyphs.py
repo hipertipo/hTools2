@@ -4487,4 +4487,3 @@ class changeSuffixDialog(object):
 		else:
 			print 'please open a font first.\n'
 		pass
-
