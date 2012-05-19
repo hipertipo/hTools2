@@ -25,7 +25,7 @@ Development
 
 Work on hTools2 is partially funded by users and collaborators.
 
-Special thanks to the following designers/companies for funding work on hTools2:
+Special thanks to the following designers/companies for contributing to the project:
 
 <table>
 <tr>
@@ -40,7 +40,7 @@ Special thanks to the following designers/companies for funding work on hTools2:
 </tr>
 </table>
 
-If you use hTools2 on a regular basis, please consider making a donation to support the project.
+If you use hTools2 on a regular basis, please consider making a donation.
 
 
 License
