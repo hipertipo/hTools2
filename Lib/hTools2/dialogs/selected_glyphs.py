@@ -2651,7 +2651,7 @@ class setMarginsDialog(object):
 
 	_title = 'margins'
 	_padding = 10
-	_padding_top = 8
+	_padding_top = 10
 	_line_height = 20
 	_button_height = 30
 	_button_2 = 18
@@ -2661,12 +2661,14 @@ class setMarginsDialog(object):
 	_column_3 = 80
 	_column_4 = 60
 	_width = 123
-	_height = 228
+	_height = 256
 
-	_modes = [ 'do nothing' , 'set equal to', 'increase by', 'decrease by', ]
+	_modes = [ 'set equal to', 'increase by', 'decrease by', ]
+	_left = True
 	_left_mode = 0
-	_right_mode = 0
 	_left_value = 100
+	_right = True
+	_right_mode = 0
 	_right_value = 100
 
 	#---------
@@ -2684,13 +2686,15 @@ class setMarginsDialog(object):
 		x = self._padding
 		y = self._padding_top
 		# mode
-		self.w.left_mode = PopUpButton(
+		self.w.left_mode = RadioGroup(
 					(x, y,
 					-self._padding,
 					self._line_height),
-					self._modes,
+					['=', '+', '-'],
 					sizeStyle='small',
-					callback=self.left_mode_callback)
+					#callback=self.left_mode_callback,
+					isVertical=False)
+		self.w.left_mode.set(0)
 		# label
 		y += self._line_height + 10
 		self.w.left_label = TextBox(
@@ -2761,18 +2765,20 @@ class setMarginsDialog(object):
 		#--------------
 		# right margin
 		#--------------
+		# mode
 		x = self._padding
 		y += self._line_height + self._padding
-		# mode
-		self.w.right_mode = PopUpButton(
+		self.w.right_mode = RadioGroup(
 					(x, y,
 					-self._padding,
 					self._line_height),
-					self._modes,
+					['=', '+', '-'],
 					sizeStyle='small',
-					callback=self.right_mode_callback)
-		y += self._line_height + 10
+					#callback=self.right_mode_callback,
+					isVertical=False)
+		self.w.right_mode.set(0)
 		# label
+		y += self._line_height + 10
 		self.w.right_label = TextBox(
 					(x, y + 3,
 					self._column_1,
@@ -2838,9 +2844,9 @@ class setMarginsDialog(object):
 					"+",
 					sizeStyle='small',
 					callback=self._right_plus_100_callback)
-		#---------
-		# buttons
-		#---------
+		#--------------
+		# apply button
+		#--------------
 		x = self._padding
 		y += self._line_height + self._padding
 		self.w.button_apply = SquareButton(
@@ -2850,6 +2856,22 @@ class setMarginsDialog(object):
 					"apply",
 					sizeStyle='small',
 					callback=self.apply_callback)
+		y += self._button_height + self._padding
+		self.w.left_checkbox = CheckBox(
+					(x, y,
+					(self._width / 2) - self._padding,
+					self._line_height),
+					"left",
+					value=self._left,
+					sizeStyle='small')
+		x += (self._width / 2) - self._padding
+		self.w.right_checkbox = CheckBox(
+					(x, y,
+					(self._width / 2) - self._padding,
+					self._line_height),
+					"right",
+					value=self._right,
+					sizeStyle='small')
 		# open window
 		self.w.open()
 	
@@ -2927,15 +2949,15 @@ class setMarginsDialog(object):
 
 	# apply
 
-	def set_margins(self, glyph, (left_value, left_mode), (right_value, right_mode)):
+	def set_margins(self, glyph, (left, left_value, left_mode), (right, right_value, right_mode)):
 		glyph.prepareUndo('set margins')
 		# left margin
-		if left_mode is not 0:
+		if left:
 			# increase by
-			if left_mode is 2:
+			if left_mode == 1:
 				_left_value_new = glyph.leftMargin + int(left_value)
 			# decrease by
-			elif left_mode is 3:
+			elif left_mode == 2:
 				_left_value_new = glyph.leftMargin - int(left_value)
 			# set equal to
 			else:
@@ -2944,13 +2966,13 @@ class setMarginsDialog(object):
 			glyph.leftMargin = _left_value_new
 			glyph.update()
 		# right margin
-		if right_mode is not 0:
+		if right:
 			# increase by
-			if right_mode is 2:
+			if right_mode == 1:
 				_right_value_new = glyph.rightMargin + int(right_value)
 			# decrease by
-			elif right_mode is 3:
-				_right_value_new = glyph.rightMargin - int(right_value)
+			elif right_mode == 2:
+					_right_value_new = glyph.rightMargin - int(right_value)
 			# set equal to 
 			else:
 				_right_value_new = int(right_value)
@@ -2964,20 +2986,27 @@ class setMarginsDialog(object):
 	def apply_callback(self, sender):
 		f = CurrentFont()
 		if f is not None:
+			boolstring = [ 'False', 'True' ]
+			# get parameters
+			_left = self.w.left_checkbox.get()
+			_left_mode = self.w.left_mode.get()			
+			_right = self.w.right_checkbox.get()
+			_right_mode = self.w.right_mode.get()
+			# iterate over glyphs
 			glyph_names = get_glyphs(f)
 			if len(glyph_names) > 0:
 				# print info
 				print 'setting margins for selected glyphs...\n'
-				print '\tleft: %s (%s)' % (self._modes[self._left_mode], self._left_value)
-				print '\tright: %s (%s)' % (self._modes[self._right_mode], self._right_value)
+				print '\tleft: %s (%s) [%s]' % (self._modes[_left_mode], self._left_value, boolstring[_left])
+				print '\tright: %s (%s) [%s]' % (self._modes[_right_mode], self._right_value, boolstring[_right])
 				print
 				print '\t\t',
 				# set margins
 				for glyph_name in glyph_names:
 					print glyph_name,
 					self.set_margins(f[glyph_name],
-								(self._left_value, self._modes[self._left_mode]),
-								(self._right_value, self._modes[self._right_mode]))
+								(_left, self._left_value, _left_mode),
+								(_right, self._right_value, _right_mode))
 				f.update()
 				print '\n...done.\n'
 			# no glyph selected
@@ -2986,147 +3015,6 @@ class setMarginsDialog(object):
 		# no font open
 		else:
 			print 'please open a font first.\n'
-
-class copyMarginsDialog(object):
-
-	'''copy margins from selected glyphs in one font to the same glyphs in another font'''
-
-	#------------
-	# attributes
-	#------------
-
-	_title = 'margins'
-	_padding = 10
-	_padding_top = 8
-	_line_height = 20
-	_button_height = 30
-	_column_1 = 180
-	_width = 123
-	_height = (_button_height * 2) + (_line_height * 2) + (_padding_top * 5) + _button_height + 8
-
-	_all_fonts_names = []
-
-	#---------
-	# methods
-	#---------
-
-	def __init__(self, ):
-		if len(AllFonts()) > 0:
-			self._all_fonts = AllFonts()
-			for f in self._all_fonts:
-				self._all_fonts_names.append(get_full_name(f))
-			self.w = FloatingWindow(
-						(self._width,
-						self._height),
-						self._title,
-						closable=True)
-			# source font
-			x = self._padding
-			y = self._padding_top
-			self.w._source_label = TextBox(
-						(x, y,
-						-self._padding,
-						self._line_height),
-						"source font",
-						sizeStyle='small')
-			y += self._line_height
-			self.w._source_value = PopUpButton(
-						(x, y,
-						-self._padding,
-						self._line_height),
-						self._all_fonts_names,
-						sizeStyle='small')
-			# dest font
-			y += self._line_height + self._padding_top
-			self.w._dest_label = TextBox(
-						(x, y,
-						-self._padding,
-						self._line_height),
-						"target font",
-						sizeStyle='small')
-			y += self._line_height
-			self.w._dest_value = PopUpButton(
-						(x, y,
-						-self._padding,
-						self._line_height),
-						self._all_fonts_names,
-						sizeStyle='small')
-			# left / right
-			y += self._line_height + self._padding_top + 7
-			self.w.left_checkbox = CheckBox(
-						(x, y,
-						-self._padding,
-						self._line_height),
-						"left",
-						value=True,
-						sizeStyle='small')
-			x += (self._width / 2) - 8
-			self.w.right_checkbox = CheckBox(
-						(x, y,
-						-self._padding,
-						self._line_height),
-						"right",
-						value=True,
-						sizeStyle='small')
-			# buttons
-			x = self._padding
-			y += self._line_height + self._padding_top
-			self.w.button_apply = SquareButton(
-						(x, y,
-						-self._padding,
-						self._button_height),
-						"copy",
-						sizeStyle='small',
-						callback=self.apply_callback)
-			# open window 
-			self.w.open()
-
-	# callbacks
-
-	def apply_callback(self, sender):
-		boolstring = [False, True]
-		# source font
-		_source_font_index = self.w._source_value.get()
-		_source_font = self._all_fonts[_source_font_index]
-		_source_font_name = self._all_fonts_names[_source_font_index]
-		# dest font
-		_dest_font_index = self.w._dest_value.get()            
-		_dest_font = self._all_fonts[_dest_font_index]
-		_dest_font_name = self._all_fonts_names[_dest_font_index]
-		# left / right
-		_left = self.w.left_checkbox.get()
-		_right = self.w.right_checkbox.get()
-		# batch process glyphs
-		if _left or _right:
-			# print info
-			print 'copying side-bearings...\n'
-			print '\tsource font: %s' % _source_font_name
-			print '\ttarget font: %s' % _dest_font_name
-			print
-			print '\tcopy left: %s' % boolstring[_left]
-			print '\tcopy right: %s' % boolstring[_right]
-			print
-			# batch copy side-bearings
-			for gName in _source_font.selection:
-				try:
-					# set undo
-					_dest_font[gName].prepareUndo('copy margins')
-					print '\t%s' % gName,
-					# copy
-					if _left:
-						_dest_font[gName].leftMargin = _source_font[gName].leftMargin
-					if _right:
-						_dest_font[gName].rightMargin = _source_font[gName].rightMargin
-					# call undo
-					_dest_font.performUndo()
-					_dest_font.update()
-				except:
-					print '\tcannot process %s' % gName
-			print
-			print '\n...done.\n'
-		# nothing selected
-		else:
-			print 'Aborted, nothing to copy. Please select "left" or "right" side-bearings, and try again.\n'
 
 class setWidthDialog(object):
 
@@ -3356,6 +3244,147 @@ class setWidthDialog(object):
 		# no font open
 		else:
 			print 'please open a font first.\n'
+
+class copyMarginsDialog(object):
+
+	'''copy margins from selected glyphs in one font to the same glyphs in another font'''
+
+	#------------
+	# attributes
+	#------------
+
+	_title = 'margins'
+	_padding = 10
+	_padding_top = 8
+	_line_height = 20
+	_button_height = 30
+	_column_1 = 180
+	_width = 123
+	_height = (_button_height * 2) + (_line_height * 2) + (_padding_top * 5) + _button_height + 8
+
+	_all_fonts_names = []
+
+	#---------
+	# methods
+	#---------
+
+	def __init__(self, ):
+		if len(AllFonts()) > 0:
+			self._all_fonts = AllFonts()
+			for f in self._all_fonts:
+				self._all_fonts_names.append(get_full_name(f))
+			self.w = FloatingWindow(
+						(self._width,
+						self._height),
+						self._title,
+						closable=True)
+			# source font
+			x = self._padding
+			y = self._padding_top
+			self.w._source_label = TextBox(
+						(x, y,
+						-self._padding,
+						self._line_height),
+						"source font",
+						sizeStyle='small')
+			y += self._line_height
+			self.w._source_value = PopUpButton(
+						(x, y,
+						-self._padding,
+						self._line_height),
+						self._all_fonts_names,
+						sizeStyle='small')
+			# dest font
+			y += self._line_height + self._padding_top
+			self.w._dest_label = TextBox(
+						(x, y,
+						-self._padding,
+						self._line_height),
+						"target font",
+						sizeStyle='small')
+			y += self._line_height
+			self.w._dest_value = PopUpButton(
+						(x, y,
+						-self._padding,
+						self._line_height),
+						self._all_fonts_names,
+						sizeStyle='small')
+			# left / right
+			y += self._line_height + self._padding_top + 7
+			self.w.left_checkbox = CheckBox(
+						(x, y,
+						-self._padding,
+						self._line_height),
+						"left",
+						value=True,
+						sizeStyle='small')
+			x += (self._width / 2) - 8
+			self.w.right_checkbox = CheckBox(
+						(x, y,
+						-self._padding,
+						self._line_height),
+						"right",
+						value=True,
+						sizeStyle='small')
+			# buttons
+			x = self._padding
+			y += self._line_height + self._padding_top
+			self.w.button_apply = SquareButton(
+						(x, y,
+						-self._padding,
+						self._button_height),
+						"copy",
+						sizeStyle='small',
+						callback=self.apply_callback)
+			# open window 
+			self.w.open()
+
+	# callbacks
+
+	def apply_callback(self, sender):
+		boolstring = [False, True]
+		# source font
+		_source_font_index = self.w._source_value.get()
+		_source_font = self._all_fonts[_source_font_index]
+		_source_font_name = self._all_fonts_names[_source_font_index]
+		# dest font
+		_dest_font_index = self.w._dest_value.get()            
+		_dest_font = self._all_fonts[_dest_font_index]
+		_dest_font_name = self._all_fonts_names[_dest_font_index]
+		# left / right
+		_left = self.w.left_checkbox.get()
+		_right = self.w.right_checkbox.get()
+		# batch process glyphs
+		if _left or _right:
+			# print info
+			print 'copying side-bearings...\n'
+			print '\tsource font: %s' % _source_font_name
+			print '\ttarget font: %s' % _dest_font_name
+			print
+			print '\tcopy left: %s' % boolstring[_left]
+			print '\tcopy right: %s' % boolstring[_right]
+			print
+			# batch copy side-bearings
+			for gName in _source_font.selection:
+				try:
+					# set undo
+					_dest_font[gName].prepareUndo('copy margins')
+					print '\t%s' % gName,
+					# copy
+					if _left:
+						_dest_font[gName].leftMargin = _source_font[gName].leftMargin
+					if _right:
+						_dest_font[gName].rightMargin = _source_font[gName].rightMargin
+					# call undo
+					_dest_font.performUndo()
+					_dest_font.update()
+				except:
+					print '\tcannot process %s' % gName
+			print
+			print '\n...done.\n'
+		# nothing selected
+		else:
+			print 'Aborted, nothing to copy. Please select "left" or "right" side-bearings, and try again.\n'
 
 class copyWidthsDialog(object):
 
