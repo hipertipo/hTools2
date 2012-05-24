@@ -8,9 +8,8 @@ from hTools2.modules.fontutils import get_names_from_path
 
 # set info
 
-def set_names_from_path(font):
-    '''Set `font.info.familyName` and `font.info.styleName` from the font path's parts..'''
-    family_name, style_name = get_names_from_path(font.path)
+def set_font_names(font, family_name, style_name):
+    '''Set several font naming fields from `family` and `style` names.'''
     full_name = '%s_%s' % (family_name, style_name)
     # main family/style names
     font.info.familyName = family_name
@@ -30,7 +29,12 @@ def set_names_from_path(font):
     font.info.postscriptWeightName = None
     # FOND names
     font.info.macintoshFONDFamilyID = None
-    font.info.macintoshFONDName = None
+    font.info.macintoshFONDName = None    
+
+def set_names_from_path(font):
+    '''Set the font naming fields using parts of the name of the font file.'''
+    family_name, style_name = get_names_from_path(font.path)
+    set_font_names(font, family_name, style_name)
 
 def set_vmetrics(font, xheight, capheight, ascender, descender, emsquare, gridsize=1):
     font.info.xHeight = xheight * gridsize

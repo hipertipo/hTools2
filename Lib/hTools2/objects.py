@@ -477,12 +477,23 @@ class hProject:
 
     def make_folders(self):
         print 'creating project sub-folders in project %s...\n' % self.name
+        _folders = [
+            'temp',
+            'docs',
+            'woffs',
+            'otfs',
+            'bkp',
+            'libs',
+            'ufos',
+            'vfbs'
+        ]
         for k in self.paths.keys():
-            if self.paths[k] is not None:
-                if os.path.exists(self.paths[k]) == False:
-                    print '\tcreating folder %s...' % self.paths[k]
-                    os.mkdir(self.paths[k])
-                    print '\t%s %s' % (k, os.path.exists(self.paths[k]))
+            if k in _folders:
+                if self.paths[k] is not None:
+                    if os.path.exists(self.paths[k]) == False:
+                        print '\tcreating folder %s...' % self.paths[k]
+                        os.mkdir(self.paths[k])
+                        print '\t%s %s' % (k, os.path.exists(self.paths[k]))
         print '\n...done.\n'
 
     # file lists
