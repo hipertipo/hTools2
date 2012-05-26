@@ -813,8 +813,7 @@ class hFont:
                     decompose=options['decompose'],
                     autohint=options['autohint'],
                     checkOutlines=options['remove overlap'],
-                    releaseMode=options['release mode'],
-                    glyphOrder=[])
+                    releaseMode=options['release mode'])
         # check if sucessfull
         if verbose:
             print '\tgeneration succesfull? %s' % ['No', 'Yes'][os.path.exists(_otf_path)]
