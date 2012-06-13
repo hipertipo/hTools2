@@ -10,7 +10,7 @@ from mojo.extensions import getExtensionDefault, setExtensionDefault
 windows = NSApp.windows()
 panels = [ window for window in windows if isinstance(window, NSPanel) ]
 
-print panels
+# print panels
 
 # get state
 show_panels = getExtensionDefault('com.hipertipo.showHidePanels', fallback=True)

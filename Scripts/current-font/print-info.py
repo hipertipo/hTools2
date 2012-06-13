@@ -2,9 +2,6 @@
 
 from vanilla import *
 
-import hTools2.modules.color
-reload(hTools2.modules.color)
-
 from hTools2.modules.fontinfo import *
 from hTools2.modules.color import random_color
 
