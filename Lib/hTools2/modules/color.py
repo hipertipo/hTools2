@@ -51,7 +51,6 @@ def paint_groups(f, crop=False):
     If a `groups_order` lib is available, use it to set the order of the glyphs in the font.
     '''
     font = CurrentFont()
-    paint_groups(font)
     if len(f.groups) > 0:
         clear_colors(f)
         count = 0

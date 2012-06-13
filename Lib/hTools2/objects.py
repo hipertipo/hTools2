@@ -52,20 +52,21 @@ class hSettings:
         self.read()
 
     def read(self, trim=False):
-        '''Read the settings from `.plist` file into `self.hDict`.'''
+        '''Read settings from `.plist` file into `self.hDict`.'''
         if os.path.exists(self.path):
             self.hDict = plistlib.readPlist(self.path)
         else:
             self.hDict = {}
 
     def write(self):
-        '''Write the contents of `self.hDict` to `.plist` file.'''
+        '''Write contents of `self.hDict` to `.plist` file.'''
         if os.path.exists(self.root):
             plistlib.writePlist(self.hDict, self.path)
         else:
             print 'cannot save hSettings, root folder does not exist.\n'
 
     def print_(self):
+        '''Print all settings items to the console.'''
         for k in self.hDict.keys():
             print k, self.hDict[k]
 
@@ -82,7 +83,7 @@ class hWorld:
     settings = None
 
     # the environment in which the current script is running
-    # possible options: `RoboFont` / `FontLab` / `NoneLab`
+    # options: `RoboFont` / `FontLab` / `NoneLab`
     context = None
 
     #---------
@@ -131,6 +132,7 @@ class hSpace:
         self.build()
 
     def import_project_parameters(self):
+        '''Import project parameters from lib.'''
         try:
             self.parameters = self.project.libs['project']['parameters']
             self.parameters_order = self.project.libs['project']['parameters_order']
@@ -206,6 +208,8 @@ class hSpace:
             else:
                 continue
         return font_paths
+
+    ### move shift functionality to scripts ###
 
     def shift_x(self, dest_width, group_names):
         print 'batch copying glyphs in hSpace...\n'
@@ -631,14 +635,15 @@ class hFont:
         except ValueError:
             family_name, style_name = self.file_name.split('-')
         self.project = hProject(family_name)
-        self.style_name = style_name    
+        self.style_name = style_name
         # import parameters
         try:
             name_parameters = self.style_name.split('-')
             parameters_order = self.project.libs['project']['parameters_order']
             self.parameters = dict(zip(parameters_order, name_parameters))
         except:
-            print 'there is no parameters lib for this font.'
+            self.parameters = {}
+            # print 'there is no parameters lib for this font.\n'
 
     def get_glyphs(self):
         get_glyphs(self.ufo)
