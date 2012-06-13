@@ -1,15 +1,25 @@
 # [h] hTools2.modules.fontutils
 
+'''A collection of handy functions for working with fonts.'''
+
 import os
 
-from robofab.world import CurrentGlyph
+try:
+    from mojo.roboFont import CurrentGlyph, CurrentFont, NewFont
+except:
+    from robofab.world import CurrentGlyph, CurrentFont, NewFont
 
 from hTools2.modules.glyphutils import round_points
-from hTools2.modules.color import named_colors
+from hTools2.modules.color import *
 
+#--------
 # glyphs
+#--------
 
 def get_glyphs(font):
+    '''Return a list with the names of glyphs currently selected or active in the `font`.
+    The result is different than RoboFab's `f.selection`, because it also includes the contents of `CurrentGlyph()`.
+    '''
     _glyph_names = []
     _glyph = CurrentGlyph()
     if _glyph != None:
@@ -22,13 +32,16 @@ def get_glyphs(font):
     return _glyph_names
 
 def print_selected_glyphs(f, mode=1):
+    '''Print the selected glyphs to the output window.
+    Two different modes are supported: `mode=0` prints the glyph names as a list of Python strings, while `mode=1` prints the glyph names as a plain list (with linebreaks).
+    '''
     gNames = f.selection
-    # mode 1 = plain gNames list
+    # mode 1 : plain gNames list
     if mode == 1:
         for gName in gNames:
             print gName
         print
-    # mode 0 = Python string
+    # mode 0 : Python string
     elif mode == 0:
         s = ''
         for gName in gNames:
@@ -37,6 +50,21 @@ def print_selected_glyphs(f, mode=1):
         print
     else:
         print "invalid mode.\n"
+
+def parse_glyphs_groups(names, groups):
+    glyph_names = []
+    for name in names:
+        # group names
+        if name[0] == '@':
+            group_name = name[1:]
+            if groups.has_key(group_name):
+                glyph_names += groups[group_name]
+            else:
+                print 'project does not have a group called %s.\n' % group_name
+        # glyph names
+        else:
+            glyph_names.append(name)
+    return glyph_names
 
 def rename_glyph(font, old_name, new_name, overwrite=True, mark=True):
     if font.has_key(old_name):
@@ -78,14 +106,24 @@ def rename_glyphs_from_list(font, names_list, overwrite=True, mark=True):
     print
     print '...done.\n'
 
+def crop_glyphset(font, glyphset):
+    for g in font:
+        if g.name not in glyphset:
+            font.removeGlyph(g.name)
+    font.update()
+
+#--------
 # groups
+#--------
 
 def delete_groups(font):
+    '''deletes all groups in the font'''
     for group in font.groups.keys():
         del font.groups[group]
     font.update()
 
 def get_spacing_groups(font):
+    '''returns a dictionary containing the `left` and `right` spacing groups in the font'''
     _groups = {}
     _groups['left'] = {}
     _groups['right'] = {}
@@ -98,11 +136,17 @@ def get_spacing_groups(font):
     return _groups
 
 def print_groups(font, mode=0):
+    '''Prints all groups and glyphs in the font.'''
+    # mode 0 : groups and glyphs are printed as nicely formatted text
+    # mode 1 : groups and glyphs are printed in OpenType classes format
+    # mode 2 : groups and glyphs are printed as Python lists
     groups = font.groups
     if len(groups) > 0:
         print 'printing groups in font %s...' % get_full_name(font)
         print
+        #----------------------------------
         # print groups as OpenType classes
+        #----------------------------------
         if mode == 1:
             _groups = groups.keys()
             _groups.sort()
@@ -117,7 +161,9 @@ def print_groups(font, mode=0):
               otGlyphs = otGlyphs + " ]"
               # print class in OpenType syntax
               print "%s = %s;" % (otClassName, otGlyphs)
+        #------------------------------
         # print groups as Python lists
+        #------------------------------
         elif mode == 2:
             # print groups order (if available)
             if font.lib.has_key('groups_order'):
@@ -126,7 +172,9 @@ def print_groups(font, mode=0):
             # print groups
             for group in groups.keys():
                 print '%s = %s\n' % (group, font.groups[group])
+        #----------------------
         # print groups as text
+        #----------------------
         else:
             # print groups order (if available)
             if font.lib.has_key('groups_order'):
@@ -148,13 +196,17 @@ def print_groups(font, mode=0):
     else:
         print 'font %s has no groups.\n' % font
 
+#-----------
 # font info
+#-----------
 
 def get_full_name(font):
+    '''Returns the full name of the font (family name + style name).'''
     full_name = '%s %s' % (font.info.familyName, font.info.styleName)
     return full_name 
 
 def full_name(family, style):
+    '''Return a `full name` from `family` and `style` names, separated by a `space` character. If the `style` is Regular, use only the `family`.'''
     if style == 'Regular':
         full_name = family
     else:
@@ -162,6 +214,7 @@ def full_name(family, style):
     return full_name
 
 def font_name(family, style):
+    '''Same as `full_name()`, but `family` and `style` names are separated by a `hyphen` instead of `space`.'''
     if style == 'Regular':
         font_name = family
     else:
@@ -173,14 +226,15 @@ def set_unique_ps_id(font):
     _psID = "%s%s%s%s%s%s" % ( a, b, c, d, e, f )
     font.info.postscriptUniqueID = int(_psID)
 
-def get_names_from_path(fontPath):
-    _dir, _file = os.path.split(fontPath)
+def get_names_from_path(font_path):
+    '''Return `family` and `style` names from the given `font_path`.'''
+    _dir, _file = os.path.split(font_path)
     name, extension = os.path.splitext(_file)
     try:
         family, style = name.split("_")
         return family, style
     except ValueError:
-        print "%s does not follow hTools2 conventions.\n" % fontPath
+        print "%s does not follow hTools2 conventions.\n" % font_path
 
 def set_foundry_info(font, fontInfoDict):
     font.info.year = fontInfoDict['year']
@@ -218,41 +272,69 @@ def set_font_names(f, familyName, styleName):
     # done
     f.update()
 
+#-----------
 # transform
+#-----------
 
 def decompose(font):
+    '''Decompose all composed glyph in the `font`.'''
     for glyph in font:
         glyph.decompose()
 
 def auto_contour_order(font):
+    '''Automatically set contour order for all glyphs in the `font`.'''
     for glyph in font:
         glyph.correctDirection()
 
 def auto_contour_direction(font):
+    '''Automatically set contour directions for all glyphs in the `font`.'''
     for glyph in font:
         glyph.correctDirection()
 
 def auto_order_direction(font):
+    '''Automatically set contour order and direction for all glyphs in the `font`, in one go.'''
     for glyph in font:
         glyph.autoContourOrder()
         glyph.correctDirection()
 
 def add_extremes(font):
+    '''Add extreme points to all glyphs in the `font`, if they are missing.'''
     for glyph in font:
         glyph.extremePoints()
 
 def align_to_grid(font, (sizeX, sizeY)):
+    '''Align all points of all glyphs in the `font` to a grid with size `(sizeX,sizeY)`.'''
     for glyph in font:
         round_points(glyph, (sizeX, sizeY))
         glyph.update()
     font.update()
 
-def scale_glyphs(f, factor):
+def scale_glyphs(f, (factor_x, factor_y)):
+    '''Scale all glyphs in the font by the given `(x,y)` factor.'''
     for g in f:
         if len(g.components) == 0:
             leftMargin, rightMargin = g.leftMargin, g.rightMargin
-            g.scale((factor, factor))
-            g.leftMargin = leftMargin * factor
-            g.rightMargin = rightMargin * factor
+            g.scale((factor_x, factor_y))
+            g.leftMargin = leftMargin * factor_x
+            g.rightMargin = rightMargin * factor_x
             g.update()
     f.update()
+
+def move_glyphs(f, (delta_x, delta_y)):
+    '''Move all glyphs in the font by the given `(x,y)` distance.'''
+    for g in f:
+        g.move((delta_x, delta_y))
+        g.update()
+    f.update()
+
+#------
+# misc
+#------
+
+def temp_font():
+    '''Return a temporary font for importing single .glyfs.'''
+    if CurrentFont() is None:
+        t = NewFont()
+    else:
+        t = CurrentFont()
+    return t

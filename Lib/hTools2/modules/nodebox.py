@@ -1,6 +1,10 @@
-# hTools2.modules.nodebox
+# [h] hTools2.modules.nodebox
+
+'''A few utilities and objects for working with fonts in Nodebox.'''
 
 from random import random
+
+from AppKit import NSFontManager
 
 from fontTools.pens.basePen import BasePen
 from robofab.world import RFont
@@ -8,7 +12,12 @@ from robofab.world import RFont
 from hTools2.modules.pens import NodeBoxPen
 from hTools2.modules.encoding import unicode2psnames
 
+#-----------------
+# draw guidelines
+#-----------------
+
 def draw_horizontal_line(Y, ctx, stroke_=None, color_=None):
+	'''Draws an horizontal line at vertical position `y` in `context`. Also accepts optional `stroke_` and `color_` parameters.'''
 	_stroke = 1
 	_color = ctx.color(0, 1, 1)
 	if stroke_ is not None:
@@ -20,6 +29,7 @@ def draw_horizontal_line(Y, ctx, stroke_=None, color_=None):
 	ctx.line(0, Y + .5, ctx.WIDTH, Y + .5)
 
 def draw_vertical_line(x, ctx, stroke_=None, color_=None, y_range=None):
+	'''Draws a vertical line at horizontal position `x` in `context`. Also accepts optional `stroke_` and `color_` parameters.'''
 	_stroke = 1
 	_color = ctx.color(0, 1, 1)
 	if stroke_ is not None:
@@ -37,6 +47,7 @@ def draw_vertical_line(x, ctx, stroke_=None, color_=None, y_range=None):
 	ctx.line(x, y_min, x, y_max)
 
 def draw_cross((x, y), ctx, size_=10, stroke_=None, color_=None):
+	'''Draws a cross at position `(x,y)`. Also accepts the optional parameters `size_`, `color_` and `size_`.'''
 	cross = size_
 	_stroke = 1
 	_color = ctx.color(.25)
@@ -54,12 +65,23 @@ def draw_cross((x, y), ctx, size_=10, stroke_=None, color_=None):
 	ctx.line(x, y - cross, x, y + cross)
 	ctx.pop()
 
-def draw_grid(ctx, pos=(0,0), size_=1):
+#------------
+# grid tools
+#------------
+
+def draw_grid(ctx, pos=(0,0), size_=1, stroke_=None, color_=None):
+	'''Draws a grid in `context`. The optional parameters `pos` and `size` control the start of the grid and the size of the grid cells.'''
 	x, y = pos
-	# defaults
-	ctx.strokewidth(1)
-	ctx.stroke(.9)
+	_stroke = 1
+	_color = ctx.color(.25)
+	if stroke_ is not None:
+		_stroke = stroke_
+	if color_ is not None:
+		_color = color_
 	# draw lines
+	ctx.stroke(_color)
+	ctx.strokewidth(_stroke)
+	ctx.fill(None)
 	for i in range(ctx.HEIGHT / size_):
 		ctx.line(0, y + .5, ctx.WIDTH, y + .5)
 		y += size_
@@ -68,13 +90,19 @@ def draw_grid(ctx, pos=(0,0), size_=1):
 		x += size_
 
 def gridfit((x, y), grid):
+	'''Takes a tuple `(x,y)` and a grid size `grid`, and returns new rounded values for `(x,y)`.'''
 	x = (x // grid) * grid
 	y = (y // grid) * grid
 	return (int(x), int(y))
 
+#---------------
+# stroke styles
+#---------------
+
 # http://nodebox.net/code/index.php/shared_2007-10-27-14-54-26
 
 def capstyle(path, style):
+	'Sets the `capstyle` for the given `path`, and returns the modified result.'
 	# 0 : butt
 	# 1 : round
 	# 2 : square
@@ -82,13 +110,19 @@ def capstyle(path, style):
 	return path
 	
 def joinstyle(path, style): 
+	'Sets the `joinstyle` for the given `path`, and returns the modified result.'
 	# 0 : miter
 	# 1 : round
 	# 2 : bevel
 	path._nsBezierPath.setLineJoinStyle_(style)
 	return path
 
+#-------------------
+# typesetting tools
+#-------------------
+
 def make_string(names_list, spacer=None):
+	'Makes a string of text from a list of `glyph_names`. Optionally, uses a `spacer` glyph between the glyphs.'
 	if spacer is not None:
 		_spacer = spacer
 	else:
@@ -104,6 +138,7 @@ def make_string(names_list, spacer=None):
 	return _string
 
 def make_string_names(names_list, spacer=None):
+	'''Makes a string of slash-separated `glyph_names`. Optionally, uses a `spacer` glyph between the glyphs.'''
 	if spacer is not None:
 		_spacer = '/' + spacer
 	else:
@@ -125,6 +160,7 @@ def all_glyphs(groups, spacer=None):
 	return all_glyphs
 
 def draw_glyph(glyph_name, ufo_path, (x, y), context, _color=None, _scale=1):
+	'''Draws the glyph with `name` from the font in `ufo_path` at position `(x,y)` in `context`.'''
 	_ufo = RFont(ufo_path)
 	_pen = NodeBoxPen(_ufo._glyphSet, context)
 	_units_per_em = _ufo.info.unitsPerEm
@@ -165,3 +201,11 @@ def make_alpha(res):
     factor = (1.0 / res)
     alpha = .7 - (factor * .3)    
     return alpha
+
+#-------------
+# local fonts
+#-------------
+
+def local_fonts():
+    return NSFontManager.sharedFontManager().availableFonts()
+

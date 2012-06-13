@@ -1,11 +1,18 @@
 # [h] hTools2.modules.color
 
+'''Tools for working with colors, color system conversions etc.'''
+
 from random import random
 
+from hTools2.modules.fontutils import *
 from hTools2.modules.sysutils import _ctx
 from hTools2.extras.colorsys import *
 
 def random_color():
+    '''Return a random color.
+    If the context is `RoboFont` or `NoneLab`, the returned value is a tuple of `(R,G,B,alpha)` values; if the context is FontLab, the returned value is an integer between `0` and `255`.
+    Independent of the context, the visual result is a always color with random variation in the `hue` dimension, and constant saturation, brightness and opacity values.
+    '''
     # FontLab
     if _ctx == 'FontLab':
         c = int(255 * random())
@@ -17,11 +24,13 @@ def random_color():
     return c
 
 def clear_colors(font):
+    '''Remove the color of all glyphs in the given `font`.'''
     for gName in font.keys():
         clear_color(font[gName])
     font.update()
 
 def clear_color(glyph):
+    '''Remove the color of the given `glyph`.'''
     # FontLab
     if _ctx == 'FontLab':
         g.mark = 0
@@ -31,12 +40,17 @@ def clear_color(glyph):
     glyph.update()
 
 def RGB_to_nodebox_color((R, G, B), ctx, alpha=1.0):
+    '''Take a tuple of `(R,G,B)` values and return a NodeBox `color` object.'''
     colors = ctx.ximport("colors")
     _alpha = 255 * alpha
     _color = colors.rgb(R, G, B, _alpha, range=255)
     return _color
 
-def paint_groups(f):
+def paint_groups(f, crop=False):
+    '''Paint the glyphs in the `font` according to their groups.
+    If a `groups_order` lib is available, use it to set the order of the glyphs in the font.
+    '''
+    font = CurrentFont()
     if len(f.groups) > 0:
         clear_colors(f)
         count = 0
@@ -58,10 +72,19 @@ def paint_groups(f):
             count += 1
         f.glyphOrder = _order
         f.update()
+    if crop:
+        crop_glyphset(f, _order)
     else:
         print 'font has no groups.\n'
 
-named_colors = {    
+#--------------
+# named colors
+#--------------
+
+'''A dictionary with color names and their corresponding color values as `(R,G,B,alpha)` tuples.
+'''
+
+named_colors = {
     'red' : hsv_to_rgb(.0, 1, 1) + (1,),
     'orange' : hsv_to_rgb(.11, 1, 1) + (1,),
     'yellow' : hsv_to_rgb(.15, 1, 1) + (1,),
