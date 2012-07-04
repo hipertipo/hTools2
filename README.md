@@ -27,18 +27,8 @@ Work on hTools2 is partially funded by users and collaborators.
 
 Special thanks to the following designers/companies for contributing to the project:
 
-<table>
-<tr>
-<td>Nikola Djurek</td>
-<td><a href='http://typonine.com/'>Typonine</a></td>
-<td>kickstarter for the release of hTools2, comissioned and tested all initial dialogs<</td>
-</tr>
-<tr>
-<td>Bas Jacobs</td>
-<td><a href='http://underware.nl/'>Underware</a></td>
-<td>contributed suggestions for new features, commissioned a `import .ufo to layer` script</td>
-</tr>
-</table>
+- Nikola Djurek [(Typonine)](http://typonine.com/) – kickstarter for the release of hTools2, comissioned and tested all initial dialogs
+- Bas Jacobs [(Underware)](http://underware.nl/) – contributed suggestions for new features, commissioned the `import .ufo to layer` script
 
 If you use hTools2 on a regular basis, please consider making a donation.
 
