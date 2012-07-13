@@ -3,6 +3,7 @@
 '''simple tools to walk directories, collect and delete files etc.'''
 
 import os
+import shutil
 
 def walk(folder, extension):
 	'''A simple non-recursive `walk` function to collect files with a given extension.
@@ -35,12 +36,14 @@ def get_names_from_path(fontpath):
 	return family_name, style_name
 
 def get_parameters_from_path(fontpath):
+	'''Get parameters from the path of a font file.'''
 	family_name, style_name = get_names_from_path(fontpath)
 	parameters = style_name.split('-')
 	return parameters
 
-def read_names_list_from_file(file_path):
-	lines_raw = open(file_path, 'r').readlines()
+def read_names_list_from_file(filepath):
+	'''Read pairs of glyph names from text file.'''
+	lines_raw = open(filepath, 'r').readlines()
 	names_list = []
 	for line in lines_raw:
 		if line[:1] != '#':
@@ -49,3 +52,29 @@ def read_names_list_from_file(file_path):
 			new_name = new_name.strip()
 			names_list.append([old_name, new_name])
 	return names_list
+
+def rename_file(filepath, new_name, delete=True, overwrite=True):
+	'''Rename a  or folder, save with new name, overwrite is already exists, delete old file/folder.'''
+	_dir, _file = os.path.split(filepath)
+	_ext = os.path.splitext(_file)[1]
+	_new_file_name = new_name + _ext
+	_new_path = os.path.join(_dir, _new_file_name)
+	print 'renaming file...'
+	# folder
+	if os.path.isdir(filepath):
+		if os.path.exists(_new_path):
+			if overwrite:
+				shutil.rmtree(_new_path)
+		print '\tsaving %s as %s...' % (filepath, _new_path)
+		shutil.copytree(filepath, _new_path)
+		if delete:
+			print '\tdeleting %s...' % filepath
+			shutil.rmtree(filepath)
+	# file
+	else:
+		print '\tsaving %s as %s...' % (filepath, _new_path)
+		shutil.copy(filepath, _new_path)
+		if delete:
+			print '\tdeleting %s...' % filepath
+			os.remove(filepath)
+	print '...done.\n'

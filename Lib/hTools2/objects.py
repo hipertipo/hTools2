@@ -187,8 +187,44 @@ class hSpace:
                             else:
                                 style_name = '%s%s%s%s' % (a, b, c, d)
                             font_names.append(style_name)
+        elif parts == 5:
+            param_name_1 = self.parameters_order[0]
+            param_name_2 = self.parameters_order[1]
+            param_name_3 = self.parameters_order[2]
+            param_name_4 = self.parameters_order[3]
+            param_name_5 = self.parameters_order[4]
+            for a in self.parameters[param_name_1]:
+                for b in self.parameters[param_name_2]:
+                    for c in self.parameters[param_name_3]:
+                        for d in self.parameters[param_name_4]:
+                            for e in self.parameters[param_name_5]:
+                                if self.parameters_separator:
+                                    style_name = '%s-%s-%s-%s-%s' % (a, b, c, d, e)
+                                else:
+                                    style_name = '%s%s%s%s%s' % (a, b, c, d, e)
+                                font_names.append(style_name)
+
+        elif parts == 6:
+            param_name_1 = self.parameters_order[0]
+            param_name_2 = self.parameters_order[1]
+            param_name_3 = self.parameters_order[2]
+            param_name_4 = self.parameters_order[3]
+            param_name_5 = self.parameters_order[4]
+            param_name_6 = self.parameters_order[5]
+            for a in self.parameters[param_name_1]:
+                for b in self.parameters[param_name_2]:
+                    for c in self.parameters[param_name_3]:
+                        for d in self.parameters[param_name_4]:
+                            for e in self.parameters[param_name_5]:
+                                for f in self.parameters[param_name_6]:
+                                    if self.parameters_separator:
+                                        style_name = '%s-%s-%s-%s-%s-%s' % (a, b, c, d, e, f)
+                                    else:
+                                        style_name = '%s%s%s%s%s%s' % (a, b, c, d, e, f)
+                                    font_names.append(style_name)
+
         else:
-            print 'too many parts, current hSpace implementation only supports 4 parameters.\n'
+            print 'too many parts, current hSpace implementation only supports 6 parameters.\n'
         # save font list
         self.fonts = font_names
 
