@@ -28,7 +28,9 @@ def import_encoding(file_path):
 		count = count + 1
 	return groups, order
 
+#------------------
 # font-level tools
+#------------------
 
 def clear_unicodes(f):
 	'''Remove unicodes from all glyphs in the font.'''
@@ -43,7 +45,9 @@ def auto_unicodes(f):
 		auto_unicode(g)
 	f.update()
 
+#-------------------
 # glyph-level tools
+#-------------------
 
 def auto_unicode(g):
 	'''Automatically set unicode value(s) for the specified glyph.
@@ -62,7 +66,10 @@ def auto_unicode(g):
 		g.autoUnicodes()
 	g.update()
 
-# unicode-to-string conversion (thanks Karsten Luecke, 2010)
+#------------------------------
+# unicode-to-string conversion
+#------------------------------
+# thanks Karsten Luecke, 2010
 
 def unicode_int_to_hexstr(intUnicode, _0x=False, uni=False):
 	'''Converts unicode integers to hexadecimal.

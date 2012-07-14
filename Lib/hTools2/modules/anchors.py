@@ -2,12 +2,14 @@
 
 '''tools to remove, create, move and transfer anchors'''
 
-#------------
-# font tools
-#------------
+#------------------
+# font-level tools
+#------------------
 
 def get_anchors(font, glyph_names=None):
-	'''Get all anchors in specified glyphs as a dict.'''
+	'''Get all anchors in the glyphs with the given `glyph_names` as a dictionary.
+	If no `glyph_names` are specified, all glyphs in the font will be used.
+	'''
 	anchors_dict = {}
 	if glyph_names == None:
 		_glyph_names = font.keys()
@@ -22,9 +24,9 @@ def get_anchors(font, glyph_names=None):
 			anchors_dict[g.name] = anchors
 	return anchors_dict
 
-#-------------
-# glyph tools
-#-------------
+#-------------------
+# glyph-level tools
+#-------------------
 
 def rename_anchor(glyph, old_name, new_name):
 	'''Rename anchors with name `old_name` in `glyph` to `new_name`.'''

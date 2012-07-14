@@ -81,10 +81,8 @@ def paint_groups(f, crop=False):
 # named colors
 #--------------
 
-'''A dictionary with color names and their corresponding color values as `(R,G,B,alpha)` tuples.
-'''
-
 named_colors = {
+    '''A dictionary with color names and their corresponding color values as `(R,G,B,alpha)` tuples.'''
     'red' : hsv_to_rgb(.0, 1, 1) + (1,),
     'orange' : hsv_to_rgb(.11, 1, 1) + (1,),
     'yellow' : hsv_to_rgb(.15, 1, 1) + (1,),
@@ -100,6 +98,7 @@ named_colors = {
 #-----------
 
 def solarized(name):
+    '''Return a `(R,G,B)` color for a given `color_name` in the solarized palette.'''
     # name is color group
     if name in solarized_groups.keys():
         _colors = []
@@ -113,12 +112,16 @@ def solarized(name):
     else:
         print 'name %s is not a solarized group or color.\n' % name
 
+# Solarized colors by name, divided into groups.
+
 solarized_groups = {
     'colors' : [ 'yellow', 'orange', 'red', 'magenta', 'violet', 'blue', 'cyan', 'green' ],
     'dark' : [ 'base03', 'base02' ],
     'bright' : [ 'base3', 'base2' ],
     'content' : [ 'base01', 'base00', 'base0', 'base1' ],
 }
+
+# Solarized colors by name and `(R,G,B)` values.
 
 solarized_colors = {
     # dark
