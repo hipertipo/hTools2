@@ -1,15 +1,18 @@
-# [h] clean dirty FL spacing groups
+# [h] clean-up dirty FL spacing groups
+
+def clean_FL_groups(font):
+    '''remove quotes from names of master glyphs in FL spacing classes'''
+    for group_name in f.groups.keys():
+        glyph_names = []
+        for glyph_name in f.groups[group_name]:
+            if glyph_name.count("'") > 0:
+                glyph_name = glyph_name.replace("'", "")
+            glyph_names.append(glyph_name)
+        f.groups[group_name] = glyph_names
+
+        print group_name
+        print f.groups[group_name]
+        print
 
 f = CurrentFont()
-
-for group_name in f.groups.keys():
-    glyph_names = []
-    for glyph_name in f.groups[group_name]:
-        if glyph_name.count("'") > 0:
-            glyph_name = glyph_name.replace("'", "")
-        glyph_names.append(glyph_name)
-    f.groups[group_name] = glyph_names
-
-    print group_name
-    print f.groups[group_name]
-    print
+clean_FL_groups(f)

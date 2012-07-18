@@ -17,7 +17,6 @@ from hTools2.modules.color import random_color
 from hTools2.modules.anchors import *
 from hTools2.modules.rasterizer import *
 
-
 #--------
 # layers
 #--------
@@ -148,7 +147,7 @@ class copyToMaskDialog(object):
                     # activate undo
                     _target_font[gName].performUndo()
                 except:
-                    print '\tcannot transform %s' % gName                        
+                    print '\tcannot transform %s' % gName
             # done
             print
             _target_font.update()
@@ -208,7 +207,7 @@ class maskDialog(object):
                     self._button_height),
                     "clear",
                     sizeStyle='small',
-                    callback=self._clear_callback)                    
+                    callback=self._clear_callback)
         # open window
         self.w.open()
 
@@ -313,9 +312,9 @@ class copyToLayerDialog(object):
                         print '\t%s' % gName,
                         f[gName].copyToLayer(_layer_name, clear=True)
                         f[gName].performUndo()
-                        f[gName].update()            
+                        f[gName].update()
                     except:
-                        print '\tcannot transform %s' % gName                        
+                        print '\tcannot transform %s' % gName
                 # done
                 print '\n...done.\n'
             # no valid layer name
@@ -323,7 +322,7 @@ class copyToLayerDialog(object):
                 print 'please set a name for the target layer.\n'
         # no font open
         else:
-            print 'please open a font before running this script.\n'            
+            print 'please open a font before running this script.\n'
 
 class alignLayersDialog(object):
 
@@ -434,19 +433,19 @@ class alignLayersDialog(object):
                 center_glyph_layers(glyph, self._layer_names)
                 print '\n...done.\n'
             else:
-                glyph_names = self._font.selection    
+                glyph_names = self._font.selection
                 # selected glyphs
                 if len(glyph_names) > 0:
                     print 'centering glyphs...\n'
                     print '\t',
                     for glyph_name in glyph_names:
                         print glyph_name,
-                        center_glyph_layers(self._font[glyph_name], self._layer_names)            
+                        center_glyph_layers(self._font[glyph_name], self._layer_names)
                     print
                     print '\n...done.\n'
                 # no glyph selected
                 else:
-                    print 'please select one or more glyphs first.\n'        
+                    print 'please select one or more glyphs first.\n'
         # no font open
         else:
             print 'please open a font first.\n'
@@ -458,7 +457,7 @@ class alignLayersDialog(object):
 class shiftPointsDialog(object):
 
     '''select and shift points'''
-    
+
     _title = 'shift'
     _column1 = 51
     _padding = 10
@@ -722,13 +721,13 @@ class shiftPointsDialog(object):
 
     def _get_glyphs(self):
         f = CurrentFont()
-        if f is not None:      
+        if f is not None:
             self.font = f
             self.glyph_names = get_glyphs(self.font)
         else:
             print 'please open a font first.\n'
-            return            
-            
+            return
+
     def _get_parameters(self):
         self._get_glyphs()
         self._pos = int(self.w.pos_input.get())
@@ -772,7 +771,7 @@ class shiftPointsDialog(object):
             # get glyph
             g = self.font[glyph_name]
             g.prepareUndo('shift points')
-            deselect_points(g)                        
+            deselect_points(g)
             # shift y
             if self._axis:
                 # all layers
@@ -941,7 +940,7 @@ class moveGlyphsDialog(object):
                     callback=self._plus_100_callback)
         # checkbox
         x = self._padding
-        y += b2 + self._padding 
+        y += b2 + self._padding
         self.w._layers = CheckBox(
                 (x, y,
                 -self._padding,
@@ -981,7 +980,7 @@ class moveGlyphsDialog(object):
         _value = int(self.w._move_value.get()) + 100
         self.w._move_value.set(_value)
 
-    # apply move 
+    # apply move
 
     def _move_glyphs(self, (x, y)):
         f = CurrentFont()
@@ -1038,7 +1037,7 @@ class moveGlyphsDialog(object):
         # no font open
         else:
             print 'please open a font first.\n'
-        
+
     # callbacks
 
     def _up_left_callback(self, sender):
@@ -1359,7 +1358,7 @@ class scaleGlyphsDialog(object):
                         for layer_name in font.layerOrder:
                             _g = g.getLayer(layer_name)
                             _g.scale((factor_x, factor_y))
-                    # scale active layer only    
+                    # scale active layer only
                     else:
                         g.scale((factor_x, factor_y))
                     # scale horizontal metrics
@@ -1594,7 +1593,7 @@ class mirrorGlyphsDialog(object):
     _button_1 = (_width - (_padding * 2)) / 2
     _line_height = 20
     _box_height = _button_1
-    _height = (_padding * 3) + _box_height + _line_height - 3 
+    _height = (_padding * 3) + _box_height + _line_height - 3
 
     _layers = False
 
@@ -1616,7 +1615,7 @@ class mirrorGlyphsDialog(object):
                     self._box_height),
                     '%s %s' % (unichr(8673), unichr(8675)),
                     callback=self._up_callback)
-        x += self._button_1 - 1 
+        x += self._button_1 - 1
         # flip vertically
         self.w._right = SquareButton(
                     (x, y,
@@ -1626,7 +1625,7 @@ class mirrorGlyphsDialog(object):
                     callback=self._right_callback)
         # checkbox
         x = self._padding
-        y += self._box_height + self._padding 
+        y += self._box_height + self._padding
         self.w._layers = CheckBox(
                 (x, y,
                 -self._padding,
@@ -1656,7 +1655,7 @@ class mirrorGlyphsDialog(object):
             glyph.scale((scale_x, scale_y), center=(center_x, center_y))
             glyph.performUndo()
             glyph.update()
-                
+
     def _mirror_glyphs(self, (scale_x, scale_y)):
         f = CurrentFont()
         if f is not None:
@@ -1695,7 +1694,7 @@ class mirrorGlyphsDialog(object):
                     print '\n...done.\n'
                 # no glyph selected
                 else:
-                    print 'please select one or more glyphs first.\n'                    
+                    print 'please select one or more glyphs first.\n'
         # no font
         else:
             print 'please open a font first'
@@ -1724,7 +1723,7 @@ class slideGlyphsDialog(object):
     _column_1 = 20
     _column_2 = 240
     _width = _column_1 + _column_2 + _button_width + (_padding * 3) # 600
-    _height = (_box_height * 3) + (_padding * 4) 
+    _height = (_box_height * 3) + (_padding * 4)
 
     _moveX = 0
     _moveY = 0
@@ -1851,9 +1850,9 @@ class slideGlyphsDialog(object):
         self._xMin = -self._xMax
         self._yMin = -self._yMax
 
-    def update_font_callback(self, sender):    
+    def update_font_callback(self, sender):
         self.update_font()
-        
+
     def slide_callback(self, sender):
         xValue = self.w.x_slider.get()
         yValue = self.w.y_slider.get()
@@ -2031,7 +2030,7 @@ class interpolateGlyphsDialog(object):
                         self._button_2),
                         '+',
                         sizeStyle='small',
-                        callback=self._factor_x_plus_100_callback)            
+                        callback=self._factor_x_plus_100_callback)
             #-----------
             # factors y
             #-----------
@@ -2364,7 +2363,7 @@ class paintGlyphsDialog(object):
             # no glyph selected
             else:
                 print 'please select a glyph first.\n'
-        # no font open 
+        # no font open
         else:
             print 'please open a font first.\n'
 
@@ -2629,7 +2628,7 @@ class setMarginsDialog(object):
                     sizeStyle='small')
         # open window
         self.w.open()
-    
+
     # spinners left
 
     def _left_minus_001_callback(self, sender):
@@ -2728,7 +2727,7 @@ class setMarginsDialog(object):
             # decrease by
             elif right_mode == 2:
                     _right_value_new = glyph.rightMargin - int(right_value)
-            # set equal to 
+            # set equal to
             else:
                 _right_value_new = int(right_value)
             # set right margin
@@ -2744,7 +2743,7 @@ class setMarginsDialog(object):
             boolstring = [ 'False', 'True' ]
             # get parameters
             _left = self.w.left_checkbox.get()
-            _left_mode = self.w.left_mode.get()         
+            _left_mode = self.w.left_mode.get()
             _right = self.w.right_checkbox.get()
             _right_mode = self.w.right_mode.get()
             # iterate over glyphs
@@ -2790,7 +2789,7 @@ class setWidthDialog(object):
     _button_height = 30
     _height = _button_height + (_line_height * 3) + _button_2 + (_padding_top * 5) + 2
     _width = 123
-    
+
     _width_ = 400
     _modes = [ 'set equal to', 'increase by', 'decrease by', ]
     _mode = 0
@@ -2960,7 +2959,7 @@ class setWidthDialog(object):
         # done
         glyph.performUndo()
         glyph.update()
-        
+
     def apply_callback(self, sender):
         f = CurrentFont()
         if f is not None:
@@ -2975,7 +2974,7 @@ class setWidthDialog(object):
             print '\tcenter: %s' % boolstring[_center]
             print '\tmode: %s' % self._modes[self._mode]
             print '\tglyphs: %s' % _gNames
-            print         
+            print
             # current glyph
             glyph = CurrentGlyph()
             if glyph is not None:
@@ -3091,7 +3090,7 @@ class copyMarginsDialog(object):
                         "copy",
                         sizeStyle='small',
                         callback=self.apply_callback)
-            # open window 
+            # open window
             self.w.open()
 
     # callbacks
@@ -3103,7 +3102,7 @@ class copyMarginsDialog(object):
         _source_font = self._all_fonts[_source_font_index]
         _source_font_name = self._all_fonts_names[_source_font_index]
         # dest font
-        _dest_font_index = self.w._dest_value.get()            
+        _dest_font_index = self.w._dest_value.get()
         _dest_font = self._all_fonts[_dest_font_index]
         _dest_font_name = self._all_fonts_names[_dest_font_index]
         # left / right
@@ -3232,7 +3231,7 @@ class copyWidthsDialog(object):
                         "update",
                         callback=self.update_fonts_callback,
                         sizeStyle='small')
-            # open window 
+            # open window
             self.w.open()
 
     # callbacks
@@ -3255,7 +3254,7 @@ class copyWidthsDialog(object):
         _source_font = self._all_fonts[_source_font_index]
         _source_font_name = self._all_fonts_names[_source_font_index]
         # dest font
-        _dest_font_index = self.w._dest_value.get()            
+        _dest_font_index = self.w._dest_value.get()
         _dest_font = self._all_fonts[_dest_font_index]
         _dest_font_name = self._all_fonts_names[_dest_font_index]
         # center
@@ -3488,7 +3487,7 @@ class actionsGlyphsDialog(object):
                     print '\t\tauto contour order in %s...' % gName
                     f[gName].prepareUndo('auto contour order')
                     f[gName].autoContourOrder()
-                    f[gName].performUndo()    
+                    f[gName].performUndo()
                 if self._direction:
                     print '\t\tauto contour direction in %s...' % gName
                     f[gName].prepareUndo('auto contour directions')
@@ -3497,7 +3496,7 @@ class actionsGlyphsDialog(object):
                 print
             # done
             print '...done.\n'
-        # no font open 
+        # no font open
         else:
             print 'please open a font first.\n'
 
@@ -3789,7 +3788,7 @@ class moveAnchorsDialog(object):
                     '+',
                     sizeStyle='small',
                     callback=self._plus_100_callback)
-        # select anchors 
+        # select anchors
         x = self._padding
         y += self._padding + b2
         self.w._anchors_top = CheckBox(
@@ -3889,7 +3888,7 @@ class moveAnchorsDialog(object):
         _value = int(self.w._move_value.get())
         self._move_anchors((0, -_value))
 
-    # apply 
+    # apply
 
     def _get_parameters(self):
         _anchors_top = self.w._anchors_top.get()
@@ -3933,7 +3932,7 @@ class renameAnchorsDialog(object):
     _box_height = 20
     _row_height = 30
 
-    _height = (_row_height * 3) + (_padding * 2) 
+    _height = (_row_height * 3) + (_padding * 2)
     _width = _column_1 + _column_2 + (_padding * 2)
 
     def __init__(self):
@@ -3991,7 +3990,7 @@ class renameAnchorsDialog(object):
         # self.w.button_close.bind(".", ["command"])
         # self.w.button_close.bind(unichr(27), [])
         self.w.open()
-        
+
     def apply_callback(self, sender):
         f = CurrentFont()
         if f is not None:
@@ -4004,12 +4003,12 @@ class renameAnchorsDialog(object):
                 print 'changing anchor names...\n'
                 print '\told name: %s' % _old
                 print '\tnew name: %s' % _new
-                print 
+                print
                 # batch change anchors names
                 glyph_names = get_glyphs(f)
                 for glyph_name in glyph_names:
                     if glyph_name is not None:
-                        # rename anchor                
+                        # rename anchor
                         f[glyph_name].prepareUndo('rename anchor')
                         has_name = rename_anchor(f[glyph_name], _old, _new)
                         f[glyph_name].performUndo()
@@ -4115,7 +4114,7 @@ class transferAnchorsDialog(object):
         print '\tsource font: %s' % get_full_name(_source_font)
         print '\ttarget font: %s' % get_full_name(_target_font)
         print
-        print '\t', 
+        print '\t',
         # batch copy glyphs to mask
         for gName in _source_font.selection:
             try:
@@ -4131,7 +4130,7 @@ class transferAnchorsDialog(object):
                 _source_font[gName].performUndo()
                 _target_font[gName].performUndo()
             except:
-                print '\tcannot transform %s' % gName                        
+                print '\tcannot transform %s' % gName
         # done
         print
         _target_font.update()
@@ -4157,12 +4156,12 @@ class changeSuffixDialog(object):
     _box_height = 20
     _row_height = 30
 
-    _height = (_row_height * 3) + (_padding * 2) 
+    _height = (_row_height * 3) + (_padding * 2)
     _width = _column_1 + _column_2 + (_padding * 2)
 
     _old_suffix = ''
     _new_suffix = ''
-    
+
     #---------
     # methods
     #---------
@@ -4317,7 +4316,7 @@ class roundToGridDialog(object):
         # grid size
         x = self._padding
         y = self._padding_top
-        # buttons        
+        # buttons
         self.w._gridsize_label = TextBox(
                     (x, y,
                     -self._padding,
@@ -4571,7 +4570,7 @@ class rasterizeGlyphDialog(object):
 
     _gridsize = 125
     _element_scale = 1.00
-    
+
     def __init__(self):
         self.w = FloatingWindow(
                     (self._width,
@@ -4759,5 +4758,3 @@ class rasterizeGlyphDialog(object):
             f.update()
             self.w.bar.stop()
             print "...done.\n"
-
-

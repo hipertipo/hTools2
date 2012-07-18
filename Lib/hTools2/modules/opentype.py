@@ -24,6 +24,6 @@ def import_features(font, fea_path):
 def export_features(font, fea_path):
     '''exports the content of `font.features` to the given .fea file in `fea_path`'''
     if os.path.exists(fea_path):
-		fea = open(fea_path, "w")
-		fea.write(font.features.text)
-		fea.close()
+        fea = open(fea_path, "w")
+        fea.write(font.features.text)
+        fea.close()

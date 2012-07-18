@@ -228,16 +228,6 @@ def set_unique_ps_id(font):
     _psID = "%s%s%s%s%s%s" % ( a, b, c, d, e, f )
     font.info.postscriptUniqueID = int(_psID)
 
-# def get_names_from_path(font_path):
-#     '''Return `family` and `style` names from the given `font_path`.'''
-#     _dir, _file = os.path.split(font_path)
-#     name, extension = os.path.splitext(_file)
-#     try:
-#         family, style = name.split("_")
-#         return family, style
-#     except ValueError:
-#         print "%s does not follow hTools2 conventions.\n" % font_path
-
 def set_foundry_info(font, fontInfoDict):
     font.info.year = fontInfoDict['year']
     font.info.openTypeNameDesigner = fontInfoDict['designer']
