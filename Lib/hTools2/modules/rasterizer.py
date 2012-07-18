@@ -8,6 +8,8 @@ from hTools2.modules.primitives import *
 
 class RasterGlyph:
 
+    '''An object to scan glyphs and rasterize them into elements/components.'''
+
     def __init__(self, sourceGlyph):
         self.g = sourceGlyph
 
@@ -138,6 +140,7 @@ class RasterGlyph:
             pass
 
 def set_element(f, size, type='rect', magic=None, element_='_element'):
+    '''Set the shape of the element glyph in the font.'''
     if f.has_key(element_) != True:
         f.newGlyph(element_)
     g = f[element_]
@@ -156,6 +159,8 @@ def set_element(f, size, type='rect', magic=None, element_='_element'):
 # NodeBox Rasterizer
 
 class Rasterizer:
+
+    '''An object to read bits from a raw text source and draw elements in a NodeBox canvas.'''
 
     elementSize = 20
     elementSpace = 30

@@ -5,7 +5,11 @@
 from hTools2.modules.fontutils import get_glyphs
 
 f = CurrentFont()
-gNames = get_glyphs(f)
-for gName in gNames:
-	f.removeGlyph(gName)
+glyph_names = get_glyphs(f)
+
+for glyph_name in glyph_names:
+    f.removeGlyph(glyph_name)
+    if glyph_name in f.glyphOrder:
+        f.glyphOrder.remove(glyph_name)
+
 f.update()

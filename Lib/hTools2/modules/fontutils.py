@@ -4,6 +4,8 @@
 
 import os
 
+from random import randint
+
 try:
     from mojo.roboFont import CurrentGlyph, CurrentFont, NewFont
 except:
@@ -203,7 +205,7 @@ def print_groups(font, mode=0):
 def get_full_name(font):
     '''Returns the full name of the font (family name + style name).'''
     full_name = '%s %s' % (font.info.familyName, font.info.styleName)
-    return full_name 
+    return full_name
 
 def full_name(family, style):
     '''Return a `full name` from `family` and `style` names, separated by a `space` character. If the `style` is Regular, use only the `family`.'''
@@ -226,15 +228,15 @@ def set_unique_ps_id(font):
     _psID = "%s%s%s%s%s%s" % ( a, b, c, d, e, f )
     font.info.postscriptUniqueID = int(_psID)
 
-def get_names_from_path(font_path):
-    '''Return `family` and `style` names from the given `font_path`.'''
-    _dir, _file = os.path.split(font_path)
-    name, extension = os.path.splitext(_file)
-    try:
-        family, style = name.split("_")
-        return family, style
-    except ValueError:
-        print "%s does not follow hTools2 conventions.\n" % font_path
+# def get_names_from_path(font_path):
+#     '''Return `family` and `style` names from the given `font_path`.'''
+#     _dir, _file = os.path.split(font_path)
+#     name, extension = os.path.splitext(_file)
+#     try:
+#         family, style = name.split("_")
+#         return family, style
+#     except ValueError:
+#         print "%s does not follow hTools2 conventions.\n" % font_path
 
 def set_foundry_info(font, fontInfoDict):
     font.info.year = fontInfoDict['year']
@@ -251,7 +253,7 @@ def set_foundry_info(font, fontInfoDict):
     font.info.versionMajor = fontInfoDict['versionMajor']
     font.info.versionMinor = fontInfoDict['versionMinor']
     font.info.openTypeNameUniqueID = "%s : %s : %s" % (fontInfoDict['foundry'], font.info.postscriptFullName, font.info.year)
-    setPSUniqueID(font)
+    set_unique_ps_id(font)
     f.update()
 
 def set_font_names(f, familyName, styleName):
@@ -268,7 +270,7 @@ def set_font_names(f, familyName, styleName):
     f.info.postscriptFontName = '%s-%s' % (familyName, styleName)
     f.info.postscriptFullName = '%s %s' % (familyName, styleName)
     f.info.macintoshFONDName = '%s-%s' % (familyName, styleName)
-    setPSUniqueID(f)
+    set_unique_ps_id(f)
     # done
     f.update()
 

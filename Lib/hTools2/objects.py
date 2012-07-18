@@ -12,9 +12,9 @@ import hTools2
 
 from hTools2.modules.color import hls_to_rgb, paint_groups, clear_colors
 from hTools2.modules.encoding import auto_unicodes, import_encoding, unicode2psnames
-from hTools2.modules.fontutils import get_names_from_path, get_spacing_groups, get_glyphs, get_full_name
+from hTools2.modules.fontutils import get_spacing_groups, get_glyphs, get_full_name, set_font_names
 from hTools2.modules.fontinfo import set_names_from_path
-from hTools2.modules.fileutils import walk, delete_files
+from hTools2.modules.fileutils import walk, delete_files, get_names_from_path
 from hTools2.modules.ftp import connect_to_server, upload_file
 from hTools2.modules.glyphutils import *
 from hTools2.modules.nodebox import *
@@ -125,7 +125,7 @@ class hSpace:
     #---------
     # methods
     #---------
-    
+
     def __init__(self, project_name):
         self.project = hProject(project_name)
         self.import_project_parameters()
@@ -152,19 +152,19 @@ class hSpace:
                 style_name = '%s' % a
                 font_names.append(style_name)
         elif parts == 2:
-            param_name_1 = self.parameters_order[0] 
-            param_name_2 = self.parameters_order[1] 
+            param_name_1 = self.parameters_order[0]
+            param_name_2 = self.parameters_order[1]
             for a in self.parameters[param_name_1]:
                 for b in self.parameters[param_name_2]:
                     if self.parameters_separator:
                         style_name = '%s-%s' % (a, b)
                     else:
-                        style_name = '%s%s' % (a, b)                            
+                        style_name = '%s%s' % (a, b)
                     font_names.append(style_name)
         elif parts == 3:
-            param_name_1 = self.parameters_order[0] 
-            param_name_2 = self.parameters_order[1] 
-            param_name_3 = self.parameters_order[2] 
+            param_name_1 = self.parameters_order[0]
+            param_name_2 = self.parameters_order[1]
+            param_name_3 = self.parameters_order[2]
             for a in self.parameters[param_name_1]:
                 for b in self.parameters[param_name_2]:
                     for c in self.parameters[param_name_3]:
@@ -368,7 +368,7 @@ class hProject:
         'otfs',
         'libs',
         'docs',
-        'temp', 
+        'temp',
         'test',
         'vfbs',
         'woffs',
@@ -444,7 +444,7 @@ class hProject:
         print 'saving %s lib to file %s...' % (lib_name, _lib_path),
         plistlib.writePlist(self.libs[lib_name], _lib_path)
         print 'done.\n'
-                
+
     def write_libs(self):
         '''Write all libraries in project to their corresponding `.plist` files.'''
         print 'saving project libs...\n'
@@ -557,7 +557,7 @@ class hProject:
         try:
             return walk(self.paths['instances'], 'ufo')
         except:
-            return None            
+            return None
 
     def collect_fonts(self):
         '''Update the font names and file paths at `hProject.fonts`.'''
@@ -603,7 +603,7 @@ class hProject:
             master_1_filename = '%s_%s.ufo' % (self.name, master_1)
             master_1_path = os.path.join(self.paths['ufos'], master_1_filename)
             # master 2
-            master_2 = self.libs['interpol'][instance_name][1]    
+            master_2 = self.libs['interpol'][instance_name][1]
             master_2_filename = '%s_%s.ufo' % (self.name, master_2)
             master_2_path = os.path.join(self.paths['ufos'], master_2_filename)
             # interpolation factor
@@ -653,7 +653,7 @@ class hFont:
 
     # the font's `styleName`, parsed from the name of the .ufo file
     style_name = None
-    
+
     #---------
     # methods
     #---------
@@ -672,6 +672,8 @@ class hFont:
             family_name, style_name = self.file_name.split('-')
         self.project = hProject(family_name)
         self.style_name = style_name
+        # set font names
+        set_font_names(self.ufo, family_name, style_name)
         # import parameters
         try:
             name_parameters = self.style_name.split('-')
@@ -679,7 +681,7 @@ class hFont:
             self.parameters = dict(zip(parameters_order, name_parameters))
         except:
             self.parameters = {}
-            # print 'there is no parameters lib for this font.\n'
+            print 'there is no parameters lib for this font.\n'
 
     def get_glyphs(self):
         get_glyphs(self.ufo)
@@ -733,7 +735,7 @@ class hFont:
             if verbose:
                 print 'painting spacing groups...'
             print
-            _group_names = _groups.keys() 
+            _group_names = _groups.keys()
             clear_colors(self.ufo)
             color_step = 1.0 / len(_group_names)
             count = 0
@@ -766,7 +768,7 @@ class hFont:
             self.ufo.groups[group] = self.project.libs['groups']['glyphs'][group]
         self.ufo.lib['groups_order'] = self.project.libs['groups']['order']
 
-    # OT features
+    # OpenType features
 
     def import_features(self):
         import_features(self.ufo, self.project.paths['features'])
@@ -821,7 +823,7 @@ class hFont:
         woff_file = self.file_name + '.woff'
         woff_path = os.path.join(self.project.paths['woffs'], woff_file)
         return woff_path
-              
+
     # font generation
 
     def generate_otf(self, options=None, verbose=False):
@@ -894,7 +896,7 @@ class hGlyph:
 
     # the glyph's parent `hFont` object
     font = None
-    
+
     #---------
     # methods
     #---------
@@ -961,7 +963,7 @@ class hLine:
     # turn fill on/off
     fill = True
 
-    # the fill color, a NodeBox `color` object    
+    # the fill color, a NodeBox `color` object
     fill_color = None
 
     # the width of the stroke, in NodeBox units
@@ -970,7 +972,7 @@ class hLine:
     # turn stroke on/off
     stroke = False
 
-    # the stroke color, a NodeBox `color` object    
+    # the stroke color, a NodeBox `color` object
     stroke_color = None
 
     # draw guidelines for horizontal metrics
@@ -986,8 +988,8 @@ class hLine:
     origin = False
 
     baseline = False
-    
-    # the color of the guidelines, a NodeBox `color` object    
+
+    # the color of the guidelines, a NodeBox `color` object
     color_guidelines = None
 
     # the style of the line ends
@@ -1013,7 +1015,7 @@ class hLine:
             gnames.append(gname)
         return gnames
 
-    def _gnames_to_gstring(self, gnames):   
+    def _gnames_to_gstring(self, gnames):
         '''Join a given list of `glyph_names` into a `gstring` (a string of glyph names separated by slashes), and returns it.'''
         gstring = '/%s' % '/'.join(gnames)
         return gstring
@@ -1063,7 +1065,7 @@ class hLine:
                     y_max = self.font.ufo.info.ascender * self.scale
                     y_range_ = (self.y - y_min, self.y - y_max)
                 else:
-                    y_range_ = None                    
+                    y_range_ = None
                 draw_vertical_line(self.x, self.ctx, y_range=y_range_, color_=self.color_guidelines)
             # draw origin points
             if self.origin is True:
@@ -1109,7 +1111,7 @@ class hLine:
             # draw anchors
             #--------------
             if self.anchors is True:
-                if len(g.anchors) > 0: 
+                if len(g.anchors) > 0:
                     for a in g.anchors:
                         x = (a.position[0] * self.scale)
                         y = - (a.position[1] * self.scale)

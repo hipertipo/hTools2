@@ -4,7 +4,7 @@
 
 import os
 
-from hTools2.modules.fontutils import get_names_from_path
+from hTools2.modules.fileutils import get_names_from_path
 
 # set info
 
@@ -29,7 +29,7 @@ def set_font_names(font, family_name, style_name):
     font.info.postscriptWeightName = None
     # FOND names
     font.info.macintoshFONDFamilyID = None
-    font.info.macintoshFONDName = None    
+    font.info.macintoshFONDName = None
 
 def set_names_from_path(font):
     '''Set the font naming fields using parts of the name of the font file.'''
@@ -60,7 +60,7 @@ def print_font_info(font):
     print_opentype_os2(font)
     print_opentype_vhea(font)
     print_postscript_data(font)
-    
+
 def print_generic_identification(font):
     print '-' * 60
     print 'Generic Identification Information'
@@ -81,7 +81,7 @@ def print_generic_legal(font):
     print 'copyright: %s' % font.info.copyright
     print 'trademark: %s' % font.info.trademark
     print
- 
+
 def print_generic_dimension(font):
     print '-' * 60
     print 'Generic Dimension Information'
@@ -210,8 +210,8 @@ def print_postscript_data(font):
     print 'postscriptNominalWidthX: %s' % font.info.postscriptNominalWidthX
     print 'postscriptWeightName: %s' % font.info.postscriptWeightName
     print 'postscriptDefaultCharacter: %s' % font.info.postscriptDefaultCharacter
-    print 'postscriptWindowsCharacterSet: %s' % font.info.postscriptWindowsCharacterSet 
-    print    
+    print 'postscriptWindowsCharacterSet: %s' % font.info.postscriptWindowsCharacterSet
+    print
 
 #------------
 # clear info
@@ -246,7 +246,7 @@ def clear_generic_legal(font):
     # print 'deleting Generic Legal Information'
     font.info.copyright = None
     font.info.trademark = None
- 
+
 def clear_generic_dimension(font):
     # print 'deleting Generic Dimension Information'
     font.info.unitsPerEm = None
