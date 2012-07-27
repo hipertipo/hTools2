@@ -97,7 +97,7 @@ named_colors = {
 # solarized
 #-----------
 
-def solarized(name):
+def solarized_color(name):
     '''Return a `(R,G,B)` color for a given `color_name` in the solarized palette.'''
     # name is color group
     if name in solarized_groups.keys():
@@ -112,7 +112,7 @@ def solarized(name):
     else:
         print 'name %s is not a solarized group or color.\n' % name
 
-# Solarized colors by name, divided into groups.
+# Solarized colors by name, divided in groups.
 
 solarized_groups = {
     'colors' : [ 'yellow', 'orange', 'red', 'magenta', 'violet', 'blue', 'cyan', 'green' ],
@@ -150,6 +150,27 @@ solarized_colors = {
 # X11 color names
 #-----------------
 
+def x11_color(name):
+    '''Return a `(R,G,B)` color for a given `color_name` in the X11 palette.'''
+    # name is color
+    _color_names = x11_colors.keys()
+    if name in _color_names:
+        return x11_colors[name]
+    else:
+        # build lowercase dict
+        _color_names_lower = {}
+        for color_name in _color_names:
+            _color_names_lower[color_name.lower()] = color_name
+        # try name in lowercase
+        if name in _color_names_lower.keys():
+            color_name = _color_names_lower[name]
+            return x11_colors[color_name]
+        # name is not x11 color
+        else:
+            print 'name %s is not a x11 group or color.\n' % name
+
+# X11 colors by name, divided in groups.
+
 x11_groups = {
     'red' : [ 'IndianRed', 'LightCoral', 'Salmon', 'DarkSalmon', 'LightSalmon', 'Red', 'Crimson', 'FireBrick', 'DarkRed' ],
     'pink' : [ 'Pink', 'LightPink', 'HotPink', 'DeepPink', 'MediumVioletRed', 'PaleVioletRed' ],
@@ -162,6 +183,8 @@ x11_groups = {
     'white' : [ 'White', 'Snow', 'Honeydew', 'MintCream', 'Azure', 'AliceBlue', 'GhostWhite', 'WhiteSmoke', 'Seashell', 'Beige', 'OldLace', 'FloralWhite', 'Ivory', 'AntiqueWhite', 'Linen', 'LavenderBlush', 'MistyRose' ],
     'gray' : [ 'Gainsboro', 'LightGrey', 'Silver', 'DarkGray', 'Gray', 'DimGray', 'LightSlateGray', 'SlateGray', 'DarkSlateGray', 'Black', ]
 }
+
+# X11 colors by name and `(R,G,B)` values.
 
 x11_colors = {
     # red colors
