@@ -38,7 +38,7 @@ def build_shortcuts_dict(path, shortcuts):
             _shortcuts_dict[_file_path]['preferredName'] = _name
             _shortcuts_dict[_file_path]['shortKey'] = _key
         else:
-            print '%s does not exist.\n' % _file_path
+            print '%s does not exist.' % _file_path
     return _shortcuts_dict
 
 def merge_shortcuts_dicts(dicts_list):
@@ -111,4 +111,4 @@ _custom_shortcuts = [
 
 # clear_shortcuts()
 create_shortcuts()
-print_shortcuts()
+# print_shortcuts()

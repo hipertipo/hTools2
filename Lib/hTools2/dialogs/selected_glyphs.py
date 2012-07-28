@@ -6,10 +6,12 @@ except:
     from robofab.world import *
 
 import math
-
 from AppKit import NSColor
 
 from vanilla import *
+
+import hTools2.modules.glyphutils
+reload(hTools2.modules.glyphutils)
 
 from hTools2.modules.fontutils import get_full_name, get_glyphs
 from hTools2.modules.glyphutils import *
@@ -755,13 +757,18 @@ class shiftPointsDialog(object):
             _delta = self._delta
         else:
             _delta = -self._delta
+        # set side
+        if self._axis == 0:
+            _sides = [ 'right', 'left' ]
+        else:
+            _sides = [ 'bottom', 'top' ]
         # print info
         print 'shifting points in glyphs...\n'
         print '\tposition: %s' % self._pos
         print '\tdelta: %s' % _delta
         print '\taxis: %s' % _axes[self._axis]
         print '\tmode: %s' % _modes[mode]
-        print '\tinvert: %s' % _boolstring[self._side]
+        print '\tside: %s' % _sides[self._side]
         print '\tlayers: %s' % _boolstring[self._layers]
         print
         print '\t',
@@ -778,11 +785,11 @@ class shiftPointsDialog(object):
                 if self._layers:
                     for layer_name in self.font.layerOrder:
                         _g = g.getLayer(layer_name)
-                        select_points_y(g, self._pos, invert=self._side)
+                        select_points_y(_g, self._pos, side=self._side)
                         shift_selected_points_y(_g, _delta)
                 # active layer only
                 else:
-                    select_points_y(g, self._pos, invert=self._side)
+                    select_points_y(g, self._pos, side=self._side)
                     shift_selected_points_y(g, _delta)
             # shift x
             else:
@@ -790,11 +797,11 @@ class shiftPointsDialog(object):
                 if self._layers:
                     for layer_name in self.font.layerOrder:
                         _g = g.getLayer(layer_name)
-                        select_points_x(_g, self._pos, invert=self._side)
+                        select_points_x(_g, self._pos, side=self._side)
                         shift_selected_points_x(_g, _delta)
                 # active layer only
                 else:
-                    select_points_x(g, self._pos, invert=self._side)
+                    select_points_x(g, self._pos, side=self._side)
                     shift_selected_points_x(g, _delta)
             # done glyph
             deselect_points(g)
