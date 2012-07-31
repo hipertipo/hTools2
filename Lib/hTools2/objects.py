@@ -12,7 +12,7 @@ import hTools2
 
 from hTools2.modules.color import hls_to_rgb, paint_groups, clear_colors
 from hTools2.modules.encoding import auto_unicodes, import_encoding, unicode2psnames
-from hTools2.modules.fontutils import get_spacing_groups, get_glyphs, get_full_name, set_font_names
+from hTools2.modules.fontutils import get_spacing_groups, get_glyphs, get_full_name, set_font_names, parse_glyphs_groups
 from hTools2.modules.fontinfo import set_names_from_path
 from hTools2.modules.fileutils import walk, delete_files, get_names_from_path
 from hTools2.modules.ftp import connect_to_server, upload_file
@@ -244,6 +244,50 @@ class hSpace:
             else:
                 continue
         return font_paths
+
+    # functions
+
+    def transfer_glyphs(self, gstring, var, ranges):
+        axis, src, dest = var
+        # define source space
+        # s = hSpace(project_name)
+        for param in self.parameters.keys():
+            if param == axis:
+                self.parameters[param] = [ src ]
+            else:
+                if param in ranges.keys():
+                    s.parameters[param] = ranges[param]
+        self.build()
+        # get glyphs
+        names = gstring.split(' ')
+        groups = self.project.libs['groups']['glyphs']
+        glyph_names = parse_glyphs_groups(names, groups)
+        # batch copy
+        print "batch transferring glyphs in %s..." % self.project.name
+        for src_path in self.ufos():
+            font = hFont(RFont(src_path, showUI=False))
+            dest_parameters = font.parameters
+            dest_parameters[axis] = dest
+            dest_file = '%s_%s.ufo' % (font.project.name, font.name_from_parameters(separator='-'))
+            dest_path = os.path.join(font.project.paths['ufos'], dest_file)
+            if os.path.exists(dest_path):
+                dest_font = RFont(dest_path, showUI=False)
+                print
+                print "\tcopying glyphs from %s to %s..." % (get_full_name(font.ufo), get_full_name(dest_font))
+                print '\t\t',
+                for glyph_name in glyph_names:
+                    if font.ufo.has_key(glyph_name):
+                        if dest_font.has_key(glyph_name) is False:
+                            dest_font.newGlyph(glyph_name)
+                        # decompose first
+                        if len(font.ufo[glyph_name].components) > 0:
+                            font.ufo[glyph_name].decompose()
+                        print glyph_name,
+                        # insert glyph
+                        dest_font.insertGlyph(font.ufo[glyph_name])
+                        dest_font.save()
+                print
+        print '\n...done.\n'
 
     ### move shift functionality to scripts ###
 
@@ -987,6 +1031,7 @@ class hLine:
     # draw an additional mark in origin of each glyph
     origin = False
 
+    vmetrics = False
     baseline = False
 
     # the color of the guidelines, a NodeBox `color` object
@@ -1050,6 +1095,20 @@ class hLine:
         pen = NodeBoxPen(self.font.ufo, self.ctx)
         self.x, self.y = pos
         line_length = 0
+        # draw baseline
+        if self.baseline is True:
+            draw_horizontal_line(self.y, self.ctx, color_=self.color_guidelines)
+        # draw vmetrics
+        if self.vmetrics is True:
+            _xheight = self.font.ufo.info.xHeight * self.scale
+            _descender = self.font.ufo.info.descender * self.scale
+            _ascender = self.font.ufo.info.ascender * self.scale
+            _capheight = self.font.ufo.info.capHeight * self.scale
+            draw_horizontal_line(self.y - _xheight, self.ctx, color_=self.color_guidelines)
+            draw_horizontal_line(self.y - _descender, self.ctx, color_=self.color_guidelines)
+            draw_horizontal_line(self.y - _ascender, self.ctx, color_=self.color_guidelines)
+            if _capheight != _ascender:
+                draw_horizontal_line(self.y - _capheight, self.ctx, color_=self.color_guidelines)
         for glyph_name in self.glyph_names:
             #-----------------
             # draw guidelines
@@ -1070,9 +1129,6 @@ class hLine:
             # draw origin points
             if self.origin is True:
                 draw_cross((self.x, self.y), self.ctx, color_=self.color_guidelines)
-            # draw baseline
-            if self.baseline is True:
-                draw_horizontal_line(self.y, self.ctx, color_=self.color_guidelines)
             #------------
             # set stroke
             #------------
@@ -1209,4 +1265,3 @@ class hDiagram:
                 if self.columns:
                     _x += line_width
                 _x += self.shift_x
-
