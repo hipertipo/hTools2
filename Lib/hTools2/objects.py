@@ -256,7 +256,7 @@ class hSpace:
                 self.parameters[param] = [ src ]
             else:
                 if param in ranges.keys():
-                    s.parameters[param] = ranges[param]
+                    self.parameters[param] = ranges[param]
         self.build()
         # get glyphs
         names = gstring.split(' ')
