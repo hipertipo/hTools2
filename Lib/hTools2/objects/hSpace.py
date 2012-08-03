@@ -1,9 +1,19 @@
 # [h] hSpace
 
-import hProject
-reload(hProject)
+# reload when debugging
+
+import hTools2
+reload(hTools2)
+
+if hTools2.DEBUG:
+    import hProject
+    reload(hProject)
+
+# imports
 
 from hProject import hProject
+
+# object
 
 class hSpace:
 

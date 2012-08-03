@@ -1,8 +1,12 @@
 # [h] transfer glyphs to mask
 
-import hTools2.dialogs.selected_glyphs
-reload(hTools2.dialogs.selected_glyphs)
+import hTools2
+reload(hTools2)
 
-from hTools2.dialogs.selected_glyphs import copyToMaskDialog
+if hTools2.DEBUG:
+    import hTools2.dialogs
+    reload(hTools2.dialogs)
+
+from hTools2.dialogs import copyToMaskDialog
 
 copyToMaskDialog()

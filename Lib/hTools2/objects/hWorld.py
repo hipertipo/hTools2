@@ -1,12 +1,26 @@
 # [h] hWorld
 
-import os
+# reload when debugging
 
-import hSettings
-reload(hSettings)
+import hTools2
+reload(hTools2)
+
+if hTools2.DEBUG:
+
+    import hSettings
+    reload(hSettings)
+
+    import hTools2.modules.sysutils
+    reload(hTools2.modules.sysutils)
+
+# imports
+
+import os
 
 from hSettings import hSettings
 from hTools2.modules.sysutils import _ctx
+
+# object
 
 class hWorld:
 

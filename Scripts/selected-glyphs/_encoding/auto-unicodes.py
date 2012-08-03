@@ -1,5 +1,12 @@
 # [h] auto unicodes
 
+import hTools2
+reload(hTools2)
+
+if hTools2.DEBUG:
+    import hTools2.modules.encoding
+    reload(hTools2.modules.encoding)
+
 from hTools2.modules.encoding import auto_unicode
 
 f = CurrentFont()
@@ -28,4 +35,3 @@ if f is not None:
 # no font open
 else:
     print 'please open a font first.\n'
-

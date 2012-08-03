@@ -3,11 +3,11 @@
 import hTools2
 reload(hTools2)
 
-#-----------------------
 # reload when debugging
-#-----------------------
 
 if hTools2.DEBUG:
+
+    # glyphs
 
     import glyphs_copy_to_mask
     reload(glyphs_copy_to_mask)
@@ -72,6 +72,8 @@ if hTools2.DEBUG:
     import glyphs_change_suffix
     reload(glyphs_change_suffix)
 
+    # folder
+
     import folder_actions
     reload(folder_actions)
 
@@ -81,9 +83,21 @@ if hTools2.DEBUG:
     import folder_otfs2ufos
     reload(folder_otfs2ufos)
 
-#----------------
+    # font
+
+    import font_rename_glyphs
+    reload(font_rename_glyphs)
+
+    import font_create_spaces
+    reload(font_create_spaces)
+
+    import font_print_groups
+    reload(font_print_groups)
+
+    import font_delete_layer
+    reload(font_delete_layer)
+
 # import dialogs
-#----------------
 
 from glyphs_copy_to_mask import copyToMaskDialog
 from glyphs_mask import maskDialog
@@ -116,9 +130,12 @@ from folder_actions import actionsFolderDialog
 from folder_generate import generateFolderDialog
 from folder_otfs2ufos import OTFsToUFOsDialog
 
-#----------------
+from font_rename_glyphs import batchRenameGlyphs
+from font_create_spaces import createSpaceGlyphsDialog
+from font_print_groups import printGroupsDialog
+from font_delete_layer import deleteLayerDialog
+
 # export dialogs
-#----------------
 
 selected_glyphs = [
     # layers
@@ -156,4 +173,11 @@ batch_folder = [
     'actionsFolderDialog',
 ]
 
-__all__ = selected_glyphs + batch_folder
+current_font = [
+    'batchRenameGlyphs',
+    'createSpaceGlyphsDialog',
+    'printGroupsDialog',
+    'deleteLayerDialog',
+]
+
+__all__ = selected_glyphs + batch_folder + current_font

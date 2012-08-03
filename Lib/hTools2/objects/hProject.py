@@ -1,13 +1,27 @@
 # [h] hProject
 
+# reload when debugging
+
+import hTools2
+reload(hTools2)
+
+if hTools2.DEBUG:
+
+    import hWorld
+    reload(hWorld)
+
+    import hTools2.modules.fileutils
+    reload(hTools2.modules.fileutils)
+
+# imports
+
 import os
 import plistlib
 
-import hWorld
-reload(hWorld)
-
 from hWorld import hWorld
 from hTools2.modules.fileutils import walk #, delete_files, get_names_from_path
+
+# object
 
 class hProject:
 
@@ -306,4 +320,3 @@ class hProject:
         else:
             if verbose:
                 print 'instance not in interpol lib.\n'
-

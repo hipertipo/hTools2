@@ -15,4 +15,5 @@ def clean_FL_groups(font):
         print
 
 f = CurrentFont()
+
 clean_FL_groups(f)

@@ -1,25 +1,34 @@
 '''objects'''
 
-import hSettings
-reload(hSettings)
+import hTools2
+reload(hTools2)
 
-import hWorld
-reload(hWorld)
+# reload when debugging
 
-import hProject
-reload(hProject)
+if hTools2.DEBUG:
 
-import hSpace
-reload(hSpace)
+    import hSettings
+    reload(hSettings)
 
-import hFont
-reload(hFont)
+    import hWorld
+    reload(hWorld)
 
-import hLine
-reload(hLine)
+    import hProject
+    reload(hProject)
 
-import hGlyph
-reload(hGlyph)
+    import hSpace
+    reload(hSpace)
+
+    import hFont
+    reload(hFont)
+
+    import hLine
+    reload(hLine)
+
+    import hGlyph
+    reload(hGlyph)
+
+# import objects
 
 from hSettings import hSettings
 from hWorld import hWorld
@@ -28,6 +37,8 @@ from hSpace import hSpace
 from hFont import hFont
 from hLine import hLine
 from hGlyph import hGlyph
+
+# export object names
 
 __all__ = [
     'hSettings',
