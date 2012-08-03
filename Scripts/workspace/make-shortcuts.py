@@ -23,12 +23,14 @@ def set_shortcuts(shortcuts_dict):
     setScriptingMenuNamingShortKey(shortcuts_dict)
 
 def build_shortcuts_dict(path, shortcuts):
-    #   shortcuts_dict = {  
+    #------------------------------------------
+    #   shortcuts_dict = {
     #       u'/path/to/script.py': {
     #           'preferredName' : 'my script',
     #           'shortKey' : 'n',
     #       }
-    #   }  
+    #   }
+    #------------------------------------------
     _shortcuts_dict = {}
     for shortcut in shortcuts:
         _key, _name, _file = shortcut
@@ -88,7 +90,7 @@ _htools2_shortcuts = [
 
 # custom production scripts
 
-_custom_path = u'/_code/hScripts/'
+_custom_path = u'/_code/hScripts/_hObjects/'
 
 _custom_shortcuts = [
 
@@ -109,6 +111,6 @@ _custom_shortcuts = [
 # set dict
 #----------
 
-# clear_shortcuts()
+clear_shortcuts()
 create_shortcuts()
-# print_shortcuts()
+print_shortcuts()
