@@ -1,5 +1,7 @@
 # [h] hGlyph
 
+# objects
+
 class hGlyph:
 
     '''An object to wrap single glyphs, making it easier to access their parent `hFont` and `hProject` objects.'''

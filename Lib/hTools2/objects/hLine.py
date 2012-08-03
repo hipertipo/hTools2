@@ -1,5 +1,25 @@
 # [h] hLine
 
+# reload when debugging
+
+import hTools2
+reload(hTools2)
+
+if hTools2.DEBUG:
+
+    import hfont
+    reload(hfont)
+
+    import hTools2.modules.nodebox
+    reload(hTools2.modules.nodebox)
+
+# imports
+
+from hfont import hFont
+from hTools2.modules.nodebox import *
+
+# objects
+
 class hLine:
 
     '''An object to make it easier to typeset simple test strings of .ufos in NodeBox.'''

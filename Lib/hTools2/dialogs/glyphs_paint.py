@@ -1,5 +1,18 @@
 # [h] a dialog to paint and select glyphs by color
 
+# reload when debugging
+
+import hTools2
+reload(hTools2)
+
+if hTools2.DEBUG:
+    import hTools2.modules.color
+    reload(hTools2.modules.color)
+
+# imports
+
+from hTools2.modules.color import random_color
+
 # objects
 
 class paintGlyphsDialog(object):

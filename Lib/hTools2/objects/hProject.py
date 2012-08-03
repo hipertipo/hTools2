@@ -7,19 +7,23 @@ reload(hTools2)
 
 if hTools2.DEBUG:
 
-    import hWorld
-    reload(hWorld)
+    import hworld
+    reload(hworld)
 
     import hTools2.modules.fileutils
     reload(hTools2.modules.fileutils)
+
+    import hTools2.modules.encoding
+    reload(hTools2.modules.encoding)
 
 # imports
 
 import os
 import plistlib
 
-from hWorld import hWorld
+from hworld import hWorld
 from hTools2.modules.fileutils import walk #, delete_files, get_names_from_path
+from hTools2.modules.encoding import import_encoding
 
 # object
 
@@ -109,12 +113,12 @@ class hProject:
 
     def import_encoding(self):
         '''Import groups, glyph names and glyph order from the project's encoding file, and saves them into a lib.'''
-        try:
-            _groups, _order = import_encoding(self.paths['encoding'])
-            self.libs['groups']['glyphs'] = _groups
-            self.libs['groups']['order'] = _order
-        except:
-            print 'could not import encoding.\n'
+        #try:
+        _groups, _order = import_encoding(self.paths['encoding'])
+        self.libs['groups']['glyphs'] = _groups
+        self.libs['groups']['order'] = _order
+        # except:
+        #     print 'could not import encoding.\n'
 
     def all_glyphs(self, ignore=['invisible']):
         '''Return a list of all glyphs in project (character set).'''

@@ -39,6 +39,9 @@ if hTools2.DEBUG:
     import glyphs_skew
     reload(glyphs_skew)
 
+    import glyphs_slide
+    reload(glyphs_slide)
+
     import glyphs_rasterize
     reload(glyphs_rasterize)
 
@@ -101,7 +104,7 @@ if hTools2.DEBUG:
 
 from glyphs_copy_to_mask import copyToMaskDialog
 from glyphs_mask import maskDialog
-from glyphs_copy_to_layer import copyToLayer
+from glyphs_copy_to_layer import copyToLayerDialog
 
 from glyphs_mirror import mirrorGlyphsDialog
 from glyphs_copy_paste import copyPasteGlyphDialog
@@ -112,6 +115,7 @@ from glyphs_scale import scaleGlyphsDialog
 from glyphs_skew import skewGlyphsDialog
 from glyphs_rasterize import rasterizeGlyphDialog
 from glyphs_actions import glyphActionsDialog
+from glyphs_slide import slideGlyphsDialog
 
 from glyphs_set_width import setWidthDialog
 from glyphs_set_margins import setMarginsDialog
@@ -142,14 +146,14 @@ selected_glyphs = [
     'copyToMaskDialog',
     'maskDialog',
     'copyToLayer',
+    # transform
     'mirrorGlyphsDialog',
     'copyPasteGlyphDialog',
-    'roundToGridDialog',
     'shiftPointsDialog',
     'moveGlyphsDialog',
     'scaleGlyphsDialog',
     'skewGlyphsDialog',
-    'rasterizeGlyphDialog',
+    'slideGlyphsDialog',
     'glyphActionsDialog',
     # spacing
     'setWidthDialog',
@@ -157,6 +161,9 @@ selected_glyphs = [
     'copyMarginsDialog',
     # interpolation
     'interpolateGlyphsDialog',
+    # grdifonts
+    'rasterizeGlyphDialog',
+    'roundToGridDialog',
     # color
     'paintGlyphsDialog',
     # anchors

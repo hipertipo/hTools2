@@ -1,5 +1,14 @@
 # [h] dialog to move selected glyphs
 
+# imports
+
+try:
+    from mojo.roboFont import CurrentFont, CurrentGlyph
+except:
+    from robofab.world import CurrentFont, CurrentGlyph
+
+from vanilla import *
+
 # objects
 
 class moveGlyphsDialog(object):

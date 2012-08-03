@@ -9,11 +9,11 @@ reload(hTools2)
 
 if hTools2.DEBUG:
 
-    import hTools2.modules.fontutils
-    reload(hTools2.modules.fontutils)
+    # import fontutils
+    # reload(fontutils)
 
-    import hTools2.modules.sysutils
-    reload(hTools2.modules.sysutils)
+    import sysutils
+    reload(sysutils)
 
     import hTools2.extras.colorsys
     reload(hTools2.extras.colorsys)
@@ -22,8 +22,8 @@ if hTools2.DEBUG:
 
 from random import random
 
-from hTools2.modules.fontutils import *
-from hTools2.modules.sysutils import _ctx
+# from fontutils import *
+from sysutils import _ctx
 from hTools2.extras.colorsys import *
 
 # functions

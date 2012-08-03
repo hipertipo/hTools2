@@ -6,12 +6,14 @@ import hTools2
 reload(hTools2)
 
 if hTools2.DEBUG:
-    import hProject
-    reload(hProject)
+    import hproject
+    reload(hproject)
 
 # imports
 
-from hProject import hProject
+import os
+
+from hproject import hProject
 
 # object
 

@@ -7,8 +7,8 @@ reload(hTools2)
 
 if hTools2.DEBUG:
 
-    import hSettings
-    reload(hSettings)
+    import hsettings
+    reload(hsettings)
 
     import hTools2.modules.sysutils
     reload(hTools2.modules.sysutils)
@@ -17,7 +17,7 @@ if hTools2.DEBUG:
 
 import os
 
-from hSettings import hSettings
+from hsettings import hSettings
 from hTools2.modules.sysutils import _ctx
 
 # object

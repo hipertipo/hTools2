@@ -7,36 +7,36 @@ reload(hTools2)
 
 if hTools2.DEBUG:
 
-    import hSettings
-    reload(hSettings)
+    import hsettings
+    reload(hsettings)
 
-    import hWorld
-    reload(hWorld)
+    import hworld
+    reload(hworld)
 
-    import hProject
-    reload(hProject)
+    import hproject
+    reload(hproject)
 
-    import hSpace
-    reload(hSpace)
+    import hspace
+    reload(hspace)
 
-    import hFont
-    reload(hFont)
+    import hfont
+    reload(hfont)
 
-    import hLine
-    reload(hLine)
+    import hline
+    reload(hline)
 
-    import hGlyph
-    reload(hGlyph)
+    import hglyph
+    reload(hglyph)
 
 # import objects
 
-from hSettings import hSettings
-from hWorld import hWorld
-from hProject import hProject
-from hSpace import hSpace
-from hFont import hFont
-from hLine import hLine
-from hGlyph import hGlyph
+from hsettings import hSettings
+from hworld import hWorld
+from hproject import hProject
+from hspace import hSpace
+from hfont import hFont
+from hline import hLine
+from hglyph import hGlyph
 
 # export object names
 

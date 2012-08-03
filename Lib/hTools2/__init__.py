@@ -1,4 +1,4 @@
 '''hTools2'''
 
 ROOT = '/fonts'
-DEBUG = False
+DEBUG = True

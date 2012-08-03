@@ -7,8 +7,8 @@ reload(hTools2)
 
 if hTools2.DEBUG:
 
-    import hProject
-    reload(hProject)
+    import hproject
+    reload(hproject)
 
     import hTools2.modules.fontutils
     reload(hTools2.modules.fontutils)
@@ -20,7 +20,7 @@ if hTools2.DEBUG:
 
 import os
 
-from hProject import hProject
+from hproject import hProject
 from hTools2.modules.fontutils import set_font_names    #, get_spacing_groups, get_glyphs, get_full_name, parse_glyphs_groups
 from hTools2.modules.color import paint_groups          #, hls_to_rgb, clear_colors
 

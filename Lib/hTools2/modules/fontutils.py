@@ -9,11 +9,11 @@ reload(hTools2)
 
 if hTools2.DEBUG:
 
-    import hTools2.modules.glyphutils
-    reload(hTools2.modules.glyphutils)
+    import glyphutils
+    reload(glyphutils)
 
-    import hTools2.modules.color
-    reload(hTools2.modules.color)
+    import color
+    reload(color)
 
 # imports
 
@@ -26,8 +26,8 @@ try:
 except:
     from robofab.world import CurrentGlyph, CurrentFont, NewFont
 
-from hTools2.modules.glyphutils import round_points
-from hTools2.modules.color import *
+from glyphutils import round_points
+from color import *
 
 #--------
 # glyphs

@@ -1,5 +1,25 @@
 # [h] dialog to scale selected glyphs
 
+# reload when debugging
+
+import hTools2
+reload(hTools2)
+
+if hTools2.DEBUG:
+    import hTools2.modules.fontutils
+    reload(hTools2.modules.fontutils)
+
+# imports
+
+try:
+    from mojo.roboFont import CurrentFont, CurrentGlyph
+except:
+    from robofab.world import CurrentFont, CurrentGlyph
+
+from vanilla import *
+
+from hTools2.modules.fontutils import get_glyphs # get_full_name
+
 # objects
 
 class scaleGlyphsDialog(object):
@@ -14,9 +34,9 @@ class scaleGlyphsDialog(object):
     _button_1 = 35
     _button_2 = 18
     _padding = 10
-    _self._box_height = 20
+    _box_height = 20
     _width = (_button_2 * 6) + (_padding * 2) - 5
-    _height = (_button_1 * 3) + (_button_2 * 2) + (_padding * 5) + (_self._box_height * 3) - 6
+    _height = (_button_1 * 3) + (_button_2 * 2) + (_padding * 5) + (_box_height * 3) - 6
 
     _x_metrics = True
     _y_metrics = False
@@ -138,25 +158,25 @@ class scaleGlyphsDialog(object):
         self.w._metrics_x = CheckBox(
                     (x, y,
                     -self._padding,
-                    self._self._box_height),
+                    self._box_height),
                     "side-bearings",
                     value=self._x_metrics,
                     sizeStyle='small',
                     callback=self._metrics_x_callback)
-        y += self._self._box_height
+        y += self._box_height
         self.w._metrics_y = CheckBox(
                     (x, y,
                     -self._padding,
-                    self._self._box_height),
+                    self._box_height),
                     "vertical metrics",
                     value=self._y_metrics,
                     sizeStyle='small',
                     callback=self._metrics_y_callback)
-        y += self._self._box_height
+        y += self._box_height
         self.w._layers = CheckBox(
                     (x, y,
                     -self._padding,
-                    self._self._box_height),
+                    self._box_height),
                     "all layers",
                     value=self._layers,
                     sizeStyle='small',

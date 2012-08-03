@@ -8,14 +8,14 @@ import hTools2
 reload(hTools2)
 
 if hTools2.DEBUG:
-    import hTools2.modules.fileutils
-    reload(hTools2.modules.fileutils)
+    import fileutils
+    reload(fileutils)
 
 # imports
 
 import os
 
-from hTools2.modules.fileutils import get_names_from_path
+from fileutils import get_names_from_path
 
 #----------
 # set info

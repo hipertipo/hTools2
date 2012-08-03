@@ -2,8 +2,12 @@
 
 '''simple tools to walk directories, collect and delete files etc.'''
 
+# imports
+
 import os
 import shutil
+
+# functions
 
 def walk(folder, extension):
     '''A simple non-recursive `walk` function to collect files with a given extension.
