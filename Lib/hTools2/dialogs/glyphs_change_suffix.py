@@ -1,5 +1,7 @@
 # [h] dialog to change suffix in selected glyphs
 
+# objects
+
 class changeSuffixDialog(object):
 
     '''change the suffix in selected glyphs'''

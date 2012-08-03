@@ -1,5 +1,7 @@
 # [h] dialog to generate otfs from ufos
 
+# objects
+
 class OTFsToUFOsDialog(object):
 
     '''batch generate UFOs for all OTFs in folder'''

@@ -1,5 +1,7 @@
 # [h] dialog to rename anchors in selected glyphs
 
+# objects
+
 class renameAnchorsDialog(object):
 
     _title = 'anchors'

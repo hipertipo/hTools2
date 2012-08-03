@@ -1,9 +1,26 @@
 # [h] a dialog to create space glyphs
 
+# reload when debugging
+
+import hTools2
+reload(hTools2)
+
+if hTools2.DEBUG:
+
+    import hTools2.modules.fontutils
+    reload(hTools2.modules.fontutils)
+
+    import hTools2.modules.encoding
+    reload(hTools2.modules.encoding)
+
+# imports
+
 from vanilla import *
 
 from hTools2.modules.fontutils import get_full_name
 from hTools2.modules.encoding import unicode_hexstr_to_int
+
+# objects
 
 class createSpaceGlyphsDialog(object):
 

@@ -1,5 +1,7 @@
 # [h] dialog to apply actions to all fonts in a folder
 
+# objects
+
 class actionsFolderDialog(object):
 
     #------------

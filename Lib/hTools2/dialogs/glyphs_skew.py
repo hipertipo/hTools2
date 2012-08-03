@@ -1,5 +1,7 @@
 # [h] dialog to skew selected glyphs
 
+# objects
+
 class skewGlyphsDialog(object):
 
     '''skew glyphs dialog'''

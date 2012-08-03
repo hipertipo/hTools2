@@ -1,5 +1,7 @@
 # [h] a dialog to move anchors in selected glyphs
 
+# objects
+
 class moveAnchorsDialog(object):
 
     #------------

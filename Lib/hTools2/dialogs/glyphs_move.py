@@ -1,5 +1,7 @@
 # [h] dialog to move selected glyphs
 
+# objects
+
 class moveGlyphsDialog(object):
 
     '''move glyphs dialog'''

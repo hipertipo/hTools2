@@ -2,6 +2,21 @@
 
 '''A collection of handy functions for working with fonts.'''
 
+# reload when debugging
+
+import hTools2
+reload(hTools2)
+
+if hTools2.DEBUG:
+
+    import hTools2.modules.glyphutils
+    reload(hTools2.modules.glyphutils)
+
+    import hTools2.modules.color
+    reload(hTools2.modules.color)
+
+# imports
+
 import os
 
 from random import randint

@@ -1,5 +1,7 @@
 # [h] mask dialog
 
+# objects
+
 class maskDialog(object):
 
     '''copy foreground to mask, flip mask/foreground, clear mask'''

@@ -1,5 +1,7 @@
 # [h] a dialog to paint and select glyphs by color
 
+# objects
+
 class paintGlyphsDialog(object):
 
     'paint and select glyphs by color'

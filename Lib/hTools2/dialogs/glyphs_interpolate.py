@@ -1,5 +1,7 @@
 # [h] interpolate glyphs dialog
 
+# objects
+
 class interpolateGlyphsDialog(object):
 
     '''interpolate selected glyphs'''

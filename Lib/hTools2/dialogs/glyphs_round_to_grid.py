@@ -1,6 +1,10 @@
 # [h] gridfit dialog
 
+# imports
+
 from hTools2.modules.glyphutils import *
+
+# objects
 
 class roundToGridDialog(object):
 

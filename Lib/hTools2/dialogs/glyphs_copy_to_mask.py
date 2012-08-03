@@ -1,5 +1,7 @@
 # [h] copy to mask
 
+# objects
+
 class copyToMaskDialog(object):
 
     '''transfer glyphs to mask'''

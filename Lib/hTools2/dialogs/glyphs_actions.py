@@ -1,5 +1,7 @@
 # [h] a dialog to apply actions to glyphs
 
+# objects
+
 class glyphActionsDialog(object):
 
     '''glyph actions dialog'''

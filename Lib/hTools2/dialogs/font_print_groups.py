@@ -1,8 +1,21 @@
 # [h] a dialog to print glyph groups in font
 
+# reload when debugging
+
+import hTools2
+reload(hTools2)
+
+if hTools2.DEBUG:
+    import hTools2.modules.fontutils
+    reload(hTools2.modules.fontutils)
+
+# imports
+
 from vanilla import *
 
 from hTools2.modules.fontutils import delete_groups, print_groups
+
+# objects
 
 class printGroupsDialog(object):
 

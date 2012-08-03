@@ -1,6 +1,10 @@
 # [h] dialog to delete layers in font
 
+# imports
+
 from vanilla import *
+
+# objects
 
 class deleteLayerDialog(object):
 

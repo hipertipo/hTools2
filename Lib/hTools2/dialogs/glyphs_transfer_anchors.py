@@ -1,5 +1,7 @@
 # [h] a dialog to transfer glyphs between fonts
 
+# objects
+
 class transferAnchorsDialog(object):
 
     '''transfer anchors from selected glyphs in one font to the same glyphs in another font'''

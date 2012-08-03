@@ -1,5 +1,7 @@
 # [h] dialog to move selected glyphs with sliders
 
+# objects
+
 class slideGlyphsDialog(object):
 
     '''slide glyphs dialog'''

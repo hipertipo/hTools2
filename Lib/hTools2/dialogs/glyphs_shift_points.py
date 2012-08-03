@@ -1,5 +1,20 @@
 # [h] shift points dialog
 
+# reload when debugging
+
+import hTools2
+reload(hTools2)
+
+if hTools2.DEBUG:
+
+    import hTools2.modules.fontutils
+    reload(hTools2.modules.fontutils)
+
+    import hTools2.modules.glyphutils
+    reload(hTools2.modules.glyphutils)
+
+# imports
+
 try:
     from mojo.roboFont import CurrentFont
 except:
@@ -9,6 +24,8 @@ from vanilla import *
 
 from hTools2.modules.fontutils import get_glyphs
 from hTools2.modules.glyphutils import *
+
+# objects
 
 class shiftPointsDialog(object):
 

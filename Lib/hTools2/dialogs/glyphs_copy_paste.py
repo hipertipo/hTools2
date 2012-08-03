@@ -1,6 +1,19 @@
-# [h] copy+paste special
+# [h] copy/paste special
+
+# reload when debugging
+
+import hTools2
+reload(hTools2)
+
+if hTools2.DEBUG:
+    import hTools2.modules.anchors
+    reload(hTools2.modules.anchors)
+
+# imports
 
 from hTools2.modules.anchors import transfer_anchors
+
+# object
 
 class copyPasteGlyphDialog(object):
 

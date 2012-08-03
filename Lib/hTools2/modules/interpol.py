@@ -2,8 +2,25 @@
 
 '''A collection of tools for working with interpolation.'''
 
+# reload when debugging
+
+import hTools2
+reload(hTools2)
+
+if hTools2.DEBUG:
+
+    import hTools2.modules.fontutils
+    reload(hTools2.modules.fontutils)
+
+    import hTools2.modules.color
+    reload(hTools2.modules.color)
+
+# imports
+
 from hTools2.modules.fontutils import get_full_name
 from hTools2.modules.color import clear_color, clear_colors, named_colors
+
+# functions
 
 def interpolate_glyph(gName, f1, f2, f3, factor, clear=True):
     '''Interpolates the glyphs with name `glyph_name` from masters `f1` and `f2`, with interpolation factor `(factor_x, factor_y)`, into the destination font `f3`.

@@ -1,6 +1,10 @@
 # [h] a dialog to rasterize glyphs into elements
 
+# imports
+
 from hTools2.modules.rasterizer import *
+
+# objects
 
 class rasterizeGlyphDialog(object):
 

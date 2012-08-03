@@ -2,11 +2,24 @@
 
 '''Tools to get and set different kinds of font information.'''
 
+# reload when debugging
+
+import hTools2
+reload(hTools2)
+
+if hTools2.DEBUG:
+    import hTools2.modules.fileutils
+    reload(hTools2.modules.fileutils)
+
+# imports
+
 import os
 
 from hTools2.modules.fileutils import get_names_from_path
 
+#----------
 # set info
+#----------
 
 def set_font_names(font, family_name, style_name):
     '''Set several font naming fields from `family` and `style` names.'''
@@ -43,7 +56,9 @@ def set_vmetrics(font, xheight, capheight, ascender, descender, emsquare, gridsi
     font.info.ascender = (xheight + ascender) * gridsize
     font.info.unitsPerEm = emsquare * gridsize
 
+#------------
 # print info
+#------------
 
 def print_font_info(font):
     '''Print several kinds of font information, using a special method for each section.

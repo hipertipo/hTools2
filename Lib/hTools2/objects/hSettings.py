@@ -1,10 +1,14 @@
 # [h] hSettings
 
+# imports
+
 import hTools2
 reload(hTools2)
 
 import os
 import plistlib
+
+# object
 
 class hSettings:
 

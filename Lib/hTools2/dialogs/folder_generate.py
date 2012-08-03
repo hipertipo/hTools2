@@ -1,5 +1,7 @@
 # [h] dialog to generate otfs from all fonts in folder
 
+# objects
+
 class generateFolderDialog(object):
 
     #------------

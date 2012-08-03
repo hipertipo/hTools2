@@ -1,5 +1,7 @@
 # [h] dialog to scale selected glyphs
 
+# objects
+
 class scaleGlyphsDialog(object):
 
     '''scale glyphs dialog'''

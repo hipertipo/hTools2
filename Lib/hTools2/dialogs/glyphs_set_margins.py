@@ -1,5 +1,7 @@
 # [h] set/increase/decrease left/right side-bearings
 
+# objects
+
 class setMarginsDialog(object):
 
     '''set margins dialog'''

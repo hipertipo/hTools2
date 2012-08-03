@@ -2,11 +2,31 @@
 
 '''Tools for working with colors, color system conversions etc.'''
 
+# reload when debugging
+
+import hTools2
+reload(hTools2)
+
+if hTools2.DEBUG:
+
+    import hTools2.modules.fontutils
+    reload(hTools2.modules.fontutils)
+
+    import hTools2.modules.sysutils
+    reload(hTools2.modules.sysutils)
+
+    import hTools2.extras.colorsys
+    reload(hTools2.extras.colorsys)
+
+# imports
+
 from random import random
 
 from hTools2.modules.fontutils import *
 from hTools2.modules.sysutils import _ctx
 from hTools2.extras.colorsys import *
+
+# functions
 
 def random_color():
     '''Return a random color.
@@ -77,9 +97,7 @@ def paint_groups(f, crop=False):
     else:
         print 'font has no groups.\n'
 
-#--------------
 # named colors
-#--------------
 
 named_colors = {
     '''A dictionary with color names and their corresponding color values as `(R,G,B,alpha)` tuples.'''
@@ -93,9 +111,7 @@ named_colors = {
     'pink' : hsv_to_rgb(.9, 1, 1) + (1,),
 }
 
-#-----------
 # solarized
-#-----------
 
 def solarized_color(name):
     '''Return a `(R,G,B)` color for a given `color_name` in the solarized palette.'''

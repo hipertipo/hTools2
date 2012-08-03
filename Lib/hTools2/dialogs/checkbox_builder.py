@@ -1,6 +1,10 @@
 # [h] classic checkbox builder (hTools1)
 
+# imports
+
 from dialogKit import ModalDialog, CheckBox, HorizontalLine
+
+# objects
 
 class checkBoxBuilder(object):
 

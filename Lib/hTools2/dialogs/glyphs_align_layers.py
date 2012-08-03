@@ -1,6 +1,19 @@
 # [h] center layers dialog
 
+# reload when debugging
+
+import hTools2
+reload(hTools2)
+
+if hTools2.DEBUG:
+    import hTools2.modules.glyphutils
+    reload(hTools2.modules.glyphutils)
+
+# imports
+
 from hTools2.modules.glyphutils import center_glyph_layers
+
+# object
 
 class alignLayersDialog(object):
 

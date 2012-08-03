@@ -1,5 +1,16 @@
 # [h] a simple `SelectFonts()` dialog for RoboScripts
 
+# reload when debugging
+
+import hTools2
+reload(hTools2)
+
+if hTools2.DEBUG:
+    import hTools2.modules.fileutils
+    reload(hTools2.modules.fileutils)
+
+# imports
+
 try:
     from mojo.roboFont import CurrentFont, AllFonts, RFont
 except:
@@ -10,6 +21,8 @@ from vanilla import *
 from vanilla.dialogs import getFolder
 
 from hTools2.modules.fileutils import walk
+
+# objects
 
 class SelectFonts(object):
 

@@ -1,5 +1,7 @@
 # [h] copy to layer dialog
 
+# objects
+
 class copyToLayerDialog(object):
 
     '''copy selected glyphs to layer'''

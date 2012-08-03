@@ -4,24 +4,23 @@ def get_context():
     # test for FontLab
     try:
         import FL
-        inFL = True
+        _FL = True
     except:
-        inFL = False
+        _FL = False
     # test for RoboFont
     try:
         import mojo
-        inRF = True
+        _RF = True
     except:
-        inRF = False
-    # if none is True
-    # return NoneLab
-    if inFL:
+        _RF = False
+    # if none is True, return `NoneLab`
+    if _FL:
         context = 'FontLab'
-    elif inRF:
+    elif _RF:
         context = 'RoboFont'
     else:
         context = 'NoneLab'
-    #
+    # done
     return context
 
 _ctx = get_context()

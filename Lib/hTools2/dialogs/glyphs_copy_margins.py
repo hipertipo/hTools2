@@ -1,11 +1,24 @@
 # [h] dialog to copy side-bearings of selected glyphs in one font to another
 
+# reload when debugging
+
+import hTools2
+reload(hTools2)
+
+if hTools2.DEBUG:
+    import hTools2.modules.fontutils
+    reload(hTools2.modules.fontutils)
+
+# imports
+
 try:
     from mojo.roboFont import AllFonts
 except:
     from robofab.world import AllFonts
 
 from hTools2.modules.fontutils import get_full_name, get_glyphs
+
+# objects
 
 class copyMarginsDialog(object):
 
