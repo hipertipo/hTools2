@@ -1,4 +1,4 @@
-# hTools2.objects
+# [h] hTools2.objects
 
 import os
 import plistlib

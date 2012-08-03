@@ -7,7 +7,7 @@ except:
 
 from dialogKit import *
 from vanilla import *
-from vanilla.dialogs import getFolder, getFileOrFolder
+from vanilla.dialogs import getFolder #, getFileOrFolder
 
 from hTools2.modules.fileutils import walk
 
