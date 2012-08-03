@@ -1,127 +1,126 @@
 '''dialogs'''
 
-DEBUG = True
+import hTools2
+reload(hTools2)
 
-# layers
+#-----------------------
+# reload when debugging
+#-----------------------
 
-if DEBUG:
-    import copy_to_mask
-    reload(copy_to_mask)
-from copy_to_mask import copyToMaskDialog
+if hTools2.DEBUG:
 
-if DEBUG:
-    import mask_dialog
-    reload(mask_dialog)
-from mask_dialog import maskDialog
+    import glyphs_copy_to_mask
+    reload(glyphs_copy_to_mask)
 
-if DEBUG:
-    import copy_to_layer
-    reload(copy_to_layer)
-from copy_to_layer import copyToLayer
+    import glyphs_mask
+    reload(glyphs_mask)
 
-# transformation
+    import glyphs_copy_to_layer
+    reload(glyphs_copy_to_layer)
 
-if DEBUG:
-    import mirror_glyphs
-    reload(mirror_glyphs)
-from mirror_glyphs import mirrorGlyphsDialog
+    import glyphs_mirror
+    reload(glyphs_mirror)
 
-if DEBUG:
-    import copy_paste_glyphs
-    reload(copy_paste_glyphs)
-from copy_paste_glyphs import copyPasteGlyphDialog
+    import glyphs_copy_paste
+    reload(glyphs_copy_paste)
 
-if DEBUG:
-    import round_to_grid
-    reload(round_to_grid)
-from round_to_grid import roundToGridDialog
+    import glyphs_round_to_grid
+    reload(glyphs_round_to_grid)
 
-if DEBUG:
-    import shift_points
-    reload(shift_points)
-from shift_points import shiftPointsDialog
+    import glyphs_shift_points
+    reload(glyphs_shift_points)
 
-if DEBUG:
-    import move_glyphs
-    reload(move_glyphs)
-from move_glyphs import moveGlyphsDialog
+    import glyphs_move
+    reload(glyphs_move)
 
-if DEBUG:
-    import scale_glyphs
-    reload(scale_glyphs)
-from scale_glyphs import scaleGlyphsDialog
+    import glyphs_scale
+    reload(glyphs_scale)
 
-if DEBUG:
-    import skew_glyphs
-    reload(skew_glyphs)
-from skew_glyphs import skewGlyphsDialog
+    import glyphs_skew
+    reload(glyphs_skew)
 
-if DEBUG:
-    import rasterize_glyphs
-    reload(rasterize_glyphs)
-from rasterize_glyphs import rasterizeGlyphDialog
+    import glyphs_rasterize
+    reload(glyphs_rasterize)
 
-if DEBUG:
-    import glyph_actions
-    reload(glyph_actions)
-from glyph_actions import glyphActionsDialog
+    import glyphs_actions
+    reload(glyphs_actions)
 
-# spacing
+    import glyphs_set_width
+    reload(glyphs_set_width)
 
-if DEBUG:
-    import set_glyph_width
-    reload(set_glyph_width)
-from set_glyph_width import setWidthDialog
+    import glyphs_set_margins
+    reload(glyphs_set_margins)
 
-if DEBUG:
-    import set_margins
-    reload(set_margins)
-from set_margins import setMarginsDialog
+    import glyphs_copy_margins
+    reload(glyphs_copy_margins)
 
-if DEBUG:
-    import copy_margins
-    reload(copy_margins)
-from copy_margins import copyMarginsDialog
+    import glyphs_interpolate
+    reload(glyphs_interpolate)
 
-# interpolation
+    import glyphs_paint
+    reload(glyphs_paint)
 
-if DEBUG:
-    import interpolate_glyphs
-    reload(interpolate_glyphs)
-from interpolate_glyphs import interpolateGlyphsDialog
+    import glyphs_move_anchors
+    reload(glyphs_move_anchors)
 
-# color
+    import glyphs_rename_anchors
+    reload(glyphs_rename_anchors)
 
-if DEBUG:
-    import paint_glyphs
-    reload(paint_glyphs)
-from paint_glyphs import paintGlyphsDialog
+    import glyphs_transfer_anchors
+    reload(glyphs_transfer_anchors)
 
-# anchors
+    import glyphs_change_suffix
+    reload(glyphs_change_suffix)
 
-if DEBUG:
-    import move_anchors
-    reload(move_anchors)
-from move_anchors import moveAnchorsDialog
+    import folder_actions
+    reload(folder_actions)
 
-if DEBUG:
-    import rename_anchors
-    reload(rename_anchors)
-from rename_anchors import renameAnchorsDialog
+    import folder_generate
+    reload(folder_generate)
 
-if DEBUG:
-    import transfer_anchors
-    reload(transfer_anchors)
-from transfer_anchors import transferAnchorsDialog
+    import folder_otfs2ufos
+    reload(folder_otfs2ufos)
 
-if DEBUG:
-    import change_suffix
-    reload(change_suffix)
-from change_suffix import changeSuffixDialog
+#----------------
+# import dialogs
+#----------------
 
-# wrap dialogs
+from glyphs_copy_to_mask import copyToMaskDialog
+from glyphs_mask import maskDialog
+from glyphs_copy_to_layer import copyToLayer
 
-__all__ = [
+from glyphs_mirror import mirrorGlyphsDialog
+from glyphs_copy_paste import copyPasteGlyphDialog
+from glyphs_round_to_grid import roundToGridDialog
+from glyphs_shift_points import shiftPointsDialog
+from glyphs_move import moveGlyphsDialog
+from glyphs_scale import scaleGlyphsDialog
+from glyphs_skew import skewGlyphsDialog
+from glyphs_rasterize import rasterizeGlyphDialog
+from glyphs_actions import glyphActionsDialog
+
+from glyphs_set_width import setWidthDialog
+from glyphs_set_margins import setMarginsDialog
+from glyphs_copy_margins import copyMarginsDialog
+
+from glyphs_interpolate import interpolateGlyphsDialog
+
+from glyphs_paint import paintGlyphsDialog
+
+from glyphs_move_anchors import moveAnchorsDialog
+from glyphs_rename_anchors import renameAnchorsDialog
+from glyphs_transfer_anchors import transferAnchorsDialog
+from glyphs_change_suffix import changeSuffixDialog
+
+from folder_actions import actionsFolderDialog
+from folder_generate import generateFolderDialog
+from folder_otfs2ufos import OTFsToUFOsDialog
+
+#----------------
+# export dialogs
+#----------------
+
+selected_glyphs = [
     # layers
     'copyToMaskDialog',
     'maskDialog',
@@ -150,3 +149,11 @@ __all__ = [
     # glyph names
     'changeSuffixDialog',
 ]
+
+batch_folder = [
+    'OTFsToUFOsDialog',
+    'generateFolderDialog',
+    'actionsFolderDialog',
+]
+
+__all__ = selected_glyphs + batch_folder
