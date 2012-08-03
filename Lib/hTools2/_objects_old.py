@@ -203,7 +203,6 @@ class hSpace:
                                 else:
                                     style_name = '%s%s%s%s%s' % (a, b, c, d, e)
                                 font_names.append(style_name)
-
         elif parts == 6:
             param_name_1 = self.parameters_order[0]
             param_name_2 = self.parameters_order[1]
@@ -222,7 +221,6 @@ class hSpace:
                                     else:
                                         style_name = '%s%s%s%s%s%s' % (a, b, c, d, e, f)
                                     font_names.append(style_name)
-
         else:
             print 'too many parts, current hSpace implementation only supports 6 parameters.\n'
         # save font list

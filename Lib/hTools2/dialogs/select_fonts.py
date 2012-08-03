@@ -13,7 +13,9 @@ from hTools2.modules.fileutils import walk
 
 class SelectFonts(object):
 
+    #------------
     # attributes
+    #------------
 
     _padding = 15
     _box_height = 25
@@ -41,6 +43,10 @@ class SelectFonts(object):
 
     _fonts = []
     _selection = []
+
+    #---------
+    # methods
+    #---------
 
     def __init__(self, verbose=False):
         self._verbose = verbose
@@ -104,12 +110,12 @@ class SelectFonts(object):
         # open window
         self.w.open()
 
-    # functions
-
     def __iter__(self):
         '''return the selected fonts'''
         for selection in self._selection:
             yield self.w._fonts_list[selection]
+
+    # functions
 
     def _get_folder(self):
         '''select a folder with .ufo fonts'''
