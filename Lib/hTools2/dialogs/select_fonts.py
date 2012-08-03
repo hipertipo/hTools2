@@ -7,7 +7,7 @@ except:
 
 from dialogKit import *
 from vanilla import *
-from vanilla.dialogs import getFolder #, getFileOrFolder
+from vanilla.dialogs import getFolder
 
 from hTools2.modules.fileutils import walk
 
@@ -43,6 +43,7 @@ class SelectFonts(object):
     _selection = []
 
     def __init__(self, verbose=False):
+        self._verbose = verbose
         # get open fonts
         self._current_font = CurrentFont()
         self._open_fonts = AllFonts()
@@ -113,26 +114,35 @@ class SelectFonts(object):
     def _get_folder(self):
         '''select a folder with .ufo fonts'''
         try:
-            self._folder = getFolder()[0] # getFileOrFolder
+            self._folder = getFolder()[0]
         # no folder selected
         except TypeError:
             self._folder = None
 
     def _add_folder_fonts(self):
-        '''add all fonts form selected folder to list'''
+        '''add all folder fonts to list'''
+        # add folder fonts
         if len(self._folder_fonts) > 0:
             for font in self._folder_fonts:
+                # add font
                 if font not in self.w._fonts_list:
                     self.w._fonts_list.append(font)
-                    print 'font %s added to list' % font
+                    if self._verbose:
+                        print 'font %s added to list' % font
+                # font already in list
                 else:
-                    print 'font %s already in list' % font
+                    if self._verbose:
+                        print 'font %s already in list' % font
+        # no fonts to add
         else:
-            print 'no font in folder.'
+            if self._verbose:
+                print 'no font in folder.'
 
     def _get_folder_fonts(self):
         '''collect all .ufo fonts in the selected folder'''
+        # get font paths
         self._folder_font_paths = walk(self._folder, 'ufo')
+        # open fonts
         for font_path in self._folder_font_paths:
             font = RFont(font_path, showUI=False)
             if font not in self._folder_fonts:
@@ -141,35 +151,40 @@ class SelectFonts(object):
     # callbacks
 
     def _current_font_callback(self, sender):
-        '''triggered every time the `current font` checkbox is selected'''
+        '''triggered every time the `current font` checkbox is clicked'''
         if self._current_font is not None:
             _value = sender.get()
             # add current font to list
             if _value:
                 if self._current_font not in self.w._fonts_list:
-                    print 'added current font to list'
+                    if self._verbose:
+                        print 'added current font to list'
                     self.w._fonts_list.append(self._current_font)
                 # current font already in list
                 else:
-                    print 'font already in list'
+                    if self._verbose:
+                        print 'font already in list'
             # remove current font from list
             else:
-                print 'removed current font from list'
                 if self._current_font in self.w._fonts_list:
                     self.w._fonts_list.remove(self._current_font)
+                if self._verbose:
+                    print 'removed current font from the list'
         # no current font
         else:
-            print 'no CurrentFont available.\n'
+            if self._verbose:
+                print 'no CurrentFont available.\n'
 
     def _open_fonts_callback(self, sender):
-        '''triggered every time the `all open fonts` checkbox is selected'''
+        '''triggered every time the `all open fonts` checkbox is clicked'''
         _value = sender.get()
         # add open fonts to list
         if _value:
             for font in self._open_fonts:
                 if font not in self.w._fonts_list:
                     self.w._fonts_list.append(font)
-                    print 'font %s added to list' % font
+                    if self._verbose:
+                        print 'font %s added to list' % font
                 # font already in list
                 else:
                     print 'font %s already in list' % font
@@ -180,28 +195,36 @@ class SelectFonts(object):
                     # do not remove current font
                     if font != self._current_font:
                         self.w._fonts_list.remove(font)
-                        print 'font %s removed from list' % font
+                        if self._verbose:
+                            print 'font %s removed from list' % font
                     else:
-                        print 'font %s is the current font' % font
+                        if self._verbose:
+                            print 'font %s is the current font' % font
                 # font not in list
                 else:
-                    print 'font %s not in list' % font
+                    if self._verbose:
+                        print 'font %s not in list' % font
 
     def _folder_fonts_callback(self, sender):
+        '''triggered every time the `from folder` checkbox is clicked'''
         _value = sender.get()
         # add folder fonts to list
         if _value:
             # get folder
             if self._folder is None:
-                print 'getting folder'
+                if self._verbose:
+                    print 'getting folder'
                 self._get_folder()
             # get fonts in folder
             if self._folder is not None:
+                if self._verbose:
+                    print 'getting fonts in folder'
                 self._get_folder_fonts()
             # no folder selected
             else:
                 self.w._fonts_folder_checkbox.set(False)
-                print 'no folder selected.'
+                if self._verbose:
+                    print 'no folder selected.'
             # add folder fonts to list
             self._add_folder_fonts()
         # remove folder fonts from list
@@ -210,27 +233,40 @@ class SelectFonts(object):
                 if font in self.w._fonts_list:
                     if font != self._current_font:
                         self.w._fonts_list.remove(font)
-                        print 'font %s removed from list' % font
+                        if self._verbose:
+                            print 'font %s removed from list' % font
 
     def _get_fonts_folder_callback(self, sender):
-        print 'getting fonts from folder...'
+        '''triggered every time the `get folder` button is clicked'''
+        # get folder
+        if self._verbose:
+            print 'getting fonts from folder...'
         self._get_folder()
+        # get fonts from folder
         if self._folder is not None:
             self._get_folder_fonts()
             # add folder fonts to list
             if len(self._folder_fonts) > 0:
                 self._add_folder_fonts()
+            # no font in folder
             else:
-                print 'no font in folder.'
+                if self._verbose:
+                    print 'there are no font files in the selected folder.'
+        # no folder selected
         else:
-            print 'no folder selected.'
+            if self._verbose:
+                print 'no folder selected.'
 
     def selection_callback(self, sender):
+        '''triggered every time that items in the list are selected/deselected'''
         self._selection = sender.getSelection()
 
     def apply_callback(self, sender):
+        '''triggered when the `OK` button is clicked'''
         return self.__iter__()
 
     def cancel_callback(self, sender):
-        print 'dialog cancelled.'
+        '''triggered when the `cancel` button is clicked'''
+        if self._verbose:
+            print 'dialog cancelled.'
         yield None
