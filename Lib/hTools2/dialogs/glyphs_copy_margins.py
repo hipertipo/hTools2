@@ -16,6 +16,8 @@ try:
 except:
     from robofab.world import AllFonts
 
+from vanilla import *
+
 from hTools2.modules.fontutils import get_full_name, get_glyphs
 
 # objects
@@ -160,4 +162,3 @@ class copyMarginsDialog(object):
         # nothing selected
         else:
             print 'Aborted, nothing to copy. Please select "left" or "right" side-bearings, and try again.\n'
-

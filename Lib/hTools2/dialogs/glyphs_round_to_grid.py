@@ -1,6 +1,22 @@
 # [h] gridfit dialog
 
+# reload when debugging
+
+import hTools2
+reload(hTools2)
+
+if hTools2.DEBUG:
+    import hTools2.modules.glyphutils
+    reload(hTools2.modules.glyphutils)
+
 # imports
+
+try:
+    from mojo.roboFont import CurrentFont, CurrentGlyph
+except:
+    from robofab.world import CurrentFont, CurrentGlyph
+
+from vanilla import *
 
 from hTools2.modules.glyphutils import *
 

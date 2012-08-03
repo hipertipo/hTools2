@@ -332,7 +332,7 @@ class shiftPointsDialog(object):
         if self._axis == 0:
             _sides = [ 'right', 'left' ]
         else:
-            _sides = [ 'bottom', 'top' ]
+            _sides = [ 'top', 'bottom' ]
         # print info
         print 'shifting points in glyphs...\n'
         print '\tposition: %s' % self._pos

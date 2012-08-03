@@ -57,6 +57,9 @@ if hTools2.DEBUG:
     import glyphs_copy_margins
     reload(glyphs_copy_margins)
 
+    import glyphs_copy_widths
+    reload(glyphs_copy_widths)
+
     import glyphs_interpolate
     reload(glyphs_interpolate)
 
@@ -120,6 +123,7 @@ from glyphs_slide import slideGlyphsDialog
 from glyphs_set_width import setWidthDialog
 from glyphs_set_margins import setMarginsDialog
 from glyphs_copy_margins import copyMarginsDialog
+from glyphs_copy_widths import copyWidthsDialog
 
 from glyphs_interpolate import interpolateGlyphsDialog
 
@@ -159,6 +163,7 @@ selected_glyphs = [
     'setWidthDialog',
     'setMarginsDialog',
     'copyMarginsDialog',
+    'copyWidthsDialog',
     # interpolation
     'interpolateGlyphsDialog',
     # grdifonts
