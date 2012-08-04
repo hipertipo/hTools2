@@ -1,5 +1,30 @@
 # [h] a dialog to transfer glyphs between fonts
 
+# reload when debugging
+
+import hTools2
+reload(hTools2)
+
+if hTools2.DEBUG:
+
+    import hTools2.modules.fontutils
+    reload(hTools2.modules.fontutils)
+
+    import hTools2.modules.anchors
+    reload(hTools2.modules.anchors)
+
+# imports
+
+try:
+    from mojo.roboFont import AllFonts
+except:
+    from robofab.world import AllFonts
+
+from vanilla import *
+
+from hTools2.modules.fontutils import get_full_name, get_glyphs
+from hTools2.modules.anchors import transfer_anchors
+
 # objects
 
 class transferAnchorsDialog(object):
@@ -89,28 +114,22 @@ class transferAnchorsDialog(object):
         _target_font = self._all_fonts[self.w._target_value.get()]
         # print info
         print 'transfering anchors...\n'
-        print '\tsource font: %s' % get_full_name(_source_font)
-        print '\ttarget font: %s' % get_full_name(_target_font)
+        print '\tsource: %s' % get_full_name(_source_font)
+        print '\ttarget: %s' % get_full_name(_target_font)
         print
         print '\t',
         # batch copy glyphs to mask
-        for gName in _source_font.selection:
-            try:
-                print gName,
-                # prepare undo
-                _target_font[gName].prepareUndo('transfer anchors')
-                # transfer anchors
-                transfer_anchors(_source_font[gName], _target_font[gName])
-                # update
-                _source_font[gName].update()
-                _target_font[gName].update()
-                # activate undo
-                _source_font[gName].performUndo()
-                _target_font[gName].performUndo()
-            except:
-                print '\tcannot transform %s' % gName
+        for glyph_name in get_glyphs(_source_font):
+            print glyph_name,
+            # prepare undo
+            _target_font[glyph_name].prepareUndo('transfer anchors')
+            # transfer anchors
+            transfer_anchors(_source_font[glyph_name], _target_font[glyph_name])
+            # update
+            _target_font[glyph_name].update()
+            # activate undo
+            _target_font[glyph_name].performUndo()
         # done
         print
         _target_font.update()
-        _source_font.update()
         print '\n...done.\n'

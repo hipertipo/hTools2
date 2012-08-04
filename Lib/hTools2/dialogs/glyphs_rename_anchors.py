@@ -1,5 +1,30 @@
 # [h] dialog to rename anchors in selected glyphs
 
+# reload when debugging
+
+import hTools2
+reload(hTools2)
+
+if hTools2.DEBUG:
+
+    import hTools2.modules.fontutils
+    reload(hTools2.modules.fontutils)
+
+    import hTools2.modules.anchors
+    reload(hTools2.modules.anchors)
+
+# imports
+
+try:
+    from mojo.roboFont import CurrentFont
+except:
+    from robofab.world import CurrentFont
+
+from vanilla import *
+
+from hTools2.modules.fontutils import get_glyphs
+from hTools2.modules.anchors import rename_anchor
+
 # objects
 
 class renameAnchorsDialog(object):
@@ -20,9 +45,9 @@ class renameAnchorsDialog(object):
                     self._height),
                     self._title,
                     closable=True)
-        # old name
         x = self._padding
         y = self._padding
+        # old name label
         self.w._old_name_label = TextBox(
                     (x, y,
                     self._column_1,
@@ -30,6 +55,7 @@ class renameAnchorsDialog(object):
                     "old",
                     sizeStyle='small')
         x += self._column_1
+        # old name
         self.w._old_name_value = EditText(
                     (x, y,
                     self._column_2,
@@ -37,9 +63,9 @@ class renameAnchorsDialog(object):
                     placeholder='old name',
                     text='',
                     sizeStyle='small')
-        # new name
         x = self._padding
         y += self._row_height
+        # new name label
         self.w._new_name_label = TextBox(
                     (x, y,
                     self._column_1,
@@ -47,6 +73,7 @@ class renameAnchorsDialog(object):
                     "new",
                     sizeStyle='small')
         x += self._column_1
+        # new name
         self.w._new_name_value = EditText(
                     (x, y,
                     self._column_2,
@@ -79,26 +106,27 @@ class renameAnchorsDialog(object):
                 _new = self.w._new_name_value.get()
                 boolstring = (False, True)
                 # print info
-                print 'changing anchor names...\n'
+                print 'renaming anchors in glyphs...\n'
                 print '\told name: %s' % _old
                 print '\tnew name: %s' % _new
                 print
+                print '\t',
                 # batch change anchors names
                 glyph_names = get_glyphs(f)
                 for glyph_name in glyph_names:
-                    if glyph_name is not None:
-                        # rename anchor
-                        f[glyph_name].prepareUndo('rename anchor')
-                        has_name = rename_anchor(f[glyph_name], _old, _new)
-                        f[glyph_name].performUndo()
-                        f[glyph_name].update()
+                    print glyph_name,
+                    # rename anchor
+                    f[glyph_name].prepareUndo('rename anchor')
+                    has_name = rename_anchor(f[glyph_name], _old, _new)
+                    f[glyph_name].performUndo()
+                    f[glyph_name].update()
                 # done
                 f.update()
-                print '...done.\n'
+                print
+                print '\n...done.\n'
                 # no glyph selected
             else:
                 print 'please select one or more glyphs before running the script.\n'
         # no glyph selected
         else:
             print 'please open a font first.\n'
-        pass
