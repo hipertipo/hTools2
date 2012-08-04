@@ -1,5 +1,25 @@
 # [h] copy to mask
 
+# reload when debugging
+
+import hTools2
+reload(hTools2)
+
+if hTools2.DEBUG:
+    import hTools2.modules.fontutils
+    reload(hTools2.modules.fontutils)
+
+# imports
+
+try:
+    from mojo.roboFont import AllFonts
+except:
+    from robofab.world import AllFonts
+
+from vanilla import *
+
+from hTools2.modules.fontutils import get_full_name, get_glyphs
+
 # objects
 
 class copyToMaskDialog(object):
@@ -83,7 +103,6 @@ class copyToMaskDialog(object):
                     "update",
                     sizeStyle='small',
                     callback=self.update_fonts_callback)
-
         # open window
         self.w.open()
 
@@ -114,21 +133,18 @@ class copyToMaskDialog(object):
             print
             print '\t',
             # batch copy glyphs to mask
-            for gName in _source_font.selection:
-                try:
-                    print gName,
-                    # prepare undo
-                    _target_font[gName].prepareUndo('copy glyphs to mask')
-                    # copy oulines to mask
-                    _target_glyph_layer = _target_font[gName].getLayer(_target_layer_name)
-                    pen = _target_glyph_layer.getPointPen()
-                    _source_font[gName].drawPoints(pen)
-                    # update
-                    _target_font[gName].update()
-                    # activate undo
-                    _target_font[gName].performUndo()
-                except:
-                    print '\tcannot transform %s' % gName
+            for glyph_name in get_glyphs(_source_font):
+                print glyph_name,
+                # prepare undo
+                _target_font[glyph_name].prepareUndo('copy glyphs to mask')
+                # copy oulines to mask
+                _target_glyph_layer = _target_font[glyph_name].getLayer(_target_layer_name)
+                pen = _target_glyph_layer.getPointPen()
+                _source_font[glyph_name].drawPoints(pen)
+                # update
+                _target_font[glyph_name].update()
+                # activate undo
+                _target_font[glyph_name].performUndo()
             # done
             print
             _target_font.update()

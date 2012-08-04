@@ -11,6 +11,13 @@ if hTools2.DEBUG:
 
 # imports
 
+try:
+    from mojo.roboFont import CurrentFont, CurrentGlyph
+except:
+    from robofab.world import CurrentFont, CurrentGlyph
+
+from vanilla import *
+
 from hTools2.modules.glyphutils import center_glyph
 
 # objects
@@ -218,16 +225,16 @@ class setWidthDialog(object):
             print '\twidth: %s' % _width
             print '\tcenter: %s' % boolstring[_center]
             print '\tmode: %s' % self._modes[self._mode]
-            print '\tglyphs: %s' % _gNames
             print
+            print '\t',
             # current glyph
             glyph = CurrentGlyph()
             if glyph is not None:
-                print glyph.name
+                print glyph.name,
                 self.set_width(glyph, _width, _center)
                 f.update()
                 print
-                print '...done.\n'
+                print '\n...done.\n'
             # selected glyphs
             else:
                 glyph_names = f.selection
@@ -236,7 +243,7 @@ class setWidthDialog(object):
                         print glyph_name,
                         self.set_width(f[glyph_name], _width, _center)
                     print
-                    print '...done.\n'
+                    print '\n...done.\n'
                 # no glyph selected
                 else:
                     print 'please select one or more glyphs first.\n'

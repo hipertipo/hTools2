@@ -6,12 +6,26 @@ import hTools2
 reload(hTools2)
 
 if hTools2.DEBUG:
+
     import hTools2.modules.color
     reload(hTools2.modules.color)
 
+    import hTools2.modules.fontutils
+    reload(hTools2.modules.fontutils)
+
 # imports
 
+from AppKit import NSColor
+
+from vanilla import *
+
+try:
+    from mojo.roboFont import CurrentFont, CurrentGlyph
+except:
+    from robofab.world import CurrentFont, CurrentGlyph
+
 from hTools2.modules.color import random_color
+from hTools2.modules.fontutils import get_glyphs
 
 # objects
 
@@ -84,13 +98,15 @@ class paintGlyphsDialog(object):
             if len(glyph_names) > 0:
                 print 'painting selected glyphs...\n'
                 print '\tcolor: %s %s %s %s' % _mark_color
-                print '\tglyphs: %s' % glyph_names
+                print
+                print '\t',
                 for glyph_name in glyph_names:
+                    print glyph_name,
                     f[glyph_name].prepareUndo('paint glyph')
                     f[glyph_name].mark = _mark_color
                     f[glyph_name].performUndo()
                 print
-                print '...done.\n'
+                print '\n...done.\n'
             # no glyph selected
             else:
                 print 'please select a glyph first.\n'
@@ -105,16 +121,18 @@ class paintGlyphsDialog(object):
             if len(glyph_names) > 0:
                 glyph_name = get_glyphs(f)[0]
                 color = f[glyph_name].mark
-                print 'selecting glyphs...\n'
+                print 'selecting glyphs:\n'
+                print '\t',
                 # print '\tcolor: %s %s %s %s' % color
                 glyph_names = []
                 for glyph in f:
                     if glyph.mark == color:
+                        print glyph.name,
                         glyph_names.append(glyph.name)
-                print '\tglyphs: %s' % glyph_names
+                #print '\tglyphs: %s' % glyph_names
                 f.selection = glyph_names
                 print
-                print 'done.\n'
+                print '\n...done.\n'
             # no glyph selected
             else:
                 print 'please select a glyph first.\n'

@@ -1,6 +1,26 @@
 # [h] interpolate glyphs dialog
 
-# objects
+# reload when debugging
+
+import hTools2
+reload(hTools2)
+
+if hTools2.DEBUG:
+    import hTools2.modules.fontutils
+    reload(hTools2.modules.fontutils)
+
+# imports
+
+try:
+    from mojo.roboFont import AllFonts
+except:
+    from robofab.world import AllFonts
+
+from vanilla import *
+
+from hTools2.modules.fontutils import get_full_name, get_glyphs
+
+# object
 
 class interpolateGlyphsDialog(object):
 
@@ -390,24 +410,25 @@ class interpolateGlyphsDialog(object):
         print '\tfactor y: %s' % y
         print '\tproportional: %s' % boolstring[self._proportional]
         print
+        print '\t',
         self.w.bar.start()
         # interpolate glyphs
-        for gName in f1.selection:
+        for glyph_name in get_glyphs(f1):
             # check glyphs
-            if f2.has_key(gName):
-                f3.newGlyph(gName, clear=True)
+            if f2.has_key(glyph_name):
+                f3.newGlyph(glyph_name, clear=True)
                 # prepare undo
-                f3[gName].prepareUndo('interpolate')
+                f3[glyph_name].prepareUndo('interpolate')
                 # interpolate
-                print '\tinterpolating glyph %s...' % gName
-                f3[gName].interpolate((x, y), f2[gName], f1[gName])
-                f3[gName].update()
+                print glyph_name,
+                f3[glyph_name].interpolate((x, y), f1[glyph_name], f2[glyph_name])
+                f3[glyph_name].update()
                 # create undo
-                f3[gName].performUndo()
+                f3[glyph_name].performUndo()
             else:
-                print '\tfont 2 does not have glyph %s' % gName
+                print '\tfont 2 does not have glyph %s' % glyph_name
         f3.update()
         # done
         self.w.bar.stop()
         print
-        print '...done.\n'
+        print '\n...done.\n'

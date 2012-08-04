@@ -1,6 +1,26 @@
 # [h] copy to layer dialog
 
-# objects
+# reload when debugging
+
+import hTools2
+reload(hTools2)
+
+if hTools2.DEBUG:
+    import hTools2.modules.fontutils
+    reload(hTools2.modules.fontutils)
+
+# imports
+
+try:
+    from mojo.roboFont import CurrentFont
+except:
+    from robofab.world import CurrentFont
+
+from vanilla import *
+
+from hTools2.modules.fontutils import get_glyphs
+
+# object
 
 class copyToLayerDialog(object):
 
@@ -31,17 +51,17 @@ class copyToLayerDialog(object):
                     self._height),
                     self._title,
                     closable=True)
-        # layer
         x = self._padding
         y = self._padding_top
+        # layer label
         self.w._layers_label = TextBox(
                     (x, y,
                     -self._padding,
                     self._line_height),
                     "target layer",
                     sizeStyle='small')
-        # x += self._column_1
         y += self._line_height
+        # layer name
         self.w._layers_value = EditText(
                     (x, y,
                     -self._padding,
@@ -49,7 +69,6 @@ class copyToLayerDialog(object):
                     placeholder='layer name',
                     sizeStyle='small')
         y += self._line_height + 10
-        # x += self._box_width + self._padding
         # buttons
         self.w.button_apply = SquareButton(
                     (x, y,
@@ -69,17 +88,15 @@ class copyToLayerDialog(object):
             _layer_name = self.w._layers_value.get()
             # batch copy to layer
             if len(_layer_name) > 0:
-                print 'copying outlines to layer "%s"...' % _layer_name
-                for gName in f.selection:
-                    try:
-                        f[gName].prepareUndo('copy to layer')
-                        print '\t%s' % gName,
-                        f[gName].copyToLayer(_layer_name, clear=True)
-                        f[gName].performUndo()
-                        f[gName].update()
-                    except:
-                        print '\tcannot transform %s' % gName
+                print 'copying glyphs to layer `%s`...\n' % _layer_name
+                for glyph_name in get_glyphs(f):
+                    f[glyph_name].prepareUndo('copy to layer')
+                    print '\t%s' % glyph_name,
+                    f[glyph_name].copyToLayer(_layer_name, clear=True)
+                    f[glyph_name].performUndo()
+                    f[glyph_name].update()
                 # done
+                print
                 print '\n...done.\n'
             # no valid layer name
             else:

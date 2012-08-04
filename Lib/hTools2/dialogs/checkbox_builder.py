@@ -94,4 +94,3 @@ class checkBoxBuilder(object):
 
     def cancel_callback(self, sender):
         self.cancelled = True
-
