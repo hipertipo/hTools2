@@ -1,5 +1,28 @@
 # [h] dialog to generate otfs from ufos
 
+# reload when debugging
+
+import hTools2
+reload(hTools2)
+
+if hTools2.DEBUG:
+    import hTools2.modules.fileutils
+    reload(hTools2.modules.fileutils)
+
+# imports
+
+import os
+
+try:
+    from mojo.roboFont import OpenFont
+except:
+    from robofab.world import OpenFont
+
+from vanilla import *
+from vanilla.dialogs import getFolder
+
+from hTools2.modules.fileutils import walk
+
 # objects
 
 class OTFsToUFOsDialog(object):
@@ -86,15 +109,15 @@ class OTFsToUFOsDialog(object):
                     self._ufos_folder = self._otfs_folder
                 # print settings
                 boolstring = ("False", "True")
-                print 'batch generating .ufos for all .otfs in folder...\n'
+                print 'batch generating ufos for all otfs in folder...\n'
                 print '\totfs folder: %s' % self._otfs_folder
                 print '\tufos folder: %s' % self._ufos_folder
                 print
                 # batch convert
                 self.w.bar.start()
                 for otf_path in _otfs_paths:
-                    print '\tsaving .ufo for %s...' % os.path.split(otf_path)[1]
-                    otf = OpenFont(otf_path, showUI=True)
+                    print '\tcreating ufo from %s...' % os.path.split(otf_path)[1]
+                    otf = OpenFont(otf_path, showUI=True) # does not work without UI
                     ufo_file = os.path.splitext(os.path.split(otf_path)[1])[0] + '.ufo'
                     ufo_path = os.path.join(self._ufos_folder, ufo_file)
                     otf.save(ufo_path)
@@ -106,4 +129,3 @@ class OTFsToUFOsDialog(object):
                 self.w.bar.stop()
                 print
                 print '...done.\n'
-

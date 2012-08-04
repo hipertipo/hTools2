@@ -9,7 +9,7 @@ if hTools2.DEBUG:
     import hTools2.dialogs
     reload(hTools2.dialogs)
 
-# imports
+# import
 
 from hTools2.dialogs import copyWidthsDialog
 

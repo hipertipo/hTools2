@@ -1,5 +1,28 @@
 # [h] dialog to generate otfs from all fonts in folder
 
+# reload when debugging
+
+import hTools2
+reload(hTools2)
+
+if hTools2.DEBUG:
+    import hTools2.modules.fileutils
+    reload(hTools2.modules.fileutils)
+
+# imports
+
+import os
+
+try:
+    from mojo.roboFont import RFont
+except:
+    from robofab.world import RFont
+
+from vanilla import *
+from vanilla.dialogs import getFolder
+
+from hTools2.modules.fileutils import walk
+
 # objects
 
 class generateFolderDialog(object):
@@ -30,9 +53,9 @@ class generateFolderDialog(object):
                     (self._width, self._height),
                     self._title,
                     closable=True)
-        # ufos folder
         x = self._padding
         y = self._padding
+        # ufos folder
         self.w.ufos_get_folder_button = SquareButton(
                     (x, y,
                     -self._padding,
@@ -40,8 +63,8 @@ class generateFolderDialog(object):
                     "ufos folder...",
                     sizeStyle="small",
                     callback=self.ufos_get_folder_callback)
-        # otfs folder
         y += self._button_height + self._padding
+        # otfs folder
         self.w.otfs_get_folder_button = SquareButton(
                     (x, y,
                     -self._padding,
@@ -49,8 +72,8 @@ class generateFolderDialog(object):
                     "otfs folder...",
                     sizeStyle="small",
                     callback=self.otfs_get_folder_callback)
-        # options
         y += self._button_height + self._padding
+        # options
         self.w._decompose = CheckBox(
                     (x, y,
                     -self._padding,
@@ -82,15 +105,15 @@ class generateFolderDialog(object):
                     "release mode",
                     sizeStyle="small",
                     value=True)
-        # progress bar
         y += self._row_height + self._padding
+        # progress bar
         self.w.bar = ProgressBar(
                     (x, y,
                     -self._padding,
                     self._row_height),
                     isIndeterminate=True)
-        # buttons
         y += self._row_height + self._padding
+        # buttons
         self.w.button_apply = SquareButton(
                     (x, y,
                     -self._padding,
@@ -137,17 +160,15 @@ class generateFolderDialog(object):
                 self.w.bar.start()
                 for ufo_path in _ufo_paths:
                     print '\tgenerating .otf for %s...' % os.path.split(ufo_path)[1]
-                    ufo = RFont(ufo_path, showUI=True)
+                    ufo = RFont(ufo_path, showUI=False)
                     # generate otf
                     otf_file = os.path.splitext(os.path.split(ufo_path)[1])[0] + '.otf'
                     otf_path = os.path.join(self._otfs_folder, otf_file)
-                    ufo.generate(otf_path,
-                                'otf',
+                    ufo.generate(otf_path, 'otf',
                                 decompose=_decompose,
                                 autohint=_autohint,
                                 checkOutlines=_overlaps,
-                                releaseMode=_release_mode,
-                                glyphOrder=[])
+                                releaseMode=_release_mode)
                     # close
                     ufo.close()
                     print '\t\totf path: %s' % otf_path

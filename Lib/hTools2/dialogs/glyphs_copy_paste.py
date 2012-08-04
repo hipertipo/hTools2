@@ -6,11 +6,23 @@ import hTools2
 reload(hTools2)
 
 if hTools2.DEBUG:
+
+    import hTools2.modules.fontutils
+    reload(hTools2.modules.fontutils)
+
     import hTools2.modules.anchors
     reload(hTools2.modules.anchors)
 
 # imports
 
+try:
+    from mojo.roboFont import CurrentFont, CurrentGlyph
+except:
+    from robofab.world import CurrentFont, CurrentGlyph
+
+from vanilla import *
+
+from hTools2.modules.fontutils import get_glyphs
 from hTools2.modules.anchors import transfer_anchors
 
 # object

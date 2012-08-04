@@ -1,5 +1,31 @@
 # [h] dialog to apply actions to all fonts in a folder
 
+# reload when debugging
+
+import hTools2
+reload(hTools2)
+
+if hTools2.DEBUG:
+
+    import hTools2.modules.fileutils
+    reload(hTools2.modules.fileutils)
+
+    import hTools2.modules.fontutils
+    reload(hTools2.modules.fontutils)
+
+# imports
+
+try:
+    from mojo.roboFont import RFont
+except:
+    from robofab.world import RFont
+
+from vanilla import *
+from vanilla.dialogs import getFolder
+
+from hTools2.modules.fileutils import walk
+from hTools2.modules.fontutils import get_full_name, decompose, auto_contour_order, auto_contour_direction, add_extremes
+
 # objects
 
 class actionsFolderDialog(object):
@@ -106,7 +132,7 @@ class actionsFolderDialog(object):
                     (x, y,
                     -self._padding,
                     self._row_height),
-                    "save .ufo",
+                    "save ufo",
                     callback=self.save_callback,
                     value=self._save,
                     sizeStyle='small')

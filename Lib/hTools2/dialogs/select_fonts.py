@@ -17,6 +17,7 @@ except:
     from robofab.world import CurrentFont, AllFonts, RFont
 
 from dialogKit import *
+
 from vanilla import *
 from vanilla.dialogs import getFolder
 

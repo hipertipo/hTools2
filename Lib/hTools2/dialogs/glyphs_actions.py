@@ -1,5 +1,25 @@
 # [h] a dialog to apply actions to glyphs
 
+# reload when debugging
+
+import hTools2
+reload(hTools2)
+
+if hTools2.DEBUG:
+    import hTools2.modules.fontutils
+    reload(hTools2.modules.fontutils)
+
+# imports
+
+try:
+    from mojo.roboFont import CurrentFont
+except:
+    from robofab.world import CurrentFont
+
+from vanilla import *
+
+from hTools2.modules.fontutils import get_glyphs
+
 # objects
 
 class glyphActionsDialog(object):
@@ -18,7 +38,7 @@ class glyphActionsDialog(object):
     _width = 123
     _height = (_padding_top * 3) + (_row_height * 8) + _button_height + 3
 
-    _gNames = []
+    _glyph_names = []
     _clear = False
     _clear_layers = False
     _round = False
@@ -164,51 +184,60 @@ class glyphActionsDialog(object):
         f = CurrentFont()
         if f is not None:
             print 'transforming selected glyphs...\n'
-            for gName in get_glyphs(f):
+            for glyph_name in get_glyphs(f):
+                # delete outlines
                 if self._clear:
-                    print '\tdeleting outlines in %s...' % gName
-                    f[gName].prepareUndo('clear glyph contents')
-                    f.newGlyph(gName, clear=True)
-                    f[gName].performUndo()
+                    print '\tdeleting outlines in %s...' % glyph_name
+                    f[glyph_name].prepareUndo('clear glyph contents')
+                    f.newGlyph(glyph_name, clear=True)
+                    f[glyph_name].performUndo()
+                # delete layers
                 if self._clear_layers:
-                    print '\tdeleting layers in %s...' % gName
-                    f[gName].prepareUndo('clear layer contents')
+                    print '\tdeleting layers in %s...' % glyph_name
+                    f[glyph_name].prepareUndo('clear layer contents')
                     for layer_name in f.layerOrder:
-                        f[gName].getLayer(layer_name, clear=True)
-                    f[gName].update()
-                    f[gName].performUndo()
+                        f[glyph_name].getLayer(layer_name, clear=True)
+                    f[glyph_name].update()
+                    f[glyph_name].performUndo()
+                # round points to integer
                 if self._round:
-                    print '\trounding point positions in %s...' % gName
-                    f[gName].prepareUndo('round point positions')
-                    f[gName].round()
-                    f[gName].performUndo()
+                    print '\trounding point positions in %s...' % glyph_name
+                    f[glyph_name].prepareUndo('round point positions')
+                    f[glyph_name].round()
+                    f[glyph_name].performUndo()
+                # decompose
                 if self._decompose:
-                    print '\t\tdecomposing %s...' % gName
-                    f[gName].prepareUndo('decompose')
-                    f[gName].decompose()
-                    f[gName].performUndo()
+                    print '\tdecomposing %s...' % glyph_name
+                    f[glyph_name].prepareUndo('decompose')
+                    f[glyph_name].decompose()
+                    f[glyph_name].performUndo()
+                # remove overlaps
                 if self._overlaps:
-                    print '\t\tremoving overlaps in %s...' % gName
-                    f[gName].prepareUndo('remove overlaps')
-                    f[gName].removeOverlap()
-                    f[gName].performUndo()
+                    print '\tremoving overlaps in %s...' % glyph_name
+                    f[glyph_name].prepareUndo('remove overlaps')
+                    f[glyph_name].removeOverlap()
+                    f[glyph_name].performUndo()
+                # add extreme points
                 if self._extremes:
-                    print '\t\tadding extreme points to %s...' % gName
-                    f[gName].prepareUndo('add extreme points')
-                    f[gName].extremePoints()
-                    f[gName].performUndo()
+                    print '\tadding extreme points to %s...' % glyph_name
+                    f[glyph_name].prepareUndo('add extreme points')
+                    f[glyph_name].extremePoints()
+                    f[glyph_name].performUndo()
+                # auto contour order
                 if self._order:
-                    print '\t\tauto contour order in %s...' % gName
-                    f[gName].prepareUndo('auto contour order')
-                    f[gName].autoContourOrder()
-                    f[gName].performUndo()
+                    print '\tauto contour order in %s...' % glyph_name
+                    f[glyph_name].prepareUndo('auto contour order')
+                    f[glyph_name].autoContourOrder()
+                    f[glyph_name].performUndo()
+                # auto contour direction
                 if self._direction:
-                    print '\t\tauto contour direction in %s...' % gName
-                    f[gName].prepareUndo('auto contour directions')
-                    f[gName].correctDirection()
-                    f[gName].performUndo()
+                    print '\tauto contour direction in %s...' % glyph_name
+                    f[glyph_name].prepareUndo('auto contour directions')
+                    f[glyph_name].correctDirection()
+                    f[glyph_name].performUndo()
+                # done glyph
                 print
-            # done
+            # done font
             print '...done.\n'
         # no font open
         else:
