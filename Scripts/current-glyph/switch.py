@@ -1,4 +1,15 @@
-# [h] slide layer 2
+# [h] switch layer
+
+# reload when debugging
+
+import hTools2
+reload(hTools2)
+
+if hTools2.DEBUG:
+    import hTools2.modules.fontutils
+    reload(hTools2.modules.fontutils)
+
+# imports
 
 from vanilla import *
 
@@ -22,7 +33,7 @@ def previous_glyph(font, index):
         prev = font.glyphOrder[-1]
     return prev
 
-# the dialog
+# objects
 
 class glyphSwitcherDialog(object):
 

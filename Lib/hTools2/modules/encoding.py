@@ -149,8 +149,8 @@ unicodes_extra = {
 # unicode-to-psnames conversion
 #-------------------------------
 
-# a dictionary mapping `unicode` values to `psNames`
-# thanks to Frederik Berlaen (2007)
+# a dictionary mapping unicode values to psNames
+# thanks Frederik Berlaen (2007)
 
 unicode2psnames = {
     None : '.notdef',

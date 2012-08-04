@@ -103,6 +103,15 @@ if hTools2.DEBUG:
     import font_delete_layer
     reload(font_delete_layer)
 
+    import font_import_layer
+    reload(font_import_layer)
+
+    import font_adjust_vmetrics
+    reload(font_adjust_vmetrics)
+
+    import font_transfer_vmetrics
+    reload(font_transfer_vmetrics)
+
 # import dialogs
 
 from glyphs_copy_to_mask import copyToMaskDialog
@@ -142,6 +151,9 @@ from font_rename_glyphs import batchRenameGlyphs
 from font_create_spaces import createSpaceGlyphsDialog
 from font_print_groups import printGroupsDialog
 from font_delete_layer import deleteLayerDialog
+from font_import_layer import importUFOIntoLayerDialog
+from font_adjust_vmetrics import adjustVerticalMetrics
+from font_transfer_vmetrics import transferVMetricsDialog
 
 # export dialogs
 
@@ -166,7 +178,7 @@ selected_glyphs = [
     'copyWidthsDialog',
     # interpolation
     'interpolateGlyphsDialog',
-    # grdifonts
+    # gridfonts
     'rasterizeGlyphDialog',
     'roundToGridDialog',
     # color
@@ -175,7 +187,7 @@ selected_glyphs = [
     'moveAnchorsDialog',
     'renameAnchorsDialog',
     'transferAnchorsDialog',
-    # glyph names
+    # encoding
     'changeSuffixDialog',
 ]
 
@@ -190,6 +202,9 @@ current_font = [
     'createSpaceGlyphsDialog',
     'printGroupsDialog',
     'deleteLayerDialog',
+    'importUFOIntoLayerDialog',
+    'adjustVerticalMetrics',
+    'transferVMetricsDialog',
 ]
 
 __all__ = selected_glyphs + batch_folder + current_font

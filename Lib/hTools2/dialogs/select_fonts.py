@@ -1,4 +1,11 @@
-# [h] a simple `SelectFonts()` dialog for RoboScripts
+# [h] SelectFonts()
+
+'''a simple `AllFonts()`-compatible `SelectFonts()` dialog for RoboScripts'''
+
+#---------------------------------------------------
+# based on idea by David Jonathan Ross (FontBureau)
+# thanks to Andy Clymer for vanilla-dialogKit hack
+#---------------------------------------------------
 
 # reload when debugging
 

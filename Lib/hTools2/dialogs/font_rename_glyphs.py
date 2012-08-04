@@ -15,6 +15,11 @@ if hTools2.DEBUG:
 
 # imports
 
+try:
+    from mojo.roboFont import CurrentFont
+except:
+    from robofab.world import CurrentFont
+
 from vanilla import *
 from vanilla.dialogs import getFile
 
@@ -40,9 +45,9 @@ class batchRenameGlyphs(object):
                         self._height),
                         self._title,
                         closable=True)
-            # current font
             x = self._padding
             y = self._padding
+            # get names file
             self.w.get_file = SquareButton(
                         (x, y,
                         -self._padding,
@@ -51,7 +56,7 @@ class batchRenameGlyphs(object):
                         callback=self.get_file_callback,
                         sizeStyle="small")
             y += self._button_height + self._padding
-            # options
+            # overwrite glyphs
             self.w._overwrite = CheckBox(
                         (x, y,
                         -self._padding,
@@ -60,6 +65,7 @@ class batchRenameGlyphs(object):
                         sizeStyle="small",
                         value=True)
             y += self._row_height
+            # mark
             self.w._mark = CheckBox(
                         (x, y,
                         -self._padding,
@@ -68,6 +74,7 @@ class batchRenameGlyphs(object):
                         sizeStyle="small",
                         value=True)
             y += self._row_height + self._padding
+            # apply
             self.w.apply_button = SquareButton(
                         (x, y,
                         -self._padding,
