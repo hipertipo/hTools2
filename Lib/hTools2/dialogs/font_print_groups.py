@@ -11,6 +11,11 @@ if hTools2.DEBUG:
 
 # imports
 
+try:
+    from mojo.roboFont import CurrentFont
+except:
+    from robofab.world import CurrentFont
+
 from vanilla import *
 
 from hTools2.modules.fontutils import delete_groups, print_groups

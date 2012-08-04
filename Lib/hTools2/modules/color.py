@@ -9,9 +9,6 @@ reload(hTools2)
 
 if hTools2.DEBUG:
 
-    # import fontutils
-    # reload(fontutils)
-
     import sysutils
     reload(sysutils)
 
@@ -22,8 +19,7 @@ if hTools2.DEBUG:
 
 from random import random
 
-# from fontutils import *
-from sysutils import _ctx
+from hTools2.modules.sysutils import _ctx
 from hTools2.extras.colorsys import *
 
 # functions
@@ -65,37 +61,6 @@ def RGB_to_nodebox_color((R, G, B), ctx, alpha=1.0):
     _alpha = 255 * alpha
     _color = colors.rgb(R, G, B, _alpha, range=255)
     return _color
-
-def paint_groups(f, crop=False):
-    '''Paint the glyphs in the `font` according to their groups.
-    If a `groups_order` lib is available, use it to set the order of the glyphs in the font.
-    '''
-    font = CurrentFont()
-    if len(f.groups) > 0:
-        clear_colors(f)
-        count = 0
-        _order = []
-        if f.lib.has_key('groups_order'):
-            groups = f.lib['groups_order']
-        else:
-            groups = f.groups.keys()
-        for group in groups:
-            color_step = 1.0 / len(f.groups)
-            color = color_step * count
-            R, G, B = hls_to_rgb(color, 0.5, 1.0)
-            for glyph_name in f.groups[group]:
-                if f.has_key(glyph_name) is not True:
-                    f.newGlyph(glyph_name)
-                _order.append(glyph_name)
-                f[glyph_name].mark = (R, G, B, .5)
-                f[glyph_name].update()
-            count += 1
-        f.glyphOrder = _order
-        f.update()
-    if crop:
-        crop_glyphset(f, _order)
-    else:
-        print 'font has no groups.\n'
 
 # named colors
 

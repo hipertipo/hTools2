@@ -13,8 +13,8 @@ if hTools2.DEBUG:
     import hTools2.modules.fontutils
     reload(hTools2.modules.fontutils)
 
-    import hTools2.modules.color
-    reload(hTools2.modules.color)
+    import hTools2.modules.encoding
+    reload(hTools2.modules.encoding)
 
 # imports
 
@@ -22,7 +22,7 @@ import os
 
 from hproject import hProject
 from hTools2.modules.fontutils import set_font_names    #, get_spacing_groups, get_glyphs, get_full_name, parse_glyphs_groups
-from hTools2.modules.color import paint_groups          #, hls_to_rgb, clear_colors
+from hTools2.modules.encoding import paint_groups       #, hls_to_rgb, clear_colors
 
 # objects
 
@@ -257,7 +257,7 @@ class hFont:
 
     def generate_woff(self):
         '''generates a .woff font file from the available .otf font'''
-        ### this function currently relies on the `KLTF_WOFF.py` extra module
+        # this function currently relies on the `KLTF_WOFF.py` extra module
         try:
             from hTools2.extras.KLTF_WOFF import compressFont
             compressFont(self.otf_path(), self.woff_path())

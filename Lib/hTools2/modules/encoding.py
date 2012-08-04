@@ -4,6 +4,12 @@
 
 import os
 
+try:
+    from mojo.roboFont import CurrentFont
+except:
+    from robofab.world import CurrentFont
+
+
 def import_encoding(file_path):
     '''Import group and glyphs names from an `.enc` file.
     Return a dictionary with glyph groups, and a list with the order of the groups.
@@ -44,6 +50,37 @@ def auto_unicodes(f):
     for g in f:
         auto_unicode(g)
     f.update()
+
+def paint_groups(f, crop=False):
+    '''Paint the glyphs in the `font` according to their groups.
+    If a `groups_order` lib is available, use it to set the order of the glyphs in the font.
+    '''
+    font = CurrentFont()
+    if len(f.groups) > 0:
+        clear_colors(f)
+        count = 0
+        _order = []
+        if f.lib.has_key('groups_order'):
+            groups = f.lib['groups_order']
+        else:
+            groups = f.groups.keys()
+        for group in groups:
+            color_step = 1.0 / len(f.groups)
+            color = color_step * count
+            R, G, B = hls_to_rgb(color, 0.5, 1.0)
+            for glyph_name in f.groups[group]:
+                if f.has_key(glyph_name) is not True:
+                    f.newGlyph(glyph_name)
+                _order.append(glyph_name)
+                f[glyph_name].mark = (R, G, B, .5)
+                f[glyph_name].update()
+            count += 1
+        f.glyphOrder = _order
+        f.update()
+    if crop:
+        crop_glyphset(f, _order)
+    else:
+        print 'font has no groups.\n'
 
 #-------------------
 # glyph-level tools

@@ -10,9 +10,6 @@ if hTools2.DEBUG:
     import hTools2.objects
     reload(hTools2.objects)
 
-    import hTools2.modules.color
-    reload(hTools2.modules.color)
-
     import hTools2.modules.fontutils
     reload(hTools2.modules.fontutils)
 
@@ -20,9 +17,13 @@ if hTools2.DEBUG:
 
 from vanilla import *
 
-from hTools2.objects import *
-from hTools2.modules.color import *
-from hTools2.modules.fontutils import *
+try:
+    from mojo.roboFont import CurrentFont
+except:
+    from robofab.world import CurrentFont
+
+from hTools2.objects import hFont
+from hTools2.modules.fontutils import delete_groups
 
 # objects
 
