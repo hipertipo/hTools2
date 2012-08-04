@@ -73,7 +73,7 @@ class hFont:
             self.parameters = dict(zip(parameters_order, name_parameters))
         except:
             self.parameters = {}
-            print 'there is no parameters lib for this font.\n'
+            # print 'there is no parameters lib for this font.\n'
 
     def get_glyphs(self):
         get_glyphs(self.ufo)
