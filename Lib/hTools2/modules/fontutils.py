@@ -26,8 +26,8 @@ try:
 except:
     from robofab.world import CurrentGlyph, CurrentFont, NewFont
 
-from glyphutils import round_points
-from color import *
+from hTools2.modules.glyphutils import round_points
+from hTools2.modules.color import *
 
 #--------
 # glyphs

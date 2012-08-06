@@ -287,10 +287,11 @@ class roundToGridDialog(object):
             print '\tanchors: %s' % boolstring[params['anchors']]
             print '\tlayers: %s' % boolstring[params['layers']]
             print
+            print '\t',
             # align current glyph
             g = CurrentGlyph()
             if g is not None:
-                print g.name
+                print g.name,
                 self.gridfit(g, params)
             # align selected glyphs
             else:

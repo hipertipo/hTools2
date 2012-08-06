@@ -10,17 +10,21 @@ if hTools2.DEBUG:
     import hproject
     reload(hproject)
 
+    import hTools2.modules.encoding
+    reload(hTools2.modules.encoding)
+
     import hTools2.modules.fontutils
     reload(hTools2.modules.fontutils)
 
-    import hTools2.modules.encoding
-    reload(hTools2.modules.encoding)
+    import hTools2.modules.ftp
+    reload(hTools2.modules.ftp)
 
 # imports
 
 import os
 
 from hproject import hProject
+from hTools2.modules.ftp import *
 from hTools2.modules.fontutils import set_font_names    #, get_spacing_groups, get_glyphs, get_full_name, parse_glyphs_groups
 from hTools2.modules.encoding import paint_groups       #, hls_to_rgb, clear_colors
 

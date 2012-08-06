@@ -32,14 +32,12 @@ class copyToMaskDialog(object):
 
     _title = 'mask'
     _padding = 10
-    _padding_top = 10
     _row_height = 25
     _line_height = 20
     _button_height = 30
     _column_1 = 103
-
     _width = _column_1 + (_padding * 2)
-    _height = (_line_height * 2) + (_row_height * 2) + (_button_height * 2) + (_padding_top * 5) - 2
+    _height = (_line_height * 2) + (_row_height * 2) + (_button_height * 2) + (_padding * 5) - 2
 
     _target_layer_name = 'mask'
 
@@ -49,14 +47,14 @@ class copyToMaskDialog(object):
 
     def __init__(self):
         self._update_fonts()
+        # create window
         self.w = FloatingWindow(
-                    (self._width,
-                    self._height),
+                    (self._width, self._height),
                     self._title,
                     closable=True)
-        # source font
         x = self._padding
-        y = self._padding_top
+        y = self._padding
+        # source font label
         self.w._source_label = TextBox(
                     (x, y,
                     -self._padding,
@@ -64,21 +62,23 @@ class copyToMaskDialog(object):
                     "foreground",
                     sizeStyle='small')
         y += self._line_height
+        # source font value
         self.w._source_value = PopUpButton(
                     (x, y,
                     -self._padding,
                     self._line_height),
                     self._all_fonts_names,
                     sizeStyle='small')
-        # target font
-        y += self._line_height + self._padding_top
+        y += self._line_height + self._padding
+        # target font label
         self.w._target_label = TextBox(
                     (x, y,
                     -self._padding,
                     self._line_height),
-                    "target",
+                    "target layer",
                     sizeStyle='small')
         y += self._line_height
+        # target font value
         self.w._target_value = PopUpButton(
                     (x, y,
                     -self._padding,
@@ -86,7 +86,7 @@ class copyToMaskDialog(object):
                     self._all_fonts_names,
                     sizeStyle='small')
         # apply button
-        y += self._line_height + self._padding_top + 7
+        y += self._line_height + self._padding + 7
         self.w.button_apply = SquareButton(
                     (x, y,
                     -self._padding,
@@ -95,7 +95,7 @@ class copyToMaskDialog(object):
                     sizeStyle='small',
                     callback=self.apply_callback)
         # update button
-        y += self._button_height + self._padding_top
+        y += self._button_height + self._padding
         self.w.button_update = SquareButton(
                     (x, y,
                     -self._padding,
@@ -121,9 +121,8 @@ class copyToMaskDialog(object):
 
     def apply_callback(self, sender):
         if len(self._all_fonts) > 0:
-            # get source font parameters
+            # get parameters
             _source_font = self._all_fonts[self.w._source_value.get()]
-            # get target font parameters
             _target_layer_name = self._target_layer_name
             _target_font = self._all_fonts[self.w._target_value.get()]
             # print info

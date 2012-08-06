@@ -2,6 +2,21 @@
 
 '''Unicode tools, glyph name to hex/uni conversion etc.'''
 
+# reload when debugging
+
+import hTools2
+reload(hTools2)
+
+if hTools2.DEBUG:
+
+    import hTools2.modules.color
+    reload(hTools2.modules.color)
+
+    import hTools2.modules.fontutils
+    reload(hTools2.modules.fontutils)
+
+# imports
+
 import os
 
 try:
@@ -9,6 +24,10 @@ try:
 except:
     from robofab.world import CurrentFont
 
+from hTools2.modules.color import clear_colors, hls_to_rgb
+from hTools2.modules.fontutils import crop_glyphset
+
+# functions
 
 def import_encoding(file_path):
     '''Import group and glyphs names from an `.enc` file.
@@ -77,8 +96,8 @@ def paint_groups(f, crop=False):
             count += 1
         f.glyphOrder = _order
         f.update()
-    if crop:
-        crop_glyphset(f, _order)
+        if crop:
+            crop_glyphset(f, _order)
     else:
         print 'font has no groups.\n'
 

@@ -63,6 +63,9 @@ class hLine:
 
     # draw anchors yes/no
     anchors = False
+    anchors_size = 10
+    anchors_stroke_width = 2
+    anchors_stroke_color = None
 
     # draw an additional mark in origin of each glyph
     origin = False
@@ -207,7 +210,7 @@ class hLine:
                     for a in g.anchors:
                         x = (a.position[0] * self.scale)
                         y = - (a.position[1] * self.scale)
-                        draw_cross((x, y), self.ctx)
+                        draw_cross((x, y), self.ctx, size_=self.anchors_size, stroke_=self.anchors_stroke_width)
             self.ctx.pop()
             # done
             line_length += (g.width * self.scale)

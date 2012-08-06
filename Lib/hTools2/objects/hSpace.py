@@ -6,14 +6,28 @@ import hTools2
 reload(hTools2)
 
 if hTools2.DEBUG:
+
     import hproject
     reload(hproject)
+
+    import hfont
+    reload(hfont)
+
+    import hTools2.modules.fontutils
+    reload(hTools2.modules.fontutils)
 
 # imports
 
 import os
 
+try:
+    from mojo.roboFont import RFont
+except:
+    from robofab.world import RFont
+
 from hproject import hProject
+from hfont import hFont
+from hTools2.modules.fontutils import parse_glyphs_groups, get_full_name
 
 # object
 
@@ -198,92 +212,3 @@ class hSpace:
                         dest_font.save()
                 print
         print '\n...done.\n'
-
-    ### move shift functionality to scripts ###
-
-    # def shift_x(self, dest_width, group_names):
-    #     print 'batch copying glyphs in hSpace...\n'
-    #     groups = self.project.libs['groups']['glyphs']
-    #     groups_order = self.project.libs['groups']['order']
-    #     source_width = str(self.parameters['width'][0])
-    #     transform_dict = self.project.libs['project']['shift_x']
-    #     for src_path in self.ufos():
-    #         font = hFont(RFont(src_path, showUI=False))
-    #         dest_parameters = font.parameters
-    #         dest_parameters['width'] = dest_width
-    #         dest_file = '%s_%s.ufo' % (font.project.name, font.name_from_parameters(separator='-'))
-    #         dest_path = os.path.join(font.project.paths['ufos'], dest_file)
-    #         if os.path.exists(dest_path):
-    #             dest_font = RFont(dest_path, showUI=False)
-    #             print "\tcopying glyphs from %s to %s...\n" % (get_full_name(font.ufo), get_full_name(dest_font))
-    #             print '\t\t',
-    #             for group_name in group_names:
-    #                 for glyph_name in groups[group_name]:
-    #                     if font.ufo.has_key(glyph_name):
-    #                         if dest_font.has_key(glyph_name) is False:
-    #                             dest_font.newGlyph(glyph_name)
-    #                         print glyph_name,
-    #                         # insert glyph
-    #                         dest_font.insertGlyph(font.ufo[glyph_name])
-    #                         # shift points 1
-    #                         deselect_points(dest_font[glyph_name])
-    #                         select_points_x(dest_font[glyph_name], transform_dict[source_width]['pos_1'], left=transform_dict[source_width]['side'])
-    #                         shift_selected_points_x(dest_font[glyph_name], transform_dict[source_width]['delta'])
-    #                         deselect_points(dest_font[glyph_name])
-    #                         # shift points 2
-    #                         select_points_x(dest_font[glyph_name], transform_dict[source_width]['pos_2'], left=transform_dict[source_width]['side'])
-    #                         shift_selected_points_x(dest_font[glyph_name], transform_dict[source_width]['delta'])
-    #                         # increase width
-    #                         dest_font[glyph_name].width += transform_dict[source_width]['glyph_width']
-    #                         # done
-    #                         dest_font.save()
-    #                 print
-    #                 print
-    #     print '...done.\n'
-
-    # def shift_y(self, dest_height, group_names):
-    #     print 'batch y-shifting glyphs in hSpace...\n'
-    #     groups = self.project.libs['groups']['glyphs']
-    #     groups_order = self.project.libs['groups']['order']
-    #     source_height = str(self.parameters['height'][0])
-    #     transform_dict = self.project.libs['project']['shift_y']
-    #     for src_path in self.ufos():
-    #         font = hFont(RFont(src_path, showUI=False))
-    #         dest_parameters = font.parameters
-    #         dest_parameters['height'] = dest_height
-    #         dest_file = '%s_%s.ufo' % (font.project.name, font.name_from_parameters(separator='-'))
-    #         dest_path = os.path.join(font.project.paths['ufos'], dest_file)
-    #         if os.path.exists(dest_path):
-    #             dest_font = RFont(dest_path, showUI=False)
-    #             print "\tcopying glyphs from %s to %s...\n" % (get_full_name(font.ufo), get_full_name(dest_font))
-    #             print '\t\t',
-    #             for group_name in group_names:
-    #                 for glyph_name in groups[group_name]:
-    #                     if font.ufo.has_key(glyph_name):
-    #                         if dest_font.has_key(glyph_name) is False:
-    #                             dest_font.newGlyph(glyph_name)
-    #                         print glyph_name,
-    #                         # insert glyph
-    #                         dest_font.insertGlyph(font.ufo[glyph_name])
-    #                         # shift points 1
-    #                         deselect_points(dest_font[glyph_name])
-    #                         select_points_y(dest_font[glyph_name], transform_dict[source_height]['pos_1'], above=transform_dict[source_height]['above'])
-    #                         shift_selected_points_y(dest_font[glyph_name], transform_dict[source_height]['delta'])
-    #                         deselect_points(dest_font[glyph_name])
-    #                         # shift points 2
-    #                         select_points_y(dest_font[glyph_name], transform_dict[source_height]['pos_2'], above=transform_dict[source_height]['above'])
-    #                         shift_selected_points_y(dest_font[glyph_name], transform_dict[source_height]['delta'])
-    #                         deselect_points(dest_font[glyph_name])
-    #                         # shift points 3
-    #                         select_points_y(dest_font[glyph_name], transform_dict[source_height]['pos_3'], above=transform_dict[source_height]['above'])
-    #                         shift_selected_points_y(dest_font[glyph_name], transform_dict[source_height]['delta'])
-    #                         deselect_points(dest_font[glyph_name])
-    #                         # shift points 4
-    #                         select_points_y(dest_font[glyph_name], transform_dict[source_height]['pos_4'], above=False)
-    #                         shift_selected_points_y(dest_font[glyph_name], -transform_dict[source_height]['delta'])
-    #                         deselect_points(dest_font[glyph_name])
-    #                         # done
-    #                         dest_font.save()
-    #                 print
-    #                 print
-    #     print '...done.\n'
