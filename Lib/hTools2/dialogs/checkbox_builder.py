@@ -26,6 +26,7 @@ class checkBoxBuilder(object):
             tmp = list(items_list)
             tmp.sort()
             items_list = tuple(tmp)
+        self._items_list = items_list
         # init window
         self.w = ModalDialog(
                     (self._width,
@@ -50,7 +51,7 @@ class checkBoxBuilder(object):
                     -self._padding,
                     self._box_height))
         # create checkboxes from list
-        for item in items_list:
+        for item in self._items_list:
             self._add_checkbox(item)
         # open window
         self.w.open()
@@ -87,7 +88,9 @@ class checkBoxBuilder(object):
         self._checkboxes[sender] = (title, value)
 
     def ok_callback(self, sender):
-        for _checkbox in self._checkboxes.keys():
+        _checkboxes = self._checkboxes.keys()
+        _checkboxes.sort()
+        for _checkbox in _checkboxes:
             title, value = self._checkboxes[_checkbox]
             if value == True:
                 self.selected.append(title)
