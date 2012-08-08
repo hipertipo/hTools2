@@ -39,6 +39,13 @@ License
 [BSD 3-Clause License](http://www.opensource.org/licenses/BSD-3-Clause)
 
 
-### Get the source
+Download
+--------
 
 [https://github.com/gferreira/hTools2](https://github.com/gferreira/hTools2)
+
+
+Documentation
+-------------
+
+[https://github.com/gferreira/hTools2/wiki](https://github.com/gferreira/hTools2/wiki)
