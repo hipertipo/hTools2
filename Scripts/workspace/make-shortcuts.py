@@ -90,7 +90,7 @@ _htools2_shortcuts = [
 
 # custom production scripts
 
-_custom_path = u'/_code/hScripts/_hObjects/'
+_custom_path = u'/_code/hScripts/_objects/'
 
 _custom_shortcuts = [
 

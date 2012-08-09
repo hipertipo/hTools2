@@ -155,7 +155,7 @@ class setMarginsDialog(object):
                     self._line_height),
                     ['=', '+', '-'],
                     sizeStyle='small',
-                    #callback=self.right_mode_callback,
+                    callback=self.right_mode_callback,
                     isVertical=False)
         self.w.right_mode.set(0)
         # label
@@ -378,8 +378,8 @@ class setMarginsDialog(object):
             if len(glyph_names) > 0:
                 # print info
                 print 'setting margins for selected glyphs...\n'
-                print '\tleft: %s (%s) [%s]' % (self._modes[_left_mode], self._left_value, boolstring[_left])
-                print '\tright: %s (%s) [%s]' % (self._modes[_right_mode], self._right_value, boolstring[_right])
+                print '\tleft: %s %s [%s]' % (self._modes[_left_mode], self._left_value, boolstring[_left])
+                print '\tright: %s %s [%s]' % (self._modes[_right_mode], self._right_value, boolstring[_right])
                 print
                 print '\t\t',
                 # set margins

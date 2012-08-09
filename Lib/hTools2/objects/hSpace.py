@@ -174,7 +174,6 @@ class hSpace:
     def transfer_glyphs(self, gstring, var, ranges):
         axis, src, dest = var
         # define source space
-        # s = hSpace(project_name)
         for param in self.parameters.keys():
             if param == axis:
                 self.parameters[param] = [ src ]
@@ -212,3 +211,32 @@ class hSpace:
                         dest_font.save()
                 print
         print '\n...done.\n'
+
+    def copy_glyphs(self, src_glyphs, dst_glyphs, parameters=None):
+        # build space
+        if parameters is not None:
+            self.parameters = parameters
+        self.build()
+        # get glyphs
+        groups = self.project.libs['groups']['glyphs']
+        src_glyph_names = parse_glyphs_groups(src_glyphs.split(' '), groups)
+        dst_glyph_names = parse_glyphs_groups(dst_glyphs.split(' '), groups)
+        # batch copy glyphs
+        print "batch copying glyphs in %s...\n" % self.project.name
+        for font_path in self.ufos():
+            font = hFont(RFont(font_path, showUI=False))
+            print '\tcopying glyphs in font %s' % font.full_name()
+            for i in range(len(src_glyph_names)):
+                _src_glyph_name = src_glyph_names[i]
+                _dst_glyph_name = dst_glyph_names[i]
+                # copy glyph
+                if font.ufo.has_key(_src_glyph_name):
+                    print '\t\tcopying %s to %s...' % (_src_glyph_name, _dst_glyph_name)
+                    if not font.ufo.has_key(_dst_glyph_name):
+                        font.ufo.newGlyph(_dst_glyph_name)
+                    font.ufo.insertGlyph(font.ufo[_src_glyph_name], name=_dst_glyph_name)
+                    font.ufo.save()
+            # print '\t...done.'
+            print
+        # done
+        print '...done.\n'
