@@ -57,15 +57,15 @@ class hProject:
     _path_names = [
         'root',
         'ufos',
-        'otfs',
         'libs',
-        'docs',
-        'temp',
-        'test',
-        'vfbs',
+        'otfs',
         'woffs',
-        'bkp',
+        'test',
         'otfs_test'
+        # 'vfbs',
+        # 'docs',
+        # 'temp',
+        # 'bkp',
     ]
 
     # a reference list for all settings files in project
@@ -80,7 +80,7 @@ class hProject:
         'groups'
     ]
 
-    # default extension of the settings files
+    # default extension of settings files
     _lib_extension = 'plist'
 
     #---------
@@ -113,12 +113,9 @@ class hProject:
 
     def import_encoding(self):
         '''Import groups, glyph names and glyph order from the project's encoding file, and saves them into a lib.'''
-        #try:
         _groups, _order = import_encoding(self.paths['encoding'])
         self.libs['groups']['glyphs'] = _groups
         self.libs['groups']['order'] = _order
-        # except:
-        #     print 'could not import encoding.\n'
 
     def all_glyphs(self, ignore=['invisible']):
         '''Return a list of all glyphs in project (character set).'''
@@ -154,14 +151,14 @@ class hProject:
         _paths = {}
         _project_root = os.path.join(self.world.settings.root, '_%s') % self.name
         _paths['root'] = _project_root
-        _paths['docs'] = os.path.join(_project_root, '_docs')
         _paths['ufos'] = os.path.join(_project_root, '_ufos')
         _paths['otfs'] = os.path.join(_project_root, '_otfs')
         _paths['libs'] = os.path.join(_project_root, '_libs')
-        _paths['vfbs'] = os.path.join(_project_root, '_vfbs')
         _paths['temp'] = os.path.join(_project_root, '_temp')
         _paths['woffs'] = os.path.join(_project_root, '_woffs')
-        _paths['bkp'] = os.path.join(_project_root, '_bkp')
+        #_paths['docs'] = os.path.join(_project_root, '_docs')
+        #_paths['vfbs'] = os.path.join(_project_root, '_vfbs')
+        #_paths['bkp'] = os.path.join(_project_root, '_bkp')
         _paths['instances'] = os.path.join(_project_root, '_ufos/_instances')
         _paths['interpol'] = os.path.join(_project_root, '_ufos/_interpol')
         _paths['interpol_instances'] = os.path.join(_project_root, '_ufos/_interpol/_instances')
@@ -210,14 +207,14 @@ class hProject:
     def make_folders(self):
         print 'creating project sub-folders in project %s...\n' % self.name
         _folders = [
-            'temp',
-            'docs',
-            'woffs',
-            'otfs',
-            'bkp',
             'libs',
             'ufos',
-            'vfbs'
+            'woffs',
+            'otfs',
+            #'temp',
+            #'docs',
+            #'bkp',
+            #'vfbs'
         ]
         for k in self.paths.keys():
             if k in _folders:

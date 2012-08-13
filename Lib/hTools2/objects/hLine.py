@@ -120,6 +120,7 @@ class hLine:
             self.glyph_names = self._text_to_gnames(_text)
 
     def width(self):
+        '''Return the width of the hLine object with the current settings.'''
         line_length = 0
         for glyph_name in self.glyph_names:
             g = self.font.ufo[glyph_name]
@@ -127,6 +128,7 @@ class hLine:
         return line_length
 
     def height(self):
+        '''Return the height of the hLine object with the current settings.'''
         return self.font.ufo.info.unitsPerEm * self.scale
 
     def draw(self, pos):
@@ -148,6 +150,7 @@ class hLine:
             draw_horizontal_line(self.y - _ascender, self.ctx, color_=self.color_guidelines)
             if _capheight != _ascender:
                 draw_horizontal_line(self.y - _capheight, self.ctx, color_=self.color_guidelines)
+        count = 1
         for glyph_name in self.glyph_names:
             #-----------------
             # draw guidelines
@@ -165,6 +168,10 @@ class hLine:
                 else:
                     y_range_ = None
                 draw_vertical_line(self.x, self.ctx, y_range=y_range_, color_=self.color_guidelines)
+                # if last glyph in line, draw right margin
+                if count == len(self.glyph_names):
+                    _x = self.x + (self.font.ufo[glyph_name].width * self.scale)
+                    draw_vertical_line(_x, self.ctx, y_range=y_range_, color_=self.color_guidelines)
             # draw origin points
             if self.origin is True:
                 draw_cross((self.x, self.y), self.ctx, color_=self.color_guidelines)
@@ -215,3 +222,4 @@ class hLine:
             # done
             line_length += (g.width * self.scale)
             self.x += (g.width * self.scale)
+            count += 1

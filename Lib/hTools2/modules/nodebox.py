@@ -69,25 +69,41 @@ def draw_cross((x, y), ctx, size_=10, stroke_=None, color_=None):
 # grid tools
 #------------
 
-def draw_grid(ctx, pos=(0,0), size_=1, stroke_=None, color_=None):
+def draw_grid(ctx, pos=(0,0), size_=1, stroke_=None, color_=None, mode='lines'):
     '''Draws a grid in `context`. The optional parameters `pos` and `size` control the start of the grid and the size of the grid cells.'''
     x, y = pos
+    w = ctx.HEIGHT / size_
+    h = ctx.WIDTH / size_
     _stroke = 1
-    _color = ctx.color(.25)
+    _color = ctx.color(.5)
     if stroke_ is not None:
         _stroke = stroke_
     if color_ is not None:
         _color = color_
     # draw lines
-    ctx.stroke(_color)
-    ctx.strokewidth(_stroke)
-    ctx.fill(None)
-    for i in range(ctx.HEIGHT / size_):
-        ctx.line(0, y + .5, ctx.WIDTH, y + .5)
-        y += size_
-    for j in range(ctx.WIDTH / size_):
-        ctx.line(x + .5, 0, x + .5, ctx.HEIGHT)
-        x += size_
+    if mode == 'lines':
+        ctx.stroke(_color)
+        ctx.strokewidth(_stroke)
+        ctx.fill(None)
+        for i in range(int(w)):
+            ctx.line(0, y + .5, ctx.WIDTH, y + .5)
+            y += size_
+        for j in range(int(h)):
+            ctx.line(x + .5, 0, x + .5, ctx.HEIGHT)
+            x += size_
+    # draw dots
+    elif mode == 'dots':
+        ctx.nostroke()
+        ctx.fill(_color)
+        for i in range(int(w)):
+            for j in range(int(h)):
+                _x = x + (i * size_)
+                _y = y + (j * size_)
+                ctx.rect(_x, _y, 1, 1)
+    # mode not supported
+    else:
+        print 'mode %s not supported' % mode
+
 
 def gridfit((x, y), grid):
     '''Takes a tuple `(x,y)` and a grid size `grid`, and returns new rounded values for `(x,y)`.'''
