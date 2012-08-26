@@ -1,6 +1,6 @@
 # [h] hLine
 
-# reload when debugging
+# debug
 
 import hTools2
 reload(hTools2)
@@ -209,16 +209,18 @@ class hLine:
             P = capstyle(P, self.cap_style)
             P = joinstyle(P, self.join_style)
             self.ctx.drawpath(P)
+            self.ctx.pop()
             #--------------
             # draw anchors
             #--------------
             if self.anchors is True:
+                # f = 120.0 / self.font.ufo.info.unitsPerEm
                 if len(g.anchors) > 0:
                     for a in g.anchors:
-                        x = (a.position[0] * self.scale)
-                        y = - (a.position[1] * self.scale)
-                        draw_cross((x, y), self.ctx, size_=self.anchors_size, stroke_=self.anchors_stroke_width)
-            self.ctx.pop()
+                        x = self.x + (a.position[0] * self.scale)
+                        y = self.y - (a.position[1] * self.scale)
+                        draw_cross((x, y), self.ctx, size_=self.anchors_size, stroke_=self.anchors_stroke_width, color_=self.anchors_stroke_color)
+
             # done
             line_length += (g.width * self.scale)
             self.x += (g.width * self.scale)

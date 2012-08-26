@@ -33,7 +33,7 @@ from hTools2.modules.color import *
 # glyphs
 #--------
 
-def get_glyphs(font):
+def get_glyphs(font, mode=0):
     '''Return a list with the names of glyphs currently selected or active in the `font`.
     The result is different than RoboFab's `f.selection`, because it also includes the contents of `CurrentGlyph()`.
     '''
@@ -46,7 +46,15 @@ def get_glyphs(font):
             if glyph.name not in _glyph_names:
                 _glyph_names.append(glyph.name)
     _glyph_names.sort()
-    return _glyph_names
+    # return glyph names
+    if mode is 0:
+        return _glyph_names
+    # return glyphs
+    else:
+        _glyphs = []
+        for glyph_name in _glyph_names:
+            _glyphs.append(font[glyph_name])
+        return _glyphs
 
 def print_selected_glyphs(f, mode=1):
     '''Print the selected glyphs to the output window.

@@ -40,17 +40,21 @@ def rename_anchor(glyph, old_name, new_name):
     return has_name
 
 def transfer_anchors(source_glyph, dest_glyph):
-    '''Transfer the existing anchors in `source_glyph` to `dest_glyph`.'''
+    '''Transfer all anchors in `source_glyph` to `dest_glyph`.'''
     has_anchor = False
     if len(source_glyph.anchors) > 0 :
+        # collect anchors in source glyph
         has_anchor = True
         anchorsDict = {}
         for a in source_glyph.anchors:
             anchorsDict[a.name] = a.position
+        # clear anchors in dest glyph
         dest_glyph.clearAnchors()
+        # place anchors in dest glyph
         for anchor in anchorsDict:
             dest_glyph.appendAnchor(anchor, anchorsDict[anchor])
             dest_glyph.update()
+    # done
     return has_anchor
 
 def move_anchors(glyph, anchor_names, (delta_x, delta_y)):

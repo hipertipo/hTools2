@@ -37,7 +37,18 @@ class adjustVerticalMetrics(object):
     _column_2 = 200
     _column_3 = 45
     _width = _column_1 + _column_2 + _column_3 + (_padding * 3) + (_button_2 * 4) + 2
-    _height = (_row_height * 4) + (_padding * 5)
+    _height = (_row_height * 5) + (_padding * 5)
+
+    _units_per_em_min =     0
+    _units_per_em_max =     9999
+    _ascender_min =         1
+    _ascender_max =         9999
+    _capheight_min =        1
+    _capheight_max =        9999
+    _xheight_min =          1
+    _xheight_max =          9999
+    _descender_min =        1
+    _descender_max =        9999
 
     def __init__(self):
         self.w = FloatingWindow(
@@ -77,10 +88,62 @@ class adjustVerticalMetrics(object):
                     callback=self.update_font_callback)
         y += self._row_height + self._padding
         #----------
+        # em-square
+        #----------
+        self.w.units_per_em_label = TextBox(
+                    (x1, y,
+                    self._column_1,
+                    self._row_height),
+                    "em square",
+                    sizeStyle='small')
+        self.w.units_per_em_slider = Slider(
+                    (x2, y - 5,
+                    self._column_2,
+                    self._row_height),
+                    minValue=self._units_per_em_min,
+                    maxValue=self._units_per_em_max,
+                    value=_ascender,
+                    callback=self.units_per_em_slider_callback,
+                    sizeStyle='small')
+        self.w.units_per_em_value = EditText(
+                    (x3, y,
+                    self._column_3,
+                    self._box_height),
+                    _ascender,
+                    callback=self.units_per_em_value_callback,
+                    sizeStyle='small')
+        self.w.units_per_em_minus_01 = SquareButton(
+                    (x4, y,
+                    self._button_2,
+                    self._button_2),
+                    '-',
+                    callback=self.units_per_em_minus_01_callback,
+                    sizeStyle='small')
+        self.w.units_per_em_plus_01 = SquareButton(
+                    (x5, y,
+                    self._button_2,
+                    self._button_2),
+                    '+',
+                    callback=self.units_per_em_plus_01_callback,
+                    sizeStyle='small')
+        self.w.units_per_em_minus_10 = SquareButton(
+                    (x6, y,
+                    self._button_2,
+                    self._button_2),
+                    '-',
+                    callback=self.units_per_em_minus_10_callback,
+                    sizeStyle='small')
+        self.w.units_per_em_plus_10 = SquareButton(
+                    (x7, y,
+                    self._button_2,
+                    self._button_2),
+                    '+',
+                    callback=self.units_per_em_plus_10_callback,
+                    sizeStyle='small')
+        y += self._row_height
+        #----------
         # ascender
         #----------
-        self._ascender_min = 1
-        self._ascender_max = self.font.info.unitsPerEm * 1.6
         self.w.ascender_label = TextBox(
                     (x1, y,
                     self._column_1,
@@ -135,8 +198,6 @@ class adjustVerticalMetrics(object):
         #-----------
         # capheight
         #-----------
-        self._capheight_min = 1
-        self._capheight_max = self.font.info.unitsPerEm
         self.w.capheight_label = TextBox(
                     (x1, y,
                     self._column_1,
@@ -191,8 +252,6 @@ class adjustVerticalMetrics(object):
         #---------
         # xheight
         #---------
-        self._xheight_min = 1
-        self._xheight_max = self.font.info.unitsPerEm
         self.w.xheight_label = TextBox(
                     (x1, y,
                     self._column_1,
@@ -247,8 +306,6 @@ class adjustVerticalMetrics(object):
         #-----------
         # descender
         #-----------
-        self._descender_min = 1
-        self._descender_max = self.font.info.unitsPerEm * .5
         self.w.descender_label = TextBox(
                     (x1,
                     y,
