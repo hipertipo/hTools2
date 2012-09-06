@@ -16,6 +16,9 @@ if hTools2.DEBUG:
     import hTools2.modules.anchors
     reload(hTools2.modules.anchors)
 
+    import hTools2.modules.fontinfo
+    reload(hTools2.modules.fontinfo)
+
     import hTools2.modules.fontutils
     reload(hTools2.modules.fontutils)
 
@@ -34,6 +37,7 @@ except:
 from hproject import hProject
 from hfont import hFont
 from hTools2.modules.fontutils import parse_glyphs_groups, get_full_name, scale_glyphs
+from hTools2.modules.fontinfo import *
 from hTools2.modules.anchors import transfer_anchors
 from hTools2.modules.glyphutils import *
 
@@ -287,11 +291,12 @@ class hSpace:
         # done
         print '...done.\n'
 
-    def shift_x(self, dest_width, group_names, pos_x, delta_x, side_x):
+    def shift_x(self, dest_width, gstring, pos_x, delta_x, side_x):
         print 'batch x-shifting glyphs in hSpace...\n'
-        # get groups
+        # get glyphs
+        names = gstring.split(' ')
         groups = self.project.libs['groups']['glyphs']
-        groups_order = self.project.libs['groups']['order']
+        glyph_names = parse_glyphs_groups(names, groups)
         # get base width
         source_width = str(self.parameters['width'][0])
         # batch shift glyphs in fonts
@@ -306,36 +311,35 @@ class hSpace:
                 dest_font = RFont(dest_path, showUI=False)
                 print "\tcopying glyphs from %s to %s...\n" % (get_full_name(font.ufo), get_full_name(dest_font))
                 print '\t\t',
-                for group_name in group_names:
-                    for glyph_name in groups[group_name]:
-                        if font.ufo.has_key(glyph_name):
-                            if dest_font.has_key(glyph_name) is False:
-                                dest_font.newGlyph(glyph_name)
-                            print glyph_name,
-                            # insert glyph
-                            dest_font.insertGlyph(font.ufo[glyph_name])
-                            # shift points
-                            deselect_points(dest_font[glyph_name])
-                            select_points_x(dest_font[glyph_name], pos_x, side=side_x)
-                            shift_selected_points_x(dest_font[glyph_name], delta_x)
-                            deselect_points(dest_font[glyph_name])
-                            # increase width
-                            dest_font[glyph_name].width += delta_x
-                            # done
-                            dest_font.save()
-                    print
-                    print
+                for glyph_name in glyph_names:
+                    if font.ufo.has_key(glyph_name):
+                        if dest_font.has_key(glyph_name) is False:
+                            dest_font.newGlyph(glyph_name)
+                        print glyph_name,
+                        # insert glyph
+                        dest_font.insertGlyph(font.ufo[glyph_name])
+                        # shift points
+                        deselect_points(dest_font[glyph_name])
+                        select_points_x(dest_font[glyph_name], pos_x, side=side_x)
+                        shift_selected_points_x(dest_font[glyph_name], delta_x)
+                        deselect_points(dest_font[glyph_name])
+                        # increase width
+                        dest_font[glyph_name].width += delta_x
+                        # done
+                        dest_font.save()
+                print
+                print
         print '...done.\n'
 
     def create_fonts(self):
         print "batch creating fonts...\n"
         for font in self.fonts:
             font_path = '%s_%s.ufo' % (self.project.name, font)
-            font_path = os.path.join(s.project.paths['ufos'], font_path)
+            font_path = os.path.join(self.project.paths['ufos'], font_path)
             if os.path.exists(font_path) is False:
-                f = NewFont()
+                f = NewFont(showUI=False)
                 print '\t%s creating font...' % font
-                f.save(destDir=font_path)
+                f.save(path=font_path)
             else:
                 print '\t%s already exists.' % font
         print "\n...done.\n"
@@ -438,8 +442,8 @@ class hSpace:
                 size = font.parameters['size']
             else:
                 size = font.parameters['height']
-            vmetrics = s.project.libs['project']['vmetrics'][str(size)]
-            _gridsize = s.project.libs['project']['grid']
+            vmetrics = self.project.libs['project']['vmetrics'][str(size)]
+            _gridsize = self.project.libs['project']['grid']
             # clear vmetrics
             clear_opentype_os2(font.ufo)
             clear_opentype_hhea(font.ufo)
@@ -452,13 +456,37 @@ class hSpace:
         print
         print '...done.\n'
 
-    def scale_glyphs(self, factor):
+    def scale_fonts(self, factor):
         print 'batch scaling fonts...'
         print
-        for ufo_path in s.ufos():
+        for ufo_path in self.ufos():
             ufo = RFont(ufo_path, showUI=False)
-            print '\tscaling %s by %s...' % (get_full_name(ufo), _factor)
+            print '\tscaling %s by %s...' % (get_full_name(ufo), factor)
             scale_glyphs(ufo, (factor, factor))
+            ufo.save()
+        print
+        print '...done.\n'
+
+    def scale_glyphs(self, factor, gstring):
+        # get glyphs
+        names = gstring.split(' ')
+        groups = self.project.libs['groups']['glyphs']
+        glyph_names = parse_glyphs_groups(names, groups)
+        # scale glyphs
+        print 'batch scaling fonts...'
+        print
+        for ufo_path in self.ufos():
+            ufo = RFont(ufo_path, showUI=False)
+            print '\tscaling %s by %s...' % (get_full_name(ufo), factor)
+            print '\t',
+            for glyph_name in glyph_names:
+                print glyph_name,
+                leftMargin, rightMargin = ufo[glyph_name].leftMargin, ufo[glyph_name].rightMargin
+                ufo[glyph_name].scale((factor, factor))
+                ufo[glyph_name].leftMargin = leftMargin * factor
+                ufo[glyph_name].rightMargin = rightMargin * factor
+            # done with font
+            print
             ufo.save()
         print
         print '...done.\n'
