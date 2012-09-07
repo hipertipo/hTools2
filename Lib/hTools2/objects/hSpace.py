@@ -339,7 +339,7 @@ class hSpace:
             if os.path.exists(font_path) is False:
                 f = NewFont(showUI=False)
                 print '\t%s creating font...' % font
-                f.save(path=font_path)
+                f.save(destDir=font_path)
             else:
                 print '\t%s already exists.' % font
         print "\n...done.\n"
@@ -366,12 +366,12 @@ class hSpace:
         # get options or defaults
         if options is not None:
             _decompose = options['decompose']
-            _remove_overlap = options['_remove_overlap']
-            _autohint = options['_autohint']
-            _release_mode = options['_release_mode']
-            _otfs_test = options['_otfs_test']
-            _woff_generate = options['_woff_generate']
-            _woff_upload = options['_woff_upload']
+            _remove_overlap = options['remove_overlap']
+            _autohint = options['autohint']
+            _release_mode = options['release_mode']
+            _otfs_test = options['otfs_test']
+            _woff_generate = options['woff_generate']
+            _woff_upload = options['woff_upload']
         else:
             _decompose = True
             _remove_overlap = True
@@ -452,6 +452,18 @@ class hSpace:
             print '\tsetting vmetrics in %s...' % font.full_name()
             set_vmetrics(font.ufo, vmetrics['xheight'], vmetrics['capheight'], \
                          vmetrics['ascender'], vmetrics['descender'], int(size), gridsize=_gridsize)
+            font.ufo.save()
+        print
+        print '...done.\n'
+
+    def set_info(self):
+        print 'setting font info in space...'
+        print
+        for ufo_path in self.ufos():
+            ufo = RFont(ufo_path, showUI=False)
+            font = hFont(ufo)
+            font.set_info()
+            print '\tset font info for %s.' % font.full_name()
             font.ufo.save()
         print
         print '...done.\n'
