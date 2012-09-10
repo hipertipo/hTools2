@@ -52,8 +52,7 @@ class setWidthDialog(object):
 
     def __init__(self):
         self.w = FloatingWindow(
-                    (self._width,
-                    self._height),
+                    (self._width, self._height),
                     self._title,
                     closable=True)
         # left
@@ -222,9 +221,8 @@ class setWidthDialog(object):
             boolstring = (False, True)
             # print info
             print 'setting character widths...\n'
-            print '\twidth: %s' % _width
+            print '\t%s %s' % (self._modes[self._mode], _width)
             print '\tcenter: %s' % boolstring[_center]
-            print '\tmode: %s' % self._modes[self._mode]
             print
             print '\t',
             # current glyph

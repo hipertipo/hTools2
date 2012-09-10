@@ -1,6 +1,6 @@
 # [h] hSpace
 
-# reload when debugging
+# debug
 
 import hTools2
 reload(hTools2)
@@ -45,7 +45,7 @@ from hTools2.modules.glyphutils import *
 
 class hSpace:
 
-    '''An object to represent a parametric variation space inside `hWorld`.'''
+    '''An object to represent a parametric variation space in a `hProject`.'''
 
     #------------
     # attributes
@@ -57,8 +57,14 @@ class hSpace:
     # a list with the order in which the parameters appear
     parameters_order = []
 
+    # the character used as separator between parameters in font names
+    parameters_separator = '-'
+
     # a dictionary of parametric font names in the current `hSpace`
     fonts = {}
+
+    # the reference `hProject` object
+    project = None
 
     #---------
     # methods
@@ -181,7 +187,7 @@ class hSpace:
                 continue
         return font_paths
 
-    # functions
+    # transformation tools
 
     def transfer_glyphs(self, gstring, var, ranges):
         axis, src, dest_list = var
@@ -291,7 +297,7 @@ class hSpace:
         # done
         print '...done.\n'
 
-    def shift_x(self, dest_width, gstring, pos_x, delta_x, side_x):
+    def shift_x(self, dest_width, gstring, pos, delta, side):
         print 'batch x-shifting glyphs in hSpace...\n'
         # get glyphs
         names = gstring.split(' ')
@@ -307,9 +313,10 @@ class hSpace:
             dest_parameters['width'] = dest_width
             dest_file = '%s_%s.ufo' % (font.project.name, font.name_from_parameters(separator='-'))
             dest_path = os.path.join(font.project.paths['ufos'], dest_file)
+            # transform font
             if os.path.exists(dest_path):
                 dest_font = RFont(dest_path, showUI=False)
-                print "\tcopying glyphs from %s to %s...\n" % (get_full_name(font.ufo), get_full_name(dest_font))
+                print "\tx-shifting glyphs from %s to %s...\n" % (get_full_name(font.ufo), get_full_name(dest_font))
                 print '\t\t',
                 for glyph_name in glyph_names:
                     if font.ufo.has_key(glyph_name):
@@ -320,16 +327,105 @@ class hSpace:
                         dest_font.insertGlyph(font.ufo[glyph_name])
                         # shift points
                         deselect_points(dest_font[glyph_name])
-                        select_points_x(dest_font[glyph_name], pos_x, side=side_x)
-                        shift_selected_points_x(dest_font[glyph_name], delta_x)
+                        select_points_x(dest_font[glyph_name], pos, side=side)
+                        shift_selected_points_x(dest_font[glyph_name], delta)
                         deselect_points(dest_font[glyph_name])
                         # increase width
-                        dest_font[glyph_name].width += delta_x
+                        dest_font[glyph_name].width += delta
                         # done
                         dest_font.save()
                 print
                 print
         print '...done.\n'
+
+    def shift_y(self, dest_height, gstring, transformations):
+        print 'batch y-shifting glyphs in hSpace...\n'
+        # get glyphs
+        names = gstring.split(' ')
+        groups = self.project.libs['groups']['glyphs']
+        glyph_names = parse_glyphs_groups(names, groups)
+        # get base height
+        source_width = str(self.parameters['height'][0])
+        # batch shift glyphs in fonts
+        for src_path in self.ufos():
+            font = hFont(RFont(src_path, showUI=False))
+            # get dest font
+            dest_parameters = font.parameters
+            dest_parameters['height'] = dest_height
+            dest_file = '%s_%s.ufo' % (font.project.name, font.name_from_parameters(separator='-'))
+            dest_path = os.path.join(font.project.paths['ufos'], dest_file)
+            # transform font
+            if os.path.exists(dest_path):
+                dest_font = RFont(dest_path, showUI=False)
+                print "\ty-shifting glyphs from %s to %s...\n" % (get_full_name(font.ufo), get_full_name(dest_font))
+                print '\t\t',
+                for glyph_name in glyph_names:
+                    if font.ufo.has_key(glyph_name):
+                        if dest_font.has_key(glyph_name) is False:
+                            dest_font.newGlyph(glyph_name)
+                        print glyph_name,
+                        # insert glyph
+                        dest_font.insertGlyph(font.ufo[glyph_name])
+                        # shift points
+                        for t in transformations:
+                            pos, delta, side = t
+                            deselect_points(dest_font[glyph_name])
+                            select_points_y(dest_font[glyph_name], pos, side=side)
+                            shift_selected_points_y(dest_font[glyph_name], delta)
+                            deselect_points(dest_font[glyph_name])
+                            # save
+                            dest_font.save()
+                print
+                print
+        print '...done.\n'
+
+    def scale_glyphs(self, factor, gstring=None):
+        # get glyphs
+        if gstring is None:
+            glyph_names = self.project.all_glyphs()
+        else:
+            names = gstring.split(' ')
+            groups = self.project.libs['groups']['glyphs']
+            glyph_names = parse_glyphs_groups(names, groups)
+        # scale glyphs
+        print 'scaling glyphs in space...\n'
+        for ufo_path in self.ufos():
+            ufo = RFont(ufo_path, showUI=False)
+            print '\tscaling %s by %s...' % (get_full_name(ufo), factor)
+            print '\t\t',
+            for glyph_name in glyph_names:
+                print glyph_name,
+                leftMargin, rightMargin = ufo[glyph_name].leftMargin, ufo[glyph_name].rightMargin
+                ufo[glyph_name].scale((factor, factor))
+                ufo[glyph_name].leftMargin = leftMargin * factor
+                ufo[glyph_name].rightMargin = rightMargin * factor
+            # done with font
+            print
+            ufo.save()
+        print '\n...done.\n'
+
+    def move_glyphs(self, delta, gstring=None):
+        # get glyphs
+        if gstring is None:
+            glyph_names = self.project.all_glyphs()
+        else:
+            names = gstring.split(' ')
+            groups = self.project.libs['groups']['glyphs']
+            glyph_names = parse_glyphs_groups(names, groups)
+        # move glyphs
+        print 'moving glyphs in space...'
+        print
+        for ufo_path in self.ufos():
+            ufo = RFont(ufo_path, showUI=False)
+            print '\tmoving glyphs in %s by %s...' % (get_full_name(ufo), delta)
+            print '\t\t',
+            for glyph_name in glyph_names:
+                print glyph_name,
+                ufo[glyph_name].move(delta)
+            # done with font
+            print '\n'
+            ufo.save()
+        print '\n...done.\n'
 
     def create_fonts(self):
         print "batch creating fonts...\n"
@@ -344,23 +440,30 @@ class hSpace:
                 print '\t%s already exists.' % font
         print "\n...done.\n"
 
-    def create_glyphs(self):
-        groups = self.project.libs['groups']['glyphs']
-        print "batch creating glyphs in fonts...\n"
+    def create_glyphs(self, gstring=None, verbose=False):
+        # get glyphs
+        if gstring is None:
+            glyph_names = self.project.all_glyphs()
+        else:
+            names = gstring.split(' ')
+            groups = self.project.libs['groups']['glyphs']
+            glyph_names = parse_glyphs_groups(names, groups)
+        # create glyphs
+        print "creating glyphs in space...\n"
         for ufo_path in self.ufos():
             ufo = RFont(ufo_path, showUI=False)
             print "\tcreating glyphs in %s..." % get_full_name(ufo)
-            for group in groups:
-                for glyph_name in groups[group]:
-                    # create glyph in font
-                    if ufo.has_key(glyph_name) is False:
-                        print '\t\tcreating %s...' % glyph_name
-                        ufo.newGlyph(glyph_name)
+            if verbose: print '\t\t',
+            for glyph_name in glyph_names:
+                # create glyph in font
+                if ufo.has_key(glyph_name) is False:
+                    if verbose: print glyph_name,
+                    ufo.newGlyph(glyph_name)
             # done with font
             ufo.save()
-            print
+            if verbose: print '\n'
         # done
-        print "...done.\n"
+        print "\n...done.\n"
 
     def generate_fonts(self, options=None):
         # get options or defaults
@@ -381,7 +484,7 @@ class hSpace:
             _woff_generate = False
             _woff_upload = False
         # generate fonts
-        print "batch generating fonts in space...\n"
+        print "generating fonts in space...\n"
         for ufo_path in self.ufos():
             ufo = RFont(ufo_path, showUI=False)
             font = hFont(ufo)
@@ -418,7 +521,7 @@ class hSpace:
         css_file_path = os.path.join(self.project.paths['woffs'], css_file_name)
         css_file = open(css_file_path, 'w')
         # generate css rules
-        print "generating css for fonts in space...\n"
+        print "generating css for space...\n"
         for ufo_path in self.ufos():
             ufo = RFont(ufo_path, showUI=False)
             font = hFont(ufo)
@@ -453,52 +556,14 @@ class hSpace:
             set_vmetrics(font.ufo, vmetrics['xheight'], vmetrics['capheight'], \
                          vmetrics['ascender'], vmetrics['descender'], int(size), gridsize=_gridsize)
             font.ufo.save()
-        print
-        print '...done.\n'
+        print '\n...done.\n'
 
     def set_info(self):
-        print 'setting font info in space...'
-        print
+        print 'setting font info in space...\n'
         for ufo_path in self.ufos():
             ufo = RFont(ufo_path, showUI=False)
             font = hFont(ufo)
             font.set_info()
             print '\tset font info for %s.' % font.full_name()
             font.ufo.save()
-        print
-        print '...done.\n'
-
-    def scale_fonts(self, factor):
-        print 'batch scaling fonts...'
-        print
-        for ufo_path in self.ufos():
-            ufo = RFont(ufo_path, showUI=False)
-            print '\tscaling %s by %s...' % (get_full_name(ufo), factor)
-            scale_glyphs(ufo, (factor, factor))
-            ufo.save()
-        print
-        print '...done.\n'
-
-    def scale_glyphs(self, factor, gstring):
-        # get glyphs
-        names = gstring.split(' ')
-        groups = self.project.libs['groups']['glyphs']
-        glyph_names = parse_glyphs_groups(names, groups)
-        # scale glyphs
-        print 'batch scaling fonts...'
-        print
-        for ufo_path in self.ufos():
-            ufo = RFont(ufo_path, showUI=False)
-            print '\tscaling %s by %s...' % (get_full_name(ufo), factor)
-            print '\t',
-            for glyph_name in glyph_names:
-                print glyph_name,
-                leftMargin, rightMargin = ufo[glyph_name].leftMargin, ufo[glyph_name].rightMargin
-                ufo[glyph_name].scale((factor, factor))
-                ufo[glyph_name].leftMargin = leftMargin * factor
-                ufo[glyph_name].rightMargin = rightMargin * factor
-            # done with font
-            print
-            ufo.save()
-        print
-        print '...done.\n'
+        print '\n...done.\n'

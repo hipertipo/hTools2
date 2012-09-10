@@ -36,7 +36,8 @@ from hTools2.modules.ftp import *
 
 class hFont:
 
-    '''An object to represent a .ufo font source, wrapped in a few useful functions.'''
+    '''An object to represent a .ufo font source, wrapped in a few useful functions.
+    '''
 
     #------------
     # attributes
@@ -281,3 +282,4 @@ class hFont:
         F = connect_to_server(_url, _login, _password, _folder, verbose=False)
         upload_file(self.woff_path(), F)
         F.quit()
+
