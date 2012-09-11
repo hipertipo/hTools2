@@ -189,15 +189,12 @@ class hSpace:
 
     # transformation tools
 
-    def transfer_glyphs(self, gstring, var, ranges):
+    def transfer_glyphs(self, gstring, var):
         axis, src, dest_list = var
         # define source space
         for param in self.parameters.keys():
             if param == axis:
                 self.parameters[param] = [ src ]
-            else:
-                if param in ranges.keys():
-                    self.parameters[param] = ranges[param]
         self.build()
         # get glyphs
         names = gstring.split(' ')
@@ -231,15 +228,12 @@ class hSpace:
                     print
         print '\n...done.\n'
 
-    def transfer_anchors(self, gstring, var, ranges):
+    def transfer_anchors(self, gstring, var):
         axis, src, dest_list = var
         # define source space
         for param in self.parameters.keys():
             if param == axis:
                 self.parameters[param] = [ src ]
-            else:
-                if param in ranges.keys():
-                    self.parameters[param] = ranges[param]
         self.build()
         # get glyphs
         names = gstring.split(' ')
@@ -567,3 +561,5 @@ class hSpace:
             print '\tset font info for %s.' % font.full_name()
             font.ufo.save()
         print '\n...done.\n'
+
+
