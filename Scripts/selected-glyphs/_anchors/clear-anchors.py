@@ -1,13 +1,38 @@
 # [h] clear anchors
 
+'''delete all anchors in selected glyphs'''
+
+# reload when debugging
+
+import hTools2
+reload(hTools2)
+
+if hTools2.DEBUG:
+    import hTools2.modules.fontutils
+    reload(hTools2.modules.fontutils)
+
+# imports
+
+try:
+    from mojo.roboFont import CurrentFont
+except:
+    from robofab.world import CurrentFont
+
+from hTools2.modules.fontutils import get_glyphs
+
+# run
+
 f = CurrentFont()
 
-print "deleting anchors..."
-for g in f:
-	if g.selected == True:
-		g.prepareUndo('clear anchors')
-		g.clearAnchors()
-		g.update()
-		g.performUndo()
+print 'deleting anchors in glyphs...\n'
+print '\t',
+for glyph_name in get_glyphs(f):
+    if len(f[glyph_name].anchors) > 0:
+        print glyph_name,
+        f[glyph_name].prepareUndo('clear anchors')
+        f[glyph_name].clearAnchors()
+        f[glyph_name].update()
+        f[glyph_name].performUndo()
 f.update()
-print "done.\n"
+print
+print "\n...done.\n"

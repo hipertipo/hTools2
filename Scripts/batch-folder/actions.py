@@ -1,5 +1,18 @@
-# [h] batch perform actions to all fonts in folder
+# [h] batch apply actions to all fonts in a folder
 
-from hTools2.dialogs.batch_folder import actionsFolderDialog
+# reload when debugging
+
+import hTools2
+reload(hTools2)
+
+if hTools2.DEBUG:
+    import hTools2.dialogs
+    reload(hTools2.dialogs)
+
+# imports
+
+from hTools2.dialogs import actionsFolderDialog
+
+# run
 
 actionsFolderDialog()

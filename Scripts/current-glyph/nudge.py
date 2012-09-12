@@ -2,18 +2,35 @@
 
 '''a simple RoboFont dialog for the famous "interpolated nudge" script'''
 
-#----------------------------------------------------------------------------
-# Interpolated Nudge for RoboFont -- Travis Kochel
+#---------------------------------------------------------------------------
+# Interpolated Nudge for RoboFont by Travis Kochel
 # http://tktype.tumblr.com/post/15254264845/interpolated-nudge-for-robofont
-#----------------------------------------------------------------------------
-# Interpolated Nudge -- Christian Robertson
+#---------------------------------------------------------------------------
+# Interpolated Nudge by Christian Robertson
 # http://betatype.com/node/18
-#----------------------------------------------------------------------------
+#---------------------------------------------------------------------------
+
+# reload when debugging
+
+import hTools2
+reload(hTools2)
+
+if hTools2.DEBUG:
+
+    import hTools2.extras.nudge
+    reload(hTools2.extras.nudge)
+
+    import hTools2.modules.glyphutils
+    reload(hTools2.modules.glyphutils)
+
+# imports
 
 from vanilla import *
 
 from hTools2.extras.nudge import *
 from hTools2.modules.glyphutils import *
+
+# functions
 
 def nudgeSelected(x):
     g = CurrentGlyph()
@@ -27,6 +44,8 @@ def nudgeSelected(x):
                 g.performUndo()
                 g.update()
             i = i + 1
+
+# objects
 
 class interpolatedNudgeDialog(object):
 
@@ -185,7 +204,7 @@ class interpolatedNudgeDialog(object):
     def _interpolated_callback(self, sender):
         self._interpolated = self.w._interpolated.get()
 
-    # apply nudge 
+    # apply nudge
 
     def _left_callback(self, sender):
         if self._interpolated:

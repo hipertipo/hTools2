@@ -1,7 +1,19 @@
 # [h] auto unicodes
 
-from hTools2.modules.fontutils import get_glyphs
+# reload when debugging
+
+import hTools2
+reload(hTools2)
+
+if hTools2.DEBUG:
+    import hTools2.modules.encoding
+    reload(hTools2.modules.encoding)
+
+# imports
+
 from hTools2.modules.encoding import auto_unicode
+
+# run
 
 f = CurrentFont()
 
@@ -16,17 +28,16 @@ if f is not None:
         # selected glyphs in font window
         glyph_names = f.selection
         if len(glyph_names) > 0:
-            print 'setting unicode for selected glyphs...'
+            print 'setting unicode for selected glyphs...\n'
             print '\t',
             for glyph_name in glyph_names:
                 print glyph_name,
                 auto_unicode(f[glyph_name])
             print
-            print '...done.\n'
+            print '\n...done.\n'
         # no glyph selected
         else:
             print 'please select one or more glyphs first.\n'
 # no font open
 else:
     print 'please open a font first.\n'
-

@@ -1,5 +1,18 @@
 # [h] change glyph suffix
 
-from hTools2.dialogs.selected_glyphs import changeSuffixDialog
+# reload when debugging
+
+import hTools2
+reload(hTools2)
+
+if hTools2.DEBUG:
+    import hTools2.dialogs
+    reload(hTools2.dialogs)
+
+# import
+
+from hTools2.dialogs import changeSuffixDialog
+
+# run
 
 changeSuffixDialog()

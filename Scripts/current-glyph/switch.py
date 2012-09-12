@@ -1,4 +1,15 @@
-# [h] slide layer 2
+# [h] switch layer
+
+# reload when debugging
+
+import hTools2
+reload(hTools2)
+
+if hTools2.DEBUG:
+    import hTools2.modules.fontutils
+    reload(hTools2.modules.fontutils)
+
+# imports
 
 from vanilla import *
 
@@ -22,7 +33,7 @@ def previous_glyph(font, index):
         prev = font.glyphOrder[-1]
     return prev
 
-# the dialog
+# objects
 
 class glyphSwitcherDialog(object):
 
@@ -186,7 +197,7 @@ class glyphSwitcherDialog(object):
             if f is not None:
                 self.font = f
                 self.font_index = self.all_fonts.index(self.font)
-                glyph_names = get_glyphs(f) 
+                glyph_names = get_glyphs(f)
                 if len(glyph_names) > 0:
                     self.glyph = self.font[glyph_names[0]]
                     self.glyph_index = self.font.glyphOrder.index(self.glyph.name)
@@ -233,7 +244,7 @@ class glyphSwitcherDialog(object):
                 else:
                     next_glyph = next_font[next_font.glyphOrder[0]]
                 # switch to glyph window
-                G = OpenGlyphWindow(next_glyph, newWindow=False)            
+                G = OpenGlyphWindow(next_glyph, newWindow=False)
                 # update UI
                 self.update()
 
@@ -256,7 +267,7 @@ class glyphSwitcherDialog(object):
                 else:
                     prev_glyph = prev_font[prev_font.glyphOrder[0]]
                 # switch to glyph window
-                G = OpenGlyphWindow(prev_glyph, newWindow=False)            
+                G = OpenGlyphWindow(prev_glyph, newWindow=False)
                 # update UI
                 self.update()
 

@@ -26,7 +26,7 @@ class clearFontInfoDialog(object):
     _opentype_os2 = False
     _opentype_vhea = False
     _postscript_data = False
-    
+
     def __init__(self):
         self.w = FloatingWindow(
                     (self._width,

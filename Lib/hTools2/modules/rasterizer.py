@@ -1,12 +1,30 @@
-# hTools2.modules.rasterizer
+# [h] hTools2.modules.rasterizer
+
+# reload when debugging
+
+import hTools2
+reload(hTools2)
+
+if hTools2.DEBUG:
+    import hTools2.modules.primitives
+    reload(hTools2.modules.primitives)
+
+# imports
 
 from random import random, randint
 
-from robofab.world import NewFont
+try:
+    from mojo.roboFont import NewFont
+except:
+    from robofab.world import NewFont
 
 from hTools2.modules.primitives import *
 
+# objects
+
 class RasterGlyph:
+
+    '''An object to scan glyphs and rasterize them into elements/components.'''
 
     def __init__(self, sourceGlyph):
         self.g = sourceGlyph
@@ -81,7 +99,7 @@ class RasterGlyph:
         print "-" * _line_length
         print
         for line in aboveBase:
-            print line, "\t", 
+            print line, "\t",
             print marginLeft * int(self.leftMargin),
             for bit in self.coordenates[str(line)]:
                 if bit == 1:
@@ -90,7 +108,7 @@ class RasterGlyph:
                     print white,
             print marginRight * int(self.rightMargin)
         for line in belowBase:
-            print line, "\t", 
+            print line, "\t",
             print marginLeft * int(self.leftMargin),
             for bit in self.coordenates[str(line)]:
                 if bit == 1:
@@ -138,12 +156,13 @@ class RasterGlyph:
             pass
 
 def set_element(f, size, type='rect', magic=None, element_='_element'):
+    '''Set the shape of the element glyph in the font.'''
     if f.has_key(element_) != True:
         f.newGlyph(element_)
     g = f[element_]
     g.clear()
     p = g.getPen()
-    if type == 'oval':  
+    if type == 'oval':
         oval(p, 0, 0, size)
     elif type == 'super':
         element(p, 0, 0, size, magic)
@@ -156,6 +175,8 @@ def set_element(f, size, type='rect', magic=None, element_='_element'):
 # NodeBox Rasterizer
 
 class Rasterizer:
+
+    '''An object to read bits from a raw text source and draw elements in a NodeBox canvas.'''
 
     elementSize = 20
     elementSpace = 30
@@ -190,7 +211,7 @@ class Rasterizer:
             for bit in l:
                 x = charCount * self.element.eSpace
                 y = lineCount * self.element.eSpace
-                if bit == self.black: 
+                if bit == self.black:
                     if mode== 1:
                         self.element.draw((x, y), mode=1) # pos
                     else:
@@ -269,12 +290,11 @@ class element_1(element_0):
         s = self.eSize * rSize * randint(int(rand_min), int(rand_max)) * .1
         self.ctx.oval(x - (s / 2), y - (s / 2), s, s)
 
-
 class element_2(element_0):
 
     def __init__(self, elementSize, x, y, context):
         element_0.__init__(self, elementSize, x, y)
-                
+
     def draw(self, mode=1):
         if mode == 0:
             pass
@@ -290,3 +310,4 @@ class element_2(element_0):
                 Y = self.y - (s / 2)
                #  _ctx.stroke(randint(4, 6)/10)
                 _ctx.oval(X, Y, s, s)
+
