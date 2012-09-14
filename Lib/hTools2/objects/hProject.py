@@ -22,7 +22,7 @@ import os
 import plistlib
 
 from hworld import hWorld
-from hTools2.modules.fileutils import walk #, delete_files, get_names_from_path
+from hTools2.modules.fileutils import walk
 from hTools2.modules.encoding import import_encoding
 
 # object
@@ -60,8 +60,9 @@ class hProject:
         'ufos',
         'libs',
         'otfs',
+        'temp',
+        'instances',
         'woffs',
-        'test',
         'otfs_test'
     ]
 
@@ -159,8 +160,6 @@ class hProject:
         _paths['temp'] = os.path.join(_project_root, '_temp')
         _paths['woffs'] = os.path.join(_project_root, '_woffs')
         _paths['instances'] = os.path.join(_project_root, '_ufos/_instances')
-        _paths['interpol'] = os.path.join(_project_root, '_ufos/_interpol')
-        _paths['interpol_instances'] = os.path.join(_project_root, '_ufos/_interpol/_instances')
         _paths['otfs_test'] = os.path.join(self.world.settings.hDict['test'], '_%s') % self.name
         # encoding path
         _enc_filename = '%s.enc' % self.name
@@ -195,34 +194,28 @@ class hProject:
     def check_folders(self):
         '''Check if all the necessary project sub-folders exist.
         '''
-        print 'checking sub-folders in project %s...\n' % self.name
+        print 'checking folders and files in %s...\n' % self.name
         for k in self.paths.keys():
             if self.paths[k] is not None:
                 _exists = os.path.exists(self.paths[k])
             else:
                 _exists = None
-            print '\t%s [%s] %s' % (k, _exists, self.paths[k])
+            print "\t[%s] %s '%s'" % (_exists, k, self.paths[k])
         print '\n...done.\n'
 
+    def check_libs(self):
+        pass
+
     def make_folders(self):
-        print 'creating project sub-folders in project %s...\n' % self.name
-        _folders = [
-            'libs',
-            'ufos',
-            'woffs',
-            'otfs',
-            #'temp',
-            #'docs',
-            #'bkp',
-            #'vfbs'
-        ]
-        for k in self.paths.keys():
-            if k in _folders:
-                if self.paths[k] is not None:
-                    if os.path.exists(self.paths[k]) == False:
-                        print '\tcreating folder %s...' % self.paths[k]
-                        os.mkdir(self.paths[k])
-                        print '\t%s %s' % (k, os.path.exists(self.paths[k]))
+        '''Make project sub-folders, if they do not exist.
+        '''
+        print 'creating folders and files in %s...\n' % self.name
+        for path in self._path_names:
+            if self.paths[path] is not None:
+                if os.path.exists(self.paths[path]) == False:
+                    print '\tcreating folder %s...' % self.paths[path],
+                    os.mkdir(self.paths[path])
+                    print '[%s]' % os.path.exists(self.paths[path])
         print '\n...done.\n'
 
     # file lists
@@ -333,3 +326,4 @@ class hProject:
         else:
             if verbose:
                 print 'instance not in interpol lib.\n'
+

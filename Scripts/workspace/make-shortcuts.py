@@ -104,6 +104,7 @@ _custom_shortcuts = [
 
     (   '7',    'outline fonts',    u'hProject/hires-fonts.py',        ),
     (   '8',    'gridfonts',        u'hProject/lores-fonts.py',        ),
+    (   '9',    'RoboProject',      u'hProject/roboproject.py',        ),
 
 ]
 
@@ -113,4 +114,4 @@ _custom_shortcuts = [
 
 clear_shortcuts()
 create_shortcuts()
-print_shortcuts()
+# print_shortcuts()
