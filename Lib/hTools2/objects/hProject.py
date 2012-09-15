@@ -191,18 +191,6 @@ class hProject:
 
     # folders
 
-    def check_folders(self):
-        '''Check if all the necessary project sub-folders exist.
-        '''
-        print 'checking folders and files in %s...\n' % self.name
-        for k in self.paths.keys():
-            if self.paths[k] is not None:
-                _exists = os.path.exists(self.paths[k])
-            else:
-                _exists = None
-            print "\t[%s] %s '%s'" % (_exists, k, self.paths[k])
-        print '\n...done.\n'
-
     def check_libs(self):
         pass
 
@@ -216,6 +204,8 @@ class hProject:
                     print '\tcreating folder %s...' % self.paths[path],
                     os.mkdir(self.paths[path])
                     print '[%s]' % os.path.exists(self.paths[path])
+                else:
+                    print '\t%s exists.' % self.paths[path]
         print '\n...done.\n'
 
     # file lists
