@@ -43,9 +43,3 @@ Download
 --------
 
 [https://github.com/gferreira/hTools2](https://github.com/gferreira/hTools2)
-
-
-Documentation
--------------
-
-[https://github.com/gferreira/hTools2/wiki](https://github.com/gferreira/hTools2/wiki)

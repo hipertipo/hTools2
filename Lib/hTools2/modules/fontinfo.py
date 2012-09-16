@@ -233,8 +233,7 @@ def print_postscript_data(font):
 #------------
 
 def clear_font_info(font):
-    '''Clears all font information fields in the font, using individual functions.'''
-    # add options dict
+    '''Clears all font information fields in the font.'''
     # print 'deleting font info'
     clear_generic_identification(font)
     clear_generic_legal(font)
@@ -368,3 +367,4 @@ def clear_postscript_data(font):
     font.info.postscriptWeightName = None
     font.info.postscriptDefaultCharacter = None
     font.info.postscriptWindowsCharacterSet = None
+

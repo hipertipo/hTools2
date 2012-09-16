@@ -85,7 +85,8 @@ class hFont:
             # print 'there is no parameters lib for this font.\n'
 
     def get_glyphs(self):
-        get_glyphs(self.ufo)
+        '''Get current selected glyphs in font.'''
+        return get_glyphs(self.ufo)
 
     def auto_unicodes(self):
         '''Automatically set unicodes for all glyphs in the font.'''
@@ -207,6 +208,14 @@ class hFont:
     def print_info(self):
         '''Print different kinds of font information.'''
         pass
+
+    def set_vmetrics(self):
+        print 'setting vertical metrics...'
+        # set_vmetrics(font, xheight, capheight, ascender, descender, emsquare, gridsize=1)
+
+    def clear_info(self):
+        '''Print different kinds of font information.'''
+        clear_font_info(self.ufo)
 
     # font paths
 
