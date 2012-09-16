@@ -1,6 +1,6 @@
 # [h] hWorld
 
-# reload when debugging
+# debug
 
 import hTools2
 reload(hTools2)
@@ -54,3 +54,4 @@ class hWorld:
             if n[:1] == "_":
                 projects.append(n[1:])
         return projects
+

@@ -141,7 +141,6 @@ class FontStructionHandler(ContentHandler):
         self.f.update()
         print "missing bricks: %s" % missingBricks
 
-
 def openFontStruction(fsmlPath, verbose=False):
     '''import fsml from path'''
     parser = make_parser()

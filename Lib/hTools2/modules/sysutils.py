@@ -1,5 +1,9 @@
 # [h] hTools2.modules.sysutils
 
+#---------
+# context
+#---------
+
 def get_context():
     # test for FontLab
     try:
@@ -13,7 +17,7 @@ def get_context():
         _RF = True
     except:
         _RF = False
-    # if none is True, return `NoneLab`
+    # if none is `True`, return `NoneLab`
     if _FL:
         context = 'FontLab'
     elif _RF:
@@ -25,9 +29,9 @@ def get_context():
 
 _ctx = get_context()
 
-#-----------
-# shortcuts
-#-----------
+#----------------
+# shortcut tools
+#----------------
 
 def clear_shortcuts():
     setScriptingMenuNamingShortKey({})
@@ -42,14 +46,12 @@ def set_shortcuts(shortcuts_dict):
     setScriptingMenuNamingShortKey(shortcuts_dict)
 
 def build_shortcuts_dict(path, shortcuts):
-    #------------------------------------------
     #   shortcuts_dict = {
     #       u'/path/to/script.py': {
     #           'preferredName' : 'my script',
     #           'shortKey' : 'n',
     #       }
     #   }
-    #------------------------------------------
     _shortcuts_dict = {}
     for shortcut in shortcuts:
         _key, _name, _file = shortcut
@@ -74,3 +76,4 @@ def create_shortcuts():
     custom_dict = build_shortcuts_dict(_custom_path, _custom_shortcuts)
     shortcuts_dict = merge_shortcuts_dicts( [ htools2_dict, custom_dict ] )
     set_shortcuts(shortcuts_dict)
+

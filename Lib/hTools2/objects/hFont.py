@@ -1,6 +1,6 @@
 # [h] hFont
 
-# reload when debugging
+# debug
 
 import hTools2
 reload(hTools2)
@@ -27,8 +27,8 @@ if hTools2.DEBUG:
 import os
 
 from hproject import hProject
-from hTools2.modules.encoding import paint_groups, auto_unicodes       #, hls_to_rgb, clear_colors
-from hTools2.modules.fontutils import set_font_names    #, get_spacing_groups, get_glyphs, get_full_name, parse_glyphs_groups
+from hTools2.modules.encoding import paint_groups, auto_unicodes
+from hTools2.modules.fontutils import set_font_names
 from hTools2.modules.fontinfo import set_names_from_path
 from hTools2.modules.ftp import *
 
@@ -36,8 +36,7 @@ from hTools2.modules.ftp import *
 
 class hFont:
 
-    '''An object to represent a .ufo font source, wrapped in a few useful functions.
-    '''
+    '''An object to represent a .ufo font source, wrapped in a few useful functions.'''
 
     #------------
     # attributes
@@ -173,9 +172,11 @@ class hFont:
     # OpenType features
 
     def import_features(self):
+        '''Import features from features file into font.'''
         import_features(self.ufo, self.project.paths['features'])
 
     def export_features(self):
+        '''Export features from font to features file.'''
         export_features(self.ufo, self.project.paths['features'])
 
     # font names
@@ -185,9 +186,11 @@ class hFont:
         return '%s %s' % (self.project.name, self.style_name)
 
     def set_names(self):
+        '''Set font names from the ufo file name.'''
         set_names_from_path(self.ufo)
 
     def name_from_parameters(self, separator=''):
+        '''Set font names from parameters lib.'''
         name = ''
         parameters = self.project.libs['project']['parameters_order']
         count = 0
@@ -201,6 +204,7 @@ class hFont:
     # font info
 
     def set_info(self):
+        '''Set different kinds of font info.'''
         set_names_from_path(self.ufo)
         # foundry info
         # version info
@@ -237,7 +241,7 @@ class hFont:
     # font generation
 
     def generate_otf(self, options=None, verbose=False):
-        '''Generate an .otf font file using the default settings.'''
+        '''Generate an otf font file using the default settings.'''
         # get options
         if options is None:
             options = {
@@ -274,7 +278,7 @@ class hFont:
             print '...done.\n'
 
     def generate_woff(self):
-        '''generates a .woff font file from the available .otf font'''
+        '''Generate a woff font file from the available otf font'''
         # this function currently relies on the `KLTF_WOFF.py` extra module
         try:
             from hTools2.extras.KLTF_WOFF import compressFont
