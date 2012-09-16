@@ -2,63 +2,22 @@
 
 '''create keyboard shortcuts scripts'''
 
+# debug
+
+import hTools2
+reload(hTools2)
+
+if hTools2.DEBUG:
+    import hTools2.modules.sysutils
+    reload(hTools2.modules.sysutils)
+
+# imports
+
 import os
 
 from mojo.UI import getScriptingMenuNamingShortKey, setScriptingMenuNamingShortKey
 
-#-----------
-# functions
-#-----------
-
-def clear_shortcuts():
-    setScriptingMenuNamingShortKey({})
-
-def print_shortcuts():
-    _dict = getScriptingMenuNamingShortKey()
-    for k in _dict:
-        name, key = _dict[k]
-        print _dict[k][key], _dict[k][name], k, os.path.exists(k)
-
-def set_shortcuts(shortcuts_dict):
-    setScriptingMenuNamingShortKey(shortcuts_dict)
-
-def build_shortcuts_dict(path, shortcuts):
-    #------------------------------------------
-    #   shortcuts_dict = {
-    #       u'/path/to/script.py': {
-    #           'preferredName' : 'my script',
-    #           'shortKey' : 'n',
-    #       }
-    #   }
-    #------------------------------------------
-    _shortcuts_dict = {}
-    for shortcut in shortcuts:
-        _key, _name, _file = shortcut
-        _file_path = path + _file
-        if os.path.exists(_file_path):
-            _shortcuts_dict[_file_path] = {}
-            _shortcuts_dict[_file_path]['preferredName'] = _name
-            _shortcuts_dict[_file_path]['shortKey'] = _key
-        else:
-            print '%s does not exist.' % _file_path
-    return _shortcuts_dict
-
-def merge_shortcuts_dicts(dicts_list):
-    _super_dict = {}
-    for _dict in dicts_list:
-        for k in _dict.keys():
-            _super_dict[k] = _dict[k]
-    return _super_dict
-
-def create_shortcuts():
-    htools2_dict = build_shortcuts_dict(_htools2_path, _htools2_shortcuts)
-    custom_dict = build_shortcuts_dict(_custom_path, _custom_shortcuts)
-    shortcuts_dict = merge_shortcuts_dicts( [ htools2_dict, custom_dict ] )
-    set_shortcuts(shortcuts_dict)
-
-#--------------
-# scripts data
-#--------------
+from hTools2.modules.sysutils import *
 
 # hTools2 scripts
 
@@ -108,9 +67,7 @@ _custom_shortcuts = [
 
 ]
 
-#----------
 # set dict
-#----------
 
 clear_shortcuts()
 create_shortcuts()
