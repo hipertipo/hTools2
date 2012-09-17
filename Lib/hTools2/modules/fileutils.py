@@ -10,9 +10,7 @@ import shutil
 # functions
 
 def walk(folder, extension):
-    '''A simple non-recursive `walk` function to collect files with a given extension.
-    It walks all files in `folder`, and returns a list of matching file paths.
-    '''
+    '''A simple non-recursive `walk` function to collect files with a given extension.'''
     files = []
     names = os.listdir(folder)
     for n in names:
@@ -22,15 +20,8 @@ def walk(folder, extension):
             files.append(p)
     return files
 
-def delete_files(files_list):
-    '''Delete the files at the file paths in the list.
-    Use in combination with results from the `walk` function.
-    '''
-    for _file in files_list:
-        os.remove(_file)
-
 def get_names_from_path(fontpath):
-    '''Parse underscore-separated font file names into `family` and `style` names.'''
+    '''Parse underscore(or hyphen)-separated font file names into `family` and `style` names.'''
     _file = os.path.basename(fontpath)
     _file_name = os.path.splitext(_file)[0]
     try:
@@ -57,6 +48,11 @@ def read_names_list_from_file(filepath):
             names_list.append([old_name, new_name])
     return names_list
 
+def delete_files(files_list):
+    '''Delete the files at the file paths in the list.'''
+    for _file in files_list:
+        os.remove(_file)
+
 def rename_file(filepath, new_name, overwrite=True, delete=True):
     '''Rename a file or folder, and save it with the new name. The additional parameters `overwrite` and `delete` make it possible to overwrite existing files, and delete the old file/folder.'''
     _dir, _file = os.path.split(filepath)
@@ -82,3 +78,4 @@ def rename_file(filepath, new_name, overwrite=True, delete=True):
             print '\tdeleting %s...' % filepath
             os.remove(filepath)
     print '...done.\n'
+

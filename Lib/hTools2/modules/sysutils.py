@@ -1,5 +1,9 @@
 # [h] hTools2.modules.sysutils
 
+import os
+
+from mojo.UI import getScriptingMenuNamingShortKey, setScriptingMenuNamingShortKey
+
 #---------
 # context
 #---------
@@ -43,6 +47,7 @@ def print_shortcuts():
         print _dict[k][key], _dict[k][name], k, os.path.exists(k)
 
 def set_shortcuts(shortcuts_dict):
+    '''Set RoboFont shortcuts from a dict.'''
     setScriptingMenuNamingShortKey(shortcuts_dict)
 
 def build_shortcuts_dict(path, shortcuts):
@@ -65,15 +70,10 @@ def build_shortcuts_dict(path, shortcuts):
     return _shortcuts_dict
 
 def merge_shortcuts_dicts(dicts_list):
+    '''Merge all shortcut dicts from a list.'''
     _super_dict = {}
     for _dict in dicts_list:
         for k in _dict.keys():
             _super_dict[k] = _dict[k]
     return _super_dict
-
-def create_shortcuts():
-    htools2_dict = build_shortcuts_dict(_htools2_path, _htools2_shortcuts)
-    custom_dict = build_shortcuts_dict(_custom_path, _custom_shortcuts)
-    shortcuts_dict = merge_shortcuts_dicts( [ htools2_dict, custom_dict ] )
-    set_shortcuts(shortcuts_dict)
 

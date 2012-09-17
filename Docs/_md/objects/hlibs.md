@@ -28,6 +28,69 @@ The `info` lib contains font meta-data related to the author, foundry, license e
 
     >>> ['version-minor', 'notice', 'designer-url', 'vendor', 'copyright', 'license', 'trademark', 'license-url', 'foundry', 'note', 'designer', 'year', 'vendor-url', 'version-major']
 
+<table>
+	<tr>
+		<th>lib entry</th>
+		<td>example data</td>
+	</tr>
+	<tr>
+		<th>version-minor</th>
+		<td>...</td>
+	</tr>
+	<tr>
+		<th>notice</th>
+		<td>...</td>
+	</tr>
+	<tr>
+		<th>designer-url</th>
+		<td>...</td>
+	</tr>
+	<tr>
+		<th>vendor</th>
+		<td>...</td>
+	</tr>
+	<tr>
+		<th>copyright</th>
+		<td>...</td>
+	</tr>
+	<tr>
+		<th>license</th>
+		<td>...</td>
+	</tr>
+	<tr>
+		<th>trademark</th>
+		<td>...</td>
+	</tr>
+	<tr>
+		<th>license-url</th>
+		<td>...</td>
+	</tr>
+	<tr>
+		<th>foundry</th>
+		<td>...</td>
+	</tr>
+	<tr>
+		<th>note</th>
+		<td>...</td>
+	</tr>
+	<tr>
+		<th>designer</th>
+		<td>...</td>
+	</tr>
+	<tr>
+		<th>year</th>
+		<td>...</td>
+	</tr>
+	<tr>
+		<th>vendor-url</th>
+		<td>...</td>
+	</tr>
+	<tr>
+		<th>version-major</th>
+		<td>...</td>
+	</tr>
+</table>
+
 ## vmetrics.plist
 
 The `vmetrics` lib contains basic vertical metrics information for all fonts in the project.

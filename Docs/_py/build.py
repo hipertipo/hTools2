@@ -1,11 +1,19 @@
 # [h] build hTools2 html documentation
 
+#---------
+# imports
+#---------
+
 import os
 
 import markdown
 import codecs
 
 from hTools2.modules.fileutils import walk
+
+#------------
+# data index
+#------------
 
 _index = {
 
@@ -90,11 +98,19 @@ _index_order = [
     'dialogs',
 ]
 
+#----------
+# settings
+#----------
+
 PATH_BASE = '/_code/hTools2_docs/'
 PATH_HTML = '_html/'
 PATH_CSS = '_css/'
 PATH_MD = '_md/'
 PATH_IMGS = '_imgs/'
+
+#-----------
+# functions
+#-----------
 
 def build_html():
 
