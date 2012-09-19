@@ -1,6 +1,6 @@
 # [h] hTools2.modules.rasterizer
 
-# reload when debugging
+# debug
 
 import hTools2
 reload(hTools2)

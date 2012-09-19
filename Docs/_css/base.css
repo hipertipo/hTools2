@@ -15,6 +15,16 @@ a:hover {
     left: +1px;
 }
 
+#content ::selection {
+    background-color: #EEE;
+    color: #666;
+}
+
+#nav ::selection {
+    background-color: transparent;
+    color: #666;
+}
+
 pre {
     background-color: #EEE;
     padding: 1em;

@@ -2,11 +2,18 @@
 
 import os
 
-#---------
-# context
-#---------
+def clean_pyc(directory, path):
+    '''Remove .pyc files recursively in path.'''
+    for file_name in directory:
+        file_path = os.path.join(path, file_name)
+        if file_name[-3:] == 'pyc':
+            print 'deleting %s' % file_name
+            os.remove(file_path)
+        elif os.path.isdir(file_path):
+            clean_pyc(os.listdir(file_path), file_path)
 
 def get_context():
+    '''Get the current environment in which hTools2 is running.'''
     # test for FontLab
     try:
         import FL
@@ -31,28 +38,29 @@ def get_context():
 
 _ctx = get_context()
 
-#-------------------------
 # RoboFont shortcut tools
-#-------------------------
 
 if _ctx == 'RoboFont':
 
     from mojo.UI import getScriptingMenuNamingShortKey, setScriptingMenuNamingShortKey
 
     def clear_shortcuts():
+        '''Remove all current shorcuts.'''
         setScriptingMenuNamingShortKey({})
 
     def print_shortcuts():
+        '''Print all current shorcuts.'''
         _dict = getScriptingMenuNamingShortKey()
         for k in _dict:
             name, key = _dict[k]
             print _dict[k][key], _dict[k][name], k, os.path.exists(k)
 
     def set_shortcuts(shortcuts_dict):
-        '''Set RoboFont shortcuts from a dict.'''
+        '''Set RoboFont shortcuts from a dictionary.'''
         setScriptingMenuNamingShortKey(shortcuts_dict)
 
     def build_shortcuts_dict(path, shortcuts):
+        '''Build a shortcuts dictionary with script paths, names and shortcut keys.'''
         #   shortcuts_dict = {
         #       u'/path/to/script.py': {
         #           'preferredName' : 'my script',
@@ -72,10 +80,9 @@ if _ctx == 'RoboFont':
         return _shortcuts_dict
 
     def merge_shortcuts_dicts(dicts_list):
-        '''Merge all shortcut dicts from a list.'''
+        '''Merge all shortcut dictionaries in a given list.'''
         _super_dict = {}
         for _dict in dicts_list:
             for k in _dict.keys():
                 _super_dict[k] = _dict[k]
         return _super_dict
-
