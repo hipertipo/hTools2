@@ -1,3 +1,5 @@
+## hWorld
+
 The `hWorld` object represents the local root folder, where all project folders live.
 
 ## Attributes

@@ -102,7 +102,7 @@ _index_order = [
 # settings
 #----------
 
-PATH_BASE = '/_code/hTools2_docs/'
+PATH_BASE = '/_code/hTools2/Docs/'
 PATH_HTML = '_html/'
 PATH_CSS = '_css/'
 PATH_MD = '_md/'
@@ -113,6 +113,8 @@ PATH_IMGS = '_imgs/'
 #-----------
 
 def build_html():
+
+    _md_path = os.path.join(PATH_BASE, PATH_MD)
 
     html_code = u''
     html_code += '%s\n' % '<!DOCTYPE html>'
@@ -126,7 +128,39 @@ def build_html():
     html_code += '</head>\n'
     html_code += '<body>\n'
 
-    _md_path = os.path.join(PATH_BASE, PATH_MD)
+    # navigation
+
+    html_code += '<div id="nav">\n'
+    html_code += '<h1><a href="#top">hTools2 v1.5</a></h1>\n'
+
+    count = 0
+    html_code += '<div>\n'
+    for section in _index_order:
+        _section_path = os.path.join(_md_path, section)
+        if count == 2:
+            html_code += '</div>\n'
+            html_code += '<div>\n'
+        html_code += '<h4>%s</h4>\n' % section
+        html_code += '<ul>\n'
+        for item in _index[section]:
+            _item_path = os.path.join(_section_path, item + '.md')
+            if os.path.exists(_item_path):
+                _md_file = codecs.open(_item_path, mode="r", encoding="utf-8")
+                _title = _md_file.readline()
+                _title = _title[3:-1]
+                _title = _title.lower()
+                _anchor = _title
+                html_code += '<li><a href="#%s">%s</a></li>\n' % (_anchor, _title)
+        html_code += '</ul>\n'
+        count += 1
+    html_code += '</div>\n'
+
+    html_code += '</div>\n'
+
+    # content
+
+    html_code += '<div id="content">\n'
+    html_code += '<a name="top"></a>\n'
     for section in _index_order:
         _section_path = os.path.join(_md_path, section)
         for item in _index[section]:
@@ -135,7 +169,10 @@ def build_html():
                 _md_file = codecs.open(_item_path, mode="r", encoding="utf-8")
                 _md_text = _md_file.read()
                 _html = markdown.markdown(_md_text)
+                _anchor = item.lower()
+                html_code += '<a name="%s"></a>\n' % _anchor
                 html_code += _html
+    html_code += '</div>\n'
 
     html_code += '</body>\n'
     html_code += '</html>\n'

@@ -1,8 +1,10 @@
-### RoboFontPen(BasePen)
+## pens
+
+### `RoboFontPen(BasePen)`
 
 A pen to draw a glyph on a RoboFont canvas.
 
-### NodeBoxPen(BasePen)
+### `NodeBoxPen(BasePen)`
 
 A pen to draw a glyph on a NodeBox canvas.
 

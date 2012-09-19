@@ -1,8 +1,10 @@
+## Conventions
+
 Part of the functionality in hTools depends on a few conventions being followed – for example, the way font files are named, the project sub-folders structure, the name of data files etc.
 
 This applies only to the objects in `hTools2.objects`, and to the dialogs which use these objects (‘hDialogs’). All modules and generic dialogs work fine without any special setting.
 
-## Overview
+### Overview
 
 In hTools, each font-family is a separate project, and all projects are stored in one main root folder.
 
@@ -12,7 +14,7 @@ Every project also contains a set of files with font-related data – for exampl
 
 To use the existing interpolation tools for work on large families, it is also necessary to adopt a consistent naming scheme with numbers instead of style names.
 
-## The ROOT folder
+### The ROOT folder
 
 The whole hTools object model and paths system is bootstrapped using one single path: the folder in which all projects are contained. The default root folder is `/fonts`.
 
@@ -20,7 +22,7 @@ The path to this folder is stored in `hTools2.ROOT`, and needs to be edited by h
 
 After set, this path can be read via `hSettings.root`.
 
-## Project folders
+### Project folders
 
 All project folders live inside the root folder.
 
@@ -37,14 +39,14 @@ A typical root folder with projects would look like this:
 
 Folders which do not start with an underscore are not recognized as projects, and are simply ignored by the tools.
 
-## Project sub-folders
+### Project sub-folders
 
 In hTools, every font-family is a project, and every project is a folder containing a standard set of font sources, sub-folders and data files.
 
 A typical project folder looks like this:
 
     _Publica/
-        _docs/  
+        _docs/
         _libs/
         _otfs/
         _temp/
@@ -53,7 +55,7 @@ A typical project folder looks like this:
         _vfbs/
         _woffs/
 
-## Project libs
+### Project libs
 
 Project libs is a collective name for various kinds of data files contained in the `_libs/` folder of each project.
 
@@ -69,7 +71,7 @@ Included in the libs are recipes for building accented glyphs, recipes for gener
         spacing.plist
         vmetrics.plist
 
-## FTP connection
+### FTP connection
 
 hTools also includes a few functions to connect to a FTP server and upload files. This is specially handy for working with webfonts and live tests.
 

@@ -189,7 +189,7 @@ class hSpace:
 
     # transformation tools
 
-    def transfer_glyphs(self, gstring, var):
+    def transfer_glyphs(self, gstring, var, verbose=False):
         axis, src, dest_list = var
         # define source space
         for param in self.parameters.keys():
@@ -213,7 +213,7 @@ class hSpace:
                     dest_font = RFont(dest_path, showUI=False)
                     print
                     print "\tcopying glyphs from %s to %s..." % (get_full_name(font.ufo), get_full_name(dest_font))
-                    print '\t\t',
+                    if verbose: print '\t\t',
                     for glyph_name in glyph_names:
                         if font.ufo.has_key(glyph_name):
                             if dest_font.has_key(glyph_name) is False:
@@ -221,11 +221,11 @@ class hSpace:
                             # decompose first
                             if len(font.ufo[glyph_name].components) > 0:
                                 font.ufo[glyph_name].decompose()
-                            print glyph_name,
+                            if verbose: print glyph_name,
                             # insert glyph
                             dest_font.insertGlyph(font.ufo[glyph_name])
                             dest_font.save()
-                    print
+                    if verbose: print
         print '\n...done.\n'
 
     def transfer_anchors(self, gstring, var):
@@ -291,7 +291,7 @@ class hSpace:
         # done
         print '...done.\n'
 
-    def shift_x(self, dest_width, gstring, pos, delta, side):
+    def shift_x(self, dest_width, gstring, pos, delta, side, verbose=True):
         print 'batch x-shifting glyphs in hSpace...\n'
         # get glyphs
         names = gstring.split(' ')
@@ -311,12 +311,12 @@ class hSpace:
             if os.path.exists(dest_path):
                 dest_font = RFont(dest_path, showUI=False)
                 print "\tx-shifting glyphs from %s to %s...\n" % (get_full_name(font.ufo), get_full_name(dest_font))
-                print '\t\t',
+                if verbose: print '\t\t',
                 for glyph_name in glyph_names:
                     if font.ufo.has_key(glyph_name):
                         if dest_font.has_key(glyph_name) is False:
                             dest_font.newGlyph(glyph_name)
-                        print glyph_name,
+                        if verbose: print glyph_name,
                         # insert glyph
                         dest_font.insertGlyph(font.ufo[glyph_name])
                         # shift points
@@ -332,7 +332,7 @@ class hSpace:
                 print
         print '...done.\n'
 
-    def shift_y(self, dest_height, gstring, transformations):
+    def shift_y(self, dest_height, gstring, transformations, verbose=True):
         print 'batch y-shifting glyphs in hSpace...\n'
         # get glyphs
         names = gstring.split(' ')
@@ -352,12 +352,12 @@ class hSpace:
             if os.path.exists(dest_path):
                 dest_font = RFont(dest_path, showUI=False)
                 print "\ty-shifting glyphs from %s to %s...\n" % (get_full_name(font.ufo), get_full_name(dest_font))
-                print '\t\t',
+                if verbose: print '\t\t',
                 for glyph_name in glyph_names:
                     if font.ufo.has_key(glyph_name):
                         if dest_font.has_key(glyph_name) is False:
                             dest_font.newGlyph(glyph_name)
-                        print glyph_name,
+                        if verbose: print glyph_name,
                         # insert glyph
                         dest_font.insertGlyph(font.ufo[glyph_name])
                         # shift points
@@ -369,8 +369,7 @@ class hSpace:
                             deselect_points(dest_font[glyph_name])
                             # save
                             dest_font.save()
-                print
-                print
+                if verbose: print
         print '...done.\n'
 
     def scale_glyphs(self, factor, gstring=None):

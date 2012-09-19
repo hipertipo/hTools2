@@ -1,8 +1,10 @@
-`hLibs` is not an object in the same way as the other objects in hTools, but a collection of several files containing font-related data.
+## hLibs
 
-Each lib lives in a separate file in the project’s `libs` folder. Most libs are stored as `.plist` files; glyph order and groups are stored in an old-school `.enc` file.
+`hLibs` is a collection of files containing font-related data.
 
-## encoding.enc
+Each lib lives in a separate file in the project’s `libs` folder. Most libs are stored as `.plist` files. Glyph order and groups are stored in an `.enc` file, features are stored in `.fea` files.
+
+### encoding.enc
 
 Encoding files are simple text files with an `.enc` extension. They are the default way of specifying character sets in each project, and are used to order glyphs and paint groups in the fonts.
 
@@ -10,15 +12,39 @@ Below is small sample encoding file. The first line is the title, usually the na
 
     %% [h] Publica
     % --------------- group_name
-    gname
+    glyph_name
     % --------------- latin_lc_basic
     a
     b
     c
     d
+	…
     %
 
-## info.plist
+### groups.plist
+
+The `groups` lib can be created dynamically from the encoding file, or can be edited separately like other libs.
+
+<table>
+	<tr>
+		<th>group</th>
+		<th>glyphs</th>
+	</tr>
+	<tr>
+		<td>latin_lc_basic</td>
+		<td>a b c d e f g h i j k l m n o p q r s t u v w x y z</td>
+	</tr>
+	<tr>
+		<td>latin_uc_basic</td>
+		<td>A B C D E F G H I J K L M N O P Q R S T U V W X Y Z</td>
+	</tr>
+	<tr>
+		<td>punctuation_basic</td>
+		<td>period comma colon semicolon</td>
+	</tr>
+</table>
+
+### info.plist
 
 The `info` lib contains font meta-data related to the author, foundry, license etc.
 
@@ -31,7 +57,7 @@ The `info` lib contains font meta-data related to the author, foundry, license e
 <table>
 	<tr>
 		<th>lib entry</th>
-		<td>example data</td>
+		<th>example data</th>
 	</tr>
 	<tr>
 		<th>version-minor</th>
@@ -91,7 +117,7 @@ The `info` lib contains font meta-data related to the author, foundry, license e
 	</tr>
 </table>
 
-## vmetrics.plist
+### vmetrics.plist
 
 The `vmetrics` lib contains basic vertical metrics information for all fonts in the project.
 
@@ -109,7 +135,42 @@ The `vmetrics` lib contains basic vertical metrics information for all fonts in 
         '95' : {...}
     }
 
-## accents.plist
+<table>
+	<tr>
+		<th></th>
+		<th>xheight</th>
+		<th>ascender</th>
+		<th>descender</th>
+		<th>capheight</th>
+		<th>upm</th>
+	</tr>
+	<tr>
+		<th>default</th>
+		<td>400</td>
+		<td>700</td>
+		<td>-200</td>
+		<td>800</td>
+		<td>1000</td>
+	</tr>
+	<tr>
+		<th>Bold</th>
+		<td>420</td>
+		<td>720</td>
+		<td>-180</td>
+		<td>820</td>
+		<td></td>
+	</tr>
+	<tr>
+		<th>Black</th>
+		<td>440</td>
+		<td>740</td>
+		<td>-160</td>
+		<td></td>
+		<td></td>
+	</tr>
+</table>
+
+### accents.plist
 
 The `accents` lib contains a collection of glyph building recipes. It is structured as simple dictionary, with the target glyph names as keys, and a list of glyph parts (component and anchor) as value:
 
@@ -132,11 +193,57 @@ Like all other libs, the `accents` lib is generally accessed through its parent 
 
     >>> ['a', [ ['acute', 'top'] ] ]
 
-## composed.plist
+<table>
+	<tr>
+		<th>glyph name</th>
+		<th>base glyph</th>
+		<th>components/anchors</th>
+	</tr>
+	<tr>
+		<td>aacute</td>
+		<td>a</td>
+		<td>acute top</td>
+	</tr>
+	<tr>
+		<td>ccedilla</td>
+		<td>c</td>
+		<td>cedilla bottom</td>
+	</tr>
+	<tr>
+		<td>ntilde</td>
+		<td>n</td>
+		<td>tilde top</td>
+	</tr>
+</table>
+
+### composed.plist
 
 The `composed` lib contains recipes for building glyphs out of other glyphs – for example `ae`, `oslash`, `ij` etc.
 
-## spacing.plist
+<table>
+	<tr>
+		<th>glyph name</th>
+		<th>components</th>
+	</tr>
+	<tr>
+		<th>oe</th>
+		<th>o oe</th>
+	</tr>
+	<tr>
+		<td>ij</td>
+		<td>i j</td>
+	</tr>
+	<tr>
+		<td>fi</td>
+		<td>f i</td>
+	</tr>
+	<tr>
+		<td>ffi</td>
+		<td>f f i</td>
+	</tr>
+</table>
+
+### spacing.plist
 
 The `spacing` lib contains a collection of left and right spacing groups.
 
@@ -154,7 +261,35 @@ The `spacing` lib contains a collection of left and right spacing groups.
 
     >>> ['n', 'h', 'm']
 
-## interpol.plist
+<table>
+	<tr>
+		<th>group name</th>
+		<th>side*</th>
+		<th>glyphs</th>
+	</tr>
+	<tr>
+		<td>n</td>
+		<td>left</td>
+		<td>n m i</td>
+	</tr>
+	<tr>
+		<td>o</td>
+		<td>left</td>
+		<td>o d q g</td>
+	</tr>
+	<tr>
+		<td>H</td>
+		<td>left</td>
+		<td>B D E F H I K L M N P R</td>
+	</tr>
+	<tr>
+		<td>O</td>
+		<td>left</td>
+		<td>C G Q</td>
+	</tr>
+</table>
+
+### interpol.plist
 
 The `interpol` lib contains a list with instance names and their corresponding interpolation values: `master1`, `master2` and `(factor_x, factor_y)`.
 
@@ -175,3 +310,29 @@ Like all other libs, the `interpol` lib can be accessed via the `hProject` objec
     print p.libs['interpol']['75']
 
     >>> ['55', '95', [0.5, 0.5]]
+
+<table>
+	<tr>
+		<th>instance name</th>
+		<th>master 1</th>
+		<th>master 2</th>
+		<th>factor x</th>
+		<th>factor y</th>
+	</tr>
+	<tr>
+		<td>Medium</td>
+		<td>Regular</td>
+		<td>Bold</td>
+		<td>.75</td>
+		<td>.5</td>
+	</tr>
+	<tr>
+		<td>Semibold</td>
+		<td>Light</td>
+		<td>Regular</td>
+		<td>.65</td>
+		<td>.75</td>
+	</tr>
+</table>
+
+For more complex interpolation systems using more than two masters, use Superpolator.

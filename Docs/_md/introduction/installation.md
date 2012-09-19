@@ -1,3 +1,5 @@
+## Installation
+
 ### 1. Get the code
 
 Download the latest version of hTools2 from the project’s repository on [github](https://github.com/gferreira/hTools2). Or checkout the code with `git`, if you know how to use it.
@@ -28,7 +30,7 @@ And that’s it.
 To check if `hTools2` has been installed successfully, try to run this line in the RoboFont scripting window or in Terminal:
 
 	import hTools2
-    
+
 If no error message is returned, the installation was successful.
 
 ### 5. Configure the Extensions menu

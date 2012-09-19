@@ -1,3 +1,5 @@
+## hSettings
+
 An object to store information about local settings and preferences.
 
 When initialized, `hSettings` reads the root folder for projects from `hTools2.ROOT`, loads the `hSettings.plist` file from this directory into a dictionary, and stores it in `hSettings.hDict`.

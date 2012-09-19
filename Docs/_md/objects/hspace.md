@@ -1,12 +1,14 @@
+## hSpace
+
 The `hSpace` object represents a parametric variation space inside `hWorld`. Its purpose is to quickly address collections and subsets of fonts, using parameter ranges for weight value, width value, project name etc.
 
-## Attributes
+### Attributes
 
-### hSpace.project
+#### `hSpace.project`
 
 The project to which the space applies.
 
-### hSpace.parameters
+#### `hSpace.parameters`
 
 A dictionary containing parameter names and related value ranges.
 
@@ -15,26 +17,26 @@ A dictionary containing parameter names and related value ranges.
         'width' : [3, 4, 5]
     }
 
-### hSpace.parameters\_order
+#### `hSpace.parameters_order`
 
 A list with the order in which the parameters appear (for use in font names, lists etc).
 
-### hSpace.parameters\_separator
+#### `hSpace.parameters_separator`
 
 The character used as separator in font file names.
 
-### hSpace.fonts
+#### `hSpace.fonts`
 
 Returns a list with the parametric positions of all fonts in the current `hSpace`.
 
 
-## Methods
+### Methods
 
-### hSpace.build()
+#### `hSpace.build()`
 
 Builds the variation space defined in `hSpace.params_dict`, using the order specified in `hSpace. params_order` to create the individual font names.
 
-### hSpace.ufos()
+#### `hSpace.ufos()`
 
 Returns a list of ufo paths for all existing fonts in the current `hSpace`.
 
@@ -44,16 +46,16 @@ Returns a list of ufo paths for all existing fonts in the current `hSpace`.
     s.parameters['resolution'] = [ '1' ]
     s.parameters_order = [ 'size', 'weight', 'resolution' ]
     s.build()
-    
+
     print s.fonts
-    
+
     >>> ['09-1-1', '10-1-1', '11-1-1', '12-1-1']
-    
+
     print s.ufos()
-    
+
     >>> ['/fonts/_QuanticaBitmap/_ufos/QuanticaBitmap_09-1-1.ufo', '/fonts/_QuanticaBitmap/_ufos/QuanticaBitmap_10-1-1.ufo', '/fonts/_QuanticaBitmap/_ufos/QuanticaBitmap_11-1-1.ufo', '/fonts/_QuanticaBitmap/_ufos/QuanticaBitmap_12-1-1.ufo']
 
-### transfer_glyphs(glyphs_groups, axis, params)
+#### `transfer_glyphs(glyphs_groups, axis, params)`
 
 Batch transfer glyphs from one set of fonts to another.
 
@@ -64,6 +66,6 @@ Batch transfer glyphs from one set of fonts to another.
     ranges = {
         'resolution' : [ '1', ],
     }
-    
+
     s = hSpace(project)
     s.transfer_glyphs(gstring, var, ranges)

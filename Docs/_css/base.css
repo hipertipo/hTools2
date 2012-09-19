@@ -1,161 +1,51 @@
-/* --- xhtml --- */
+/* --- hTools2 docs --- */
 
-body { font-family: 'Lucida Grande', Verdana, sans-serif; font-size: 13px; line-height: 1.5em; padding:  0; margin: 0; }
+a, p code, pre code { color: gray; }
 
-h1 { margin: 3.6em 0; }
+a { text-decoration: none; }
+a:hover { position: relative; top: +1px; left: +1px; }
 
-em { font-family: Georgia, Times New Roman, serif; font-size: 1.1em; }
-em > code { font-style: normal; }
+pre { background-color: #EEE; padding: 1em; overflow: auto; }
+code, pre { font-family: 'Menlo'; font-size: .85em; }
 
-ul { padding: 0; margin: 0; }
-li { padding: 0; margin: 0; }
-
-pre, code { font-family: 'Menlo', 'Consolas', monospace; color: #666; }
-
-img { background-color: #EFEFEF; }
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 1.5em;
-    empty-cells: show;
-    table-layout: auto;
-    margin: 0;
+#nav {
+    position: fixed;
+    top: 1em;
+    left: 3em;
+    width: 30%;
 }
 
-table td,
-table th {
-    color: #666;
-    font-size: 11px;;
-    line-height: 1.5em;
-    border-bottom: solid 1px #DDD;
-    padding: 1em;
-    background-color: #EFEFEF;
-    text-align: left;
-    vertical-align: top;
+#nav div {
+    float: left;
+    padding-right: 4em;
 }
 
-table td {
-    padding-right: 1.5em;
-    line-height: 1.8em;
-}
-
-table tr:last-child td, table tr:last-child th { border-bottom: 0; }
-
-table th { font-weight: bold; }
-
-pre { background-color: #EEE; padding: 1em; }
-
-/* --- links --- */
-
-a { color: white; padding: .2em .75em; text-decoration: none; white-space: nowrap; }
-a:hover { position: relative; top: +1px; left: +1px; color: white; background-color: #444; }
-
-/* --- layout --- */
-
-#content, #toc { padding: 0 4em; }
-#content { width: 47%; margin: 0; padding-bottom: 40em; }
-#toc { position: fixed; left: 50%; top: 7em; }
-
-/* --- toc --- */
-
-#toc ul { display: inline; margin: 0; padding: 0; }
-#toc li { display: inline; padding: 0; margin: 0; }
-#toc a, #content table a { font-family: 'Menlo', monospaced; font-size: 11px; font-weight: bold; margin: 0; }
-
-/* --- content --- */
-
-#content { }
-
-#content h1 {
-    font-weight: normal;
-    font-size: 2.4em;
-}
-
-#content h2 {
-    padding-top: 6em;
-}
-
-#content h3 {
-    font-family: 'Menlo', monospaced;
-    border-top: solid 1px #DDD;
-    margin-bottom: 1em;
-    padding-top: .8em;
-    line-height: 1.6em;
-}
-
-#content h3 > a {
+#nav h4 {
+    margin: 2em 0 1em 0;
+    font-size: .8em;
+    }
+#nav ul {
+    list-style-type: none;
     padding: 0;
     margin: 0;
 }
-
-#content h3:nth-child(n+2) {
-    margin-top: 3em;
+#nav li {
+    font-family: 'Menlo', monospace;
+    font-size: .8em;
+    line-height: 1.4em;
+    padding: 0;
 }
 
-#content .ttinfo tr td:first-child,
-#content .ttinfo tr th:first-child {
-    width: 10em;
+#content {
+    position: absolute;
+    top: 0em;
+    left: 35%;
+    width: 55%;
 }
 
-#content code {
-    padding: .2em .4em;
-    font-size: .9em;
-}
+h1, h2, h3, h4 { font-family: 'Menlo', monospace; }
 
-#content p code,
-#content li code {
-    background-color: #EFEFEF;
-}
-
-#content .caption {
-    font-size: 11px;
-    margin-bottom: 2em;
-    padding-left: .75em;
-    color: #666;
-}
-
-#content .caption:before {
-    color: #999;
-    content: "↳";
-    padding-right: .6em;
-}
-
-#content li {
-    list-style: none;
-    text-indent: -1.2em;
-    padding-left: 1.2em;
-    margin-bottom: .3em;
-}
-
-#content li:before {
-    color: #999;
-    content: "–";
-    padding-right: .75em;
-}
-
-/* navigation */
-
-#nav {
-    width: 100%;
-    height: 3.4em;
-    background-color: #EFEFEF;
-    position: fixed;
-    padding: 0 4em ;
-    left: 0;
-    top: 0;
-    -moz-box-shadow:        0 0 8px 0 #999;
-    -webkit-box-shadow:     0 0 8px 0 #999;
-    box-shadow:             0 0 8px 0 #999;
-}
-
-#nav ul {
-    margin-top: .9em;
-}
-
-#nav ul li {
-    display: inline;
-    font-size: 11px;
-    margin-right: 1.6em;
-    font-weight: bold;
-}
+#content h1 { color: red; }
+#content h2 { color: blue; border-top: solid #AAA 1px; padding: 1em 0 0 0; margin-top: 2em; }
+#content h3 { color: lime; }
+#content h4 { color: orange; }

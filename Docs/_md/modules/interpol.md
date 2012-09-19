@@ -1,4 +1,6 @@
-### interpolate_glyph(glyph_name, f1, f2, f3, factor, clear=True)
+## interpol
+
+### `interpolate_glyph(glyph_name, f1, f2, f3, factor, clear=True)`
 
 Interpolates the glyphs with name `glyph_name` from masters `f1` and `f2`, with interpolation factor `(factor_x, factor_y)`, into the destination font `f3`.
 
@@ -10,9 +12,9 @@ The optional parameter `clear` controls if existing glyphs in `f3` should be ove
     f3 = CurrentFont()
     interpolate_glyph('a', f1, f2, f3, (.3, .7), clear=True)
 
-### check_compatibility(f1, f2, names=None, report=True)
+### `check_compatibility(f1, f2, names=None, report=True)`
 
-Checks if glyphs in `f1` and `f2` are compatible for interpolation. If `names=None`, all glyphs in `f1` will be checked – otherwise, only the ones in the list `names`. 
+Checks if glyphs in `f1` and `f2` are compatible for interpolation. If `names=None`, all glyphs in `f1` will be checked – otherwise, only the ones in the list `names`.
 
 Glyph compatibility is indicated by colors in `f1`: glyphs marked with `green` are compatible, glyphs marked with `red` are not compatible (because contours and/or amount of points do not match), and glyphs marked with `blue` do not exist in `f2`.
 
@@ -26,7 +28,7 @@ Glyph compatibility is indicated by colors in `f1`: glyphs marked with `green` a
     check_compatibility(f1, f2, names=None, report=True)
 
     >>> checking compatibility between Publica 15 and Publica 55...
-    >>> 
+    >>>
     >>>     aring is compatible
     >>>     ### dieresis.sc is not compatible
     >>>     Hcircumflex is compatible
@@ -35,5 +37,5 @@ Glyph compatibility is indicated by colors in `f1`: glyphs marked with `green` a
     >>>     H.sc is compatible
     >>>     Yacute is compatible
     >>>     ...
-    >>> 
+    >>>
     >>> ...done.

@@ -1,3 +1,5 @@
+## hLine
+
 The `hLine` object makes it easy to typeset simple test strings with ufos in NodeBox.
 
 ## Attributes
@@ -21,35 +23,35 @@ scaling factor, a floating point number
 ### hLine.fill
 
 turn fill on/off
-    
+
 ### hLine.fill_color
 
 the fill color, a NodeBox `color` object
-    
+
 ### hLine.stroke_width
 
 the width of the stroke, in NodeBox units
-    
+
 ### hLine.stroke
 
-turn stroke on/off    
+turn stroke on/off
 
 ### hLine.stroke_color
 
 the stroke color, a NodeBox `color` object
-    
+
 ### hLine.hmetrics
 
 draw guidelines for horizontal metrics
-    
+
 ### hLine.hmetrics_crop
 
 crop height of guides for horizontal metrics yes/no
-    
+
 ### hLine.anchors
 
 draw anchors yes/no
-    
+
 ### hLine.anchors_size
 
 ### hLine.anchors_stroke_width

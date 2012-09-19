@@ -1,4 +1,6 @@
-### get_anchors(font, glyph_names=None)
+## anchors
+
+### `get_anchors(font, glyph_names=None)`
 
 Get all anchors in the glyphs with the given `glyph_names` as a dictionary. If no `glyph_names` are specified, all glyphs in the font will be used.
 
@@ -18,7 +20,7 @@ Every anchor is stored in a tuple of `name` and `(x,y)` position.
     >>> c [('top', (243, 527)), ('bottom', (236, 0))]
     >>> e [('top', (254, 527)), ('bottom', (370, 20))]
 
-### rename_anchor(glyph, old_name, new_name)
+### `rename_anchor(glyph, old_name, new_name)`
 
 Rename anchors with name `old_name` in `glyph` to `new_name`.
 
@@ -36,7 +38,7 @@ Rename anchors with name `old_name` in `glyph` to `new_name`.
 
     >>> TOP bottom
 
-### transfer_anchors(source_glyph, dest_glyph)
+### `transfer_anchors(source_glyph, dest_glyph)`
 
 Transfer the existing anchors in `source_glyph` to `dest_glyph`.
 
@@ -46,7 +48,7 @@ Transfer the existing anchors in `source_glyph` to `dest_glyph`.
     glyph_name = 'a'
     transfer_anchors(f1[glyph_name], f2[glyph_name])
 
-### move_anchors(glyph, anchor_names, (x, y))
+### `move_anchors(glyph, anchor_names, (x, y))`
 
 Move all anchors with `anchor_names` in `glyph` by `(x, y)` units.
 
