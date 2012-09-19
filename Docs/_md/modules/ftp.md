@@ -2,7 +2,7 @@
 
 This module uses the [`ftplib`](http://docs.python.org/library/ftplib.html) library to handle FTP connection and upload.
 
-### `connect_to_server(url, login, password, folder, verbose=False)`
+#### `connect_to_server(url, login, password, folder, verbose=False)`
 
 Connects to the FTP server at `url` using the given `login` and `password`, moves to `folder` (if it exists), and returns a `FTP` object.
 
@@ -23,7 +23,7 @@ To get the lower level details about the FTP connection, use the optional parame
     >>> drwxrwxr-x   2 hipertipo 33           4096 Nov 15 07:46 publica
     >>> ...
 
-### `upload_file(file_path, ftp_connection)`
+#### `upload_file(file_path, ftp_connection)`
 
 Uploads the file at `file_path` to a FTP server, using the given `ftp_connection`.
 

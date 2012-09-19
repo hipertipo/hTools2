@@ -1,6 +1,6 @@
 ## fontutils
 
-### `get_spacing_groups(font)`
+#### `get_spacing_groups(font)`
 
 Returns a dictionary containing the `left` and `right` spacing groups in the font.
 
@@ -20,7 +20,7 @@ Returns a dictionary containing the `left` and `right` spacing groups in the fon
 
     >>> ['a', 'schwa', 'ae']
 
-### `get_glyphs(font)`
+#### `get_glyphs(font)`
 
 Returns a list with the names of glyphs currently selected or active in the `font`.
 
@@ -38,7 +38,7 @@ For the example below, imagine that the glyphs `b c d` are selected in the font 
 
     >>> ['b', 'c', 'd']
 
-### `print_selected_glyphs(f, mode=1)`
+#### `print_selected_glyphs(f, mode=1)`
 
 Prints the selected glyphs to the output window.
 
@@ -56,7 +56,7 @@ Two different modes are supported: `mode=0` prints the glyph names as a list of 
     >>> c
     >>> d
 
-### `delete_groups(font)`
+#### `delete_groups(font)`
 
 Deletes all groups in the font.
 
@@ -73,7 +73,7 @@ Deletes all groups in the font.
 
     >>> 0
 
-### `print_groups(font, mode=0)`
+#### `print_groups(font, mode=0)`
 
 Prints all groups and glyphs in the font.
 
@@ -138,7 +138,7 @@ And if `mode=2`, groups and glyphs are printed as Python lists:
     >>>
     >>> ...done.
 
-### `get_full_name(font)`
+#### `get_full_name(font)`
 
 Returns the full name of the font (family name + style name).
 
@@ -148,7 +148,7 @@ Returns the full name of the font (family name + style name).
 
     >>> Publica 55
 
-### `full_name(family, style)`
+#### `full_name(family, style)`
 
 Returns a ‘full name’ from `family` and `style` names, separated by a `space` character. If the `style` is Regular, only the `family` is used.
 
@@ -166,7 +166,7 @@ Returns a ‘full name’ from `family` and `style` names, separated by a `space
 
     >>> Publica 55
 
-### `font_name(family, style)`
+#### `font_name(family, style)`
 
 Same as `full_name()`, but `family` and `style` names are separated by a `hyphen` instead of `space`.
 
@@ -176,7 +176,7 @@ Same as `full_name()`, but `family` and `style` names are separated by a `hyphen
 
     >>> Publica-55
 
-### `get_names_from_path(font_path)`
+#### `get_names_from_path(font_path)`
 
 Returns `family` and `style` names from the given `font_path`. Only works if .ufo file names follow [hTools conventions](http://hipertipo.com/content/htools2/about/conventions/).
 
@@ -186,7 +186,7 @@ Returns `family` and `style` names from the given `font_path`. Only works if .uf
 
     >>> (u'Publica', u'55')
 
-### `decompose(font)`
+#### `decompose(font)`
 
 Decomposes any composed glyph in the `font`.
 
@@ -214,7 +214,7 @@ Decomposes any composed glyph in the `font`.
 
     >>> []
 
-### `auto_contour_order(font)`
+#### `auto_contour_order(font)`
 
 Automatically sets contour order for all glyphs in the `font`.
 
@@ -222,7 +222,7 @@ Automatically sets contour order for all glyphs in the `font`.
     f = CurrentFont()
     auto_contour_order(f)
 
-### `auto_contour_direction(font)`
+#### `auto_contour_direction(font)`
 
 Automatically sets contour directions for all glyphs in the `font`.
 
@@ -230,7 +230,7 @@ Automatically sets contour directions for all glyphs in the `font`.
     f = CurrentFont()
     auto_contour_direction(f)
 
-### `auto_order_direction(font)`
+#### `auto_order_direction(font)`
 
 Automatically sets contour order and direction for all glyphs in the `font`, in one go.
 
@@ -238,7 +238,7 @@ Automatically sets contour order and direction for all glyphs in the `font`, in 
     f = CurrentFont()
     auto_order_direction(f)
 
-### `add_extremes(font)`
+#### `add_extremes(font)`
 
 Add extreme points to all glyphs in the `font`, if they are missing.
 
@@ -246,7 +246,7 @@ Add extreme points to all glyphs in the `font`, if they are missing.
     f = CurrentFont()
     add_extremes(f)
 
-### `align_to_grid(font, (sizeX, sizeY))`
+#### `align_to_grid(font, (sizeX, sizeY))`
 
 Aligns all points of all glyphs in the `font` to a grid with size `(sizeX,sizeY)`.
 

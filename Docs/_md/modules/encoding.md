@@ -1,6 +1,6 @@
 ## encoding
 
-### `import_encoding(file_path)`
+#### `import_encoding(file_path)`
 
 Import group and glyphs names from an `.enc` file. Returns a dictionary with glyph groups, and a list with the order of the groups.
 
@@ -15,7 +15,7 @@ Import group and glyphs names from an `.enc` file. Returns a dictionary with gly
 
     >>> 'invisible', 'lowercase_basic', 'lowercase_extra', ...
 
-### `clear_unicodes(font)`
+#### `clear_unicodes(font)`
 
 Remove unicodes from all glyphs in the font.
 
@@ -23,7 +23,7 @@ Remove unicodes from all glyphs in the font.
     f = CurrentFont()
     clear_unicodes(f)
 
-### `auto_unicodes(font)`
+#### `auto_unicodes(font)`
 
 Automatically set unicode values for all glyphs in the font.
 
@@ -31,7 +31,7 @@ Automatically set unicode values for all glyphs in the font.
     f = CurrentFont()
     auto_unicodes(f)
 
-### `auto_unicode(glyph)`
+#### `auto_unicode(glyph)`
 
 Automatically set unicode value(s) for the specified glyph. The method uses RoboFab’s `glyph.autoUnicodes()` function for common glyphs, and complements it with additional values from `unicodes_extra`.
 
@@ -59,7 +59,7 @@ Automatically set unicode value(s) for the specified glyph. The method uses Robo
 
     >>> [567]
 
-### `unicode_int_to_hexstr(intUnicode, add0x=False, addUni=False)`
+#### `unicode_int_to_hexstr(intUnicode, add0x=False, addUni=False)`
 
 Convert unicode integers to hexadecimal. See also the reverse function `unicode_hexstr_to_int`.
 
@@ -85,7 +85,7 @@ Note that `glyph.unicodes` is a list (a glyph can have many unicodes), so we nee
 
     >>> 0x0061
 
-### `unicode_hexstr_to_int(hexUnicode, replaceUni=True)`
+#### `unicode_hexstr_to_int(hexUnicode, replaceUni=True)`
 
 Convert a unicode hexadecimal value into an integer. It does exactly the reverse of `unicode_int_to_hexstr`.
 
@@ -104,10 +104,10 @@ Convert a unicode hexadecimal value into an integer. It does exactly the reverse
 
     >>> 97
 
-### `unicodes_extra`
+#### `unicodes_extra`
 
 A dictionary containing additional `glyphName` to `unicode` mappings.
 
-### `unicode2psnames`
+#### `unicode2psnames`
 
 A dictionary mapping `unicode` values to `psNames` (standard glyph names).

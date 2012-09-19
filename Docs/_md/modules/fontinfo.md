@@ -1,6 +1,6 @@
 ## fontinfo
 
-### `set_names(font)`
+#### `set_names(font)`
 
 Sets `font.info.familyName` and `font.info.styleName` from the font path’s parts. This only works if the font file names follow [hTools conventions](http://hipertipo.com/content/htools2/about/conventions/).
 
@@ -17,7 +17,7 @@ Sets `font.info.familyName` and `font.info.styleName` from the font path’s par
     >>> Publica
     >>> 55
 
-### `print_font_info(font)`
+#### `print_font_info(font)`
 
 Prints all kinds of font information data, using the individual functions below.
 
@@ -27,7 +27,7 @@ The data and related functions are organized according to the [UFO 2 specificati
     f = CurrentFont()
     print_font_info(f)
 
-### `print_generic_identification(font)`
+#### `print_generic_identification(font)`
 
     from hTools2.modules.fontinfo import print_generic_identification
     f = CurrentFont()
@@ -44,7 +44,7 @@ The data and related functions are organized according to the [UFO 2 specificati
     >>> versionMinor: None
     >>> year: None
 
-### `print_generic_legal(font)`
+#### `print_generic_legal(font)`
 
     from hTools2.modules.fontinfo import print_generic_legal
     f = CurrentFont()
@@ -56,7 +56,7 @@ The data and related functions are organized according to the [UFO 2 specificati
     >>> copyright: None
     >>> trademark: None
 
-### `print_generic_dimension(font)`
+#### `print_generic_dimension(font)`
 
     from hTools2.modules.fontinfo import print_generic_dimension
     f = CurrentFont()
@@ -72,7 +72,7 @@ The data and related functions are organized according to the [UFO 2 specificati
     >>> ascender: 688
     >>> italicAngle: None
 
-### `print_generic_miscellaneous(font)`
+#### `print_generic_miscellaneous(font)`
 
     from hTools2.modules.fontinfo import print_generic_miscellaneous
     f = CurrentFont()
@@ -83,7 +83,7 @@ The data and related functions are organized according to the [UFO 2 specificati
     >>> ------------------------------------------------------------
     >>> note: None
 
-### `print_opentype_head(font)`
+#### `print_opentype_head(font)`
 
     from hTools2.modules.fontinfo import print_opentype_head
     f = CurrentFont()
@@ -96,7 +96,7 @@ The data and related functions are organized according to the [UFO 2 specificati
     >>> openTypeHeadLowestRecPPEM: None
     >>> openTypeHeadFlags: None
 
-### `print_opentype_hhea(font)`
+#### `print_opentype_hhea(font)`
 
     from hTools2.modules.fontinfo import print_opentype_hhea
     f = CurrentFont()
@@ -112,7 +112,7 @@ The data and related functions are organized according to the [UFO 2 specificati
     >>> openTypeHheaCaretSlopeRun: None
     >>> openTypeHheaCaretOffset: None
 
-### `print_opentype_name(font)`
+#### `print_opentype_name(font)`
 
     from hTools2.modules.fontinfo import print_opentype_name
     f = CurrentFont()
@@ -137,7 +137,7 @@ The data and related functions are organized according to the [UFO 2 specificati
     >>> openTypeNameWWSFamilyName: None
     >>> openTypeNameWWSSubfamilyName: None
 
-### `print_opentype_os2(font)`
+#### `print_opentype_os2(font)`
 
     from hTools2.modules.fontinfo import print_opentype_os2
     f = CurrentFont()
@@ -171,7 +171,7 @@ The data and related functions are organized according to the [UFO 2 specificati
     >>> openTypeOS2StrikeoutSize: None
     >>> openTypeOS2StrikeoutPosition: None
 
-### `print_opentype_vhea(font)`
+#### `print_opentype_vhea(font)`
 
     from hTools2.modules.fontinfo import print_opentype_vhea
     f = CurrentFont()
@@ -187,7 +187,7 @@ The data and related functions are organized according to the [UFO 2 specificati
     >>> openTypeVheaCaretSlopeRun: None
     >>> openTypeVheaCaretOffset: None
 
-### `print_postscript_data(font)`
+#### `print_postscript_data(font)`
 
     from hTools2.modules.fontinfo import print_postscript_data
     f = CurrentFont()
@@ -219,65 +219,65 @@ The data and related functions are organized according to the [UFO 2 specificati
     >>> postscriptDefaultCharacter: None
     >>> postscriptWindowsCharacterSet: None
 
-### `clearFontInfo(font)`
+#### `clearFontInfo(font)`
 
 Clears all font information fields in the font, using the individual functions below.
 
-### `clear_generic_identification(font)`
+#### `clear_generic_identification(font)`
 
     from hTools2.modules.fontinfo import clear_generic_identification
     f = CurrentFont()
     clear_generic_identification(f)
 
-### `clear_generic_legal(font)`
+#### `clear_generic_legal(font)`
 
     from hTools2.modules.fontinfo import clear_generic_legal
     f = CurrentFont()
     clear_generic_legal(f)
 
-### `clear_generic_dimension(font)`
+#### `clear_generic_dimension(font)`
 
     from hTools2.modules.fontinfo import clear_generic_dimension
     f = CurrentFont()
     clear_generic_dimension(f)
 
-### `clear_generic_miscellaneous(font)`
+#### `clear_generic_miscellaneous(font)`
 
     from hTools2.modules.fontinfo import clear_generic_miscellaneous
     f = CurrentFont()
     clear_generic_miscellaneous(f)
 
-### `clear_opentype_head(font)`
+#### `clear_opentype_head(font)`
 
     from hTools2.modules.fontinfo import clear_opentype_head
     f = CurrentFont()
     clear_opentype_head(f)
 
-### `clear_opentype_hhea(font)`
+#### `clear_opentype_hhea(font)`
 
     from hTools2.modules.fontinfo import clear_opentype_hhea
     f = CurrentFont()
     clear_opentype_hhea(f)
 
-### `clear_opentype_name(font)`
+#### `clear_opentype_name(font)`
 
     from hTools2.modules.fontinfo import clear_opentype_name
     f = CurrentFont()
     clear_opentype_name(f)
 
-### `clear_opentype_os2(font)`
+#### `clear_opentype_os2(font)`
 
     from hTools2.modules.fontinfo import clear_opentype_os2
     f = CurrentFont()
     clear_opentype_os2(f)
 
-### `clear_opentype_vhea(font)`
+#### `clear_opentype_vhea(font)`
 
     from hTools2.modules.fontinfo import clear_opentype_vhea
     f = CurrentFont()
     clear_opentype_vhea(f)
 
-### `clear_postscript_data(font)`
+#### `clear_postscript_data(font)`
 
     from hTools2.modules.fontinfo import clear_postscript_data
     f = CurrentFont()

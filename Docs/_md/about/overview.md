@@ -1,24 +1,20 @@
 ## Overview
 
-hTools2 is organized in three main layers:
-
-- modules
-- objects
-- dialogs
+hTools2 is organized in three main layers: *modules*, *objects* and *dialogs*.
 
 ### Modules
 
-Modules are the base layer of hTools, and are used to collect and organize low-level, generic, reusable functions.
+Modules are the base layer of hTools2, and are used to collect and organize low-level, generic, reusable functions.
 
 Each module is dedicated to one aspect of font data – for example `interpol.py` contains functions to work with interpolation, `anchors.py` deals with anchors, and so on.
 
-hTools modules rely heavily on RoboFab to manipulate .ufo font files.
+hTools2 modules rely heavily on RoboFab to manipulate ufo font files.
 
-hTools also integrates a few third-party external modules in a special `hTools.extras` folder – for example `colorsys.py` for dealing with color conversions, `nudge.py` for special manipulation of bezier points etc.
+hTools2 also integrates a few third-party external modules in a special `extras` folder – for example `colorsys.py` for dealing with color conversions, `nudge.py` for special manipulation of bezier points etc.
 
 ### Objects
 
-hTools objects are built on top of the functionality contained in the modules, and provide a simple API for manipulating font files and related data in projects.
+hTools2 objects are built on top of the functionality contained in the modules, and provide a simple API for manipulating font files and related data in projects.
 
 ### Dialogs
 

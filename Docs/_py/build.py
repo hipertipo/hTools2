@@ -9,7 +9,9 @@ import os
 import markdown
 import codecs
 
+from hTools2.objects import hWorld
 from hTools2.modules.fileutils import walk
+from hTools2.modules.ftp import *
 
 #------------
 # data index
@@ -17,7 +19,7 @@ from hTools2.modules.fileutils import walk
 
 _index = {
 
-    'introduction' : [
+    'about' : [
         'introduction',
         'overview',
         'conventions',
@@ -54,45 +56,18 @@ _index = {
     ],
 
     'dialogs' : [
-        'glyphs_copy_to_mask',
-        'glyphs_mask',
-        'glyphs_copy_to_layer',
-        'glyphs_mirror',
-        'glyphs_copy_paste',
-        'glyphs_round_to_grid',
-        'glyphs_shift_points',
-        'glyphs_move',
-        'glyphs_scale',
-        'glyphs_skew',
-        'glyphs_rasterize',
-        'glyphs_actions',
-        'glyphs_slide',
-        'glyphs_set_width',
-        'glyphs_set_margins',
-        'glyphs_copy_margins',
-        'glyphs_copy_widths',
-        'glyphs_interpolate',
-        'glyphs_paint',
-        'glyphs_move_anchors',
-        'glyphs_rename_anchors',
-        'glyphs_transfer_anchors',
-        'glyphs_change_suffix',
-        'folder_actions',
-        'folder_generate',
-        'folder_otfs2ufos',
-        'font_rename_glyphs',
-        'font_create_spaces',
-        'font_print_groups',
-        'font_delete_layer',
-        'font_import_layer',
-        'font_adjust_vmetrics',
-        'font_transfer_vmetrics',
+        'all-fonts',
+        'batch-folder',
+        'selected-glyphs',
+        'current-font',
+        'current-glyph',
+        'workspace',
     ],
 
 }
 
 _index_order = [
-    'introduction',
+    'about',
     'modules',
     'objects',
     'dialogs',
@@ -102,11 +77,12 @@ _index_order = [
 # settings
 #----------
 
-PATH_BASE = '/_code/hTools2/Docs/'
-PATH_HTML = '_html/'
-PATH_CSS = '_css/'
-PATH_MD = '_md/'
-PATH_IMGS = '_imgs/'
+PATH_BASE =     '/_code/hTools2/Docs/'
+PATH_HTML =     '_html/'
+PATH_CSS =      '_css/'
+PATH_MD =       '_md/'
+PATH_IMGS =     '_imgs/'
+PATH_FTP =      'www/hipertipo.org/temp/hTools2/'
 
 #-----------
 # functions
@@ -114,16 +90,18 @@ PATH_IMGS = '_imgs/'
 
 def build_html():
 
+    print 'building docs...'
+
     _md_path = os.path.join(PATH_BASE, PATH_MD)
 
     html_code = u''
-    html_code += '%s\n' % '<!DOCTYPE html>'
-    html_code += '%s\n' % '<html lang="en">'
-    html_code += '%s\n' % '<meta charset="utf-8" />'
-    html_code += '%s\n' % '<head>'
-    html_code += '%s\n' % '<title>hTools2 Docs</title>'
-    html_code += '%s\n' % '<script src="http://code.jquery.com/jquery-latest.min.js"></script>'
-    html_code += '%s\n' % '<script src="../_js/scroll.js"></script>'
+    html_code += '<!DOCTYPE html>\n'
+    html_code += '<html lang="en">\n'
+    html_code += '<meta charset="utf-8" />\n'
+    html_code += '<head>\n'
+    html_code += '<title>hTools2 Docs</title>\n'
+    html_code += '<script src="http://code.jquery.com/jquery-latest.min.js"></script>\n'
+    html_code += '<script src="../_js/scroll.js"></script>\n'
     html_code += '<link href="../_css/base.css" rel="stylesheet" />\n'
     html_code += '</head>\n'
     html_code += '<body>\n'
@@ -149,7 +127,7 @@ def build_html():
                 _title = _md_file.readline()
                 _title = _title[3:-1]
                 _title = _title.lower()
-                _anchor = _title
+                _anchor = _title.replace(' ', "_")
                 html_code += '<li><a href="#%s">%s</a></li>\n' % (_anchor, _title)
         html_code += '</ul>\n'
         count += 1
@@ -170,6 +148,7 @@ def build_html():
                 _md_text = _md_file.read()
                 _html = markdown.markdown(_md_text)
                 _anchor = item.lower()
+                _anchor = _anchor.replace('-', "_")
                 html_code += '<a name="%s"></a>\n' % _anchor
                 html_code += _html
     html_code += '</div>\n'
@@ -184,8 +163,36 @@ def build_html():
     _html_file.write(html_code)
     _html_file.close()
 
+    print '...done.\n'
+
+def upload_docs():
+    print 'uploading docs...'
+    # get ftp settings
+    w = hWorld()
+    _url = w.settings.hDict['ftp']['url']
+    _login = w.settings.hDict['ftp']['login']
+    _password = w.settings.hDict['ftp']['password']
+    # upload html
+    _folder_html = os.path.join(PATH_FTP, '_html')
+    F = connect_to_server(_url, _login, _password, _folder_html, verbose=False)
+    _html_folder = os.path.join(PATH_BASE, PATH_HTML)
+    _html_path = os.path.join(_html_folder, 'index.html')
+    print '\tuploading html...'
+    upload_file(_html_path, F)
+    F.quit()
+    # upload css
+    _folder_css = os.path.join(PATH_FTP, '_css')
+    F = connect_to_server(_url, _login, _password, _folder_css, verbose=False)
+    _css_folder = os.path.join(PATH_BASE, PATH_CSS)
+    _css_path = os.path.join(_css_folder, 'base.css')
+    print '\tuploading css...'
+    upload_file(_css_path, F)
+    # done
+    print '...done.'
+
 #-----
 # run
 #-----
 
 build_html()
+upload_docs()

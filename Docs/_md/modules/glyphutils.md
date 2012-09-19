@@ -1,6 +1,6 @@
 ## glyphutils
 
-### `walk(folder, extension)`
+#### `walk(folder, extension)`
 
 A simple non-recursive `walk` function to collect files with a given extension. It walks all files in `folder`, and returns a list of matching file paths.
 
@@ -10,7 +10,7 @@ A simple non-recursive `walk` function to collect files with a given extension. 
 
     >>> [u'/fonts/_Publica/_ufos/Publica_15.ufo', u'/fonts/_Publica/_ufos/Publica_55.ufo', u'/fonts/_Publica/_ufos/Publica_95.ufo']
 
-### `delete_files(files_list)`
+#### `delete_files(files_list)`
 
 Deletes the files at the file paths in the list. Often used in combination with results from the `walk` function.
 
@@ -27,7 +27,7 @@ Deletes the files at the file paths in the list. Often used in combination with 
 
     >>> 0
 
-### `get_names_from_path(fontpath)`
+#### `get_names_from_path(fontpath)`
 
 A simple function to parse underscore-separated font file names into `family` and `style` names.
 
@@ -42,7 +42,7 @@ A simple function to parse underscore-separated font file names into `family` an
     >>> Publica 55
     >>> Publica 95
 
-### `get_parameters_from_path(fontpath)`
+#### `get_parameters_from_path(fontpath)`
 
 Get individual parameters from the path of a font file.
 
@@ -57,13 +57,13 @@ Get individual parameters from the path of a font file.
 
     >>> [u'55', u'Italic']
 
-### `read_names_list_from_file(filepath)`
+#### `read_names_list_from_file(filepath)`
 
 Read pairs of glyph names from a simple text file.
 
     add example
 
-### `rename_file(filepath, new_name, overwrite=True, delete=True)`
+#### `rename_file(filepath, new_name, overwrite=True, delete=True)`
 
 Rename a file or folder, and save it with the new name. The additional parameters `overwrite` and `delete` make it possible to overwrite existing files, and delete the old file/folder.
 

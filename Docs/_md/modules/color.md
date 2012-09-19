@@ -1,6 +1,6 @@
 ## color
 
-### `random_color()`
+#### `random_color()`
 
 Return a random color.
 
@@ -22,7 +22,7 @@ Independent of the context, the visual result is a always color with random vari
 
     >>> (196.0)
 
-### `clear_colors(font)`
+#### `clear_colors(font)`
 
 Remove the color of all glyphs in the given `font`.
 
@@ -30,7 +30,7 @@ Remove the color of all glyphs in the given `font`.
     font = CurrentFont()
     clear_colors(font)
 
-### `clear_color(glyph)`
+#### `clear_color(glyph)`
 
 Remove the color of the given `glyph`.
 
@@ -38,7 +38,7 @@ Remove the color of the given `glyph`.
     font = CurrentFont()
     clear_color(font['a'])
 
-### `RGB_to_nodebox_color((R, G, B), ctx)`
+#### `RGB_to_nodebox_color((R, G, B), ctx)`
 
 Take a tuple of `(R,G,B)` values and return a NodeBox `color` object.
 
@@ -49,7 +49,7 @@ The example below shows some sample code in NodeBox. The `_ctx` object is native
 
     >>> Color(0.000, 0.004, 0.000, 1.000)
 
-### `paint_groups(font)`
+#### `paint_groups(font)`
 
 Paint the glyphs in the `font` according to their groups. If a `groups_order` lib is available, it is used to set the order of the glyphs in the font.
 
@@ -57,7 +57,7 @@ Paint the glyphs in the `font` according to their groups. If a `groups_order` li
     font = CurrentFont()
     paint_groups(font)
 
-### `named_colors`
+#### `named_colors`
 
 A dictionary with color names and their corresponding color values, as `(R,G,B,alpha)` tuples.
 
@@ -70,7 +70,7 @@ A dictionary with color names and their corresponding color values, as `(R,G,B,a
 
     >>> (1, 0.66, 0.0, 1)
 
-### `solarized_colors`
+#### `solarized_colors`
 
 Solarized colors by name and `(R,G,B)` values.
 
@@ -79,7 +79,7 @@ Solarized colors by name and `(R,G,B)` values.
 
     >>> ['blue', 'base01', 'base00', 'base03', 'base02', 'yellow', 'base0', 'base1', 'base2', 'base3', 'green', 'violet', 'orange', 'cyan', 'magenta', 'red']
 
-### `solarized_groups`
+#### `solarized_groups`
 
 Solarized colors by name, divided into groups.
 
@@ -88,7 +88,7 @@ Solarized colors by name, divided into groups.
 
     >>> ['dark', 'content', 'colors', 'bright']
 
-### `solarized_color(color_name)`
+#### `solarized_color(color_name)`
 
 Return a `(R,G,B)` color for a given `color_name` in the solarized palette.
 
@@ -101,7 +101,7 @@ Return a `(R,G,B)` color for a given `color_name` in the solarized palette.
 
     >>> (88, 110, 117)
 
-### `x11_colors`
+#### `x11_colors`
 
 X11 colors by name and `(R,G,B)` values.
 
@@ -110,7 +110,7 @@ X11 colors by name and `(R,G,B)` values.
 
     >>> ['Pink', 'Blue', 'Honeydew', 'Purple', 'Fuchsia', 'LawnGreen', 'AliceBlue', 'Crimson', 'White', 'NavajoWhite', 'Cornsilk', ..., 'LightPink', 'MediumAquamarine', 'OldLace']
 
-### `x11_groups`
+#### `x11_groups`
 
 X11 colors by name, divided in groups.
 
@@ -119,7 +119,7 @@ X11 colors by name, divided in groups.
 
     >>> ['pink', 'blue', 'brown', 'purple', 'yellow', 'gray', 'green', 'orange', 'white', 'red']
 
-### `x11_color(color_name)`
+#### `x11_color(color_name)`
 
 Return a `(R,G,B)` color for a given `color_name` in the X11 palette.
 

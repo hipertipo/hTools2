@@ -1,34 +1,75 @@
 /* --- hTools2 docs --- */
 
-a, p code, pre code { color: gray; }
+a, p code { color: #666; }
 
-a { text-decoration: none; }
-a:hover { position: relative; top: +1px; left: +1px; }
+#content pre code { color: #999; }
 
-pre { background-color: #EEE; padding: 1em; overflow: auto; }
-code, pre { font-family: 'Menlo'; }
+a {
+    text-decoration: none;
+}
+
+a:hover {
+    position: relative;
+    background-color: #EEE;
+    top: +1px;
+    left: +1px;
+}
+
+pre {
+    background-color: #EEE;
+    padding: 1em;
+    overflow: auto;
+}
+
+code, pre {
+    font-family: 'Menlo';
+}
 
 #nav {
     position: fixed;
     top: 1em;
-    left: 3em;
-    width: 30%;
+    left: 60%;
+    width: 40%;
+}
+
+#content {
+    position: absolute;
+    top: 0em;
+    left: 5em;
+    width: 45%;
+}
+
+#content table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #EEE;
+}
+
+#content td, #content th {
+    font-family: 'Lucida Grande', sans-serif;
+    font-size: .8em;
+    color: #666;
+    text-align: left;
+    border-bottom: solid 1px #DDD;
+    padding: 1em;
 }
 
 #nav div {
     float: left;
-    padding-right: 4em;
+    padding-right: 6em;
 }
 
 #nav h4 {
     margin: 2em 0 1em 0;
     font-size: .8em;
-    }
+}
+
 #nav ul {
     list-style-type: none;
     padding: 0;
     margin: 0;
 }
+
 #nav li {
     font-family: 'Menlo', monospace;
     font-size: .8em;
@@ -36,32 +77,24 @@ code, pre { font-family: 'Menlo'; }
     padding: 0;
 }
 
-#content {
-    position: absolute;
-    top: 0em;
-    left: 30%;
-    width: 60%;
-}
-
-#content p {
+#content p, #content li {
     font-family: 'Georgia', serif;
     line-height: 1.4em;
-    font-size: 1.4em;
 }
 
 #content p > code {
+    background-color: #EEE;
     font-size: .8em;
     padding: 0 .2em;
 }
 
 #content pre {
-    font-size: .9em;
-    line-height: 1.4em;
+    font-size: .8em;
+    line-height: 1.8em;
 }
 
-h1, h2, h3, h4 { font-family: 'Menlo', monospace; }
+h1, h2, h3, h4 { font-family: 'Menlo', monospace; line-height: 1.4em; }
 
-#content h1 { color: red; }
-#content h2 { color: blue; border-top: solid #AAA 1px; padding: 1em 0 0 0; margin-top: 2em; }
-#content h3 { color: lime; }
-#content h4 { color: orange; }
+#content h2 { color: #666; border-top: solid #AAA 1px; padding: 1em 0 0 0; margin-top: 2em; }
+#content h3 { color: #888; margin: 2em 0 1em; font-weight: normal; font-size: 1.2em; }
+#content h4 { color: #999; margin: 2em 0 0 0; }

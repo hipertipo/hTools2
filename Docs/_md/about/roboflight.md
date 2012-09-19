@@ -5,7 +5,7 @@ The RoboFlight class is the framework that binds all FontBureau conversion, QA a
 ## Schedule and status of fonts and families
 
 - graphs showing percentage of each task completed
-- [Gantt chart](https://en.wikipedia.org/wiki/Gantt_chart) – start and end of each task, dependencies, milestones
+- [Gantt chart](https://en.wikipedia.org/wiki/Gantt_chart) – start and end of each task, dependencies, milestones etc.
 
 ## Importing from existing FontLab, UFO, TTF
 
