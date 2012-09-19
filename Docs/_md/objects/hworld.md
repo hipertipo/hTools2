@@ -2,9 +2,9 @@
 
 The `hWorld` object represents the local root folder, where all project folders live.
 
-## Attributes
+### Attributes
 
-### hWorld.settings
+#### hWorld.settings
 
 A `hSettings` object with information about the local system.
 
@@ -14,7 +14,7 @@ A `hSettings` object with information about the local system.
 
     >>> <hTools2.objects.hSettings instance at 0x12ac6b560>
 
-### hWorld.context
+#### hWorld.context
 
 The environment in which the current script is running.
 
@@ -27,9 +27,9 @@ The possible options are: `RoboFont`, `FontLab` and `NoneLab`.
     >>> RoboFont
 
 
-## Methods
+### Methods
 
-### hWorld.projects()
+#### hWorld.projects()
 
 Returns a list of all project folders contained in the root folder.
 

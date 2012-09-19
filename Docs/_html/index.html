@@ -1316,8 +1316,8 @@ print s.filename
 <p>Writes the contents of <code>hSettings.hDict</code> to the <code>hSettings.plist</code> file.</p><a name="hworld"></a>
 <h2>hWorld</h2>
 <p>The <code>hWorld</code> object represents the local root folder, where all project folders live.</p>
-<h2>Attributes</h2>
-<h3>hWorld.settings</h3>
+<h3>Attributes</h3>
+<h4>hWorld.settings</h4>
 <p>A <code>hSettings</code> object with information about the local system.</p>
 <pre><code>from hTools2.objects import hWorld
 w = hWorld()
@@ -1325,7 +1325,7 @@ print w.settings
 
 &gt;&gt;&gt; &lt;hTools2.objects.hSettings instance at 0x12ac6b560&gt;
 </code></pre>
-<h3>hWorld.context</h3>
+<h4>hWorld.context</h4>
 <p>The environment in which the current script is running.</p>
 <p>The possible options are: <code>RoboFont</code>, <code>FontLab</code> and <code>NoneLab</code>.</p>
 <pre><code>from hTools2.objects import hWorld
@@ -1334,8 +1334,8 @@ print w.context
 
 &gt;&gt;&gt; RoboFont
 </code></pre>
-<h2>Methods</h2>
-<h3>hWorld.projects()</h3>
+<h3>Methods</h3>
+<h4>hWorld.projects()</h4>
 <p>Returns a list of all project folders contained in the root folder.</p>
 <p>According to <a href="http://hipertipo.com/content/htools2/about/conventions/">hTools conventions</a>, project folder names need to start with an underscore.</p>
 <pre><code>from hTools2.objects import hWorld

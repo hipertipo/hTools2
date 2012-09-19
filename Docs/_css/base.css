@@ -6,7 +6,7 @@ a { text-decoration: none; }
 a:hover { position: relative; top: +1px; left: +1px; }
 
 pre { background-color: #EEE; padding: 1em; overflow: auto; }
-code, pre { font-family: 'Menlo'; font-size: .85em; }
+code, pre { font-family: 'Menlo'; }
 
 #nav {
     position: fixed;
@@ -32,15 +32,31 @@ code, pre { font-family: 'Menlo'; font-size: .85em; }
 #nav li {
     font-family: 'Menlo', monospace;
     font-size: .8em;
-    line-height: 1.4em;
+    line-height: 1.6em;
     padding: 0;
 }
 
 #content {
     position: absolute;
     top: 0em;
-    left: 35%;
-    width: 55%;
+    left: 30%;
+    width: 60%;
+}
+
+#content p {
+    font-family: 'Georgia', serif;
+    line-height: 1.4em;
+    font-size: 1.4em;
+}
+
+#content p > code {
+    font-size: .8em;
+    padding: 0 .2em;
+}
+
+#content pre {
+    font-size: .9em;
+    line-height: 1.4em;
 }
 
 h1, h2, h3, h4 { font-family: 'Menlo', monospace; }
