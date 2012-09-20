@@ -1,28 +1,18 @@
 ## hProject
 
-The `hProject` object represents a family of fonts and related data, contained in a common folder with standardized sub-folder structure and file names.
+The `hProject` object represents a family of fonts and related data. Each family corresponds to a folder with standardized sub-folder structure and data files.
 
-The object is usually initialized with the project’s name:
+The `hProject` object is initialized with the project’s name:
 
     from hTools2.objects import hProject
     p = hProject('Publica')
     print p
-    print p.name
 
     >>> <hTools2.objects.hProject instance at 0x10f052cb0>
-    >>> Publica
 
-    print p.paths.keys()
+### Attributes
 
-    >>> ['interpol_instances', 'temp', 'docs', 'woffs', 'otfs', 'instances', 'otfs_test', 'bkp', 'interpol', 'libs', 'ufos', 'root', 'vfbs']
-
-    print p.libs.keys()
-
-    >>> ['info', 'composed', 'accents', 'spacing', 'project', 'groups', 'interpol', 'vmetrics']
-
-## Attributes
-
-### hProject.name
+#### `hProject.name`
 
 The name of the project.
 
@@ -32,25 +22,21 @@ The name of the project.
 
     >>> Publica
 
-### hProject.world
+#### `hProject.world`
 
-An ‘embedded’ `hWorld` object, containing a list of all other projects and access to local settings.
+An ‘embedded’ [`hWorld`](#hworld) object, containing a list of all other projects in the root folder, and giving access to local settings.
 
     from hTools2.objects import hProject
     p = hProject('Publica')
     print p.world
-
-    >>> <hTools2.objects.hWorld instance at 0x110bb9680>
-
     print len(p.world.projects())
-
-    >>> 8
-
     print p.world.settings
 
+    >>> <hTools2.objects.hWorld instance at 0x110bb9680>
+    >>> 8
     >>> <hTools2.objects.hSettings instance at 0x10cb6d710>
 
-### hProject.libs
+#### `hProject.libs`
 
 A dictionary containing a working copy of all data libs in the project, imported on object initialization.
 
@@ -60,11 +46,11 @@ A dictionary containing a working copy of all data libs in the project, imported
 
     >>> ['info', 'composed', 'accents', 'spacing', 'project', 'groups', 'interpol', 'vmetrics']
 
-For more information about each single lib, have a look at the [hLibs documentation](http://hipertipo.com/content/htools2/objects/hlibs).
+For more information about each single lib, have a look at [`hLibs`](#hLibs).
 
-### hProject.paths
+#### `hProject.paths`
 
-A dictionary containing the paths to all relevant project sub-folders (libs, ufos, otfs, woffs etc).
+A dictionary containing the paths to all relevant project sub-folders: `libs`, `ufos`, `otfs`, `woffs` etc.
 
     from hTools2.objects import hProject
     p = hProject('Publica')
@@ -76,7 +62,7 @@ A dictionary containing the paths to all relevant project sub-folders (libs, ufo
 
     >>> /fonts/_Publica/_ufos
 
-### hProject.lib_paths
+#### `hProject.lib_paths`
 
 A dictionary containing the paths to all data libs in the project.
 
@@ -90,15 +76,28 @@ A dictionary containing the paths to all data libs in the project.
 
     >>> /fonts/_Publica/_libs/interpol.plist
 
-## Methods
+### Methods
 
-### hProject.read_libs()
+#### `hProject.__init__(name=None)`
 
-Read all project libs from their `.plist` source files into one single `hProject.lib` dictionary.
+Initiates the `hProject` object. The name is stored in `hProject.name`. If no name is given, the attribute is set to `None`.
+
+An `hWorld` object is created and stored at `hProject.world`. This object gives access to local settings and data ‘above’ the current project.
+
+If the project has a name, this is then used to consecutively:
+
+- build paths to all project sub-folders
+- build paths to all project libs
+- read all project libs into a dictionary
+- build lists with all ufos/otfs/woffs etc in the project
+
+#### `hProject.read_libs()`
+
+Read all project libs from their `plist` source files into one single `hProject.lib` dictionary.
 
 This function is called when the `hProject` object is initialized. It can also be called manually, to reload libs data in case it has been changed (for example when using a .plist editor).
 
-### hProject.import_encoding()
+#### `hProject.import_encoding()`
 
 Imports groups, glyph names and glyph order from the project’s encoding file, and temporarily saves them into a ‘groups lib’.
 
@@ -116,9 +115,13 @@ Group and glyph names are stored in a dictionary in `hProject.libs['groups']['gl
 
     >>> ['invisible', 'lowercase_basic', 'lowercase_extra', ... ]
 
-### hProject.write_lib(lib_name)
+#### `hProject.all_glyphs(ignore=['invisible'])`
 
-Write the lib with the given name to its `.plist` file.
+Return the full list of glyphs (character set) for all fonts in project.The group named `invisible` is ignored from this list by default, the name of other groups to ignore can be passed as a list.
+
+#### `hProject.write_lib(lib_name)`
+
+Write the lib with the given name to its `plist` file.
 
     from hTools2.objects import hProject
     p = hProject('Publica')
@@ -126,9 +129,9 @@ Write the lib with the given name to its `.plist` file.
 
     >>> saving interpol lib to file ... done.
 
-### hProject.write_libs()
+#### `hProject.write_libs()`
 
-Write all libraries in project to their corresponding `.plist` files.
+Write all libraries in project to their corresponding `plist` files.
 
     >>> saving project libs...
     >>>
@@ -143,7 +146,11 @@ Write all libraries in project to their corresponding `.plist` files.
     >>>
     >>> ...done.
 
-### hProject.check_folders()
+#### `hProject.check_libs()`
+
+...
+
+#### `hProject.check_folders()`
 
 Checks if all the necessary project sub-folders exist.
 
@@ -165,7 +172,7 @@ Checks if all the necessary project sub-folders exist.
     >>>
     >>> ...done.
 
-### hProject.make_folders()
+#### `hProject.make_folders()`
 
     from hTools2.objects import hProject
     p = hProject('Publica')
@@ -176,9 +183,25 @@ Checks if all the necessary project sub-folders exist.
     >>>        ...
     >>>    ...done.
 
-### hProject.masters()
+#### `hProject.make_paths()`
 
-Returns a list of all masters in project.
+...
+
+#### `hProject.make_lib_paths()`
+
+...
+
+#### `hProject.ftp_path()`
+
+...
+
+#### `hProject.print_paths()`
+
+...
+
+#### `hProject.masters()`
+
+Returns a list with all `ufo` masters in project.
 
     from hTools2.objects import hProject
     p = hProject('Publica')
@@ -189,22 +212,9 @@ Returns a list of all masters in project.
     >>> /fonts/_Publica/_ufos/Publica_55.ufo
     >>> /fonts/_Publica/_ufos/Publica_95.ufo
 
-### hProject.masters_interpol()
+#### `hProject.instances()`
 
-Returns a list of all ‘super masters’ in project.
-
-    from hTools2.objects import hProject
-    p = hProject('Publica')
-    for master in p.masters_interpol():
-        print master
-
-    >>> /fonts/_Publica/_ufos/_interpol/Publica_Black.ufo
-    >>> /fonts/_Publica/_ufos/_interpol/Publica_Compressed.ufo
-    >>> /fonts/_Publica/_ufos/_interpol/Publica_UltraLight.ufo
-
-### hProject.instances()
-
-Returns a list of all instances in project.
+Returns a list of all `ufo` instances in project.
 
     from hTools2.objects import hProject
     p = hProject('Publica')
@@ -214,15 +224,13 @@ Returns a list of all instances in project.
     >>> /fonts/_Publica/_ufos/_instances/Publica_35.ufo
     >>> /fonts/_Publica/_ufos/_instances/Publica_75.ufo
 
-### hProject.collect_fonts()
+#### `hProject.collect_fonts()`
 
-Updates the font names and file paths at `hProject.fonts`.
+Updates the font names and file paths at `hProject.fonts`. This method is called automatically when the `hProject` object is initialized.
 
-This method is called automatically when the `hProject` object is initialized.
+#### `hProject.fonts`
 
-### hProject.fonts
-
-Returns a dictionary with the style names and paths of all masters and instances in the project.
+Returns a dictionary with the style names and paths of all `ufo` masters and instances in the project.
 
     from hTools2.objects import hProject
     p = hProject('Publica')
@@ -235,9 +243,9 @@ Returns a dictionary with the style names and paths of all masters and instances
     >>> 75 /fonts/_Publica/_ufos/_instances/Publica_75.ufo
     >>> 95 /fonts/_Publica/_ufos/Publica_95.ufo
 
-### hProject.otfs()
+#### `hProject.otfs()`
 
-Returns a list of all .otf files in project.
+Returns a list of all `otf` files in project.
 
     from hTools2.objects import hProject
     p = hProject('Publica')
@@ -250,9 +258,9 @@ Returns a list of all .otf files in project.
     >>> /fonts/_Publica/_otfs/Publica_75.otf
     >>> /fonts/_Publica/_otfs/Publica_95.otf
 
-### hProject.woffs()
+#### `hProject.woffs()`
 
-Returns a list of all .woff files in project.
+Returns a list of all `woff` files in project.
 
     from hTools2.objects import hProject
     p = hProject('Publica')
@@ -265,9 +273,9 @@ Returns a list of all .woff files in project.
     >>> /fonts/_Publica/_woffs/Publica_75.woff
     >>> /fonts/_Publica/_woffs/Publica_95.woff
 
-### hProject.vfbs()
+#### `hProject.vfbs()`
 
-Returns a list of all .vfb files in project.
+Returns a list of all `vfb` files in project.
 
     from hTools2.objects import hProject
     p = hProject('Publica')
@@ -278,9 +286,18 @@ Returns a list of all .vfb files in project.
     >>> /fonts/_Publica/_vfbs/Publica_55.vfb
     >>> /fonts/_Publica/_vfbs/Publica_95.vfb
 
-### hProject.generate_instance(instance_name)
 
-Generates a .ufo instance with name `instance_name`, using data from the project’s interpol lib.
+#### `hProject.delete_otfs()`
+
+...
+
+#### `hProject.delete_woffs()`
+
+...
+
+#### `hProject.generate_instance(instance_name)`
+
+Generates a `ufo` instance with name `instance_name`, using data from the project’s interpol lib.
 
     from hTools2.objects import hProject
     p = hProject('Publica')

@@ -35,49 +35,23 @@ class hProject:
     # attributes
     #------------
 
-    # the name of the project
     name = None
-
-    # an 'embedded' `hWorld` object, with a list of all projects and local settings
     world = None
-
-    # a dict with a working copy of all data libs in the project, imported on object initialization
     libs = {}
-
-    # a dict with the paths to all relevant project sub-folders (libs, ufos, otfs, woffs etc).
     paths = {}
-
-    # a dict with the paths to all data libs in the project
     lib_paths = None
-
-    # a dictionary with the style names and paths of all masters and instances in project
     fonts = None
 
-    # a list of all folders in a `hProject`
     _path_names = [
-        'root',
-        'ufos',
-        'libs',
-        'otfs',
-        'temp',
-        'instances',
-        'woffs',
-        'otfs_test'
+        'root', 'ufos', 'libs', 'otfs', 'temp', \
+        'instances', 'woffs', 'otfs_test',
     ]
 
-    # a list of all settings files in a `hProject`
     _lib_names = [
-        'project',
-        'info',
-        'vmetrics',
-        'accents',
-        'composed',
-        'spacing',
-        'interpol',
-        'groups'
+        'project', 'info', 'vmetrics', 'accents', \
+        'composed', 'spacing', 'interpol', 'groups'
     ]
 
-    # default extension for settings files
     _lib_extension = 'plist'
 
     #---------
@@ -96,7 +70,7 @@ class hProject:
     # libs
 
     def read_libs(self):
-        '''Read all project libs from their `.plist` source files into one single `hProject.lib` dictionary.'''
+        '''Read all project libs into one dictionary.'''
         # import libs
         self.libs = {}
         for lib_name in self.lib_paths.keys():
@@ -109,13 +83,13 @@ class hProject:
         self.import_encoding()
 
     def import_encoding(self):
-        '''Import groups, glyph names and glyph order from the project's encoding file, and saves them into a lib.'''
+        '''Import glyph groups, names and order from enc file into lib.'''
         _groups, _order = import_encoding(self.paths['encoding'])
         self.libs['groups']['glyphs'] = _groups
         self.libs['groups']['order'] = _order
 
     def all_glyphs(self, ignore=['invisible']):
-        '''Return a list of all glyphs in project (character set).'''
+        '''Return the full list of glyphs for all fonts in project.'''
         _all_glyphs = []
         self.import_encoding()
         for group in self.libs['groups']['order']:
@@ -124,7 +98,7 @@ class hProject:
         return _all_glyphs
 
     def write_lib(self, lib_name):
-        '''Write the lib with the given name to its `.plist` file.'''
+        '''Write lib to .plist file.'''
         _filename = '%s.%s' % (lib_name, self._lib_extension)
         _lib_path = os.path.join(self.paths['libs'], _filename)
         print 'saving %s lib to file %s...' % (lib_name, _lib_path),
@@ -132,7 +106,7 @@ class hProject:
         print 'done.\n'
 
     def write_libs(self):
-        '''Write all libraries in project to their corresponding `.plist` files.'''
+        '''Write all libs in project to .plist files.'''
         print 'saving project libs...\n'
         for lib_name in self.libs.keys():
             _filename = '%s.%s' % (lib_name, self._lib_extension)
@@ -210,12 +184,12 @@ class hProject:
         except:
             return None
 
-    def masters_interpol(self):
-        '''Return a list of all 'super masters' in project.'''
-        try:
-            return walk(self.paths['interpol'], 'ufo')
-        except:
-            return None
+    # def masters_interpol(self):
+    #     '''Return a list of all 'super masters' in project.'''
+    #     try:
+    #         return walk(self.paths['interpol'], 'ufo')
+    #     except:
+    #         return None
 
     def instances(self):
         '''Return a list of all instances in project.'''

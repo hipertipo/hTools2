@@ -8,7 +8,7 @@ from hTools2.modules.sysutils import clean_pyc
 # get hTools2 path
 
 for path in sys.path:
-    if 'hTools' in path:
+    if 'hTools2' in path:
         _path = path
 
 _directory = os.listdir(_path)

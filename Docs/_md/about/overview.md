@@ -2,9 +2,13 @@
 
 hTools2 is organized in three main layers: *modules*, *objects* and *dialogs*.
 
+![hTools2](../_imgs/hTools2.png "hTools2 contents")
+
 ### Modules
 
 Modules are the base layer of hTools2, and are used to collect and organize low-level, generic, reusable functions.
+
+![modules](../_imgs/modules.png "modules")
 
 Each module is dedicated to one aspect of font data – for example `interpol.py` contains functions to work with interpolation, `anchors.py` deals with anchors, and so on.
 
@@ -16,9 +20,13 @@ hTools2 also integrates a few third-party external modules in a special `extras`
 
 hTools2 objects are built on top of the functionality contained in the modules, and provide a simple API for manipulating font files and related data in projects.
 
+![objects](../_imgs/objects.png "objects")
+
 ### Dialogs
 
 Scripts and dialogs make hTools2 objects and modules easily accessible in applications. Current scripts in hTools2 are built specially for use with RoboFont and NodeBox.
+
+![dialogs](../_imgs/dialogs.png "dialogs")
 
 In RoboFont, scripts can be accessed with the ‘Extensions’ section of the main application menu, or via keyboard shortcuts (if properly configured).
 

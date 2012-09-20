@@ -1,4 +1,4 @@
-## anchors
+
 
 #### `get_anchors(font, glyph_names=None)`
 
@@ -40,7 +40,7 @@ Rename anchors with name `old_name` in `glyph` to `new_name`.
 
 #### `transfer_anchors(source_glyph, dest_glyph)`
 
-Transfer the existing anchors in `source_glyph` to `dest_glyph`.
+Transfer all existing anchors in `source_glyph` to `dest_glyph`.
 
     from hTools2.modules.anchors import transfer_anchors
     f1 = RFont('/fonts/_Publica/_ufos/Publica_55.ufo')

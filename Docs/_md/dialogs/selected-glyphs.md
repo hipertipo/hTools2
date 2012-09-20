@@ -1,6 +1,25 @@
 ## Selected glyphs
 
 
+### actions
+
+#### actions.py
+
+![glyph actions](../_imgs/dialogs_glyphs_actions.png "glyph actions")
+
+Displays a list of actions commonly applied to glyphs, such as remove overlaps, decompose, reverse contours, insert points at extremes etc. The user selects the options he needs, and uses the `apply` button to apply the actions to the selected glyphs.
+
+#### delete.py
+
+Deletes the selected glyphs from the font.
+
+#### copy-paste.py
+
+![copy paste](../_imgs/dialogs_glyphs_copy_paste.png "copy paste")
+
+Copy and paste different kinds of data from one glyph to another.
+
+
 ### anchors
 
 #### clear.py
@@ -12,6 +31,8 @@ Clears all anchors in the selected glyphs.
 Renames the anchors with `old name` in the selected glyphs to `new name`.
 
 #### transfer.py
+
+![transfer anchors](../_imgs/dialogs_glyphs_transfer_anchors.png "transfer anchors")
 
 Transfers all anchors in the selected glyphs of one font to the same glyphs in a second font.
 
@@ -81,17 +102,25 @@ Prints the names of the selected glyphs in the output window, as Python strings.
 
 #### gridfit.py
 
+![gridfit](../_imgs/dialogs_glyphs_gridfit.png "gridfit")
+
 Fits one or more features of the selected glyphs to the given grid size. Options currently include `points`, `bPoints`, `margins`, `character width` and `anchors`.
 
 #### move.py
+
+![move glyphs](../_imgs/dialogs_glyphs_move.png "move glyphs")
 
 Moves the selected glyphs by the given amount of units in the desired direction.
 
 #### scale.py
 
+![scale glyphs](../_imgs/dialogs_glyphs_scale.png "scale glyphs")
+
 Scales the selected glyphs up or down by the given percentage. Users can choose if metrics should also be scaled: margins for scaling in the `x` dimension, and vertical metrics for scaling in the `y` dimension.
 
 #### skew.py
+
+![skew glyphs](../_imgs/dialogs_glyphs_skew.png "skew glyphs")
 
 Skews the selected glyphs forward or backward by the specified angle. The user can choose if the axis of the skew transformation is the baseline (default), or the middle-point between baseline and x-height (useful when working on italics).
 
@@ -111,12 +140,3 @@ Automatically sets the unicode value for the selected glyphs, using the `auto_un
 Clears the unicode(s) value(s) of the selected glyphs.
 
 
-### other
-
-#### actions.py
-
-Displays a list of actions commonly applied to glyphs, such as remove overlaps, decompose, reverse contours, insert points at extremes etc. The user selects the options he needs, and uses the `apply` button to apply the actions to the selected glyphs.
-
-#### delete.py
-
-Deletes the selected glyphs from the font.

@@ -1,32 +1,30 @@
 ## Conventions
 
-Part of the functionality in hTools depends on a few conventions being followed – for example, the way font files are named, the project sub-folders structure, the name of data files etc.
+Part of the functionality in hTools2 depends on a few conventions being followed – for example, the way font files are named, the project sub-folders structure, the name of data files etc.
 
-This applies only to the objects in `hTools2.objects`, and to the dialogs which use these objects (‘hDialogs’). All modules and generic dialogs work fine without any special setting.
+This applies only to the objects in `hTools2.objects`, and to the dialogs which use these objects (available as a separate package named `hScripts`). All modules and generic dialogs work fine without any special setting.
 
 ### Overview
 
-In hTools, each font-family is a separate project, and all projects are stored in one main root folder.
+In hTools2, each font-family is a separate project, and all projects are stored in one main root folder.
 
-Every project contains a set of dedicated sub-folders – for example for .ufo font sources, generated .otf fonts, additional data files etc. The same folder structure is used for all projects, but additional ‘custom’ folders per project are allowed.
+Every project contains a set of sub-folders to collect and organize `.ufo` sources, generated `.otf` fonts, additional data files etc. The same folder structure is used for all projects. Additional ‘custom’ folders per project are allowed.
 
-Every project also contains a set of files with font-related data – for example a list of recipes for building composed glyphs, recipes for generating instances with interpolation, data about vertical metrics, an index of glyph names and groups, etc.
+Every project also contains a set of files with font-related data – for example, data for building composed glyphs, data for generating instances with interpolation, data about vertical metrics, data about the character set and glyph groups etc.
 
-To use the existing interpolation tools for work on large families, it is also necessary to adopt a consistent naming scheme with numbers instead of style names.
+#### The `ROOT` folder
 
-### The ROOT folder
+The object model and paths system in hTools2 is bootstrapped from one path: the folder in which all projects are contained. The default root folder is `/_fonts`.
 
-The whole hTools object model and paths system is bootstrapped using one single path: the folder in which all projects are contained. The default root folder is `/fonts`.
+The path to this folder is stored in `hTools2.ROOT`, and currently needs to be edited by hand in the `hTools2/__init__.py` file – this is the only hardcoded path in hTools2. After set, this path can be read via `hSettings.root`.
 
-The path to this folder is stored in `hTools2.ROOT`, and needs to be edited by hand in the `hTools2/__init__.py` file. This is the only hardcoded path in hTools2.
+#### Project folders
 
-After set, this path can be read via `hSettings.root`.
+All project folders live inside the `root` folder:
 
-### Project folders
+![hWorld](../_imgs/world.png "project folders")
 
-All project folders live inside the root folder.
-
-Project folder names start with an underscore, followed by the name of the family. For example, the folder containing the files for the typeface family ‘Publica’ must be named `_Publica`.
+Project folder names start with an underscore, followed by the name of the font family. For example, the folder containing the files for the type family ‘Publica’ must be named `_Publica`.
 
 A typical root folder with projects would look like this:
 
@@ -39,11 +37,17 @@ A typical root folder with projects would look like this:
 
 Folders which do not start with an underscore are not recognized as projects, and are simply ignored by the tools.
 
-### Project sub-folders
+#### Project sub-folders
 
-In hTools, every font-family is a project, and every project is a folder containing a standard set of font sources, sub-folders and data files.
+In hTools2,
+
+- *every font-family is a project*,
+- *every project is a folder*, and
+- *every project contains a standard set of folders and files*.
 
 A typical project folder looks like this:
+
+![hProject](../_imgs/project.png "project sub-folders")
 
     _Publica/
         _docs/
@@ -55,11 +59,11 @@ A typical project folder looks like this:
         _vfbs/
         _woffs/
 
-### Project libs
+#### Project libs
 
-Project libs is a collective name for various kinds of data files contained in the `_libs/` folder of each project.
+Project libs are different kinds of data files contained in the `_libs/` folder of each project.
 
-Included in the libs are recipes for building accented glyphs, recipes for generating instances with interpolation, data about vertical metrics, an index of glyph names and groups, etc.
+![hLibs](../_imgs/libs.png "project libs")
 
     _libs/
         Publica.enc
@@ -73,6 +77,6 @@ Included in the libs are recipes for building accented glyphs, recipes for gener
 
 ### FTP connection
 
-hTools also includes a few functions to connect to a FTP server and upload files. This is specially handy for working with webfonts and live tests.
+hTools2 also includes a few functions to connect to a FTP server and upload files. This is specially handy for working with webfonts and live tests.
 
 The FTP connection settings (URL, login, password) are stored in the `hSettings` object, and can be edited with a special dialog.

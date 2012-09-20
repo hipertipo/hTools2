@@ -5,9 +5,9 @@ An object to store information about local settings and preferences.
 When initialized, `hSettings` reads the root folder for projects from `hTools2.ROOT`, loads the `hSettings.plist` file from this directory into a dictionary, and stores it in `hSettings.hDict`.
 
 
-## Attributes
+### Attributes
 
-### hSettings.hDict
+#### hSettings.hDict
 
 A dictionary containing general information about the local installation.
 
@@ -27,7 +27,7 @@ Currently, `hDict` contains only a few entries for FTP settings, and an addition
     >>> password abcd1234
     >>> login username
 
-### hSettings.path
+#### hSettings.path
 
 The full path to the `hSettings.plist` file.
 
@@ -37,7 +37,7 @@ The full path to the `hSettings.plist` file.
 
     >>> /fonts/hSettings.plist
 
-### hSettings.root
+#### hSettings.root
 
 The path to the local root folder for project files, imported from `hTools2.ROOT`. This is the only hardcoded path in `hTools2`.
 
@@ -47,7 +47,7 @@ The path to the local root folder for project files, imported from `hTools2.ROOT
 
     >>> /fonts
 
-### hSettings.filename
+#### hSettings.filename
 
 The name of the settings file. By default, `hSettings.plist`.
 
@@ -57,12 +57,12 @@ The name of the settings file. By default, `hSettings.plist`.
 
     >>> hSettings.plist
 
-## Methods
+### Methods
 
-### hSettings.read()
+#### hSettings.read()
 
 Reads the local `hSettings.plist` file at `hSettings.path` into `hSettings.hDict`. This method is called when the `hSettings` object is initialized.
 
-### hSettings.write()
+#### hSettings.write()
 
 Writes the contents of `hSettings.hDict` to the `hSettings.plist` file.

@@ -25,10 +25,7 @@ from hTools2.extras.colorsys import *
 # functions
 
 def random_color():
-    '''Return a random color.
-    If the context is `RoboFont` or `NoneLab`, the returned value is a tuple of `(R,G,B,alpha)` values; if the context is FontLab, the returned value is an integer between `0` and `255`.
-    Independent of the context, the visual result is a always color with random variation in the `hue` dimension, and constant saturation, brightness and opacity values.
-    '''
+    '''Return a random color.'''
     # FontLab
     if _ctx == 'FontLab':
         c = int(255 * random())
@@ -40,13 +37,13 @@ def random_color():
     return c
 
 def clear_colors(font):
-    '''Remove the color of all glyphs in the given `font`.'''
+    '''Remove color from all glyphs in the font.'''
     for gName in font.keys():
         clear_color(font[gName])
     font.update()
 
 def clear_color(glyph):
-    '''Remove the color of the given `glyph`.'''
+    '''Remove color of a glyph.'''
     # FontLab
     if _ctx == 'FontLab':
         g.mark = 0
@@ -56,7 +53,7 @@ def clear_color(glyph):
     glyph.update()
 
 def RGB_to_nodebox_color((R, G, B), ctx, alpha=1.0):
-    '''Take a tuple of `(R,G,B)` values and return a NodeBox `color` object.'''
+    '''Convert (R,G,B) tuple to NodeBox `color` object.'''
     colors = ctx.ximport("colors")
     _alpha = 255 * alpha
     _color = colors.rgb(R, G, B, _alpha, range=255)
@@ -65,7 +62,7 @@ def RGB_to_nodebox_color((R, G, B), ctx, alpha=1.0):
 # named colors
 
 named_colors = {
-    '''A dictionary with color names and their corresponding color values as `(R,G,B,alpha)` tuples.'''
+    '''A dictionary with color names and RGBa values.'''
     'red' : hsv_to_rgb(.0, 1, 1) + (1,),
     'orange' : hsv_to_rgb(.11, 1, 1) + (1,),
     'yellow' : hsv_to_rgb(.15, 1, 1) + (1,),
@@ -79,7 +76,7 @@ named_colors = {
 # solarized
 
 def solarized_color(name):
-    '''Return a `(R,G,B)` color for a given `color_name` in the solarized palette.'''
+    '''Return RGB color for solarized color name.'''
     # name is color group
     if name in solarized_groups.keys():
         _colors = []
@@ -132,7 +129,7 @@ solarized_colors = {
 #-----------------
 
 def x11_color(name):
-    '''Return a `(R,G,B)` color for a given `color_name` in the X11 palette.'''
+    '''Return RGB color for x11 color name.'''
     # name is color
     _color_names = x11_colors.keys()
     if name in _color_names:

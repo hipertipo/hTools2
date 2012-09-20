@@ -22,9 +22,13 @@ if hTools2.DEBUG:
 # imports
 
 import os
-
-import markdown
 import codecs
+
+try:
+    import markdown
+except:
+    # print 'markdown not available in this enviroment.\n'
+    pass
 
 from hsettings import hSettings
 from hTools2.modules.ftp import *
@@ -57,7 +61,7 @@ class hDocs:
         self.build_paths(folders_dict)
         self.build_html()
         self.save_html()
-        print 'done.\n'
+        print 'done.'
 
     def build_paths(self, folders_dict):
         self.folders = folders_dict
@@ -86,6 +90,10 @@ class hDocs:
         _html += '<script src="http://code.jquery.com/jquery-latest.min.js"></script>\n'
         _html += '<script src="../_js/scroll.js"></script>\n'
         _html += '<link href="../_css/base.css" rel="stylesheet" />\n'
+
+        #_html += '<script src="../_js/highlight.js"></script>'
+        #_html += '<script>hljs.initHighlightingOnLoad();</script>'
+
         _html += '</head>\n'
         self.html += _html
 
@@ -169,4 +177,4 @@ class hDocs:
         self.upload_html(s)
         self.upload_css(s)
         # done
-        print 'done.\n'
+        print 'done.'
