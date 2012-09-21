@@ -370,6 +370,7 @@ class hSpace:
                             # save
                             dest_font.save()
                 if verbose: print
+                print
         print '...done.\n'
 
     def scale_glyphs(self, factor, gstring=None):

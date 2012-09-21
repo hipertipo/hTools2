@@ -62,46 +62,48 @@
 <a name="top"></a>
 <a name="introduction"></a>
 <h2>Introduction</h2>
-<p>hTools2 is a collection of tools and objects for type-design &amp; font-production work. It is written in <a href="http://python.org/">Python</a> and specially tailored for use with <a href="http://robofont.com/">RoboFont</a>. The core Python modules and objects can also be used with <a href="http://www.fontlab.com/font-editor/fontlab-studio/">FontLab Studio</a> and ‘NoneLab’ (pure Python).</p>
-<p>hTools2 is built with <a href="http://robofag.org/">RoboFab</a> and <a href="http://code.typesupply.com/wiki/Vanilla">vanilla</a>. It uses the <a href="http://unifiedfontobject.org/">UFO</a> font format to store font sources, and <a href="https://en.wikipedia.org/wiki/Property_list">plist</a> files to store different kinds of font data.</p>
-<p>hTools2 is the second incarnation of hTools – the first one was never released. Read more about the project’s history in the <a href="http://hipertipo.com/blog/htools-2-alpha-release/">alpha release announcement</a>.</p>
+<p><code>hTools2</code> is a collection of tools and objects for type-design &amp; font-production work. It is written in <a href="http://python.org/">Python</a> and specially tailored for use with <a href="http://robofont.com/">RoboFont</a>. The core Python modules and objects can also be used with <a href="http://www.fontlab.com/font-editor/fontlab-studio/">FontLab Studio</a> and ‘NoneLab’ (pure Python).</p>
+<p><code>hTools2</code> is built with <a href="http://robofag.org/">RoboFab</a> and <a href="http://code.typesupply.com/wiki/Vanilla">vanilla</a>. It uses the <a href="http://unifiedfontobject.org/">UFO</a> font format to store font sources, and <a href="https://en.wikipedia.org/wiki/Property_list">plist</a> files to store different kinds of font data.</p>
+<p><code>hTools2</code> is the second incarnation of hTools – the first one was never released. Read more about the project’s history in the <a href="http://hipertipo.com/blog/htools-2-alpha-release/">alpha release announcement</a>.</p>
 <h3>Licence</h3>
 <p>The code is available under the <a href="http://www.opensource.org/licenses/BSD-3-Clause">BSD 3-Clause License</a>, and is <a href="https://github.com/gferreira/hTools2">hosted on github</a>.</p>
 <h3>Development</h3>
 <p>I welcome constructive feedback from users and developers: comments, bug reports, suggestions for improvements, code contributions etc. I can also add new functionality on request.</p>
 <p><a href="mailto:gustavo@hipertipo.com">get in touch</a></p><a name="overview"></a>
 <h2>Overview</h2>
-<p>hTools2 is organized in three main layers: <em>modules</em>, <em>objects</em> and <em>dialogs</em>.</p>
+<p><code>hTools2</code> is organized in three main layers: <em>modules</em>, <em>objects</em> and <em>dialogs</em>.</p>
 <p><img alt="hTools2" src="../_imgs/hTools2.png" title="hTools2 contents" /></p>
+<p>To each of these layers corresponds one folder inside the <code>hTools2</code> package.</p>
+<p>The fourth folder, <code>extras</code>, is used to keep custom modules which are not part of the public distribution of <code>hTools2</code>.</p>
 <h3>Modules</h3>
-<p>Modules are the base layer of hTools2, and are used to collect and organize low-level, generic, reusable functions.</p>
+<p>Modules are the base layer of <code>hTools2</code>, and are used to collect and organize low-level, generic, reusable functions.</p>
 <p><img alt="modules" src="../_imgs/modules.png" title="modules" /></p>
 <p>Each module is dedicated to one aspect of font data – for example <code>interpol.py</code> contains functions to work with interpolation, <code>anchors.py</code> deals with anchors, and so on.</p>
-<p>hTools2 modules rely heavily on RoboFab to manipulate ufo font files.</p>
-<p>hTools2 also integrates a few third-party external modules in a special <code>extras</code> folder – for example <code>colorsys.py</code> for dealing with color conversions, <code>nudge.py</code> for special manipulation of bezier points etc.</p>
+<p><code>hTools2</code> modules rely heavily on underlying functionality provided by RoboFab and RoboFont to manipulate fonts.</p>
+<p><code>hTools2</code> also integrates a few third-party external modules in a special <code>extras</code> folder, for example <code>colorsys.py</code> for dealing with color conversions and <code>nudge.py</code> for special manipulation of bezier points.</p>
 <h3>Objects</h3>
-<p>hTools2 objects are built on top of the functionality contained in the modules, and provide a simple API for manipulating font files and related data in projects.</p>
+<p><code>hTools2</code> objects are built on top of the functionality contained in the modules, and provide a simple API for manipulating font files and related data in projects.</p>
 <p><img alt="objects" src="../_imgs/objects.png" title="objects" /></p>
 <h3>Dialogs</h3>
-<p>Scripts and dialogs make hTools2 objects and modules easily accessible in applications. Current scripts in hTools2 are built specially for use with RoboFont and NodeBox.</p>
+<p>Scripts and dialogs make <code>hTools2</code> objects and modules easily accessible in applications. Current scripts in <code>hTools2</code> are built specially for use with RoboFont and NodeBox.</p>
 <p><img alt="dialogs" src="../_imgs/dialogs.png" title="dialogs" /></p>
 <p>In RoboFont, scripts can be accessed with the ‘Extensions’ section of the main application menu, or via keyboard shortcuts (if properly configured).</p>
 <p>In addition to RoboFont scripts, hTools also includes a second set of scripts for use with <a href="http://nodebox.net/">NodeBox</a>. These scripts deal mainly with special visualizations of glyphs and fonts, for use during proofing and for output of visual presentation material.</p><a name="conventions"></a>
 <h2>Conventions</h2>
-<p>Part of the functionality in hTools2 depends on a few conventions being followed – for example, the way font files are named, the project sub-folders structure, the name of data files etc.</p>
+<p>Part of the functionality in <code>hTools2</code> depends on a few conventions being followed – for example, the way font files are named, the project sub-folders structure, the name of data files etc.</p>
 <p>This applies only to the objects in <code>hTools2.objects</code>, and to the dialogs which use these objects (available as a separate package named <code>hScripts</code>). All modules and generic dialogs work fine without any special setting.</p>
 <h3>Overview</h3>
-<p>In hTools2, each font-family is a separate project, and all projects are stored in one main root folder.</p>
-<p>Every project contains a set of sub-folders to collect and organize <code>.ufo</code> sources, generated <code>.otf</code> fonts, additional data files etc. The same folder structure is used for all projects. Additional ‘custom’ folders per project are allowed.</p>
+<p>In <code>hTools2</code>, each font-family is a separate project, and all projects are stored in one main root folder.</p>
+<p>Every project contains a set of sub-folders to collect and organize <code>ufo</code> sources, generated <code>otf</code> fonts, additional data files etc. The same folder structure is used for all projects. Additional ‘custom’ folders per project are allowed.</p>
 <p>Every project also contains a set of files with font-related data – for example, data for building composed glyphs, data for generating instances with interpolation, data about vertical metrics, data about the character set and glyph groups etc.</p>
 <h4>The <code>ROOT</code> folder</h4>
-<p>The object model and paths system in hTools2 is bootstrapped from one path: the folder in which all projects are contained. The default root folder is <code>/_fonts</code>.</p>
-<p>The path to this folder is stored in <code>hTools2.ROOT</code>, and currently needs to be edited by hand in the <code>hTools2/__init__.py</code> file – this is the only hardcoded path in hTools2. After set, this path can be read via <code>hSettings.root</code>.</p>
+<p>The paths system in <code>hTools2</code> is bootstrapped from one single path: the root folder in which all projects are contained. The default root folder is <code>/_fonts</code>.</p>
+<p>The path to this folder is stored in <code>hTools2.ROOT</code>, and currently needs to be edited by hand in the file <code>hTools2/__init__.py</code>.</p>
+<pre><code>ROOT = '/_fonts'
+</code></pre>
+<p>This is the only hardcoded path in <code>hTools2</code>. After set, this path can be read via <code>hSettings.root</code>.</p>
 <h4>Project folders</h4>
-<p>All project folders live inside the <code>root</code> folder:</p>
-<p><img alt="hWorld" src="../_imgs/world.png" title="project folders" /></p>
-<p>Project folder names start with an underscore, followed by the name of the font family. For example, the folder containing the files for the type family ‘Publica’ must be named <code>_Publica</code>.</p>
-<p>A typical root folder with projects would look like this:</p>
+<p>All project folders live inside the <code>root</code> folder. Project folder names start with an underscore, followed by the name of the font family. For example, the folder containing the files for the type family ‘Publica’ must be named <code>_Publica</code>.</p>
 <pre><code>fonts/
     _Publica/
     _Quantica/
@@ -109,9 +111,11 @@
     test/
     ...
 </code></pre>
+<p>A typical root folder with projects would look like this:</p>
+<p><img alt="hWorld" src="../_imgs/world.png" title="project folders" /></p>
 <p>Folders which do not start with an underscore are not recognized as projects, and are simply ignored by the tools.</p>
 <h4>Project sub-folders</h4>
-<p>In hTools2,</p>
+<p>In <code>hTools2</code>,</p>
 <ul>
 <li><em>every font-family is a project</em>,</li>
 <li><em>every project is a folder</em>, and</li>
@@ -143,8 +147,8 @@
     vmetrics.plist
 </code></pre>
 <h3>FTP connection</h3>
-<p>hTools2 also includes a few functions to connect to a FTP server and upload files. This is specially handy for working with webfonts and live tests.</p>
-<p>The FTP connection settings (URL, login, password) are stored in the <code>hSettings</code> object, and can be edited with a special dialog.</p><a name="installation"></a>
+<p><code>hTools2</code> also includes a few functions to connect to a FTP server and upload files. This is specially handy for working with webfonts and live tests.</p>
+<p>The FTP connection settings (<code>URL</code>, <code>login</code>, <code>password</code>) are stored in the <code>hSettings</code> object, and can be edited with a special dialog.</p><a name="installation"></a>
 <h2>Installation</h2>
 <h3>Installing from zip</h3>
 <h4>1. Get the code</h4>
@@ -999,62 +1003,217 @@ upload_file(myFile, F)
 F.quit()
 </code></pre><a name="glyphutils"></a>
 <h2>glyphutils</h2>
-<h4><code>walk(folder, extension)</code></h4>
-<p>A simple non-recursive <code>walk</code> function to collect files with a given extension. It walks all files in <code>folder</code>, and returns a list of matching file paths.</p>
-<pre><code>from hTools2.modules.fileutils import walk
-folder = u"/fonts/_Publica/_ufos/"
-print walk(folder, 'ufo')
+<h3>Functions</h3>
+<h4><code>center_glyph(glyph)</code></h4>
+<p>Centers the <code>glyph</code> in its width, leaving <code>leftMargin</code> and <code>rightMargin</code> with equal values.</p>
+<pre><code>from hTools2.modules.glyphutils import center_glyph
+f = CurrentFont()
+glyph = f['a']
+print glyph.leftMargin, glyph.rightMargin
 
-&gt;&gt;&gt; [u'/fonts/_Publica/_ufos/Publica_15.ufo', u'/fonts/_Publica/_ufos/Publica_55.ufo', u'/fonts/_Publica/_ufos/Publica_95.ufo']
+&gt;&gt;&gt; 40 78
+
+center_glyph(glyph)
+print glyph.leftMargin, glyph.rightMargin
+
+&gt;&gt;&gt; 59 59
 </code></pre>
-<h4><code>delete_files(files_list)</code></h4>
-<p>Deletes the files at the file paths in the list. Often used in combination with results from the <code>walk</code> function.</p>
-<pre><code>from hTools2.modules.fileutils import walk, delete_files
-folder = u"/fonts/_Publica/_woffs/"
-woffs = walk(folder, 'woff')
-print len(woffs)
+<h4><code>round_width(glyph, gridsize)</code></h4>
+<p>Rounds <code>glyph.width</code> to a multiple of <code>gridsize</code>.</p>
+<pre><code>from hTools2.modules.glyphutils import round_width
+f = CurrentFont()
+glyph = f['a']
+print glyph.width
 
-&gt;&gt;&gt; 10
+&gt;&gt;&gt; 525
 
-print delete_files(woffs)
-woffs = walk(folder, 'woff')
-print len(woffs)
+round_width(glyph, 100)
+print glyph.width
 
-&gt;&gt;&gt; 0
+&gt;&gt;&gt; 500.0
 </code></pre>
-<h4><code>get_names_from_path(fontpath)</code></h4>
-<p>A simple function to parse underscore-separated font file names into <code>family</code> and <code>style</code> names.</p>
-<pre><code>from hTools2.modules.fileutils import walk, get_names_from_path
-folder = u"/fonts/_Publica/_ufos/"
-ufos = walk(folder, 'ufo')
-for ufo in ufos:
-    family, style = get_names_from_path(ufo)
-    print family, style
+<h4><code>round_margins(glyph, gridsize, left=True, right=True)</code></h4>
+<p>Rounds <code>glyph.leftMargin</code> and <code>glyph.rightMargin</code> to multiples of <code>gridsize</code>.</p>
+<p>Use the optional parameters <code>left</code> and <code>right</code> to turn individual margins of/off.</p>
+<pre><code>from hTools2.modules.glyphutils import round_margins
+f = CurrentFont()
+glyph = f['a']
+print glyph.leftMargin, glyph.rightMargin
 
-&gt;&gt;&gt; Publica 15
-&gt;&gt;&gt; Publica 55
-&gt;&gt;&gt; Publica 95
+&gt;&gt;&gt; 58 31
+
+round_margins(glyph, 10)
+print glyph.leftMargin, glyph.rightMargin
+
+&gt;&gt;&gt; 50.0 30.0
+
+round_margins(glyph, 11, left=True, right=False)
+print glyph.leftMargin, glyph.rightMargin
+
+&gt;&gt;&gt; 55.0 30.0
+
+round_margins(glyph, 11, left=False, right=True)
+print glyph.leftMargin, glyph.rightMargin
+
+&gt;&gt;&gt; 55.0 33.0
 </code></pre>
-<h4><code>get_parameters_from_path(fontpath)</code></h4>
-<p>Get individual parameters from the path of a font file.</p>
-<pre><code>from hTools2.modules.fileutils import get_parameters_from_path
-fontpath_1 = u"/fonts/_Publica/_ufos/Publica_55.ufo"
-print get_parameters_from_path(fontpath_1)
+<h4><code>has_suffix(glyph, suffix)</code></h4>
+<p>Checks if the name of <code>glyph</code> has the extension <code>suffix</code>, and returns <code>True</code> or <code>False</code>.</p>
+<pre><code>from hTools2.modules.glyphutils import has_suffix
+f = CurrentFont()
+glyph = f['a']
+print has_suffix(glyph, 'alt')
 
-&gt;&gt;&gt; [u'55']
+&gt;&gt;&gt; False
 
-fontpath_3 = u"/fonts/_Publica/_ufos/Publica_55-Italic.ufo"
-print get_parameters_from_path(fontpath_3)
+glyph = f['a.alt']
+print has_suffix(glyph, 'alt')
 
-&gt;&gt;&gt; [u'55', u'Italic']
+&gt;&gt;&gt; True
 </code></pre>
-<h4><code>read_names_list_from_file(filepath)</code></h4>
-<p>Read pairs of glyph names from a simple text file.</p>
+<h4><code>change_suffix(glyph, old_suffix, new_suffix=None)</code></h4>
+<p>Returns a new modified name for <code>glyph</code>, using <code>new_suffix</code> in place of <code>old_suffix</code>. If <code>new_suffix=None</code>, the suffix is removed and only the base glyph name is used.</p>
+<pre><code>from hTools2.modules.glyphutils import change_suffix
+f = CurrentFont()
+glyph = f['a.alt']
+print change_suffix(glyph, 'alt', 'ALT')
+
+&gt;&gt;&gt; a.ALT
+
+print change_suffix(glyph, 'alt')
+
+&gt;&gt;&gt; a
+</code></pre>
+<h4><code>round_points(glyph, (sizeX, sizeY))</code></h4>
+<p>Rounds the position of all <code>points</code> in <code>glyph</code> to the gridsize <code>(sizeX,sizeY)</code>.</p>
+<pre><code>from hTools2.modules.glyphutils import round_points
+f = CurrentFont()
+glyph = f['c']
+for c in glyph:
+    for p in c.points:
+        print p.x, p.y
+
+&gt;&gt;&gt; 386 93
+&gt;&gt;&gt; 335 44
+&gt;&gt;&gt; 255 44
+&gt;&gt;&gt; 184 44
+&gt;&gt;&gt; 124 94
+&gt;&gt;&gt; 124 237
+&gt;&gt;&gt; ...
+
+round_points(glyph, (100, 200))
+for c in glyph:
+    for p in c.points:
+        print p.x, p.y
+
+&gt;&gt;&gt; 400.0 0.0
+&gt;&gt;&gt; 300.0 0.0
+&gt;&gt;&gt; 300.0 0.0
+&gt;&gt;&gt; 200.0 0.0
+&gt;&gt;&gt; 100.0 0.0
+&gt;&gt;&gt; 100.0 200.0
+&gt;&gt;&gt; ...
+</code></pre>
+<h4><code>round_bpoints(glyph, (sizeX, sizeY))</code></h4>
+<p>Rounds the position of all <code>bPoints</code> in <code>glyph</code> to the gridsize <code>(sizeX,sizeY)</code>.</p>
+<pre><code>from hTools2.modules.glyphutils import round_bpoints
+f = CurrentFont()
+glyph = f['o']
+for c in glyph:
+    for p in c.bPoints:
+        print p.anchor
+
+&gt;&gt;&gt; (386, 237)
+&gt;&gt;&gt; (255, 44)
+&gt;&gt;&gt; (124, 237)
+&gt;&gt;&gt; (256, 419)
+&gt;&gt;&gt; ...
+
+round_bpoints(glyph, (100, 100))
+for c in glyph:
+    for p in c.bPoints:
+        print p.anchor
+
+&gt;&gt;&gt; (400.0, 200.0)
+&gt;&gt;&gt; (300.0, 0.0)
+&gt;&gt;&gt; (100.0, 200.0)
+&gt;&gt;&gt; (300.0, 400.0)
+&gt;&gt;&gt; ...
+</code></pre>
+<h4><code>round_anchors(glyph, (sizeX, sizeY))</code></h4>
+<p>Rounds the position of all <code>anchors</code> in <code>glyph</code> to the gridsize <code>(sizeX,sizeY)</code>.</p>
+<pre><code>from hTools2.modules.glyphutils import round_anchors
+f = CurrentFont()
+glyph = f['a']
+for a in glyph.anchors:
+    print a.name, a.x, a.y
+
+&gt;&gt;&gt; top 252 527
+&gt;&gt;&gt; bottom 493 0
+
+round_anchors(glyph, (50, 50))
+for a in glyph.anchors:
+    print a.name, a.x, a.y
+
+&gt;&gt;&gt; top 250 550
+&gt;&gt;&gt; bottom 500 0
+</code></pre>
+<h4><code>select_points_y(glyph, linePos, above=True)</code></h4>
+<p>Selects all points in <code>glyph</code> above/below the <code>linePos(y)</code>.</p>
+<pre><code>from hTools2.modules.glyphutils import select_points_y
+f = CurrentFont()
+glyph = f['a']
+print glyph.selection
+
+&gt;&gt;&gt; []
+
+select_points_y(glyph, 300, above=True)
+print glyph.selection
+
+&gt;&gt;&gt; [&lt;Point x:135 y:472&gt;, &lt;Point x:194 y:418&gt;, &lt;Point x:354 y:317&gt;, &lt;Point x:87 y:417&gt;, &lt;Point x:252 y:418&gt;, &lt;Point x:424 y:314&gt;, &lt;Point x:424 y:418&gt;, ...]
+</code></pre>
+<h4><code>select_points_x(glyph, linePos, left=True)</code></h4>
+<p>Selects all points in <code>glyph</code> to left/right of <code>linePos(x)</code>.</p>
+<pre><code>from hTools2.modules.glyphutils import select_points_x
+f = CurrentFont()
+glyph = f['a']
+print glyph.selection
+
+&gt;&gt;&gt; []
+
+select_points_x(glyph, 300, left=False)
+print glyph.selection
+
+&gt;&gt;&gt; [&lt;Point x:424 y:80&gt;, &lt;Point x:357 y:65&gt;, &lt;Point x:357 y:17&gt;, &lt;Point x:424 y:418&gt;, &lt;Point x:351 y:21&gt;, &lt;Point x:364 y:472&gt;, &lt;Point x:458 y:-9&gt;, &lt;Point x:474 y:-9&gt;, &lt;Point x:494 y:-8&gt;, &lt;Point x:424 y:314&gt;, &lt;Point x:371 y:230&gt;, &lt;Point x:371 y:279&gt;, &lt;Point x:433 y:48&gt;, &lt;Point x:318 y:418&gt;, ...]
+</code></pre>
+<h4><code>deselect_points(glyph)</code></h4>
+<p>Deselect any selected <code>point</code> in <code>glyph</code>.</p>
+<pre><code>from hTools2.modules.glyphutils import deselect_points
+f = CurrentFont()
+glyph = f['a']
+deselect_points(glyph)
+</code></pre>
+<h4><code>shift_selected_points_y(glyph, delta, anchors=False)</code></h4>
+<p>Shift the selected points in <code>glyph</code> vertically by <code>delta</code> units. If <code>anchors=True</code>, anchors will be shifted as well.</p>
 <pre><code>add example
 </code></pre>
-<h4><code>rename_file(filepath, new_name, overwrite=True, delete=True)</code></h4>
-<p>Rename a file or folder, and save it with the new name. The additional parameters <code>overwrite</code> and <code>delete</code> make it possible to overwrite existing files, and delete the old file/folder.</p>
+<h4><code>shift_selected_points_x(glyph, delta, anchors=False)</code></h4>
+<p>Shift the selected points in <code>glyph</code> horizontally by <code>delta</code> units. If <code>anchors=True</code>, anchors will be shifted as well.</p>
 <pre><code>add example
+</code></pre>
+<h4><code>clear_glyph_libs(glyph)</code></h4>
+<p>Delete all libs in <code>glyph</code>.</p>
+<pre><code>from hTools2.modules.glyphutils import clear_glyph_libs
+f = CurrentFont()
+glyph = f['a']
+print glyph.lib.keys()
+
+&gt;&gt;&gt; ['com.typemytype.robofont.mark']
+
+clear_glyph_libs(glyph)
+print glyph.lib.keys()
+
+&gt;&gt;&gt; []
 </code></pre><a name="interpol"></a>
 <h2>interpol</h2>
 <h4><code>interpolate_glyph(glyph_name, f1, f2, f3, factor, clear=True)</code></h4>
@@ -1356,7 +1515,7 @@ print w.projects()
 &gt;&gt;&gt; ['Elementar', 'EMono', 'Modular', ... , 'Publica']
 </code></pre><a name="hspace"></a>
 <h2>hSpace</h2>
-<p>The <code>hSpace</code> object represents a parametric variation space inside <code>hWorld</code>. Its purpose is to quickly address collections and subsets of fonts, using parameter ranges for weight value, width value, project name etc.</p>
+<p>The <code>hSpace</code> object represents a parametric variation space inside a <code>hProject</code>. Its purpose is to quickly address groups of fonts using parameter ranges.</p>
 <h3>Attributes</h3>
 <h4><code>hSpace.project</code></h4>
 <p>The project to which the space applies.</p>
@@ -1393,7 +1552,7 @@ print s.ufos()
 
 &gt;&gt;&gt; ['/fonts/_QuanticaBitmap/_ufos/QuanticaBitmap_09-1-1.ufo', '/fonts/_QuanticaBitmap/_ufos/QuanticaBitmap_10-1-1.ufo', '/fonts/_QuanticaBitmap/_ufos/QuanticaBitmap_11-1-1.ufo', '/fonts/_QuanticaBitmap/_ufos/QuanticaBitmap_12-1-1.ufo']
 </code></pre>
-<h4><code>transfer_glyphs(glyphs_groups, axis, params)</code></h4>
+<h4><code>hSpace.transfer_glyphs(glyphs_groups, axis, params)</code></h4>
 <p>Batch transfer glyphs from one set of fonts to another.</p>
 <pre><code>from hTools2.objects import hSpace
 project = 'QuanticaBitmap'
@@ -1405,7 +1564,19 @@ ranges = {
 
 s = hSpace(project)
 s.transfer_glyphs(gstring, var, ranges)
-</code></pre><a name="hproject"></a>
+</code></pre>
+<h4><code>hSpace.transfer_anchors(gstring, var)</code></h4>
+<h4><code>hSpace.copy_glyphs(src_glyphs, dst_glyphs, parameters=None)</code></h4>
+<h4><code>hSpace.shift_x(dest_width, gstring, pos, delta, side, verbose=True)</code></h4>
+<h4><code>hSpace.shift_y(dest_height, gstring, transformations, verbose=True)</code></h4>
+<h4><code>hSpace.scale_glyphs(factor, gstring=None)</code></h4>
+<h4><code>hSpace.move_glyphs(delta, gstring=None)</code></h4>
+<h4><code>hSpace.create_fonts()</code></h4>
+<h4><code>hSpace.create_glyphs(gstring=None, verbose=False)</code></h4>
+<h4><code>hSpace.generate_fonts(options=None)</code></h4>
+<h4><code>hSpace.generate_css()</code></h4>
+<h4><code>hSpace.set_vmetrics()</code></h4>
+<h4><code>hSpace.set_info()</code></h4><a name="hproject"></a>
 <h2>hProject</h2>
 <p>The <code>hProject</code> object represents a family of fonts and related data. Each family corresponds to a folder with standardized sub-folder structure and data files.</p>
 <p>The <code>hProject</code> object is initialized with the project’s name:</p>
@@ -1464,10 +1635,22 @@ p = hProject('Publica')
 print p.lib_paths.keys()
 
 &gt;&gt;&gt; ['info', 'composed', 'accents', 'spacing', 'project', 'interpol', 'vmetrics']
-
 print p.lib_paths['interpol']
 
 &gt;&gt;&gt; /fonts/_Publica/_libs/interpol.plist
+</code></pre>
+<h4><code>hProject.fonts</code></h4>
+<p>A dictionary with style names and paths of all <code>ufo</code> fonts in project (masters and instances).</p>
+<pre><code>from hTools2.objects import hProject
+p = hProject('Publica')
+for font in p.fonts.keys():
+    print font, p.fonts[font]
+
+&gt;&gt;&gt; 15 /fonts/_Publica/_ufos/Publica_15.ufo
+&gt;&gt;&gt; 35 /fonts/_Publica/_ufos/_instances/Publica_35.ufo
+&gt;&gt;&gt; 55 /fonts/_Publica/_ufos/Publica_55.ufo
+&gt;&gt;&gt; 75 /fonts/_Publica/_ufos/_instances/Publica_75.ufo
+&gt;&gt;&gt; 95 /fonts/_Publica/_ufos/Publica_95.ufo
 </code></pre>
 <h3>Methods</h3>
 <h4><code>hProject.__init__(name=None)</code></h4>
@@ -1586,19 +1769,6 @@ for instance in p.instances():
 </code></pre>
 <h4><code>hProject.collect_fonts()</code></h4>
 <p>Updates the font names and file paths at <code>hProject.fonts</code>. This method is called automatically when the <code>hProject</code> object is initialized.</p>
-<h4><code>hProject.fonts</code></h4>
-<p>Returns a dictionary with the style names and paths of all <code>ufo</code> masters and instances in the project.</p>
-<pre><code>from hTools2.objects import hProject
-p = hProject('Publica')
-for font in p.fonts.keys():
-    print font, p.fonts[font]
-
-&gt;&gt;&gt; 15 /fonts/_Publica/_ufos/Publica_15.ufo
-&gt;&gt;&gt; 35 /fonts/_Publica/_ufos/_instances/Publica_35.ufo
-&gt;&gt;&gt; 55 /fonts/_Publica/_ufos/Publica_55.ufo
-&gt;&gt;&gt; 75 /fonts/_Publica/_ufos/_instances/Publica_75.ufo
-&gt;&gt;&gt; 95 /fonts/_Publica/_ufos/Publica_95.ufo
-</code></pre>
 <h4><code>hProject.otfs()</code></h4>
 <p>Returns a list of all <code>otf</code> files in project.</p>
 <pre><code>from hTools2.objects import hProject
@@ -1963,7 +2133,8 @@ print p.libs['interpol']['75']
 
 <p>For more complex interpolation systems using more than two masters, use Superpolator.</p><a name="hfont"></a>
 <h2>hFont</h2>
-<p>The <code>hFont</code> object represents a ufo font source, wrapped in a few useful functions. It must be initialized with a <code>RFont</code> object as argument:</p>
+<p>The <code>hFont</code> object represents a <code>ufo</code> font source, wrapped in a few useful functions. It must be initialized with a <code>RFont</code> object as argument.</p>
+<p>Here is an example using a <code>ufo</code> font from a file, without UI.</p>
 <pre><code>from robofab.world import RFont
 from hTools2.objects import hFont
 ufo = RFont('/fonts/_Publica/_ufos/Publica_55.ufo', showUI=False)
@@ -1972,7 +2143,7 @@ print font
 
 &gt;&gt;&gt; &lt;hTools2.objects.hFont instance at 0x1228591b8&gt;
 </code></pre>
-<p>It’s also possible to initiate <code>hFont</code> using <code>CurrentFont()</code>:</p>
+<p>Here is another example, using <code>CurrentFont()</code> to wrap an <code>hFont</code> around the current open font window (in RoboFont or FontLab):</p>
 <pre><code>from hTools2.objects import hFont
 font = hFont(CurrentFont())
 print font
@@ -1980,27 +2151,25 @@ print font
 &gt;&gt;&gt; &lt;hTools2.objects.hFont instance at 0x129af09e0&gt;
 </code></pre>
 <h3>Attributes</h3>
-<h4>hFont.project</h4>
+<h4><code>hFont.project</code></h4>
 <p>The parent <code>hProject</code> object to which the <code>hFont</code> belongs, with all its attributes and methods.</p>
 <pre><code>from hTools2.objects import hFont
 font = hFont(CurrentFont())
 print font.project
 print font.project.name
+print font.project.libs.keys()
 
 &gt;&gt;&gt; &lt;hTools2.objects.hProject instance at 0x125c03ea8&gt;
 &gt;&gt;&gt; Publica
-
-print font.project.libs.keys()
-
 &gt;&gt;&gt; ['info', 'composed', 'accents', 'spacing', 'project', 'groups', 'interpol', 'vmetrics']
 </code></pre>
-<h4>hFont.ufo</h4>
-<p>The .ufo file containing the actual font.</p>
-<p>See the <a href="http://unifiedfontobject.org/">UFO documentation</a> for more information about the UFO format, and the <a href="http://robofab.com/objects/font.html">RoboFab documentation</a> for information about the available methods and attributes for <code>RFont</code>.</p>
-<h4>hFont.file_name</h4>
-<p>The name of the ufo file, without the extension.</p>
-<h4>hFont.style_name</h4>
-<p>The <code>styleName</code> of the font, parsed from the name of the ufo file on initialization. See the method <code>init_from_filename()</code> for details.</p>
+<h4><code>hFont.ufo</code></h4>
+<p>The <code>ufo</code> file containing the actual font.</p>
+<p>See the <a href="http://unifiedfontobject.org/">UFO documentation</a> for more information about the <code>ufo</code> format, and the <a href="http://robofab.com/objects/font.html">RoboFab documentation</a> for information about the available methods and attributes for <code>RFont</code>.</p>
+<h4><code>hFont.file_name</code></h4>
+<p>The name of the <code>ufo</code> file, without the extension.</p>
+<h4><code>hFont.style_name</code></h4>
+<p>The <code>styleName</code> of the font, parsed from the name of the <code>ufo</code> file on initialization. See the method <code>init_from_filename()</code> for details.</p>
 <pre><code>from hTools2.objects import hFont
 font = hFont(CurrentFont())
 print font.ufo
@@ -2012,23 +2181,45 @@ print font.style_name
 &gt;&gt;&gt; 55
 </code></pre>
 <h3>Methods</h3>
-<h4>hFont.init_from_filename()</h4>
-<p>Initiates the <code>hFont</code> object from the ufo file in <code>hFont.ufo</code>.</p>
-<p>The method parses the ufo file name, and uses the resulting names to initiate a parent <code>hProject</code> object. This object is then stored at <code>hFont.project</code>, and the parsed name parts become the attributes <code>file_name</code> and <code>style_name</code>.</p>
-<p>This system only works if the .ufo files are named according to <a href="http://hipertipo.com/content/htools2/about/conventions/">hTools conventions</a>.</p>
-<h4>hFont.auto_unicodes()</h4>
-<p>Automatically sets unicodes for all glyphs in <code>hFont.ufo</code>.</p>
-<h4>hFont.order_glyphs()</h4>
-<p>Automatically sets the order of the glyphs in the font, based on the list in <code>hFont.project.libs['groups']['order']</code>.</p>
-<h4>hFont.paint_groups()</h4>
-<p>Paints and orders the glyphs in the font according to their groups, using glyph groups and order from the project’s group libs.</p>
-<h4>hFont.print_info()</h4>
+<h4><code>hFont.__init__(ufo)</code></h4>
+<p>Initiate the <code>hFont</code> object from a <code>ufo</code> file. The <code>ufo</code> font is stored at <code>hFont.ufo</code>, and the method <code>hFont.init_from_filename()</code> is called.</p>
+<h4><code>hFont.init_from_filename()</code></h4>
+<p>Bootstraps the <code>hFont</code> object from the ufo file in <code>hFont.ufo</code>.</p>
+<p>The method parses the <code>ufo</code> file name, and uses the resulting <code>family</code> and <code>style</code> names to initiate a parent <code>hProject</code> object – which is then stored at <code>hFont.project</code>. The parsed name parts are stored as the attributes <code>hFont.file_name</code> and <code>hFont.style_name</code>.</p>
+<p>This system only works if the <code>ufo</code> files are named according to <a href="#conventions">hTools2 conventions</a>.</p>
+<h4><code>hFont.auto_unicodes()</code></h4>
+<p>Set unicodes for all glyphs in <code>hFont.ufo</code>.</p>
+<h4><code>hFont.order_glyphs()</code></h4>
+<p>Sets the order of glyphs in the font from the project’s encoding file/groups lib.</p>
+<h4><code>hFont.paint_groups()</code></h4>
+<p>Paints and orders the glyphs in the font according to their groups, using glyph groups and order from the project’s encoding file/groups lib.</p>
+<h4><code>hFont.print_info()</code></h4>
 <p>Prints different kinds of font information.</p>
-<h4>hFont.import_groups_from_encoding()</h4>
+<h4><code>hFont.import_groups_from_encoding()</code></h4>
 <p>Imports glyph names and order from the project’s encoding file, and stores it in a temporary <code>groups</code> lib.</p>
-<h4>hFont.full_name()</h4>
+<h4><code>hFont.import_spacing_groups()</code></h4>
+<p>...</p>
+<h4><code>hFont.paint_spacing_groups()</code></h4>
+<p>...</p>
+<h4><code>hFont.import_features()</code></h4>
+<p>...</p>
+<h4><code>hFont.export_features()</code></h4>
+<p>...</p>
+<h4><code>hFont.set_names()</code></h4>
+<p>Set font names from the ufo file name.</p>
+<h4><code>hFont.name_from_parameters(self, separator='')</code></h4>
+<p>...</p>
+<h4><code>hFont.set_info()</code></h4>
+<p>...</p>
+<h4><code>hFont.print_info()</code></h4>
+<p>...</p>
+<h4><code>hFont.set_vmetrics()</code></h4>
+<p>...</p>
+<h4><code>hFont.clear_info()</code></h4>
+<p>...</p>
+<h4><code>hFont.full_name()</code></h4>
 <p>The full name of the font, made of the project’s name in <code>hFont.project.name</code> and the style name in <code>hFont.style_name</code>.</p>
-<h4>hFont.otf_path()</h4>
+<h4><code>hFont.otf_path()</code></h4>
 <p>Returns the default path for .otf font generation, in the projects <code>_otfs/</code> folder.</p>
 <pre><code>from hTools2.objects import hFont
 font = hFont(CurrentFont())
@@ -2036,7 +2227,7 @@ print font.otf_path()
 
 &gt;&gt;&gt; /fonts/_Publica/_otfs/Publica_55.otf
 </code></pre>
-<h4>hFont.woff_path()</h4>
+<h4><code>hFont.woff_path()</code></h4>
 <p>Returns the default path for .woff font generation, in the projects <code>_woffs/</code> folder.</p>
 <pre><code>from hTools2.objects import hFont
 font = hFont(CurrentFont())
@@ -2044,20 +2235,20 @@ print font.woff_path()
 
 &gt;&gt;&gt; /fonts/_Publica/_woffs/Publica_55.woff
 </code></pre>
-<h4>hFont.generate_otf()</h4>
+<h4><code>hFont.generate_otf()</code></h4>
 <p>Generates a .otf font file using the default settings.</p>
 <pre><code>from hTools2.objects import hFont
 font = hFont(CurrentFont())
 font.generate_otf()
 </code></pre>
-<h4>hFont.generate_woff()</h4>
+<h4><code>hFont.generate_woff()</code></h4>
 <p>Generates a woff font file from the available otf font.</p>
 <pre><code>from hTools2.objects import hFont
 font = hFont(CurrentFont())
 font.generate_woff()
 </code></pre>
-<p><em>Note: This function only works if Karsten Lücke’s <code>KLTF_WOFF</code> plugin is installed.</em></p>
-<h4>hFont.upload_woff()</h4>
+<p><em>Note: Currently this function only works if Karsten Lücke’s <code>KLTF_WOFF</code> plugin is available in the <code>_extras</code> folder.</em></p>
+<h4><code>hFont.upload_woff()</code></h4>
 <p>Uploads the font’s woff file (if available) to the project’s folder in the FTP server.</p>
 <pre><code>from hTools2.objects import hFont
 font = hFont(CurrentFont())

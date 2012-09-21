@@ -4,6 +4,15 @@ body {
     background-color: #EEE;
 }
 
+h1, h2, h3, h4 {
+    font-family: 'Menlo', monospace;
+    line-height: 1.4em;
+}
+
+code, pre {
+    font-family: 'Menlo';
+}
+
 a {
     text-decoration: none;
 }
@@ -15,12 +24,9 @@ a:hover {
     left: +1px;
 }
 
-code, pre {
-    font-family: 'Menlo';
-}
-
-h1, h2, h3, h4 {
-    font-family: 'Menlo', monospace; line-height: 1.4em;
+::selection {
+    background-color: transparent;
+    color: #F30;
 }
 
 /* --- layout --- */
@@ -48,27 +54,24 @@ h1, h2, h3, h4 {
     background-color: #DDD;
 }
 
-#content td, #content th {
+#content td,
+#content th {
     font-family: 'Lucida Grande', sans-serif;
     font-size: .8em;
     color: #666;
     text-align: left;
     border-bottom: solid 2px #EEE;
-    padding: 1em;
+    padding: .4em 1em;
 }
 
 #content pre code {
     color: #666;
 }
 
-#content ::selection {
-    background-color: #DDD;
-    color: #666;
-}
-
 #content p,
 #content li {
     font-family: 'Georgia', serif;
+    font-size: 1em;
     line-height: 1.4em;
 }
 
@@ -84,19 +87,19 @@ h1, h2, h3, h4 {
     white-space: pre-wrap;
     font-size: .8em;
     line-height: 1.8em;
-    box-shadow: inset 0 0 6px 0 #CCC;
+    box-shadow: inset 1px 1px 8px 0 #CCC;
     border-radius: 5px;
 }
 
 #content h2 {
-    color: #666;
+    color: #999;
     border-top: solid #AAA 1px;
     padding: 1em 0 0 0;
     margin-top: 2em;
 }
 
 #content h3 {
-    color: #888;
+    color: #999;
     margin: 2em 0 1em;
     font-weight: normal;
     font-size: 1.2em;
@@ -108,7 +111,7 @@ h1, h2, h3, h4 {
 }
 
 #content a {
-    color: #333;
+    color: #666;
 }
 
 #content img {
@@ -141,136 +144,29 @@ h1, h2, h3, h4 {
     padding: 0;
 }
 
-#nav a {
-    color: #666;
+#nav a, #nav h1 {
+    color: #999;
 }
 
-#nav ::selection {
-    background-color: transparent;
-    color: #666;
+/* --- tables --- */
+
+table.tablesorter { }
+table.tablesorter thead tr th, table.tablesorter tfoot tr th {
+    text-align: left
 }
-
-
-/* --- syntax colors --- */
-
-pre code,
-pre .ruby .subst,
-pre .tag .title,
-pre .lisp .title,
-pre .clojure .built_in,
-pre .nginx .title {
-  color: black;
+table.tablesorter thead tr .header {
+    background-image: url(bg.gif);
+    background-repeat: no-repeat;
+    background-position: center right;
+    cursor: pointer;
 }
-
-pre .string,
-pre .title,
-pre .constant,
-pre .parent,
-pre .tag .value,
-pre .rules .value,
-pre .rules .value .number,
-pre .preprocessor,
-pre .ruby .symbol,
-pre .ruby .symbol .string,
-pre .aggregate,
-pre .template_tag,
-pre .django .variable,
-pre .smalltalk .class,
-pre .addition,
-pre .flow,
-pre .stream,
-pre .bash .variable,
-pre .apache .tag,
-pre .apache .cbracket,
-pre .tex .command,
-pre .tex .special,
-pre .erlang_repl .function_or_atom,
-pre .markdown .header {
-  color: #800;
+table.tablesorter tbody td { }
+table.tablesorter thead tr .headerSortUp {
+    background-image: url(asc.gif)
 }
-
-pre .comment,
-pre .annotation,
-pre .template_comment,
-pre .diff .header,
-pre .chunk,
-pre .markdown .blockquote {
-  color: #888;
+table.tablesorter thead tr .headerSortDown {
+    background-image: url(desc.gif)
 }
-
-pre .number,
-pre .date,
-pre .regexp,
-pre .literal,
-pre .smalltalk .symbol,
-pre .smalltalk .char,
-pre .go .constant,
-pre .change,
-pre .markdown .bullet,
-pre .markdown .link_url {
-  color: #080;
-}
-
-pre .label,
-pre .javadoc,
-pre .ruby .string,
-pre .decorator,
-pre .filter .argument,
-pre .localvars,
-pre .array,
-pre .attr_selector,
-pre .important,
-pre .pseudo,
-pre .pi,
-pre .doctype,
-pre .deletion,
-pre .envvar,
-pre .shebang,
-pre .apache .sqbracket,
-pre .nginx .built_in,
-pre .tex .formula,
-pre .erlang_repl .reserved,
-pre .input_number,
-pre .markdown .link_label,
-pre .vhdl .attribute,
-pre .clojure .attribute {
-  color: #88F
-}
-
-pre .keyword,
-pre .id,
-pre .phpdoc,
-pre .title,
-pre .built_in,
-pre .aggregate,
-pre .css .tag,
-pre .javadoctag,
-pre .phpdoc,
-pre .yardoctag,
-pre .smalltalk .class,
-pre .winutils,
-pre .bash .variable,
-pre .apache .tag,
-pre .go .typename,
-pre .tex .command,
-pre .markdown .strong,
-pre .request,
-pre .status {
-  font-weight: bold;
-}
-
-pre .markdown .emphasis {
-  font-style: italic;
-}
-
-pre .nginx .built_in {
-  font-weight: normal;
-}
-
-pre .coffeescript .javascript,
-pre .xml .css,
-pre .xml .javascript,
-pre .xml .vbscript,
-pre .tex .formula {
-  opacity: 0.5;
+table.tablesorter thead tr .headerSortDown, table.tablesorter thead tr .headerSortUp {
+    color: #FFF
 }

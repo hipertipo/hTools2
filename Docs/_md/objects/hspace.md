@@ -1,6 +1,6 @@
 ## hSpace
 
-The `hSpace` object represents a parametric variation space inside `hWorld`. Its purpose is to quickly address collections and subsets of fonts, using parameter ranges for weight value, width value, project name etc.
+The `hSpace` object represents a parametric variation space inside a `hProject`. Its purpose is to quickly address groups of fonts using parameter ranges.
 
 ### Attributes
 
@@ -55,7 +55,7 @@ Returns a list of ufo paths for all existing fonts in the current `hSpace`.
 
     >>> ['/fonts/_QuanticaBitmap/_ufos/QuanticaBitmap_09-1-1.ufo', '/fonts/_QuanticaBitmap/_ufos/QuanticaBitmap_10-1-1.ufo', '/fonts/_QuanticaBitmap/_ufos/QuanticaBitmap_11-1-1.ufo', '/fonts/_QuanticaBitmap/_ufos/QuanticaBitmap_12-1-1.ufo']
 
-#### `transfer_glyphs(glyphs_groups, axis, params)`
+#### `hSpace.transfer_glyphs(glyphs_groups, axis, params)`
 
 Batch transfer glyphs from one set of fonts to another.
 
@@ -69,3 +69,27 @@ Batch transfer glyphs from one set of fonts to another.
 
     s = hSpace(project)
     s.transfer_glyphs(gstring, var, ranges)
+
+#### `hSpace.transfer_anchors(gstring, var)`
+
+#### `hSpace.copy_glyphs(src_glyphs, dst_glyphs, parameters=None)`
+
+#### `hSpace.shift_x(dest_width, gstring, pos, delta, side, verbose=True)`
+
+#### `hSpace.shift_y(dest_height, gstring, transformations, verbose=True)`
+
+#### `hSpace.scale_glyphs(factor, gstring=None)`
+
+#### `hSpace.move_glyphs(delta, gstring=None)`
+
+#### `hSpace.create_fonts()`
+
+#### `hSpace.create_glyphs(gstring=None, verbose=False)`
+
+#### `hSpace.generate_fonts(options=None)`
+
+#### `hSpace.generate_css()`
+
+#### `hSpace.set_vmetrics()`
+
+#### `hSpace.set_info()`

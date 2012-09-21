@@ -23,6 +23,7 @@ if hTools2.DEBUG:
 
 import os
 import codecs
+import time
 
 try:
     import markdown
@@ -39,7 +40,7 @@ class hDocs:
 
     '''An object to generate html/css/js documentation pages from markdown sources.'''
 
-    title = ''
+    title = None
     index = {}
     index_order = []
 
@@ -48,9 +49,9 @@ class hDocs:
 
     html = u''
 
-    def __init__(self):
+    def __init__(self, title):
         self.settings = hSettings()
-        # self.context = _ctx
+        self.title = title
 
     # build
 
@@ -86,21 +87,23 @@ class hDocs:
     def build_head(self):
         _html = u''
         _html += '<head>\n'
-        _html += '<title>hTools2 Docs</title>\n'
+        _html += '<title>%s</title>\n' % self.title
         _html += '<script src="http://code.jquery.com/jquery-latest.min.js"></script>\n'
         _html += '<script src="../_js/scroll.js"></script>\n'
         _html += '<link href="../_css/base.css" rel="stylesheet" />\n'
-
-        #_html += '<script src="../_js/highlight.js"></script>'
-        #_html += '<script>hljs.initHighlightingOnLoad();</script>'
-
+        # table sorter
+        # _html += "<script src='../_js/jquery.tablesorter.min.js'></script>"
+        # _html += '<link href="{$workspace}/assets/css/tablesorter/style.css" rel="stylesheet" />'
         _html += '</head>\n'
         self.html += _html
 
     def build_nav(self):
         _html = u''
         _html += '<div id="nav">\n'
-        _html += '<h1><a href="#top">hTools2 v1.5</a></h1>\n'
+        _html += '<h1><a href="#top">%s</a></h1>\n' % self.title
+        _time_stamp = time.strftime("%H:%M:%S %a, %d %b %Y", time.localtime())
+        _html += '<p class="timestamp">last updated on:<br/>\n'
+        _html += '%s</p>\n' % _time_stamp
         _html += '<div>\n'
         count = 0
         for section in self.index_order:

@@ -1,70 +1,243 @@
 ## glyphutils
 
-#### `walk(folder, extension)`
+### Functions
 
-A simple non-recursive `walk` function to collect files with a given extension. It walks all files in `folder`, and returns a list of matching file paths.
+#### `center_glyph(glyph)`
 
-    from hTools2.modules.fileutils import walk
-    folder = u"/fonts/_Publica/_ufos/"
-    print walk(folder, 'ufo')
+Centers the `glyph` in its width, leaving `leftMargin` and `rightMargin` with equal values.
 
-    >>> [u'/fonts/_Publica/_ufos/Publica_15.ufo', u'/fonts/_Publica/_ufos/Publica_55.ufo', u'/fonts/_Publica/_ufos/Publica_95.ufo']
+    from hTools2.modules.glyphutils import center_glyph
+    f = CurrentFont()
+    glyph = f['a']
+    print glyph.leftMargin, glyph.rightMargin
 
-#### `delete_files(files_list)`
+    >>> 40 78
 
-Deletes the files at the file paths in the list. Often used in combination with results from the `walk` function.
+    center_glyph(glyph)
+    print glyph.leftMargin, glyph.rightMargin
 
-    from hTools2.modules.fileutils import walk, delete_files
-    folder = u"/fonts/_Publica/_woffs/"
-    woffs = walk(folder, 'woff')
-    print len(woffs)
+    >>> 59 59
 
-    >>> 10
+#### `round_width(glyph, gridsize)`
 
-    print delete_files(woffs)
-    woffs = walk(folder, 'woff')
-    print len(woffs)
+Rounds `glyph.width` to a multiple of `gridsize`.
 
-    >>> 0
+    from hTools2.modules.glyphutils import round_width
+    f = CurrentFont()
+    glyph = f['a']
+    print glyph.width
 
-#### `get_names_from_path(fontpath)`
+    >>> 525
 
-A simple function to parse underscore-separated font file names into `family` and `style` names.
+    round_width(glyph, 100)
+    print glyph.width
 
-    from hTools2.modules.fileutils import walk, get_names_from_path
-    folder = u"/fonts/_Publica/_ufos/"
-    ufos = walk(folder, 'ufo')
-    for ufo in ufos:
-        family, style = get_names_from_path(ufo)
-        print family, style
+    >>> 500.0
 
-    >>> Publica 15
-    >>> Publica 55
-    >>> Publica 95
+#### `round_margins(glyph, gridsize, left=True, right=True)`
 
-#### `get_parameters_from_path(fontpath)`
+Rounds `glyph.leftMargin` and `glyph.rightMargin` to multiples of `gridsize`.
 
-Get individual parameters from the path of a font file.
+Use the optional parameters `left` and `right` to turn individual margins of/off.
 
-    from hTools2.modules.fileutils import get_parameters_from_path
-    fontpath_1 = u"/fonts/_Publica/_ufos/Publica_55.ufo"
-    print get_parameters_from_path(fontpath_1)
+    from hTools2.modules.glyphutils import round_margins
+    f = CurrentFont()
+    glyph = f['a']
+    print glyph.leftMargin, glyph.rightMargin
 
-    >>> [u'55']
+    >>> 58 31
 
-    fontpath_3 = u"/fonts/_Publica/_ufos/Publica_55-Italic.ufo"
-    print get_parameters_from_path(fontpath_3)
+    round_margins(glyph, 10)
+    print glyph.leftMargin, glyph.rightMargin
 
-    >>> [u'55', u'Italic']
+    >>> 50.0 30.0
 
-#### `read_names_list_from_file(filepath)`
+    round_margins(glyph, 11, left=True, right=False)
+    print glyph.leftMargin, glyph.rightMargin
 
-Read pairs of glyph names from a simple text file.
+    >>> 55.0 30.0
+
+    round_margins(glyph, 11, left=False, right=True)
+    print glyph.leftMargin, glyph.rightMargin
+
+    >>> 55.0 33.0
+
+#### `has_suffix(glyph, suffix)`
+
+Checks if the name of `glyph` has the extension `suffix`, and returns `True` or `False`.
+
+    from hTools2.modules.glyphutils import has_suffix
+    f = CurrentFont()
+    glyph = f['a']
+    print has_suffix(glyph, 'alt')
+
+    >>> False
+
+    glyph = f['a.alt']
+    print has_suffix(glyph, 'alt')
+
+    >>> True
+
+#### `change_suffix(glyph, old_suffix, new_suffix=None)`
+
+Returns a new modified name for `glyph`, using `new_suffix` in place of `old_suffix`. If `new_suffix=None`, the suffix is removed and only the base glyph name is used.
+
+    from hTools2.modules.glyphutils import change_suffix
+    f = CurrentFont()
+    glyph = f['a.alt']
+    print change_suffix(glyph, 'alt', 'ALT')
+
+    >>> a.ALT
+
+    print change_suffix(glyph, 'alt')
+
+    >>> a
+
+#### `round_points(glyph, (sizeX, sizeY))`
+
+Rounds the position of all `points` in `glyph` to the gridsize `(sizeX,sizeY)`.
+
+    from hTools2.modules.glyphutils import round_points
+    f = CurrentFont()
+    glyph = f['c']
+    for c in glyph:
+        for p in c.points:
+            print p.x, p.y
+
+    >>> 386 93
+    >>> 335 44
+    >>> 255 44
+    >>> 184 44
+    >>> 124 94
+    >>> 124 237
+    >>> ...
+
+    round_points(glyph, (100, 200))
+    for c in glyph:
+        for p in c.points:
+            print p.x, p.y
+
+    >>> 400.0 0.0
+    >>> 300.0 0.0
+    >>> 300.0 0.0
+    >>> 200.0 0.0
+    >>> 100.0 0.0
+    >>> 100.0 200.0
+    >>> ...
+
+#### `round_bpoints(glyph, (sizeX, sizeY))`
+
+Rounds the position of all `bPoints` in `glyph` to the gridsize `(sizeX,sizeY)`.
+
+    from hTools2.modules.glyphutils import round_bpoints
+    f = CurrentFont()
+    glyph = f['o']
+    for c in glyph:
+        for p in c.bPoints:
+            print p.anchor
+
+    >>> (386, 237)
+    >>> (255, 44)
+    >>> (124, 237)
+    >>> (256, 419)
+    >>> ...
+
+    round_bpoints(glyph, (100, 100))
+    for c in glyph:
+        for p in c.bPoints:
+            print p.anchor
+
+    >>> (400.0, 200.0)
+    >>> (300.0, 0.0)
+    >>> (100.0, 200.0)
+    >>> (300.0, 400.0)
+    >>> ...
+
+#### `round_anchors(glyph, (sizeX, sizeY))`
+
+Rounds the position of all `anchors` in `glyph` to the gridsize `(sizeX,sizeY)`.
+
+    from hTools2.modules.glyphutils import round_anchors
+    f = CurrentFont()
+    glyph = f['a']
+    for a in glyph.anchors:
+        print a.name, a.x, a.y
+
+    >>> top 252 527
+    >>> bottom 493 0
+
+    round_anchors(glyph, (50, 50))
+    for a in glyph.anchors:
+        print a.name, a.x, a.y
+
+    >>> top 250 550
+    >>> bottom 500 0
+
+#### `select_points_y(glyph, linePos, above=True)`
+
+Selects all points in `glyph` above/below the `linePos(y)`.
+
+    from hTools2.modules.glyphutils import select_points_y
+    f = CurrentFont()
+    glyph = f['a']
+    print glyph.selection
+
+    >>> []
+
+    select_points_y(glyph, 300, above=True)
+    print glyph.selection
+
+    >>> [<Point x:135 y:472>, <Point x:194 y:418>, <Point x:354 y:317>, <Point x:87 y:417>, <Point x:252 y:418>, <Point x:424 y:314>, <Point x:424 y:418>, ...]
+
+#### `select_points_x(glyph, linePos, left=True)`
+
+Selects all points in `glyph` to left/right of `linePos(x)`.
+
+    from hTools2.modules.glyphutils import select_points_x
+    f = CurrentFont()
+    glyph = f['a']
+    print glyph.selection
+
+    >>> []
+
+    select_points_x(glyph, 300, left=False)
+    print glyph.selection
+
+    >>> [<Point x:424 y:80>, <Point x:357 y:65>, <Point x:357 y:17>, <Point x:424 y:418>, <Point x:351 y:21>, <Point x:364 y:472>, <Point x:458 y:-9>, <Point x:474 y:-9>, <Point x:494 y:-8>, <Point x:424 y:314>, <Point x:371 y:230>, <Point x:371 y:279>, <Point x:433 y:48>, <Point x:318 y:418>, ...]
+
+#### `deselect_points(glyph)`
+
+Deselect any selected `point` in `glyph`.
+
+    from hTools2.modules.glyphutils import deselect_points
+    f = CurrentFont()
+    glyph = f['a']
+    deselect_points(glyph)
+
+#### `shift_selected_points_y(glyph, delta, anchors=False)`
+
+Shift the selected points in `glyph` vertically by `delta` units. If `anchors=True`, anchors will be shifted as well.
 
     add example
 
-#### `rename_file(filepath, new_name, overwrite=True, delete=True)`
+#### `shift_selected_points_x(glyph, delta, anchors=False)`
 
-Rename a file or folder, and save it with the new name. The additional parameters `overwrite` and `delete` make it possible to overwrite existing files, and delete the old file/folder.
+Shift the selected points in `glyph` horizontally by `delta` units. If `anchors=True`, anchors will be shifted as well.
 
     add example
+
+#### `clear_glyph_libs(glyph)`
+
+Delete all libs in `glyph`.
+
+    from hTools2.modules.glyphutils import clear_glyph_libs
+    f = CurrentFont()
+    glyph = f['a']
+    print glyph.lib.keys()
+
+    >>> ['com.typemytype.robofont.mark']
+
+    clear_glyph_libs(glyph)
+    print glyph.lib.keys()
+
+    >>> []

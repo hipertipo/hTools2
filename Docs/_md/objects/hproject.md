@@ -71,10 +71,24 @@ A dictionary containing the paths to all data libs in the project.
     print p.lib_paths.keys()
 
     >>> ['info', 'composed', 'accents', 'spacing', 'project', 'interpol', 'vmetrics']
-
     print p.lib_paths['interpol']
 
     >>> /fonts/_Publica/_libs/interpol.plist
+
+#### `hProject.fonts`
+
+A dictionary with style names and paths of all `ufo` fonts in project (masters and instances).
+
+    from hTools2.objects import hProject
+    p = hProject('Publica')
+    for font in p.fonts.keys():
+        print font, p.fonts[font]
+
+    >>> 15 /fonts/_Publica/_ufos/Publica_15.ufo
+    >>> 35 /fonts/_Publica/_ufos/_instances/Publica_35.ufo
+    >>> 55 /fonts/_Publica/_ufos/Publica_55.ufo
+    >>> 75 /fonts/_Publica/_ufos/_instances/Publica_75.ufo
+    >>> 95 /fonts/_Publica/_ufos/Publica_95.ufo
 
 ### Methods
 
@@ -227,21 +241,6 @@ Returns a list of all `ufo` instances in project.
 #### `hProject.collect_fonts()`
 
 Updates the font names and file paths at `hProject.fonts`. This method is called automatically when the `hProject` object is initialized.
-
-#### `hProject.fonts`
-
-Returns a dictionary with the style names and paths of all `ufo` masters and instances in the project.
-
-    from hTools2.objects import hProject
-    p = hProject('Publica')
-    for font in p.fonts.keys():
-        print font, p.fonts[font]
-
-    >>> 15 /fonts/_Publica/_ufos/Publica_15.ufo
-    >>> 35 /fonts/_Publica/_ufos/_instances/Publica_35.ufo
-    >>> 55 /fonts/_Publica/_ufos/Publica_55.ufo
-    >>> 75 /fonts/_Publica/_ufos/_instances/Publica_75.ufo
-    >>> 95 /fonts/_Publica/_ufos/Publica_95.ufo
 
 #### `hProject.otfs()`
 

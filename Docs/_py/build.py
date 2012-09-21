@@ -6,12 +6,12 @@ import hTools2
 reload(hTools2)
 
 if hTools2.DEBUG:
-    import hTools2.objects
-    reload(hTools2.objects)
+    import hTools2.objects.hdocs
+    reload(hTools2.objects.hdocs)
 
 # imports
 
-from hTools2.objects import hDocs
+from hTools2.objects.hdocs import hDocs
 
 # settings
 
@@ -82,6 +82,6 @@ _folders = {
 
 # run
 
-d = hDocs()
+d = hDocs('hTools2 v1.5')
 d.build(_index, _index_order, _folders)
 d.upload()

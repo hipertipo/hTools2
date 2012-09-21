@@ -184,13 +184,6 @@ class hProject:
         except:
             return None
 
-    # def masters_interpol(self):
-    #     '''Return a list of all 'super masters' in project.'''
-    #     try:
-    #         return walk(self.paths['interpol'], 'ufo')
-    #     except:
-    #         return None
-
     def instances(self):
         '''Return a list of all instances in project.'''
         try:

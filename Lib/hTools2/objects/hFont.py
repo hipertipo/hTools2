@@ -38,25 +38,14 @@ class hFont:
 
     '''An object to represent a .ufo font source, wrapped in a few useful functions.'''
 
-    #------------
     # attributes
-    #------------
 
-    # parent `hProject` object to which the `hFont` belongs
     project = None
-
-    # the .ufo file containing the actual font with glyphs and data
     ufo = None
-
-    # name of the .ufo file, without the extension
     file_name = None
-
-    # the font's `styleName`, parsed from the name of the .ufo file
     style_name = None
 
-    #---------
     # methods
-    #---------
 
     def __init__(self, ufo):
         self.ufo = ufo
@@ -83,9 +72,9 @@ class hFont:
             self.parameters = {}
             # print 'there is no parameters lib for this font.\n'
 
-    def get_glyphs(self):
-        '''Get current selected glyphs in font.'''
-        return get_glyphs(self.ufo)
+    # def get_glyphs(self):
+    #     '''Get currently selected glyphs in font.'''
+    #     return get_glyphs(self.ufo)
 
     def auto_unicodes(self):
         '''Automatically set unicodes for all glyphs in the font.'''

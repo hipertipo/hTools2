@@ -1,10 +1,10 @@
 ## Introduction
 
-hTools2 is a collection of tools and objects for type-design & font-production work. It is written in [Python](http://python.org/) and specially tailored for use with [RoboFont](http://robofont.com/). The core Python modules and objects can also be used with [FontLab Studio](http://www.fontlab.com/font-editor/fontlab-studio/) and ‘NoneLab’ (pure Python).
+`hTools2` is a collection of tools and objects for type-design & font-production work. It is written in [Python](http://python.org/) and specially tailored for use with [RoboFont](http://robofont.com/). The core Python modules and objects can also be used with [FontLab Studio](http://www.fontlab.com/font-editor/fontlab-studio/) and ‘NoneLab’ (pure Python).
 
-hTools2 is built with [RoboFab](http://robofag.org/) and [vanilla](http://code.typesupply.com/wiki/Vanilla). It uses the [UFO](http://unifiedfontobject.org/) font format to store font sources, and [plist](https://en.wikipedia.org/wiki/Property_list) files to store different kinds of font data.
+`hTools2` is built with [RoboFab](http://robofag.org/) and [vanilla](http://code.typesupply.com/wiki/Vanilla). It uses the [UFO](http://unifiedfontobject.org/) font format to store font sources, and [plist](https://en.wikipedia.org/wiki/Property_list) files to store different kinds of font data.
 
-hTools2 is the second incarnation of hTools – the first one was never released. Read more about the project’s history in the [alpha release announcement](http://hipertipo.com/blog/htools-2-alpha-release/).
+`hTools2` is the second incarnation of hTools – the first one was never released. Read more about the project’s history in the [alpha release announcement](http://hipertipo.com/blog/htools-2-alpha-release/).
 
 ### Licence
 
