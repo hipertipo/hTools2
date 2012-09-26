@@ -46,7 +46,7 @@ A dictionary containing a working copy of all data libs in the project, imported
 
     >>> ['info', 'composed', 'accents', 'spacing', 'project', 'groups', 'interpol', 'vmetrics']
 
-For more information about each single lib, have a look at [`hLibs`](#hLibs).
+For more information about each single lib, have a look at [`hLibs`](#hlibs).
 
 #### `hProject.paths`
 

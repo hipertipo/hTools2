@@ -1,0 +1,16 @@
+/* --- layout --- */
+
+#content {
+    position: absolute;
+    top: 0em;
+    left: 5em;
+    width: 45%;
+    padding-bottom: 10em;
+}
+
+#nav {
+    position: fixed;
+    top: 1em;
+    left: 60%;
+    width: 40%;
+}

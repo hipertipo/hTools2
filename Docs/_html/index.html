@@ -2,14 +2,17 @@
 <html lang="en">
 <meta charset="utf-8" />
 <head>
-<title>hTools2 Docs</title>
+<title>hTools2 v1.5</title>
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script src="../_js/scroll.js"></script>
 <link href="../_css/base.css" rel="stylesheet" />
+<link href="../_css/layout.css" rel="stylesheet" />
 </head>
 <body>
 <div id="nav">
 <h1><a href="#top">hTools2 v1.5</a></h1>
+<p class="timestamp">last updated on:<br/>
+00:56:07 Wed, 26 Sep 2012</p>
 <div>
 <h4>about</h4>
 <ul>
@@ -20,7 +23,8 @@
 </ul>
 <h4>modules</h4>
 <ul>
-<li><a href="#"></a></li>
+<li><a href="#modules">modules</a></li>
+<li><a href="#anchors">anchors</a></li>
 <li><a href="#color">color</a></li>
 <li><a href="#encoding">encoding</a></li>
 <li><a href="#fileutils">fileutils</a></li>
@@ -39,15 +43,29 @@
 <div>
 <h4>objects</h4>
 <ul>
+<li><a href="#objects">objects</a></li>
 <li><a href="#hsettings">hsettings</a></li>
 <li><a href="#hworld">hworld</a></li>
 <li><a href="#hspace">hspace</a></li>
 <li><a href="#hproject">hproject</a></li>
-<li><a href="#hlibs">hlibs</a></li>
 <li><a href="#hfont">hfont</a></li>
 <li><a href="#hglyph">hglyph</a></li>
 <li><a href="#hline">hline</a></li>
 </ul>
+<h4>libs</h4>
+<ul>
+<li><a href="#libs">libs</a></li>
+<li><a href="#accents">accents</a></li>
+<li><a href="#composed">composed</a></li>
+<li><a href="#encoding">encoding</a></li>
+<li><a href="#info">info</a></li>
+<li><a href="#interpol">interpol</a></li>
+<li><a href="#project">project</a></li>
+<li><a href="#spacing">spacing</a></li>
+<li><a href="#vmetrics">vmetrics</a></li>
+</ul>
+</div>
+<div>
 <h4>dialogs</h4>
 <ul>
 <li><a href="#all_fonts">all fonts</a></li>
@@ -178,7 +196,63 @@
 <p>To have the dialogs in the hTools2 <code>Scripts</code> folder appear in RoboFont’s <code>Extensions</code> menu, select it as the root path for Python scripts in the <code>Preferences</code> window.</p>
 <h3>Configuring keyboard shortcuts</h3>
 <p>As an optional last step, it is also possible to configure keyboard shortcuts for hTools scripts in RoboFont.</p>
-<p>As a reference, my current keyboard shortcuts are collected <a href="http://hipertipo.com/content/htools2/dialogs/shortcuts/">here</a>.</p><a name="anchors"></a>
+<p>As a reference, my current keyboard shortcuts are collected <a href="http://hipertipo.com/content/htools2/dialogs/shortcuts/">here</a>.</p><a name="modules"></a>
+<h2>modules</h2>
+<table>
+    <tr>
+        <th>anchors</th>
+        <td>remove, create, transfer and move anchors</td>
+    </tr>
+    <tr>
+        <th>color</th>
+        <td>random colors, named colors and color palettes, color system conversion</td>
+    </tr>
+    <tr>
+        <th>encoding</th>
+        <td>auto set and remove unicodes, glyph name to hex conversion</td>
+    </tr>
+    <tr>
+        <th>fileutils</th>
+        <td>walk directories, delete files etc</td>
+    </tr>
+    <tr>
+        <th>fontinfo</th>
+        <td>get and set different kinds of font information</td>
+    </tr>
+    <tr>
+        <th>fontutils</th>
+        <td>a collection of handy functions for working with fonts</td>
+    </tr>
+    <tr>
+        <th>ftp</th>
+        <td>connect to server via FTP, upload files</td>
+    </tr>
+    <tr>
+        <th>glyphutils</th>
+        <td>a collection of handy functions for working with glyphs</td>
+    </tr>
+    <tr>
+        <th>interpol</th>
+        <td>check compatibility, interpolate glyphs, fonts, kerning</td>
+    </tr>
+    <tr>
+        <th>nodebox</th>
+        <td>a few methods and objects for working with .ufo files in Nodebox</td>
+    </tr>
+    <tr>
+        <th>opentype</th>
+        <td>simple functions to import, export and delete OpenType features in fonts</td>
+    </tr>
+    <tr>
+        <th>pens</th>
+        <td>pens for drawing .glifs in different environments (NodeBox, RoboFont)</td>
+    </tr>
+    <tr>
+        <th>sysutils</th>
+        <td>methods for dealing with system and environment variables</td>
+    </tr>
+</table><a name="anchors"></a>
+<h2>anchors</h2>
 <h4><code>get_anchors(font, glyph_names=None)</code></h4>
 <p>Get all anchors in the glyphs with the given <code>glyph_names</code> as a dictionary. If no <code>glyph_names</code> are specified, all glyphs in the font will be used.</p>
 <p>Every anchor is stored in a tuple of <code>name</code> and <code>(x,y)</code> position.</p>
@@ -1433,7 +1507,39 @@ for point in p:
 print get_context()
 
 &gt;&gt;&gt; RoboFont
-</code></pre><a name="hsettings"></a>
+</code></pre><a name="objects"></a>
+<h2>objects</h2>
+<table>
+    <tr>
+        <th>hSettings</th>
+        <td>an object to store local system settings (root folder, FTP connection etc)</td>
+    </tr>
+    <tr>
+        <th>hWorld</th>
+        <td>a representation of the local hTools installation and the available projects</td>
+    </tr>
+    <tr>
+        <th>hSpace</th>
+        <td>a variation space within one or more projects, with the corresponding fonts</td>
+    </tr>
+    <tr>
+        <th>hProject</th>
+        <td>a collection of fonts and related meta-data, equivalent to a ‘font-family’</td>
+    </tr>
+    <tr>
+        <th>hLibs</th>
+        <td>special containers for font data, with structure and read/write methods</td>
+    </tr>
+    <tr>
+        <th>hFont</th>
+        <td>a container for individual .ufo fonts, with additional methods for common tasks</td>
+    </tr>
+    <tr>
+        <th>hGlyph</th>
+        <td>a wrapper for individual glyphs, which serves as base class for several tools</td>
+    </tr>
+    <tr>
+<table><a name="hsettings"></a>
 <h2>hSettings</h2>
 <p>An object to store information about local settings and preferences.</p>
 <p>When initialized, <code>hSettings</code> reads the root folder for projects from <code>hTools2.ROOT</code>, loads the <code>hSettings.plist</code> file from this directory into a dictionary, and stores it in <code>hSettings.hDict</code>.</p>
@@ -1615,7 +1721,7 @@ print p.libs.keys()
 
 &gt;&gt;&gt; ['info', 'composed', 'accents', 'spacing', 'project', 'groups', 'interpol', 'vmetrics']
 </code></pre>
-<p>For more information about each single lib, have a look at <a href="#hLibs"><code>hLibs</code></a>.</p>
+<p>For more information about each single lib, have a look at <a href="#hlibs"><code>hLibs</code></a>.</p>
 <h4><code>hProject.paths</code></h4>
 <p>A dictionary containing the paths to all relevant project sub-folders: <code>libs</code>, <code>ufos</code>, <code>otfs</code>, <code>woffs</code> etc.</p>
 <pre><code>from hTools2.objects import hProject
@@ -1815,323 +1921,7 @@ for vfb in p.vfbs():
 <pre><code>from hTools2.objects import hProject
 p = hProject('Publica')
 p.generate_instance('55')
-</code></pre><a name="hlibs"></a>
-<h2>hLibs</h2>
-<p><code>hLibs</code> is a collection of files containing font-related data.</p>
-<p>Each lib lives in a separate file in the project’s <code>libs</code> folder. Most libs are stored as <code>.plist</code> files. Glyph order and groups are stored in an <code>.enc</code> file, features are stored in <code>.fea</code> files.</p>
-<h3>encoding.enc</h3>
-<p>Encoding files are simple text files with an <code>.enc</code> extension. They are the default way of specifying character sets in each project, and are used to order glyphs and paint groups in the fonts.</p>
-<p>Below is small sample encoding file. The first line is the title, usually the name of the project (this line is skipped when parsing). Lines starting with <code>%</code> followed by a series of hyphens indicate group names, and the following lines correspond to the glyphs contained in this group.</p>
-<pre><code>%% [h] Publica
-% --------------- group_name
-glyph_name
-% --------------- latin_lc_basic
-a
-b
-c
-d
-…
-%
-</code></pre>
-<h3>groups.plist</h3>
-<p>The <code>groups</code> lib can be created dynamically from the encoding file, or can be edited separately like other libs.</p>
-<table>
-    <tr>
-        <th>group</th>
-        <th>glyphs</th>
-    </tr>
-    <tr>
-        <td>latin_lc_basic</td>
-        <td>a b c d e f g h i j k l m n o p q r s t u v w x y z</td>
-    </tr>
-    <tr>
-        <td>latin_uc_basic</td>
-        <td>A B C D E F G H I J K L M N O P Q R S T U V W X Y Z</td>
-    </tr>
-    <tr>
-        <td>punctuation_basic</td>
-        <td>period comma colon semicolon</td>
-    </tr>
-</table>
-
-<h3>info.plist</h3>
-<p>The <code>info</code> lib contains font meta-data related to the author, foundry, license etc.</p>
-<pre><code>from hTools2.objects import hProject
-p = hProject('Publica')
-print p.libs['info'].keys()
-
-&gt;&gt;&gt; ['version-minor', 'notice', 'designer-url', 'vendor', 'copyright', 'license', 'trademark', 'license-url', 'foundry', 'note', 'designer', 'year', 'vendor-url', 'version-major']
-</code></pre>
-<table>
-    <tr>
-        <th>lib entry</th>
-        <th>example data</th>
-    </tr>
-    <tr>
-        <th>version-minor</th>
-        <td>...</td>
-    </tr>
-    <tr>
-        <th>notice</th>
-        <td>...</td>
-    </tr>
-    <tr>
-        <th>designer-url</th>
-        <td>...</td>
-    </tr>
-    <tr>
-        <th>vendor</th>
-        <td>...</td>
-    </tr>
-    <tr>
-        <th>copyright</th>
-        <td>...</td>
-    </tr>
-    <tr>
-        <th>license</th>
-        <td>...</td>
-    </tr>
-    <tr>
-        <th>trademark</th>
-        <td>...</td>
-    </tr>
-    <tr>
-        <th>license-url</th>
-        <td>...</td>
-    </tr>
-    <tr>
-        <th>foundry</th>
-        <td>...</td>
-    </tr>
-    <tr>
-        <th>note</th>
-        <td>...</td>
-    </tr>
-    <tr>
-        <th>designer</th>
-        <td>...</td>
-    </tr>
-    <tr>
-        <th>year</th>
-        <td>...</td>
-    </tr>
-    <tr>
-        <th>vendor-url</th>
-        <td>...</td>
-    </tr>
-    <tr>
-        <th>version-major</th>
-        <td>...</td>
-    </tr>
-</table>
-
-<h3>vmetrics.plist</h3>
-<p>The <code>vmetrics</code> lib contains basic vertical metrics information for all fonts in the project.</p>
-<pre><code>vmetrics_lib = {
-    'default' : {
-        'descender' : 300,
-        'sc-height' : 700,
-        'capheight' : 900,
-        'ascender' : 800,
-        'units-per-em' : 1000,
-        'xheight' : 600
-    },
-    '15' : {...},
-    '55' : {...},
-    '95' : {...}
-}
-</code></pre>
-<table>
-    <tr>
-        <th></th>
-        <th>xheight</th>
-        <th>ascender</th>
-        <th>descender</th>
-        <th>capheight</th>
-        <th>upm</th>
-    </tr>
-    <tr>
-        <th>default</th>
-        <td>400</td>
-        <td>700</td>
-        <td>-200</td>
-        <td>800</td>
-        <td>1000</td>
-    </tr>
-    <tr>
-        <th>Bold</th>
-        <td>420</td>
-        <td>720</td>
-        <td>-180</td>
-        <td>820</td>
-        <td></td>
-    </tr>
-    <tr>
-        <th>Black</th>
-        <td>440</td>
-        <td>740</td>
-        <td>-160</td>
-        <td></td>
-        <td></td>
-    </tr>
-</table>
-
-<h3>accents.plist</h3>
-<p>The <code>accents</code> lib contains a collection of glyph building recipes. It is structured as simple dictionary, with the target glyph names as keys, and a list of glyph parts (component and anchor) as value:</p>
-<pre><code>accents_lib = {
-    'aacute' : [ 'a', [ ('acute', 'top') ] ],
-    'aringacute' : [ 'a', [ ('ring', 'top'), ('acute', 'top') ] ],
-    'ccedilla' : ['c', [ ('cedilla', 'bottom') ] ],
-     ...
-}
-</code></pre>
-<p>Like all other libs, the <code>accents</code> lib is generally accessed through its parent project:</p>
-<pre><code>from hTools2.objects import hProject
-p = hProject('Publica')
-print p.libs['accents'].keys()
-
-&gt;&gt;&gt; [ 'aacute', 'aringacute', 'ccedilla', ... ]
-
-print p.libs['accents']['aacute']
-
-&gt;&gt;&gt; ['a', [ ['acute', 'top'] ] ]
-</code></pre>
-<table>
-    <tr>
-        <th>glyph name</th>
-        <th>base glyph</th>
-        <th>components/anchors</th>
-    </tr>
-    <tr>
-        <td>aacute</td>
-        <td>a</td>
-        <td>acute top</td>
-    </tr>
-    <tr>
-        <td>ccedilla</td>
-        <td>c</td>
-        <td>cedilla bottom</td>
-    </tr>
-    <tr>
-        <td>ntilde</td>
-        <td>n</td>
-        <td>tilde top</td>
-    </tr>
-</table>
-
-<h3>composed.plist</h3>
-<p>The <code>composed</code> lib contains recipes for building glyphs out of other glyphs – for example <code>ae</code>, <code>oslash</code>, <code>ij</code> etc.</p>
-<table>
-    <tr>
-        <th>glyph name</th>
-        <th>components</th>
-    </tr>
-    <tr>
-        <th>oe</th>
-        <th>o oe</th>
-    </tr>
-    <tr>
-        <td>ij</td>
-        <td>i j</td>
-    </tr>
-    <tr>
-        <td>fi</td>
-        <td>f i</td>
-    </tr>
-    <tr>
-        <td>ffi</td>
-        <td>f f i</td>
-    </tr>
-</table>
-
-<h3>spacing.plist</h3>
-<p>The <code>spacing</code> lib contains a collection of left and right spacing groups.</p>
-<pre><code>from hTools2.objects import hProject
-p = hProject('Guarana')
-print p.libs['spacing'].keys()
-
-&gt;&gt;&gt; ['right', 'left']
-
-print p.libs['spacing']['left'].keys()
-
-&gt;&gt;&gt; ['_left_a', '_left_f', '_left_H', '_left_n', '_left_O', '_left_o', '_left_V', '_left_u', '_left_v']
-
-print p.libs['spacing']['right']['_right_n']
-
-&gt;&gt;&gt; ['n', 'h', 'm']
-</code></pre>
-<table>
-    <tr>
-        <th>group name</th>
-        <th>side*</th>
-        <th>glyphs</th>
-    </tr>
-    <tr>
-        <td>n</td>
-        <td>left</td>
-        <td>n m i</td>
-    </tr>
-    <tr>
-        <td>o</td>
-        <td>left</td>
-        <td>o d q g</td>
-    </tr>
-    <tr>
-        <td>H</td>
-        <td>left</td>
-        <td>B D E F H I K L M N P R</td>
-    </tr>
-    <tr>
-        <td>O</td>
-        <td>left</td>
-        <td>C G Q</td>
-    </tr>
-</table>
-
-<h3>interpol.plist</h3>
-<p>The <code>interpol</code> lib contains a list with instance names and their corresponding interpolation values: <code>master1</code>, <code>master2</code> and <code>(factor_x, factor_y)</code>.</p>
-<pre><code>interpol_lib = {
-    '35' : [ '15', '55', (0.5, 0.5) ],
-    '75' : [ '55', '95', (0.5, 0.5) ],
-    ...
-}
-</code></pre>
-<p>Like all other libs, the <code>interpol</code> lib can be accessed via the <code>hProject</code> object:</p>
-<pre><code>from hTools2.objects import hProject
-p = hProject('Publica')
-print p.libs['interpol'].keys()
-
-&gt;&gt;&gt; ['25', '45', '35', '75', '65', '85']
-
-print p.libs['interpol']['75']
-
-&gt;&gt;&gt; ['55', '95', [0.5, 0.5]]
-</code></pre>
-<table>
-    <tr>
-        <th>instance name</th>
-        <th>master 1</th>
-        <th>master 2</th>
-        <th>factor x</th>
-        <th>factor y</th>
-    </tr>
-    <tr>
-        <td>Medium</td>
-        <td>Regular</td>
-        <td>Bold</td>
-        <td>.75</td>
-        <td>.5</td>
-    </tr>
-    <tr>
-        <td>Semibold</td>
-        <td>Light</td>
-        <td>Regular</td>
-        <td>.65</td>
-        <td>.75</td>
-    </tr>
-</table>
-
-<p>For more complex interpolation systems using more than two masters, use Superpolator.</p><a name="hfont"></a>
+</code></pre><a name="hfont"></a>
 <h2>hFont</h2>
 <p>The <code>hFont</code> object represents a <code>ufo</code> font source, wrapped in a few useful functions. It must be initialized with a <code>RFont</code> object as argument.</p>
 <p>Here is an example using a <code>ufo</code> font from a file, without UI.</p>
@@ -2264,61 +2054,433 @@ font.upload_woff()
 <p>The glyph’s parent <code>hFont</code> object.</p><a name="hline"></a>
 <h2>hLine</h2>
 <p>The <code>hLine</code> object makes it easy to typeset simple test strings with ufos in NodeBox.</p>
-<h2>Attributes</h2>
-<h3>hLine.ctx</h3>
+<h3>Attributes</h3>
+<h4><code>hLine.ctx</code></h4>
 <p>the NodeBox <code>context</code> object in which the glyphs and shapes are drawn</p>
-<h3>hLine.font</h3>
+<h4><code>hLine.font</code></h4>
 <p>the parent <code>hFont</code> object containing the glyphs to be drawn</p>
-<h3>hLine.glyph_names</h3>
+<h4><code>hLine.glyph_names</code></h4>
 <p>a list of glyph names to be drawn</p>
-<h3>hLine.scale</h3>
+<h4><code>hLine.scale</code></h4>
 <p>scaling factor, a floating point number</p>
-<h3>hLine.fill</h3>
+<h4><code>hLine.fill</code></h4>
 <p>turn fill on/off</p>
-<h3>hLine.fill_color</h3>
+<h4><code>hLine.fill_color</code></h4>
 <p>the fill color, a NodeBox <code>color</code> object</p>
-<h3>hLine.stroke_width</h3>
+<h4><code>hLine.stroke_width</code></h4>
 <p>the width of the stroke, in NodeBox units</p>
-<h3>hLine.stroke</h3>
+<h4><code>hLine.stroke</code></h4>
 <p>turn stroke on/off</p>
-<h3>hLine.stroke_color</h3>
+<h4><code>hLine.stroke_color</code></h4>
 <p>the stroke color, a NodeBox <code>color</code> object</p>
-<h3>hLine.hmetrics</h3>
+<h4><code>hLine.hmetrics</code></h4>
 <p>draw guidelines for horizontal metrics</p>
-<h3>hLine.hmetrics_crop</h3>
+<h4><code>hLine.hmetrics_crop</code></h4>
 <p>crop height of guides for horizontal metrics yes/no</p>
-<h3>hLine.anchors</h3>
+<h4><code>hLine.anchors</code></h4>
 <p>draw anchors yes/no</p>
-<h3>hLine.anchors_size</h3>
-<h3>hLine.anchors_stroke_width</h3>
-<h3>hLine.anchors_stroke_color</h3>
-<h3>hLine.origin</h3>
+<h4><code>hLine.anchors_size</code></h4>
+<h4><code>hLine.anchors_stroke_width</code></h4>
+<h4><code>hLine.anchors_stroke_color</code></h4>
+<h4><code>hLine.origin</code></h4>
 <p>draw an additional mark in origin of each glyph</p>
-<h3>hLine.vmetrics</h3>
+<h4><code>hLine.vmetrics</code></h4>
 <p>draw vertical metrics (x-height, ascenders, descenders, cap-height)</p>
-<h3>hLine.baseline</h3>
-<h3>hLine.color_guidelines</h3>
+<h4><code>hLine.baseline</code></h4>
+<h4><code>hLine.color_guidelines</code></h4>
 <p>the color of the guidelines, a NodeBox <code>color</code> object</p>
-<h3>hLine.cap_style</h3>
+<h4><code>hLine.cap_style</code></h4>
 <p>the style of the line ends</p>
-<h3>hLine.join_style</h3>
+<h4><code>hLine.join_style</code></h4>
 <p>the style of the line joins</p>
-<h2>Methods</h2>
-<h3>hLine._text_to_gnames(text)</h3>
+<h3>Methods</h3>
+<h4><code>hLine._text_to_gnames(text)</code></h4>
 <p>Converts a given character stream <code>text</code> into a list of glyph names, and returns the list.</p>
-<h3>hLine._gnames_to_gstring(glyph_names)</h3>
+<h4><code>hLine._gnames_to_gstring(glyph_names)</code></h4>
 <p>Joins a given list of <code>glyph_names</code> into a <code>gstring</code> (a string of glyph names separated by slashes), and returns it.</p>
-<h3>hLine._gstring_to_gnames(gstring)</h3>
+<h4><code>hLine._gstring_to_gnames(gstring)</code></h4>
 <p>Converts a given <code>gstring</code> into a list of <code>glyph_names</code>, and returns it.</p>
-<h3>hLine.txt(text, mode='text')</h3>
+<h4><code>hLine.txt(text, mode='text')</code></h4>
 <p>Set the list <code>hLine.glyph_names</code> from the given <code>text</code> string.</p>
 <p>If <code>text</code> is a normal stream of characters, use <code>mode='text'</code>; if <code>text</code> is a <code>gstring</code>, use <code>mode='gstring'</code>.</p>
-<h3>hLine.width()</h3>
+<h4><code>hLine.width()</code></h4>
 <p>Return the width of the hLine object with the current settings.</p>
-<h3>hLine.height()</h3>
+<h4><code>hLine.height()</code></h4>
 <p>Return the height of the hLine object with the current settings.</p>
-<h3>hLine.draw(pos)</h3>
-<p>Draw the glyphs in the NodeBox context.</p><a name="all_fonts"></a>
+<h4><code>hLine.draw(pos)</code></h4>
+<p>Draw the glyphs in the NodeBox context.</p><a name="libs"></a>
+<h2>libs</h2>
+<p>In <code>hTools2</code>, every project contains a standard set of libs – simple files with font-related data. All libs live inside of the project’s <code>_libs</code> folder.</p>
+<p>Most libs are stored as <code>.plist</code> files.</p>
+<table>
+    <tr>
+        <th>
+            <a href='#'>groups.plist</a>
+        </th>
+        <td>...</td>
+    </tr>
+    <tr>
+        <th>
+            <a href='#'>vmetrics.plist</a>
+        </th>
+        <td>...</td>
+    </tr>
+    <tr>
+        <th>
+            <a href='#'>info.plist</a>
+        </th>
+        <td>...</td>
+    </tr>
+    <tr>
+        <th>
+            <a href='#'>accents.plist</a>
+        </th>
+        <td>...</td>
+    </tr>
+    <tr>
+        <th>
+            <a href='#'>composed.plist</a>
+        </th>
+        <td>...</td>
+    </tr>
+    <tr>
+        <th>
+            <a href='#'>spacing.plist</a>
+        </th>
+        <td>...</td>
+    </tr>
+    <tr>
+        <th>
+            <a href='#'>interpol.plist</a>
+        </th>
+        <td>...</td>
+    </tr>
+</table>
+
+<p>Glyph order and groups are stored in an <code>.enc</code> file, features are stored in <code>.fea</code> files.</p>
+<table>
+    <tr>
+        <th>
+            <a href='#'>Publica.fea</a>
+        </th>
+        <td>...</td>
+    </tr>
+    <tr>
+        <th>
+            <a href='#'>Publica.enc</a>
+        </th>
+        <td>...</td>
+    </tr>
+</table><a name="accents"></a>
+<h2>accents</h2>
+<p>The <code>accents</code> lib contains a collection of glyph building recipes. It is structured as simple dictionary, with the target glyph names as keys, and a list of glyph parts (component and anchor) as value:</p>
+<pre><code>accents_lib = {
+    'aacute' : [ 'a', [ ('acute', 'top') ] ],
+    'aringacute' : [ 'a', [ ('ring', 'top'), ('acute', 'top') ] ],
+    'ccedilla' : ['c', [ ('cedilla', 'bottom') ] ],
+     ...
+}
+</code></pre>
+<p>Like all other libs, the <code>accents</code> lib is generally accessed through its parent project:</p>
+<pre><code>from hTools2.objects import hProject
+p = hProject('Publica')
+print p.libs['accents'].keys()
+
+&gt;&gt;&gt; [ 'aacute', 'aringacute', 'ccedilla', ... ]
+
+print p.libs['accents']['aacute']
+
+&gt;&gt;&gt; ['a', [ ['acute', 'top'] ] ]
+</code></pre>
+<table>
+    <tr>
+        <th>glyph name</th>
+        <th>base glyph</th>
+        <th>components/anchors</th>
+    </tr>
+    <tr>
+        <td>aacute</td>
+        <td>a</td>
+        <td>acute top</td>
+    </tr>
+    <tr>
+        <td>ccedilla</td>
+        <td>c</td>
+        <td>cedilla bottom</td>
+    </tr>
+    <tr>
+        <td>ntilde</td>
+        <td>n</td>
+        <td>tilde top</td>
+    </tr>
+</table><a name="composed"></a>
+<h2>composed</h2>
+<p>The <code>composed</code> lib contains recipes for building glyphs out of other glyphs – for example <code>ae</code>, <code>oslash</code>, <code>ij</code> etc.</p>
+<table>
+    <tr>
+        <th>glyph name</th>
+        <th>components</th>
+    </tr>
+    <tr>
+        <td>oe</td>
+        <td>o oe</td>
+    </tr>
+    <tr>
+        <td>ij</td>
+        <td>i j</td>
+    </tr>
+    <tr>
+        <td>fi</td>
+        <td>f i</td>
+    </tr>
+    <tr>
+        <td>ffi</td>
+        <td>f f i</td>
+    </tr>
+</table><a name="encoding"></a>
+<h2>encoding</h2>
+<p>Encoding files are simple text files with an <code>.enc</code> extension. They are the default way of specifying character sets in each project, and are used to order glyphs and paint groups in the fonts.</p>
+<p>Below is small sample encoding file. The first line is the title, usually the name of the project (this line is skipped when parsing). Lines starting with <code>%</code> followed by a series of hyphens indicate group names, and the following lines correspond to the glyphs contained in this group.</p>
+<pre><code>%% [h] Publica
+% --------------- group_name
+glyph_name
+% --------------- latin_lc_basic
+a
+b
+c
+d
+…
+%
+</code></pre><a name="info"></a>
+<h2>info</h2>
+<p>The <code>info</code> lib contains font meta-data related to the author, foundry, license etc.</p>
+<pre><code>from hTools2.objects import hProject
+p = hProject('Publica')
+print p.libs['info'].keys()
+
+&gt;&gt;&gt; ['version-minor', 'notice', 'designer-url', 'vendor', 'copyright', 'license', 'trademark', 'license-url', 'foundry', 'note', 'designer', 'year', 'vendor-url', 'version-major']
+</code></pre>
+<table>
+    <tr>
+        <th>lib entry</th>
+        <th>example data</th>
+    </tr>
+    <tr>
+        <th>version-minor</th>
+        <td>...</td>
+    </tr>
+    <tr>
+        <th>notice</th>
+        <td>...</td>
+    </tr>
+    <tr>
+        <th>designer-url</th>
+        <td>...</td>
+    </tr>
+    <tr>
+        <th>vendor</th>
+        <td>...</td>
+    </tr>
+    <tr>
+        <th>copyright</th>
+        <td>...</td>
+    </tr>
+    <tr>
+        <th>license</th>
+        <td>...</td>
+    </tr>
+    <tr>
+        <th>trademark</th>
+        <td>...</td>
+    </tr>
+    <tr>
+        <th>license-url</th>
+        <td>...</td>
+    </tr>
+    <tr>
+        <th>foundry</th>
+        <td>...</td>
+    </tr>
+    <tr>
+        <th>note</th>
+        <td>...</td>
+    </tr>
+    <tr>
+        <th>designer</th>
+        <td>...</td>
+    </tr>
+    <tr>
+        <th>year</th>
+        <td>...</td>
+    </tr>
+    <tr>
+        <th>vendor-url</th>
+        <td>...</td>
+    </tr>
+    <tr>
+        <th>version-major</th>
+        <td>...</td>
+    </tr>
+</table><a name="interpol"></a>
+<h2>interpol</h2>
+<p>The <code>interpol</code> lib contains a list with instance names and their corresponding interpolation values: <code>master1</code>, <code>master2</code> and <code>(factor_x, factor_y)</code>.</p>
+<pre><code>interpol_lib = {
+    '35' : [ '15', '55', (0.5, 0.5) ],
+    '75' : [ '55', '95', (0.5, 0.5) ],
+    ...
+}
+</code></pre>
+<p>Like all other libs, the <code>interpol</code> lib can be accessed via the <code>hProject</code> object:</p>
+<pre><code>from hTools2.objects import hProject
+p = hProject('Publica')
+print p.libs['interpol'].keys()
+
+&gt;&gt;&gt; ['25', '45', '35', '75', '65', '85']
+
+print p.libs['interpol']['75']
+
+&gt;&gt;&gt; ['55', '95', [0.5, 0.5]]
+</code></pre>
+<table>
+    <tr>
+        <th>instance name</th>
+        <th>master 1</th>
+        <th>master 2</th>
+        <th>factor x</th>
+        <th>factor y</th>
+    </tr>
+    <tr>
+        <td>Medium</td>
+        <td>Regular</td>
+        <td>Bold</td>
+        <td>.75</td>
+        <td>.5</td>
+    </tr>
+    <tr>
+        <td>Semibold</td>
+        <td>Light</td>
+        <td>Regular</td>
+        <td>.65</td>
+        <td>.75</td>
+    </tr>
+</table>
+
+<p>For more complex interpolation systems using more than two masters, use Superpolator.</p><a name="project"></a>
+<h2>project</h2>
+<p>The <code>project</code> lib contains custom data about the project.</p>
+<h3><code>libs['project']['parameters']</code></h3>
+<p>A dictionary containing names of variation axes as keys, and and a list with the available coordenates for each axis as values.</p>
+<pre><code>parameters = {
+    'style' : [ 'Roman', 'Italic' ],
+    'weight' : [ 'Light', 'Book', 'Medium', 'Regular', 'Bold', 'Black' ],
+    'width' : [ 'Condensed', 'Normal' ],
+}
+
+p = hProject('Publica')
+p.libs['project']['parameters'] = parameters
+p.write_lib('project')
+</code></pre>
+<h3><code>libs['project']['parameters_order']</code></h3>
+<p>A list with the order of the parameters. This order is used in the naming and sorting of font files.</p>
+<pre><code>parameters_order = [ 'style', 'weight', 'width' ]
+</code></pre>
+<h3><code>libs['project']['parameters_separator']</code></h3>
+<p>A boolean expressing the project’s setting for separator in file names. If <code>separator=True</code>, the individual parameters in filenames are separated with hyphens, otherwise parameters are combined without separation.</p>
+<h3><code>libs['project']['grid']</code></h3>
+<p>The basic gridsize used for all fonts in the project.</p><a name="spacing"></a>
+<h2>spacing</h2>
+<p>The <code>spacing</code> lib contains a collection of left and right spacing groups.</p>
+<pre><code>from hTools2.objects import hProject
+p = hProject('Guarana')
+print p.libs['spacing'].keys()
+
+&gt;&gt;&gt; ['right', 'left']
+
+print p.libs['spacing']['left'].keys()
+
+&gt;&gt;&gt; ['_left_a', '_left_f', '_left_H', '_left_n', '_left_O', '_left_o', '_left_V', '_left_u', '_left_v']
+
+print p.libs['spacing']['right']['_right_n']
+
+&gt;&gt;&gt; ['n', 'h', 'm']
+</code></pre>
+<table>
+    <tr>
+        <th>group name</th>
+        <th>side*</th>
+        <th>glyphs</th>
+    </tr>
+    <tr>
+        <td>n</td>
+        <td>left</td>
+        <td>n m i</td>
+    </tr>
+    <tr>
+        <td>o</td>
+        <td>left</td>
+        <td>o d q g</td>
+    </tr>
+    <tr>
+        <td>H</td>
+        <td>left</td>
+        <td>B D E F H I K L M N P R</td>
+    </tr>
+    <tr>
+        <td>O</td>
+        <td>left</td>
+        <td>C G Q</td>
+    </tr>
+</table><a name="vmetrics"></a>
+<h2>vmetrics</h2>
+<p>The <code>vmetrics</code> lib contains basic vertical metrics information for all fonts in the project.</p>
+<pre><code>vmetrics_lib = {
+    'default' : {
+        'descender' : 300,
+        'sc-height' : 700,
+        'capheight' : 900,
+        'ascender' : 800,
+        'units-per-em' : 1000,
+        'xheight' : 600
+    },
+    '15' : {...},
+    '55' : {...},
+    '95' : {...}
+}
+</code></pre>
+<table>
+    <tr>
+        <th></th>
+        <th>xheight</th>
+        <th>ascender</th>
+        <th>descender</th>
+        <th>capheight</th>
+        <th>upm</th>
+    </tr>
+    <tr>
+        <th>default</th>
+        <td>400</td>
+        <td>700</td>
+        <td>-200</td>
+        <td>800</td>
+        <td>1000</td>
+    </tr>
+    <tr>
+        <th>Bold</th>
+        <td>420</td>
+        <td>720</td>
+        <td>-180</td>
+        <td>820</td>
+        <td></td>
+    </tr>
+    <tr>
+        <th>Black</th>
+        <td>440</td>
+        <td>740</td>
+        <td>-160</td>
+        <td></td>
+        <td></td>
+    </tr>
+</table><a name="all_fonts"></a>
 <h2>All fonts</h2>
 <h4>actions.py</h4>
 <p>Applies the selected actions to all open fonts. The available actions are:</p>

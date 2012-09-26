@@ -25,6 +25,7 @@ _index = {
     ],
 
     'modules' : [
+        'modules',
         'anchors',
         'color',
         'encoding',
@@ -42,6 +43,7 @@ _index = {
     ],
 
     'objects' : [
+        'objects',
         'hSettings',
         'hWorld',
         'hSpace',
@@ -51,6 +53,18 @@ _index = {
         'hGlyph',
         'hLine',
         'hParagraph',
+    ],
+
+    'libs' : [
+        'libs',
+        'accents',
+        'composed',
+        'encoding',
+        'info',
+        'interpol',
+        'project',
+        'spacing',
+        'vmetrics',
     ],
 
     'dialogs' : [
@@ -68,6 +82,7 @@ _index_order = [
     'about',
     'modules',
     'objects',
+    'libs',
     'dialogs',
 ]
 

@@ -91,9 +91,7 @@ class hDocs:
         _html += '<script src="http://code.jquery.com/jquery-latest.min.js"></script>\n'
         _html += '<script src="../_js/scroll.js"></script>\n'
         _html += '<link href="../_css/base.css" rel="stylesheet" />\n'
-        # table sorter
-        # _html += "<script src='../_js/jquery.tablesorter.min.js'></script>"
-        # _html += '<link href="{$workspace}/assets/css/tablesorter/style.css" rel="stylesheet" />'
+        _html += '<link href="../_css/layout.css" rel="stylesheet" />\n'
         _html += '</head>\n'
         self.html += _html
 
@@ -101,17 +99,19 @@ class hDocs:
         _html = u''
         _html += '<div id="nav">\n'
         _html += '<h1><a href="#top">%s</a></h1>\n' % self.title
-        _time_stamp = time.strftime("%H:%M:%S %a, %d %b %Y", time.localtime())
+        _time_stamp = time.strftime("%H:%M:%S %a, %d %b %Y", time.gmtime())
         _html += '<p class="timestamp">last updated on:<br/>\n'
         _html += '%s</p>\n' % _time_stamp
         _html += '<div>\n'
-        count = 0
+        _col_depth = 2
+        _count = 0
         for section in self.index_order:
             _section_path = os.path.join(self.paths['markdown'], section)
             # break into 2 columns
-            if count == 2:
+            if _count == _col_depth:
                 _html += '</div>\n'
                 _html += '<div>\n'
+                _count = 0
             _html += '<h4>%s</h4>\n' % section
             _html += '<ul>\n'
             for item in self.index[section]:
@@ -124,7 +124,7 @@ class hDocs:
                     _anchor = _title.replace(' ', "_")
                     _html += '<li><a href="#%s">%s</a></li>\n' % (_anchor, _title)
             _html += '</ul>\n'
-            count += 1
+            _count += 1
         _html += '</div>\n'
         _html += '</div>\n'
         self.html += _html
