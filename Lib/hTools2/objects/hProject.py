@@ -21,8 +21,13 @@ if hTools2.DEBUG:
 import os
 import plistlib
 
+try:
+    from mojo.roboFont import RFont, NewFont
+except:
+    from robofab.world import RFont, NewFont
+
 from hworld import hWorld
-from hTools2.modules.fileutils import walk
+from hTools2.modules.fileutils import walk, get_names_from_path
 from hTools2.modules.encoding import import_encoding
 
 # object
@@ -43,8 +48,8 @@ class hProject:
     fonts = None
 
     _path_names = [
-        'root', 'ufos', 'libs', 'otfs', 'temp', \
-        'instances', 'woffs', 'otfs_test',
+        'root', 'ufos', 'vfbs', 'libs', 'otfs', 'temp', \
+        'instances', 'interpol', 'woffs', 'otfs_test',
     ]
 
     _lib_names = [
@@ -125,9 +130,11 @@ class hProject:
         _paths['ufos'] = os.path.join(_project_root, '_ufos')
         _paths['otfs'] = os.path.join(_project_root, '_otfs')
         _paths['libs'] = os.path.join(_project_root, '_libs')
+        _paths['vfbs'] = os.path.join(_project_root, '_vfbs')
         _paths['temp'] = os.path.join(_project_root, '_temp')
         _paths['woffs'] = os.path.join(_project_root, '_woffs')
         _paths['instances'] = os.path.join(_project_root, '_ufos/_instances')
+        _paths['interpol'] = os.path.join(_project_root, '_ufos/_interpol')
         _paths['otfs_test'] = os.path.join(self.world.settings.hDict['test'], '_%s') % self.name
         # encoding path
         _enc_filename = '%s.enc' % self.name
@@ -184,6 +191,13 @@ class hProject:
         except:
             return None
 
+    def masters_interpol(self):
+        '''Return a list of all interpolation masters in project.'''
+        try:
+            return walk(self.paths['interpol'], 'ufo')
+        except:
+            return None
+
     def instances(self):
         '''Return a list of all instances in project.'''
         try:
@@ -193,15 +207,13 @@ class hProject:
 
     def collect_fonts(self):
         '''Update the font names and file paths at `hProject.fonts`.'''
-        try:
-            _font_paths = self.masters() + self.instances()
-            _fonts = {}
+        _font_paths = self.masters() + self.instances()
+        _fonts = {}
+        if len(_font_paths) > 0:
             for font_path in _font_paths:
                 _style_name = get_names_from_path(font_path)[1]
                 _fonts[_style_name] = font_path
-            self.fonts = _fonts
-        except:
-            self.fonts = {}
+        self.fonts = _fonts
 
     def otfs(self):
         '''Return a list of all .otf files in project.'''
@@ -250,8 +262,8 @@ class hProject:
                 instance_filename = '%s_%s.ufo' % (self.name, instance_name)
                 instance_path = os.path.join(self.paths['instances'], instance_filename)
                 # open/create fonts
-                f1 = OpenFont(master_1_path, showUI=False)
-                f2 = OpenFont(master_2_path, showUI=False)
+                f1 = RFont(master_1_path, showUI=False)
+                f2 = RFont(master_2_path, showUI=False)
                 f3 = NewFont(showUI=False)
                 # interpolate
                 f3.interpolate((interpol_factor[0], interpol_factor[1]), f2, f1)
@@ -267,3 +279,26 @@ class hProject:
             if verbose:
                 print 'instance not in interpol lib.\n'
 
+    # conversion
+
+    def generate_vfbs(self, masters=True, instances=False, interpol=False):
+        '''Batch convert ufos in project to vfb format.'''
+        import os
+        from robofab.world import NewFont
+        # collect files
+        _ufos = []
+        if masters:
+            _ufos += self.masters()
+        if instances:
+            _ufos += self.instances()
+        if interpol:
+            _ufos += self.masters_interpol()
+        # run
+        for ufo in _ufos:
+            _vfb_name = os.path.split(ufo)[1]
+            _vfb_file = '%s.vfb' % _vfb_name.split('.')[0]
+            _vfb_path = os.path.join(self.paths['vfbs'], _vfb_file)
+            font = NewFont()
+            font.readUFO(ufo, doProgress=True)
+            font.save(_vfb_path)
+            font.close()

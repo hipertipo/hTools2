@@ -281,3 +281,34 @@ def clear_guides(glyph):
     for guide in glyph.guides:
         glyph.removeGuide(guide)
     glyph.update()
+
+
+#------
+# bcps
+#------
+
+def equalize_bcps(glyph):
+    '''Equalize `bcps` from selected points in glyph.'''
+    glyph.prepareUndo()
+    for contour in glyph.contours:
+        for point in contour.bPoints:
+            if point.selected:
+                x, y = point.bcpIn
+                if x <> 0:
+                    point.bcpIn = (x, 0)
+                    point.bcpOut = (-x, 0)
+                if y <> 0:
+                    point.bcpIn = (0, y)
+                    point.bcpOut = (0, -y)
+    glyph.performUndo()
+
+def retract_bcps(glyph):
+    '''Retract `bcps` from selected points in glyph.'''
+    glyph.prepareUndo()
+    for contour in glyph:
+        for point in contour.bPoints:
+            if point.selected:
+                point.bcpIn = (0, 0)
+                point.bcpOut = (0, 0)
+    glyph.performUndo()
+
