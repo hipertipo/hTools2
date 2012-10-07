@@ -1,7 +1,7 @@
 hTools2
 =======
 
-**v1.4 – 08.2012**
+**v1.5 – 10.2012**
 
 hTools2 is a [UFO](http://unifiedfontobject.org/)-based [Python](http://python.org/)-powered font-production toolkit.
 
@@ -28,7 +28,7 @@ Work on hTools2 is partially funded by users and collaborators.
 Special thanks to the following designers/companies for contributing to the project:
 
 - Nikola Djurek ([Typonine](http://typonine.com/)) – kickstarter for the release of hTools2, comissioned and tested all initial dialogs
-- Bas Jacobs ([Underware](http://underware.nl/)) – contributed suggestions for new features, commissioned the `import .ufo to layer` script
+- Bas Jacobs ([Underware](http://underware.nl/)) – contributed suggestions for new features, commissioned new scripts and functions
 
 If you use hTools2 on a regular basis, please consider making a donation.
 
