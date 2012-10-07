@@ -243,51 +243,66 @@ class setWidthDialog(object):
     # apply
 
     def set_width(self, glyph, width, mode=None):
-        glyph.prepareUndo('set glyph width')
-        #-------------
-        # get margins
-        #-------------
+        #------------------
+        # store old values
+        #------------------
         _old_left = glyph.leftMargin
         _old_right = glyph.rightMargin
         _old_width = glyph.width
-        #-----------
-        # set width
-        #-----------
+        _glyph_width = _old_width - (_old_left + _old_right)
+        #---------------
+        # compute width
+        #---------------
+        glyph.prepareUndo('set glyph width')
         # add value
         if self._mode == 1:
-            glyph.width = _old_width + width
+            _width = _old_width + width
         # subtract value
         elif self._mode == 2:
-            glyph.width = _old_width - width
+            _width = _old_width - width
         # equal to value
         else:
-            glyph.width = width
+            _width = width
         #-------------
         # set margins
         #-------------
         # center glyph
         if mode == 'center':
+            glyph.width = _width
             center_glyph(glyph)
+        #------------------
         # split difference
         elif mode == 'split difference':
-            _diff = glyph.width - _old_width
-            _new_left = _old_left + (_diff / 2)
-            _new_right = _old_right + (_diff / 2)
+            # calculate new left margin
+            try:
+                _diff = _width - _old_width
+                _new_left = _old_left + (_diff / 2)
+            except:
+                _new_left = 0
+            # set margins
             glyph.leftMargin = _new_left
-            glyph.rightMargin = _new_right
+            glyph.width = _width
+        #------------------
         # split difference
         elif mode == 'split relative':
-            _glyph_width = _old_width - (_old_left + _old_right)
-            _whitespace = glyph.width - _glyph_width
-            _new_left = _whitespace / (1 + (_old_right / _old_left) )
-            _new_right = _whitespace / (1 + (_old_left / _old_right) )
+            # calculate new left margin
+            try:
+                _whitespace = _width - _glyph_width
+                _new_left = _whitespace / ( 1 + (_old_right / _old_left) )
+            except:
+                _new_left = 0
+            # set margins
             glyph.leftMargin = _new_left
-            glyph.rightMargin = _new_right
+            glyph.width = _width
+        #-----------
+        # set width
+        else:
+            glyph.width = _width
         #-------
         # done!
         #-------
-        glyph.performUndo()
         glyph.update()
+        glyph.performUndo()
 
     def apply_callback(self, sender):
         f = CurrentFont()
@@ -329,6 +344,7 @@ class setWidthDialog(object):
                     for glyph_name in glyph_names:
                         print glyph_name,
                         self.set_width(f[glyph_name], _width, _w_mode)
+                    f.update()
                     print
                     print '\n...done.\n'
                 # no glyph selected

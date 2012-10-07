@@ -72,10 +72,6 @@ class hFont:
             self.parameters = {}
             # print 'there is no parameters lib for this font.\n'
 
-    # def get_glyphs(self):
-    #     '''Get currently selected glyphs in font.'''
-    #     return get_glyphs(self.ufo)
-
     def auto_unicodes(self):
         '''Automatically set unicodes for all glyphs in the font.'''
         auto_unicodes(self.ufo)
@@ -157,6 +153,16 @@ class hFont:
         for group in self.project.libs['groups']['glyphs'].keys():
             self.ufo.groups[group] = self.project.libs['groups']['glyphs'][group]
         self.ufo.lib['groups_order'] = self.project.libs['groups']['order']
+
+    def build_accents(self):
+        # if self.project.libs['accents'].has_key(glyph_name):
+        #     base_glyph, accents = self.project.libs['accents'][glyph_name]
+        #     font.ufo.removeGlyph(glyph_name)
+        #     font.ufo.compileGlyph(glyph_name, base_glyph, accents)
+        #     font.ufo[glyph_name].update()
+        # else:
+        #     print 'project has not accents lib.\n'
+        pass
 
     # OpenType features
 
