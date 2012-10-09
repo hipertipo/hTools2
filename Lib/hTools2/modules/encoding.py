@@ -156,21 +156,25 @@ def unicode_hexstr_to_int(hexUnicode, replaceUni=True):
 # a dict containing additional `glyphName` to `unicode` mappings
 
 unicodes_extra = {
-    # extended latin
-    'schwa' : '0259',
-    'dotlessj' : '0237',
+    # extended latin lc
     'aemacron' : '01E3',
-    'AEmacron' : '01E2',
-    'nbspace' : '00A0',
+    'dotlessj' : '0237',
+    'schwa' : '0259',
     'ymacron' : '0233',
+    # extended latin uc
+    'AEmacron' : '01E2',
+    'Schwa' : '018F',
     'Uppercaseeszett' : '1E9E',
     # ligatures
     'fi' : 'FB01',
     'fl' : 'FB02',
     # greek exceptions
-    'mu' : '00B5',
-    'Omega' : '2126',
     'Delta' : '2206',
+    'Deltagreek' : '0394',
+    'mu' : '00B5',
+    'mugreek' : '03BC',
+    'Omega' : '2126',
+    'Omegagreek' : '03A9',
     # superiors
     'zerosuperior' : '2070',
     'onesuperior' : '00B9',
@@ -194,11 +198,41 @@ unicodes_extra = {
     'eightinferior' : '2088',
     'nineinferior' : '2089',
     # spaces
+    'nbspace' : '00A0',
     'hairspace' : '200A',
     'thinspace' : '2009',
     'thickspace' : '2004',
     'figurespace' : '2007',
     'zerowidthspace' : '200B'
+    # symbols
+    'bulletoperator' : '2219',
+    # latin accented lc
+    'adotbelow' : '1EA1',
+    'aringacute' : '01FB',
+    'edotbelow' : '1EB9',
+    'etilde' : '1EBD',
+    'dotbelowcomb' : '0323',
+    'gcaron' : '01E7',
+    'idotbelow' : '1ECB',
+    'nhookleft' : '0272',
+    'odotbelow' : '1ECD',
+    'oogonek' : '01EB',
+    'udotbelow' : '1EE5',
+    'ymacron' : '0233',
+    'ytilde' : '1EF9',
+    # latin accented uc
+    'Adotbelow' : '1EA0',
+    'Aringacute' : '01FA',
+    'Edotbelow' : '1EB8',
+    'Etilde' : '1EBC',
+    'Gcaron' : '01E6',
+    'Idotbelow' : '1ECA',
+    'Nhookleft' : '019D',
+    'Odotbelow' : '1ECC',
+    'Udotbelow' : '1EE4',
+    'Oogonek' : '01EA',
+    'Ymacron' : '0232',
+    'Ytilde' : '1EF8',
 }
 
 #-------------------------------
