@@ -203,7 +203,7 @@ unicodes_extra = {
     'thinspace' : '2009',
     'thickspace' : '2004',
     'figurespace' : '2007',
-    'zerowidthspace' : '200B'
+    'zerowidthspace' : '200B',
     # symbols
     'bulletoperator' : '2219',
     # latin accented lc
