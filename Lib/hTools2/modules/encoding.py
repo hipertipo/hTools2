@@ -2,7 +2,7 @@
 
 '''Unicode tools, glyph name to hex/uni conversion etc.'''
 
-# reload when debugging
+# debug
 
 import hTools2
 reload(hTools2)
