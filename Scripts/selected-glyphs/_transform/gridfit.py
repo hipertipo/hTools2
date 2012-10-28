@@ -1,6 +1,6 @@
 # [h] fit to grid dialog
 
-# reload when debugging
+# debug
 
 import hTools2
 reload(hTools2)
@@ -9,7 +9,7 @@ if hTools2.DEBUG:
     import hTools2.dialogs
     reload(hTools2.dialogs)
 
-# imports
+# import
 
 from hTools2.dialogs import roundToGridDialog
 

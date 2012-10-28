@@ -85,7 +85,10 @@ class hProject:
             else:
                 self.libs[lib_name] = {}
         # import encoding
-        self.import_encoding()
+        try:
+            self.import_encoding()
+        except:
+            print 'no encoding file available.\n'
 
     def import_encoding(self):
         '''Import glyph groups, names and order from enc file into lib.'''
@@ -207,7 +210,15 @@ class hProject:
 
     def collect_fonts(self):
         '''Update the font names and file paths at `hProject.fonts`.'''
-        _font_paths = self.masters() + self.instances()
+        # collect font paths
+        _font_paths = []
+        _masters = self.masters()
+        if _masters is not None:
+            _font_paths += _masters
+        _instances = self.instances()
+        if _instances is not None:
+            _font_paths += _instances
+        # build fonts dict
         _fonts = {}
         if len(_font_paths) > 0:
             for font_path in _font_paths:

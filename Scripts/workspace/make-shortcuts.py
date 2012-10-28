@@ -25,7 +25,7 @@ _htools2_shortcuts = [
     (   'h',    'set width',        u'selected-glyphs/_metrics/set-width.py',          ),
     (   'i',    'interpolate',      u'selected-glyphs/_interpol/interpolate.py',       ),
     (   'k',    'mask',             u'selected-glyphs/_layers/mask.py',                ),
-    (   'l',    'set margins',      u'selected-glyphs/_metrics/set-margins.py',        ),
+    (   'l',    'copy to layer',    u'selected-glyphs/_layers/copy-to-layer.py',       ),
     (   'm',    'move',             u'selected-glyphs/_transform/move.py',             ),
     (   'o',    'copy to mask',     u'selected-glyphs/_layers/copy-to-mask.py',        ),
     (   'p',    'copy paste',       u'selected-glyphs/_actions/copy-paste.py',         ),
@@ -58,5 +58,5 @@ _hscripts_dict = build_shortcuts_dict(_hscripts_path, _hscripts_shortcuts)
 _shortcuts_dict = merge_shortcuts_dicts( [ _htools2_dict, _hscripts_dict ] )
 
 set_shortcuts(_shortcuts_dict)
-print_shortcuts()
+print_shortcuts(verbose=True)
 

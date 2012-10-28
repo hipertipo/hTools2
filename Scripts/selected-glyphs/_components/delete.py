@@ -1,6 +1,6 @@
 # [h] delete components
 
-# reload when debugging
+# debug
 
 import hTools2
 reload(hTools2)
@@ -18,20 +18,35 @@ except:
 
 from hTools2.modules.fontutils import get_glyphs
 
+# functions
+
+def decompose_glyph(glyph):
+    if len(glyph.components) > 0:
+        for component in glyph.components:
+            glyph.removeComponent(component)
+        glyph.update()
+
+# settings
+
+_foreground = True
+_layers = True
+
 # run
 
 f = CurrentFont()
 glyph_names = get_glyphs(f)
+layer_names = f.layerOrder
 
 if len(glyph_names) > 0:
     print 'deleting components in selected glyphs...',
     for glyph_name in glyph_names:
-        g = f[glyph_name]
-        if len(g.components) > 0:
-            for component in g.components:
-                # print '\tdeleting %s in %s...' % (component.baseGlyph, g.name)
-                g.removeComponent(component)
-        g.update()
+        if _foreground:
+            g = f[glyph_name]
+            decompose_glyph(g)
+        if _layers:
+            for layer_name in layer_names:
+                g = f[glyph_name].getLayer(layer_name)
+                decompose_glyph(g) 
     print 'done.\n'
 else:
     print 'please select a few glyphs first.\n'

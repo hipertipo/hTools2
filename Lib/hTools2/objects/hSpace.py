@@ -328,8 +328,7 @@ class hSpace:
                         dest_font[glyph_name].width += delta
                         # done
                         dest_font.save()
-                print
-                print
+                if verbose: print
         print '...done.\n'
 
     def shift_y(self, dest_height, gstring, transformations, verbose=True):
@@ -370,10 +369,9 @@ class hSpace:
                             # save
                             dest_font.save()
                 if verbose: print
-                print
         print '...done.\n'
 
-    def scale_glyphs(self, factor, gstring=None):
+    def scale_glyphs(self, factor, gstring=None, verbose=False):
         # get glyphs
         if gstring is None:
             glyph_names = self.project.all_glyphs()
@@ -386,19 +384,19 @@ class hSpace:
         for ufo_path in self.ufos():
             ufo = RFont(ufo_path, showUI=False)
             print '\tscaling %s by %s...' % (get_full_name(ufo), factor)
-            print '\t\t',
+            if verbose: print '\t\t',
             for glyph_name in glyph_names:
-                print glyph_name,
+                if verbose: print glyph_name,
                 leftMargin, rightMargin = ufo[glyph_name].leftMargin, ufo[glyph_name].rightMargin
                 ufo[glyph_name].scale((factor, factor))
                 ufo[glyph_name].leftMargin = leftMargin * factor
                 ufo[glyph_name].rightMargin = rightMargin * factor
             # done with font
-            print
+            if verbose: print
             ufo.save()
         print '\n...done.\n'
 
-    def move_glyphs(self, delta, gstring=None):
+    def move_glyphs(self, delta, gstring=None, verbose=False):
         # get glyphs
         if gstring is None:
             glyph_names = self.project.all_glyphs()
@@ -412,14 +410,14 @@ class hSpace:
         for ufo_path in self.ufos():
             ufo = RFont(ufo_path, showUI=False)
             print '\tmoving glyphs in %s by %s...' % (get_full_name(ufo), delta)
-            print '\t\t',
+            if verbose: print '\t\t',
             for glyph_name in glyph_names:
-                print glyph_name,
+                if verbose: print glyph_name,
                 ufo[glyph_name].move(delta)
             # done with font
-            print '\n'
             ufo.save()
-        print '\n...done.\n'
+            print
+        print '...done.\n'
 
     def create_fonts(self):
         print "batch creating fonts...\n"

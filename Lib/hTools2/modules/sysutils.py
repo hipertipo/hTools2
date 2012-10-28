@@ -48,12 +48,15 @@ if _ctx == 'RoboFont':
         '''Remove all current shorcuts.'''
         setScriptingMenuNamingShortKey({})
 
-    def print_shortcuts():
+    def print_shortcuts(verbose=False):
         '''Print all current shorcuts.'''
         _dict = getScriptingMenuNamingShortKey()
         for k in _dict:
             name, key = _dict[k]
-            print _dict[k][key], _dict[k][name], k, os.path.exists(k)
+            print _dict[k][key], _dict[k][name],
+            if verbose: print k, os.path.exists(k),
+            print
+        print
 
     def set_shortcuts(shortcuts_dict):
         '''Set RoboFont shortcuts from a dictionary.'''
@@ -61,12 +64,14 @@ if _ctx == 'RoboFont':
 
     def build_shortcuts_dict(path, shortcuts):
         '''Build a shortcuts dictionary with script paths, names and shortcut keys.'''
+        #---------------------------------------------
         #   shortcuts_dict = {
         #       u'/path/to/script.py': {
         #           'preferredName' : 'my script',
         #           'shortKey' : 'n',
         #       }
         #   }
+        #---------------------------------------------
         _shortcuts_dict = {}
         for shortcut in shortcuts:
             _key, _name, _file = shortcut
