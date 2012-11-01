@@ -42,7 +42,7 @@ def read_names_list_from_file(filepath):
     names_list = []
     for line in lines_raw:
         if line[:1] != '#':
-            old_name, new_name = line.split(' ')
+            old_name, new_name = line.split()
             old_name = old_name.strip()
             new_name = new_name.strip()
             names_list.append([old_name, new_name])

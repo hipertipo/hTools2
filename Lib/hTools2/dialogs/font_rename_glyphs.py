@@ -82,17 +82,25 @@ class batchRenameGlyphs(object):
                         "apply",
                         callback=self.apply_callback,
                         sizeStyle='small')
+            # default value for self.list_path
+            self.list_path = None
             # open window
             self.w.open()
 
     # callbacks
 
     def get_file_callback(self, sender):
-        self.list_path = getFile()[0]
+        returned_path = getFile()
+        if returned_path:
+            self.list_path = returned_path[0]
 
     def apply_callback(self, sender):
         _overwrite = self.w._overwrite.get()
         _mark = self.w._mark.get()
+        # the apply button was pressed before getting the list file
+        if not self.list_path:
+        	print 'please get a names list first.\n'
+        	return
         names_list = read_names_list_from_file(self.list_path)
         f = CurrentFont()
         if len(names_list) > 0:
