@@ -2,7 +2,7 @@
 
 '''Tools for working with colors, color system conversions etc.'''
 
-# reload when debugging
+# debug
 
 import hTools2
 reload(hTools2)
@@ -15,7 +15,7 @@ if hTools2.DEBUG:
     import hTools2.extras.colorsys
     reload(hTools2.extras.colorsys)
 
-# imports
+# import
 
 from random import random
 
@@ -62,7 +62,7 @@ def RGB_to_nodebox_color((R, G, B), ctx, alpha=1.0):
 # named colors
 
 named_colors = {
-    '''A dictionary with color names and RGBa values.''':'',
+    # A dictionary with color names and RGBa values.
     'red' : hsv_to_rgb(.0, 1, 1) + (1,),
     'orange' : hsv_to_rgb(.11, 1, 1) + (1,),
     'yellow' : hsv_to_rgb(.15, 1, 1) + (1,),

@@ -62,3 +62,35 @@ def move_anchors(glyph, anchor_names, (delta_x, delta_y)):
             anchor.move((delta_x, delta_y))
             glyph.update()
 
+def create_anchors(glyph, top=True, bottom=True, accent=False, top_delta=20, bottom_delta=20):
+    # make anchors list
+    anchor_names = []
+    if top:
+        anchor_names.append('top')
+    if bottom:
+        anchor_names.append('bottom')
+    # run
+    font = glyph.getParent()
+    has_anchor = False
+    anchors = []
+    # get existing anchors
+    if len(glyph.anchors) > 0 :
+        has_anchor = True
+        for a in glyph.anchors:
+            anchors.append(a.name)
+    # add only new anchors
+    x = glyph.width / 2
+    for anchor_name in anchor_names:
+        # add underscore if accent
+        if accent:
+            anchor_name = '_' + anchor_name
+        if anchor_name not in anchors:
+            # make anchor y-position
+            if anchor_name in [ 'top', '_top' ]:
+                y = font.info.xHeight + top_delta
+            else:
+                y = 0 - bottom_delta
+            # place anchor
+            glyph.appendAnchor(anchor_name, (x, y))
+    # done glyph
+    glyph.update()

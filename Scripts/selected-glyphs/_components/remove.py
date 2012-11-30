@@ -1,4 +1,4 @@
-# [h] delete components
+# [h] remove components
 
 # debug
 
@@ -38,7 +38,7 @@ glyph_names = get_glyphs(f)
 layer_names = f.layerOrder
 
 if len(glyph_names) > 0:
-    print 'deleting components in selected glyphs...',
+    print 'removing components in selected glyphs...',
     for glyph_name in glyph_names:
         if _foreground:
             g = f[glyph_name]

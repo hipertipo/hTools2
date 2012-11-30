@@ -208,8 +208,8 @@ class hFont:
         '''Print different kinds of font information.'''
         pass
 
-    def set_vmetrics(self):
-        print 'setting vertical metrics...'
+    def set_vmetrics(self, verbose=True):
+        if verbose: print 'setting vertical metrics...'
         # set_vmetrics(font, xheight, capheight, ascender, descender, emsquare, gridsize=1)
 
     def clear_info(self):

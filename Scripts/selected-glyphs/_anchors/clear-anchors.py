@@ -2,7 +2,7 @@
 
 '''delete all anchors in selected glyphs'''
 
-# reload when debugging
+# debug
 
 import hTools2
 reload(hTools2)
@@ -11,7 +11,7 @@ if hTools2.DEBUG:
     import hTools2.modules.fontutils
     reload(hTools2.modules.fontutils)
 
-# imports
+# import
 
 try:
     from mojo.roboFont import CurrentFont

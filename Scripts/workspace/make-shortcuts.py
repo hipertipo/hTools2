@@ -36,19 +36,19 @@ _htools2_shortcuts = [
     (   'w',    'skew',             u'selected-glyphs/_transform/skew.py',             ),
 ]
 
-# custom production scripts
+# custom scripts
 
 _hscripts_path = u'/_code/hScripts/'
 _hscripts_shortcuts = [
-    (   'b',    'build',            u'_objects/hGlyph/build.py',                ),
-    (   'z',    'rasterize',        u'_objects/hGlyph/rasterize.py',            ),
-    (   'j',    'spacing',          u'_objects/hFont/spacing.py',               ),
-    (   'g',    'generate',         u'_objects/hFont/generate.py',              ),
-    (   'u',    'groups',           u'_objects/hFont/groups.py',                ),
-    (   'e',    'element',          u'_objects/hFont/element.py',               ),
-    (   '7',    'outline fonts',    u'_objects/hProject/hires-fonts.py',        ),
-    (   '8',    'gridfonts',        u'_objects/hProject/lores-fonts.py',        ),
-    (   '9',    'roboproject',      u'_roboflight/roboproject.py',              ),
+    (   'b',    'build',            u'_objects/_hGlyph/build.py',                ),
+    (   'e',    'element',          u'_objects/_hFont/element.py',               ),
+    (   'j',    'spacing',          u'_objects/_hFont/spacing.py',               ),
+    (   'g',    'generate',         u'_objects/_hFont/generate.py',              ),
+    (   'u',    'groups',           u'_objects/_hFont/groups.py',                ),
+    (   'z',    'rasterize',        u'_objects/_hGlyph/rasterize.py',            ),
+    (   '7',    'outline fonts',    u'_objects/_hProject/hires-fonts.py',        ),
+    (   '8',    'gridfonts',        u'_objects/_hProject/lores-fonts.py',        ),
+    (   '9',    'batch project',    u'_objects/batch-project.py',                ),
 ]
 
 # run

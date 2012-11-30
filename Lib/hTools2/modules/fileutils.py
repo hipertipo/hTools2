@@ -1,6 +1,6 @@
 # [h] hTools2.modules.fileutils
 
-'''simple tools to walk directories, collect and delete files etc.'''
+'''Simple tools to walk directories, collect and delete files etc.'''
 
 # imports
 
@@ -54,7 +54,7 @@ def delete_files(files_list):
         os.remove(_file)
 
 def rename_file(filepath, new_name, overwrite=True, delete=True):
-    '''Rename a file or folder, and save it with the new name. The additional parameters `overwrite` and `delete` make it possible to overwrite existing files, and delete the old file/folder.'''
+    '''Rename a file or folder, and save it with the new name.'''
     _dir, _file = os.path.split(filepath)
     _ext = os.path.splitext(_file)[1]
     _new_file_name = new_name + _ext

@@ -277,7 +277,7 @@ class hProject:
                 f2 = RFont(master_2_path, showUI=False)
                 f3 = NewFont(showUI=False)
                 # interpolate
-                f3.interpolate((interpol_factor[0], interpol_factor[1]), f2, f1)
+                f3.interpolate((interpol_factor[0], interpol_factor[1]), f1, f2)
                 f3.update()
                 f1.close()
                 f2.close()

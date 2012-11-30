@@ -1,6 +1,6 @@
 # [h] generate hFont
 
-# reload when debugging
+# debug
 
 import hTools2
 reload(hTools2)
@@ -173,13 +173,15 @@ class generateFontDialog(object):
             _generated_otf = os.path.exists(otf_path)
             print '\tgeneration succesfull? %s' % boolstring2[_generated_otf]
             if _generated_otf:
-                print '\tgenerating .woff...'
-                font.generate_woff()
-                _generated_woff = os.path.exists(otf_path)
-                print '\tgeneration succesfull? %s' % boolstring2[_generated_woff]
-                if _generated_woff:
-                    print '\tuploading .woff to ftp...'
-                    font.upload_woff()
+                if self._generate_woff:
+                    print '\tgenerating .woff...'
+                    font.generate_woff()
+                    _generated_woff = os.path.exists(otf_path)
+                    print '\tgeneration succesfull? %s' % boolstring2[_generated_woff]
+                    if _generated_woff:
+                        if self._upload_woff:
+                            print '\tuploading .woff to ftp...'
+                            font.upload_woff()
             print
             print '...done.\n'
         else:
