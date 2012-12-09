@@ -117,6 +117,7 @@ class hLine:
     def draw(self, pos):
         '''Draw the glyphs in the NodeBox context.'''
         pen = NodeBoxPen(self.font.ufo, self.ctx, self.strokefont)
+        self.ctx.autoclosepath(False)
         self.x, self.y = pos
         line_length = 0
         self._text()
@@ -159,31 +160,9 @@ class hLine:
             # draw origin points
             if self.origin is True:
                 draw_cross((self.x, self.y), self.ctx, stroke_=self.guidelines_width, color_=self.guidelines_color)
-            #------------
-            # set stroke
-            #------------
-            self.ctx.autoclosepath(False)
-            if self.stroke:
-                self.ctx.strokewidth(self.stroke_width)
-                if self.stroke_color is None:
-                    self.ctx.stroke(1)
-                else:
-                    self.ctx.stroke(self.stroke_color)
-            else:
-                self.ctx.nostroke()
-            #----------------
-            # set fill color
-            #----------------
-            if self.fill:
-                if self.fill_color is None:
-                    self.ctx.fill(self.ctx.color(random(), random(), random()))
-                else:
-                    self.ctx.fill(self.fill_color)
-            else:
-                    self.ctx.nofill()
-            #------------
-            # draw glyph
-            #------------
+            #--------------
+            # get outlines
+            #--------------
             g = self.font.ufo[glyph_name]
             self.ctx.push()
             self.ctx.transform(mode=1)
@@ -192,13 +171,38 @@ class hLine:
             self.ctx.beginpath()
             g.draw(pen)
             p = self.ctx.endpath(draw=False)
-            # strokefont
-            if self.strokefont:
+            #----------------
+            # set fill color
+            #----------------
+            if self.fill:
+                self.ctx.autoclosepath(True)
+                if self.fill_color is None:
+                    self.ctx.fill(self.ctx.color(random(), random(), random()))
+                else:
+                    self.ctx.fill(self.fill_color)
+            else:
+                    self.ctx.nofill()
+            #------------
+            # set stroke
+            #------------
+            if self.stroke:
+                self.ctx.autoclosepath(False)
+                self.ctx.strokewidth(self.stroke_width)
+                if self.stroke_color is None:
+                    self.ctx.stroke(1)
+                else:
+                    self.ctx.stroke(self.stroke_color)
                 p = capstyle(p, self.line_cap)
                 p = joinstyle(p, self.line_join)
-            # draw path
+            else:
+                self.ctx.nostroke()
+            #---------------
+            # draw outlines
+            #---------------
             self.ctx.drawpath(p)
-            # strokepen
+            #--------------
+            # strokesetter
+            #--------------
             if self.strokepen:
                 self.strokesetter = StrokeSetter(self.ctx)
                 for k in self.stroke_parameters.keys():
