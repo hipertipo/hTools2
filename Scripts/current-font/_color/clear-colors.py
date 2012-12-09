@@ -1,6 +1,8 @@
 # [h] clear colors
 
-# reload when debugging
+'''Clear colors of all glyphs in font.'''
+
+# debug
 
 import hTools2
 reload(hTools2)

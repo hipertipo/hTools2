@@ -1,8 +1,8 @@
 # [h] batch generate otfs from folder
 
-'''a dialog to genenerate otfs for all ufo fonts in a folder'''
+'''Genenerate .otfs for all .ufo fonts in a folder.'''
 
-# reload when debugging
+# debug
 
 import hTools2
 reload(hTools2)

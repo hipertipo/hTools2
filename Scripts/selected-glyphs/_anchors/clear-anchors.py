@@ -1,6 +1,6 @@
 # [h] clear anchors
 
-'''delete all anchors in selected glyphs'''
+'''Delete all anchors in the selected glyphs.'''
 
 # debug
 

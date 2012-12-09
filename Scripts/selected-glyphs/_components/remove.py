@@ -1,5 +1,7 @@
 # [h] remove components
 
+'''Remove components in selected glyphs.'''
+
 # debug
 
 import hTools2
@@ -46,7 +48,7 @@ if len(glyph_names) > 0:
         if _layers:
             for layer_name in layer_names:
                 g = f[glyph_name].getLayer(layer_name)
-                decompose_glyph(g) 
+                decompose_glyph(g)
     print 'done.\n'
 else:
     print 'please select a few glyphs first.\n'

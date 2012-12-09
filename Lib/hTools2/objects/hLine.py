@@ -28,59 +28,42 @@ class hLine:
     # attributes
     #------------
 
-    # the NodeBox `context` object in which the glyphs and shapes are drawn
     ctx = None
-
-    # the parent `hFont` object containing the glyphs to be drawn
     font = None
-
-    # a list of glyph names to be drawn
     glyph_names = []
 
-    # scaling factor, a floating point number
     scale = .5
 
-    # turn fill on/off
     fill = True
-
-    # the fill color, a NodeBox `color` object
     fill_color = None
 
-    # the width of the stroke, in NodeBox units
+    strokefont = False
+    strokepen = False
     stroke_width = 1
-
-    # turn stroke on/off
     stroke = False
-
-    # the stroke color, a NodeBox `color` object
     stroke_color = None
+    strokepen_parameters = {}
 
-    # draw guidelines for horizontal metrics
     hmetrics = False
-
-    # crop height of guides for horizontal metrics yes/no
     hmetrics_crop = False
 
-    # draw anchors yes/no
     anchors = False
     anchors_size = 10
     anchors_stroke_width = 2
     anchors_stroke_color = None
 
-    # draw an additional mark in origin of each glyph
     origin = False
-
     vmetrics = False
     baseline = False
 
-    # the color of the guidelines, a NodeBox `color` object
-    color_guidelines = None
+    guidelines_color = None
+    guidelines_width = 3
 
-    # the style of the line ends
-    cap_style = 1
+    line_cap = 1
+    line_join = 1
 
-    # the style of the line joins
-    join_style = 1
+    text = 'hello world'
+    text_mode = 0
 
     #---------
     # methods
@@ -110,14 +93,14 @@ class hLine:
         gnames = t[1:]
         return gnames
 
-    def txt(self, _text, mode='text'):
+    def _text(self):
         '''Set the list `hLine.glyph_names` from the given `text` string.'''
-        # if `text` is a string, use `mode='text'`
-        # if `text` is a `gstring`, use `mode='gstring'`
-        if mode is 'gstring':
-            self.glyph_names = self._gstring_to_gnames(_text)
+        # normal string
+        if self.text_mode == 1:
+            self.glyph_names = self._gstring_to_gnames(self.text)
+        # gstring
         else:
-            self.glyph_names = self._text_to_gnames(_text)
+            self.glyph_names = self._text_to_gnames(self.text)
 
     def width(self):
         '''Return the width of the hLine object with the current settings.'''
@@ -133,23 +116,24 @@ class hLine:
 
     def draw(self, pos):
         '''Draw the glyphs in the NodeBox context.'''
-        pen = NodeBoxPen(self.font.ufo, self.ctx)
+        pen = NodeBoxPen(self.font.ufo, self.ctx, self.strokefont)
         self.x, self.y = pos
         line_length = 0
+        self._text()
         # draw baseline
         if self.baseline is True:
-            draw_horizontal_line(self.y, self.ctx, color_=self.color_guidelines)
+            draw_horizontal_line(self.y, self.ctx, stroke_=self.guidelines_width, color_=self.guidelines_color)
         # draw vmetrics
         if self.vmetrics is True:
             _xheight = self.font.ufo.info.xHeight * self.scale
             _descender = self.font.ufo.info.descender * self.scale
             _ascender = self.font.ufo.info.ascender * self.scale
             _capheight = self.font.ufo.info.capHeight * self.scale
-            draw_horizontal_line(self.y - _xheight, self.ctx, color_=self.color_guidelines)
-            draw_horizontal_line(self.y - _descender, self.ctx, color_=self.color_guidelines)
-            draw_horizontal_line(self.y - _ascender, self.ctx, color_=self.color_guidelines)
+            draw_horizontal_line(self.y - _xheight, self.ctx, stroke_=self.guidelines_width, color_=self.guidelines_color)
+            draw_horizontal_line(self.y - _descender, self.ctx, stroke_=self.guidelines_width, color_=self.guidelines_color)
+            draw_horizontal_line(self.y - _ascender, self.ctx, stroke_=self.guidelines_width, color_=self.guidelines_color)
             if _capheight != _ascender:
-                draw_horizontal_line(self.y - _capheight, self.ctx, color_=self.color_guidelines)
+                draw_horizontal_line(self.y - _capheight, self.ctx, stroke_=self.guidelines_width, color_=self.guidelines_color)
         count = 1
         for glyph_name in self.glyph_names:
             #-----------------
@@ -158,8 +142,8 @@ class hLine:
             # draw horizontal metrics
             if self.hmetrics is True:
                 # set guidelines color
-                if self.color_guidelines is None:
-                    self.color_guidelines = self.ctx.color(.3)
+                if self.guidelines_color is None:
+                    self.guidelines_color = self.ctx.color(.3)
                 # crop hmetrics guides
                 if self.hmetrics_crop is True:
                     y_min = self.font.ufo.info.descender * self.scale
@@ -167,17 +151,18 @@ class hLine:
                     y_range_ = (self.y - y_min, self.y - y_max)
                 else:
                     y_range_ = None
-                draw_vertical_line(self.x, self.ctx, y_range=y_range_, color_=self.color_guidelines)
+                draw_vertical_line(self.x, self.ctx, y_range=y_range_, stroke_=self.guidelines_width, color_=self.guidelines_color)
                 # if last glyph in line, draw right margin
                 if count == len(self.glyph_names):
                     _x = self.x + (self.font.ufo[glyph_name].width * self.scale)
-                    draw_vertical_line(_x, self.ctx, y_range=y_range_, color_=self.color_guidelines)
+                    draw_vertical_line(_x, self.ctx, y_range=y_range_, stroke_=self.guidelines_width, color_=self.guidelines_color)
             # draw origin points
             if self.origin is True:
-                draw_cross((self.x, self.y), self.ctx, color_=self.color_guidelines)
+                draw_cross((self.x, self.y), self.ctx, stroke_=self.guidelines_width, color_=self.guidelines_color)
             #------------
             # set stroke
             #------------
+            self.ctx.autoclosepath(False)
             if self.stroke:
                 self.ctx.strokewidth(self.stroke_width)
                 if self.stroke_color is None:
@@ -190,25 +175,36 @@ class hLine:
             # set fill color
             #----------------
             if self.fill:
-                if self.fill_color == None:
-                    self.ctx.nofill()
+                if self.fill_color is None:
+                    self.ctx.fill(self.ctx.color(random(), random(), random()))
                 else:
                     self.ctx.fill(self.fill_color)
+            else:
+                    self.ctx.nofill()
             #------------
             # draw glyph
             #------------
             g = self.font.ufo[glyph_name]
             self.ctx.push()
+            self.ctx.transform(mode=1)
             self.ctx.translate(self.x, self.y)
-            self.ctx.transform('CORNER')
             self.ctx.scale(self.scale)
             self.ctx.beginpath()
             g.draw(pen)
-            P = self.ctx.endpath(draw=False)
-            # set line properties
-            P = capstyle(P, self.cap_style)
-            P = joinstyle(P, self.join_style)
-            self.ctx.drawpath(P)
+            p = self.ctx.endpath(draw=False)
+            # strokefont
+            if self.strokefont:
+                p = capstyle(p, self.line_cap)
+                p = joinstyle(p, self.line_join)
+            # draw path
+            self.ctx.drawpath(p)
+            # strokepen
+            if self.strokepen:
+                self.strokesetter = StrokeSetter(self.ctx)
+                for k in self.stroke_parameters.keys():
+                    setattr(self.strokesetter, k, self.stroke_parameters[k])
+                self.strokesetter.draw(p, self.scale)
+            # done glyph
             self.ctx.pop()
             #--------------
             # draw anchors
@@ -220,7 +216,6 @@ class hLine:
                         x = self.x + (a.position[0] * self.scale)
                         y = self.y - (a.position[1] * self.scale)
                         draw_cross((x, y), self.ctx, size_=self.anchors_size, stroke_=self.anchors_stroke_width, color_=self.anchors_stroke_color)
-
             # done
             line_length += (g.width * self.scale)
             self.x += (g.width * self.scale)

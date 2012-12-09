@@ -1,6 +1,8 @@
 # [h] transfer anchors dialog
 
-# reload when debugging
+'''Transfer anchors in selected glyphs from one font to another.'''
+
+# debug
 
 import hTools2
 reload(hTools2)

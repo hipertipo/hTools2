@@ -1,4 +1,6 @@
-# [h] : close all open fonts
+# [h] close all fonts
+
+'''Close all open fonts.'''
 
 all_fonts = AllFonts()
 

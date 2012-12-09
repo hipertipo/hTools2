@@ -63,6 +63,7 @@ def move_anchors(glyph, anchor_names, (delta_x, delta_y)):
             glyph.update()
 
 def create_anchors(glyph, top=True, bottom=True, accent=False, top_delta=20, bottom_delta=20):
+    '''Create `top` and `bottom` anchors at relative positions.'''
     # make anchors list
     anchor_names = []
     if top:

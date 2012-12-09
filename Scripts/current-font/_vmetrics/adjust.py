@@ -1,6 +1,8 @@
 # [h] adjust vertical metrics
 
-# reload when debugging
+'''Adjust vertical metrics interactvely with sliders.'''
+
+# debug
 
 import hTools2
 reload(hTools2)

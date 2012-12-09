@@ -1,6 +1,8 @@
 # [h] paint and arrange groups
 
-# reload when debugging
+'''Paint each group of glyphs in the font with a different color.'''
+
+# debug
 
 import hTools2
 reload(hTools2)

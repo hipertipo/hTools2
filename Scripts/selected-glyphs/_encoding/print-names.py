@@ -1,6 +1,8 @@
 # [h] print selected glyphs
 
-# reload when debugging
+'''Print the names of the selected glyphs as plain text or Python list..'''
+
+# debug
 
 import hTools2
 reload(hTools2)
@@ -18,7 +20,14 @@ except:
 
 from hTools2.modules.fontutils import print_selected_glyphs
 
+# settings
+
+# mode=0 : list of Python strings
+# mode=1 : plain list with linebreaks
+
+_mode = 0
+
 # run
 
 font = CurrentFont()
-print_selected_glyphs(font, mode=0)
+print_selected_glyphs(font, mode=_mode)

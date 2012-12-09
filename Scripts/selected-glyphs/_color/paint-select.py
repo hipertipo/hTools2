@@ -1,6 +1,8 @@
-# [h] paint and select glyphs by color
+# [h] paint and select
 
-# reload when debugging
+'''Paint selected glyphs and select glyphs by color.'''
+
+# debug
 
 import hTools2
 reload(hTools2)

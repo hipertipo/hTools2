@@ -57,9 +57,7 @@ def get_glyphs(font, mode=0):
         return _glyphs
 
 def print_selected_glyphs(f, mode=1):
-    '''Print the selected glyphs to the output window.
-    Two different modes are supported: `mode=0` prints the glyph names as a list of Python strings, while `mode=1` prints the glyph names as a plain list (with linebreaks).
-    '''
+    '''Print the selected glyphs to the output window.'''
     gNames = f.selection
     # mode 1 : plain gNames list
     if mode == 1:

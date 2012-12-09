@@ -1,6 +1,8 @@
-# [h] delete mask layer in current font
+# [h] delete mask
 
-# reload when debugging
+'''Delete mask layer in current font.'''
+
+# debug
 
 import hTools2
 reload(hTools2)

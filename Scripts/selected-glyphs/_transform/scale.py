@@ -1,6 +1,8 @@
 # [h] scale glyphs dialog
 
-# reload when debugging
+'''Scale selected glyphs by a given factor.'''
+
+# debug
 
 import hTools2
 reload(hTools2)

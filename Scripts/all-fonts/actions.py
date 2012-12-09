@@ -1,8 +1,23 @@
 # [h] transform all open fonts
 
+'''Apply selected actions to all open fonts.'''
+
+# debug
+
+import hTools2
+reload(hTools2)
+
+if hTools2.DEBUG:
+    import hTools2.modules.fontutils
+    reload(hTools2.modules.fontutils)
+
+# import
+
 from vanilla import *
 
 from hTools2.modules.fontutils import *
+
+# dialog
 
 class actionsDialog(object):
 
@@ -21,7 +36,7 @@ class actionsDialog(object):
     _overlaps = True
     _extremes = False
     _save = False
-    _close = False    
+    _close = False
 
     def __init__(self):
         self.w = FloatingWindow(
@@ -189,7 +204,7 @@ class actionsDialog(object):
                 print '\t...done.\n'
             self.w.bar.stop()
             print '...done.\n'
-        # no font open 
+        # no font open
         else:
             print 'please open a font.\n'
 

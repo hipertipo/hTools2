@@ -1,6 +1,8 @@
-# [h] copy side-bearings between fonts
+# [h] copy side-bearings
 
-# reload when debugging
+'''Copy side-bearings in selected glyphs from one font to another.'''
+
+# debug
 
 import hTools2
 reload(hTools2)

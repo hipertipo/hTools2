@@ -1,6 +1,8 @@
-# [h] copy selected glyphs to layer
+# [h] copy to layer
 
-# reload when debugging
+'''Copy selected glyphs to a given layer.'''
+
+# debug
 
 import hTools2
 reload(hTools2)

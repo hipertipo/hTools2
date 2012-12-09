@@ -1,6 +1,6 @@
 # [h] gridfit dialog
 
-# reload when debugging
+# debug
 
 import hTools2
 reload(hTools2)

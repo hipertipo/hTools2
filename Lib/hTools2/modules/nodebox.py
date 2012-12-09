@@ -2,6 +2,21 @@
 
 '''A few utilities and objects for working with fonts in Nodebox.'''
 
+# debug
+
+import hTools2
+reload(hTools2)
+
+if hTools2.DEBUG:
+
+    import hTools2.modules.pens
+    reload(hTools2.modules.pens)
+
+    import hTools2.modules.encoding
+    reload(hTools2.modules.encoding)
+
+# imports
+
 from random import random
 
 from AppKit import NSFontManager
@@ -225,3 +240,83 @@ def make_alpha(res):
 def local_fonts():
     return NSFontManager.sharedFontManager().availableFonts()
 
+#--------------
+# stroke tools
+#--------------
+
+class StrokeSetter:
+
+    pen_w = 100
+    pen_h = 40
+    rotation = 0.0
+
+    mode = 0
+    steps = 100
+    distance = 200.0
+
+    stroke = False
+    stroke_width = 10
+    stroke_color = None
+    stroke_alpha = 1.0
+
+    fill = True
+    fill_mode = 0
+    fill_color = None
+    fill_alpha = .7
+
+    def __init__(self, ctx):
+        self.ctx = ctx
+        self.fill_color = self.ctx.color(0, 1, 0)
+        self.stroke_color = self.ctx.color(0, 0, 1)
+
+    def draw(self, path, scale=1):
+        if len(path) > 0:
+            count = 0
+            # mode 0: fixed distance
+            if self.mode == 0:
+                _steps = int(path.length / self.distance)
+            # mode 1: fixed amount
+            else:
+                _steps = self.steps
+            # draw path
+            color_step = 1.00 / _steps
+            self.ctx.strokewidth(self.stroke_width)
+            self.ctx.stroke(.5)
+            for pt in path.points(_steps):
+                self.ctx.push()
+                self.ctx.transform(mode=2)
+                self.ctx.rotate(self.rotation)
+                _color_var = count * color_step
+                # set stroke
+                if self.stroke:
+                    self.ctx.strokewidth(self.stroke_width)
+                    if self.stroke_mode == 0:
+                        _stroke_color = self.ctx.color(self.stroke_color)
+                    else:
+                        _stroke_color = self.ctx.color(1, 0, _color_var)
+                    _stroke_color.alpha = self.stroke_alpha
+                    self.ctx.stroke(_stroke_color)
+                else:
+                    self.ctx.nostroke()
+                # set fill
+                if self.fill:
+                    if self.fill_mode == 0:
+                        _fill_color = self.ctx.color(self.fill_color)
+                    else:
+                        _fill_color = self.ctx.color(1, 0, _color_var)
+                    _fill_color.alpha = self.fill_alpha
+                    self.ctx.fill(_fill_color)
+                else:
+                    self.ctx.nofill()
+                # draw shape
+                _x = (pt.x  * scale) - (self.pen_w/2)
+                _y = (pt.y  * scale) - (self.pen_h/2)
+                _w = self.pen_w
+                _h = self.pen_h
+                self.ctx.oval(_x, _y, _w, _h)
+                # done
+                count += 1
+                self.ctx.pop()
+        else:
+            # print 'path has no length'
+            pass

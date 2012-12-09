@@ -1,6 +1,8 @@
 # [h] print groups in different formats
 
-# reload when debugging
+'''Print glyph groups as text in different formats.'''
+
+# debug
 
 import hTools2
 reload(hTools2)

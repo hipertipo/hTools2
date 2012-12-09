@@ -1,6 +1,8 @@
-# [h] batch convert .otfs to .ufos dialog
+# [h] convert otfs to ufos
 
-# reload when debugging
+'''Convert all .otf fonts in a folder into .ufo.'''
+
+# debug
 
 import hTools2
 reload(hTools2)

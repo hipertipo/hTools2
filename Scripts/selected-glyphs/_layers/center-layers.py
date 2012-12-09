@@ -1,6 +1,8 @@
 # [h] center layers
 
-# reload when debugging
+'''Center all layers in selected glyphs.'''
+
+# debug
 
 import hTools2
 reload(hTools2)

@@ -37,8 +37,9 @@ class NodeBoxPen(BasePen):
 
     '''A pen to draw a glyph on a NodeBox canvas.'''
 
-    def __init__(self, glyphSet, context):
+    def __init__(self, glyphSet, context, strokefont=False):
         self.ctx = context
+        self.strokefont = strokefont
         BasePen.__init__(self, glyphSet)
 
     def _moveTo(self, pt):
@@ -56,4 +57,5 @@ class NodeBoxPen(BasePen):
         self.ctx.curveto(x1, -y1, x2, -y2, x3, -y3)
 
     def _closePath(self):
-        self.ctx.closepath()
+        if self.strokefont is False:
+            self.ctx.closepath()

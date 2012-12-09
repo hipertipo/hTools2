@@ -1,5 +1,7 @@
 # [h] fit to grid dialog
 
+'''Round different glyph features to a given grid.'''
+
 # debug
 
 import hTools2

@@ -1,6 +1,6 @@
 # [h] create anchors
 
-'''create anchors in selected glyphs'''
+'''Create `top` and `bottom` anchors in selected glyphs.'''
 
 # debug
 
