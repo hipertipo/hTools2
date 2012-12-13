@@ -22,7 +22,7 @@ from hTools2.modules.nodebox import *
 
 class hLine:
 
-    '''An object to make it easier to typeset simple test strings of .ufos in NodeBox.'''
+    '''An object to typeset simple test strings of .ufos in NodeBox.'''
 
     #------------
     # attributes
@@ -37,27 +37,28 @@ class hLine:
     fill = True
     fill_color = None
 
+    stroke = False
+    stroke_width = 1
+    stroke_color = None
+
     strokefont = False
     strokepen = False
-    stroke_width = 1
-    stroke = False
-    stroke_color = None
     strokepen_parameters = {}
 
     hmetrics = False
     hmetrics_crop = False
 
-    anchors = False
-    anchors_size = 10
-    anchors_stroke_width = 2
-    anchors_stroke_color = None
-
     origin = False
     vmetrics = False
     baseline = False
 
+    guidelines_width = 1
     guidelines_color = None
-    guidelines_width = 3
+
+    anchors = False
+    anchors_size = 10
+    anchors_width = guidelines_width
+    anchors_color = None
 
     line_cap = 1
     line_join = 1
@@ -69,10 +70,12 @@ class hLine:
     # methods
     #---------
 
-    def __init__(self, ufo, context):
-        self.ctx = context
+    def __init__(self, ufo, ctx):
+        '''Initiate the `hLine` object from a .ufo font and a NodeBox context.'''
+        self.ctx = ctx
         self.font = hFont(ufo)
         self.glyph_names = []
+        self.guidelines_color = self.anchors_color = self.ctx.color(.3)
 
     def _text_to_gnames(self, txt):
         '''Convert a given character stream `text` into a list of glyph names, and returns the list.'''
@@ -142,9 +145,6 @@ class hLine:
             #-----------------
             # draw horizontal metrics
             if self.hmetrics is True:
-                # set guidelines color
-                if self.guidelines_color is None:
-                    self.guidelines_color = self.ctx.color(.3)
                 # crop hmetrics guides
                 if self.hmetrics_crop is True:
                     y_min = self.font.ufo.info.descender * self.scale
@@ -219,7 +219,7 @@ class hLine:
                     for a in g.anchors:
                         x = self.x + (a.position[0] * self.scale)
                         y = self.y - (a.position[1] * self.scale)
-                        draw_cross((x, y), self.ctx, size_=self.anchors_size, stroke_=self.anchors_stroke_width, color_=self.anchors_stroke_color)
+                        draw_cross((x, y), self.ctx, size_=self.anchors_size, stroke_=self.anchors_width, color_=self.anchors_color)
             # done
             line_length += (g.width * self.scale)
             self.x += (g.width * self.scale)

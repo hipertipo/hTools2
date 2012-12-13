@@ -1,6 +1,6 @@
 # [h] convert otfs to ufos
 
-'''Convert all .otf fonts in a folder into .ufo.'''
+'''Convert all otf fonts in a folder into ufos.'''
 
 # debug
 

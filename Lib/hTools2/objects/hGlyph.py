@@ -1,4 +1,4 @@
-# [h] hGlyph
+# [h] hTools2.objects.hglyph
 
 # objects
 

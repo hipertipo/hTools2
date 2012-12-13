@@ -84,41 +84,37 @@ def draw_cross((x, y), ctx, size_=10, stroke_=None, color_=None):
 # grid tools
 #------------
 
-def draw_grid(ctx, pos=(0,0), size_=1, stroke_=None, color_=None, mode='lines'):
+def draw_grid(ctx, pos=(0,0), size=1, stroke=None, color=None, mode=0):
     '''Draws a grid in `context`. The optional parameters `pos` and `size` control the start of the grid and the size of the grid cells.'''
     x, y = pos
-    w = ctx.HEIGHT / size_
-    h = ctx.WIDTH / size_
+    w = ctx.HEIGHT / size
+    h = ctx.WIDTH / size
     _stroke = 1
     _color = ctx.color(.5)
-    if stroke_ is not None:
-        _stroke = stroke_
-    if color_ is not None:
-        _color = color_
-    # draw lines
-    if mode == 'lines':
-        ctx.stroke(_color)
-        ctx.strokewidth(_stroke)
+    if stroke is not None:
+        _stroke = stroke
+    if color is not None:
+        _color = color
+    # mode 0: lines
+    if mode == 0:
+        ctx.stroke(color)
+        ctx.strokewidth(stroke)
         ctx.fill(None)
         for i in range(int(w)):
             ctx.line(0, y + .5, ctx.WIDTH, y + .5)
-            y += size_
+            y += size
         for j in range(int(h)):
             ctx.line(x + .5, 0, x + .5, ctx.HEIGHT)
-            x += size_
-    # draw dots
-    elif mode == 'dots':
+            x += size
+    # mode 1: dots
+    else:
         ctx.nostroke()
-        ctx.fill(_color)
+        ctx.fill(color)
         for i in range(int(w)):
             for j in range(int(h)):
-                _x = x + (i * size_)
-                _y = y + (j * size_)
+                _x = x + (i * size)
+                _y = y + (j * size)
                 ctx.rect(_x, _y, 1, 1)
-    # mode not supported
-    else:
-        print 'mode %s not supported' % mode
-
 
 def gridfit((x, y), grid):
     '''Takes a tuple `(x,y)` and a grid size `grid`, and returns new rounded values for `(x,y)`.'''
@@ -190,7 +186,7 @@ def all_glyphs(groups, spacer=None):
             all_glyphs += make_string(glyph_names_list, spacer)
     return all_glyphs
 
-def draw_glyph(glyph_name, ufo_path, (x, y), context, _color=None, _scale=1):
+def draw_glyph(glyph_name, ufo_path, (x, y), context, _color=None, _scale=1.0):
     '''Draws the glyph with `name` from the font in `ufo_path` at position `(x,y)` in `context`.'''
     _ufo = RFont(ufo_path)
     _pen = NodeBoxPen(_ufo._glyphSet, context)
@@ -201,15 +197,15 @@ def draw_glyph(glyph_name, ufo_path, (x, y), context, _color=None, _scale=1):
     context.stroke(None)
     if _color is not None:
         context.fill(_color)
-    g = _ufo[glyph_name]
+    glyph = _ufo[glyph_name]
     context.push()
     context.transform(mode='CORNER')
     context.translate(x, y)
     context.scale(_scale)
     context.beginpath()
-    g.draw(_pen)
-    P = context.endpath(draw=False)
-    context.drawpath(P)
+    glyph.draw(_pen)
+    path = context.endpath(draw=False)
+    context.drawpath(path)
     context.pop()
 
 def glyph_metrics(gName, ufo_path, (x, y), _scale=1, _print=False):
@@ -248,6 +244,7 @@ class StrokeSetter:
 
     pen_w = 100
     pen_h = 40
+    pen_shape = 0
     rotation = 0.0
 
     mode = 0
@@ -264,8 +261,12 @@ class StrokeSetter:
     fill_color = None
     fill_alpha = .7
 
+    fill_start = 0.0
+    fill_factor = 1.0
+
     def __init__(self, ctx):
         self.ctx = ctx
+        self.colors = ctx.ximport('colors')
         self.fill_color = self.ctx.color(0, 1, 0)
         self.stroke_color = self.ctx.color(0, 0, 1)
 
@@ -279,7 +280,10 @@ class StrokeSetter:
             else:
                 _steps = self.steps
             # draw path
-            color_step = 1.00 / _steps
+            try:
+                color_step = 1.00 / _steps
+            except:
+                color_step = .01
             self.ctx.strokewidth(self.stroke_width)
             self.ctx.stroke(.5)
             for pt in path.points(_steps):
@@ -292,6 +296,9 @@ class StrokeSetter:
                     self.ctx.strokewidth(self.stroke_width)
                     if self.stroke_mode == 0:
                         _stroke_color = self.ctx.color(self.stroke_color)
+                    elif self.stroke_mode == 2:
+                        c = self.stroke_start + (_color_var * self.stroke_factor)
+                        _stroke_color = self.colors.hsb(c, 1, 1)
                     else:
                         _stroke_color = self.ctx.color(1, 0, _color_var)
                     _stroke_color.alpha = self.stroke_alpha
@@ -302,6 +309,9 @@ class StrokeSetter:
                 if self.fill:
                     if self.fill_mode == 0:
                         _fill_color = self.ctx.color(self.fill_color)
+                    elif self.fill_mode == 2:
+                        c = self.fill_start + (_color_var * self.fill_factor)
+                        _fill_color = self.colors.hsb(c, 1, 1)
                     else:
                         _fill_color = self.ctx.color(1, 0, _color_var)
                     _fill_color.alpha = self.fill_alpha
@@ -313,7 +323,10 @@ class StrokeSetter:
                 _y = (pt.y  * scale) - (self.pen_h/2)
                 _w = self.pen_w
                 _h = self.pen_h
-                self.ctx.oval(_x, _y, _w, _h)
+                if self.pen_shape == 1:
+                    self.ctx.rect(_x, _y, _w, _h)
+                else:
+                    self.ctx.oval(_x, _y, _w, _h)
                 # done
                 count += 1
                 self.ctx.pop()

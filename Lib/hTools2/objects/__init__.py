@@ -3,7 +3,7 @@
 import hTools2
 reload(hTools2)
 
-# reload when debugging
+# debug
 
 if hTools2.DEBUG:
 

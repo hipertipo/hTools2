@@ -1,6 +1,6 @@
 # [h] genenerate all open fonts
 
-'''Genenerate otf for all open fonts.'''
+'''Genenerate otfs for all open fonts.'''
 
 # debug
 
