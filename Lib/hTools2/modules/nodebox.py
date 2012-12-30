@@ -176,6 +176,7 @@ def make_string_names(names_list, spacer=None):
     return _glyph_names
 
 def all_glyphs(groups, spacer=None):
+    '''Returns a string with all glyphs in the given groups dict.'''
     all_glyphs = ""
     skip = ['invisible']
     for group_name in groups.keys():

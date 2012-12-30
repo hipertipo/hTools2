@@ -38,7 +38,7 @@ _htools2_shortcuts = [
 
 # custom scripts
 
-_hscripts_path = u'/_code/hScripts/'
+_hscripts_path = u'/_code/hTools2_scripts/'
 _hscripts_shortcuts = [
     (   'b',    'build',            u'_objects/_hGlyph/build.py',                ),
     (   'e',    'element',          u'_objects/_hFont/element.py',               ),
@@ -59,4 +59,3 @@ _shortcuts_dict = merge_shortcuts_dicts( [ _htools2_dict, _hscripts_dict ] )
 
 set_shortcuts(_shortcuts_dict)
 print_shortcuts(verbose=True)
-

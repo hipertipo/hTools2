@@ -79,3 +79,8 @@ def rename_file(filepath, new_name, overwrite=True, delete=True):
             os.remove(filepath)
     print '...done.\n'
 
+def prepend_zeros(number, length):
+    '''Add padding with zeros before number for sorting.'''
+    _number = str(number)
+    _padding = length - len(_number)
+    return '%s%s' % ('0' * _padding, _number)

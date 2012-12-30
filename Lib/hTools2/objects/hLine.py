@@ -45,12 +45,12 @@ class hLine:
     strokepen = False
     strokepen_parameters = {}
 
-    hmetrics = False
-    hmetrics_crop = False
-
     origin = False
     vmetrics = False
     baseline = False
+
+    hmetrics = False
+    hmetrics_crop = False
 
     guidelines_width = 1
     guidelines_color = None
@@ -60,10 +60,18 @@ class hLine:
     anchors_width = guidelines_width
     anchors_color = None
 
+    # 0 : butt
+    # 1 : round
+    # 2 : square
     line_cap = 1
+    # 0 : miter
+    # 1 : round
+    # 2 : bevel
     line_join = 1
 
     text = 'hello world'
+    # mode 0 : string
+    # mode 1 : gstring
     text_mode = 0
 
     #---------
@@ -80,9 +88,13 @@ class hLine:
     def _text_to_gnames(self, txt):
         '''Convert a given character stream `text` into a list of glyph names, and returns the list.'''
         gnames = []
-        for char in txt:
-            gname = unicode2psnames[ord(char)]
-            gnames.append(gname)
+        try:
+            for char in txt:
+                gname = unicode2psnames[ord(char)]
+                gnames.append(gname)
+        except:
+            # print 'glyph not supported'
+            pass
         return gnames
 
     def _gnames_to_gstring(self, gnames):
