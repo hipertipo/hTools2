@@ -10,7 +10,7 @@ setup(name="hTools2",
     author="Gustavo Ferreira",
     author_email="gustavo@hipertipo.com",
     url="http://hipertipo.com/",
-    license="MIT",
+    license="BSD3",
     packages=["hTools2"],
     package_dir={"":"Lib"}
 )
