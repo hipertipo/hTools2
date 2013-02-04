@@ -2,7 +2,7 @@
 
 from distutils.core import setup
 
-# check for robofab / vanilla / mojo
+# check for robofab / vanilla / mojo ?
 
 setup(name="hTools2",
     version="1.5",
@@ -12,5 +12,5 @@ setup(name="hTools2",
     url="http://hipertipo.com/",
     license="BSD3",
     packages=["hTools2"],
-    package_dir={"":"Lib"}
+    package_dir={"hTools2":"Lib"}
 )

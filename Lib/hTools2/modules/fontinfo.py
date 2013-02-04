@@ -44,9 +44,11 @@ def set_font_names(font, family_name, style_name):
     font.info.macintoshFONDFamilyID = None
     font.info.macintoshFONDName = None
 
-def set_names_from_path(font):
+def set_names_from_path(font, prefix=None):
     '''Set the font naming fields using parts of the name of the font file.'''
     family_name, style_name = get_names_from_path(font.path)
+    if prefix:
+        family_name = prefix + ' ' + family_name
     set_font_names(font, family_name, style_name)
 
 def set_vmetrics(font, xheight, capheight, ascender, descender, emsquare, gridsize=1):

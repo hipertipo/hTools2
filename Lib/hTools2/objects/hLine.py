@@ -10,13 +10,18 @@ if hTools2.DEBUG:
     import hfont
     reload(hfont)
 
-    import hTools2.modules.nodebox
-    reload(hTools2.modules.nodebox)
+    import hTools2.modules.pens
+    reload(hTools2.modules.pens)
+
+    import progvis.modules.nodebox
+    reload(progvis.modules.nodebox)
 
 # imports
 
 from hfont import hFont
-from hTools2.modules.nodebox import *
+from hTools2.modules.pens import NodeBoxPen
+
+from progvis.modules.nodebox import *
 
 # objects
 

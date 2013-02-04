@@ -1,6 +1,8 @@
 # [h] hFont
 
+#-------
 # debug
+#-------
 
 import hTools2
 reload(hTools2)
@@ -22,30 +24,42 @@ if hTools2.DEBUG:
     import hTools2.modules.ftp
     reload(hTools2.modules.ftp)
 
-# imports
+    import hTools2.modules.color
+    reload(hTools2.modules.color)
+
+#--------
+# import
+#--------
 
 import os
 
 from hproject import hProject
 from hTools2.modules.encoding import paint_groups, auto_unicodes
-from hTools2.modules.fontutils import set_font_names
+from hTools2.modules.fontutils import set_font_names, get_spacing_groups, delete_groups
 from hTools2.modules.fontinfo import set_names_from_path
+from hTools2.modules.color import clear_colors, hls_to_rgb
 from hTools2.modules.ftp import *
 
+#---------
 # objects
+#---------
 
 class hFont:
 
     '''An object to represent a .ufo font source, wrapped in a few useful functions.'''
 
+    #------------
     # attributes
+    #------------
 
     project = None
     ufo = None
     file_name = None
     style_name = None
 
+    #---------
     # methods
+    #---------
 
     def __init__(self, ufo):
         self.ufo = ufo
@@ -70,13 +84,20 @@ class hFont:
             self.parameters = dict(zip(parameters_order, name_parameters))
         except:
             self.parameters = {}
+            '''Delete all groups in font.'''
             # print 'there is no parameters lib for this font.\n'
 
     def auto_unicodes(self):
         '''Automatically set unicodes for all glyphs in the font.'''
         auto_unicodes(self.ufo)
 
+    #-------------------
     # groups and glyphs
+    #-------------------
+
+    def clear_groups(self):
+        '''Delete all groups in font.'''
+        delete_groups(self.ufo)
 
     def order_glyphs(self):
         '''Automatically set the order of the glyphs in the font.'''
@@ -136,7 +157,7 @@ class hFont:
                         self.ufo[glyph_name].update()
                     else:
                         if verbose:
-                            print '%s not in font' % glyph_name
+                            print '\t\t%s not in font' % glyph_name
                 count += 1
             self.ufo.update()
             if verbose:
@@ -182,7 +203,7 @@ class hFont:
 
     def set_names(self):
         '''Set font names from the ufo file name.'''
-        set_names_from_path(self.ufo)
+        set_names_from_path(self.ufo, prefix='HPTP')
 
     def name_from_parameters(self, separator=''):
         '''Set font names from parameters lib.'''
