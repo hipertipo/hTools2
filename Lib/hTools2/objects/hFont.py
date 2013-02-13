@@ -93,7 +93,6 @@ class hFont:
 
     #-------------------
     # groups and glyphs
-    #-------------------
 
     def clear_groups(self):
         '''Delete all groups in font.'''

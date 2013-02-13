@@ -30,9 +30,7 @@ from hTools2.modules.fontutils import crop_glyphset
 # functions
 
 def import_encoding(file_path):
-    '''Import group and glyphs names from an `.enc` file.
-    Return a dictionary with glyph groups, and a list with the order of the groups.
-    '''
+    '''Import group and glyphs names from an `.enc` file. Return a dictionary with glyph groups, and a list with the order of the groups.'''
     if os.path.exists(file_path):
         lines = open(file_path, 'r').readlines()
         groups = {}
@@ -71,9 +69,7 @@ def auto_unicodes(f):
     f.update()
 
 def paint_groups(f, crop=False):
-    '''Paint the glyphs in the `font` according to their groups.
-    If a `groups_order` lib is available, use it to set the order of the glyphs in the font.
-    '''
+    '''Paint the glyphs in the `font` according to their groups. If a `groups_order` lib is available, use it to set the order of the glyphs in the font.'''
     font = CurrentFont()
     if len(f.groups) > 0:
         clear_colors(f)
@@ -106,9 +102,7 @@ def paint_groups(f, crop=False):
 #-------------------
 
 def auto_unicode(g):
-    '''Automatically set unicode value(s) for the specified glyph.
-    The method uses RoboFab's `glyph.autoUnicodes()` function for common glyphs, and complements it with additional values from `unicodes_extra`.
-    '''
+    '''Automatically set unicode value(s) for the specified glyph. The method uses RoboFab's `glyph.autoUnicodes()` function for common glyphs, and complements it with additional values from `unicodes_extra`.'''
     # handle 'uni' names
     if g.name[:3] == "uni" and len(g.name) == 7:
         c = g.name
@@ -168,6 +162,9 @@ unicodes_extra = {
     # ligatures
     'fi' : 'FB01',
     'fl' : 'FB02',
+    'f_f' : 'FB00',
+    'f_f_i' : 'FB03',
+    'f_f_l' : 'FB04',
     # greek exceptions
     'Delta' : '2206',
     'Deltagreek' : '0394',
@@ -240,7 +237,7 @@ unicodes_extra = {
 #-------------------------------
 
 # a dictionary mapping unicode values to psNames
-# thanks Frederik Berlaen (2007)
+# thanks to Frederik Berlaen (2007)
 
 unicode2psnames = {
     None : '.notdef',
