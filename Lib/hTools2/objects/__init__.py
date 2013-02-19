@@ -22,9 +22,6 @@ if hTools2.DEBUG:
     import hfont
     reload(hfont)
 
-    import hline
-    reload(hline)
-
     import hglyph
     reload(hglyph)
 
@@ -38,7 +35,6 @@ from hworld import hWorld
 from hproject import hProject
 from hspace import hSpace
 from hfont import hFont
-from hline import hLine
 from hglyph import hGlyph
 from hdocs import hDocs
 
@@ -50,7 +46,6 @@ __all__ = [
     'hProject',
     'hSpace',
     'hFont',
-    'hLine',
     'hGlyph',
     'hDocs',
 ]

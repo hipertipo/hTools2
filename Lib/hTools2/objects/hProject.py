@@ -288,7 +288,7 @@ class hProject:
         # instance not in lib
         else:
             if verbose:
-                print 'instance not in interpol lib.\n'
+                print '%s is not an instance.\n' % instance_name
 
     # conversion
 

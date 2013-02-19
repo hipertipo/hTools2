@@ -75,7 +75,7 @@ if _ctx == 'RoboFont':
         _shortcuts_dict = {}
         for shortcut in shortcuts:
             _key, _name, _file = shortcut
-            _file_path = path + _file
+            _file_path = os.path.join(path, _file)
             if os.path.exists(_file_path):
                 _shortcuts_dict[_file_path] = {}
                 _shortcuts_dict[_file_path]['preferredName'] = _name
