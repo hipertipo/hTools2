@@ -20,17 +20,29 @@ RoboFont is developed by Frederik Berlaen ([TypeMyType](http://typemytype.com)).
 hTools2 (and RoboFont) are built with libraries by Erik van Blokland & Just van Rossum ([LettError](http://letterror.com)) and Tal Leming ([TypeSupply](http://typesupply.com)).
 
 
+Documentation
+-------------
+
+The latest version of the documentation is available in the project’s [wiki](https://github.com/gferreira/hTools2/wiki).
+
+
+Support
+-------
+
+Join the [mailing list](http://lists.hipertipo.com/listinfo/htools2) for questions and general discussions about hTools2.
+
+
 Development
 -----------
 
-Work on hTools2 is partially funded by users and collaborators.
+Work on hTools2 is supported by users and collaborators.
 
-Special thanks to the following designers/companies for contributing to the project:
+Special thanks to the following designers/companies for contributing ideas and funds to the project:
 
 - Nikola Djurek ([Typonine](http://typonine.com/))
 - Bas Jacobs ([Underware](http://underware.nl/))
 
-If you use hTools2 on a regular basis, please consider making a donation.
+If you use these tools on a regular basis, please consider making a donation.
 
 
 License
