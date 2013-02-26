@@ -36,9 +36,9 @@ def get_context():
     # done
     return context
 
-_ctx = get_context()
-
 # RoboFont shortcut tools
+
+_ctx = get_context()
 
 if _ctx == 'RoboFont':
 
@@ -47,6 +47,10 @@ if _ctx == 'RoboFont':
     def clear_shortcuts():
         '''Remove all current shorcuts.'''
         setScriptingMenuNamingShortKey({})
+
+    def get_shortcuts():
+        '''Get RoboFont shortcuts as a dictionary.'''
+        return getScriptingMenuNamingShortKey()
 
     def print_shortcuts(verbose=False):
         '''Print all current shorcuts.'''
@@ -62,32 +66,30 @@ if _ctx == 'RoboFont':
         '''Set RoboFont shortcuts from a dictionary.'''
         setScriptingMenuNamingShortKey(shortcuts_dict)
 
-    def build_shortcuts_dict(path, shortcuts):
-        '''Build a shortcuts dictionary with script paths, names and shortcut keys.'''
-        #---------------------------------------------
-        #   shortcuts_dict = {
-        #       u'/path/to/script.py': {
-        #           'preferredName' : 'my script',
-        #           'shortKey' : 'n',
-        #       }
-        #   }
-        #---------------------------------------------
-        _shortcuts_dict = {}
-        for shortcut in shortcuts:
-            _key, _name, _file = shortcut
-            _file_path = os.path.join(path, _file)
-            if os.path.exists(_file_path):
-                _shortcuts_dict[_file_path] = {}
-                _shortcuts_dict[_file_path]['preferredName'] = _name
-                _shortcuts_dict[_file_path]['shortKey'] = _key
-            else:
-                print '%s does not exist.' % _file_path
-        return _shortcuts_dict
+def build_shortcuts_dict(path, shortcuts):
+    '''Build a shortcuts dictionary with script paths, names and shortcut keys.'''
+    #   shortcuts_dict = {
+    #       u'/path/to/script.py': {
+    #           'preferredName' : 'my script',
+    #           'shortKey' : 'n',
+    #       }
+    #   }
+    _shortcuts_dict = {}
+    for shortcut in shortcuts:
+        _key, _name, _file = shortcut
+        _file_path = os.path.join(path, _file)
+        if os.path.exists(_file_path):
+            _shortcuts_dict[_file_path] = {}
+            _shortcuts_dict[_file_path]['preferredName'] = _name
+            _shortcuts_dict[_file_path]['shortKey'] = _key
+        else:
+            print '%s does not exist.' % _file_path
+    return _shortcuts_dict
 
-    def merge_shortcuts_dicts(dicts_list):
-        '''Merge all shortcut dictionaries in a given list.'''
-        _super_dict = {}
-        for _dict in dicts_list:
-            for k in _dict.keys():
-                _super_dict[k] = _dict[k]
-        return _super_dict
+def merge_shortcuts_dicts(dicts_list):
+    '''Merge all shortcut dictionaries in a given list.'''
+    _super_dict = {}
+    for _dict in dicts_list:
+        for k in _dict.keys():
+            _super_dict[k] = _dict[k]
+    return _super_dict

@@ -238,13 +238,16 @@ class hFont:
 
     # font paths
 
-    def otf_path(self, test=False):
+    def otf_path(self, test=False, folder=None):
         '''Return the default path for .otf fonts, in the project's `_otfs/` folder.'''
         otf_file = self.file_name + '.otf'
         if test is True:
             otf_path = os.path.join(self.project.paths['otfs_test'], otf_file)
         else:
-            otf_path = os.path.join(self.project.paths['otfs'], otf_file)
+            if not folder:
+                otf_path = os.path.join(self.project.paths['otfs'], otf_file)
+            else:
+                otf_path = os.path.join(folder, otf_file)
         return otf_path
 
     def woff_path(self):
@@ -255,7 +258,7 @@ class hFont:
 
     # font generation
 
-    def generate_otf(self, options=None, verbose=False):
+    def generate_otf(self, options=None, verbose=False, folder=None):
         '''Generate an otf font file using the default settings.'''
         # get options
         if options is None:
@@ -264,13 +267,16 @@ class hFont:
                 'remove overlap' : True,
                 'autohint' : False,
                 'release mode' : False,
-                'test folder' : False
+                'test folder' : False,
             }
         # get otf path
-        if options['test folder'] == True:
-            _otf_path = self.otf_path(test=True)
+        if folder is None:
+            if options['test folder'] == True:
+                _otf_path = self.otf_path(test=True)
+            else:
+                _otf_path = self.otf_path()
         else:
-            _otf_path = self.otf_path()
+            _otf_path = self.otf_path(folder=folder)
         # print info
         if verbose:
             print 'generating .otf for %s...\n' % self.full_name()
