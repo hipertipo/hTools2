@@ -1,6 +1,6 @@
 # [h] hTools2.modules.fileutils
 
-'''Simple tools to walk directories, collect and delete files etc.'''
+'''Simple tools to work with files, paths etc.'''
 
 # imports
 
@@ -28,7 +28,14 @@ def get_names_from_path(fontpath):
         family_name, style_name = _file_name.split('_')
     except ValueError:
         family_name, style_name = _file_name.split('-')
+    style_name = get_parameters_from_style(style_name)
+    style_name = ' '.join(style_name)
     return family_name, style_name
+
+def get_parameters_from_style(style_name):
+    '''Get individual parameters from the style name of a font.'''
+    parameters = style_name.split('-')
+    return parameters
 
 def get_parameters_from_path(fontpath):
     '''Get individual parameters from the path of a font file.'''

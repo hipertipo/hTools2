@@ -2,6 +2,8 @@
 
 import os
 
+# functions
+
 def clean_pyc(directory, path):
     '''Remove .pyc files recursively in path.'''
     for file_name in directory:
@@ -35,6 +37,14 @@ def get_context():
         context = 'NoneLab'
     # done
     return context
+
+# def load_modules(modules_list, debug=True):
+#     for module_name in modules_list:
+#         exec 'import %s' % module_name
+#         if debug:
+#             exec 'reload(%s)' % module_name
+#         except:
+#             print 'could not import module %s' % module_name
 
 # RoboFont shortcut tools
 
@@ -93,3 +103,4 @@ def merge_shortcuts_dicts(dicts_list):
         for k in _dict.keys():
             _super_dict[k] = _dict[k]
     return _super_dict
+

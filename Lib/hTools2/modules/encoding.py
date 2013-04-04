@@ -65,7 +65,8 @@ def auto_unicodes(f):
     '''Automatically set unicode values for all glyphs in the font.'''
     clear_unicodes(f)
     for g in f:
-        auto_unicode(g)
+        if g is not None:
+            auto_unicode(g)
     f.update()
 
 def paint_groups(f, crop=False):
@@ -103,18 +104,19 @@ def paint_groups(f, crop=False):
 
 def auto_unicode(g):
     '''Automatically set unicode value(s) for the specified glyph. The method uses RoboFab's `glyph.autoUnicodes()` function for common glyphs, and complements it with additional values from `unicodes_extra`.'''
-    # handle 'uni' names
-    if g.name[:3] == "uni" and len(g.name) == 7:
-        c = g.name
-        g.unicode = int(c.split('uni')[1], 16)
-    # handle extra cases
-    elif g.name in unicodes_extra.keys():
-        uString = 'uni%s' % unicodes_extra[g.name]
-        g.unicode = unicode_hexstr_to_int(uString)
-    # use auto unicode for everything else
-    else:
-        g.autoUnicodes()
-    g.update()
+    if g.name is not None:
+        # handle 'uni' names
+        if g.name[:3] == "uni" and len(g.name) == 7:
+            c = g.name
+            g.unicode = int(c.split('uni')[1], 16)
+        # handle extra cases
+        elif g.name in unicodes_extra.keys():
+            uString = 'uni%s' % unicodes_extra[g.name]
+            g.unicode = unicode_hexstr_to_int(uString)
+        # use auto unicode for everything else
+        else:
+            g.autoUnicodes()
+        g.update()
 
 #------------------------------
 # unicode-to-string conversion

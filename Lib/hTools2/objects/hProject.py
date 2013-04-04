@@ -27,7 +27,7 @@ except:
     from robofab.world import RFont, NewFont
 
 from hworld import hWorld
-from hTools2.modules.fileutils import walk, get_names_from_path
+from hTools2.modules.fileutils import walk, get_names_from_path, delete_files
 from hTools2.modules.encoding import import_encoding
 
 # object
@@ -48,13 +48,11 @@ class hProject:
     fonts = None
 
     _path_names = [
-        'root', 'ufos', 'vfbs', 'libs', 'otfs', 'temp', \
-        'instances', 'interpol', 'woffs', 'otfs_test',
+        'root', 'ufos', 'vfbs', 'libs', 'otfs', 'temp', 'instances', 'interpol', 'woffs', 'otfs_test',
     ]
 
     _lib_names = [
-        'project', 'info', 'vmetrics', 'accents', \
-        'composed', 'spacing', 'interpol', 'groups'
+        'project', 'info', 'vmetrics', 'accents', 'composed', 'spacing', 'interpol', 'groups'
     ]
 
     _lib_extension = 'plist'
@@ -252,7 +250,7 @@ class hProject:
 
     # interpolation
 
-    def generate_instance(self, instance_name, verbose=False):
+    def generate_instance(self, instance_name, verbose=False, folder=None):
         '''Generate a .ufo instance with name `instance_name`, using data from the project's interpol lib.'''
         if self.libs['interpol'].has_key(instance_name):
             # master 1
@@ -271,13 +269,16 @@ class hProject:
                     print 'generating %s %s (factor: %s, %s)...' % (self.name, instance_name,
                             interpol_factor[0], interpol_factor[1]),
                 instance_filename = '%s_%s.ufo' % (self.name, instance_name)
-                instance_path = os.path.join(self.paths['instances'], instance_filename)
+                if folder is None:
+                    instance_path = os.path.join(self.paths['instances'], instance_filename)
+                else:
+                    instance_path = os.path.join(folder, instance_filename)
                 # open/create fonts
                 f1 = RFont(master_1_path, showUI=False)
                 f2 = RFont(master_2_path, showUI=False)
                 f3 = NewFont(showUI=False)
                 # interpolate
-                f3.interpolate((interpol_factor[0], interpol_factor[1]), f1, f2)
+                f3.interpolate((interpol_factor[0], interpol_factor[1]), f2, f1)
                 f3.update()
                 f1.close()
                 f2.close()
@@ -313,3 +314,14 @@ class hProject:
             font.readUFO(ufo, doProgress=True)
             font.save(_vfb_path)
             font.close()
+
+    # upload
+
+    def upload_css(self):
+        pass
+
+
+    # housekeeping
+
+    def rename(self, new_name):
+        pass

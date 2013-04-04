@@ -34,10 +34,10 @@ if hTools2.DEBUG:
 import os
 
 from hproject import hProject
-from hTools2.modules.encoding import paint_groups, auto_unicodes
-from hTools2.modules.fontutils import set_font_names, get_spacing_groups, delete_groups
-from hTools2.modules.fontinfo import set_names_from_path
 from hTools2.modules.color import clear_colors, hls_to_rgb
+from hTools2.modules.encoding import paint_groups, auto_unicodes
+from hTools2.modules.fontinfo import set_names_from_path
+from hTools2.modules.fontutils import *
 from hTools2.modules.ftp import *
 
 #---------
@@ -56,6 +56,7 @@ class hFont:
     ufo = None
     file_name = None
     style_name = None
+    parameters = {}
 
     #---------
     # methods
@@ -65,34 +66,45 @@ class hFont:
         self.ufo = ufo
         self.init_from_filename()
 
-    def init_from_filename(self):
+    def init_from_filename(self, set_names=True):
         '''Initiate `hFont` object from ufo, get parent project, parse name parts.'''
         ufo_file = os.path.basename(self.ufo.path)
         self.file_name = os.path.splitext(ufo_file)[0]
-        try:
-            family_name, style_name = self.file_name.split('_')
-        except ValueError:
-            family_name, style_name = self.file_name.split('-')
+        family_name, self.style_name = self.file_name.split('_')
+        # get parent project
         self.project = hProject(family_name)
-        self.style_name = style_name
         # set font names
-        set_font_names(self.ufo, family_name, style_name)
-        # import parameters
+        if set_names:
+            set_font_names(self.ufo, family_name, self.style_name)
+        # get parameters from name, create dict
         try:
             name_parameters = self.style_name.split('-')
             parameters_order = self.project.libs['project']['parameters_order']
             self.parameters = dict(zip(parameters_order, name_parameters))
+        # keep parameters dict empty
         except:
-            self.parameters = {}
-            '''Delete all groups in font.'''
             # print 'there is no parameters lib for this font.\n'
+            pass
+
+    # groups and glyphs
+
+    def create_glyphs(self):
+        glyph_set = self.glyphset()
+        for glyph_name in glyph_set:
+            if self.ufo.has_key(glyph_name) is not True:
+                self.ufo.newGlyph(glyph_name)
+        self.ufo.save()
+
+    def glyphset(self):
+        _glyph_order = []
+        for group in self.project.libs['groups']['order']:
+            for glyph in self.project.libs['groups']['glyphs'][group]:
+                _glyph_order.append(glyph)
+        return _glyph_order
 
     def auto_unicodes(self):
         '''Automatically set unicodes for all glyphs in the font.'''
         auto_unicodes(self.ufo)
-
-    #-------------------
-    # groups and glyphs
 
     def clear_groups(self):
         '''Delete all groups in font.'''
@@ -100,12 +112,8 @@ class hFont:
 
     def order_glyphs(self):
         '''Automatically set the order of the glyphs in the font.'''
-        _glyph_order = []
-        for group in self.project.libs['groups']['order']:
-            for glyph in self.project.libs['groups']['glyphs'][group]:
-                _glyph_order.append(glyph)
-        # update font
-        self.ufo.glyphOrder = _glyph_order
+        glyph_order = self.glyphset()
+        self.ufo.glyphOrder = glyph_order
         self.ufo.update()
 
     def paint_groups(self, crop=False):
@@ -184,6 +192,50 @@ class hFont:
         #     print 'project has not accents lib.\n'
         pass
 
+    def crop_glyphset(self):
+        glyph_set = self.glyphset()
+        crop_glyphset(self.ufo, glyph_set)
+
+    # actions
+
+    def remove_overlap(self):
+        remove_overlap(self.ufo)
+
+    def decompose(self):
+        decompose(self.ufo)
+
+    def auto_contour_order(self):
+        auto_contour_order(self.ufo)
+
+    def auto_contour_direction(self):
+        auto_contour_direction(self.ufo)
+
+    def auto_order_direction(self):
+        auto_order_direction(self.ufo)
+
+    def add_extremes(self):
+        add_extremes(self.ufo)
+
+    def remove_overlap(self):
+        remove_overlap(self.ufo)
+
+    def align_to_grid(self, (sizeX, sizeY)):
+        align_to_grid(self.ufo, (sizeX, sizeY))
+
+    def scale_glyphs(self, (factor_x, factor_y)):
+        scale_glyphs(self.ufo, (factor_x, factor_y))
+
+    def move_glyphs(self, (delta_x, delta_y)):
+        move_glyphs(self.ufo, (delta_x, delta_y))
+
+    def round_to_grid(self, gridsize, gstring=None):
+        glyph_names = None
+        if gstring is not None:
+            names = gstring.split(' ')
+            groups = self.project.libs['groups']['glyphs']
+            glyph_names = parse_glyphs_groups(names, groups)
+        round_to_grid(self.ufo, gridsize, glyph_names)
+
     # OpenType features
 
     def import_features(self):
@@ -229,7 +281,9 @@ class hFont:
         pass
 
     def set_vmetrics(self, verbose=True):
-        if verbose: print 'setting vertical metrics...'
+        if verbose:
+            print 'setting vertical metrics...'
+        # print self.project.libs['vmetrics']
         # set_vmetrics(font, xheight, capheight, ascender, descender, emsquare, gridsize=1)
 
     def clear_info(self):
@@ -262,19 +316,21 @@ class hFont:
         '''Generate an otf font file using the default settings.'''
         # get options
         if options is None:
-            options = {
-                'decompose' : True,
-                'remove overlap' : True,
-                'autohint' : False,
-                'release mode' : False,
-                'test folder' : False,
-            }
+            try:
+                options = self.project.libs['project']['generation']
+            except KeyError:
+                print 'project %s has no generation lib.' % self.project.name
+                options = {
+                    'decompose' : True,
+                    'autohint' : False,
+                    'remove overlap' : True,
+                    'release mode' : False,
+                    'test folder' : False,
+                }
         # get otf path
         if folder is None:
-            if options['test folder'] == True:
-                _otf_path = self.otf_path(test=True)
-            else:
-                _otf_path = self.otf_path()
+            _test = options['test folder']
+            _otf_path = self.otf_path(test=_test)
         else:
             _otf_path = self.otf_path(folder=folder)
         # print info
@@ -309,11 +365,15 @@ class hFont:
 
     def upload_woff(self):
         '''Upload the font's woff file to the project's folder in the FTP server.'''
-        _url = self.project.world.settings.hDict['ftp']['url']
-        _login = self.project.world.settings.hDict['ftp']['login']
-        _password = self.project.world.settings.hDict['ftp']['password']
-        _folder = self.project.ftp_path()
-        F = connect_to_server(_url, _login, _password, _folder, verbose=False)
-        upload_file(self.woff_path(), F)
-        F.quit()
+        woff_path = self.woff_path()
+        if os.path.exists(woff_path):
+            _url = self.project.world.settings.hDict['ftp']['url']
+            _login = self.project.world.settings.hDict['ftp']['login']
+            _password = self.project.world.settings.hDict['ftp']['password']
+            _folder = self.project.ftp_path()
+            F = connect_to_server(_url, _login, _password, _folder, verbose=False)
+            upload_file(woff_path, F)
+            F.quit()
+        else:
+            print 'woff %s does not exist.' % woff_path
 

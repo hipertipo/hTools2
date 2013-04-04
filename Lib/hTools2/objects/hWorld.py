@@ -54,4 +54,3 @@ class hWorld:
             if n[:1] == "_":
                 projects.append(n[1:])
         return projects
-

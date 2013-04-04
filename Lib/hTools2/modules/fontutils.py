@@ -2,7 +2,7 @@
 
 '''A collection of handy functions for working with fonts.'''
 
-# reload when debugging
+# debug
 
 import hTools2
 reload(hTools2)
@@ -26,7 +26,7 @@ try:
 except:
     from robofab.world import CurrentGlyph, CurrentFont, NewFont
 
-from hTools2.modules.glyphutils import round_points
+from hTools2.modules.glyphutils import round_points, round_width
 from hTools2.modules.color import *
 
 #--------
@@ -130,9 +130,10 @@ def rename_glyphs_from_list(font, names_list, overwrite=True, mark=True):
     print '...done.\n'
 
 def crop_glyphset(font, glyphset):
-    for g in font:
-        if g.name not in glyphset:
-            font.removeGlyph(g.name)
+    for glyph in font:
+        if glyph.name not in glyphset:
+            if glyph.name is not None:
+                font.removeGlyph(glyph.name)
     font.update()
 
 #--------
@@ -315,6 +316,11 @@ def add_extremes(font):
     for glyph in font:
         glyph.extremePoints()
 
+def remove_overlap(font):
+    '''Remove overlaps in all glyphs of the `font`.'''
+    for glyph in font:
+        glyph.removeOverlap()
+
 def align_to_grid(font, (sizeX, sizeY)):
     '''Align all points of all glyphs in the `font` to a grid with size `(sizeX,sizeY)`.'''
     for glyph in font:
@@ -339,6 +345,14 @@ def move_glyphs(f, (delta_x, delta_y)):
         g.move((delta_x, delta_y))
         g.update()
     f.update()
+
+def round_to_grid(font, gridsize, glyphs=None):
+    if glyphs is None:
+        glyphs = font.keys()
+    for glyph_name in glyphs:
+        round_points(font[glyph_name], (gridsize, gridsize))
+        round_width(font[glyph_name], gridsize)
+    font.update()
 
 #------
 # misc
