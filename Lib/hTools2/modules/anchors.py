@@ -22,6 +22,16 @@ def get_anchors(font, glyph_names=None):
             anchors_dict[g.name] = anchors
     return anchors_dict
 
+def clear_anchors(font, glyph_names=None):
+    '''Delete all anchors in font.'''
+    if glyph_names is None:
+        glyph_names = font.keys()
+    for glyph_name in glyph_names:
+        if len(font[glyph_name].anchors) > 0:
+            font[glyph_name].clearAnchors()
+            font[glyph_name].update()
+    font.update()
+
 #-------------------
 # glyph-level tools
 #-------------------

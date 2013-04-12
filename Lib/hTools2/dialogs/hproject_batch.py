@@ -79,32 +79,24 @@ class BatchProject(object):
         ( 'check font names',   True ),
         ( 'clear otfs',         False ),
         ( 'clear woffs',        False ),
-        # ( 'prepolate masters',  True ),
-        # ( 'generate instances', True ),
-        # ( 'generate CSS',       True ),
-        # ( 'proof charset',      True ),
-        # ( 'proof spacing',      True ),
-        # ( 'proof kerning',      True ),
+        ( 'generate instances', False ),
+        ( 'generate CSS',       False ),
     ])
 
     _actions = OrderedDict([
         ( 'open window',        True ),
-        # ( 'build anchors',      False ),
-        # ( 'build accents',      False ),
-        # ( 'build features',     False ),
         ( 'set font info',      False ),
-        # ( 'set foundry info',   True ),
+        ( 'set foundry info',   False ),
         ( 'create glyphs',      False ),
         ( 'import groups',      False ),
         ( 'paint groups',       False ),
         ( 'crop glyphset',      False ),
         ( 'auto unicodes',      False ),
-        # ( 'analyze glyphs',     True ),
-        # ( 'analyze kerning',    True ),
         ( 'set vmetrics',       False ),
-        # ( 'autohint PS',        True ),
-        # ( 'autohint TT',        True ),
-        # ( 'test install',       True ),
+        ( 'build accents',      False ),
+        ( 'build composed',     False ),
+        ( 'remove overlaps',    False ),
+        ( 'test install',       False ),
         ( 'generate otf',       False ),
         ( 'generate test otf',  False ),
         ( 'generate woff',      False ),
@@ -112,13 +104,6 @@ class BatchProject(object):
         ( 'save font',          False ),
         ( 'close window',       False ),
     ])
-
-    _patterns = [
-        'masters',
-        'clean masters',
-        'retail OTF',
-        'retail TTF',
-    ]
 
     #---------
     # methods
@@ -243,11 +228,6 @@ class BatchProject(object):
         #---------
         # patterns
         _x = _y = self._padding
-        # _actions._pattern = PopUpButton(
-        #             (_x, _y,
-        #             _popup_width, self._box_height),
-        #             self._patterns,
-        #             sizeStyle='small')
         # build checkboxes
         self._actions_build()
         # select all
@@ -658,15 +638,17 @@ class BatchProject(object):
                         print '\t\topening font...'
                         font = hFont(RFont(font_path, showUI=False))
                 #---------------------------------
-                _action = 'build anchors'
-                if _actions.has_key(_action):
-                    if _actions[_action]:
-                        print '\t\tbuilding anchors... [empty]'
-                #---------------------------------
                 _action = 'build accents'
                 if _actions.has_key(_action):
                     if _actions[_action]:
-                        print '\t\tbuilding accents... [empty]'
+                        print '\t\tbuilding accents...'
+                        font.build_accents()
+                #---------------------------------
+                _action = 'build composed'
+                if _actions.has_key(_action):
+                    if _actions[_action]:
+                        print '\t\tbuilding composed glyphs...'
+                        font.build_composed()
                 #---------------------------------
                 _action = 'build features'
                 if _actions.has_key(_action):
@@ -732,6 +714,12 @@ class BatchProject(object):
                     if _actions[_action]:
                         print '\t\tpaint spacing groups...'
                         font.paint_spacing_groups()
+                #---------------------------------
+                _action = 'remove overlaps'
+                if _actions.has_key(_action):
+                    if _actions[_action]:
+                        print '\t\tremoving overlaps...'
+                        font.remove_overlap()
                 #---------------------------------
                 _action = 'auto unicodes'
                 if _actions.has_key(_action):

@@ -28,13 +28,14 @@ except:
 
 from hworld import hWorld
 from hTools2.modules.fileutils import walk, get_names_from_path, delete_files
+from hTools2.modules.fontutils import parse_glyphs_groups
 from hTools2.modules.encoding import import_encoding
 
 # object
 
 class hProject:
 
-    '''An object to represent a family of fonts and related data.'''
+    '''A project represents a font-family and related meta-data.'''
 
     #------------
     # attributes
@@ -93,15 +94,6 @@ class hProject:
         _groups, _order = import_encoding(self.paths['encoding'])
         self.libs['groups']['glyphs'] = _groups
         self.libs['groups']['order'] = _order
-
-    def all_glyphs(self, ignore=['invisible']):
-        '''Return the full list of glyphs for all fonts in project.'''
-        _all_glyphs = []
-        self.import_encoding()
-        for group in self.libs['groups']['order']:
-            if group not in ignore:
-                _all_glyphs += self.libs['groups']['glyphs'][group]
-        return _all_glyphs
 
     def write_lib(self, lib_name):
         '''Write lib to .plist file.'''
@@ -248,6 +240,22 @@ class hProject:
         woff_paths = self.woffs()
         delete_files(woff_paths)
 
+    # groups and glyph names
+
+    def all_glyphs(self, ignore=['invisible']):
+        '''Return the full list of glyphs for all fonts in project.'''
+        _all_glyphs = []
+        self.import_encoding()
+        for group in self.libs['groups']['order']:
+            if group not in ignore:
+                _all_glyphs += self.libs['groups']['glyphs'][group]
+        return _all_glyphs
+
+    def parse_gstring(self, gstring):
+        names = gstring.split(' ')
+        glyph_names = parse_glyphs_groups(names, self.libs['groups']['glyphs'])
+        return glyph_names
+
     # interpolation
 
     def generate_instance(self, instance_name, verbose=False, folder=None):
@@ -320,8 +328,8 @@ class hProject:
     def upload_css(self):
         pass
 
-
     # housekeeping
 
     def rename(self, new_name):
         pass
+

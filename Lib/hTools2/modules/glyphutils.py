@@ -282,7 +282,6 @@ def clear_guides(glyph):
         glyph.removeGuide(guide)
     glyph.update()
 
-
 #------
 # bcps
 #------

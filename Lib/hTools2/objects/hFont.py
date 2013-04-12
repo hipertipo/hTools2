@@ -12,6 +12,12 @@ if hTools2.DEBUG:
     import hproject
     reload(hproject)
 
+    import hTools2.modules.anchors
+    reload(hTools2.modules.anchors)
+
+    import hTools2.modules.color
+    reload(hTools2.modules.color)
+
     import hTools2.modules.encoding
     reload(hTools2.modules.encoding)
 
@@ -24,9 +30,6 @@ if hTools2.DEBUG:
     import hTools2.modules.ftp
     reload(hTools2.modules.ftp)
 
-    import hTools2.modules.color
-    reload(hTools2.modules.color)
-
 #--------
 # import
 #--------
@@ -34,9 +37,10 @@ if hTools2.DEBUG:
 import os
 
 from hproject import hProject
+from hTools2.modules.anchors import clear_anchors
 from hTools2.modules.color import clear_colors, hls_to_rgb
 from hTools2.modules.encoding import paint_groups, auto_unicodes
-from hTools2.modules.fontinfo import set_names_from_path
+from hTools2.modules.fontinfo import set_names_from_path, set_vmetrics
 from hTools2.modules.fontutils import *
 from hTools2.modules.ftp import *
 
@@ -46,7 +50,7 @@ from hTools2.modules.ftp import *
 
 class hFont:
 
-    '''An object to represent a .ufo font source, wrapped in a few useful functions.'''
+    '''A wrapper object for fonts in a project.'''
 
     #------------
     # attributes
@@ -182,21 +186,26 @@ class hFont:
             self.ufo.groups[group] = self.project.libs['groups']['glyphs'][group]
         self.ufo.lib['groups_order'] = self.project.libs['groups']['order']
 
-    def build_accents(self):
-        # if self.project.libs['accents'].has_key(glyph_name):
-        #     base_glyph, accents = self.project.libs['accents'][glyph_name]
-        #     font.ufo.removeGlyph(glyph_name)
-        #     font.ufo.compileGlyph(glyph_name, base_glyph, accents)
-        #     font.ufo[glyph_name].update()
-        # else:
-        #     print 'project has not accents lib.\n'
-        pass
-
     def crop_glyphset(self):
         glyph_set = self.glyphset()
         crop_glyphset(self.ufo, glyph_set)
 
     # actions
+
+    def apply_actions(self, actions_dict):
+        # if actions_dict['remove overlap']:
+        #     self.remove_overlap()
+        # if actions_dict['decompose']:
+        #     self.decompose()
+        # if actions_dict['auto contour order']:
+        #     self.auto_contour_order()
+        # if actions_dict['auto contour direction']:
+        #     self.auto_contour_direction()
+        # if actions_dict['add extremes']:
+        #     self.add_extremes()
+        # if actions_dict['remove overlaps']:
+        #     self.remove_overlap()
+        pass
 
     def remove_overlap(self):
         remove_overlap(self.ufo)
@@ -216,9 +225,6 @@ class hFont:
     def add_extremes(self):
         add_extremes(self.ufo)
 
-    def remove_overlap(self):
-        remove_overlap(self.ufo)
-
     def align_to_grid(self, (sizeX, sizeY)):
         align_to_grid(self.ufo, (sizeX, sizeY))
 
@@ -236,7 +242,45 @@ class hFont:
             glyph_names = parse_glyphs_groups(names, groups)
         round_to_grid(self.ufo, gridsize, glyph_names)
 
-    # OpenType features
+    # building glyphs
+
+    def clear_anchors(self, gstring=None):
+        if gstring is not None:
+            glyph_names = self.project.parse_gstring(gstring)
+        clear_anchors(self.ufo, glyph_names=glyph_names)
+
+    def build_glyph(self, glyph_name):
+        # accents
+        if self.project.libs['accents'].has_key(glyph_name):
+            base_glyph, accents = self.project.libs['accents'][glyph_name]
+            self.ufo.removeGlyph(glyph_name)
+            self.ufo.compileGlyph(glyph_name, base_glyph, accents)
+            self.ufo[glyph_name].update()
+        # composed
+        elif self.project.libs['composed'].has_key(glyph_name):
+            self.ufo.newGlyph(glyph_name, clear=True)
+            components = self.project.libs['composed'][glyph_name]
+            _offset_x, _offset_y = 0, 0
+            _scale_x, _scale_y = 1, 1
+            for component in components:
+                self.ufo[glyph_name].appendComponent(component, (_offset_x, _offset_y), (_scale_x, _scale_y))
+                _offset_x += self.ufo[component].width
+            self.ufo[glyph_name].update()
+        # not composed
+        else:
+            print '%s is not composed.\n' % glyph_name
+
+    def build_accents(self):
+        for glyph_name in self.project.libs['accents'].keys():
+            if self.ufo.has_key(glyph_name):
+                self.build_glyph(glyph_name)
+
+    def build_composed(self):
+        for glyph_name in self.project.libs['composed'].keys():
+            if self.ufo.has_key(glyph_name):
+                self.build_glyph(glyph_name)
+
+    # OT features
 
     def import_features(self):
         '''Import features from features file into font.'''
@@ -282,9 +326,16 @@ class hFont:
 
     def set_vmetrics(self, verbose=True):
         if verbose:
-            print 'setting vertical metrics...'
-        # print self.project.libs['vmetrics']
-        # set_vmetrics(font, xheight, capheight, ascender, descender, emsquare, gridsize=1)
+            print 'setting vertical metrics...',
+        grid = self.project.libs['project']['grid']
+        xheight = self.project.libs['project']['vmetrics']['xheight']
+        capheight = self.project.libs['project']['vmetrics']['capheight']
+        ascender = self.project.libs['project']['vmetrics']['ascender']
+        descender = self.project.libs['project']['vmetrics']['descender']
+        emsquare = self.project.libs['project']['vmetrics']['emsquare']
+        set_vmetrics(self.ufo, xheight, capheight, ascender, descender, emsquare)
+        if verbose:
+            print 'done./n'
 
     def clear_info(self):
         '''Print different kinds of font information.'''

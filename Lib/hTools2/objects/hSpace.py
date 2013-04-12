@@ -43,14 +43,14 @@ from hTools2.modules.anchors import transfer_anchors
 from hTools2.modules.fileutils import get_names_from_path
 from hTools2.modules.glyphutils import *
 from hTools2.modules.fontinfo import *
-from hTools2.modules.fontutils import parse_glyphs_groups, get_full_name, scale_glyphs
+from hTools2.modules.fontutils import get_full_name, scale_glyphs
 from hTools2.modules.ftp import connect_to_server, upload_file
 
 # object
 
 class hSpace:
 
-    '''A parametric variation space in a `hProject`.'''
+    '''A space describes a parametric range of fonts inside a project.'''
 
     #------------
     # attributes
@@ -242,6 +242,15 @@ class hSpace:
         # done
         print "\n...done.\n"
 
+    def build_accents(self, verbose=False):
+        print "building accented glyphs in space...\n"
+        for ufo_path in self.ufos():
+            font = hFont(RFont(ufo_path, showUI=False))
+            print "\tbuilding glyphs in %s..." % get_full_name(font.ufo)
+            font.build_accents()
+            font.ufo.save()
+        print "\n...done.\n"
+
     # clear data
 
     def clear_kerning(self):
@@ -270,7 +279,10 @@ class hSpace:
         pass
 
     def clear_anchors(self):
-        pass
+        print "deleting all anchors in space..."
+        for ufo_path in self.ufos():
+            font = hFont(RFont(ufo_path, showUI=False))
+            font.clear_anchors()
 
     # transfer tools
 
@@ -295,35 +307,33 @@ class hSpace:
                 dest_file = '%s_%s.ufo' % (font.project.name, font.name_from_parameters(separator='-'))
                 dest_path = os.path.join(font.project.paths['ufos'], dest_file)
                 if os.path.exists(dest_path):
-                    dest_font = RFont(dest_path, showUI=False)
+                    dest_ufo = RFont(dest_path, showUI=False)
                     print
-                    print "\tcopying glyphs from %s to %s..." % (get_full_name(font.ufo), get_full_name(dest_font))
+                    print "\tcopying glyphs from %s to %s..." % (get_full_name(font.ufo), get_full_name(dest_ufo))
                     if verbose: print '\t\t',
                     for glyph_name in glyph_names:
                         if font.ufo.has_key(glyph_name):
-                            if dest_font.has_key(glyph_name) is False:
-                                dest_font.newGlyph(glyph_name)
+                            if dest_ufo.has_key(glyph_name) is False:
+                                dest_ufo.newGlyph(glyph_name)
                             # decompose first
                             if len(font.ufo[glyph_name].components) > 0:
                                 font.ufo[glyph_name].decompose()
                             if verbose: print glyph_name,
                             # insert glyph
-                            dest_font.insertGlyph(font.ufo[glyph_name])
-                            dest_font.save()
+                            dest_ufo.insertGlyph(font.ufo[glyph_name])
+                            dest_ufo.save()
                     if verbose: print
         print '\n...done.\n'
 
-    def transfer_anchors(self, gstring, var):
+    def transfer_anchors(self, gstring, var, clear=True, verbose=False):
         axis, src, dest_list = var
         # define source space
         for param in self.parameters.keys():
             if param == axis:
                 self.parameters[param] = [ src ]
         self.build()
-        # get glyphs
-        names = gstring.split(' ')
-        groups = self.project.libs['groups']['glyphs']
-        glyph_names = parse_glyphs_groups(names, groups)
+        # parse gstring
+        glyph_names = self.project.parse_gstring(gstring)
         # batch copy
         print "batch transfering anchors in %s..." % self.project.name
         for src_path in self.ufos():
@@ -336,15 +346,21 @@ class hSpace:
                 if os.path.exists(dest_path):
                     dest_ufo = RFont(dest_path, showUI=False)
                     print
+                    if clear:
+                        print "\tremoving anchors in %s..." % get_full_name(dest_ufo)
+                        dest_font = hFont(dest_ufo)
+                        dest_font.clear_anchors(gstring)
                     print "\tcopying anchors from %s to %s..." % (get_full_name(font.ufo), get_full_name(dest_ufo))
-                    print '\t\t',
+                    if verbose: print '\t\t',
                     for glyph_name in glyph_names:
                         if font.ufo.has_key(glyph_name):
-                            if dest_ufo.has_key(glyph_name) is False:
-                                dest_ufo.newGlyph(glyph_name)
-                            transfer_anchors(font.ufo[glyph_name], dest_ufo[glyph_name])
-                            dest_ufo.save()
-                    print
+                            if len(font.ufo[glyph_name].anchors) > 0:
+                                if dest_ufo.has_key(glyph_name) is False:
+                                    dest_ufo.newGlyph(glyph_name)
+                                if verbose: print glyph_name,
+                                transfer_anchors(font.ufo[glyph_name], dest_ufo[glyph_name])
+                                dest_ufo.save()
+                    if verbose: print
         print '\n...done.\n'
 
     # transformation tools
@@ -634,6 +650,16 @@ class hSpace:
             font = hFont(ufo)
             print '\trounding points and widths in %s...' % font.full_name()
             font.round_to_grid(gridsize, gstring)
+            font.ufo.save()
+        print '\n...done.\n'
+
+    def decompose(self):
+        print 'decomposing fonts...\n'
+        for ufo_path in self.ufos():
+            ufo = RFont(ufo_path, showUI=False)
+            font = hFont(ufo)
+            print '\tdecomposing glyphs in %s...' % font.full_name()
+            font.decompose()
             font.ufo.save()
         print '\n...done.\n'
 

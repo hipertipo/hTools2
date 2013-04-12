@@ -33,28 +33,25 @@ from hTools2.modules.color import *
 # glyphs
 #--------
 
-def get_glyphs(font, mode=0):
-    '''Return a list with the names of glyphs currently selected or active in the `font`.
-    The result is different than RoboFab's `f.selection`, because it also includes the contents of `CurrentGlyph()`.
-    '''
-    _glyph_names = []
-    _glyph = CurrentGlyph()
-    if _glyph != None:
-        _glyph_names.append(_glyph.name)
-    for glyph in font:
-        if glyph.selected == True:
-            if glyph.name not in _glyph_names:
-                _glyph_names.append(glyph.name)
-    _glyph_names.sort()
-    # return glyph names
-    if mode is 0:
-        return _glyph_names
-    # return glyphs
+def get_glyphs(font, current_glyph=True, font_selection=True, mode='names'):
+    '''Return current glyph selection in the `font` as glpyh names or `RGlyphs`.'''
+    glyphs = {}
+    # get current glyph
+    if current_glyph:
+        glyph = CurrentGlyph()
+        if glyph is not None:
+            glyphs[glyph.name] = glyph
+    # get font selection
+    if font_selection:
+        for glyph_name in font.selection:
+            if glyphs.has_key(glyph_name) is not True:
+                glyphs[glyph_name] = font[glyph_name]
+    # mode 0: glyph names
+    if mode == 'names':
+        return glyphs.keys()
+    # mode 1: RGlyphs
     else:
-        _glyphs = []
-        for glyph_name in _glyph_names:
-            _glyphs.append(font[glyph_name])
-        return _glyphs
+        return glyphs.values()
 
 def print_selected_glyphs(f, mode=1):
     '''Print the selected glyphs to the output window.'''

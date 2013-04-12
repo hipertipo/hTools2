@@ -1,6 +1,6 @@
-# [h] a dialog to move anchors in selected glyphs
+# [h] move anchors in selected glyphs
 
-# reload when debugging
+# debug
 
 import hTools2
 reload(hTools2)
@@ -40,13 +40,16 @@ class moveAnchorsDialog(object):
     _button_2 = 18
     _box_height = 20
     _width = (_button_1 * 3) + (_padding * 2) - 2
-    _height = (_button_1 * 3) + (_padding * 6) + (_box_height * 6) - 8
+    _height = (_button_1 * 3) + (_padding * 6) + (_box_height * 5) - 8
 
     _move_default = 70
     _anchors_top = True
     _anchors_bottom = False
+    _anchors_left = False
+    _anchors_right = False
     _anchors_base = True
     _anchors_accents = True
+    _anchors_layers = False
 
     #---------
     # methods
@@ -188,42 +191,70 @@ class moveAnchorsDialog(object):
         #------------
         # checkboxes
         #------------
+        # top anchors
         x = self._padding
         y += self._padding + self._button_2
-        # top anchors
+        _shift_x = ((self._width - (self._padding * 2)) / 4) + 1
         self.w._anchors_top = CheckBox(
                     (x, y,
                     -self._padding,
                     self._box_height),
-                    "top",
+                    "T",
                     value=self._anchors_top,
                     sizeStyle='small')
-        y += self._box_height
         # bottom anchors
+        x += _shift_x
         self.w._anchors_bottom = CheckBox(
                     (x, y,
                     -self._padding,
                     self._box_height),
-                    "bottom",
+                    "B",
                     value=self._anchors_bottom,
                     sizeStyle='small')
-        y += self._box_height + self._padding
+        x += _shift_x
+        self.w._anchors_left = CheckBox(
+                    (x, y,
+                    -self._padding,
+                    self._box_height),
+                    "L",
+                    value=self._anchors_left,
+                    sizeStyle='small')
+        x += _shift_x
+        self.w._anchors_right = CheckBox(
+                    (x, y,
+                    -self._padding,
+                    self._box_height),
+                    "R",
+                    value=self._anchors_right,
+                    sizeStyle='small')
         # base anchors
+        x = self._padding
+        y += self._box_height + (self._padding/2)
         self.w._anchors_base = CheckBox(
                     (x, y,
                     -self._padding,
                     self._box_height),
-                    "base glyphs",
+                    "base",
                     value=self._anchors_base,
                     sizeStyle='small')
-        y += self._box_height
         # accent anchors
+        x += (_shift_x * 2) - 3
         self.w._anchors_accents = CheckBox(
                     (x, y,
                     -self._padding,
                     self._box_height),
-                    "accents",
+                    "accent",
                     value=self._anchors_accents,
+                    sizeStyle='small')
+        # all layers
+        x = self._padding
+        y += self._box_height + (self._padding/2)
+        self.w._anchors_layers = CheckBox(
+                    (x, y,
+                    -self._padding,
+                    self._box_height),
+                    "all layers",
+                    value=self._anchors_layers,
                     sizeStyle='small')
         # open dialog
         self.w.open()
@@ -294,22 +325,29 @@ class moveAnchorsDialog(object):
     # apply
 
     def _get_parameters(self):
+        # get values
         _anchors_top = self.w._anchors_top.get()
         _anchors_bottom = self.w._anchors_bottom.get()
+        _anchors_left = self.w._anchors_left.get()
+        _anchors_right = self.w._anchors_right.get()
         _anchors_base = self.w._anchors_base.get()
         _anchors_accents = self.w._anchors_accents.get()
-        # list anchor names
+        self._anchors_layers = self.w._anchors_layers.get()
+        # make list with anchor names
         _anchor_names = []
         if _anchors_top:
-            if _anchors_base:
-                _anchor_names.append('top')
-            if _anchors_accents:
-                _anchor_names.append('_top')
+            if _anchors_base: _anchor_names.append('top')
+            if _anchors_accents: _anchor_names.append('_top')
         if _anchors_bottom:
-            if _anchors_base:
-                _anchor_names.append('bottom')
-            if _anchors_accents:
-                _anchor_names.append('_bottom')
+            if _anchors_base: _anchor_names.append('bottom')
+            if _anchors_accents: _anchor_names.append('_bottom')
+        if _anchors_left:
+            if _anchors_base: _anchor_names.append('left')
+            if _anchors_accents: _anchor_names.append('_left')
+        if _anchors_right:
+            if _anchors_base: _anchor_names.append('right')
+            if _anchors_accents: _anchor_names.append('_right')
+        # save names
         self._anchor_names = _anchor_names
 
     def _move_anchors(self, (x, y)):
@@ -317,16 +355,26 @@ class moveAnchorsDialog(object):
         if f is not None:
             self._get_parameters()
             print 'moving anchors in glyphs...\n'
-            # print '\tanchors: %s' % self._anchor_names
-            # print '\tmove: %s, %s' % (x, y)
+            print '\tanchors: %s' % self._anchor_names
+            print '\tmove: %s, %s' % (x, y)
             print
             print '\t',
-            for glyph_name in get_glyphs(f):
-                print glyph_name,
-                f[glyph_name].prepareUndo('move anchors')
-                move_anchors(f[glyph_name], self._anchor_names, (x, y))
-                f[glyph_name].performUndo()
-                f[glyph_name].update()
+            for glyph in get_glyphs(f, mode='glyphs'):
+                print glyph.name,
+                if self._anchors_layers:
+                    for layer_name in f.layerOrder:
+                        layer_glyph = f[glyph.name].getLayer(layer_name)
+                        layer_glyph.prepareUndo('move anchors')
+                        move_anchors(layer_glyph, self._anchor_names, (x, y))
+                        layer_glyph.performUndo()
+                        layer_glyph.update()
+                    #f[glyph_name].update()
+                else:
+                    glyph.prepareUndo('move anchors')
+                    move_anchors(glyph, self._anchor_names, (x, y))
+                    glyph.performUndo()
+                # done glyph
+                glyph.update()
             f.update()
             print
             print '\n...done.\n'
