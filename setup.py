@@ -18,5 +18,5 @@ setup(name='hTools2',
         'hTools2.dialogs',
         'hTools2.extras',
     ],
-    package_dir={'':'Lib'}
+    package_dir={'hTools2':'Lib/hTools2'}
 )
