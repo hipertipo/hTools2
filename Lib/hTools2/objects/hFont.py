@@ -30,6 +30,9 @@ if hTools2.DEBUG:
     import hTools2.modules.ftp
     reload(hTools2.modules.ftp)
 
+    import hTools2.modules.opentype
+    reload(hTools2.modules.opentype)
+
 #--------
 # import
 #--------
@@ -43,6 +46,7 @@ from hTools2.modules.encoding import paint_groups, auto_unicodes
 from hTools2.modules.fontinfo import set_names_from_path, set_vmetrics
 from hTools2.modules.fontutils import *
 from hTools2.modules.ftp import *
+from hTools2.modules.opentype import import_features
 
 #---------
 # objects
@@ -50,7 +54,7 @@ from hTools2.modules.ftp import *
 
 class hFont:
 
-    '''A wrapper object for fonts in a project.'''
+    '''A wrapper object for a font in a project.'''
 
     #------------
     # attributes

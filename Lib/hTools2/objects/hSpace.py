@@ -43,7 +43,7 @@ from hTools2.modules.anchors import transfer_anchors
 from hTools2.modules.fileutils import get_names_from_path
 from hTools2.modules.glyphutils import *
 from hTools2.modules.fontinfo import *
-from hTools2.modules.fontutils import get_full_name, scale_glyphs
+from hTools2.modules.fontutils import get_full_name, scale_glyphs, parse_glyphs_groups
 from hTools2.modules.ftp import connect_to_server, upload_file
 
 # object
@@ -183,6 +183,11 @@ class hSpace:
             else:
                 continue
         return font_paths
+
+    def set_parameters(self, parameters):
+        for k in parameters.keys():
+            if self.parameters.has_key(k):
+                self.parameters[k] = parameters[k]
 
     # ftp
 

@@ -1,7 +1,7 @@
 hTools2
 =======
 
-**v1.5 – 10.2012**
+**v1.5 – 04.2013**
 
 hTools2 is a [UFO](http://unifiedfontobject.org/)-based [Python](http://python.org/)-powered font-production toolkit.
 

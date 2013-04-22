@@ -71,6 +71,20 @@ class hProject:
             self.read_libs()
             self.collect_fonts()
 
+    def get_ufo(self, parameters, verbose=False):
+        font_name = ''
+        for i, parameter_name in enumerate(self.libs['project']['parameters_order']):
+            font_name += str(parameters[parameter_name])
+            if (i+1) < len(self.libs['project']['parameters_order']):
+                font_name += ' '
+        if self.fonts.has_key(font_name):
+            ufo_path = self.fonts[font_name]
+        else:
+            if verbose:
+                print "Font '%s' does not exist." % font_name
+            ufo_path = None
+        return ufo_path
+
     # libs
 
     def read_libs(self):

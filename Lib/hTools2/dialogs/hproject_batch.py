@@ -91,6 +91,7 @@ class BatchProject(object):
         ( 'import groups',      False ),
         ( 'paint groups',       False ),
         ( 'crop glyphset',      False ),
+        ( 'import features',    False ),
         ( 'auto unicodes',      False ),
         ( 'set vmetrics',       False ),
         ( 'build accents',      False ),
@@ -650,10 +651,11 @@ class BatchProject(object):
                         print '\t\tbuilding composed glyphs...'
                         font.build_composed()
                 #---------------------------------
-                _action = 'build features'
+                _action = 'import features'
                 if _actions.has_key(_action):
                     if _actions[_action]:
-                        print '\t\tbuilding features... [empty]'
+                        print '\t\timporting features...'
+                        font.import_features()
                 #---------------------------------
                 _action = 'set font info'
                 if _actions.has_key(_action):
@@ -742,7 +744,7 @@ class BatchProject(object):
                 if _actions.has_key(_action):
                     if _actions[_action]:
                         print '\t\tgenerating otf...'
-                        font.generate_otf(verbose=True)
+                        font.generate_otf(verbose=False)
                 #---------------------------------
                 _action = 'generate test otf'
                 if _actions.has_key(_action):
