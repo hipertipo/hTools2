@@ -1,6 +1,6 @@
 # [h] create shortcuts
 
-'''Create RoboFont keyboard shortcuts for several scripts in hTools2.'''
+'''Create RoboFont keyboard shortcuts for scripts in hTools2.'''
 
 # imports
 
@@ -10,7 +10,7 @@ from hTools2.modules.sysutils import *
 
 # shortcuts
 
-scripts_path = os.getcwd()
+scripts_path = os.path.join(os.getcwd(), 'Scripts')
 
 scripts_shortcuts = [
     (   'a',    'actions',          u'selected-glyphs/_actions/actions.py',            ),
@@ -34,4 +34,4 @@ scripts_shortcuts = [
 
 scripts_dict = build_shortcuts_dict(scripts_path, scripts_shortcuts)
 set_shortcuts(scripts_dict)
-print_shortcuts(verbose=True)
+print_shortcuts(verbose=False)

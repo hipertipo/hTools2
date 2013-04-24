@@ -1,8 +1,12 @@
 # [h] create hTools2 menu
 
-'''Add hTools2 as a menu item in RoboFont’s main menu.'''
+'''Add hTools2 as a menu item in RoboFont’s application menu.'''
 
+### thanks Frederik ###
+
+#---------
 # imports
+#---------
 
 import os
 
@@ -10,9 +14,11 @@ from AppKit import *
 
 from lib.UI.fileBrowser import PathItem
 
+#-----------
 # functions
+#-----------
 
-def add_menu(path, name):
+def add_menu(name, path):
     # create a new menu
     menu = NSMenu.alloc().initWithTitle_(name)
     # create a path item that will build the menu and connect all the callbacks
@@ -29,9 +35,11 @@ def add_menu(path, name):
     # set the menu as submenu
     newItem.setSubmenu_(menu)
 
+#--------
 # script
+#--------
 
-_path = os.getcwd()
-_name = "hTools2"
+menu_name = "hTools2"
+scripts_path = os.path.join(os.getcwd(), 'Scripts')
 
-add_menu(_path, _name)
+add_menu(menu_name, scripts_path)

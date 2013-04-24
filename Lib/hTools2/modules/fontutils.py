@@ -86,14 +86,14 @@ def parse_glyphs_groups(names, groups):
             glyph_names.append(name)
     return glyph_names
 
-def rename_glyph(font, old_name, new_name, overwrite=True, mark=True):
+def rename_glyph(font, old_name, new_name, overwrite=True, mark=True, verbose=True):
     if font.has_key(old_name):
         g = font[old_name]
         # if new name already exists in font
         if font.has_key(new_name):
             # option [1] (default): overwrite
             if overwrite is True:
-                print '\trenaming "%s" to "%s" (overwriting existing glyph)...' % (old_name, new_name)
+                if verbose: print '\trenaming "%s" to "%s" (overwriting existing glyph)...' % (old_name, new_name)
                 font.removeGlyph(new_name)
                 g.name = new_name
                 if mark:
@@ -101,30 +101,32 @@ def rename_glyph(font, old_name, new_name, overwrite=True, mark=True):
                 g.update()
             # option [2]: skip, do not overwrite
             else:
-                print '\tskipping "%s", "%s" already exists in font.' % (old_name, new_name)
+                if verbose: print '\tskipping "%s", "%s" already exists in font.' % (old_name, new_name)
                 if mark:
                     g.mark = named_colors['red']
                 g.update()
         # if new name not already in font, simply rename glyph
         else:
-            print '\trenaming "%s" to "%s"...' % (old_name, new_name)
+            if verbose: print '\trenaming "%s" to "%s"...' % (old_name, new_name)
             g.name = new_name
             if mark:
                 g.mark = named_colors['green']
             g.update()
         # done glyph
     else:
-        print '\tskipping "%s", glyph does not exist in font.' % old_name
+        if verbose: print '\tskipping "%s", glyph does not exist in font.' % old_name
     # done font
     font.update()
 
-def rename_glyphs_from_list(font, names_list, overwrite=True, mark=True):
-    print 'renaming glyphs...\n'
+def rename_glyphs_from_list(font, names_list, overwrite=True, mark=True, verbose=True):
+    if verbose:
+        print 'renaming glyphs...\n'
     for pair in names_list:
         old_name, new_name = pair
-        rename_glyph(font, old_name, new_name, overwrite, mark)
-    print
-    print '...done.\n'
+        rename_glyph(font, old_name, new_name, overwrite, mark, verbose)
+    if verbose:
+        print
+        print '...done.\n'
 
 def crop_glyphset(font, glyphset):
     for glyph in font:

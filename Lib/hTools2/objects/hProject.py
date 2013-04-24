@@ -49,11 +49,31 @@ class hProject:
     fonts = None
 
     _path_names = [
-        'root', 'ufos', 'vfbs', 'libs', 'otfs', 'temp', 'instances', 'interpol', 'woffs', 'otfs_test',
+        'root',
+        'ufos',
+        'ufos',
+        'vfbs',
+        'libs',
+        'otfs',
+        'temp',
+        'instances',
+        'interpol',
+        'woffs',
+        'python',
+        'python_robofont',
+        'python_nodebox',
+        'otfs_test',
     ]
 
     _lib_names = [
-        'project', 'info', 'vmetrics', 'accents', 'composed', 'spacing', 'interpol', 'groups'
+        'project',
+        'info',
+        'vmetrics',
+        'accents',
+        'composed',
+        'spacing',
+        'interpol',
+        'groups'
     ]
 
     _lib_extension = 'plist'
@@ -140,8 +160,13 @@ class hProject:
         _paths['vfbs'] = os.path.join(_project_root, '_vfbs')
         _paths['temp'] = os.path.join(_project_root, '_temp')
         _paths['woffs'] = os.path.join(_project_root, '_woffs')
+        _paths['python'] = os.path.join(_project_root, '_py')
+        # sub-folders
         _paths['instances'] = os.path.join(_project_root, '_ufos/_instances')
         _paths['interpol'] = os.path.join(_project_root, '_ufos/_interpol')
+        _paths['python_robofont'] = os.path.join(_project_root, '_py/RoboFont')
+        _paths['python_nodebox'] = os.path.join(_project_root, '_py/NodeBox')
+        # adobe fonts folder
         _paths['otfs_test'] = os.path.join(self.world.settings.hDict['test'], '_%s') % self.name
         # encoding path
         _enc_filename = '%s.enc' % self.name
@@ -241,6 +266,27 @@ class hProject:
     def vfbs(self):
         '''Return a list of all .vfb files in project.'''
         return walk(self.paths['vfbs'], 'vfb')
+
+    def scripts(self):
+        '''Return a list of all .py files in project.'''
+        scripts = {}
+        # collect RoboFont scripts
+        RF_folder = self.paths['python_robofont']
+        if os.path.exists(RF_folder):
+            scripts['RoboFont'] = []
+            for script_path in walk(RF_folder, 'py'):
+                # script_name = os.path.split(script_path)[1]
+                # script_name = script_name.split('.')[0]
+                # script_name = script_name.replace('-', ' ')
+                scripts['RoboFont'].append(script_path)
+        # collect NodeBox scripts
+        NB_folder = self.paths['python_nodebox']
+        if os.path.exists(NB_folder):
+            scripts['NodeBox'] = []
+            for script_path in walk(NB_folder, 'py'):
+                scripts['NodeBox'].append(script_path)
+        # done
+        return scripts
 
     # delete files
 

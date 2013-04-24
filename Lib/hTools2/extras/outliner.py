@@ -5,7 +5,6 @@
 
 from vanilla import *
 from AppKit import *
-#from defconAppKit.windows.baseWindow import BaseWindowController
 
 from fontTools.pens.cocoaPen import CocoaPen
 
@@ -25,7 +24,7 @@ def roundFloat(f):
     error = 1000000.
     return round(f*error)/error
 
-def checkSmooth( firstAngle, lastAngle):
+def checkSmooth(firstAngle, lastAngle):
     if  firstAngle == None or lastAngle == None:
         return True
     error = 4

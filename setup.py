@@ -2,11 +2,11 @@
 
 from distutils.core import setup
 
-# check for robofab / vanilla / mojo ?
+### add: check for dependencies
 
 setup(name='hTools2',
     version='1.5',
-    description='A font-production toolkit for RoboFont.',
+    description='A font-production toolkit.',
     author='Gustavo Ferreira',
     author_email='gustavo@hipertipo.com',
     url='http://hipertipo.com/',
@@ -18,5 +18,5 @@ setup(name='hTools2',
         'hTools2.dialogs',
         'hTools2.extras',
     ],
-    #package_dir={'hTools2':'Lib/hTools2'}
+    package_dir={'hTools2': 'Lib'}
 )

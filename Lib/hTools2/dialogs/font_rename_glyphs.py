@@ -1,6 +1,6 @@
-# [h] dialog to rename glyphs in font
+# [h] rename glyphs in font
 
-# reload when debugging
+# debug
 
 import hTools2
 reload(hTools2)

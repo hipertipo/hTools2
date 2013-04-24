@@ -22,6 +22,9 @@ if hTools2.DEBUG:
     import hTools2.modules.fontutils
     reload(hTools2.modules.fontutils)
 
+    import hTools2.modules.fileutils
+    reload(hTools2.modules.fileutils)
+
     import hTools2.modules.ftp
     reload(hTools2.modules.ftp)
 
@@ -41,6 +44,7 @@ from hproject import hProject
 from hfont import hFont
 from hTools2.modules.anchors import transfer_anchors
 from hTools2.modules.fileutils import get_names_from_path
+from hTools2.modules.fontutils import rename_glyphs_from_list
 from hTools2.modules.glyphutils import *
 from hTools2.modules.fontinfo import *
 from hTools2.modules.fontutils import get_full_name, scale_glyphs, parse_glyphs_groups
@@ -540,6 +544,16 @@ class hSpace:
             for glyph_name in glyph_names:
                 font.ufo[glyph_name].width += delta
             font.ufo.save()
+        print
+        print '...done.\n'
+
+    def rename_glyphs(self, names_list):
+        print 'renaming glyphs in space...\n'
+        for ufo_path in self.ufos():
+            ufo = RFont(ufo_path, showUI=False)
+            print '\trenaming glyphs in %s...' % get_full_name(ufo)
+            rename_glyphs_from_list(ufo, names_list, overwrite=True, mark=False, verbose=False)
+            ufo.save()
         print
         print '...done.\n'
 
