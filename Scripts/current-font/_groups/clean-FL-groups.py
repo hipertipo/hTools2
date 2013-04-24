@@ -1,4 +1,6 @@
-# [h] clean-up dirty FL spacing groups
+# [h] clean-up spacing groups
+
+'''Clean-up quoted glyph-names in FontLab dirty spacing groups.'''
 
 # function
 

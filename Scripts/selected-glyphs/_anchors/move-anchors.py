@@ -1,6 +1,8 @@
 # [h] move anchors
 
-# reload when debugging
+'''Move named anchors in selected glyphs by a given distance.'''
+
+# debug
 
 import hTools2
 reload(hTools2)
@@ -13,6 +15,6 @@ if hTools2.DEBUG:
 
 from hTools2.dialogs import moveAnchorsDialog
 
-# unr
+# run
 
 moveAnchorsDialog()

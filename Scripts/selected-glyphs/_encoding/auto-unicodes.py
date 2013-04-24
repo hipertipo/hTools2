@@ -1,6 +1,8 @@
 # [h] auto unicodes
 
-# reload when debugging
+'''Automatically set unicode values for selected glyphs.'''
+
+# debug
 
 import hTools2
 reload(hTools2)

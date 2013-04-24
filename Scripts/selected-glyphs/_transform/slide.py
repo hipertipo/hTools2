@@ -1,6 +1,8 @@
 # [h] slide glyphs
 
-# reload when debugging
+'''Slide selected glyphs interactively with a slider.'''
+
+# debug
 
 import hTools2
 reload(hTools2)

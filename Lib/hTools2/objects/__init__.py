@@ -3,7 +3,7 @@
 import hTools2
 reload(hTools2)
 
-# reload when debugging
+# debug
 
 if hTools2.DEBUG:
 
@@ -22,11 +22,11 @@ if hTools2.DEBUG:
     import hfont
     reload(hfont)
 
-    import hline
-    reload(hline)
-
     import hglyph
     reload(hglyph)
+
+    import hdocs
+    reload(hdocs)
 
 # import objects
 
@@ -35,8 +35,8 @@ from hworld import hWorld
 from hproject import hProject
 from hspace import hSpace
 from hfont import hFont
-from hline import hLine
 from hglyph import hGlyph
+from hdocs import hDocs
 
 # export object names
 
@@ -46,6 +46,6 @@ __all__ = [
     'hProject',
     'hSpace',
     'hFont',
-    'hLine',
     'hGlyph',
+    'hDocs',
 ]

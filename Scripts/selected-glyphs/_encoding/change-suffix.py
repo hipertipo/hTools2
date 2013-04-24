@@ -1,6 +1,8 @@
 # [h] change glyph suffix
 
-# reload when debugging
+'''Change the existing suffix of selected glyphs by a new one.'''
+
+# debug
 
 import hTools2
 reload(hTools2)

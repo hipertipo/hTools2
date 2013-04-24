@@ -1,6 +1,11 @@
 # [h] set/increase/decrease glyph width
 
-# reload when debugging
+#-------------------------------------------------
+# options `split difference` and `relative split`
+# suggested and funded by Bas Jacobs / Underware
+#-------------------------------------------------
+
+# debug
 
 import hTools2
 reload(hTools2)
@@ -39,11 +44,11 @@ class setWidthDialog(object):
     _button_2 = 18
     _line_height = 20
     _button_height = 30
-    _height = _button_height + (_line_height * 3) + _button_2 + (_padding_top * 5) + 2
+    _height = _button_height + (_line_height * 5) + _button_2 + (_padding_top * 5) + 3
     _width = 123
 
     _width_ = 400
-    _modes = [ 'set equal to', 'increase by', 'decrease by', ]
+    _modes = [ 'set equal to', 'increase by', 'decrease by' ]
     _mode = 0
 
     #---------
@@ -144,7 +149,28 @@ class setWidthDialog(object):
                     self._line_height),
                     "center glyphs",
                     value=False,
-                    sizeStyle='small')
+                    sizeStyle='small',
+                    callback=self._center_callback)
+        # split difference
+        y += self._line_height
+        self.w.split_checkbox = CheckBox(
+                    (x, y,
+                    -self._padding,
+                    self._line_height),
+                    "split difference",
+                    value=False,
+                    sizeStyle='small',
+                    callback=self._split_callback)
+        # split relative
+        y += self._line_height
+        self.w.split_relative_checkbox = CheckBox(
+                    (x, y,
+                    -self._padding,
+                    self._line_height),
+                    "relative split",
+                    value=False,
+                    sizeStyle='small',
+                    callback=self._split_relative_callback)
         # apply button
         x = self._padding
         y += self._line_height + self._padding
@@ -193,43 +219,121 @@ class setWidthDialog(object):
         self._width_ = int(self.w.width_value.get()) + 100
         self.w.width_value.set(self._width_)
 
+    def _center_callback(self, sender):
+        if sender.get():
+            if self.w.split_checkbox.get():
+                self.w.split_checkbox.set(False)
+            if self.w.split_relative_checkbox.get():
+                self.w.split_relative_checkbox.set(False)
+
+    def _split_callback(self, sender):
+        if sender.get():
+            if self.w.center_checkbox.get():
+                self.w.center_checkbox.set(False)
+            if self.w.split_relative_checkbox.get():
+                self.w.split_relative_checkbox.set(False)
+
+    def _split_relative_callback(self, sender):
+        if sender.get():
+            if self.w.center_checkbox.get():
+                self.w.center_checkbox.set(False)
+            if self.w.split_checkbox.get():
+                self.w.split_checkbox.set(False)
+
     # apply
 
-    def set_width(self, glyph, width, center):
+    def set_width(self, glyph, width, mode=None):
+        #------------------
+        # store old values
+        #------------------
+        _old_left = glyph.leftMargin
+        _old_right = glyph.rightMargin
+        _old_width = glyph.width
+        _glyph_width = _old_width - (_old_left + _old_right)
+        #---------------
+        # compute width
+        #---------------
         glyph.prepareUndo('set glyph width')
-        # set width
+        # add value
         if self._mode == 1:
-            glyph.width += int(width)
+            _width = _old_width + width
+        # subtract value
         elif self._mode == 2:
-            glyph.width -= int(width)
+            _width = _old_width - width
+        # equal to value
         else:
-            glyph.width = int(width)
+            _width = width
+        #-------------
+        # set margins
+        #-------------
         # center glyph
-        if center:
+        if mode == 'center':
+            glyph.width = _width
             center_glyph(glyph)
-        # done
-        glyph.performUndo()
+        #------------------
+        # split difference
+        elif mode == 'split difference':
+            # calculate new left margin
+            try:
+                _diff = _width - _old_width
+                _new_left = _old_left + (_diff / 2)
+            except:
+                _new_left = 0
+            # set margins
+            glyph.leftMargin = _new_left
+            glyph.width = _width
+        #------------------
+        # split difference
+        elif mode == 'split relative':
+            # calculate new left margin
+            try:
+                _whitespace = _width - _glyph_width
+                _new_left = _whitespace / ( 1 + (_old_right / _old_left) )
+            except:
+                _new_left = 0
+            # set margins
+            glyph.leftMargin = _new_left
+            glyph.width = _width
+        #-----------
+        # set width
+        else:
+            glyph.width = _width
+        #-------
+        # done!
+        #-------
         glyph.update()
+        glyph.performUndo()
 
     def apply_callback(self, sender):
         f = CurrentFont()
         if f is not None:
             # get parameters
-            _width = self.w.width_value.get()
+            _width = int(self.w.width_value.get())
             _center = self.w.center_checkbox.get()
+            _split = self.w.split_checkbox.get()
+            _split_relative = self.w.split_relative_checkbox.get()
             _gNames = f.selection
-            boolstring = (False, True)
+            boolstring = ( False, True )
+            # set sidebearings mode
+            if _center:
+                _w_mode = 'center'
+            elif _split:
+                _w_mode = 'split difference'
+            elif _split_relative:
+                _w_mode = 'split relative'
+            else:
+                _w_mode = None
             # print info
             print 'setting character widths...\n'
             print '\t%s %s' % (self._modes[self._mode], _width)
-            print '\tcenter: %s' % boolstring[_center]
+            print '\tmode: %s' % _w_mode
             print
             print '\t',
             # current glyph
             glyph = CurrentGlyph()
             if glyph is not None:
                 print glyph.name,
-                self.set_width(glyph, _width, _center)
+                self.set_width(glyph, _width, _w_mode)
                 f.update()
                 print
                 print '\n...done.\n'
@@ -239,7 +343,8 @@ class setWidthDialog(object):
                 if len(glyph_names) > 0:
                     for glyph_name in glyph_names:
                         print glyph_name,
-                        self.set_width(f[glyph_name], _width, _center)
+                        self.set_width(f[glyph_name], _width, _w_mode)
+                    f.update()
                     print
                     print '\n...done.\n'
                 # no glyph selected

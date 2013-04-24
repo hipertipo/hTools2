@@ -1,6 +1,8 @@
-# [h] transfer glyphs to mask
+# [h] copy to mask
 
-# reload when debugging
+'''Copy selected glyphs in one font to the mask layer of another font.'''
+
+# debug
 
 import hTools2
 reload(hTools2)

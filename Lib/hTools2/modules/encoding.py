@@ -2,7 +2,7 @@
 
 '''Unicode tools, glyph name to hex/uni conversion etc.'''
 
-# reload when debugging
+# debug
 
 import hTools2
 reload(hTools2)
@@ -30,9 +30,7 @@ from hTools2.modules.fontutils import crop_glyphset
 # functions
 
 def import_encoding(file_path):
-    '''Import group and glyphs names from an `.enc` file.
-    Return a dictionary with glyph groups, and a list with the order of the groups.
-    '''
+    '''Import group and glyphs names from an `.enc` file. Return a dictionary with glyph groups, and a list with the order of the groups.'''
     if os.path.exists(file_path):
         lines = open(file_path, 'r').readlines()
         groups = {}
@@ -67,13 +65,12 @@ def auto_unicodes(f):
     '''Automatically set unicode values for all glyphs in the font.'''
     clear_unicodes(f)
     for g in f:
-        auto_unicode(g)
+        if g is not None:
+            auto_unicode(g)
     f.update()
 
 def paint_groups(f, crop=False):
-    '''Paint the glyphs in the `font` according to their groups.
-    If a `groups_order` lib is available, use it to set the order of the glyphs in the font.
-    '''
+    '''Paint the glyphs in the `font` according to their groups. If a `groups_order` lib is available, use it to set the order of the glyphs in the font.'''
     font = CurrentFont()
     if len(f.groups) > 0:
         clear_colors(f)
@@ -106,21 +103,20 @@ def paint_groups(f, crop=False):
 #-------------------
 
 def auto_unicode(g):
-    '''Automatically set unicode value(s) for the specified glyph.
-    The method uses RoboFab's `glyph.autoUnicodes()` function for common glyphs, and complements it with additional values from `unicodes_extra`.
-    '''
-    # handle 'uni' names
-    if g.name[:3] == "uni" and len(g.name) == 7:
-        c = g.name
-        g.unicode = int(c.split('uni')[1], 16)
-    # handle extra cases
-    elif g.name in unicodes_extra.keys():
-        uString = 'uni%s' % unicodes_extra[g.name]
-        g.unicode = unicode_hexstr_to_int(uString)
-    # use auto unicode for everything else
-    else:
-        g.autoUnicodes()
-    g.update()
+    '''Automatically set unicode value(s) for the specified glyph. The method uses RoboFab's `glyph.autoUnicodes()` function for common glyphs, and complements it with additional values from `unicodes_extra`.'''
+    if g.name is not None:
+        # handle 'uni' names
+        if g.name[:3] == "uni" and len(g.name) == 7:
+            c = g.name
+            g.unicode = int(c.split('uni')[1], 16)
+        # handle extra cases
+        elif g.name in unicodes_extra.keys():
+            uString = 'uni%s' % unicodes_extra[g.name]
+            g.unicode = unicode_hexstr_to_int(uString)
+        # use auto unicode for everything else
+        else:
+            g.autoUnicodes()
+        g.update()
 
 #------------------------------
 # unicode-to-string conversion
@@ -156,21 +152,28 @@ def unicode_hexstr_to_int(hexUnicode, replaceUni=True):
 # a dict containing additional `glyphName` to `unicode` mappings
 
 unicodes_extra = {
-    # extended latin
-    'schwa' : '0259',
-    'dotlessj' : '0237',
+    # extended latin lc
     'aemacron' : '01E3',
-    'AEmacron' : '01E2',
-    'nbspace' : '00A0',
+    'dotlessj' : '0237',
+    'schwa' : '0259',
     'ymacron' : '0233',
+    # extended latin uc
+    'AEmacron' : '01E2',
+    'Schwa' : '018F',
     'Uppercaseeszett' : '1E9E',
     # ligatures
     'fi' : 'FB01',
     'fl' : 'FB02',
+    'f_f' : 'FB00',
+    'f_f_i' : 'FB03',
+    'f_f_l' : 'FB04',
     # greek exceptions
-    'mu' : '00B5',
-    'Omega' : '2126',
     'Delta' : '2206',
+    'Deltagreek' : '0394',
+    'mu' : '00B5',
+    'mugreek' : '03BC',
+    'Omega' : '2126',
+    'Omegagreek' : '03A9',
     # superiors
     'zerosuperior' : '2070',
     'onesuperior' : '00B9',
@@ -194,11 +197,41 @@ unicodes_extra = {
     'eightinferior' : '2088',
     'nineinferior' : '2089',
     # spaces
+    'nbspace' : '00A0',
     'hairspace' : '200A',
     'thinspace' : '2009',
     'thickspace' : '2004',
     'figurespace' : '2007',
-    'zerowidthspace' : '200B'
+    'zerowidthspace' : '200B',
+    # symbols
+    'bulletoperator' : '2219',
+    # latin accented lc
+    'adotbelow' : '1EA1',
+    'aringacute' : '01FB',
+    'edotbelow' : '1EB9',
+    'etilde' : '1EBD',
+    'dotbelowcomb' : '0323',
+    'gcaron' : '01E7',
+    'idotbelow' : '1ECB',
+    'nhookleft' : '0272',
+    'odotbelow' : '1ECD',
+    'oogonek' : '01EB',
+    'udotbelow' : '1EE5',
+    'ymacron' : '0233',
+    'ytilde' : '1EF9',
+    # latin accented uc
+    'Adotbelow' : '1EA0',
+    'Aringacute' : '01FA',
+    'Edotbelow' : '1EB8',
+    'Etilde' : '1EBC',
+    'Gcaron' : '01E6',
+    'Idotbelow' : '1ECA',
+    'Nhookleft' : '019D',
+    'Odotbelow' : '1ECC',
+    'Udotbelow' : '1EE4',
+    'Oogonek' : '01EA',
+    'Ymacron' : '0232',
+    'Ytilde' : '1EF8',
 }
 
 #-------------------------------
@@ -206,7 +239,7 @@ unicodes_extra = {
 #-------------------------------
 
 # a dictionary mapping unicode values to psNames
-# thanks Frederik Berlaen (2007)
+# thanks to Frederik Berlaen (2007)
 
 unicode2psnames = {
     None : '.notdef',

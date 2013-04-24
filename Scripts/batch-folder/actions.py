@@ -1,6 +1,8 @@
-# [h] batch apply actions to all fonts in a folder
+# [h] apply actions
 
-# reload when debugging
+'''Batch apply actions to all fonts in folder.'''
+
+# debug
 
 import hTools2
 reload(hTools2)

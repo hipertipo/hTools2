@@ -1,6 +1,8 @@
 # [h] clear guides
 
-# reload when debugging
+'''Remove all guides in selected glyphs.'''
+
+# debug
 
 import hTools2
 reload(hTools2)

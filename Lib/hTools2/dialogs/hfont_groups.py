@@ -1,6 +1,6 @@
 # [h] dialog to import and paint glyph groups
 
-# reload when debugging
+# debug
 
 import hTools2
 reload(hTools2)
@@ -9,9 +9,6 @@ if hTools2.DEBUG:
 
     import hTools2.objects
     reload(hTools2.objects)
-
-    import hTools2.modules.fontutils
-    reload(hTools2.modules.fontutils)
 
 # imports
 
@@ -23,7 +20,6 @@ except:
     from robofab.world import CurrentFont
 
 from hTools2.objects import hFont
-from hTools2.modules.fontutils import delete_groups
 
 # objects
 

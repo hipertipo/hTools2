@@ -1,6 +1,6 @@
 # [h] hTools2.modules.rasterizer
 
-# reload when debugging
+# debug
 
 import hTools2
 reload(hTools2)
@@ -172,142 +172,142 @@ def set_element(f, size, type='rect', magic=None, element_='_element'):
     g.update()
     f.update()
 
-# NodeBox Rasterizer
+# #--------------------
+# # NodeBox Rasterizer
+# #--------------------
 
-class Rasterizer:
+# class Rasterizer:
 
-    '''An object to read bits from a raw text source and draw elements in a NodeBox canvas.'''
+#     '''An object to read bits from a raw text source and draw elements in a NodeBox canvas.'''
 
-    elementSize = 20
-    elementSpace = 30
-    elementShape = "oval"
-    black = "-"
-    fillColor = (.5)
-    strokeColor = (0)
-    strokeWidth = 3
+#     esize = 20
+#     espace = 30
+#     eshape = 1
+#     fill_color = (.5)
+#     stroke_color = (0)
+#     stroke_width = 3
 
-    def __init__(self, (x, y), rawText, context, element=0):
-        self.ctx = context
-        self.lines = rawText.split("\n")
-        self.x = x
-        self.y = y
-        if element == 0:
-            self.element = element_0(self.elementSize, self.ctx)
-        elif element == 1:
-            self.element = element_1(self.elementSize, self.ctx)
-        else:
-            print "sorry, this element does not exist yet."
+#     black = "#"
+#     white = '-'
 
-    def draw(self, mode=0, element=0):
-        lines = self.lines
-        # eSize = self.element.
-        # eSpace = self.elementSpace
-        lineCount = 0
-        self.ctx.push()
-        self.ctx.translate(self.x, self.y)
-        # scan matrix and draw elements
-        for l in lines:
-            charCount = 0
-            for bit in l:
-                x = charCount * self.element.eSpace
-                y = lineCount * self.element.eSpace
-                if bit == self.black:
-                    if mode== 1:
-                        self.element.draw((x, y), mode=1) # pos
-                    else:
-                        self.element.draw((x, y), mode=0) # neg
-                else:
-                    if mode == 1:
-                        self.element.draw((x, y), mode=0) # pos
-                    else:
-                        self.element.draw((x, y), mode=1) # neg
-                charCount += 1
-            lineCount += 1
-        self.ctx.pop()
+#     def __init__(self, (x, y), text, ctx, element=1):
+#         self.ctx = ctx
+#         self.lines = text.split("\n")
+#         self.x = x
+#         self.y = y
+#         if element == 0:
+#             self.element = element_0(self.esize, self.ctx)
+#         elif element == 1:
+#             self.element = element_1(self.esize, self.ctx)
+#         else:
+#             print "sorry, this element does not exist yet."
+#         self.element.shape = self.eshape
 
-class element_0:
+#     def draw(self):
+#         lines = self.lines
+#         lineCount = 0
+#         self.ctx.push()
+#         self.ctx.translate(self.x, self.y)
+#         # scan matrix and draw elements
+#         for line in lines:
+#             charCount = 0
+#             for bit in line:
+#                 x = charCount * self.element.space
+#                 y = lineCount * self.element.space
+#                 if bit == self.black:
+#                     self.element.draw((x, y), mode=1) # pos
+#                 else:
+#                     self.element.draw((x, y), mode=0) # pos
+#                 charCount += 1
+#             lineCount += 1
+#         self.ctx.pop()
 
-    def __init__(self, eSize, context):
-        self.ctx = context
-        self.eSize = eSize
-        self.eShape = "oval"
-        self.eFill = self.ctx.color(1, .5)
-        self.eStroke = self.ctx.color(0)
-        self.eStrokewidth = 1
+# class element_0:
 
-    def set_fill(self):
-        if self.eFill is not None:
-            self.ctx.fill(self.eFill)
-        else:
-            self.ctx.nofill()
+#     fill = True
+#     stroke = False
+#     shape = 1 # oval
 
-    def set_stroke(self):
-        if self.eStroke is not None:
-            self.ctx.strokewidth(self.eStrokewidth)
-            self.ctx.stroke(self.eStroke)
-        else:
-            self.ctx.nostroke()
+#     def __init__(self, size, ctx):
+#         self.ctx = ctx
+#         self.size = size
+#         self.fill_color = self.ctx.color(1, .5)
+#         self.stroke_color = self.ctx.color(0)
+#         self.stroke_width = 1
 
-    def draw(self, (x, y), mode=1):
-        if mode == 0:
-            pass
-        else:
-            # set fill
-            self.set_fill()
-            self.set_stroke()
-            # get position & size
-            x += (self.eSize / 2)
-            y += (self.eSize / 2)
-            s = self.eSize
-            # get shape & draw
-            if self.eShape is "oval":
-                self.ctx.oval(x - (s / 2), y - (s / 2), s, s)
-            else:
-                self.ctx.rect(x - (s / 2), y - (s / 2), s, s)
+#     def set_fill(self):
+#         if self.fill_color is not None:
+#             self.ctx.fill(self.fill_color)
+#         else:
+#             self.ctx.nofill()
 
-class element_1(element_0):
+#     def set_stroke(self):
+#         if self.stroke:
+#             self.ctx.strokewidth(self.stroke_width)
+#             self.ctx.stroke(self.stroke_color)
+#         else:
+#             self.ctx.nostroke()
 
-    def __init__(self, eSize, context):
-        element_0.__init__(self, eSize, context)
-        self.rand_size = .2
-        self.rand_color = .2
+#     def draw(self, (x, y), mode=1):
+#         if mode == 0:
+#             pass
+#         else:
+#             # set fill
+#             self.set_fill()
+#             self.set_stroke()
+#             # get position & size
+#             x += (self.size / 2)
+#             y += (self.size / 2)
+#             s = self.size
+#             # get shape & draw
+#             if self.shape == 1:
+#                 self.ctx.oval(x - (s / 2), y - (s / 2), s, s)
+#             else:
+#                 self.ctx.rect(x - (s / 2), y - (s / 2), s, s)
 
-    def draw(self, (x, y), mode=1):
-        self.set_fill()
-        self.set_stroke()
-        self.x = x
-        self.y = y
-        if mode == 0:
-            pass
-        else:
-            self.layer_1(x, y)
+# class element_1(element_0):
 
-    def layer_1(self, x, y, rSize=1):
-        x = self.x + (self.eSize / 2)
-        y = self.y + (self.eSize / 2)
-        rand_min = (1 - self.rand_size) * 10
-        rand_max = (1 + self.rand_size) * 10
-        s = self.eSize * rSize * randint(int(rand_min), int(rand_max)) * .1
-        self.ctx.oval(x - (s / 2), y - (s / 2), s, s)
+#     def __init__(self, size, ctx):
+#         element_0.__init__(self, size, ctx)
+#         self.rand_size = .2
+#         self.rand_color = .2
 
-class element_2(element_0):
+#     def draw(self, (x, y), mode=1):
+#         self.set_fill()
+#         self.set_stroke()
+#         self.x = x
+#         self.y = y
+#         if mode == 0:
+#             pass
+#         else:
+#             self.layer_1(x, y)
 
-    def __init__(self, elementSize, x, y, context):
-        element_0.__init__(self, elementSize, x, y)
+#     def layer_1(self, x, y, rSize=1):
+#         x = self.x + (self.size / 2)
+#         y = self.y + (self.size / 2)
+#         rand_min = (1 - self.rand_size) * 10
+#         rand_max = (1 + self.rand_size) * 10
+#         s = self.size * rSize * randint(int(rand_min), int(rand_max)) * .1
+#         self.ctx.oval(x - (s / 2), y - (s / 2), s, s)
 
-    def draw(self, mode=1):
-        if mode == 0:
-            pass
-        else:
-            rFactor = 1 # random(1, 1.1)
-            sWidth = float(randint(15, 25)) / 10
-            # _ctx.strokewidth(sWidth)
-            # _ctx.stroke(self.sColor)
-            # _ctx.nofill()
-            for r in range(self.rings):
-                s = float(self.elementSize / self.rings) * (r + 1) * rFactor
-                X = self.x - (s / 2)
-                Y = self.y - (s / 2)
-               #  _ctx.stroke(randint(4, 6)/10)
-                _ctx.oval(X, Y, s, s)
+# class element_2(element_0):
+
+#     def __init__(self, elementSize, x, y, context):
+#         element_0.__init__(self, elementSize, x, y)
+
+#     def draw(self, mode=1):
+#         if mode == 0:
+#             pass
+#         else:
+#             rFactor = 1 # random(1, 1.1)
+#             sWidth = float(randint(15, 25)) / 10
+#             # _ctx.strokewidth(sWidth)
+#             # _ctx.stroke(self.sColor)
+#             # _ctx.nofill()
+#             for r in range(self.rings):
+#                 s = float(self.elementSize / self.rings) * (r + 1) * rFactor
+#                 X = self.x - (s / 2)
+#                 Y = self.y - (s / 2)
+#                #  _ctx.stroke(randint(4, 6)/10)
+#                 _ctx.oval(X, Y, s, s)
 

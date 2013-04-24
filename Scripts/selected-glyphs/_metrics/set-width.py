@@ -1,6 +1,8 @@
 # [h] set width dialog
 
-# reload when debugging
+'''Set the advance width of the selected glyphs.'''
+
+# debug
 
 import hTools2
 reload(hTools2)

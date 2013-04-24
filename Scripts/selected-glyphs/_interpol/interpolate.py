@@ -1,6 +1,8 @@
 # [h] interpolate selected glyphs
 
-# reload when debugging
+'''Interpolate selected glyphs from one font with another into a third font.'''
+
+# debug
 
 import hTools2
 reload(hTools2)

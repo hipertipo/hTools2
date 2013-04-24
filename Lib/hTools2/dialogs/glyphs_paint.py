@@ -24,7 +24,7 @@ try:
 except:
     from robofab.world import CurrentFont, CurrentGlyph
 
-from hTools2.modules.color import random_color
+from hTools2.modules.color import random_color, clear_color
 from hTools2.modules.fontutils import get_glyphs
 
 # objects
@@ -43,7 +43,7 @@ class paintGlyphsDialog(object):
     _padding = 10
     _padding_top = 10
     _width = 123
-    _height = (_button_height * 3) + (_padding * 3)
+    _height = (_button_height * 4) + (_padding * 4)
 
     _mark_color = random_color()
 
@@ -64,7 +64,7 @@ class paintGlyphsDialog(object):
                 -self._padding,
                 self._button_height),
                 color=NSColor.colorWithCalibratedRed_green_blue_alpha_(*self._mark_color))
-        # buttons
+        # paint button
         y += self._button_height - 1
         self.w.button_paint = SquareButton(
                 (x, y,
@@ -73,6 +73,7 @@ class paintGlyphsDialog(object):
                 "paint",
                 callback=self.paint_callback,
                 sizeStyle='small')
+        # select button
         y += self._button_height + self._padding_top
         self.w.button_select = SquareButton(
                 (x, y,
@@ -80,6 +81,15 @@ class paintGlyphsDialog(object):
                 self._button_height),
                 "select",
                 callback=self.select_callback,
+                sizeStyle='small')
+        # clear button
+        y += self._button_height + self._padding_top
+        self.w.button_clear = SquareButton(
+                (x, y,
+                -self._padding,
+                self._button_height),
+                "clear",
+                callback=self.clear_callback,
                 sizeStyle='small')
         # open window
         self.w.open()
@@ -131,6 +141,25 @@ class paintGlyphsDialog(object):
                         glyph_names.append(glyph.name)
                 #print '\tglyphs: %s' % glyph_names
                 f.selection = glyph_names
+                print
+                print '\n...done.\n'
+            # no glyph selected
+            else:
+                print 'please select a glyph first.\n'
+        # no font open
+        else:
+            print 'please open a font first.\n'
+
+    def clear_callback(self, sender):
+        f = CurrentFont()
+        if f is not None:
+            glyph_names = get_glyphs(f)
+            if len(glyph_names) > 0:
+                print 'clearing colors from selected glyphs...\n'
+                print '\t\t',
+                for glyph_name in glyph_names:
+                    print glyph_name,
+                    clear_color(f[glyph_name])
                 print
                 print '\n...done.\n'
             # no glyph selected

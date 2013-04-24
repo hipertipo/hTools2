@@ -1,6 +1,8 @@
-# [h] copy and paste glyph
+# [h] copy / paste
 
-# reload when debugging
+'''Copy glyph data and paste it into selected glyphs.'''
+
+# debug
 
 import hTools2
 reload(hTools2)

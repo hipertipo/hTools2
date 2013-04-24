@@ -92,7 +92,7 @@ class setMarginsDialog(object):
                     self._line_height),
                     self._left_value,
                     sizeStyle='small',
-                    readOnly=True)
+                    readOnly=False)
         # spinners
         x = self._padding
         y += self._line_height + 10
@@ -174,7 +174,7 @@ class setMarginsDialog(object):
                     self._line_height),
                     self._right_value,
                     sizeStyle='small',
-                    readOnly=True)
+                    readOnly=False)
         x = self._padding
         y += self._line_height + 10
         # spinners
