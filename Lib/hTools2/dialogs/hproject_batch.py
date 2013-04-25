@@ -52,7 +52,7 @@ class BatchProject(object):
     _button_width = 100
     _bar_height = 18
     _col1 = 165
-    _width = 380
+    _width = 420
     _height = 320
     _tab_height = _height - (_box_height * 4) - (_padding * 3) - _bar_height
     _col_width = (_width - (_padding * 4)) / 3
@@ -77,10 +77,15 @@ class BatchProject(object):
         ( 'check folders',      True ),
         ( 'check libs',         True ),
         ( 'check font names',   True ),
+        ( 'check glyphset',     True ),
         ( 'clear otfs',         False ),
         ( 'clear woffs',        False ),
         ( 'generate instances', False ),
         ( 'generate CSS',       False ),
+        ( 'upload CSS',         False ),
+        ( 'git status',         False ),
+        ( 'git commit',         False ),
+        ( 'git push',           False ),
     ])
 
     _actions = OrderedDict([
@@ -572,6 +577,11 @@ class BatchProject(object):
             if _actions[_action]:
                 print 'checking font names... [empty]\n'
         #---------------------------------
+        _action = 'check glyphset'
+        if _actions.has_key(_action):
+            if _actions[_action]:
+                print 'generating character set proof... [empty]\n'
+        #---------------------------------
         _action = 'clear otfs'
         if _actions.has_key(_action):
             if _actions[_action]:
@@ -584,11 +594,6 @@ class BatchProject(object):
                 print 'deleting woffs...\n'
                 self._project.delete_woffs()
         #---------------------------------
-        _action = 'prepolate masters'
-        if _actions.has_key(_action):
-            if _actions[_action]:
-                print 'prepolating masters... [empty]\n'
-        #---------------------------------
         _action = 'generate instances'
         if _actions.has_key(_action):
             if _actions[_action]:
@@ -599,21 +604,22 @@ class BatchProject(object):
             if _actions[_action]:
                 print 'generating CSS... [empty]\n'
         #---------------------------------
-        _action = 'proof charset'
+        _action = 'upload CSS'
         if _actions.has_key(_action):
             if _actions[_action]:
-                print 'generating character set proof... [empty]\n'
+                print 'uploading CSS... [empty]\n'
         #---------------------------------
-        _action = 'proof spacing'
+        _action = 'git status'
         if _actions.has_key(_action):
             if _actions[_action]:
-                print 'generating spacing proofs... [empty]\n'
+                print 'getting state of git repository...\n'
+                self._project.git_status()
         #---------------------------------
-        # proof kerning
-        _action = 'proof kerning'
+        _action = 'git commit'
         if _actions.has_key(_action):
             if _actions[_action]:
-                print 'generating kerning proofs... [empty]\n'
+                print 'saving project state to git...\n'
+                self._project.git_commit(push=_actions['git push'])
         #---------------------------------
         self.w.bar.stop()
 

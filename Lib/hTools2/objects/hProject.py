@@ -26,6 +26,11 @@ try:
 except:
     from robofab.world import RFont, NewFont
 
+try:
+    from sh import cd, git
+except:
+    sh, cd, git = False
+
 from hworld import hWorld
 from hTools2.modules.fileutils import walk, get_names_from_path, delete_files
 from hTools2.modules.fontutils import parse_glyphs_groups
@@ -316,7 +321,7 @@ class hProject:
         glyph_names = parse_glyphs_groups(names, self.libs['groups']['glyphs'])
         return glyph_names
 
-    # interpolation
+    # generation
 
     def generate_instance(self, instance_name, verbose=False, folder=None):
         '''Generate a .ufo instance with name `instance_name`, using data from the project's interpol lib.'''
@@ -359,8 +364,6 @@ class hProject:
             if verbose:
                 print '%s is not an instance.\n' % instance_name
 
-    # conversion
-
     def generate_vfbs(self, masters=True, instances=False, interpol=False):
         '''Batch convert ufos in project to vfb format.'''
         import os
@@ -383,13 +386,35 @@ class hProject:
             font.save(_vfb_path)
             font.close()
 
-    # upload
+    # basic git management
 
-    def upload_css(self):
-        pass
+    def git_commit(self, message='maintenance', push=False):
+        sucess = False
+        if (cd and git) is not False:
+            # switch to project folder
+            cd(self.paths['root'])
+            # add changes
+            git.add('.')
+            git.add('-A')
+            # commit changes
+            try:
+                print git.commit("-m '%s'" % message)
+                sucess = True
+            # get status
+            except:
+                print git.status()
+        else:
+            print 'sh and/or git not available.\n'
+        # push to remote server
+        if sucess and push:
+            self.git_push()
 
-    # housekeeping
+    def git_push(self):
+        # switch to project folder
+        cd(self.paths['root'])
+        # push changes to remote
+        print git.push('origin')
 
-    def rename(self, new_name):
-        pass
-
+    def git_status(self):
+        cd(self.paths['root'])
+        print git.status()
