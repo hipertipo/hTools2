@@ -22,7 +22,7 @@ if hTools2.DEBUG:
 # imports
 #---------
 
-from collections import *
+from collections import OrderedDict
 
 from robofab.world import RFont
 
@@ -468,24 +468,6 @@ class BatchProject(object):
             t.fonts_list.set([ '.' ])
         # update
         self._fonts = _fonts
-        # for later: multi-column table
-        # list_1 = [ ]
-        # list_2 = [ ]
-        # list_3 = [ ]
-        # list_4 = [ ]
-        # list_5 = [ ]
-        # list_6 = [ ]
-        # for font in self._fonts:
-        #     list_1.append(font.info.familyName)
-        #     list_2.append(font.info.styleName)
-        #     list_3.append(len(font))
-        # _list = []
-        # for i in range(len(list_1)):
-        #     _list.append({
-        #                 self._list_titles[0] : list_1[i],
-        #                 self._list_titles[1] : list_2[i],
-        #                 self._list_titles[2] : list_3[i] })
-        # self.w._fonts_list.set(_fonts)
 
     def get_font_selection(self):
         '''Get current font selection.'''
