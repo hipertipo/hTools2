@@ -1,4 +1,4 @@
-# hTools.modules.svg
+# [h] hTools.modules.svg
 
 class svgImporter:
 

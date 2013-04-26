@@ -1,6 +1,8 @@
 # [h] batch rename glyphs
 
-# reload when debugging
+'''Batch rename glyphs in font based on a list.'''
+
+# debug
 
 import hTools2
 reload(hTools2)

@@ -7,7 +7,7 @@
 # thanks to Andy Clymer for vanilla-dialogKit hack
 #---------------------------------------------------
 
-# reload when debugging
+# debug
 
 import hTools2
 reload(hTools2)

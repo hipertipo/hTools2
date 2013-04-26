@@ -1,6 +1,8 @@
 # [h] import ufo into layer
 
-# reload when debugging
+'''Import font from ufo into layer.'''
+
+# reload
 
 import hTools2
 reload(hTools2)

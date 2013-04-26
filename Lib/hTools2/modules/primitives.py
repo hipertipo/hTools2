@@ -1,6 +1,6 @@
 # [h] drawing primitives
 
-# magic constant for drawing circular arcs with beziers (thanks Erik!)
+# magic constant for drawing circular arcs with beziers (thanks EvB)
 BEZIER_ARC_MAGIC = 0.5522847498
 
 def rect(pen, x, y, size):
@@ -21,14 +21,15 @@ def ellipse( pen, (x, y, rx, ry) ):
     pen.closePath()
 
 def oval(pen, x, y, size):
-    bcp = BEZIER_ARC_MAGIC * (size / 2)
-    x = x + (size / 2)
-    y = y + (size / 2)
-    pen.moveTo( (x, y + (size / 2)) )
-    pen.curveTo( (x + bcp, y + (size / 2)), (x + (size / 2), y + bcp), (x + (size / 2), y) )
-    pen.curveTo( (x + (size / 2), y - bcp), (x + bcp, y - (size / 2)), (x, y - (size / 2)) )
-    pen.curveTo( (x - bcp, y - (size / 2)), (x - (size / 2), y - bcp), (x - (size / 2), y) )
-    pen.curveTo( (x - (size / 2), y + bcp), (x - bcp, y + (size / 2)), (x, y + (size / 2)) )
+    radius = (size / 2)
+    bcp = BEZIER_ARC_MAGIC * radius
+    x += radius
+    y += radius
+    pen.moveTo((x, y+radius))
+    pen.curveTo((x+bcp, y+radius), (x+radius, y+bcp), (x+radius, y) )
+    pen.curveTo((x+radius, y-bcp), (x+bcp, y-radius), (x, y-radius) )
+    pen.curveTo((x-bcp, y-radius), (x-radius, y-bcp), (x-radius, y) )
+    pen.curveTo((x-radius, y+bcp), (x-bcp, y+radius), (x, y+radius) )
     pen.closePath()
 
 def element(pen, x, y, size, magic=BEZIER_ARC_MAGIC):

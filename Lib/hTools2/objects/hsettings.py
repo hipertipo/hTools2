@@ -56,3 +56,4 @@ class hSettings:
         '''Print all settings items to the console.'''
         for k in self.hDict.keys():
             print k, self.hDict[k]
+

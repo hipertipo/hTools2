@@ -1,6 +1,6 @@
 # [h] adjust vertical metrics
 
-# reload when debugging
+# debug
 
 import hTools2
 reload(hTools2)
@@ -10,7 +10,7 @@ if hTools2.DEBUG:
     import hTools2.modules.fontutils
     reload(hTools2.modules.fontutils)
 
-# imports
+# import
 
 try:
     from mojo.roboFont import CurrentFont, CurrentGlyph
@@ -37,30 +37,31 @@ class adjustVerticalMetrics(object):
     _column_2 = 200
     _column_3 = 45
     _width = _column_1 + _column_2 + _column_3 + (_padding * 3) + (_button_2 * 4) + 2
-    _height = (_row_height * 5) + (_padding * 5)
+    _height = (_row_height * 4) + (_padding * 5)
 
-    _units_per_em_min =     0
-    _units_per_em_max =     9999
     _ascender_min =         1
-    _ascender_max =         9999
     _capheight_min =        1
-    _capheight_max =        9999
     _xheight_min =          1
-    _xheight_max =          9999
     _descender_min =        1
-    _descender_max =        9999
 
     def __init__(self):
         self.w = FloatingWindow(
                     (self._width,
                     self._height),
                     self._title)
-        # initialize font, alignments
+        # get font vmetrics
         self.font = CurrentFont()
+        _units_per_em = self.font.info.unitsPerEm
         _ascender = self.font.info.ascender
         _capheight = self.font.info.capHeight
         _xheight = self.font.info.xHeight
         _descender = abs(self.font.info.descender)
+        # set max vmetrics
+        self._ascender_max = _units_per_em
+        self._capheight_max = _units_per_em
+        self._xheight_max = _units_per_em
+        self._descender_max = _units_per_em
+        # make button alignments
         x1 = self._padding
         x2 = x1 + self._column_1
         x3 = x2 + self._column_2 + 15
@@ -87,63 +88,7 @@ class adjustVerticalMetrics(object):
                     sizeStyle='small',
                     callback=self.update_font_callback)
         y += self._row_height + self._padding
-        #----------
-        # em-square
-        #----------
-        self.w.units_per_em_label = TextBox(
-                    (x1, y,
-                    self._column_1,
-                    self._row_height),
-                    "em square",
-                    sizeStyle='small')
-        self.w.units_per_em_slider = Slider(
-                    (x2, y - 5,
-                    self._column_2,
-                    self._row_height),
-                    minValue=self._units_per_em_min,
-                    maxValue=self._units_per_em_max,
-                    value=_ascender,
-                    callback=self.units_per_em_slider_callback,
-                    sizeStyle='small')
-        self.w.units_per_em_value = EditText(
-                    (x3, y,
-                    self._column_3,
-                    self._box_height),
-                    _ascender,
-                    callback=self.units_per_em_value_callback,
-                    sizeStyle='small')
-        self.w.units_per_em_minus_01 = SquareButton(
-                    (x4, y,
-                    self._button_2,
-                    self._button_2),
-                    '-',
-                    callback=self.units_per_em_minus_01_callback,
-                    sizeStyle='small')
-        self.w.units_per_em_plus_01 = SquareButton(
-                    (x5, y,
-                    self._button_2,
-                    self._button_2),
-                    '+',
-                    callback=self.units_per_em_plus_01_callback,
-                    sizeStyle='small')
-        self.w.units_per_em_minus_10 = SquareButton(
-                    (x6, y,
-                    self._button_2,
-                    self._button_2),
-                    '-',
-                    callback=self.units_per_em_minus_10_callback,
-                    sizeStyle='small')
-        self.w.units_per_em_plus_10 = SquareButton(
-                    (x7, y,
-                    self._button_2,
-                    self._button_2),
-                    '+',
-                    callback=self.units_per_em_plus_10_callback,
-                    sizeStyle='small')
-        y += self._row_height
-        #----------
         # ascender
-        #----------
         self.w.ascender_label = TextBox(
                     (x1, y,
                     self._column_1,
@@ -195,9 +140,7 @@ class adjustVerticalMetrics(object):
                     sizeStyle='small',
                     callback=self.ascender_plus_10_callback)
         y += self._row_height
-        #-----------
         # capheight
-        #-----------
         self.w.capheight_label = TextBox(
                     (x1, y,
                     self._column_1,
@@ -249,9 +192,7 @@ class adjustVerticalMetrics(object):
                     sizeStyle='small',
                     callback=self.capheight_plus_10_callback)
         y += self._row_height
-        #---------
         # xheight
-        #---------
         self.w.xheight_label = TextBox(
                     (x1, y,
                     self._column_1,
@@ -303,9 +244,7 @@ class adjustVerticalMetrics(object):
                     sizeStyle='small',
                     callback=self.xheight_plus_10_callback)
         y += self._row_height
-        #-----------
         # descender
-        #-----------
         self.w.descender_label = TextBox(
                     (x1,
                     y,
@@ -392,12 +331,6 @@ class adjustVerticalMetrics(object):
         self.font.info.ascender = value
         self.font.update()
 
-    def units_per_em_update(self, value):
-        self.w.units_per_em_value.set(value)
-        self.w.units_per_em_slider.set(value)
-        self.font.info.unitsPerEm = value
-        self.font.update()
-
     # buttons
 
     def update_font_callback(self, sender):
@@ -468,22 +401,6 @@ class adjustVerticalMetrics(object):
         _descender_value = int(self.w.descender_value.get()) + 10
         self.descender_update(_descender_value)
 
-    def units_per_em_minus_01_callback(self, sender):
-        _units_per_em_value = int(self.w.units_per_em_value.get()) - 1
-        self.units_per_em_update(_units_per_em_value)
-
-    def units_per_em_plus_01_callback(self, sender):
-        _units_per_em_value = int(self.w.units_per_em_value.get()) + 1
-        self.units_per_em_update(_units_per_em_value)
-
-    def units_per_em_minus_10_callback(self, sender):
-        _units_per_em_value = int(self.w.units_per_em_value.get()) - 10
-        self.units_per_em_update(_units_per_em_value)
-
-    def units_per_em_plus_10_callback(self, sender):
-        _units_per_em_value = int(self.w.units_per_em_value.get()) + 10
-        self.units_per_em_update(_units_per_em_value)
-
     # sliders
 
     def xheight_slider_callback(self, sender):
@@ -514,13 +431,6 @@ class adjustVerticalMetrics(object):
         self.font.info.ascender = _ascender_value
         self.font.update()
 
-    def units_per_em_slider_callback(self, sender):
-        _units_per_em_value = int(self.w.units_per_em_slider.get())
-        # print 'units per em: %s' % _units_per_em_value
-        self.w.units_per_em_value.set(_units_per_em_value)
-        self.font.info.unitsPerEm = _units_per_em_value
-        self.font.update()
-
     # values
 
     def xheight_value_callback(self, sender):
@@ -549,11 +459,4 @@ class adjustVerticalMetrics(object):
         # print 'descender: %s' % _descender_value
         self.w.descender_slider.set(_descender_value)
         self.font.info.descender = - _descender_value
-        self.font.update()
-
-    def units_per_em_value_callback(self, sender):
-        _units_per_em_value = int(sender.get())
-        # print 'units per em: %s' % _units_per_em_value
-        self.w.units_per_em_slider.set(_units_per_em_value)
-        self.font.info.unitsPerEm = _units_per_em_value
         self.font.update()

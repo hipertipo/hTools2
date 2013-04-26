@@ -1,6 +1,8 @@
 # [h] set margins dialog
 
-# reload when debugging
+'''Set left/right side-bearings of selected glyphs.'''
+
+# debug
 
 import hTools2
 reload(hTools2)

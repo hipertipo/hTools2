@@ -1,10 +1,15 @@
 # [h] dialog to delete layers in font
 
-# imports
+# import
 
 from vanilla import *
 
-# objects
+try:
+    from mojo.roboFont import CurrentFont
+except:
+    from robofab.world import CurrentFont
+
+# object
 
 class deleteLayerDialog(object):
 

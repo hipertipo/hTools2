@@ -1,6 +1,8 @@
 # [h] mask dialog
 
-# reload when debugging
+'''copy foreground to mask, flip mask/foreground, clear mask'''
+
+# debug
 
 import hTools2
 reload(hTools2)
@@ -24,11 +26,7 @@ from hTools2.modules.fontutils import get_glyphs
 
 class maskDialog(object):
 
-    '''copy foreground to mask, flip mask/foreground, clear mask'''
-
-    #------------
     # attributes
-    #------------
 
     _title = 'mask'
     _padding = 10
@@ -36,10 +34,9 @@ class maskDialog(object):
     _button_width = 103
     _width = (_button_width * 1) + (_padding * 2)
     _height = (_button_height * 3) + (_padding * 4)
+    _mask_layer = 'background'
 
-    #---------
     # methods
-    #---------
 
     def __init__(self):
         self.w = FloatingWindow(
@@ -83,7 +80,7 @@ class maskDialog(object):
         font = CurrentFont()
         for glyph_name in get_glyphs(font):
             font[glyph_name].prepareUndo('flip mask')
-            font[glyph_name].flipLayers('foreground', 'mask')
+            font[glyph_name].flipLayers('foreground', self._mask_layer)
             font[glyph_name].performUndo()
         font.update()
 
@@ -91,7 +88,7 @@ class maskDialog(object):
         font = CurrentFont()
         for glyph_name in get_glyphs(font):
             font[glyph_name].prepareUndo('clear mask')
-            clear_mask = font[glyph_name].getLayer('mask', clear=True)
+            clear_mask = font[glyph_name].getLayer(self._mask_layer, clear=True)
             font[glyph_name].update()
             font[glyph_name].performUndo()
         font.update()
@@ -100,6 +97,6 @@ class maskDialog(object):
         font = CurrentFont()
         for glyph_name in get_glyphs(font):
             font[glyph_name].prepareUndo('copy to mask')
-            font[glyph_name].copyToLayer('mask', clear=False)
+            font[glyph_name].copyToLayer(self._mask_layer, clear=False)
             font[glyph_name].performUndo()
         font.update()

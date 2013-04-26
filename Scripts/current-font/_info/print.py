@@ -1,9 +1,15 @@
 # [h] clear font info
 
+'''Print different kinds of font info selectively.'''
+
+# import
+
 from vanilla import *
 
 from hTools2.modules.fontinfo import *
 from hTools2.modules.color import random_color
+
+# dialog
 
 class clearFontInfoDialog(object):
 

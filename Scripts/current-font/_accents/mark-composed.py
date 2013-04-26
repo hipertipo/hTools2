@@ -1,6 +1,8 @@
 # [h] mark composed glyphs
 
-# reload when debugging
+'''Mark all composed glyphs in font.'''
+
+# debug
 
 import hTools2
 reload(hTools2)

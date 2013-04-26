@@ -1,4 +1,8 @@
-# [h] delete all layers in the current font
+# [h] delete all layers
+
+'''Delete all layers in the current font.'''
+
+# run
 
 f = CurrentFont()
 

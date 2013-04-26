@@ -1,6 +1,6 @@
 # [h] a dialog to copy widths from selected glyphs in one font to another
 
-# reload when debugging
+# debug
 
 import hTools2
 reload(hTools2)

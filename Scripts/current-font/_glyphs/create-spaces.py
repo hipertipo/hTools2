@@ -1,6 +1,8 @@
 # [h] create space glyphs
 
-# reload when debugging
+'''Create special space glyphs in font. (en-space, thin space etc)'''
+
+# debug
 
 import hTools2
 reload(hTools2)

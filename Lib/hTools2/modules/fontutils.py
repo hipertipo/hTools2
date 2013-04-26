@@ -2,7 +2,7 @@
 
 '''A collection of handy functions for working with fonts.'''
 
-# reload when debugging
+# debug
 
 import hTools2
 reload(hTools2)
@@ -26,40 +26,35 @@ try:
 except:
     from robofab.world import CurrentGlyph, CurrentFont, NewFont
 
-from hTools2.modules.glyphutils import round_points
+from hTools2.modules.glyphutils import round_points, round_width
 from hTools2.modules.color import *
 
 #--------
 # glyphs
 #--------
 
-def get_glyphs(font, mode=0):
-    '''Return a list with the names of glyphs currently selected or active in the `font`.
-    The result is different than RoboFab's `f.selection`, because it also includes the contents of `CurrentGlyph()`.
-    '''
-    _glyph_names = []
-    _glyph = CurrentGlyph()
-    if _glyph != None:
-        _glyph_names.append(_glyph.name)
-    for glyph in font:
-        if glyph.selected == True:
-            if glyph.name not in _glyph_names:
-                _glyph_names.append(glyph.name)
-    _glyph_names.sort()
-    # return glyph names
-    if mode is 0:
-        return _glyph_names
-    # return glyphs
+def get_glyphs(font, current_glyph=True, font_selection=True, mode='names'):
+    '''Return current glyph selection in the `font` as glpyh names or `RGlyphs`.'''
+    glyphs = {}
+    # get current glyph
+    if current_glyph:
+        glyph = CurrentGlyph()
+        if glyph is not None:
+            glyphs[glyph.name] = glyph
+    # get font selection
+    if font_selection:
+        for glyph_name in font.selection:
+            if glyphs.has_key(glyph_name) is not True:
+                glyphs[glyph_name] = font[glyph_name]
+    # mode 0: glyph names
+    if mode == 'names':
+        return glyphs.keys()
+    # mode 1: RGlyphs
     else:
-        _glyphs = []
-        for glyph_name in _glyph_names:
-            _glyphs.append(font[glyph_name])
-        return _glyphs
+        return glyphs.values()
 
 def print_selected_glyphs(f, mode=1):
-    '''Print the selected glyphs to the output window.
-    Two different modes are supported: `mode=0` prints the glyph names as a list of Python strings, while `mode=1` prints the glyph names as a plain list (with linebreaks).
-    '''
+    '''Print the selected glyphs to the output window.'''
     gNames = f.selection
     # mode 1 : plain gNames list
     if mode == 1:
@@ -91,14 +86,14 @@ def parse_glyphs_groups(names, groups):
             glyph_names.append(name)
     return glyph_names
 
-def rename_glyph(font, old_name, new_name, overwrite=True, mark=True):
+def rename_glyph(font, old_name, new_name, overwrite=True, mark=True, verbose=True):
     if font.has_key(old_name):
         g = font[old_name]
         # if new name already exists in font
         if font.has_key(new_name):
             # option [1] (default): overwrite
             if overwrite is True:
-                print '\trenaming "%s" to "%s" (overwriting existing glyph)...' % (old_name, new_name)
+                if verbose: print '\trenaming "%s" to "%s" (overwriting existing glyph)...' % (old_name, new_name)
                 font.removeGlyph(new_name)
                 g.name = new_name
                 if mark:
@@ -106,35 +101,38 @@ def rename_glyph(font, old_name, new_name, overwrite=True, mark=True):
                 g.update()
             # option [2]: skip, do not overwrite
             else:
-                print '\tskipping "%s", "%s" already exists in font.' % (old_name, new_name)
+                if verbose: print '\tskipping "%s", "%s" already exists in font.' % (old_name, new_name)
                 if mark:
                     g.mark = named_colors['red']
                 g.update()
         # if new name not already in font, simply rename glyph
         else:
-            print '\trenaming "%s" to "%s"...' % (old_name, new_name)
+            if verbose: print '\trenaming "%s" to "%s"...' % (old_name, new_name)
             g.name = new_name
             if mark:
                 g.mark = named_colors['green']
             g.update()
         # done glyph
     else:
-        print '\tskipping "%s", glyph does not exist in font.' % old_name
+        if verbose: print '\tskipping "%s", glyph does not exist in font.' % old_name
     # done font
     font.update()
 
-def rename_glyphs_from_list(font, names_list, overwrite=True, mark=True):
-    print 'renaming glyphs...\n'
+def rename_glyphs_from_list(font, names_list, overwrite=True, mark=True, verbose=True):
+    if verbose:
+        print 'renaming glyphs...\n'
     for pair in names_list:
         old_name, new_name = pair
-        rename_glyph(font, old_name, new_name, overwrite, mark)
-    print
-    print '...done.\n'
+        rename_glyph(font, old_name, new_name, overwrite, mark, verbose)
+    if verbose:
+        print
+        print '...done.\n'
 
 def crop_glyphset(font, glyphset):
-    for g in font:
-        if g.name not in glyphset:
-            font.removeGlyph(g.name)
+    for glyph in font:
+        if glyph.name not in glyphset:
+            if glyph.name is not None:
+                font.removeGlyph(glyph.name)
     font.update()
 
 #--------
@@ -317,6 +315,11 @@ def add_extremes(font):
     for glyph in font:
         glyph.extremePoints()
 
+def remove_overlap(font):
+    '''Remove overlaps in all glyphs of the `font`.'''
+    for glyph in font:
+        glyph.removeOverlap()
+
 def align_to_grid(font, (sizeX, sizeY)):
     '''Align all points of all glyphs in the `font` to a grid with size `(sizeX,sizeY)`.'''
     for glyph in font:
@@ -342,6 +345,14 @@ def move_glyphs(f, (delta_x, delta_y)):
         g.update()
     f.update()
 
+def round_to_grid(font, gridsize, glyphs=None):
+    if glyphs is None:
+        glyphs = font.keys()
+    for glyph_name in glyphs:
+        round_points(font[glyph_name], (gridsize, gridsize))
+        round_width(font[glyph_name], gridsize)
+    font.update()
+
 #------
 # misc
 #------
@@ -353,3 +364,4 @@ def temp_font():
     else:
         t = CurrentFont()
     return t
+

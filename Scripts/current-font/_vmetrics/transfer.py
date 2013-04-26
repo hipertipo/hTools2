@@ -1,6 +1,8 @@
 # [h] transfer vmetrics
 
-# reload when debugging
+'''Transfer vertical metrics from one font to another.'''
+
+# debug
 
 import hTools2
 reload(hTools2)

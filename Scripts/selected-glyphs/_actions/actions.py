@@ -1,6 +1,8 @@
-# [h] glyph actions dialog
+# [h] actions
 
-# reload when debugging
+'''Apply common actions to selected glyphs.'''
+
+# debug
 
 import hTools2
 reload(hTools2)

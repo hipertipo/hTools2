@@ -1,6 +1,8 @@
-# [h] select and shift points
+# [h] shift points
 
-# reload when debugging
+'''Select points by position and shift them by a given distance.'''
+
+# debug
 
 import hTools2
 reload(hTools2)

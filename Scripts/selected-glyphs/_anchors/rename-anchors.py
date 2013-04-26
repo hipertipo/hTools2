@@ -1,6 +1,8 @@
-# [h] rename anchors in selected glyphs
+# [h] rename anchors
 
-# reload when debugging
+'''Change the name of anchors in selected glyphs into a new name.'''
+
+# debug
 
 import hTools2
 reload(hTools2)

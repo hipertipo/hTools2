@@ -7,9 +7,7 @@
 #------------------
 
 def get_anchors(font, glyph_names=None):
-    '''Get all anchors in the glyphs with the given `glyph_names` as a dictionary.
-    If no `glyph_names` are specified, all glyphs in the font will be used.
-    '''
+    '''Get all anchors in glyphs as a dictionary.'''
     anchors_dict = {}
     if glyph_names == None:
         _glyph_names = font.keys()
@@ -23,6 +21,16 @@ def get_anchors(font, glyph_names=None):
                 anchors.append((a.name, a.position))
             anchors_dict[g.name] = anchors
     return anchors_dict
+
+def clear_anchors(font, glyph_names=None):
+    '''Delete all anchors in font.'''
+    if glyph_names is None:
+        glyph_names = font.keys()
+    for glyph_name in glyph_names:
+        if len(font[glyph_name].anchors) > 0:
+            font[glyph_name].clearAnchors()
+            font[glyph_name].update()
+    font.update()
 
 #-------------------
 # glyph-level tools
@@ -58,9 +66,42 @@ def transfer_anchors(source_glyph, dest_glyph):
     return has_anchor
 
 def move_anchors(glyph, anchor_names, (delta_x, delta_y)):
-    '''Move all anchors with `anchor_names` in `glyph` by `(x, y)` units.'''
+    '''Move named anchors by (x, y) units.'''
     for anchor in glyph.anchors:
         if anchor.name in anchor_names:
             anchor.move((delta_x, delta_y))
             glyph.update()
 
+def create_anchors(glyph, top=True, bottom=True, accent=False, top_delta=20, bottom_delta=20):
+    '''Create `top` and `bottom` anchors at relative positions.'''
+    # make anchors list
+    anchor_names = []
+    if top:
+        anchor_names.append('top')
+    if bottom:
+        anchor_names.append('bottom')
+    # run
+    font = glyph.getParent()
+    has_anchor = False
+    anchors = []
+    # get existing anchors
+    if len(glyph.anchors) > 0 :
+        has_anchor = True
+        for a in glyph.anchors:
+            anchors.append(a.name)
+    # add only new anchors
+    x = glyph.width / 2
+    for anchor_name in anchor_names:
+        # add underscore if accent
+        if accent:
+            anchor_name = '_' + anchor_name
+        if anchor_name not in anchors:
+            # make anchor y-position
+            if anchor_name in [ 'top', '_top' ]:
+                y = font.info.xHeight + top_delta
+            else:
+                y = 0 - bottom_delta
+            # place anchor
+            glyph.appendAnchor(anchor_name, (x, y))
+    # done glyph
+    glyph.update()

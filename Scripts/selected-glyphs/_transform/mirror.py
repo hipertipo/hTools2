@@ -1,6 +1,8 @@
 # [h] move dialog
 
-# reload when debugging
+'''Mirror contours in selected glyphs.'''
+
+# debug
 
 import hTools2
 reload(hTools2)

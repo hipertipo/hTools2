@@ -1,4 +1,17 @@
-# [h] genenerate all open fonts dialog
+# [h] genenerate all open fonts
+
+'''Genenerate otfs for all open fonts.'''
+
+# debug
+
+import hTools2
+reload(hTools2)
+
+if hTools2.DEBUG:
+    import hTools2.modules.fontutils
+    reload(hTools2.modules.fontutils)
+
+# import
 
 import os
 
@@ -6,6 +19,8 @@ from vanilla import *
 from vanilla.dialogs import getFolder
 
 from hTools2.modules.fontutils import get_full_name
+
+# dialog
 
 class GenerateAllOpenFontsDialog(object):
 
@@ -137,7 +152,7 @@ class GenerateAllOpenFontsDialog(object):
                     # generate otf
                     otf_file = os.path.splitext(os.path.split(font.path)[1])[0] + '.otf'
                     otf_path = os.path.join(self._otfs_folder, otf_file)
-                    font.generate(otf_path, 'otf', decompose=_decompose, autohint=_autohint, 
+                    font.generate(otf_path, 'otf', decompose=_decompose, autohint=_autohint,
                                 checkOutlines=_overlaps, releaseMode=_release_mode, glyphOrder=[])
                     print '\t\totf path: %s' % otf_path
                     print '\t\tgeneration sucessful? %s\n' % os.path.exists(otf_path)

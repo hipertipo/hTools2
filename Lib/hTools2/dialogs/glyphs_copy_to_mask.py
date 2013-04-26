@@ -1,6 +1,6 @@
 # [h] copy to mask
 
-# reload when debugging
+# debug
 
 import hTools2
 reload(hTools2)
@@ -26,9 +26,7 @@ class copyToMaskDialog(object):
 
     '''transfer glyphs to mask'''
 
-    #------------
     # attributes
-    #------------
 
     _title = 'mask'
     _padding = 10
@@ -39,11 +37,9 @@ class copyToMaskDialog(object):
     _width = _column_1 + (_padding * 2)
     _height = (_line_height * 2) + (_row_height * 2) + (_button_height * 2) + (_padding * 5) - 2
 
-    _target_layer_name = 'mask'
+    _target_layer_name = 'background'
 
-    #---------
     # methods
-    #---------
 
     def __init__(self):
         self._update_fonts()
@@ -75,7 +71,7 @@ class copyToMaskDialog(object):
                     (x, y,
                     -self._padding,
                     self._line_height),
-                    "target layer",
+                    "target font",
                     sizeStyle='small')
         y += self._line_height
         # target font value
