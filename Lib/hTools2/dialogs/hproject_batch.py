@@ -74,12 +74,14 @@ class BatchProject(object):
     }
 
     _preflight = OrderedDict([
-        ( 'check folders',      True ),
-        ( 'check libs',         True ),
-        ( 'check font names',   True ),
-        ( 'check glyphset',     True ),
-        ( 'clear otfs',         False ),
-        ( 'clear woffs',        False ),
+        ( 'print summary',      True ),
+        ( 'make folders',       False ),
+        ( 'check libs',         False ),
+        ( 'check font names',   False ),
+        ( 'check glyphset',     False ),
+        ( 'delete otfs',        False ),
+        ( 'delete test otfs',   False ),
+        ( 'delete woffs',       False ),
         ( 'generate instances', False ),
         ( 'generate CSS',       False ),
         ( 'upload CSS',         False ),
@@ -95,6 +97,7 @@ class BatchProject(object):
         ( 'create glyphs',      False ),
         ( 'import groups',      False ),
         ( 'paint groups',       False ),
+        ( 'clear colors',       False ),
         ( 'crop glyphset',      False ),
         ( 'import features',    False ),
         ( 'auto unicodes',      False ),
@@ -127,7 +130,7 @@ class BatchProject(object):
                     (x, y,
                     -self._padding,
                     -(self._padding * 2) - self._bar_height) ,
-                    [ "fonts", "preflight", "actions", "settings" ],
+                    [ "fonts", "project", "actions", "settings" ],
                     sizeStyle='small')
         _font_project = self.w.tabs[0]
         _preflight = self.w.tabs[1]
@@ -156,22 +159,10 @@ class BatchProject(object):
                     -(self._padding*2) - self._box_height ),
                     [],
                     drawFocusRing=False)
-        # _font_project.fonts_list = List(
-        #             (_x, _y,
-        #             -self._padding, -self._padding),
-        #             [],
-        #             columnDescriptions=[
-        #                 { "title": "p1" },
-        #                 { "title": "p2" },
-        #                 { "title": "p3" },
-        #                 { "title": "p4" },
-        #                 { "title": "p5" },
-        #                 { "title": "p6" }
-        #             ])
         #---------
         # masters
         _label = "masters"
-        _y = - self._padding - self._box_height# (self._box_height + self._padding)
+        _y = - self._padding - self._box_height
         _checkbox_width = 60
         _font_project._masters = CheckBox(
                     (_x, _y,
@@ -540,11 +531,16 @@ class BatchProject(object):
         self.get_fonts()
 
     def preflight_callback(self, sender):
-        '''Apply preflight actions to selected project.'''
+        '''Apply global actions to selected project.'''
         _actions = self.get_actions(self._preflight_checkboxes)
         self.w.bar.start()
         #---------------------------------
-        _action = 'check folders'
+        _action = 'print summary'
+        if _actions.has_key(_action):
+            if _actions[_action]:
+                self._project.print_info()
+        #---------------------------------
+        _action = 'make folders'
         if _actions.has_key(_action):
             if _actions[_action]:
                 self._project.make_folders()
@@ -564,13 +560,19 @@ class BatchProject(object):
             if _actions[_action]:
                 print 'generating character set proof... [empty]\n'
         #---------------------------------
-        _action = 'clear otfs'
+        _action = 'delete otfs'
         if _actions.has_key(_action):
             if _actions[_action]:
                 print 'deleting otfs...\n'
                 self._project.delete_otfs()
         #---------------------------------
-        _action = 'clear woffs'
+        _action = 'delete test otfs'
+        if _actions.has_key(_action):
+            if _actions[_action]:
+                print 'deleting test otfs...\n'
+                self._project.delete_otfs_test()
+        #---------------------------------
+        _action = 'delete woffs'
         if _actions.has_key(_action):
             if _actions[_action]:
                 print 'deleting woffs...\n'
@@ -602,6 +604,13 @@ class BatchProject(object):
             if _actions[_action]:
                 print 'saving project state to git...\n'
                 self._project.git_commit(push=_actions['git push'])
+        #---------------------------------
+        _action = 'git push'
+        if _actions.has_key(_action):
+            if _actions[_action] and not _actions['git commit']:
+                print 'pushing git to remote repository...'
+                self._project.git_push()
+                print '...done.\n'
         #---------------------------------
         self.w.bar.stop()
 
@@ -685,6 +694,12 @@ class BatchProject(object):
                     if _actions[_action]:
                         print '\t\tpainting glyph groups...'
                         font.paint_groups(crop=False)
+                #---------------------------------
+                _action = 'clear colors'
+                if _actions.has_key(_action):
+                    if _actions[_action]:
+                        print '\t\tremoving glyph colors... [empty]'
+                        # font.paint_groups(crop=False)
                 #---------------------------------
                 _action = 'crop glyphset'
                 if _actions.has_key(_action):

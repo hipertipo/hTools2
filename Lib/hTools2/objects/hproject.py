@@ -29,7 +29,7 @@ except:
 try:
     from sh import cd, git
 except:
-    sh, cd, git = False
+    sh = cd = git = False
 
 from hworld import hWorld
 from hTools2.modules.fileutils import walk, get_names_from_path, delete_files
@@ -109,6 +109,55 @@ class hProject:
                 print "Font '%s' does not exist." % font_name
             ufo_path = None
         return ufo_path
+
+    def print_info(self, ufos=True, otfs=True, woffs=True, libs=True, scripts=True):
+        line_length = 40
+        print 'project info for %s...' % self.name
+        print '-' * line_length
+        print
+        # libs
+        if libs:
+            _libs = os.listdir(self.paths['libs'])
+            print 'libs (%s):\n' % len(_libs)
+            for lib in _libs:
+                if lib[0] != '.':
+                    print '\t%s' % lib
+            print
+        # ufos
+        if ufos:
+            _ufos = self.ufos()
+            print 'ufos (%s):\n' % len(_ufos)
+            for ufo in _ufos:
+                print '\t%s' % ufo
+            print
+        # otfs
+        if otfs:
+            _otfs = self.otfs()
+            print 'otfs (%s):\n' % len(_otfs)
+            for otf in _otfs:
+                print '\t%s' % otf
+            print
+        # woffs
+        if woffs:
+            _woffs = self.woffs()
+            print 'woffs (%s):\n' % len(_woffs)
+            for woff in _woffs:
+                print '\t%s' % woff
+            print
+        # scripts
+        if scripts:
+            _scripts = self.scripts()
+            print 'RoboFont scripts (%s):\n' % len(_scripts['RoboFont'])
+            for script in _scripts['RoboFont']:
+                print '\t%s' % script
+            print
+            print 'NodeBox scripts (%s):\n' % len(_scripts['NodeBox'])
+            for script in _scripts['NodeBox']:
+                print '\t%s' % script
+            print
+        # done
+        print '-' * line_length
+        print '...done.\n'
 
     # libs
 
@@ -226,43 +275,45 @@ class hProject:
         try:
             return walk(self.paths['ufos'], 'ufo')
         except:
-            return None
+            return []
 
     def masters_interpol(self):
         '''Return a list of all interpolation masters in project.'''
         try:
             return walk(self.paths['interpol'], 'ufo')
         except:
-            return None
+            return []
 
     def instances(self):
         '''Return a list of all instances in project.'''
         try:
             return walk(self.paths['instances'], 'ufo')
         except:
-            return None
+            return []
+
+    def ufos(self):
+        ufos = []
+        ufos += self.masters()
+        ufos += self.instances()
+        ufos += self.masters_interpol()
+        return ufos
 
     def collect_fonts(self):
         '''Update the font names and file paths at `hProject.fonts`.'''
-        # collect font paths
-        _font_paths = []
-        _masters = self.masters()
-        if _masters is not None:
-            _font_paths += _masters
-        _instances = self.instances()
-        if _instances is not None:
-            _font_paths += _instances
-        # build fonts dict
-        _fonts = {}
-        if len(_font_paths) > 0:
-            for font_path in _font_paths:
-                _style_name = get_names_from_path(font_path)[1]
-                _fonts[_style_name] = font_path
-        self.fonts = _fonts
+        _ufos = self.ufos()
+        self.fonts = {}
+        if len(_ufos) > 0:
+            for ufo_path in _ufos:
+                _style_name = get_names_from_path(ufo_path)[1]
+                self.fonts[_style_name] = ufo_path
 
     def otfs(self):
         '''Return a list of all .otf files in project.'''
         return walk(self.paths['otfs'], 'otf')
+
+    def otfs_test(self):
+        '''Return a list project .otfs in `Adobe/fonts` folder.'''
+        return walk(self.paths['otfs_test'], 'otf')
 
     def woffs(self):
         '''Return a list of all .woff files in project.'''
@@ -298,6 +349,11 @@ class hProject:
     def delete_otfs(self):
         '''Delete all .otfs in project.'''
         otf_paths = self.otfs()
+        delete_files(otf_paths)
+
+    def delete_otfs_test(self):
+        '''Delete all .otfs in the `Adobe/fonts` folder.'''
+        otf_paths = self.otfs_test()
         delete_files(otf_paths)
 
     def delete_woffs(self):
@@ -418,3 +474,4 @@ class hProject:
     def git_status(self):
         cd(self.paths['root'])
         print git.status()
+

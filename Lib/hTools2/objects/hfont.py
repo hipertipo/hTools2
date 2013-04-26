@@ -374,7 +374,7 @@ class hFont:
             try:
                 options = self.project.libs['project']['generation']
             except KeyError:
-                print 'project %s has no generation lib.' % self.project.name
+                if verbose: print 'project %s has no generation lib.' % self.project.name
                 options = {
                     'decompose' : True,
                     'autohint' : False,

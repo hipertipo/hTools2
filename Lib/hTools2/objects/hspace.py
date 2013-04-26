@@ -182,7 +182,7 @@ class hSpace:
             instance_path = os.path.join(self.project.paths['instances'], font_name)
             if os.path.exists(master_path):
                 font_paths.append(master_path)
-            elif os.path.exists(master_path):
+            elif os.path.exists(instance_path):
                 font_paths.append(instance_path)
             else:
                 continue
@@ -531,7 +531,7 @@ class hSpace:
             print
         print '...done.\n'
 
-    def change_glyph_widths(self, gstring, delta):
+    def change_glyph_widths(self, delta, gstring=None):
         print 'changing glyph widths in space...\n'
         groups = self.project.libs['groups']['glyphs']
         for src_path in self.ufos():
