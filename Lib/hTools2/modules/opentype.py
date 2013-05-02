@@ -21,6 +21,15 @@ def import_features(font, fea_path):
     # set features
     font.features.text = features_text
 
+def import_kern_feature(font, fea_path):
+    features_text = '\n'
+    fea = open(fea_path,'r')
+    fea_text = fea.readlines()
+    for line in fea_text:
+        features_text += line
+    fea.close()
+    font.features.text += features_text
+
 def export_features(font, fea_path):
     '''Exports the content of `font.features` to the given .fea file in `fea_path`.'''
     if os.path.exists(fea_path):

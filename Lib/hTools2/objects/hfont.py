@@ -46,7 +46,7 @@ from hTools2.modules.encoding import paint_groups, auto_unicodes
 from hTools2.modules.fontinfo import set_names_from_path, set_vmetrics
 from hTools2.modules.fontutils import *
 from hTools2.modules.ftp import *
-from hTools2.modules.opentype import import_features
+from hTools2.modules.opentype import import_features, clear_features, import_kern_feature
 
 #---------
 # objects
@@ -286,9 +286,18 @@ class hFont:
 
     # OT features
 
+    def clear_features(self):
+        clear_features(self.ufo)
+
     def import_features(self):
         '''Import features from features file into font.'''
         import_features(self.ufo, self.project.paths['features'])
+
+    def import_kern_feature(self):
+        '''Import `kern` feature from features file into font.'''
+        # extend: make switch to get style-specific kerning
+        kern_path = os.path.join(self.project.paths['libs'], 'kern.fea')
+        import_kern_feature(self.ufo, kern_path)
 
     def export_features(self):
         '''Export features from font to features file.'''

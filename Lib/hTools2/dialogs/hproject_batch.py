@@ -99,7 +99,9 @@ class BatchProject(object):
         ( 'paint groups',       False ),
         ( 'clear colors',       False ),
         ( 'crop glyphset',      False ),
+        ( 'clear features',     False ),
         ( 'import features',    False ),
+        ( 'import kerning',     False ),
         ( 'auto unicodes',      False ),
         ( 'set vmetrics',       False ),
         ( 'build accents',      False ),
@@ -648,11 +650,23 @@ class BatchProject(object):
                         print '\t\tbuilding composed glyphs...'
                         font.build_composed()
                 #---------------------------------
+                _action = 'clear features'
+                if _actions.has_key(_action):
+                    if _actions[_action]:
+                        print '\t\tremoving features...'
+                        font.clear_features()
+                #---------------------------------
                 _action = 'import features'
                 if _actions.has_key(_action):
                     if _actions[_action]:
                         print '\t\timporting features...'
                         font.import_features()
+                #---------------------------------
+                _action = 'import kerning'
+                if _actions.has_key(_action):
+                    if _actions[_action]:
+                        print '\t\timporting kerning...'
+                        font.import_kern_feature()
                 #---------------------------------
                 _action = 'set font info'
                 if _actions.has_key(_action):
