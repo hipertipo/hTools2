@@ -107,7 +107,7 @@ class hProject:
             ufo_path = None
         return ufo_path
 
-    def print_info(self, ufos=True, otfs=True, woffs=True, libs=True, scripts=True):
+    def print_info(self, masters=True, instances=True, otfs=True, woffs=True, libs=True, scripts=True):
         line_length = 40
         print 'project info for %s...' % self.name
         print '-' * line_length
@@ -120,11 +120,18 @@ class hProject:
                 if lib[0] != '.':
                     print '\t%s' % lib
             print
-        # ufos
-        if ufos:
-            _ufos = self.ufos()
-            print 'ufos (%s):\n' % len(_ufos)
-            for ufo in _ufos:
+        # ufo masters
+        if masters:
+            _masters = self.masters()
+            print 'masters (%s):\n' % len(_masters)
+            for ufo in _masters:
+                print '\t%s' % ufo
+            print
+        # ufo instances
+        if instances:
+            _instances = self.instances()
+            print 'instances (%s):\n' % len(_instances)
+            for ufo in _instances:
                 print '\t%s' % ufo
             print
         # otfs
@@ -351,6 +358,11 @@ class hProject:
         otf_paths = self.otfs()
         delete_files(otf_paths)
 
+    def delete_instances(self):
+        '''Delete all .ufo instances in project.'''
+        instances_paths = self.instances()
+        delete_files(instances_paths)
+
     def delete_otfs_test(self):
         '''Delete all .otfs in the `Adobe/fonts` folder.'''
         otf_paths = self.otfs_test()
@@ -381,22 +393,25 @@ class hProject:
 
     def generate_instance(self, instance_name, verbose=False, folder=None):
         '''Generate a .ufo instance with name `instance_name`, using data from the project's interpol lib.'''
+        _masters = self.masters()
         if self.libs['interpol'].has_key(instance_name):
-            # master 1
-            master_1 = self.libs['interpol'][instance_name][0]
+            # get instance info
+            master_1, master_2, interpol_factor = self.libs['interpol'][instance_name]
+            # make file names
             master_1_filename = '%s_%s.ufo' % (self.name, master_1)
-            master_1_path = os.path.join(self.paths['ufos'], master_1_filename)
-            # master 2
-            master_2 = self.libs['interpol'][instance_name][1]
             master_2_filename = '%s_%s.ufo' % (self.name, master_2)
+            # master masters
+            master_1_path = os.path.join(self.paths['ufos'], master_1_filename)
             master_2_path = os.path.join(self.paths['ufos'], master_2_filename)
-            # interpolation factor
-            interpol_factor = self.libs['interpol'][instance_name][2]
-            # if both masters exist, generate instance
+            # instance masters
+            if master_1_path not in _masters:
+                master_1_path = os.path.join(self.paths['instances'], master_1_filename)
+            if master_2_path not in _masters:
+                master_2_path = os.path.join(self.paths['instances'], master_2_filename)
+            # generate instance
             if os.path.exists(master_1_path) and os.path.exists(master_2_path):
                 if verbose:
-                    print 'generating %s %s (factor: %s, %s)...' % (self.name, instance_name,
-                            interpol_factor[0], interpol_factor[1]),
+                    print 'generating %s %s (factor: %s, %s)...' % (self.name, instance_name, interpol_factor[0], interpol_factor[1]),
                 instance_filename = '%s_%s.ufo' % (self.name, instance_name)
                 if folder is None:
                     instance_path = os.path.join(self.paths['instances'], instance_filename)
@@ -407,7 +422,7 @@ class hProject:
                 f2 = RFont(master_2_path, showUI=False)
                 f3 = NewFont(showUI=False)
                 # interpolate
-                f3.interpolate((interpol_factor[0], interpol_factor[1]), f2, f1)
+                f3.interpolate((interpol_factor[0], interpol_factor[1]), f1, f2)
                 f3.update()
                 f1.close()
                 f2.close()
