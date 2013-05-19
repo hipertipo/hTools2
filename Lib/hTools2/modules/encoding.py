@@ -21,7 +21,8 @@ import os
 
 try:
     from mojo.roboFont import CurrentFont
-except:
+
+except ImportError:
     from robofab.world import CurrentFont
 
 from hTools2.modules.color import clear_colors, hls_to_rgb

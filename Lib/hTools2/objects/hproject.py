@@ -1,6 +1,8 @@
 # [h] hProject
 
+#-------
 # debug
+#-------
 
 import hTools2
 reload(hTools2)
@@ -16,7 +18,9 @@ if hTools2.DEBUG:
     import hTools2.modules.encoding
     reload(hTools2.modules.encoding)
 
+#---------
 # imports
+#---------
 
 import os
 import plistlib
@@ -36,15 +40,13 @@ from hTools2.modules.fileutils import walk, get_names_from_path, delete_files
 from hTools2.modules.fontutils import parse_glyphs_groups
 from hTools2.modules.encoding import import_encoding
 
+#--------
 # object
+#--------
 
 class hProject:
 
     '''A project represents a font-family and related meta-data.'''
-
-    #------------
-    # attributes
-    #------------
 
     name = None
     world = None
@@ -55,15 +57,14 @@ class hProject:
 
     _path_names = [
         'root',
-        'ufos',
+        'libs',
         'ufos',
         'vfbs',
-        'libs',
         'otfs',
+        'woffs',
         'temp',
         'instances',
         'interpol',
-        'woffs',
         'python',
         'python_robofont',
         'python_nodebox',
@@ -82,10 +83,6 @@ class hProject:
     ]
 
     _lib_extension = 'plist'
-
-    #---------
-    # methods
-    #---------
 
     def __init__(self, name=None):
         self.name = name
@@ -220,7 +217,7 @@ class hProject:
         _paths['interpol'] = os.path.join(_project_root, '_ufos/_interpol')
         _paths['python_robofont'] = os.path.join(_project_root, '_py/RoboFont')
         _paths['python_nodebox'] = os.path.join(_project_root, '_py/NodeBox')
-        # adobe fonts folder
+        # Adobe fonts folder
         _paths['otfs_test'] = os.path.join(self.world.settings.hDict['test'], '_%s') % self.name
         # encoding path
         _enc_filename = '%s.enc' % self.name
@@ -261,9 +258,12 @@ class hProject:
         for path in self._path_names:
             if self.paths[path] is not None:
                 if os.path.exists(self.paths[path]) == False:
-                    print '\tcreating folder %s...' % self.paths[path],
-                    os.mkdir(self.paths[path])
-                    print '[%s]' % os.path.exists(self.paths[path])
+                    try:
+                        print '\tcreating folder %s...' % self.paths[path],
+                        os.mkdir(self.paths[path])
+                        print '[%s]' % os.path.exists(self.paths[path])
+                    except OSError:
+                        print 'aborted, no Adobe fonts folder available.'
                 else:
                     print '\t%s exists.' % self.paths[path]
         print '\n...done.\n'
