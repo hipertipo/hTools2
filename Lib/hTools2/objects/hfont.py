@@ -246,6 +246,11 @@ class hFont:
             glyph_names = parse_glyphs_groups(names, groups)
         round_to_grid(self.ufo, gridsize, glyph_names)
 
+    def delete_layers(self):
+        while len(self.ufo.layerOrder) > 0:
+            self.ufo.removeLayer(self.ufo.layerOrder[0])
+            self.ufo.update()
+
     # building glyphs
 
     def clear_anchors(self, gstring=None):

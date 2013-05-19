@@ -79,6 +79,7 @@ class BatchProject(object):
         ( 'check libs',         False ),
         ( 'check font names',   False ),
         ( 'check glyphset',     False ),
+        ( 'delete instances',   False ),
         ( 'delete otfs',        False ),
         ( 'delete test otfs',   False ),
         ( 'delete woffs',       False ),
@@ -97,8 +98,9 @@ class BatchProject(object):
         ( 'create glyphs',      False ),
         ( 'import groups',      False ),
         ( 'paint groups',       False ),
-        ( 'clear colors',       False ),
         ( 'crop glyphset',      False ),
+        ( 'clear colors',       False ),
+        ( 'delete layers',      False ),
         ( 'clear features',     False ),
         ( 'import features',    False ),
         ( 'import kerning',     False ),
@@ -562,6 +564,12 @@ class BatchProject(object):
             if _actions[_action]:
                 print 'generating character set proof... [empty]\n'
         #---------------------------------
+        _action = 'delete instances'
+        if _actions.has_key(_action):
+            if _actions[_action]:
+                print 'deleting ufo instances...\n'
+                self._project.delete_instances()
+        #---------------------------------
         _action = 'delete otfs'
         if _actions.has_key(_action):
             if _actions[_action]:
@@ -649,6 +657,12 @@ class BatchProject(object):
                     if _actions[_action]:
                         print '\t\tbuilding composed glyphs...'
                         font.build_composed()
+                #---------------------------------
+                _action = 'delete layers'
+                if _actions.has_key(_action):
+                    if _actions[_action]:
+                        print '\t\tdeleting layers...'
+                        font.delete_layers()
                 #---------------------------------
                 _action = 'clear features'
                 if _actions.has_key(_action):

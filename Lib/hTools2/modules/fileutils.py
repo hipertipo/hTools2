@@ -57,8 +57,11 @@ def read_names_list_from_file(filepath):
 
 def delete_files(files_list):
     '''Delete the files at the file paths in the list.'''
-    for _file in files_list:
-        os.remove(_file)
+    for file_path in files_list:
+        if os.path.isdir(file_path):
+            shutil.rmtree(file_path)
+        else:
+            os.remove(file_path)
 
 def rename_file(filepath, new_name, overwrite=True, delete=True):
     '''Rename a file or folder, and save it with the new name.'''
@@ -91,3 +94,4 @@ def prepend_zeros(number, length):
     _number = str(number)
     _padding = length - len(_number)
     return '%s%s' % ('0' * _padding, _number)
+
