@@ -691,7 +691,8 @@ class BatchProject(object):
                 _action = 'set foundry info'
                 if _actions.has_key(_action):
                     if _actions[_action]:
-                        print '\t\tsetting foundry info... [empty]'
+                        print '\t\tsetting foundry info...'
+                        font.set_foundry_info()
                 #---------------------------------
                 _action = 'set vmetrics'
                 if _actions.has_key(_action):

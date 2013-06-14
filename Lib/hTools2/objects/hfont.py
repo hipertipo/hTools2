@@ -335,8 +335,36 @@ class hFont:
     def set_info(self):
         '''Set different kinds of font info.'''
         set_names_from_path(self.ufo)
-        # foundry info
-        # version info
+
+    def set_foundry_info(self):
+        '''Set foundry info.'''
+        fontinfo_lib = self.project.libs['info']
+        # set info fields
+        for k in fontinfo_lib.keys():
+            if k == 'copyright':
+                self.ufo.info.copyright = fontinfo_lib[k]
+            if k == 'trademark':
+                self.ufo.info.trademark = fontinfo_lib[k]
+            if k == 'note':
+                self.ufo.info.note = fontinfo_lib[k]
+            if k == 'licence':
+                self.ufo.info.openTypeNameLicense = fontinfo_lib[k]
+            if k == 'sample':
+                self.ufo.info.openTypeNameSampleText = fontinfo_lib[k]
+            if k == 'description':
+                self.ufo.info.openTypeNameDescription = fontinfo_lib[k]
+            if k == 'year':
+                self.ufo.info.year = int(fontinfo_lib[k])
+            if k == 'designer':
+                self.ufo.info.openTypeNameDesigner = fontinfo_lib[k]
+            if k == 'designer_url':
+                self.ufo.info.openTypeNameDesignerURL = fontinfo_lib[k]
+            if k == 'manufacturer':
+                self.ufo.info.openTypeNameManufacturer = fontinfo_lib[k]
+            if k == 'manufacturer_url':
+                self.ufo.info.openTypeNameManufacturerURL = fontinfo_lib[k]
+        # done
+        self.ufo.update()
 
     def print_info(self):
         '''Print different kinds of font information.'''
