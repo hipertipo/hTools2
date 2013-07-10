@@ -440,7 +440,9 @@ class hFont:
             print '\tfont path: %s' % _otf_path
             print
         # generate
-        self.ufo.generate(_otf_path, 'otf',
+        self.ufo.generate(
+                    _otf_path,
+                    'otf',
                     decompose=options['decompose'],
                     autohint=options['autohint'],
                     checkOutlines=options['remove overlap'],

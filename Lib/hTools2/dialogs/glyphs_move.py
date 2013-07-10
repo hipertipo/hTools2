@@ -7,11 +7,12 @@ try:
 except:
     from robofab.world import CurrentFont, CurrentGlyph
 
+from hTools2 import Constants
 from vanilla import *
 
 # objects
 
-class moveGlyphsDialog(object):
+class moveGlyphsDialog(Constants):
 
     '''move glyphs dialog'''
 
@@ -20,12 +21,12 @@ class moveGlyphsDialog(object):
     #------------
 
     _title = "move"
-    _padding = 10
-    _button_1 = 35
+    _padding = 10       # inherit
+    _button_1 = 35      
     _button_2 = 18
     _box_height = 20
-    _width = (_button_1 * 3) + (_padding * 2) - 2
-    _height = (_button_1 * 3) + (_padding * 5) + (_box_height * 3) - 7
+    _width = (_button_1 * 3) + (_padding * 2) - 2                           # inherit
+    _height = (_button_1 * 3) + (_padding * 5) + (_box_height * 3) - 7      # calculate
 
     _move_default = 70
 
@@ -35,8 +36,7 @@ class moveGlyphsDialog(object):
 
     def __init__(self):
         self.w = FloatingWindow(
-                    (self._width,
-                    self._height),
+                    (self._width, self._height),
                     self._title)
         # move buttons
         p = self._padding

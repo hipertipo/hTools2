@@ -2,7 +2,7 @@
 
 from distutils.core import setup
 
-### add: check for dependencies
+# install
 
 setup(name='hTools2',
     version='1.5',

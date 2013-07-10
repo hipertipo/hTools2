@@ -1,6 +1,6 @@
-# [h] dialog to apply actions to all fonts in a folder
+# [h] apply actions to all fonts in folder
 
-# reload when debugging
+# debug
 
 import hTools2
 reload(hTools2)
@@ -56,11 +56,7 @@ class actionsFolderDialog(object):
     #---------
 
     def __init__(self):
-        self.w = FloatingWindow(
-                    (self._width,
-                    self._height),
-                    self._title,
-                    closable=True)
+        self.w = FloatingWindow((self._width, self._height), self._title, closable=True)
         # ufos folder
         x = self._padding
         y = self._padding

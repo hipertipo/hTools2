@@ -116,6 +116,8 @@ if hTools2.DEBUG:
 
 # import dialogs
 
+from all_fonts_generate import generateAllFontsDialog
+
 from folder_actions import actionsFolderDialog
 from folder_generate import generateFolderDialog
 from folder_otfs2ufos import OTFsToUFOsDialog
@@ -157,6 +159,8 @@ from select_fonts import SelectFonts
 # export dialogs
 
 __all__ = [
+    # all fonts
+    'generateAllFontsDialog',
     # glyph
     'copyMarginsDialog',
     'copyWidthsDialog',
