@@ -22,7 +22,12 @@ The latest version of the documentation is available in the project’s [wiki](h
 
 ## Support
 
+<<<<<<< HEAD
+- Nikola Djurek ([Typonine](http://typonine.com/))
+- Bas Jacobs ([Underware](http://underware.nl/))
+=======
 Join the [mailing list](http://lists.hipertipo.com/listinfo/htools2) for questions and general discussions about hTools2.
+>>>>>>> d1e1994488dd533699fa07d391325c14d38db66d
 
 ## Development
 
@@ -35,10 +40,15 @@ Special thanks to the following designers/companies for contributing ideas and f
 
 If you use these tools on a regular basis, please consider making a donation.
 
+<<<<<<< HEAD
+Download
+--------
+=======
 ## License
 
 [BSD 3-Clause License](http://www.opensource.org/licenses/BSD-3-Clause)
 
 ## Download
+>>>>>>> d1e1994488dd533699fa07d391325c14d38db66d
 
 [https://github.com/gferreira/hTools2](https://github.com/gferreira/hTools2)
