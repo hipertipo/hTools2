@@ -1,5 +1,10 @@
 # [h] dialog to move selected glyphs
 
+# debug
+
+import hTools2
+reload(hTools2)
+
 # imports
 
 try:
@@ -7,157 +12,160 @@ try:
 except:
     from robofab.world import CurrentFont, CurrentGlyph
 
-from hTools2 import Constants
 from vanilla import *
+
+from hTools2 import hConstants
 
 # objects
 
-class moveGlyphsDialog(Constants):
+class moveGlyphsDialog(hConstants):
 
-    '''move glyphs dialog'''
+    '''A simple dialog to move the selected glyphs in a font.'''
 
-    #------------
     # attributes
-    #------------
 
-    _title = "move"
-    _padding = 10       # inherit
-    _button_1 = 35      
-    _button_2 = 18
-    _box_height = 20
-    _width = (_button_1 * 3) + (_padding * 2) - 2                           # inherit
-    _height = (_button_1 * 3) + (_padding * 5) + (_box_height * 3) - 7      # calculate
+    move_value = 70
 
-    _move_default = 70
-
-    #---------
     # methods
-    #---------
 
     def __init__(self):
+        self.title = "move"
+        self.width = (self.square_button * 3) + (self.padding_x * 2) - 2
+        self.height = (self.square_button * 3) + (self.padding_y * 5) + (self.text_height * 3) - 7
         self.w = FloatingWindow(
-                    (self._width, self._height),
-                    self._title)
+                    (self.width, self.height),
+                    self.title)
         # move buttons
-        p = self._padding
-        b1 = self._button_1
-        b2 = self._button_2
-        box = self._box_height
-        x = p
-        x1 = x + b1 - 1
-        x2 = (b1 * 2) + p - 2
-        y = p
+        x = self.padding_x
+        y = self.padding_y
+        x1 = x + (self.square_button * 1) - 1
+        x2 = x + (self.square_button * 2) - 2
         self.w._up = SquareButton(
                     (x1, y,
-                    b1, b1),
+                    self.square_button,
+                    self.square_button),
                     unichr(8673),
                     callback=self._up_callback)
         self.w._up_left = SquareButton(
                     (x, y,
-                    b1 - 8, b1 - 8),
+                    self.square_button - 8,
+                    self.square_button - 8),
                     unichr(8598),
                     callback=self._up_left_callback,
-                    sizeStyle='small')
+                    sizeStyle=self.size_style)
         self.w._up_right = SquareButton(
                     (x2 + 8, y,
-                    b1 - 8, b1 - 8),
+                    self.square_button - 8,
+                    self.square_button - 8),
                     unichr(8599),
                     callback=self._up_right_callback,
-                    sizeStyle='small')
-        y += b1 - 1
+                    sizeStyle=self.size_style)
+        y += self.square_button - 1
         self.w._left = SquareButton(
                     (x, y,
-                    b1, b1),
+                    self.square_button,
+                    self.square_button),
                     unichr(8672),
                     callback=self._left_callback)
         self.w._right = SquareButton(
                     (x2, y,
-                    b1, b1),
+                    self.square_button,
+                    self.square_button),
                     unichr(8674),
                     callback=self._right_callback)
-        y += b1 - 1
+        y += self.square_button - 1
         self.w._down_left = SquareButton(
                     (x, y + 8,
-                    b1 - 8, b1 - 8),
+                    self.square_button - 8,
+                    self.square_button - 8),
                     unichr(8601),
                     callback=self._down_left_callback,
-                    sizeStyle='small')
+                    sizeStyle=self.size_style)
         self.w._down = SquareButton(
                     (x1, y,
-                    b1, b1),
+                    self.square_button,
+                    self.square_button),
                     unichr(8675),
                     callback=self._down_callback)
         self.w._down_right = SquareButton(
                     (x2 + 8, y + 8,
-                    b1 - 8, b1 - 8),
+                    self.square_button - 8,
+                    self.square_button - 8),
                     unichr(8600),
                     callback=self._down_right_callback,
-                    sizeStyle='small')
+                    sizeStyle=self.size_style)
         # move offset
-        y += b1 + p
+        y += self.square_button + self.padding_x
         self.w._move_value = EditText(
                     (x, y,
-                    -p, box),
-                    self._move_default,
-                    sizeStyle='small',
-                    readOnly=True)
+                    -self.padding_x,
+                    self.text_height),
+                    self.move_value,
+                    sizeStyle=self.size_style,
+                    readOnly=self.read_only)
         # nudge spinners
-        y += box + p
+        y += self.text_height + self.padding_y
         self.w._minus_001 = SquareButton(
                     (x, y,
-                    b2, b2),
+                    self.nudge_button,
+                    self.nudge_button),
                     '-',
-                    sizeStyle='small',
+                    sizeStyle=self.size_style,
                     callback=self._minus_001_callback)
-        x += (b2 * 1) - 1
+        x += (self.nudge_button * 1) - 1
         self.w._plus_001 = SquareButton(
                     (x, y,
-                    b2, b2),
+                    self.nudge_button,
+                    self.nudge_button),
                     '+',
-                    sizeStyle='small',
+                    sizeStyle=self.size_style,
                     callback=self._plus_001_callback)
-        x += (b2 * 1) - 1
+        x += (self.nudge_button * 1) - 1
         self.w._minus_010 = SquareButton(
                     (x, y,
-                    b2, b2),
+                    self.nudge_button,
+                    self.nudge_button),
                     '-',
-                    sizeStyle='small',
+                    sizeStyle=self.size_style,
                     callback=self._minus_010_callback)
-        x += (b2 * 1) - 1
+        x += (self.nudge_button * 1) - 1
         self.w._plus_010 = SquareButton(
                     (x, y,
-                    b2, b2),
+                    self.nudge_button,
+                    self.nudge_button),
                     '+',
-                    sizeStyle='small',
+                    sizeStyle=self.size_style,
                     callback=self._plus_010_callback)
-        x += (b2 * 1) - 1
+        x += (self.nudge_button * 1) - 1
         self.w._minus_100 = SquareButton(
                     (x, y,
-                    b2, b2),
+                    self.nudge_button,
+                    self.nudge_button),
                     '-',
-                    sizeStyle='small',
+                    sizeStyle=self.size_style,
                     callback=self._minus_100_callback)
-        x += (b2 * 1) - 1
+        x += (self.nudge_button * 1) - 1
         self.w._plus_100 = SquareButton(
                     (x, y,
-                    b2, b2),
+                    self.nudge_button,
+                    self.nudge_button),
                     '+',
-                    sizeStyle='small',
+                    sizeStyle=self.size_style,
                     callback=self._plus_100_callback)
         # checkbox
-        x = self._padding
-        y += b2 + self._padding
+        x = self.padding_x
+        y += self.nudge_button + self.padding_y
         self.w._layers = CheckBox(
-                (x, y,
-                -self._padding,
-                self._box_height),
-                "all layers",
-                value=False,
-                sizeStyle='small')
+                    (x, y,
+                    -self.padding_x,
+                    self.text_height),
+                    "all layers",
+                    value=False,
+                    sizeStyle=self.size_style)
         # open dialog
         self.w.open()
 
-    # callbacks
+    # spinner callbacks
 
     def _minus_001_callback(self, sender):
         _value = int(self.w._move_value.get()) - 1
@@ -186,7 +194,41 @@ class moveGlyphsDialog(Constants):
         _value = int(self.w._move_value.get()) + 100
         self.w._move_value.set(_value)
 
-    # apply move
+    # arrows callbacks
+
+    def _up_left_callback(self, sender):
+        _value = int(self.w._move_value.get())
+        self._move_glyphs((-_value, _value))
+
+    def _up_right_callback(self, sender):
+        _value = int(self.w._move_value.get())
+        self._move_glyphs((_value, _value))
+
+    def _down_left_callback(self, sender):
+        _value = int(self.w._move_value.get())
+        self._move_glyphs((-_value, -_value))
+
+    def _down_right_callback(self, sender):
+        _value = int(self.w._move_value.get())
+        self._move_glyphs((_value, -_value))
+
+    def _left_callback(self, sender):
+        _value = int(self.w._move_value.get())
+        self._move_glyphs((-_value, 0))
+
+    def _right_callback(self, sender):
+        _value = int(self.w._move_value.get())
+        self._move_glyphs((_value, 0))
+
+    def _up_callback(self, sender):
+        _value = int(self.w._move_value.get())
+        self._move_glyphs((0, _value))
+
+    def _down_callback(self, sender):
+        _value = int(self.w._move_value.get())
+        self._move_glyphs((0, -_value))
+
+    # apply transformation
 
     def _move_glyphs(self, (x, y)):
         f = CurrentFont()
@@ -243,37 +285,3 @@ class moveGlyphsDialog(Constants):
         # no font open
         else:
             print 'please open a font first.\n'
-
-    # callbacks
-
-    def _up_left_callback(self, sender):
-        _value = int(self.w._move_value.get())
-        self._move_glyphs((-_value, _value))
-
-    def _up_right_callback(self, sender):
-        _value = int(self.w._move_value.get())
-        self._move_glyphs((_value, _value))
-
-    def _down_left_callback(self, sender):
-        _value = int(self.w._move_value.get())
-        self._move_glyphs((-_value, -_value))
-
-    def _down_right_callback(self, sender):
-        _value = int(self.w._move_value.get())
-        self._move_glyphs((_value, -_value))
-
-    def _left_callback(self, sender):
-        _value = int(self.w._move_value.get())
-        self._move_glyphs((-_value, 0))
-
-    def _right_callback(self, sender):
-        _value = int(self.w._move_value.get())
-        self._move_glyphs((_value, 0))
-
-    def _up_callback(self, sender):
-        _value = int(self.w._move_value.get())
-        self._move_glyphs((0, _value))
-
-    def _down_callback(self, sender):
-        _value = int(self.w._move_value.get())
-        self._move_glyphs((0, -_value))

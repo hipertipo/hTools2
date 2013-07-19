@@ -1,6 +1,6 @@
 # [h] a dialog to apply actions to glyphs
 
-# reload when debugging
+# debug
 
 import hTools2
 reload(hTools2)
@@ -18,28 +18,19 @@ except:
 
 from vanilla import *
 
+from hTools2 import Constants
 from hTools2.modules.fontutils import get_glyphs
 
 # objects
 
-class glyphActionsDialog(object):
+class glyphActionsDialog(Constants):
 
-    '''A dialog to apply actions to layers in selected glyphs.'''
+    '''A dialog to apply actions to one or more layers in the selected glyphs.'''
 
-    #------------
     # attributes
-    #------------
 
-    _title = 'actions'
-    _row_height = 20
-    _button_height = 30
-    _padding = 10
-    _padding_top = 8
-    _width = 123
-    _height = (_padding_top * 4) + (_row_height * 9) + _button_height + 3
-
-    _glyph_names = []
-    _actions = {
+    glyph_names = []
+    actions = {
         'clear outlines' : False,
         'round points' : False,
         'decompose' : False,
@@ -51,174 +42,174 @@ class glyphActionsDialog(object):
         'all layers' : False,
     }
 
-    #---------
     # methods
-    #---------
 
     def __init__(self):
+        self.title = 'actions'
+        self.width = 123
+        self.height = (self.padding_y * 4) + (self.text_height * 9) + self.button_height
         self.w = FloatingWindow(
-                    (self._width, self._height),
-                    self._title,
-                    closable=True)
+                    (self.width, self.height),
+                    self.title)
         # clear outlines
-        x = self._padding
-        y = self._padding_top
+        x = self.padding_x
+        y = self.padding_y
         self.w.clear_checkBox = CheckBox(
                     (x, y,
-                    -self._padding,
-                    self._row_height),
+                    -self.padding_x,
+                    self.text_height),
                     "clear outlines",
                     callback=self.clear_callback,
-                    value=self._actions['clear outlines'],
-                    sizeStyle='small')
+                    value=self.actions['clear outlines'],
+                    sizeStyle=self.size_style)
         # round point positions
-        y += self._row_height
+        y += self.text_height
         self.w.round_checkBox = CheckBox(
                     (x, y,
-                    -self._padding,
-                    self._row_height),
+                    -self.padding_x,
+                    self.text_height),
                     "round points",
                     callback=self.round_callback,
-                    value=self._actions['round points'],
-                    sizeStyle='small')
+                    value=self.actions['round points'],
+                    sizeStyle=self.size_style)
         # decompose
-        y += self._row_height
+        y += self.text_height
         self.w.decompose_checkBox = CheckBox(
                     (x, y,
-                    -self._padding,
-                    self._row_height),
+                    -self.padding_x,
+                    self.text_height),
                     "decompose",
                     callback=self.decompose_callback,
-                    value=self._actions['decompose'],
-                    sizeStyle='small')
+                    value=self.actions['decompose'],
+                    sizeStyle=self.size_style)
         # delete components
-        y += self._row_height
+        y += self.text_height
         self.w.delete_components_checkBox = CheckBox(
                     (x, y,
-                    -self._padding,
-                    self._row_height),
+                    -self.padding_x,
+                    self.text_height),
                     "del components",
                     callback=self.delete_components_callback,
-                    value=self._actions['delete components'],
-                    sizeStyle='small')
+                    value=self.actions['delete components'],
+                    sizeStyle=self.size_style)
         # auto contour order
-        y += self._row_height
+        y += self.text_height
         self.w.order_checkBox = CheckBox(
                     (x, y,
-                    -self._padding,
-                    self._row_height),
+                    -self.padding_x,
+                    self.text_height),
                     "auto order",
                     callback=self.order_callback,
-                    value=self._actions['order contours'],
-                    sizeStyle='small')
+                    value=self.actions['order contours'],
+                    sizeStyle=self.size_style)
         # auto contour direction
-        y += self._row_height
+        y += self.text_height
         self.w.direction_checkBox = CheckBox(
                     (x, y,
-                    -self._padding,
-                    self._row_height),
+                    -self.padding_x,
+                    self.text_height),
                     "auto direction",
                     callback=self.direction_callback,
-                    value=self._actions['auto direction'],
-                    sizeStyle='small')
+                    value=self.actions['auto direction'],
+                    sizeStyle=self.size_style)
         # remove overlaps
-        y += self._row_height
+        y += self.text_height
         self.w.overlaps_checkBox = CheckBox(
                     (x, y,
-                    -self._padding,
-                    self._row_height),
+                    -self.padding_x,
+                    self.text_height),
                     "remove overlap",
                     callback=self.overlaps_callback,
-                    value=self._actions['remove overlaps'],
-                    sizeStyle='small')
+                    value=self.actions['remove overlaps'],
+                    sizeStyle=self.size_style)
         # add extreme points
-        y += self._row_height
+        y += self.text_height
         self.w.extremes_checkBox = CheckBox(
                     (x, y,
-                    -self._padding,
-                    self._row_height),
+                    -self.padding_x,
+                    self.text_height),
                     "add extremes",
                     callback=self.extremes_callback,
-                    value=self._actions['add extremes'],
-                    sizeStyle='small')
+                    value=self.actions['add extremes'],
+                    sizeStyle=self.size_style)
         # buttons
-        x = self._padding
-        y += self._row_height + self._padding
+        x = self.padding_x
+        y += (self.text_height + self.padding_y)
         self.w.button_apply = SquareButton(
                     (x, y,
-                    -self._padding,
-                    self._button_height),
+                    -self.padding_x,
+                    self.button_height),
                     "apply",
                     callback=self.apply_callback,
-                    sizeStyle='small')
+                    sizeStyle=self.size_style)
         # all layers
-        y += self._button_height + self._padding
+        y += (self.button_height + self.padding_y)
         self.w.all_layers_checkBox = CheckBox(
                     (x, y,
-                    -self._padding,
-                    self._row_height),
+                    -self.padding_x,
+                    self.text_height),
                     "all layers",
                     callback=self.all_layers_callback,
-                    value=self._actions['all layers'],
-                    sizeStyle='small')
+                    value=self.actions['all layers'],
+                    sizeStyle=self.size_style)
         # open window
         self.w.open()
 
     # callbacks
 
     def clear_callback(self, sender):
-        self._actions['clear outlines'] = sender.get()
+        self.actions['clear outlines'] = sender.get()
 
     def all_layers_callback(self, sender):
-        self._actions['all layers'] = sender.get()
+        self.actions['all layers'] = sender.get()
 
     def round_callback(self, sender):
-        self._actions['round points'] = sender.get()
+        self.actions['round points'] = sender.get()
 
     def decompose_callback(self, sender):
-        self._actions['decompose'] = sender.get()
+        self.actions['decompose'] = sender.get()
 
     def delete_components_callback(self, sender):
-        self._actions['delete components'] = sender.get()
+        self.actions['delete components'] = sender.get()
 
     def order_callback(self, sender):
-        self._actions['order contours'] = sender.get()
+        self.actions['order contours'] = sender.get()
 
     def direction_callback(self, sender):
-        self._actions['auto direction'] = sender.get()
+        self.actions['auto direction'] = sender.get()
 
     def overlaps_callback(self, sender):
-        self._actions['remove overlaps'] = sender.get()
+        self.actions['remove overlaps'] = sender.get()
 
     def extremes_callback(self, sender):
-        self._actions['add extremes'] = sender.get()
+        self.actions['add extremes'] = sender.get()
 
     def _apply_actions(self, glyph):
         glyph.prepareUndo('apply actions')
         # clear outlines
-        if self._actions['clear outlines']:
+        if self.actions['clear outlines']:
             glyph.clear()
         # round points to integer
-        if self._actions['round points']:
+        if self.actions['round points']:
             glyph.round()
         # decompose
-        if self._actions['decompose']:
+        if self.actions['decompose']:
             glyph.decompose()
         # delete components
-        if self._actions['delete components']:
+        if self.actions['delete components']:
             for component in glyph.components:
                 glyph.removeComponent(component)
         # remove overlaps
-        if self._actions['remove overlaps']:
+        if self.actions['remove overlaps']:
             glyph.removeOverlap()
         # add extreme points
-        if self._actions['add extremes']:
+        if self.actions['add extremes']:
             glyph.extremePoints()
         # auto contour order
-        if self._actions['order contours']:
+        if self.actions['order contours']:
             glyph.autoContourOrder()
         # auto contour direction
-        if self._actions['auto direction']:
+        if self.actions['auto direction']:
             glyph.correctDirection()
         # done glyph
         glyph.performUndo()
@@ -227,15 +218,15 @@ class glyphActionsDialog(object):
         f = CurrentFont()
         if f is not None:
             print 'applying actions to selected glyphs...\n'
-            for action in self._actions.keys():
-                if self._actions[action]:
+            for action in self.actions.keys():
+                if self.actions[action]:
                     print '\t%s' % action
             print
             print '\t',
             for glyph in get_glyphs(f, mode='glyphs'):
                 print glyph.name,
                 # current layer only
-                if not self._actions['all layers']:
+                if not self.actions['all layers']:
                     self._apply_actions(glyph)
                 # all layers
                 else:

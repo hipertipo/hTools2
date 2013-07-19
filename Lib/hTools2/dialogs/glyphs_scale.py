@@ -1,6 +1,6 @@
 # [h] dialog to scale selected glyphs
 
-# reload when debugging
+# debug
 
 import hTools2
 reload(hTools2)
@@ -18,168 +18,160 @@ except:
 
 from vanilla import *
 
-from hTools2.modules.fontutils import get_glyphs # get_full_name
+from hTools2 import hConstants
+from hTools2.modules.fontutils import get_glyphs
 
 # objects
 
-class scaleGlyphsDialog(object):
+class scaleGlyphsDialog(hConstants):
 
-    '''scale glyphs dialog'''
+    '''A simple dialog to scale the selected glyphs in a font.'''
 
-    #------------
     # attributes
-    #------------
 
-    _title = "scale"
-    _button_1 = 35
-    _button_2 = 18
-    _padding = 10
-    _box_height = 20
-    _width = (_button_2 * 6) + (_padding * 2) - 5
-    _height = (_button_1 * 3) + (_button_2 * 2) + (_padding * 5) + (_box_height * 3) - 6
+    x_metrics = True
+    y_metrics = False
+    scale_value = 50
+    layers = False
 
-    _x_metrics = True
-    _y_metrics = False
-    _scale_value = 50
-    _layers = False
-
-    #---------
     # methods
-    #---------
 
     def __init__(self):
+        self.title = "scale"
+        self.width = (self.nudge_button * 6) + (self.padding_x * 2) - 5
+        self.height = (self.square_button * 3) + (self.nudge_button * 2) + (self.padding_y * 5) + (self.text_height * 3) - 6
         self.w = FloatingWindow(
-                    (self._width, self._height),
-                    self._title)
-        x = self._padding
-        y = self._padding
+                    (self.width, self.height),
+                    self.title)
         # scale buttons
-        x1 = x + self._button_1 - 1
-        x2 = (self._button_1 * 2) + self._padding - 2
+        x = self.padding_x
+        y = self.padding_y
+        x1 = x + (self.square_button * 1) - 1
+        x2 = x + (self.square_button * 2) - 2
         self.w._up = SquareButton(
                     (x1, y,
-                    self._button_1,
-                    self._button_1),
+                    self.square_button,
+                    self.square_button),
                     unichr(8673),
                     callback=self._up_callback)
         self.w._up_right = SquareButton(
                     (x2 + 8, y,
-                    self._button_1 - 8,
-                    self._button_1 - 8),
+                    self.square_button - 8,
+                    self.square_button - 8),
                     unichr(8599),
                     callback=self._up_right_callback)
-        y += self._button_1 - 1
+        y += self.square_button - 1
         self.w._left = SquareButton(
                     (x, y,
-                    self._button_1,
-                    self._button_1),
+                    self.square_button,
+                    self.square_button),
                     unichr(8672),
                     callback=self._left_callback)
         self.w._right = SquareButton(
                     (x2, y,
-                    self._button_1,
-                    self._button_1),
+                    self.square_button,
+                    self.square_button),
                     unichr(8674),
                     callback=self._right_callback)
-        y += self._button_1 - 1
+        y += self.square_button - 1
         self.w._down_left = SquareButton(
                     (x, y + 8,
-                    self._button_1 - 8,
-                    self._button_1 - 8),
+                    self.square_button - 8,
+                    self.square_button - 8),
                     unichr(8601),
                     callback=self._down_left_callback)
         self.w._down = SquareButton(
                     (x1, y,
-                    self._button_1,
-                    self._button_1),
+                    self.square_button,
+                    self.square_button),
                     unichr(8675),
                     callback=self._down_callback)
-        y += self._button_1 + self._padding
+        y += self.square_button + self.padding_y
         # scale factor
         self.w._scale_value = EditText(
                     (x, y,
-                    -self._padding,
-                    self._box_height),
-                    self._scale_value,
-                    sizeStyle='small',
-                    readOnly=True)
+                    -self.padding_x,
+                    self.text_height),
+                    self.scale_value,
+                    sizeStyle=self.size_style,
+                    readOnly=self.read_only)
         # scale spinners
-        y += self._button_2 + self._padding
+        y += self.nudge_button + self.padding_y
         self.w._scale_minus_001 = SquareButton(
                     (x, y,
-                    self._button_2,
-                    self._button_2),
+                    self.nudge_button,
+                    self.nudge_button),
                     '-',
-                    sizeStyle='small',
+                    sizeStyle=self.size_style,
                     callback=self._scale_minus_001_callback)
-        x += (self._button_2 - 1)
+        x += (self.nudge_button - 1)
         self.w._scale_plus_001 = SquareButton(
                     (x, y,
-                    self._button_2,
-                    self._button_2),
+                    self.nudge_button,
+                    self.nudge_button),
                     '+',
-                    sizeStyle='small',
+                    sizeStyle=self.size_style,
                     callback=self._scale_plus_001_callback)
-        x += (self._button_2 - 1)
+        x += (self.nudge_button - 1)
         self.w._scale_minus_010 = SquareButton(
                     (x, y,
-                    self._button_2,
-                    self._button_2),
+                    self.nudge_button,
+                    self.nudge_button),
                     '-',
-                    sizeStyle='small',
+                    sizeStyle=self.size_style,
                     callback=self._scale_minus_010_callback)
-        x += (self._button_2 - 1)
+        x += (self.nudge_button - 1)
         self.w._scale_plus_010 = SquareButton(
                     (x, y,
-                    self._button_2,
-                    self._button_2),
+                    self.nudge_button,
+                    self.nudge_button),
                     '+',
-                    sizeStyle='small',
+                    sizeStyle=self.size_style,
                     callback=self._scale_plus_010_callback)
-        x += (self._button_2 - 1)
+        x += (self.nudge_button - 1)
         self.w._scale_minus_100 = SquareButton(
                     (x, y,
-                    self._button_2,
-                    self._button_2),
+                    self.nudge_button,
+                    self.nudge_button),
                     '-',
-                    sizeStyle='small',
+                    sizeStyle=self.size_style,
                     callback=self._scale_minus_100_callback)
-        x += (self._button_2 - 1)
+        x += (self.nudge_button - 1)
         self.w._scale_value_plus_100 = SquareButton(
                     (x, y,
-                    self._button_2,
-                    self._button_2),
+                    self.nudge_button,
+                    self.nudge_button),
                     '+',
-                    sizeStyle='small',
+                    sizeStyle=self.size_style,
                     callback=self._scale_plus_100_callback)
-        # checkself._box_heightes
-        x = self._padding
-        y += self._button_2 + self._padding
+        # checkboxes
+        x = self.padding_x
+        y += (self.nudge_button + self.padding_y)
         self.w._metrics_x = CheckBox(
                     (x, y,
-                    -self._padding,
-                    self._box_height),
+                    -self.padding_x,
+                    self.text_height),
                     "side-bearings",
-                    value=self._x_metrics,
-                    sizeStyle='small',
+                    value=self.x_metrics,
+                    sizeStyle=self.size_style,
                     callback=self._metrics_x_callback)
-        y += self._box_height
+        y += self.text_height
         self.w._metrics_y = CheckBox(
                     (x, y,
-                    -self._padding,
-                    self._box_height),
+                    -self.padding_x,
+                    self.text_height),
                     "vertical metrics",
-                    value=self._y_metrics,
-                    sizeStyle='small',
+                    value=self.y_metrics,
+                    sizeStyle=self.size_style,
                     callback=self._metrics_y_callback)
-        y += self._box_height
+        y += self.text_height
         self.w._layers = CheckBox(
                     (x, y,
-                    -self._padding,
-                    self._box_height),
+                    -self.padding_x,
+                    self.text_height),
                     "all layers",
-                    value=self._layers,
-                    sizeStyle='small',
+                    value=self.layers,
+                    sizeStyle=self.size_style,
                     callback=self._layers_callback)
         # open window
         self.w.open()
@@ -268,13 +260,13 @@ class scaleGlyphsDialog(object):
     # checkboxes
 
     def _metrics_x_callback(self, sender):
-        self._x_metrics = self.w._metrics_x.get()
+        self.x_metrics = self.w._metrics_x.get()
 
     def _metrics_y_callback(self, sender):
-        self._y_metrics = self.w._metrics_y.get()
+        self.y_metrics = self.w._metrics_y.get()
 
     def _layers_callback(self, sender):
-        self._layers = self.w._layers.get()
+        self.layers = self.w._layers.get()
 
     # functions
 
@@ -289,8 +281,8 @@ class scaleGlyphsDialog(object):
                 print '\tX factor: %s' % factor_x
                 print '\tY factor: %s' % factor_y
                 print
-                print '\tscale side-bearings: %s' % boolstring[self._x_metrics]
-                print '\tscale vertical metrics: %s' % boolstring[self._y_metrics]
+                print '\tscale side-bearings: %s' % boolstring[self.x_metrics]
+                print '\tscale vertical metrics: %s' % boolstring[self.y_metrics]
                 print
                 for glyph_name in glyph_names:
                     print '\t%s' % glyph_name,
@@ -299,7 +291,7 @@ class scaleGlyphsDialog(object):
                     _left = g.leftMargin
                     _right = g.rightMargin
                     # scale outlines
-                    if self._layers:
+                    if self.layers:
                         # scale all layers
                         for layer_name in font.layerOrder:
                             _g = g.getLayer(layer_name)
@@ -308,13 +300,13 @@ class scaleGlyphsDialog(object):
                     else:
                         g.scale((factor_x, factor_y))
                     # scale horizontal metrics
-                    if self._x_metrics:
+                    if self.x_metrics:
                         g.leftMargin = _left * factor_x
                         g.rightMargin = _right * factor_x
                     # done glyph
                     g.performUndo()
                 # scale vertical metrics
-                if self._y_metrics:
+                if self.y_metrics:
                     font.info.xHeight = font.info.xHeight * factor_y
                     font.info.capHeight = font.info.capHeight * factor_y
                     font.info.ascender = font.info.ascender * factor_y

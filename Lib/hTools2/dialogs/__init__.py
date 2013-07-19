@@ -60,6 +60,9 @@ if hTools2.DEBUG:
     import glyphs_shift_points
     reload(glyphs_shift_points)
 
+    import glyphs_scale
+    reload(glyphs_scale)
+
     import glyphs_skew
     reload(glyphs_skew)
 

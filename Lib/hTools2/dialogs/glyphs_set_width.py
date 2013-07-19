@@ -1,4 +1,4 @@
-# [h] set/increase/decrease glyph width
+# [h] set glyph width
 
 #-------------------------------------------------
 # options `split difference` and `relative split`
@@ -23,164 +23,154 @@ except:
 
 from vanilla import *
 
+from hTools2 import hConstants
 from hTools2.modules.glyphutils import center_glyph
 
 # objects
 
-class setWidthDialog(object):
+class setWidthDialog(hConstants):
 
-    '''dialog to set the advance width of selected glyphs'''
+    '''A dialog to set the advance width of the selected glyphs.'''
 
-    #------------
     # attributes
-    #------------
-
-    _title = 'width'
-    _padding_top = 12
-    _padding = 10
-    _col_1 = 45
-    _col_2 = 60
-    _col_3 = 70
-    _button_2 = 18
-    _line_height = 20
-    _button_height = 30
-    _height = _button_height + (_line_height * 5) + _button_2 + (_padding_top * 5) + 3
-    _width = 123
 
     _width_ = 400
     _modes = [ 'set equal to', 'increase by', 'decrease by' ]
     _mode = 0
 
-    #---------
     # methods
-    #---------
 
     def __init__(self):
+        self.title = 'width'
+        self.col_1 = 45
+        self.col_2 = 60
+        self.col_3 = 70
+        self.width = 123
+        self.height = self.button_height + (self.text_height * 5) + self.nudge_button + (self.padding_y * 6) + 1
         self.w = FloatingWindow(
-                    (self._width, self._height),
-                    self._title,
-                    closable=True)
+                    (self.width, self.height),
+                    self.title)
         # left
-        x = self._padding
-        y = self._padding
+        x = self.padding_x
+        y = self.padding_y
         # mode
         self.w.width_mode = RadioGroup(
                     (x, y,
-                    -self._padding,
-                    self._line_height),
+                    -self.padding_x,
+                    self.text_height),
                     ['=', '+', '-'],
-                    sizeStyle='small',
+                    sizeStyle=self.size_style,
                     callback=self.mode_callback,
                     isVertical=False)
         self.w.width_mode.set(0)
         # label
-        y += self._line_height + self._padding
+        y += (self.text_height + self.padding_y)
         self.w.width_label = TextBox(
                     (x, y,
-                    self._col_1,
-                    self._line_height),
+                    self.col_1,
+                    self.text_height),
                     "width",
-                    sizeStyle='small')
-        x += self._col_1
+                    sizeStyle=self.size_style)
+        x += self.col_1
         # value
         self.w.width_value = EditText(
                     (x, y,
-                    -self._padding,
-                    self._line_height),
+                    -self.padding_x,
+                    self.text_height),
                     placeholder='set value',
                     text=self._width_,
-                    sizeStyle='small')
+                    sizeStyle=self.size_style)
         # nudge spinners
-        x = self._padding
-        y += self._button_2 + self._padding_top
+        x = self.padding_x
+        y += (self.nudge_button + self.padding_y)
         self.w._nudge_minus_001 = SquareButton(
                     (x, y,
-                    self._button_2,
-                    self._button_2),
+                    self.nudge_button,
+                    self.nudge_button),
                     '-',
-                    sizeStyle='small',
+                    sizeStyle=self.size_style,
                     callback=self._nudge_minus_001_callback)
-        x += (self._button_2 * 1) - 1
+        x += (self.nudge_button * 1) - 1
         self.w._nudge_plus_001 = SquareButton(
                     (x, y,
-                    self._button_2,
-                    self._button_2),
+                    self.nudge_button,
+                    self.nudge_button),
                     '+',
-                    sizeStyle='small',
+                    sizeStyle=self.size_style,
                     callback=self._nudge_plus_001_callback)
-        x += (self._button_2 * 1) - 1
+        x += (self.nudge_button * 1) - 1
         self.w._nudge_minus_010 = SquareButton(
                     (x, y,
-                    self._button_2,
-                    self._button_2),
+                    self.nudge_button,
+                    self.nudge_button),
                     '-',
-                    sizeStyle='small',
+                    sizeStyle=self.size_style,
                     callback=self._nudge_minus_010_callback)
-        x += (self._button_2 * 1) - 1
+        x += (self.nudge_button * 1) - 1
         self.w._nudge_plus_010 = SquareButton(
                     (x, y,
-                    self._button_2,
-                    self._button_2),
+                    self.nudge_button,
+                    self.nudge_button),
                     '+',
-                    sizeStyle='small',
+                    sizeStyle=self.size_style,
                     callback=self._nudge_plus_010_callback)
-        x += (self._button_2 * 1) - 1
+        x += (self.nudge_button * 1) - 1
         self.w._nudge_minus_100 = SquareButton(
                     (x, y,
-                    self._button_2,
-                    self._button_2),
+                    self.nudge_button,
+                    self.nudge_button),
                     '-',
-                    sizeStyle='small',
+                    sizeStyle=self.size_style,
                     callback=self._nudge_minus_100_callback)
-        x += (self._button_2 * 1) - 1
+        x += (self.nudge_button * 1) - 1
         self.w._nudge_plus_100 = SquareButton(
                     (x, y,
-                    self._button_2,
-                    self._button_2),
+                    self.nudge_button,
+                    self.nudge_button),
                     '+',
-                    sizeStyle='small',
+                    sizeStyle=self.size_style,
                     callback=self._nudge_plus_100_callback)
         # center
-        x = self._padding
-        y += self._line_height + self._padding
+        x = self.padding_x
+        y += (self.text_height + self.padding_y)
         self.w.center_checkbox = CheckBox(
                     (x, y,
-                    -self._padding,
-                    self._line_height),
+                    -self.padding_x,
+                    self.text_height),
                     "center glyphs",
                     value=False,
-                    sizeStyle='small',
+                    sizeStyle=self.size_style,
                     callback=self._center_callback)
         # split difference
-        y += self._line_height
+        y += self.text_height
         self.w.split_checkbox = CheckBox(
                     (x, y,
-                    -self._padding,
-                    self._line_height),
+                    -self.padding_x,
+                    self.text_height),
                     "split difference",
                     value=False,
-                    sizeStyle='small',
+                    sizeStyle=self.size_style,
                     callback=self._split_callback)
         # split relative
-        y += self._line_height
+        y += self.text_height
         self.w.split_relative_checkbox = CheckBox(
                     (x, y,
-                    -self._padding,
-                    self._line_height),
+                    -self.padding_x,
+                    self.text_height),
                     "relative split",
                     value=False,
-                    sizeStyle='small',
+                    sizeStyle=self.size_style,
                     callback=self._split_relative_callback)
         # apply button
-        x = self._padding
-        y += self._line_height + self._padding
+        x = self.padding_x
+        y += (self.text_height + self.padding_y)
         self.w.button_apply = SquareButton(
                     (x, y,
-                    -self._padding,
-                    self._button_height),
+                    -self.padding_x,
+                    self.button_height),
                     "apply",
                     callback=self.apply_callback,
-                    sizeStyle='small')
+                    sizeStyle=self.size_style)
         # open window
         self.w.open()
 

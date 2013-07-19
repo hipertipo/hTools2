@@ -25,9 +25,6 @@ if hTools2.DEBUG:
     import hglyph
     reload(hglyph)
 
-    import hdocs
-    reload(hdocs)
-
 # import objects
 
 from hsettings import hSettings
@@ -36,7 +33,6 @@ from hproject import hProject
 from hspace import hSpace
 from hfont import hFont
 from hglyph import hGlyph
-from hdocs import hDocs
 
 # export object names
 
@@ -47,5 +43,4 @@ __all__ = [
     'hSpace',
     'hFont',
     'hGlyph',
-    'hDocs',
 ]
