@@ -18,12 +18,12 @@ except:
 
 from vanilla import *
 
-from hTools2 import Constants
+from hTools2 import hConstants
 from hTools2.modules.fontutils import get_glyphs
 
 # objects
 
-class glyphActionsDialog(Constants):
+class glyphActionsDialog(hConstants):
 
     '''A dialog to apply actions to one or more layers in the selected glyphs.'''
 
