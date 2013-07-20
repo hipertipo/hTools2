@@ -4,6 +4,7 @@
 
 # imports
 
+import glob
 import os
 import shutil
 
@@ -11,14 +12,8 @@ import shutil
 
 def walk(folder, extension):
     '''A simple non-recursive `walk` function to collect files with a given extension.'''
-    files = []
-    names = os.listdir(folder)
-    for n in names:
-        p = os.path.join(folder, n)
-        file_name, file_extension = os.path.splitext(n)
-        if file_extension[1:] == extension:
-            files.append(p)
-    return files
+    folder = folder if not folder.endswith("/") else folder[:-1]
+    return glob.glob("%s/*.%s" % (folder, extension))
 
 def get_names_from_path(fontpath):
     '''Parse underscore(or hyphen)-separated font file names into `family` and `style` names.'''
