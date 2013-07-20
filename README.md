@@ -36,10 +36,10 @@ Special thanks to the following designers/companies who contributed ideas and fu
 
 If you use these tools on a regular basis, please consider contributing back to the project.
 
-## License
-
-[BSD 3-Clause License](http://www.opensource.org/licenses/BSD-3-Clause)
-
 ## Download
 
 [https://github.com/gferreira/hTools2](https://github.com/gferreira/hTools2)
+
+## License
+
+[BSD 3-Clause License](http://www.opensource.org/licenses/BSD-3-Clause)
