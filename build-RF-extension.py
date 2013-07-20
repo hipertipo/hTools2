@@ -1,6 +1,8 @@
 import os
 from mojo.extensions import *
 
+### NOT WORKING YET ;)
+
 code_path = os.getcwd()
 B = ExtensionBundle(path=code_path, libName="Lib")
 B.name = 'hTools2'
@@ -20,4 +22,4 @@ print B.infoDictionary
 #print B.validateInfo()
 #print B.validationErrors()
 #B.install()
-B.get()
+#B.get()

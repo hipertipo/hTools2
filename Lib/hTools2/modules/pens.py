@@ -33,29 +33,29 @@ class RoboFontPen(BasePen):
     def _closePath(self):
         closePath()
 
-# class NodeBoxPen(BasePen):
+class NodeBoxPen(BasePen):
 
-#     '''A pen to draw a glyph on a NodeBox canvas.'''
+    '''A pen to draw a glyph on a NodeBox canvas.'''
 
-#     def __init__(self, glyphSet, ctx, strokefont=False):
-#         self.ctx = ctx
-#         self.strokefont = strokefont
-#         BasePen.__init__(self, glyphSet)
+    def __init__(self, glyphSet, ctx, strokefont=False):
+        self.ctx = ctx
+        self.strokefont = strokefont
+        BasePen.__init__(self, glyphSet)
 
-#     def _moveTo(self, pt):
-#         x, y = pt
-#         self.ctx.moveto(x, -y)
+    def _moveTo(self, pt):
+        x, y = pt
+        self.ctx.moveto(x, -y)
 
-#     def _lineTo(self, pt):
-#         x, y = pt
-#         self.ctx.lineto(x, -y)
+    def _lineTo(self, pt):
+        x, y = pt
+        self.ctx.lineto(x, -y)
 
-#     def _curveToOne(self, pt1, pt2, pt3):
-#         x1, y1 = pt1
-#         x2, y2 = pt2
-#         x3, y3 = pt3
-#         self.ctx.curveto(x1, -y1, x2, -y2, x3, -y3)
+    def _curveToOne(self, pt1, pt2, pt3):
+        x1, y1 = pt1
+        x2, y2 = pt2
+        x3, y3 = pt3
+        self.ctx.curveto(x1, -y1, x2, -y2, x3, -y3)
 
-#     def _closePath(self):
-#         if self.strokefont is False:
-#             self.ctx.closepath()
+    def _closePath(self):
+        if self.strokefont is False:
+            self.ctx.closepath()

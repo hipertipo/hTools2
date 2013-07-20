@@ -2,7 +2,7 @@
 
 '''A collection of tools for working with interpolation.'''
 
-# reload when debugging
+# debug
 
 import hTools2
 reload(hTools2)
