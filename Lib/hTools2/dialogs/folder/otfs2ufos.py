@@ -33,7 +33,7 @@ class OTFsToUFOsDialog(object):
     # attributes
     #------------
 
-    _title = "otfs2ufos"
+    _title = "otf2ufo"
     _padding = 10
     _row_height = 20
     _button_height = 30

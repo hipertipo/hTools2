@@ -11,7 +11,7 @@ if hTools2.DEBUG:
 
 # imports
 
-from random import random, randint
+import random
 
 try:
     from mojo.roboFont import NewFont
@@ -287,7 +287,7 @@ def set_element(f, size, type='rect', magic=None, element_='_element'):
 #         y = self.y + (self.size / 2)
 #         rand_min = (1 - self.rand_size) * 10
 #         rand_max = (1 + self.rand_size) * 10
-#         s = self.size * rSize * randint(int(rand_min), int(rand_max)) * .1
+#         s = self.size * rSize * random.randint(int(rand_min), int(rand_max)) * .1
 #         self.ctx.oval(x - (s / 2), y - (s / 2), s, s)
 
 # class element_2(element_0):
@@ -300,7 +300,7 @@ def set_element(f, size, type='rect', magic=None, element_='_element'):
 #             pass
 #         else:
 #             rFactor = 1 # random(1, 1.1)
-#             sWidth = float(randint(15, 25)) / 10
+#             sWidth = float(random.randint(15, 25)) / 10
 #             # _ctx.strokewidth(sWidth)
 #             # _ctx.stroke(self.sColor)
 #             # _ctx.nofill()
@@ -308,6 +308,6 @@ def set_element(f, size, type='rect', magic=None, element_='_element'):
 #                 s = float(self.elementSize / self.rings) * (r + 1) * rFactor
 #                 X = self.x - (s / 2)
 #                 Y = self.y - (s / 2)
-#                #  _ctx.stroke(randint(4, 6)/10)
+#                #  _ctx.stroke(random.randint(4, 6)/10)
 #                 _ctx.oval(X, Y, s, s)
 

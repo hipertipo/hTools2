@@ -40,6 +40,7 @@ if hTools2.DEBUG:
 import os
 
 from hproject import hProject
+
 from hTools2.modules.anchors import clear_anchors
 from hTools2.modules.color import clear_colors, hls_to_rgb
 from hTools2.modules.encoding import paint_groups, auto_unicodes

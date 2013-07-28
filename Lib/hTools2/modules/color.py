@@ -17,7 +17,7 @@ if hTools2.DEBUG:
 
 # import
 
-from random import random
+import random
 
 from hTools2.modules.sysutils import _ctx
 from hTools2.extras.colorsys import *
@@ -28,22 +28,22 @@ def random_color():
     '''Return a random color.'''
     # FontLab
     if _ctx == 'FontLab':
-        c = int(255 * random())
+        c = int(255 * random.random())
     # RoboFont & NoneLab
     else:
-        R, G, B = hsv_to_rgb(random(), 1.0, 1.0)
+        R, G, B = hsv_to_rgb(random.random(), 1.0, 1.0)
         _alpha = 1.0
         c = (R, G, B, _alpha)
     return c
 
 def clear_colors(font):
-    '''Remove color from all glyphs in the font.'''
+    '''Clear the color from all glyph cells in the font.'''
     for gName in font.keys():
         clear_color(font[gName])
     font.update()
 
 def clear_color(glyph):
-    '''Remove color of a glyph.'''
+    '''Clear the color of a glyph cell.'''
     # FontLab
     if _ctx == 'FontLab':
         g.mark = 0
@@ -53,7 +53,7 @@ def clear_color(glyph):
     glyph.update()
 
 def RGB_to_nodebox_color((R, G, B), ctx, alpha=1.0):
-    '''Convert (R,G,B) tuple to NodeBox `color` object.'''
+    '''Convert an ``(R,G,B)`` tuple to a NodeBox ``color`` object.'''
     colors = ctx.ximport("colors")
     _alpha = 255 * alpha
     _color = colors.rgb(R, G, B, _alpha, range=255)
@@ -76,7 +76,7 @@ named_colors = {
 # solarized
 
 def solarized_color(name):
-    '''Return RGB color for solarized color name.'''
+    '''Return an ``RGB`` color for a solarized color name.'''
     # name is color group
     if name in solarized_groups.keys():
         _colors = []
@@ -129,7 +129,7 @@ solarized_colors = {
 #-----------------
 
 def x11_color(name):
-    '''Return RGB color for x11 color name.'''
+    '''Return an ``RGB`` color for an x11 color name.'''
     # name is color
     _color_names = x11_colors.keys()
     if name in _color_names:

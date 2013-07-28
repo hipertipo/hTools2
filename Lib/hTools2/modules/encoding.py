@@ -31,7 +31,7 @@ from hTools2.modules.fontutils import crop_glyphset
 # functions
 
 def import_encoding(file_path):
-    '''Import group and glyphs names from an `.enc` file. Return a dictionary with glyph groups, and a list with the order of the groups.'''
+    '''Import group and glyphs names from an ``.enc`` file. Return a dictionary with glyph groups, and a list with the order of the groups.'''
     if os.path.exists(file_path):
         lines = open(file_path, 'r').readlines()
         groups = {}
@@ -71,7 +71,7 @@ def auto_unicodes(f):
     f.update()
 
 def paint_groups(f, crop=False):
-    '''Paint the glyphs in the `font` according to their groups. If a `groups_order` lib is available, use it to set the order of the glyphs in the font.'''
+    '''Paint the glyphs in the ``font`` according to their groups. If a ``groups_order`` lib is available, use it to set the order of the glyphs in the font.'''
     font = CurrentFont()
     if len(f.groups) > 0:
         clear_colors(f)

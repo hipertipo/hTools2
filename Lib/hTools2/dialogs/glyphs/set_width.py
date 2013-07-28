@@ -272,8 +272,8 @@ class setWidthDialog(hConstants):
             # set margins
             glyph.leftMargin = _new_left
             glyph.width = _width
-        #------------------
-        # split difference
+        #----------------
+        # split relative
         elif mode == 'split relative':
             # calculate new left margin
             try:
@@ -343,3 +343,4 @@ class setWidthDialog(hConstants):
         # no font open
         else:
             print 'please open a font first.\n'
+

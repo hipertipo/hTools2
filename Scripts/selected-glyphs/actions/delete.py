@@ -1,6 +1,6 @@
 # [h] remove selected glyphs
 
-'''Remove selected glyphs from font.'''
+'''Remove selected glyphs from the current font.'''
 
 # debug
 
@@ -8,8 +8,8 @@ import hTools2
 reload(hTools2)
 
 if hTools2.DEBUG:
-    import hTools2.dialogs
-    reload(hTools2.dialogs)
+    import hTools2.modules.fontutils
+    reload(hTools2.modules.fontutils)
 
 # import
 

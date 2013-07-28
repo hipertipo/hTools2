@@ -8,12 +8,12 @@ import hTools2
 reload(hTools2)
 
 if hTools2.DEBUG:
-    import hTools2.dialogs
-    reload(hTools2.dialogs)
+    import hTools2.dialogs.font
+    reload(hTools2.dialogs.font)
 
 # import
 
-from hTools2.dialogs import printGroupsDialog
+from hTools2.dialogs.font import printGroupsDialog
 
 # run
 

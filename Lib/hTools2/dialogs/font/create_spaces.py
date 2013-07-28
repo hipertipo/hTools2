@@ -17,6 +17,11 @@ if hTools2.DEBUG:
 
 from vanilla import *
 
+try:
+    from mojo.roboFont import CurrentFont, CurrentGlyph
+except:
+    from robofab.world import CurrentFont, CurrentGlyph
+
 from hTools2.modules.fontutils import get_full_name
 from hTools2.modules.encoding import unicode_hexstr_to_int
 
@@ -44,8 +49,7 @@ class createSpaceGlyphsDialog(object):
         if CurrentFont() is not None:
             self.font = CurrentFont()
             self.w = FloatingWindow(
-                        (self._width,
-                        self._height),
+                        (self._width, self._height),
                         self._title,
                         closable=True)
             # current font
@@ -170,7 +174,7 @@ class createSpaceGlyphsDialog(object):
         _thinspace = int(self.w._thinspace_value.get())
         _thickspace = int(self.w._thickspace_value.get())
         _figurespace = int(self.w._figurespace_value.get())
-        boolstring = (False, True)
+        # boolstring = (False, True)
         if self.font is not None:
             # print info
             print 'creating space glyphs...\n'

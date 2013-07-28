@@ -12,14 +12,8 @@ if hTools2.DEBUG:
     import hsettings
     reload(hsettings)
 
-    # import hproject
-    # reload(hproject)
-
     import hTools2.modules.sysutils
     reload(hTools2.modules.sysutils)
-
-    # import hTools2.modules.fileutils
-    # reload(hTools2.modules.fileutils)
 
 #---------
 # imports
@@ -28,10 +22,7 @@ if hTools2.DEBUG:
 import os
 
 from hsettings import hSettings
-# from hproject import hProject
-
 from hTools2.modules.sysutils import _ctx
-# from hTools2.modules.fileutils import walk
 
 #---------
 # objects
@@ -39,7 +30,26 @@ from hTools2.modules.sysutils import _ctx
 
 class hWorld:
 
-    '''An object representing the local fonts folder where all project folders live.'''
+    '''An object representing the local fonts folder where all project folders live.
+
+    .. py:attribute:: settings
+    A hSettings object with information about the local system.
+
+    >>> from hTools2.objects import hWorld
+    >>> w = hWorld()
+    >>> print w.settings
+    <hTools2.objects.hSettings instance at 0x12ac6b560>
+    
+    .. py:attribute:: context
+    The environment in which the current script is running.
+
+    The possible options are: RoboFont, FontLab and NoneLab.
+
+    >>> from hTools2.objects import hWorld
+    >>> w = hWorld()
+    >>> print w.context
+
+    '''
 
     # attributes
 
@@ -49,10 +59,21 @@ class hWorld:
     # methods
 
     def __init__(self):
+        '''Initiate the ``hWorld`` object.'''
         self.settings = hSettings()
         self.context = _ctx
 
     def projects(self):
+        '''Returns a list of all project folders contained in the ``ROOT`` folder.
+
+        According to ``hTools2`` conventions, project folder names need to start with an underscore.
+
+        >>> from hTools2.objects import hWorld
+        >>> w = hWorld()
+        >>> print w.projects()
+        ['Elementar', 'EMono', 'Modular', ... , 'Publica']
+
+        '''
         allFiles = os.listdir(self.settings.root)
         projects = []
         for n in allFiles:
