@@ -13,21 +13,21 @@ from hTools2.modules.sysutils import *
 scripts_path = os.path.join(os.getcwd(), 'Scripts')
 
 scripts_shortcuts = [
-    (   'a',    'actions',          u'selected-glyphs/_actions/actions.py',            ),
-    (   'c',    'paint select',     u'selected-glyphs/_color/paint-select.py',         ),
-    (   'f',    'gridfit',          u'selected-glyphs/_transform/gridfit.py',          ),
-    (   'h',    'set width',        u'selected-glyphs/_metrics/set-width.py',          ),
-    (   'i',    'interpolate',      u'selected-glyphs/_interpol/interpolate.py',       ),
-    (   'k',    'mask',             u'selected-glyphs/_layers/mask.py',                ),
-    (   'l',    'copy to layer',    u'selected-glyphs/_layers/copy-to-layer.py',       ),
-    (   'm',    'move',             u'selected-glyphs/_transform/move.py',             ),
-    (   'o',    'copy to mask',     u'selected-glyphs/_layers/copy-to-mask.py',        ),
-    (   'p',    'copy paste',       u'selected-glyphs/_actions/copy-paste.py',         ),
-    (   'r',    'mirror',           u'selected-glyphs/_transform/mirror.py',           ),
-    (   's',    'scale',            u'selected-glyphs/_transform/scale.py',            ),
-    (   't',    'shift',            u'selected-glyphs/_transform/shift.py',            ),
-    (   'v',    'adjust',           u'current-font/_vmetrics/adjust.py',               ),
-    (   'w',    'skew',             u'selected-glyphs/_transform/skew.py',             ),
+    (   'd',    'actions',          u'selected-glyphs/actions/actions.py',            ),
+    (   'c',    'paint select',     u'selected-glyphs/color/paint-select.py',         ),
+    (   'f',    'gridfit',          u'selected-glyphs/transform/gridfit.py',          ),
+    (   'h',    'set width',        u'selected-glyphs/metrics/set-width.py',          ),
+    (   'i',    'interpolate',      u'selected-glyphs/interpol/interpolate.py',       ),
+    (   'k',    'mask',             u'selected-glyphs/layers/mask.py',                ),
+    (   'l',    'copy to layer',    u'selected-glyphs/layers/copy-to-layer.py',       ),
+    (   'm',    'move',             u'selected-glyphs/transform/move.py',             ),
+    (   'o',    'copy to mask',     u'selected-glyphs/layers/copy-to-mask.py',        ),
+    (   'p',    'copy paste',       u'selected-glyphs/actions/copy-paste.py',         ),
+    (   'r',    'mirror',           u'selected-glyphs/transform/mirror.py',           ),
+    (   's',    'scale',            u'selected-glyphs/transform/scale.py',            ),
+    (   't',    'shift',            u'selected-glyphs/transform/shift.py',            ),
+    (   'v',    'adjust',           u'current-font/vmetrics/adjust.py',               ),
+    (   'w',    'skew',             u'selected-glyphs/transform/skew.py',             ),
 ]
 
 # run

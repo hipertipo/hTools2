@@ -1,6 +1,6 @@
 # [h] hTools2.modules.fontinfo
 
-'''Tools to get and set different kinds of font information.'''
+"""Tools to get and set different kinds of font information."""
 
 # debug
 
@@ -22,7 +22,7 @@ from fileutils import get_names_from_path
 #----------
 
 def set_font_names(font, family_name, style_name):
-    '''Set several font naming fields from `family` and `style` names.'''
+    """Set several font naming fields from ``family`` and ``style`` names."""
     full_name = '%s_%s' % (family_name, style_name)
     # main family/style names
     font.info.familyName = family_name
@@ -45,7 +45,7 @@ def set_font_names(font, family_name, style_name):
     font.info.macintoshFONDName = None
 
 def set_names_from_path(font, prefix=None):
-    '''Set the font naming fields using parts of the name of the font file.'''
+    """Set the font naming fields using parts of the name of the font file."""
     family_name, style_name = get_names_from_path(font.path)
     if prefix:
         family_name = prefix + ' ' + family_name
@@ -63,7 +63,11 @@ def set_vmetrics(font, xheight, capheight, ascender, descender, emsquare, gridsi
 #------------
 
 def print_font_info(font, options=None):
-    '''Print several kinds of font information, using a special method for each section. The data and related functions are organized according to the UFO 2 spec.'''
+    """Print several kinds of font information, using a special method for each section.
+
+    The data and related functions are organized according to the UFO 2 spec.
+
+    """
     print 'printing font info...'
     print_generic_identification(font)
     print_generic_legal(font)
@@ -233,7 +237,7 @@ def print_postscript_data(font):
 #------------
 
 def clear_font_info(font):
-    '''Clears all font information fields in the font.'''
+    """Clears all font information fields in the font."""
     # print 'deleting font info'
     clear_generic_identification(font)
     clear_generic_legal(font)

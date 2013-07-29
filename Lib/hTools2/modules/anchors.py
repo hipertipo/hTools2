@@ -1,6 +1,6 @@
 # [h] hTools2.modules.anchors
 
-'''tools to remove, create, move and transfer anchors'''
+'''Tools to remove, create, move and transfer anchors.'''
 
 #------------------
 # font-level tools
@@ -37,7 +37,7 @@ def clear_anchors(font, glyph_names=None):
 #-------------------
 
 def rename_anchor(glyph, old_name, new_name):
-    '''Rename anchors with name `old_name` in `glyph` to `new_name`.'''
+    '''Rename anchors with name ``old_name`` in ``glyph`` to ``new_name``.'''
     has_name = False
     if len(glyph.anchors) > 0:
         for a in glyph.anchors:
@@ -48,7 +48,7 @@ def rename_anchor(glyph, old_name, new_name):
     return has_name
 
 def transfer_anchors(source_glyph, dest_glyph):
-    '''Transfer all anchors in `source_glyph` to `dest_glyph`.'''
+    '''Transfer all anchors in ``source_glyph`` to ``dest_glyph``.'''
     has_anchor = False
     if len(source_glyph.anchors) > 0 :
         # collect anchors in source glyph
@@ -66,14 +66,14 @@ def transfer_anchors(source_glyph, dest_glyph):
     return has_anchor
 
 def move_anchors(glyph, anchor_names, (delta_x, delta_y)):
-    '''Move named anchors by (x, y) units.'''
+    '''Move named anchors by ``(x,y)`` units.'''
     for anchor in glyph.anchors:
         if anchor.name in anchor_names:
             anchor.move((delta_x, delta_y))
             glyph.update()
 
 def create_anchors(glyph, top=True, bottom=True, accent=False, top_delta=20, bottom_delta=20):
-    '''Create `top` and `bottom` anchors at relative positions.'''
+    '''Create ``top`` and ``bottom`` anchors at relative positions.'''
     # make anchors list
     anchor_names = []
     if top:
