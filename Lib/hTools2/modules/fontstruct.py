@@ -1,4 +1,6 @@
-# hTools2.modules.fontstruct
+# [h] hTools2.modules.fontstruct
+
+# imports
 
 from xml.sax.handler import ContentHandler
 from xml.sax import make_parser
@@ -7,6 +9,8 @@ from robofab.world import NewFont
 
 from hTools2.modules.svg import svgImporter
 from hTools2.modules.encoding import unicode2psnames
+
+# objects
 
 class FontStructionHandler(ContentHandler):
 

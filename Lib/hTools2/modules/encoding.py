@@ -1,6 +1,6 @@
 # [h] hTools2.modules.encoding
 
-'''Unicode tools, glyph name to hex/uni conversion etc.'''
+"""Unicode tools, glyph name to hex/uni conversion etc."""
 
 # debug
 
@@ -21,7 +21,8 @@ import os
 
 try:
     from mojo.roboFont import CurrentFont
-except:
+
+except ImportError:
     from robofab.world import CurrentFont
 
 from hTools2.modules.color import clear_colors, hls_to_rgb
@@ -30,7 +31,11 @@ from hTools2.modules.fontutils import crop_glyphset
 # functions
 
 def import_encoding(file_path):
-    '''Import group and glyphs names from an `.enc` file. Return a dictionary with glyph groups, and a list with the order of the groups.'''
+    """Import group and glyphs names from an ``.enc`` file.
+
+    Return a dictionary with a dict of group names and lists of glyph names, and a list with the order of the groups.
+
+    """
     if os.path.exists(file_path):
         lines = open(file_path, 'r').readlines()
         groups = {}
@@ -56,13 +61,13 @@ def import_encoding(file_path):
 #------------------
 
 def clear_unicodes(f):
-    '''Remove unicodes from all glyphs in the font.'''
+    """Remove unicodes from all glyphs in the font."""
     for g in f:
         g.unicodes = []
     f.update()
 
 def auto_unicodes(f):
-    '''Automatically set unicode values for all glyphs in the font.'''
+    """Automatically set unicode values for all glyphs in the font."""
     clear_unicodes(f)
     for g in f:
         if g is not None:
@@ -70,7 +75,11 @@ def auto_unicodes(f):
     f.update()
 
 def paint_groups(f, crop=False):
-    '''Paint the glyphs in the `font` according to their groups. If a `groups_order` lib is available, use it to set the order of the glyphs in the font.'''
+    """Paint the glyphs in the font according to their groups.
+
+    If a ``groups_order`` lib is available, it is used to set the order of the glyphs in the font.
+
+    """
     font = CurrentFont()
     if len(f.groups) > 0:
         clear_colors(f)
@@ -103,7 +112,9 @@ def paint_groups(f, crop=False):
 #-------------------
 
 def auto_unicode(g):
-    '''Automatically set unicode value(s) for the specified glyph. The method uses RoboFab's `glyph.autoUnicodes()` function for common glyphs, and complements it with additional values from `unicodes_extra`.'''
+    """Automatically set unicode value(s) for the specified glyph.
+
+    The method uses RoboFab's ``glyph.autoUnicodes()`` function for common glyphs, and complements it with additional values from ``unicodes_extra``."""
     if g.name is not None:
         # handle 'uni' names
         if g.name[:3] == "uni" and len(g.name) == 7:
@@ -124,11 +135,15 @@ def auto_unicode(g):
 # thanks Karsten Luecke, 2010
 
 def unicode_int_to_hexstr(intUnicode, _0x=False, uni=False):
-    '''Converts unicode integers to hexadecimal.
-    See also the reverse function `unicode_hexstr_to_int`.
-    Note that `glyph.unicodes` is a list (a glyph can have many unicodes), so we need to pass the first value only.
-    The optional parameters `uni` and `_0x` add the respective prefixes.
-    '''
+    """Converts unicode integers to hexadecimal.
+
+    See also the reverse function ``unicode_hexstr_to_int``.
+
+    Note that ``glyph.unicodes`` is a list (a glyph can have many unicodes), so we need to pass the first value only.
+
+    The optional parameters ``uni`` and ``_0x`` add the respective prefixes.
+
+    """
     hexUnicode = "%X".lstrip("0x") % intUnicode
     hexUnicode = "0" * (4 - len(hexUnicode)) + hexUnicode
     if _0x:
@@ -138,9 +153,10 @@ def unicode_int_to_hexstr(intUnicode, _0x=False, uni=False):
     return hexUnicode
 
 def unicode_hexstr_to_int(hexUnicode, replaceUni=True):
-    '''Converts a unicode hexadecimal value into an integer.
-    It does exactly the reverse of `unicode_int_to_hexstr`.
-    '''
+    """Converts a unicode hexadecimal value into an integer.
+
+    It does exactly the reverse of ``unicode_int_to_hexstr``.
+    """
     if replaceUni:
         return int(hexUnicode.replace("uni",""), 16)
     return int(hexUnicode.lstrip("x"), 16)
@@ -205,17 +221,20 @@ unicodes_extra = {
     'zerowidthspace' : '200B',
     # symbols
     'bulletoperator' : '2219',
+    # accents
+    'dotbelowcomb' : '0323',
     # latin accented lc
     'adotbelow' : '1EA1',
     'aringacute' : '01FB',
     'edotbelow' : '1EB9',
     'etilde' : '1EBD',
-    'dotbelowcomb' : '0323',
     'gcaron' : '01E7',
     'idotbelow' : '1ECB',
+    'ndotbelow' : '1E47',
     'nhookleft' : '0272',
     'odotbelow' : '1ECD',
     'oogonek' : '01EB',
+    'sdotbelow' : '1E63',
     'udotbelow' : '1EE5',
     'ymacron' : '0233',
     'ytilde' : '1EF9',
@@ -226,10 +245,12 @@ unicodes_extra = {
     'Etilde' : '1EBC',
     'Gcaron' : '01E6',
     'Idotbelow' : '1ECA',
+    'Ndotbelow' : '1E46',
     'Nhookleft' : '019D',
     'Odotbelow' : '1ECC',
-    'Udotbelow' : '1EE4',
     'Oogonek' : '01EA',
+    'Sdotbelow' : '1E62',
+    'Udotbelow' : '1EE4',
     'Ymacron' : '0232',
     'Ytilde' : '1EF8',
 }
