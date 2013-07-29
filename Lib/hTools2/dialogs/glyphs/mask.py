@@ -26,6 +26,8 @@ from hTools2.modules.fontutils import get_glyphs
 
 class maskDialog(object):
 
+    """A dialog to transfer glyphs to and from the mask layer."""
+
     # attributes
 
     _title = 'mask'

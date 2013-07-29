@@ -20,7 +20,7 @@ from hTools2 import hConstants
 
 class moveGlyphsDialog(hConstants):
 
-    '''A simple dialog to move the selected glyphs in a font.'''
+    '''A dialog to move the selected glyphs in a font.'''
 
     # attributes
 

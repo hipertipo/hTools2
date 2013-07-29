@@ -18,7 +18,9 @@ hTools2 (and RoboFont) are built with libraries by Erik van Blokland & Just van 
 
 ## Documentation
 
-Check the project’s [wiki](https://github.com/gferreira/hTools2/wiki).
+The new Sphix-powered documentation is available online.
+
+Visit [htools2.hipertipo.com](http://htools2.hipertipo.com/) for the latest build.
 
 ## Development
 

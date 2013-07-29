@@ -8,5 +8,6 @@ Introduction
    about.rst
    overview.rst
    installation.rst
+   install-extension.rst
    conventions.rst
    shortcuts.rst

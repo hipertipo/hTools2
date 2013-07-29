@@ -1,6 +1,6 @@
 # [h] dialog to rename anchors in selected glyphs
 
-# reload when debugging
+# debug
 
 import hTools2
 reload(hTools2)
@@ -29,6 +29,8 @@ from hTools2.modules.anchors import rename_anchor
 
 class renameAnchorsDialog(object):
 
+    """A dialog to rename the anchors in the selected glyphs of the current font."""
+
     _title = 'anchors'
     _padding = 10
     _column_1 = 33
@@ -41,8 +43,7 @@ class renameAnchorsDialog(object):
 
     def __init__(self):
         self.w = FloatingWindow(
-                    (self._width,
-                    self._height),
+                    (self._width, self._height),
                     self._title,
                     closable=True)
         x = self._padding

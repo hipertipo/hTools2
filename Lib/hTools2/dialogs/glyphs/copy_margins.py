@@ -1,6 +1,6 @@
 # [h] dialog to copy side-bearings of selected glyphs in one font to another
 
-# reload when debugging
+# debug
 
 import hTools2
 reload(hTools2)
@@ -24,7 +24,7 @@ from hTools2.modules.fontutils import get_full_name, get_glyphs
 
 class copyMarginsDialog(object):
 
-    '''copy margins from selected glyphs in one font to the same glyphs in another font'''
+    """A dialog to copy margins from selected glyphs in one font to the same glyphs in another font."""
 
     #------------
     # attributes

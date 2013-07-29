@@ -1,6 +1,6 @@
 # [h] set/increase/decrease left/right side-bearings
 
-# reload when debugging
+# debug
 
 import hTools2
 reload(hTools2)
@@ -24,7 +24,7 @@ from hTools2.modules.fontutils import get_glyphs
 
 class setMarginsDialog(object):
 
-    '''set margins dialog'''
+    """A dialog to set the left/right side-bearings of the selected glyphs in the current font."""
 
     #------------
     # attributes

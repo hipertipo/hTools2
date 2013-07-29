@@ -24,7 +24,7 @@ from hTools2.modules.fontutils import get_glyphs
 
 class copyToLayerDialog(object):
 
-    '''copy foreground in selected glyphs to layers'''
+    """A dialog to copy the foreground layer in the selected glyphs to another layer."""
 
     #------------
     # attributes

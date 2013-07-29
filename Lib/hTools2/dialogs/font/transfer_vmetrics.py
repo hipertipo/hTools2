@@ -1,6 +1,6 @@
 # [h] transfer vertical metrics
 
-# reload when debugging
+# debug
 
 import hTools2
 reload(hTools2)
@@ -23,6 +23,8 @@ from hTools2.modules.fontutils import get_full_name
 # objects
 
 class transferVMetricsDialog(object):
+
+    """A dialog to transfer the vertical metrics from one font to another."""
 
     _title = 'vmetrics'
     _padding = 10

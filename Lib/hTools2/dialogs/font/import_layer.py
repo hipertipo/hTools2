@@ -1,7 +1,5 @@
 # [h] import layer from ufo
 
-'''import ufo from font file into a layer of the current font'''
-
 #---------------------------
 # suggested and sponsored
 # by Bas Jacobs (Underware)
@@ -23,6 +21,8 @@ from vanilla.dialogs import getFile
 # object
 
 class importUFOIntoLayerDialog(object):
+
+    """A dialog to import a font from an external file into a background layer of the current font."""
 
     _title = 'layers'
     _padding = 10

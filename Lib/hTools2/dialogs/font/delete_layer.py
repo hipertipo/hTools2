@@ -13,6 +13,8 @@ except:
 
 class deleteLayerDialog(object):
 
+    """A dialog to delete a layer in a font."""
+
     _title = 'layer'
     _row_height = 20
     _button_height = 30

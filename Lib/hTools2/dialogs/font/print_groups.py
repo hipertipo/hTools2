@@ -1,6 +1,6 @@
 # [h] a dialog to print glyph groups in font
 
-# reload when debugging
+# debug
 
 import hTools2
 reload(hTools2)
@@ -24,6 +24,8 @@ from hTools2.modules.fontutils import delete_groups, print_groups
 
 class printGroupsDialog(object):
 
+    """A dialog to print all groups in the font in different formats."""
+
     _title = 'groups'
     _padding = 10
     _padding_top = 8
@@ -34,8 +36,7 @@ class printGroupsDialog(object):
 
     def __init__(self):
         self.w = FloatingWindow(
-                    (self._width,
-                    self._height),
+                    (self._width, self._height),
                     self._title,
                     closable=True)
         # checkbox

@@ -1,6 +1,6 @@
 # [h] interpolate glyphs dialog
 
-# reload when debugging
+# debug
 
 import hTools2
 reload(hTools2)
@@ -24,7 +24,7 @@ from hTools2.modules.fontutils import get_full_name, get_glyphs
 
 class interpolateGlyphsDialog(object):
 
-    '''interpolate selected glyphs'''
+    '''A dialog to interpolate the selected glyphs in one font with the same glyphs in another font into a third font.'''
 
     #------------
     # attributes

@@ -24,7 +24,7 @@ from hTools2.modules.glyphutils import *
 
 class roundToGridDialog(object):
 
-    '''round to grid dialog'''
+    """A dialog to round features of the selected glyphs to a grid."""
 
     #------------
     # attributes

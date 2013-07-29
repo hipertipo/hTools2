@@ -99,10 +99,11 @@ html_theme = 'default'
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
 # documentation.
-# html_theme_options = {
+html_theme_options = {
 #     # fonts
 #     "headfont" : "Menlo",
 #     # layout
+      "collapsiblesidebar" : True,
 #     "stickysidebar" : True,
 #     # text 
 #     "relbartextcolor" : '#DDD',
@@ -116,14 +117,14 @@ html_theme = 'default'
 #     "headbgcolor" : '#EEE',
 #     "relbarbgcolor" : '#AAA',
 #     "footerbgcolor" : '#999',
-# }
+}
 
 # Add any paths that contain custom themes here, relative to this directory.
 #html_theme_path = []
 
 # The name for this set of Sphinx documents.  If None, it defaults to
 # "<project> v<release> documentation".
-#html_title = None
+html_title = 'hTools2 Docs'
 
 # A shorter title for the navigation bar.  Default is the same as html_title.
 #html_short_title = None
@@ -144,7 +145,7 @@ html_static_path = ['_static']
 
 # If not '', a 'Last updated on:' timestamp is inserted at every page bottom,
 # using the given strftime format.
-#html_last_updated_fmt = '%b %d, %Y'
+html_last_updated_fmt = '%b %d, %Y'
 
 # If true, SmartyPants will be used to convert quotes and dashes to
 # typographically correct entities.
@@ -248,8 +249,8 @@ man_pages = [
 #  dir menu entry, description, category)
 texinfo_documents = [
   ('index', 'hTools2', u'hTools2 Documentation',
-   u'Gustavo Ferreira', 'hTools2', 'One line description of project.',
-   'Miscellaneous'),
+   u'Gustavo Ferreira', 'hTools2', 'A font-production toolkit for RoboFont.',
+   'type-tools'),
 ]
 
 # Documents to append as an appendix to all manuals.

@@ -27,6 +27,8 @@ from hTools2.modules.fileutils import walk
 
 class generateFolderDialog(object):
 
+    """A dialog to generate ``.otf`` fonts for all fonts in a folder."""
+
     #------------
     # attributes
     #------------

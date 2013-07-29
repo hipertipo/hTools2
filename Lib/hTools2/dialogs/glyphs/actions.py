@@ -25,7 +25,7 @@ from hTools2.modules.fontutils import get_glyphs
 
 class glyphActionsDialog(hConstants):
 
-    '''A dialog to apply actions to one or more layers in the selected glyphs.'''
+    """A dialog to apply actions to one or more layers in the selected glyphs."""
 
     # attributes
 

@@ -1,6 +1,6 @@
 # [h] dialog to move selected glyphs with sliders
 
-# reload when debugging
+# debug
 
 import hTools2
 reload(hTools2)
@@ -24,7 +24,7 @@ from hTools2.modules.fontutils import get_full_name
 
 class slideGlyphsDialog(object):
 
-    '''slide glyphs dialog'''
+    """A dialog to slide the selected glyphs vertically and/or horizontally."""
 
     #------------
     # attributes

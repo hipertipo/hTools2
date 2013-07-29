@@ -1,8 +1,6 @@
 # [h] hProject
 
-#-------
 # debug
-#-------
 
 import hTools2
 reload(hTools2)
@@ -18,9 +16,7 @@ if hTools2.DEBUG:
     import hTools2.modules.encoding
     reload(hTools2.modules.encoding)
 
-#---------
 # imports
-#---------
 
 import os
 import plistlib
@@ -40,9 +36,7 @@ from hTools2.modules.fileutils import walk, get_names_from_path, delete_files
 from hTools2.modules.fontutils import parse_glyphs_groups
 from hTools2.modules.encoding import import_encoding
 
-#--------
 # object
-#--------
 
 class hProject:
 
@@ -56,9 +50,11 @@ class hProject:
     <hTools2.objects.hproject.hProject instance at 0x11d367c20> Publica
     
     .. py:attribute:: name
+
     The name of the project. It usually starts with an uppercase letter. Space, hyphen, accented characters, symbols etc are not allowed.
     
     .. py:attribute:: world
+
     An 'embedded' hWorld object, containing a list of all other projects and access to local settings.
 
     >>> from hTools2.objects import hProject
@@ -71,6 +67,7 @@ class hProject:
     <hTools2.objects.hSettings instance at 0x10cb6d710>
 
     .. py:attribute:: libs
+
     A dictionary containing a working copy of all data libs in the project, imported on object initialization.
 
     >>> from hTools2.objects import hProject
@@ -80,6 +77,7 @@ class hProject:
     For more information about each single lib, have a look at the hLibs documentation.
 
     .. py:attribute:: paths
+
     A dictionary containing the paths to all relevant project sub-folders (libs, ufos, otfs, woffs etc).
 
     >>> from hTools2.objects import hProject
@@ -90,6 +88,7 @@ class hProject:
     /fonts/_Publica/_ufos
 
     .. py:attribute:: lib_paths
+
     A dictionary containing the paths to all data libs in the project.
 
     >>> from hTools2.objects import hProject
@@ -100,6 +99,7 @@ class hProject:
     /fonts/_Publica/_libs/interpol.plist
     
     .. py:attribute:: fonts
+
     Returns a dictionary with the style names and paths of all masters and instances in the project.
 
     >>> from hTools2.objects import hProject
@@ -180,7 +180,7 @@ class hProject:
         return ufo_path
 
     def print_masters(self):
-        '''Print all .ufo masters in project.'''
+        '''Print all ``.ufo`` masters in project.'''
         _masters = self.masters()
         print 'masters (%s):\n' % len(_masters)
         for ufo in _masters:
@@ -188,7 +188,7 @@ class hProject:
         print
 
     def print_instances(self):
-        '''Print all .ufo instances in project.'''
+        '''Print all ``.ufo`` instances in project.'''
         _instances = self.instances()
         print 'instances (%s):\n' % len(_instances)
         for ufo in _instances:
@@ -196,7 +196,7 @@ class hProject:
         print
 
     def print_otfs(self):
-        '''Print all .otfs in project.'''
+        '''Print all ``.otfs`` in project.'''
         _otfs = self.otfs()
         print 'otfs (%s):\n' % len(_otfs)
         for otf in _otfs:
@@ -213,7 +213,7 @@ class hProject:
         print
 
     def print_woffs(self):
-        '''Print all .woffs in project.'''
+        '''Print all ``.woffs`` in project.'''
         _woffs = self.woffs()
         print 'woffs (%s):\n' % len(_woffs)
         for woff in _woffs:
@@ -291,7 +291,7 @@ class hProject:
         self.libs['groups']['order'] = _order
 
     def write_lib(self, lib_name):
-        '''Write the lib with the given name to its .plist file.
+        '''Write the lib with the given ``lib_name`` to its ``.plist`` file.
 
         >>> from hTools2.objects import hProject
         >>> p = hProject('Publica')
@@ -308,16 +308,18 @@ class hProject:
     def write_libs(self):
         '''Write all libs in project to their corresponding ``.plist`` files.
 
-        >>> saving project libs...
-        >>>     saving info lib to file ...
-        >>>     saving composed lib to file ...
-        >>>     saving accents lib to file ...
-        >>>     saving spacing lib to file ...
-        >>>     saving project lib to file ...
-        >>>     saving groups lib to file ...
-        >>>     saving interpol lib to file ...
-        >>>     saving vmetrics lib to file ...
-        >>> ...done.
+        ::
+
+            saving project libs...
+                saving info lib to file ...
+                saving composed lib to file ...
+                saving accents lib to file ...
+                saving spacing lib to file ...
+                saving project lib to file ...
+                saving groups lib to file ...
+                saving interpol lib to file ...
+                saving vmetrics lib to file ...
+            ...done.
 
         '''
         print 'saving project libs...\n'
@@ -471,7 +473,7 @@ class hProject:
             return []
 
     def ufos(self):
-        '''Return all ufos in project (masters, istances and meta-masters).'''
+        '''Return all ``.ufos`` in project (masters, istances and meta-masters).'''
         ufos = []
         ufos += self.masters()
         ufos += self.instances()
@@ -492,7 +494,7 @@ class hProject:
                 self.fonts[_style_name] = ufo_path
 
     def otfs(self):
-        '''Returns a list of all .otf files in project.
+        '''Returns a list of all ``.otf`` files in project.
 
         >>> from hTools2.objects import hProject
         >>> p = hProject('Publica')
@@ -508,11 +510,11 @@ class hProject:
         return walk(self.paths['otfs'], 'otf')
 
     def otfs_test(self):
-        '''Return a list project .otfs in `Adobe/fonts` folder.'''
+        '''Return a list of all ``.otfs`` in the project's ``Adobe/fonts/`` folder.'''
         return walk(self.paths['otfs_test'], 'otf')
 
     def woffs(self):
-        '''Returns a list of all .woff files in project.
+        '''Returns a list of all ``.woff`` files in project.
 
         >>> from hTools2.objects import hProject
         >>> p = hProject('Publica')
@@ -528,7 +530,7 @@ class hProject:
         return walk(self.paths['woffs'], 'woff')
 
     def vfbs(self):
-        '''Returns a list of all .vfb files in project.
+        '''Returns a list of all ``.vfb`` files in project.
 
         >>> from hTools2.objects import hProject
         >>> p = hProject('Publica')
@@ -542,7 +544,7 @@ class hProject:
         return walk(self.paths['vfbs'], 'vfb')
 
     def scripts(self):
-        '''Return a list of all .py files in project.'''
+        '''Return a list of all ``.py`` files in project.'''
         scripts = {}
         # collect RoboFont scripts
         RF_folder = self.paths['python_robofont']
@@ -565,22 +567,22 @@ class hProject:
     # delete files
 
     def delete_otfs(self):
-        '''Delete all .otfs in project.'''
+        '''Delete all ``.otfs`` in project.'''
         otf_paths = self.otfs()
         delete_files(otf_paths)
 
     def delete_instances(self):
-        '''Delete all .ufo instances in project.'''
+        '''Delete all ``.ufo`` instances in project.'''
         instances_paths = self.instances()
         delete_files(instances_paths)
 
     def delete_otfs_test(self):
-        '''Delete all .otfs in the `Adobe/fonts` folder.'''
+        '''Delete all ``.otfs`` in the ``Adobe/fonts`` folder.'''
         otf_paths = self.otfs_test()
         delete_files(otf_paths)
 
     def delete_woffs(self):
-        '''Delete all .woffs in project.'''
+        '''Delete all ``.woffs`` in project.'''
         woff_paths = self.woffs()
         delete_files(woff_paths)
 

@@ -12,7 +12,7 @@ Overview
 
 In :py:mod:`hTools2`, each font-family is a separate project, and all projects are stored in one main root folder.
 
-Every project contains a set of sub-folders to collect and organize ``ufo`` sources, generated ``otf`` fonts, additional data files etc. The same folder structure is used for all projects. Additional ‘custom’ folders per project are allowed.
+Every project contains a set of sub-folders to collect and organize ``,ufo`` sources, generated ``.otf`` fonts, additional data files etc. The same folder structure is used for all projects. Additional 'custom' folders per project are allowed.
 
 Every project also contains a set of files with font-related data – for example, data for building composed glyphs, data for generating instances with interpolation, data about vertical metrics, data about the character set and glyph groups etc.
 
@@ -22,17 +22,17 @@ The ``ROOT`` folder
 
 The paths system in :py:mod:`hTools2` is bootstrapped from one single path: the root folder in which all projects are contained. The default root folder is ``/_fonts``.
 
-The path to this folder is stored in :py:attr:`hTools2.ROOT`, and currently needs to be edited by hand in the file ``hTools2/__init__.py``.
+The path to this folder is stored in :py:attr:`hTools2.ROOT`, and currently needs to be edited by hand in the file ``hTools2/__init__.py``.::
 
->>> ROOT = '/_fonts'
+    ROOT = '/_fonts'
 
-This is the only hardcoded path in hTools2. After set, this path can be read via `hSettings.root`.
+This is the only hardcoded path in hTools2. After set, this path can be read via :py:attr:`hSettings.root`.
 
 ---------------
 Project folders
 ---------------
 
-All project folders live inside the ``ROOT`` folder. Project folder names start with an underscore, followed by the name of the font family. For example, the folder containing the files for the type family ‘Publica’ must be named ``_Publica``.
+All project folders live inside the ``ROOT`` folder. Project folder names start with an underscore, followed by the name of the font family. For example, the folder containing the files for the type family ‘Publica’ must be named ``_Publica``.::
 
     fonts/
         _Publica/
@@ -57,9 +57,7 @@ In hTools2:
 - every project is a folder, and
 - every project contains a standard set of folders and files.
 
-A typical project folder looks like this:
-
-.. ![hProject](project.png "project sub-folders")
+A typical project folder looks like this::
 
     _Publica/
         _docs/
@@ -71,11 +69,11 @@ A typical project folder looks like this:
         _vfbs/
         _woffs/
 
-### project libs
+------------
+Project libs
+------------
 
-Project libs are different kinds of data files contained in the `_libs/` folder of each project.
-
-.. ![hLibs](libs.png "project libs")
+Project libs are different kinds of data files contained in the `_libs/` folder of each project.::
 
     _libs/
         Publica.enc
@@ -87,7 +85,9 @@ Project libs are different kinds of data files contained in the `_libs/` folder 
         spacing.plist
         vmetrics.plist
 
-### FTP connection
+--------------
+FTP connection
+--------------
 
 :py:mod:`hTools2` also includes a few functions to connect to a FTP server and upload files. This is specially handy for working with webfonts and live tests.
 

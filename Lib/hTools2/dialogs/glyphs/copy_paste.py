@@ -1,6 +1,6 @@
 # [h] copy/paste special
 
-# reload when debugging
+# debug
 
 import hTools2
 reload(hTools2)
@@ -29,7 +29,7 @@ from hTools2.modules.anchors import transfer_anchors
 
 class copyPasteGlyphDialog(object):
 
-    '''copy glyph + paste special '''
+    """A dialog to copy and paste glyphs, with a few special options."""
 
     #------------
     # attributes

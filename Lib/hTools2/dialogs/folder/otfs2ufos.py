@@ -27,7 +27,7 @@ from hTools2.modules.fileutils import walk
 
 class OTFsToUFOsDialog(object):
 
-    '''batch generate UFOs for all OTFs in folder'''
+    '''A dialog to generate ``.ufos`` for all ``.otfs`` in a folder.'''
 
     #------------
     # attributes

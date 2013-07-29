@@ -1,6 +1,6 @@
 # [h] dialog to change suffix in selected glyphs
 
-# reload when debugging
+# debug
 
 import hTools2
 reload(hTools2)
@@ -29,7 +29,7 @@ from hTools2.modules.glyphutils import has_suffix, change_suffix
 
 class changeSuffixDialog(object):
 
-    '''change the suffix in selected glyphs'''
+    """A dialog to change the suffix of the selected glyphs."""
 
     #------------
     # attributes

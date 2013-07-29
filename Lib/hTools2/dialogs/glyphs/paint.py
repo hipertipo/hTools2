@@ -1,6 +1,6 @@
 # [h] a dialog to paint and select glyphs by color
 
-# reload when debugging
+# debug
 
 import hTools2
 reload(hTools2)
@@ -31,7 +31,7 @@ from hTools2.modules.fontutils import get_glyphs
 
 class paintGlyphsDialog(object):
 
-    'paint and select glyphs by color'
+    """A dialog to apply a color to the selected glyph boxes, and to select glyphs by color."""
 
     #------------
     # attributes

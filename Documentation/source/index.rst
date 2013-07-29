@@ -1,5 +1,5 @@
 =====================
-hTools2 documentation
+hTools2 Documentation
 =====================
 
 .. py:module:: hTools2
@@ -8,9 +8,14 @@ hTools2 documentation
    :maxdepth: 2
 
    about/introduction.rst
-   objects/objects.rst
+
+.. toctree::
+   :maxdepth: 1
+
+   hTools2.rst
    modules/modules.rst
    dialogs/dialogs.rst
+   objects/objects.rst
 
 ------------------
 Indices and tables

@@ -1,4 +1,4 @@
-# dialogs.glyphs
+# [h] dialogs.glyphs
 
 '''A collection of dialogs to do things to the selected glyphs of one or more fonts.'''
 
@@ -114,7 +114,7 @@ __all__ = [
     'moveAnchorsDialog',
     'moveGlyphsDialog',
     'maskDialog',
-    'copyToLayer',
+    'copyToLayerDialog',
     'copyPasteGlyphDialog',
     'mirrorGlyphsDialog',
     'glyphActionsDialog',

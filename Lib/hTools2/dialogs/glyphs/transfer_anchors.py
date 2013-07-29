@@ -1,4 +1,4 @@
-# [h] copy to mask
+# [h] a dialog to transfer anchors between fonts
 
 # debug
 
@@ -6,8 +6,12 @@ import hTools2
 reload(hTools2)
 
 if hTools2.DEBUG:
+
     import hTools2.modules.fontutils
     reload(hTools2.modules.fontutils)
+
+    import hTools2.modules.anchors
+    reload(hTools2.modules.anchors)
 
 # imports
 
@@ -19,27 +23,32 @@ except:
 from vanilla import *
 
 from hTools2.modules.fontutils import get_full_name, get_glyphs
+from hTools2.modules.anchors import transfer_anchors
 
 # objects
 
-class copyToMaskDialog(object):
+class transferAnchorsDialog(object):
 
-    """A dialog to transfer the foreground layer of the selcted glyphs in the current font to the mask layer of the same glyphs of another font."""
+    """A dialog to transfer anchors from selected glyphs in one font to the same glyphs in another font."""
 
+    #------------
     # attributes
+    #------------
 
-    _title = 'mask'
+    _title = 'anchors'
     _padding = 10
     _row_height = 25
     _line_height = 20
     _button_height = 30
-    _column_1 = 103
-    _width = _column_1 + (_padding * 2)
+    _column_1 = 130
+    _width = 123
     _height = (_line_height * 2) + (_row_height * 2) + (_button_height * 2) + (_padding * 5) - 2
 
-    _target_layer_name = 'background'
+    _all_fonts_names = []
 
+    #---------
     # methods
+    #---------
 
     def __init__(self):
         self._update_fonts()
@@ -55,7 +64,7 @@ class copyToMaskDialog(object):
                     (x, y,
                     -self._padding,
                     self._line_height),
-                    "foreground",
+                    "source font",
                     sizeStyle='small')
         y += self._line_height
         # source font value
@@ -81,15 +90,15 @@ class copyToMaskDialog(object):
                     self._line_height),
                     self._all_fonts_names,
                     sizeStyle='small')
-        # apply button
+        # buttons
         y += self._line_height + self._padding + 7
         self.w.button_apply = SquareButton(
                     (x, y,
                     -self._padding,
                     self._button_height),
-                    "copy",
-                    sizeStyle='small',
-                    callback=self.apply_callback)
+                    "transfer",
+                    callback=self.apply_callback,
+                    sizeStyle='small')
         # update button
         y += self._button_height + self._padding
         self.w.button_update = SquareButton(
@@ -97,8 +106,8 @@ class copyToMaskDialog(object):
                     -self._padding,
                     self._button_height),
                     "update",
-                    sizeStyle='small',
-                    callback=self.update_fonts_callback)
+                    callback=self.update_fonts_callback,
+                    sizeStyle='small')
         # open window
         self.w.open()
 
@@ -119,31 +128,38 @@ class copyToMaskDialog(object):
         if len(self._all_fonts) > 0:
             # get parameters
             _source_font = self._all_fonts[self.w._source_value.get()]
-            _target_layer_name = self._target_layer_name
             _target_font = self._all_fonts[self.w._target_value.get()]
             # print info
-            print 'copying glyphs to mask...\n'
-            print '\tsource font: %s (foreground)' % get_full_name(_source_font)
-            print '\ttarget font: %s (%s)' % (get_full_name(_target_font), self._target_layer_name)
+            print 'transfering anchors...\n'
+            print '\tsource: %s' % get_full_name(_source_font)
+            print '\ttarget: %s' % get_full_name(_target_font)
             print
             print '\t',
-            # batch copy glyphs to mask
+            # batch transfer anchors
+            _skipped = []
             for glyph_name in get_glyphs(_source_font):
-                print glyph_name,
-                # prepare undo
-                _target_font[glyph_name].prepareUndo('copy glyphs to mask')
-                # copy oulines to mask
-                _target_glyph_layer = _target_font[glyph_name].getLayer(_target_layer_name)
-                pen = _target_glyph_layer.getPointPen()
-                _source_font[glyph_name].drawPoints(pen)
-                # update
-                _target_font[glyph_name].update()
-                # activate undo
-                _target_font[glyph_name].performUndo()
+                if len(_source_font[glyph_name].anchors) > 0:
+                    if _target_font.has_key(glyph_name):
+                        print glyph_name,
+                        # prepare undo
+                        _target_font[glyph_name].prepareUndo('transfer anchors')
+                        # transfer anchors
+                        transfer_anchors(_source_font[glyph_name], _target_font[glyph_name])
+                        # update
+                        _target_font[glyph_name].update()
+                        # activate undo
+                        _target_font[glyph_name].performUndo()
+                    else:
+                        _skipped.append(glyph_name)
+                else:
+                    # glyph does not have anchors
+                    pass
             # done
             print
             _target_font.update()
-            print '\n...done.\n'
-        # no font open
+            if len(_skipped) > 0:
+                print '\n\tglyphs %s not in target font.\n' % _skipped
+            print '...done.\n'
         else:
             print 'please open at least one font.\n'
+

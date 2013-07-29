@@ -13,7 +13,7 @@ from vanilla import *
 
 class mirrorGlyphsDialog(object):
 
-    '''mirror glyphs dialog'''
+    '''A dialog to mirror the selected glyphs in the current font.'''
 
     #------------
     # attributes

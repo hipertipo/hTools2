@@ -30,7 +30,7 @@ from hTools2.modules.fontutils import rename_glyphs_from_list
 
 class batchRenameGlyphs(object):
 
-    '''A dialog to batch rename glyphs in a font, based on a list of old- and new names.'''
+    """A dialog to batch rename glyphs in a font, based on a list of old- and new names."""
 
     _title = 'rename'
     _padding = 10

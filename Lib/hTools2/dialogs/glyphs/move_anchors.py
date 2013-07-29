@@ -29,6 +29,8 @@ from hTools2.modules.anchors import move_anchors
 
 class moveAnchorsDialog(object):
 
+    """A dialog to move the anchors in the selected glyphs of the current font."""
+
     #------------
     # attributes
     #------------

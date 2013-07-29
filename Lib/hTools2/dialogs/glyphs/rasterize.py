@@ -1,6 +1,6 @@
 # [h] a dialog to rasterize glyphs into elements
 
-# reload when debugging
+# debug
 
 import hTools2
 reload(hTools2)
@@ -28,6 +28,8 @@ from hTools2.modules.rasterizer import *
 # objects
 
 class rasterizeGlyphDialog(object):
+
+    """A dialog to rasterize the selected glyphs of the current font with element components."""
 
     _title = 'rasterizer'
     _padding = 10

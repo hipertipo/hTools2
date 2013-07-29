@@ -25,6 +25,8 @@ from hTools2.modules.fontutils import get_full_name
 
 class adjustVerticalMetrics(object):
 
+    """A dialog to adjust the vertical metrics in the font with the help of sliders and nudge buttons."""
+
     _title = "vertical metrics"
     _moveX = 0
     _moveY = 0
@@ -39,15 +41,14 @@ class adjustVerticalMetrics(object):
     _width = _column_1 + _column_2 + _column_3 + (_padding * 3) + (_button_2 * 4) + 2
     _height = (_row_height * 4) + (_padding * 5)
 
-    _ascender_min =         1
-    _capheight_min =        1
-    _xheight_min =          1
-    _descender_min =        1
+    _ascender_min = 1
+    _capheight_min = 1
+    _xheight_min = 1
+    _descender_min = 1
 
     def __init__(self):
         self.w = FloatingWindow(
-                    (self._width,
-                    self._height),
+                    (self._width, self._height),
                     self._title)
         # get font vmetrics
         self.font = CurrentFont()

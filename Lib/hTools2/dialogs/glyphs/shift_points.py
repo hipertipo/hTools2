@@ -1,6 +1,6 @@
 # [h] shift points dialog
 
-# reload when debugging
+# debug
 
 import hTools2
 reload(hTools2)
@@ -29,7 +29,7 @@ from hTools2.modules.glyphutils import *
 
 class shiftPointsDialog(object):
 
-    '''select and shift points'''
+    """A dialog to select and shift points in the selected glyphs in a font."""
 
     _title = 'shift'
     _column1 = 51
@@ -51,8 +51,7 @@ class shiftPointsDialog(object):
 
     def __init__(self):
         self.w = FloatingWindow(
-                    (self._width,
-                    self._height),
+                    (self._width, self._height),
                     self._title)
         # position
         x = self._padding

@@ -30,7 +30,7 @@ from hTools2.modules.glyphutils import center_glyph
 
 class setWidthDialog(hConstants):
 
-    '''A dialog to set the advance width of the selected glyphs.'''
+    """A dialog to set the advance width of the selected glyphs."""
 
     # attributes
 

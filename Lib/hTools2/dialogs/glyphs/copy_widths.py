@@ -29,7 +29,7 @@ from hTools2.modules.glyphutils import center_glyph
 
 class copyWidthsDialog(object):
 
-    '''copy width of selected glyphs in one font to the same glyphs in another font'''
+    """A dialog to copy the advance width of selected glyphs in one font to the same glyphs in another font."""
 
     #------------
     # attributes

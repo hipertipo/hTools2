@@ -27,7 +27,7 @@ from hTools2.modules.fontutils import get_glyphs
 
 class skewGlyphsDialog(hConstants):
 
-    '''A simple dialog to skew the selected glyphs in a font.'''
+    """A dialog to skew the selected glyphs in a font."""
 
     # attributes
 
