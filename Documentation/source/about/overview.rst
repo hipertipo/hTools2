@@ -45,12 +45,9 @@ Metadata in font projects is stored in standardized ``plist`` and plain text fil
 Dialogs
 -------
 
-Scripts and dialogs make :py:mod:`hTools2` objects and modules easily accessible in applications. Current scripts in :py:mod:`hTools2` are built specially for use with RoboFont and NodeBox.
+Scripts and dialogs make :py:mod:`hTools2` objects and modules easily accessible in applications. Current scripts in :py:mod:`hTools2` are built specially for use with RoboFont.
 
 .. ![dialogs](dialogs.png "dialogs")
 
 In RoboFont, scripts can be accessed with the ‘Extensions’ section of the main application menu, or via keyboard shortcuts (if properly configured).
 
-In addition to RoboFont scripts, :py:mod:`hTools` also includes a second set of scripts for use with NodeBox_. These scripts deal mainly with special visualizations of glyphs and fonts, for use during proofing and for output of visual presentation material.
-
-.. _NodeBox : http://nodebox.net/
