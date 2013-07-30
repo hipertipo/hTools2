@@ -2,7 +2,9 @@
 About
 =====
 
-``hTools2`` is a collection of tools and objects for type-design & font-production work. It is written in Python_ and specially tailored for use with RoboFont_. The core Python modules and objects can also be used with `FontLab Studio`_ and ‘NoneLab’ (pure Python).
+``hTools2`` is a collection of tools and objects for type-design & font-production work.
+
+It is written in Python_ and specially tailored for use with RoboFont_. The core Python modules and objects can also be used with `FontLab Studio`_ and ‘NoneLab’ (pure Python).
 
 .. _Python : http://python.org/
 .. _RoboFont : http://robofont.com/
@@ -46,8 +48,9 @@ Work on ``hTools2`` is partially funded by users and collaborators.
 
 Special thanks to the following designers/companies for contributing to the project:
 
-- `Nikola Djurek <http://typonine.com/>`_
-- `Bas Jacobs <http://underware.nl/>`_
+- Nikola Djurek `(Typonine) <http://typonine.com/>`_
+- Bas Jacobs `(Underware) <http://underware.nl/>`_
+- Johannes Breyer & Fabian Harb `(Dinamo) <http://dinamo.us/>`
 
 If you use ``hTools2`` on a regular basis, please consider making a donation.
 

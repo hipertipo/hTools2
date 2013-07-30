@@ -1,6 +1,6 @@
 # [h] hTools2
 
-'''hTools2, a UFO-based Python-powered font production toolkit.
+"""hTools2, a UFO-based Python-powered font production toolkit.
 
 .. py:attribute:: ROOT
 
@@ -10,14 +10,19 @@ The root folder for all project folders. By default, ``/_fonts``.
 
 Debug mode. Set to ``True`` during development to always reload modules.
 
-'''
+.. py:attribute:: VERSION
+
+The current version number of ``hTools2``.
+
+"""
 
 ROOT = '/_fonts'
 DEBUG = True
+VERSION = 1.6
 
 class hConstants(object):
 
-    '''An object collecting constants and default settings for dialogs.
+    """An object collecting constants and default settings for dialogs.
 
     .. py:attribute:: padding_x
 
@@ -51,7 +56,7 @@ class hConstants(object):
 
     The size style of text and standard dialog elements. Possible options are ``small``, ``regular``, ``mini``.
 
-    '''
+    """
 
     padding_x = 10
     padding_y = 10

@@ -5,7 +5,7 @@ from distutils.core import setup
 # install
 
 setup(name='hTools2',
-    version='1.5',
+    version='1.6',
     description='A font-production toolkit.',
     author='Gustavo Ferreira',
     author_email='gustavo@hipertipo.com',
