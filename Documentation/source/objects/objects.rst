@@ -12,3 +12,4 @@ Objects
    hspace.rst
    hproject.rst
    hfont.rst
+   hglyph.rst
