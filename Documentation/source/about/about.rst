@@ -50,7 +50,7 @@ Special thanks to the following designers/companies for contributing to the proj
 
 - Nikola Djurek `(Typonine) <http://typonine.com/>`_
 - Bas Jacobs `(Underware) <http://underware.nl/>`_
-- Johannes Breyer & Fabian Harb `(Dinamo) <http://dinamo.us/>`
+- Johannes Breyer & Fabian Harb `(Dinamo) <http://dinamo.us/>`_
 
 If you use ``hTools2`` on a regular basis, please consider making a donation.
 
