@@ -13,6 +13,11 @@ if hTools2.DEBUG:
 
 # import
 
+try:
+    from mojo.roboFont import AllFonts
+except:
+    from robofab.world import AllFonts
+
 from vanilla import *
 
 from hTools2.modules.fontutils import *

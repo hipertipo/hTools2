@@ -9,7 +9,12 @@ if hTools2.DEBUG:
     import hTools2.modules.fontutils
     reload(hTools2.modules.fontutils)
 
-# imports
+# import
+
+try:
+    from mojo.roboFont import AllFonts
+except:
+    from robofab.world import AllFonts
 
 import os
 
