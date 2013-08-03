@@ -64,7 +64,7 @@ class hFont:
     >>> ufo = RFont('/fonts/_Publica/_ufos/Publica_55.ufo', showUI=False) 
     >>> font = hFont(ufo)
     >>> print font
-    <hTools2.objects.hFont instance at 0x1228591b8>
+    <hFont instance at 0x1228591b8>
 
     In a similar way, it is also possible to initiate ``hFont`` using ``CurrentFont()``:
 
@@ -127,6 +127,9 @@ class hFont:
     def __init__(self, ufo):
         self.ufo = ufo
         self.init_from_filename()
+
+    def __repr__(self):
+        return '<hFont %s>' % self.full_name()
 
     def init_from_filename(self, set_names=True):
         """Initiate ``hFont`` object from ``RFont``, get parent project, parse name parts."""

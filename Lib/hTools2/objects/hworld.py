@@ -29,21 +29,12 @@ class hWorld:
     .. py:attribute:: settings
 
     A :py:class:`hSettings` object with information about the local system.
-
-    >>> from hTools2.objects import hWorld
-    >>> w = hWorld()
-    >>> print w.settings
-    <hTools2.objects.hSettings instance at 0x12ac6b560>
     
     .. py:attribute:: context
 
     The environment in which the current script is running.
 
     The possible options are: ``RoboFont``, ``FontLab`` and ``NoneLab``.
-
-    >>> from hTools2.objects import hWorld
-    >>> w = hWorld()
-    >>> print w.context
 
     '''
 
@@ -58,6 +49,9 @@ class hWorld:
         '''Initiate the ``hWorld`` object.'''
         self.settings = hSettings()
         self.context = _ctx
+
+    def __repr__(self):
+        return '<hWorld>'
 
     def projects(self):
         '''Returns a list of all projects contained in the root fonts folder.

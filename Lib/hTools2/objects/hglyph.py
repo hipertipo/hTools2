@@ -26,3 +26,5 @@ class hGlyph:
         self.glyph = glyph
         self.font = hFont(self.glyph.getParent())
 
+    def __repr__(self):
+        return '<hGlyph>'

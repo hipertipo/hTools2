@@ -54,7 +54,7 @@ from hTools2.modules.ftp import connect_to_server, upload_file
 
 class hSpace:
 
-    '''A space describes a parametric range of fonts inside a project.
+    """A space describes a parametric range of fonts inside a project.
 
     It makes it easier to address a subset of fonts using the project's parameters.
 
@@ -85,7 +85,7 @@ class hSpace:
 
     A dictionary with parametric names and ``.ufo`` paths for all fonts in the current space.
 
-    '''
+    """
 
     # attributes
 
@@ -104,8 +104,11 @@ class hSpace:
         self.import_project_parameters()
         self.build()
 
+    def __repr__(self):
+        return '<hSpace %s>' % self.project.name
+
     def import_project_parameters(self):
-        '''Import parameters from ``project`` lib.'''
+        """Import parameters from ``project`` lib."""
         try:
             self.parameters = self.project.libs['project']['parameters']
             self.parameters_order = self.project.libs['project']['parameters_order']
@@ -114,11 +117,11 @@ class hSpace:
             print 'project %s has no parameters lib' % self.project.name
 
     def build(self):
-        '''Build the defined variation space, using the parameters order, and create individual font names.
+        """Build the defined variation space, using the parameters order, and create individual font names.
 
         .. warning:: Awful redundant code, needs to be rewritten.
 
-        '''
+        """
         parts = len(self.parameters_order)
         font_names = []
         if parts == 0:
@@ -204,21 +207,7 @@ class hSpace:
         self.fonts = font_names
 
     def ufos(self):
-        '''Return a list containing the ``.ufo`` paths of all existing fonts in the current space.
-
-        >>> from hTools2.object import hSpace
-        >>> s = hSpace('QuanticaBitmap')
-        >>> s.parameters['size'] = [ '09', '10', '11', '12' ]
-        >>> s.parameters['weight'] = [ '1' ]
-        >>> s.parameters['resolution'] = [ '1' ]
-        >>> s.parameters_order = [ 'size', 'weight', 'resolution' ]
-        >>> s.build()
-        >>> print s.fonts
-        ['09-1-1', '10-1-1', '11-1-1', '12-1-1']
-        >>> print s.ufos()
-        ['/fonts/_QuanticaBitmap/_ufos/QuanticaBitmap_09-1-1.ufo', '/fonts/_QuanticaBitmap/_ufos/QuanticaBitmap_10-1-1.ufo', '/fonts/_QuanticaBitmap/_ufos/QuanticaBitmap_11-1-1.ufo', '/fonts/_QuanticaBitmap/_ufos/QuanticaBitmap_12-1-1.ufo']
-
-        '''
+        """Return a list containing the ``.ufo`` paths of all existing fonts in the current space."""
         font_paths = []
         masters = self.project.masters()
         instances = self.project.instances()
@@ -235,7 +224,7 @@ class hSpace:
         return font_paths
 
     def set_parameters(self, parameters):
-        '''Set space attributes from parameters dict.'''
+        """Set space attributes from parameters dict."""
         for k in parameters.keys():
             if self.parameters.has_key(k):
                 self.parameters[k] = parameters[k]
@@ -243,7 +232,7 @@ class hSpace:
     # ftp
 
     def upload_woffs(self):
-        '''Upload all ``.woffs`` in space to the project's folder in the FTP server.'''
+        """Upload all ``.woffs`` in space to the project's folder in the FTP server."""
         for ufo_path in self.ufos():
             file_name = os.path.splitext(os.path.split(ufo_path)[1])[0]
             woff_file = '%s.woff' % file_name
@@ -261,7 +250,7 @@ class hSpace:
     # initialization tools
 
     def create_fonts(self):
-        '''Create fonts in space, if they don't exist yet.'''
+        """Create fonts in space, if they don't exist yet."""
         print "batch creating fonts...\n"
         for font in self.fonts:
             font_path = '%s_%s.ufo' % (self.project.name, font)
@@ -275,7 +264,7 @@ class hSpace:
         print "\n...done.\n"
 
     def create_glyphs(self, gstring=None, verbose=False):
-        '''Create all glyphs in all fonts in space.'''
+        """Create all glyphs in all fonts in space."""
         # get glyphs
         if gstring is None:
             glyph_names = self.project.all_glyphs()
@@ -301,7 +290,7 @@ class hSpace:
         print "\n...done.\n"
 
     def build_accents(self, verbose=False):
-        '''Build all accents in all fonts in space.'''
+        """Build all accents in all fonts in space."""
         print "building accented glyphs in space...\n"
         for ufo_path in self.ufos():
             font = hFont(RFont(ufo_path, showUI=False))
@@ -313,7 +302,7 @@ class hSpace:
     # clear data
 
     def clear_kerning(self):
-        '''Delete kerning in all fonts in space.'''
+        """Delete kerning in all fonts in space."""
         print "batch deleting kerning...\n"
         for ufo_path in self.ufos():
             ufo = RFont(ufo_path, showUI=False)
@@ -339,7 +328,7 @@ class hSpace:
         pass
 
     def clear_anchors(self):
-        '''Remove anchors in all fonts in space.'''
+        """Remove anchors in all fonts in space."""
         print "deleting all anchors in space..."
         for ufo_path in self.ufos():
             font = hFont(RFont(ufo_path, showUI=False))
@@ -348,7 +337,7 @@ class hSpace:
     # transfer tools
 
     def transfer_glyphs(self, gstring, var, verbose=False):
-        '''Batch transfer glyphs from one set of fonts to another.
+        """Batch transfer glyphs from one set of fonts to another.
 
         ``gstring``
             A string of glyph names and/or group names.
@@ -385,7 +374,7 @@ class hSpace:
             s.set_parameters(parameters)
             s.transfer_glyphs(gstring, var, verbose=False)
 
-        '''
+        """
         axis, src, dest_list = var
         # define source space
         for param in self.parameters.keys():
@@ -425,7 +414,7 @@ class hSpace:
         print '\n...done.\n'
 
     def transfer_anchors(self, gstring, var, clear=True, verbose=False):
-        '''Transfer anchors from one variable set of fonts to another.'''
+        """Transfer anchors from one variable set of fonts to another."""
         axis, src, dest_list = var
         # define source space
         for param in self.parameters.keys():
