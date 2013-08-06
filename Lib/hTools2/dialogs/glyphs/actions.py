@@ -29,7 +29,6 @@ class glyphActionsDialog(hConstants):
 
     # attributes
 
-    glyph_names = []
     actions = {
         'clear outlines' : False,
         'round points' : False,
@@ -41,6 +40,7 @@ class glyphActionsDialog(hConstants):
         'add extremes' : False,
         'all layers' : False,
     }
+    glyph_names = []
 
     # methods
 

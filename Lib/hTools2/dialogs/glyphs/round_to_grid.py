@@ -18,179 +18,169 @@ except:
 
 from vanilla import *
 
-from hTools2.modules.glyphutils import *
+from hTools2 import hConstants
+from hTools2.modules.glyphutils import round_anchors, round_bpoints, round_points, round_margins, round_width
+from hTools2.modules.messages import no_font_open
 
 # objects
 
-class roundToGridDialog(object):
+class roundToGridDialog(hConstants):
 
     """A dialog to round features of the selected glyphs to a grid."""
 
-    #------------
     # attributes
-    #------------
 
-    _title = 'gridfit'
-    _padding_top = 12
-    _padding = 10
-    _column_1 = 40
-    _box_height = 22
-    _box = 20
-    _button_height = 30
-    _button_2 = 18
-    _width = 123
+    gridsize = 125
+    glyph_names = []
 
-    _height = _button_height + (_box_height * 7) + (_padding_top * 5) - 1
+    b_points = True
+    points = False
+    margins = False
+    glyph_width = True
+    anchors = False
+    layers = False
 
-    _gridsize = 125
-    _gNames = []
-    _b_points = True
-    _points = False
-    _margins = False
-    _glyph_width = True
-    _anchors = False
-    _layers = False
-
-    #---------
     # methods
-    #---------
 
     def __init__(self):
+        self.title = 'gridfit'
+        self.column_1 = 40
+        self.width = 123
+        self.height = self.button_height + self.nudge_button + (self.text_height * 7) + (self.padding_y * 5) - 3
         self.w = FloatingWindow(
-                    (self._width, self._height),
-                    self._title,
-                    closable=True)
+                    (self.width, self.height),
+                    self.title)
         # grid size
-        x = self._padding
-        y = self._padding_top
+        x = self.padding_x
+        y = self.padding_y
         # buttons
         self.w._gridsize_label = TextBox(
                     (x, y,
-                    -self._padding,
-                    self._box_height),
+                    -self.padding_x,
+                    self.text_height),
                     "grid",
-                    sizeStyle='small')
-        x += self._column_1
+                    sizeStyle=self.size_style)
+        x += self.column_1
         self.w._gridsize_value = EditText(
                     (x, y,
-                    -self._padding,
-                    self._box),
-                    text=self._gridsize,
-                    sizeStyle='small')
-        x = self._padding
+                    -self.padding_x,
+                    self.text_height),
+                    text=self.gridsize,
+                    sizeStyle=self.size_style)
+        x = self.padding_x
         # nudge spinners
-        y += self._button_2 + self._padding_top
+        y += (self.text_height + self.padding_y)
         self.w._nudge_minus_001 = SquareButton(
                 (x, y,
-                self._button_2,
-                self._button_2),
+                self.nudge_button,
+                self.nudge_button),
                 '-',
-                sizeStyle='small',
+                sizeStyle=self.size_style,
                 callback=self._nudge_minus_001_callback)
-        x += (self._button_2 * 1) - 1
+        x += (self.nudge_button - 1)
         self.w._nudge_plus_001 = SquareButton(
                 (x, y,
-                self._button_2,
-                self._button_2),
+                self.nudge_button,
+                self.nudge_button),
                 '+',
-                sizeStyle='small',
+                sizeStyle=self.size_style,
                 callback=self._nudge_plus_001_callback)
-        x += (self._button_2 * 1) - 1
+        x += (self.nudge_button - 1)
         self.w._nudge_minus_010 = SquareButton(
                 (x, y,
-                self._button_2,
-                self._button_2),
+                self.nudge_button,
+                self.nudge_button),
                 '-',
-                sizeStyle='small',
+                sizeStyle=self.size_style,
                 callback=self._nudge_minus_010_callback)
-        x += (self._button_2 * 1) - 1
+        x += (self.nudge_button - 1)
         self.w._nudge_plus_010 = SquareButton(
                 (x, y,
-                self._button_2,
-                self._button_2),
+                self.nudge_button,
+                self.nudge_button),
                 '+',
-                sizeStyle='small',
+                sizeStyle=self.size_style,
                 callback=self._nudge_plus_010_callback)
-        x += (self._button_2 * 1) - 1
+        x += (self.nudge_button - 1)
         self.w._nudge_minus_100 = SquareButton(
                 (x, y,
-                self._button_2,
-                self._button_2),
+                self.nudge_button,
+                self.nudge_button),
                 '-',
-                sizeStyle='small',
+                sizeStyle=self.size_style,
                 callback=self._nudge_minus_100_callback)
-        x += (self._button_2 * 1) - 1
+        x += (self.nudge_button - 1)
         self.w._nudge_plus_100 = SquareButton(
                 (x, y,
-                self._button_2,
-                self._button_2),
+                self.nudge_button,
+                self.nudge_button),
                 '+',
-                sizeStyle='small',
+                sizeStyle=self.size_style,
                 callback=self._nudge_plus_100_callback)
         # apply button
-        x = self._padding
-        y += self._button_2 + self._padding_top
+        x = self.padding_x
+        y += (self.nudge_button + self.padding_y)
         self.w.button_apply = SquareButton(
                     (x, y,
-                    -self._padding,
-                    self._button_height),
+                    -self.padding_x,
+                    self.button_height),
                     "apply",
                     callback=self.apply_callback,
-                    sizeStyle='small')
+                    sizeStyle=self.size_style)
         # b-points
-        y += self._button_height + self._padding_top
+        y += (self.button_height + self.padding_y)
         self.w._b_points_checkBox = CheckBox(
                     (x, y,
-                    -self._padding,
-                    self._box_height),
+                    -self.padding_x,
+                    self.text_height),
                     "bPoints",
-                    value=self._b_points,
-                    sizeStyle='small')
+                    value=self.b_points,
+                    sizeStyle=self.size_style)
         # points
-        y += self._box
+        y += self.text_height
         self.w._points_checkBox = CheckBox(
                     (x, y,
-                    -self._padding,
-                    self._box_height),
+                    -self.padding_x,
+                    self.text_height),
                     "points",
-                    value=self._points,
-                    sizeStyle='small')
+                    value=self.points,
+                    sizeStyle=self.size_style)
         # margins
-        y += self._box
+        y += self.text_height
         self.w._margins_checkBox = CheckBox(
                     (x, y,
-                    -self._padding,
-                    self._box_height),
+                    -self.padding_x,
+                    self.text_height),
                     "margins",
-                    value=self._margins,
-                    sizeStyle='small')
+                    value=self.margins,
+                    sizeStyle=self.size_style)
         # width
-        y += self._box
+        y += self.text_height
         self.w._width_checkBox = CheckBox(
                     (x, y,
-                    -self._padding,
-                    self._box_height),
+                    -self.padding_x,
+                    self.text_height),
                     "width",
-                    value=self._glyph_width,
-                    sizeStyle='small')
+                    value=self.glyph_width,
+                    sizeStyle=self.size_style)
         # anchors
-        y += self._box
+        y += self.text_height
         self.w._anchors_checkBox = CheckBox(
                     (x, y,
-                    -self._padding,
-                    self._box_height),
+                    -self.padding_x,
+                    self.text_height),
                     "anchors",
-                    value=self._anchors,
-                    sizeStyle='small')
+                    value=self.anchors,
+                    sizeStyle=self.size_style)
         # all layers
-        y += self._box
+        y += self.text_height
         self.w._layers_checkBox = CheckBox(
                     (x, y,
-                    -self._padding,
-                    self._box_height),
+                    -self.padding_x,
+                    self.text_height),
                     "all layers",
-                    value=self._layers,
-                    sizeStyle='small')
+                    value=self.layers,
+                    sizeStyle=self.size_style)
         # open
         self.w.open()
 
@@ -199,32 +189,32 @@ class roundToGridDialog(object):
     def _nudge_minus_001_callback(self, sender):
         _gridsize = int(self.w._gridsize_value.get()) - 1
         if _gridsize >= 0:
-            self._gridsize = _gridsize
-            self.w._gridsize_value.set(self._gridsize)
+            self.gridsize = _gridsize
+            self.w._gridsize_value.set(self.gridsize)
 
     def _nudge_minus_010_callback(self, sender):
         _gridsize = int(self.w._gridsize_value.get()) - 10
         if _gridsize >= 0:
-            self._gridsize = _gridsize
-            self.w._gridsize_value.set(self._gridsize)
+            self.gridsize = _gridsize
+            self.w._gridsize_value.set(self.gridsize)
 
     def _nudge_minus_100_callback(self, sender):
         _gridsize = int(self.w._gridsize_value.get()) - 100
         if _gridsize >= 0:
-            self._gridsize = _gridsize
-            self.w._gridsize_value.set(self._gridsize)
+            self.gridsize = _gridsize
+            self.w._gridsize_value.set(self.gridsize)
 
     def _nudge_plus_001_callback(self, sender):
-        self._gridsize = int(self.w._gridsize_value.get()) + 1
-        self.w._gridsize_value.set(self._gridsize)
+        self.gridsize = int(self.w._gridsize_value.get()) + 1
+        self.w._gridsize_value.set(self.gridsize)
 
     def _nudge_plus_010_callback(self, sender):
-        self._gridsize = int(self.w._gridsize_value.get()) + 10
-        self.w._gridsize_value.set(self._gridsize)
+        self.gridsize = int(self.w._gridsize_value.get()) + 10
+        self.w._gridsize_value.set(self.gridsize)
 
     def _nudge_plus_100_callback(self, sender):
-        self._gridsize = int(self.w._gridsize_value.get()) + 100
-        self.w._gridsize_value.set(self._gridsize)
+        self.gridsize = int(self.w._gridsize_value.get()) + 100
+        self.w._gridsize_value.set(self.gridsize)
 
     # apply callback
 
@@ -246,9 +236,9 @@ class roundToGridDialog(object):
                 glyph.performUndo()
             # align metrics
             if options['margins']:
-                    round_margins(glyph, gridsize, left=True, right=True)
+                round_margins(g, gridsize, left=True, right=True)
             if options['width']:
-                round_width(glyph, gridsize)
+                round_width(g, gridsize)
         # active layers only
         else:
             g.prepareUndo('align to grid')
@@ -302,3 +292,6 @@ class roundToGridDialog(object):
             self.font.update()
             print
             print '\n...done.\n'
+        else:
+            print no_font_open
+

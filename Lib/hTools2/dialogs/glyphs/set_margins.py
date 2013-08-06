@@ -1,4 +1,4 @@
-# [h] set/increase/decrease left/right side-bearings
+# [h] set side-bearings
 
 # debug
 
@@ -18,31 +18,17 @@ except:
 
 from vanilla import *
 
+from hTools2 import hConstants
 from hTools2.modules.fontutils import get_glyphs
+from hTools2.modules.messages import no_font_open, no_glyph_selected
 
 # objects
 
-class setMarginsDialog(object):
+class setMarginsDialog(hConstants):
 
     """A dialog to set the left/right side-bearings of the selected glyphs in the current font."""
 
-    #------------
     # attributes
-    #------------
-
-    _title = 'margins'
-    _padding = 10
-    _padding_top = 10
-    _line_height = 20
-    _button_height = 30
-    _button_2 = 18
-    _box_height = 18
-    _column_1 = 40
-    _column_2 = 100
-    _column_3 = 80
-    _column_4 = 60
-    _width = 123
-    _height = 256
 
     _modes = [ 'set equal to', 'increase by', 'decrease by', ]
     _left = True
@@ -52,207 +38,211 @@ class setMarginsDialog(object):
     _right_mode = 0
     _right_value = 100
 
-    #---------
     # methods
-    #---------
 
     def __init__(self):
+        # window
+        self.column_1 = 40
+        self.column_2 = 100
+        self.column_3 = 80
+        self.column_4 = 60
+        self.title = 'margins'
+        self.width = 123
+        self.height = (self.text_height * 5) + (self.padding_y * 9) + (self.nudge_button * 2) + self.button_height
         self.w = FloatingWindow(
-                    (self._width, self._height),
-                    self._title,
-                    closable=True)
+                    (self.width, self.height),
+                    self.title)
         #-------------
         # left margin
         #-------------
-        x = self._padding
-        y = self._padding_top
+        x = self.padding_x
+        y = self.padding_y
         # mode
         self.w.left_mode = RadioGroup(
                     (x, y,
-                    -self._padding,
-                    self._line_height),
+                    -self.padding_x,
+                    self.text_height),
                     ['=', '+', '-'],
-                    sizeStyle='small',
-                    #callback=self.left_mode_callback,
+                    sizeStyle=self.size_style,
                     isVertical=False)
         self.w.left_mode.set(0)
         # label
-        y += self._line_height + 10
+        y += (self.text_height + 10)
         self.w.left_label = TextBox(
                     (x, y + 3,
-                    self._column_1,
-                    self._line_height),
+                    self.column_1,
+                    self.text_height),
                     "left",
-                    sizeStyle='small')
-        x += self._column_1
+                    sizeStyle=self.size_style)
+        x += self.column_1
         # value
         self.w.left_value = EditText(
                     (x, y,
-                    -self._padding,
-                    self._line_height),
+                    -self.padding_x,
+                    self.text_height),
                     self._left_value,
-                    sizeStyle='small',
+                    sizeStyle=self.size_style,
                     readOnly=False)
         # spinners
-        x = self._padding
-        y += self._line_height + 10
+        x = self.padding_x
+        y += (self.text_height + 10)
         self.w._left_minus_001 = SquareButton(
                     (x, y,
-                    self._box_height,
-                    self._box_height),
+                    self.nudge_button,
+                    self.nudge_button),
                     "-",
-                    sizeStyle='small',
+                    sizeStyle=self.size_style,
                     callback=self._left_minus_001_callback)
-        x += self._box_height - 1
+        x += (self.nudge_button - 1)
         self.w._left_plus_001 = SquareButton(
                     (x, y,
-                    self._box_height,
-                    self._box_height),
+                    self.nudge_button,
+                    self.nudge_button),
                     "+",
-                    sizeStyle='small',
+                    sizeStyle=self.size_style,
                     callback=self._left_plus_001_callback)
-        x += self._box_height - 1
+        x += (self.nudge_button - 1)
         self.w._left_minus_010 = SquareButton(
                     (x, y,
-                    self._box_height,
-                    self._box_height),
+                    self.nudge_button,
+                    self.nudge_button),
                     "-",
-                    sizeStyle='small',
+                    sizeStyle=self.size_style,
                     callback=self._left_minus_010_callback)
-        x += self._box_height - 1
+        x += (self.nudge_button - 1)
         self.w._left_plus_010 = SquareButton(
                     (x, y,
-                    self._box_height,
-                    self._box_height),
+                    self.nudge_button,
+                    self.nudge_button),
                     "+",
-                    sizeStyle='small',
+                    sizeStyle=self.size_style,
                     callback=self._left_plus_010_callback)
-        x += self._box_height - 1
+        x += (self.nudge_button - 1)
         self.w._left_minus_100 = SquareButton(
                     (x, y,
-                    self._box_height,
-                    self._box_height),
+                    self.nudge_button,
+                    self.nudge_button),
                     "-",
-                    sizeStyle='small',
+                    sizeStyle=self.size_style,
                     callback=self._left_minus_100_callback)
-        x += self._box_height - 1
+        x += (self.nudge_button - 1)
         self.w._left_plus_100 = SquareButton(
                     (x, y,
-                    self._box_height,
-                    self._box_height),
+                    self.nudge_button,
+                    self.nudge_button),
                     "+",
-                    sizeStyle='small',
+                    sizeStyle=self.size_style,
                     callback=self._left_plus_100_callback)
         #--------------
         # right margin
         #--------------
         # mode
-        x = self._padding
-        y += self._line_height + self._padding
+        x = self.padding_x
+        y += (self.text_height + self.padding_y)
         self.w.right_mode = RadioGroup(
                     (x, y,
-                    -self._padding,
-                    self._line_height),
+                    -self.padding_x,
+                    self.text_height),
                     ['=', '+', '-'],
-                    sizeStyle='small',
+                    sizeStyle=self.size_style,
                     callback=self.right_mode_callback,
                     isVertical=False)
         self.w.right_mode.set(0)
         # label
-        y += self._line_height + 10
+        y += (self.text_height + 10)
         self.w.right_label = TextBox(
                     (x, y + 3,
-                    self._column_1,
-                    self._line_height),
+                    self.column_1,
+                    self.text_height),
                     "right",
-                    sizeStyle='small')
-        x += self._column_1
+                    sizeStyle=self.size_style)
+        x += self.column_1
         # value
         self.w.right_value = EditText(
                     (x, y,
-                    -self._padding,
-                    self._line_height),
+                    -self.padding_x,
+                    self.text_height),
                     self._right_value,
-                    sizeStyle='small',
+                    sizeStyle=self.size_style,
                     readOnly=False)
-        x = self._padding
-        y += self._line_height + 10
+        x = self.padding_x
+        y += (self.text_height + 10)
         # spinners
         self.w._right_minus_001 = SquareButton(
                     (x, y,
-                    self._box_height,
-                    self._box_height),
+                    self.nudge_button,
+                    self.nudge_button),
                     "-",
-                    sizeStyle='small',
+                    sizeStyle=self.size_style,
                     callback=self._right_minus_001_callback)
-        x += self._box_height - 1
+        x += (self.nudge_button - 1)
         self.w._right_plus_001 = SquareButton(
                     (x, y,
-                    self._box_height,
-                    self._box_height),
+                    self.nudge_button,
+                    self.nudge_button),
                     "+",
-                    sizeStyle='small',
+                    sizeStyle=self.size_style,
                     callback=self._right_plus_001_callback)
-        x += self._box_height - 1
+        x += (self.nudge_button - 1)
         self.w._right_minus_010 = SquareButton(
                     (x, y,
-                    self._box_height,
-                    self._box_height),
+                    self.nudge_button,
+                    self.nudge_button),
                     "-",
-                    sizeStyle='small',
+                    sizeStyle=self.size_style,
                     callback=self._right_minus_010_callback)
-        x += self._box_height - 1
+        x += (self.nudge_button - 1)
         self.w._right_plus_010 = SquareButton(
                     (x, y,
-                    self._box_height,
-                    self._box_height),
+                    self.nudge_button,
+                    self.nudge_button),
                     "+",
-                    sizeStyle='small',
+                    sizeStyle=self.size_style,
                     callback=self._right_plus_010_callback)
-        x += self._box_height - 1
+        x += (self.nudge_button - 1)
         self.w._right_minus_100 = SquareButton(
                     (x, y,
-                    self._box_height,
-                    self._box_height),
+                    self.nudge_button,
+                    self.nudge_button),
                     "-",
-                    sizeStyle='small',
+                    sizeStyle=self.size_style,
                     callback=self._right_minus_100_callback)
-        x += self._box_height - 1
+        x += (self.nudge_button - 1)
         self.w._right_plus_100 = SquareButton(
                     (x, y,
-                    self._box_height,
-                    self._box_height),
+                    self.nudge_button,
+                    self.nudge_button),
                     "+",
-                    sizeStyle='small',
+                    sizeStyle=self.size_style,
                     callback=self._right_plus_100_callback)
         #--------------
         # apply button
         #--------------
-        x = self._padding
-        y += self._line_height + self._padding
+        x = self.padding_x
+        y += (self.text_height + self.padding_y)
         self.w.button_apply = SquareButton(
                     (x, y,
-                    -self._padding,
-                    self._button_height),
+                    -self.padding_x,
+                    self.button_height),
                     "apply",
-                    sizeStyle='small',
+                    sizeStyle=self.size_style,
                     callback=self.apply_callback)
-        y += self._button_height + self._padding
+        y += (self.button_height + self.padding_y)
         self.w.left_checkbox = CheckBox(
                     (x, y,
-                    (self._width / 2) - self._padding,
-                    self._line_height),
+                    (self.width * 0.5) - self.padding_x,
+                    self.text_height),
                     "left",
                     value=self._left,
-                    sizeStyle='small')
-        x += (self._width / 2) - self._padding
+                    sizeStyle=self.size_style)
+        x += (self.width * 0.5) - self.padding_x
         self.w.right_checkbox = CheckBox(
                     (x, y,
-                    (self._width / 2) - self._padding,
-                    self._line_height),
+                    (self.width * 0.5) - self.padding_x,
+                    self.text_height),
                     "right",
                     value=self._right,
-                    sizeStyle='small')
+                    sizeStyle=self.size_style)
         # open window
         self.w.open()
 
@@ -392,7 +382,8 @@ class setMarginsDialog(object):
                 print '\n...done.\n'
             # no glyph selected
             else:
-                print 'please select one or more glyphs to transform.\n'
+                print no_glyph_selected
         # no font open
         else:
-            print 'please open a font first.\n'
+            print no_font_open
+

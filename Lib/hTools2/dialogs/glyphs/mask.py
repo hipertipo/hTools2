@@ -20,58 +20,57 @@ except:
 
 from vanilla import *
 
+from hTools2 import hConstants
 from hTools2.modules.fontutils import get_glyphs
+from hTools2.modules.messages import no_font_open
 
 # objects
 
-class maskDialog(object):
+class maskDialog(hConstants):
 
     """A dialog to transfer glyphs to and from the mask layer."""
 
     # attributes
 
-    _title = 'mask'
-    _padding = 10
-    _button_height = 30
-    _button_width = 103
-    _width = (_button_width * 1) + (_padding * 2)
-    _height = (_button_height * 3) + (_padding * 4)
-    _mask_layer = 'background'
+    mask_layer = 'background'
 
     # methods
 
     def __init__(self):
+        # window
+        self.title = 'mask'
+        self.width = 123
+        self.height = (self.button_height * 3) + (self.padding_y * 4)
         self.w = FloatingWindow(
-                    (self._width, self._height),
-                    self._title,
-                    closable=True)
-        x = self._padding
-        y = self._padding
+                    (self.width, self.height),
+                    self.title)
+        x = self.padding_x
+        y = self.padding_y
         # copy button
         self.w.copy_button = SquareButton(
                     (x, y,
-                    self._button_width,
-                    self._button_height),
+                    -self.padding_x,
+                    self.button_height),
                     "copy",
-                    sizeStyle='small',
+                    sizeStyle=self.size_style,
                     callback=self._copy_callback)
         # switch button
-        y += self._button_height + self._padding
+        y += (self.button_height + self.padding_y)
         self.w.switch_button = SquareButton(
                     (x, y,
-                    self._button_width,
-                    self._button_height),
+                    -self.padding_x,
+                    self.button_height),
                     "flip",
-                    sizeStyle='small',
+                    sizeStyle=self.size_style,
                     callback=self._flip_callback)
         # clear button
-        y += self._button_height + self._padding
+        y += (self.button_height + self.padding_y)
         self.w.clear_button = SquareButton(
                     (x, y,
-                    self._button_width,
-                    self._button_height),
+                    -self.padding_x,
+                    self.button_height),
                     "clear",
-                    sizeStyle='small',
+                    sizeStyle=self.size_style,
                     callback=self._clear_callback)
         # open window
         self.w.open()
@@ -80,25 +79,35 @@ class maskDialog(object):
 
     def _flip_callback(self, sender):
         font = CurrentFont()
-        for glyph_name in get_glyphs(font):
-            font[glyph_name].prepareUndo('flip mask')
-            font[glyph_name].flipLayers('foreground', self._mask_layer)
-            font[glyph_name].performUndo()
-        font.update()
+        if font is not None:
+            for glyph_name in get_glyphs(font):
+                font[glyph_name].prepareUndo('flip mask')
+                font[glyph_name].flipLayers('foreground', self.mask_layer)
+                font[glyph_name].performUndo()
+            font.update()
+        else:
+            print no_font_open
 
     def _clear_callback(self, sender):
         font = CurrentFont()
-        for glyph_name in get_glyphs(font):
-            font[glyph_name].prepareUndo('clear mask')
-            clear_mask = font[glyph_name].getLayer(self._mask_layer, clear=True)
-            font[glyph_name].update()
-            font[glyph_name].performUndo()
-        font.update()
+        if font is not None:
+            for glyph_name in get_glyphs(font):
+                font[glyph_name].prepareUndo('clear mask')
+                clear_mask = font[glyph_name].getLayer(self.mask_layer, clear=True)
+                font[glyph_name].update()
+                font[glyph_name].performUndo()
+            font.update()
+        else:
+            print no_font_open
 
     def _copy_callback(self, sender):
         font = CurrentFont()
-        for glyph_name in get_glyphs(font):
-            font[glyph_name].prepareUndo('copy to mask')
-            font[glyph_name].copyToLayer(self._mask_layer, clear=False)
-            font[glyph_name].performUndo()
-        font.update()
+        if font is not None:
+            for glyph_name in get_glyphs(font):
+                font[glyph_name].prepareUndo('copy to mask')
+                font[glyph_name].copyToLayer(self.mask_layer, clear=False)
+                font[glyph_name].performUndo()
+            font.update()
+        else:
+            print no_font_open
+
