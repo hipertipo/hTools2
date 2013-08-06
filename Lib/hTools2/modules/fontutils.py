@@ -294,6 +294,10 @@ def set_font_names(f, family_name, style_name):
     # done
     f.update()
 
+def clear_guides(font):
+    for guide in font.guides:
+        font.removeGuide(guide)
+
 #-----------
 # transform
 #-----------

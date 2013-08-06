@@ -46,7 +46,7 @@ class glyphActionsDialog(hConstants):
 
     def __init__(self):
         self.title = 'actions'
-        self.width = 123
+        self.width = self.body + (self.padding_x * 2)
         self.height = (self.padding_y * 4) + (self.text_height * 9) + self.button_height
         self.w = FloatingWindow(
                     (self.width, self.height),

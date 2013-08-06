@@ -24,73 +24,64 @@ try:
 except:
     from robofab.world import CurrentFont, CurrentGlyph
 
+from hTools2 import hConstants
 from hTools2.modules.color import random_color, clear_color
 from hTools2.modules.fontutils import get_glyphs
 
 # objects
 
-class paintGlyphsDialog(object):
+class paintGlyphsDialog(hConstants):
 
     """A dialog to apply a color to the selected glyph boxes, and to select glyphs by color."""
 
-    #------------
     # attributes
-    #------------
 
-    _title = 'color'
-    _row_height = 25
-    _button_height = 30
-    _padding = 10
-    _padding_top = 10
-    _width = 123
-    _height = (_button_height * 4) + (_padding * 4)
+    mark_color = random_color()
 
-    _mark_color = random_color()
-
-    #---------
     # methods
-    #---------
 
     def __init__(self):
+        self.title = 'color'
+        self.width = 123
+        self.height = (self.button_height * 4) + (self.padding_y * 4)
         self.w = FloatingWindow(
-                (self._width, self._height),
-                self._title,
-                closable=True)
+                (self.width, self.height),
+                self.title)
         # mark color
-        x = self._padding
-        y = self._padding
+        x = self.padding_x
+        y = self.padding_y
         self.w.mark_color = ColorWell(
                 (x, y,
-                -self._padding,
-                self._button_height),
-                color=NSColor.colorWithCalibratedRed_green_blue_alpha_(*self._mark_color))
+                -self.padding_x,
+                self.button_height),
+                color=NSColor.colorWithCalibratedRed_green_blue_alpha_(*self.mark_color))
         # paint button
-        y += self._button_height - 1
+        y += (self.button_height - 1)
         self.w.button_paint = SquareButton(
                 (x, y,
-                -self._padding,
-                self._button_height),
+                -self.padding_x,
+                self.button_height),
                 "paint",
                 callback=self.paint_callback,
-                sizeStyle='small')
+                sizeStyle=self.size_style)
         # select button
-        y += self._button_height + self._padding_top
+        y += (self.button_height + self.padding_y)
         self.w.button_select = SquareButton(
                 (x, y,
-                -self._padding,
-                self._button_height),
+                -self.padding_x,
+                self.button_height),
                 "select",
                 callback=self.select_callback,
-                sizeStyle='small')
+                sizeStyle=self.size_style)
         # clear button
-        y += self._button_height + self._padding_top
+        y += (self.button_height + self.padding_y)
         self.w.button_clear = SquareButton(
                 (x, y,
-                -self._padding,
-                self._button_height),
+                -self.padding_x,
+                self.button_height),
                 "clear",
                 callback=self.clear_callback,
-                sizeStyle='small')
+                sizeStyle=self.size_style)
         # open window
         self.w.open()
 

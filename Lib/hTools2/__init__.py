@@ -66,3 +66,6 @@ class hConstants(object):
     button_height = 30
     read_only = True
     size_style = 'small'
+    body = 103
+    progress_bar = 18
+
