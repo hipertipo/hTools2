@@ -6,8 +6,12 @@ import hTools2
 reload(hTools2)
 
 if hTools2.DEBUG:
+
     import hTools2.modules.fontutils
     reload(hTools2.modules.fontutils)
+
+    import hTools2.modules.messages
+    reload(hTools2.modules.messages)
 
 # import
 
@@ -18,119 +22,105 @@ except:
 
 from vanilla import *
 
+from hTools2 import hConstants
 from hTools2.modules.fontutils import get_glyphs
+from hTools2.modules.messages import no_font_open
 
 # object
 
-class copyToLayerDialog(object):
+class copyToLayerDialog(hConstants):
 
     """A dialog to copy the foreground layer in the selected glyphs to another layer."""
 
-    #------------
     # attributes
-    #------------
 
-    _title = 'layers'
-    _padding = 10
-    _padding_top = 8
-    _line_height = 20
-    _list_height = 80
-    _column_1 = 75
-    _box_width = 170
-    _button_height = 30
-    _width = 123
-    _height = 279 # (_padding_top * 7) + (_line_height * 4) + (_button_height * 2) + _list_height
+    overwrite = False
+    font = None
+    layers = []
 
-    _overwrite = False
-
-    #---------
     # methods
-    #---------
 
     def __init__(self):
         # get font
         self.update()
         # open window
+        self.title = 'layers'
+        self.list_height = 80
+        self.width = 123
+        self.height = (self.padding_y * 6) + (self.text_height * 4) + (self.button_height * 2) + self.list_height
         self.w = FloatingWindow(
-                    (self._width,
-                    self._height),
-                    self._title,
-                    closable=True)
-        x = self._padding
-        y = self._padding_top
+                    (self.width, self.height),
+                    self.title)
+        x = self.padding_x
+        y = self.padding_y - 2
         # source label
         self.w.layers_source_label = TextBox(
                     (x, y,
-                    -self._padding,
-                    self._line_height),
+                    -self.padding_x,
+                    self.text_height),
                     "source",
-                    sizeStyle='small')
+                    sizeStyle=self.size_style)
         # source layer
-        y += self._line_height
+        y += self.text_height
         self.w.layers_source = PopUpButton(
                     (x, y,
-                    -self._padding,
-                    self._line_height),
+                    -self.padding_x,
+                    self.text_height),
                     self.layers,
-                    sizeStyle='small')
+                    sizeStyle=self.size_style)
         # target label
-        y += self._line_height + self._padding
+        y += (self.text_height + self.padding_y)
         self.w.layers_target_label = TextBox(
                     (x, y,
-                    -self._padding,
-                    self._line_height),
+                    -self.padding_x,
+                    self.text_height),
                     "target",
-                    sizeStyle='small')
+                    sizeStyle=self.size_style)
         # target layers
-        y += self._line_height
+        y += self.text_height
         self.w.layers_target = List(
                     (x, y,
-                    -self._padding,
-                    self._list_height),
-                    self.layers,
-                     #selectionCallback=self.selectionCallback
-                     )
+                    -self.padding_x,
+                    self.list_height),
+                    self.layers[1:])
         # checkboxes
-        y += self._list_height + self._padding
+        y += (self.list_height + self.padding_y)
         self.w.checkbox_overwrite = CheckBox(
                     (x, y,
-                    -self._padding,
-                    self._line_height),
+                    -self.padding_x,
+                    self.text_height),
                     "overwrite",
-                    value=self._overwrite,
-                    sizeStyle='small')
+                    value=self.overwrite,
+                    sizeStyle=self.size_style)
         # apply button
-        y += self._line_height + self._padding
+        y += (self.text_height + self.padding_y)
         self.w.button_apply = SquareButton(
                     (x, y,
-                    -self._padding,
-                    self._button_height),
+                    -self.padding_x,
+                    self.button_height),
                     "apply",
                     callback=self.apply_callback,
-                    sizeStyle='small')
+                    sizeStyle=self.size_style)
         # update button
-        y += self._button_height + self._padding
+        y += (self.button_height + self.padding_y)
         self.w.button_update = SquareButton(
                     (x, y,
-                    -self._padding,
-                    self._button_height),
+                    -self.padding_x,
+                    self.button_height),
                     "update",
                     callback=self.update_callback,
-                    sizeStyle='small')
+                    sizeStyle=self.size_style)
         # open window
         self.w.open()
 
-    #-----------
-    # functions
-    #-----------
+    # methods
 
     def update(self):
         self.font = CurrentFont()
-        self.layers = ['foreground'] + self.font.layerOrder
+        if self.font is not None:
+            self.layers = ['foreground'] + self.font.layerOrder
 
-    #-----------
     # callbacks
-    #-----------
 
     def update_callback(self, sender):
         self.update()
@@ -141,29 +131,33 @@ class copyToLayerDialog(object):
         self.w.layers_target.extend(self.layers)
 
     def apply_callback(self, sender):
-        if self.font is not None:
+        # no font open
+        if self.font is None:
+            print no_font_open
+        # copy to layers
+        else:
             # get layers and options
-            _source = self.w.layers_source.get()
-            _targets = self.w.layers_target.getSelection()
-            _overwrite = self.w.checkbox_overwrite.get()
+            source = self.w.layers_source.get()
+            targets = self.w.layers_target.getSelection()
+            overwrite = self.w.checkbox_overwrite.get()
             # get layer names
-            _source_layer = self.layers[_source]
-            _target_layers = []
-            for t in _targets:
-                _target_layers.append(self.layers[t])
-            _target_layer_names = ' '.join(_target_layers)
-            # batch copy between layers
+            source_layer = self.layers[source]
+            target_layers = []
+            for t in targets:
+                target_layers.append(self.layers[t+1])
+            target_layer_names = ' '.join(target_layers)
+            # copy to selected layers
             print 'copying glyphs between layers...\n'
-            print '\tsource layer: %s' % self.layers[_source]
-            print '\ttarget layers: %s' % _target_layer_names
+            print '\tsource layer: %s' % self.layers[source]
+            print '\ttarget layers: %s' % target_layer_names
             print
-            for glyph_name in self.font.selection:
+            for glyph_name in get_glyphs(self.font):
                 print '\t%s' % glyph_name,
-                source_glyph = self.font[glyph_name].getLayer(_source_layer, clear=False)
-                for target_layer in _target_layers:
+                source_glyph = self.font[glyph_name].getLayer(source_layer, clear=False)
+                for target_layer in target_layers:
                     target_glyph = self.font[glyph_name].getLayer(target_layer, clear=False)
                     target_glyph.prepareUndo('copy to layer')
-                    target_glyph = self.font[glyph_name].getLayer(target_layer, clear=_overwrite)
+                    target_glyph = self.font[glyph_name].getLayer(target_layer, clear=overwrite)
                     source_glyph.copyToLayer(target_layer, clear=False)
                     target_glyph.performUndo()
                     target_glyph.update()
@@ -171,6 +165,3 @@ class copyToLayerDialog(object):
             print
             print '\n...done.\n'
 
-        # no font open
-        else:
-            print 'please open a font before running this script.\n'
