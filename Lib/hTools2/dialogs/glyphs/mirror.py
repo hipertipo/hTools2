@@ -1,5 +1,10 @@
 # [h] mirror glyphs dialog
 
+# debug
+
+import hTools2
+reload(hTools2)
+
 # imports
 
 try:
@@ -9,61 +14,55 @@ except:
 
 from vanilla import *
 
+from hTools2 import hConstants
+
 # objects
 
-class mirrorGlyphsDialog(object):
+class mirrorGlyphsDialog(hConstants):
 
-    '''A dialog to mirror the selected glyphs in the current font.'''
+    """A dialog to mirror the selected glyphs in the current font."""
 
-    #------------
     # attributes
-    #------------
 
-    _title = "mirror"
-    _padding = 10
-    _width = 123
-    _button_1 = (_width - (_padding * 2)) / 2
-    _line_height = 20
-    _box_height = _button_1
-    _height = (_padding * 3) + _box_height + _line_height - 3
+    layers = False
 
-    _layers = False
-
-    #---------
     # methods
-    #---------
 
     def __init__(self):
+        # window
+        self.title = "mirror"
+        self.width = 123
+        self.button_size = (self.width - (self.padding_x * 2)) / 2
+        self.height = (self.padding_y * 3) + self.button_size + self.text_height - 3
         self.w = FloatingWindow(
-                    (self._width,
-                    self._height),
-                    self._title)
-        x = self._padding
-        y = self._padding
+                    (self.width, self.height),
+                    self.title)
+        x = self.padding_x
+        y = self.padding_y
         # flip horizontally
         self.w._up = SquareButton(
                     (x, y,
-                    self._button_1 + 1,
-                    self._box_height),
+                    self.button_size + 1,
+                    self.button_size),
                     '%s %s' % (unichr(8673), unichr(8675)),
                     callback=self._up_callback)
-        x += self._button_1 - 1
+        x += (self.button_size - 1)
         # flip vertically
         self.w._right = SquareButton(
                     (x, y,
-                    self._button_1,
-                    self._box_height),
+                    self.button_size,
+                    self.button_size),
                     '%s %s' % (unichr(8672), unichr(8674)),
                     callback=self._right_callback)
         # checkbox
-        x = self._padding
-        y += self._box_height + self._padding
+        x = self.padding_x
+        y += (self.button_size + self.padding_y)
         self.w._layers = CheckBox(
                 (x, y,
-                -self._padding,
-                self._line_height),
+                -self.padding_x,
+                self.text_height),
                 "all layers",
-                value=self._layers,
+                value=self.layers,
                 sizeStyle='small',
                 callback=self._layers_callback)
         # open dialog
@@ -72,7 +71,7 @@ class mirrorGlyphsDialog(object):
     # callbacks
 
     def _layers_callback(self, sender):
-        self._layers = sender.get()
+        self.layers = sender.get()
 
     def _mirror_glyph(self, glyph, (scale_x, scale_y)):
         if len(glyph.contours) > 0:
@@ -99,7 +98,7 @@ class mirrorGlyphsDialog(object):
                 print 'reflecting current glyph...\n'
                 print '\t%s' % g.name
                 # mirror all layers
-                if self._layers:
+                if self.layers:
                     for layer_name in f.layerOrder:
                         _g = g.getLayer(layer_name)
                         self._mirror_glyph(_g, (scale_x, scale_y))
@@ -117,7 +116,7 @@ class mirrorGlyphsDialog(object):
                     for glyph_name in f.selection:
                         print glyph_name,
                         # mirror all layers
-                        if self._layers:
+                        if self.layers:
                             for layer_name in f.layerOrder:
                                 _g = f[glyph_name].getLayer(layer_name)
                                 self._mirror_glyph(_g, (scale_x, scale_y))
@@ -142,3 +141,4 @@ class mirrorGlyphsDialog(object):
 
     def _up_callback(self, sender):
         self._mirror_glyphs((1, -1))
+

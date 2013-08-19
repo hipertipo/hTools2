@@ -294,9 +294,23 @@ def set_font_names(f, family_name, style_name):
     # done
     f.update()
 
+#------------
+# guidelines
+#------------
+
 def clear_guides(font):
     for guide in font.guides:
         font.removeGuide(guide)
+
+def create_guides(font, guides_dict):
+    for guide_name in guides_list:
+        font.addGuide((0, 0), 0, name=guide_name)
+    font.update()
+
+def print_guides(font):
+    for guide in font.guides:
+        print '%s x:%s y:%s' % (guide.name, guide.x, guide.y)
+    print
 
 #-----------
 # transform

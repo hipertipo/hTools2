@@ -323,7 +323,7 @@ class hProject:
         pass
 
     def make_folders(self):
-        """Checks if all the necessary project sub-folders exist, and create them if they don't."""
+        """Check if all the necessary project sub-folders exist, and create them if they don't."""
         print 'creating folders and files in %s...' % self.name
         for path in self._path_names:
             if self.paths[path] is not None:
@@ -348,7 +348,7 @@ class hProject:
             return []
 
     def masters_interpol(self):
-        """Returns a list of all 'super masters' in project.
+        """Return a list of all 'super masters' in project.
 
         >>> from hTools2.objects import hProject
         >>> p = hProject('Publica')
@@ -367,7 +367,7 @@ class hProject:
             return []
 
     def instances(self):
-        """Returns a list of all instances in project."""
+        """Return a list of all instances in project."""
         try:
             return walk(self.paths['instances'], 'ufo')
         except:
@@ -396,7 +396,7 @@ class hProject:
                 self.fonts[_style_name] = ufo_path
 
     def otfs(self):
-        """Returns a list of all ``.otf`` files in project."""
+        """Return a list of all ``.otf`` files in project."""
         return walk(self.paths['otfs'], 'otf')
 
     def otfs_test(self):
@@ -404,11 +404,11 @@ class hProject:
         return walk(self.paths['otfs_test'], 'otf')
 
     def woffs(self):
-        """Returns a list of all ``.woff`` files in project."""
+        """Return a list of all ``.woff`` files in project."""
         return walk(self.paths['woffs'], 'woff')
 
     def vfbs(self):
-        """Returns a list of all ``.vfb`` files in project."""
+        """Return a list of all ``.vfb`` files in project."""
         return walk(self.paths['vfbs'], 'vfb')
 
     def scripts(self):
@@ -473,7 +473,7 @@ class hProject:
     # generation
 
     def generate_instance(self, instance_name, verbose=False, folder=None):
-        """Generates a ``.ufo`` instance with name ``instance_name``, using data from the project's interpol lib."""
+        """Generate a ``.ufo`` instance with name ``instance_name``, using data from the project's interpol lib."""
         _masters = self.masters()
         if self.libs['interpol'].has_key(instance_name):
             # get instance info

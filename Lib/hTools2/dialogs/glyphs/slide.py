@@ -18,124 +18,118 @@ except:
 
 from vanilla import *
 
+from hTools2 import hConstants
 from hTools2.modules.fontutils import get_full_name
 
 # objects
 
-class slideGlyphsDialog(object):
+class slideGlyphsDialog(hConstants):
 
     """A dialog to slide the selected glyphs vertically and/or horizontally."""
 
-    #------------
     # attributes
-    #------------
-
-    _title = "slide"
-    _padding = 10
-    _box_height = 20
-    _button_height = 30
-    _button_width = 70
-    _line_height = 20
-    _column_1 = 20
-    _column_2 = 240
-    _width = _column_1 + _column_2 + _button_width + (_padding * 3) # 600
-    _height = (_box_height * 3) + (_padding * 4)
 
     _moveX = 0
     _moveY = 0
 
-    #---------
+    _xMax = 1000
+    _xMin = -1000
+    _yMax = 500
+    _yMin = -500
+
+    font = None
+    font_name = '(no font selected)'
+
     # methods
-    #---------
 
     def __init__(self):
-        # get font & defaults
-        self.font = CurrentFont()
-        if self.font is not None:
-            self.set_defaults()
-            self.w = FloatingWindow(
-                        (self._width,
-                        self._height),
-                        self._title)
-            x = self._padding
-            y = self._padding
-            # current font name
-            self.w.box = Box(
-                        (x, y,
-                        self._column_1 + self._column_2,
-                        self._box_height))
-            self.w.box.text = TextBox(
-                        (5, 0,
-                        self._column_1 + self._column_2,
-                        self._line_height),
-                        get_full_name(self.font),
-                        sizeStyle='small')
-            x += self._column_2 + self._column_1 + self._padding
-            self.w.button_update_font = SquareButton(
-                        (x, y,
-                        self._button_width,
-                        self._box_height),
-                        "update",
-                        callback=self.update_font_callback,
-                        sizeStyle='small')
-            # x slider
-            x = self._padding
-            y += self._box_height + self._padding
-            self.w.x_label = TextBox(
-                        (x, y + 5,
-                        self._column_1,
-                        self._box_height),
-                        "x",
-                        sizeStyle='small')
-            x += self._column_1
-            self.w.x_slider = Slider(
-                        (x, y,
-                        self._column_2,
-                        self._box_height),
-                        value=0,
-                        maxValue=self._xMax,
-                        minValue=self._xMin,
-                        callback=self.slide_callback,
-                        sizeStyle='small')
-            x += self._column_2 + self._padding
-            self.w.button_restore_x = SquareButton(
-                        (x, y,
-                        self._button_width,
-                        self._box_height),
-                        "reset x",
-                        callback=self.restore_x_callback,
-                        sizeStyle='small')
-            # y slider
-            x = self._padding
-            y += self._box_height + self._padding
-            self.w.y_label = TextBox(
-                        (x, y + 5,
-                        self._column_1,
-                        self._line_height),
-                        "y",
-                        sizeStyle='small')
-            x += self._column_1
-            self.w.y_slider = Slider(
-                        (x, y,
-                        self._column_2,
-                        self._line_height),
-                        value=0,
-                        maxValue=self._yMax,
-                        minValue=self._yMin,
-                        callback=self.slide_callback,
-                        sizeStyle='small')
-            x += self._column_2 + self._padding
-            self.w.button_restore_y = SquareButton(
-                        (x, y,
-                        self._button_width,
-                        self._box_height),
-                        "reset y",
-                        callback=self.restore_y_callback,
-                        sizeStyle='small')
-            # open
-            self.w.open()
-        else:
-            print 'No font selected, please open a font and try again.\n'
+        # window
+        self.title = "slide"
+        self.button_width = 70
+        self.column_1 = 20
+        self.column_2 = 240
+        self.width = self.column_1 + self.column_2 + self.button_width + (self.padding_x * 3) # 600
+        self.height = (self.text_height * 3) + (self.padding_y * 4)
+        self.w = FloatingWindow(
+                    (self.width, self.height),
+                    self.title)
+        x = self.padding_x
+        y = self.padding_y
+        # current font name
+        self.w.box = Box(
+                    (x, y,
+                    self.column_1 + self.column_2,
+                    self.text_height))
+        self.w.box.text = TextBox(
+                    (5, 0,
+                    self.column_1 + self.column_2,
+                    self.text_height),
+                    self.font_name,
+                    sizeStyle=self.size_style)
+        x += (self.column_2 + self.column_1 + self.padding_x)
+        self.w.button_update_font = SquareButton(
+                    (x, y,
+                    self.button_width,
+                    self.text_height),
+                    "update",
+                    callback=self.update_font_callback,
+                    sizeStyle=self.size_style)
+        # x slider
+        x = self.padding_x
+        y += (self.text_height + self.padding_y)
+        self.w.x_label = TextBox(
+                    (x, y + 5,
+                    self.column_1,
+                    self.text_height),
+                    "x",
+                    sizeStyle=self.size_style)
+        x += self.column_1
+        self.w.x_slider = Slider(
+                    (x, y,
+                    self.column_2,
+                    self.text_height),
+                    value=0,
+                    maxValue=self._xMax,
+                    minValue=self._xMin,
+                    callback=self.slide_callback,
+                    sizeStyle=self.size_style)
+        x += (self.column_2 + self.padding_x)
+        self.w.button_restore_x = SquareButton(
+                    (x, y,
+                    self.button_width,
+                    self.text_height),
+                    "reset x",
+                    callback=self.restore_x_callback,
+                    sizeStyle=self.size_style)
+        # y slider
+        x = self.padding_x
+        y += (self.text_height + self.padding_y)
+        self.w.y_label = TextBox(
+                    (x, y + 5,
+                    self.column_1,
+                    self.text_height),
+                    "y",
+                    sizeStyle=self.size_style)
+        x += self.column_1
+        self.w.y_slider = Slider(
+                    (x, y,
+                    self.column_2,
+                    self.text_height),
+                    value=0,
+                    maxValue=self._yMax,
+                    minValue=self._yMin,
+                    callback=self.slide_callback,
+                    sizeStyle=self.size_style)
+        x += (self.column_2 + self.padding_x)
+        self.w.button_restore_y = SquareButton(
+                    (x, y,
+                    self.button_width,
+                    self.text_height),
+                    "reset y",
+                    callback=self.restore_y_callback,
+                    sizeStyle=self.size_style)
+        # open
+        self.w.open()
 
     # callbacks
 
@@ -155,10 +149,15 @@ class slideGlyphsDialog(object):
 
     def update_font(self):
         self.font = CurrentFont()
-        self.w.box.text.set(get_full_name(self.font))
-        self.set_defaults()
-        self.restore_x()
-        self.restore_y()
+        if self.font is not None:
+            self.w.box.text.set(get_full_name(self.font))
+            self.set_defaults()
+            self.restore_x()
+            self.restore_y()
+        else:
+            print 'No font selected, please open a font and try again.\n'
+
+
 
     def set_defaults(self):
         self._xMax = self.font.info.unitsPerEm
@@ -181,3 +180,4 @@ class slideGlyphsDialog(object):
                 self.font[gName].move((-x, -y))
             except:
                 print 'cannot transform %s' % gName
+

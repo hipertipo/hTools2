@@ -413,7 +413,7 @@ class hSpace:
                     if verbose: print
         print '\n...done.\n'
 
-    def transfer_anchors(self, gstring, var, clear=True, verbose=False):
+    def transfer_anchors(self, var, gstring=None, clear=True, verbose=False):
         """Transfer anchors from one variable set of fonts to another."""
         axis, src, dest_list = var
         # define source space
@@ -422,7 +422,10 @@ class hSpace:
                 self.parameters[param] = [ src ]
         self.build()
         # parse gstring
-        glyph_names = self.project.parse_gstring(gstring)
+        if gstring is None:
+            glyph_names = self.project.all_glyphs()
+        else:
+            glyph_names = self.project.parse_gstring(gstring)
         # batch copy
         print "batch transfering anchors in %s..." % self.project.name
         for src_path in self.ufos():

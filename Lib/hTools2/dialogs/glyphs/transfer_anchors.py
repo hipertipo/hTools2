@@ -22,113 +22,105 @@ except:
 
 from vanilla import *
 
+from hTools2 import hConstants
 from hTools2.modules.fontutils import get_full_name, get_glyphs
 from hTools2.modules.anchors import transfer_anchors
 
 # objects
 
-class transferAnchorsDialog(object):
+class transferAnchorsDialog(hConstants):
 
     """A dialog to transfer anchors from selected glyphs in one font to the same glyphs in another font."""
 
-    #------------
     # attributes
-    #------------
 
-    _title = 'anchors'
-    _padding = 10
-    _row_height = 25
-    _line_height = 20
-    _button_height = 30
-    _column_1 = 130
-    _width = 123
-    _height = (_line_height * 2) + (_row_height * 2) + (_button_height * 2) + (_padding * 5) - 2
+    all_fonts = []
+    all_fonts_names = []
 
-    _all_fonts_names = []
-
-    #---------
     # methods
-    #---------
 
     def __init__(self):
         self._update_fonts()
         # create window
+        self.title = 'anchors'
+        self.column_1 = 130
+        self.width = 123
+        self.height = (self.text_height * 4) + (self.button_height * 2) + (self.padding_y * 5) - 2
         self.w = FloatingWindow(
-                    (self._width, self._height),
-                    self._title,
-                    closable=True)
-        x = self._padding
-        y = self._padding
+                    (self.width, self.height),
+                    self.title)
+        x = self.padding_x
+        y = self.padding_y - 3
         # source font label
         self.w._source_label = TextBox(
                     (x, y,
-                    -self._padding,
-                    self._line_height),
+                    -self.padding_x,
+                    self.text_height),
                     "source font",
-                    sizeStyle='small')
-        y += self._line_height
+                    sizeStyle=self.size_style)
+        y += self.text_height
         # source font value
         self.w._source_value = PopUpButton(
                     (x, y,
-                    -self._padding,
-                    self._line_height),
-                    self._all_fonts_names,
-                    sizeStyle='small')
-        y += self._line_height + self._padding
+                    -self.padding_x,
+                    self.text_height),
+                    self.all_fonts_names,
+                    sizeStyle=self.size_style)
+        y += (self.text_height + self.padding_y)
         # target font label
         self.w._target_label = TextBox(
                     (x, y,
-                    -self._padding,
-                    self._line_height),
+                    -self.padding_x,
+                    self.text_height),
                     "target font",
-                    sizeStyle='small')
-        y += self._line_height
+                    sizeStyle=self.size_style)
+        y += self.text_height
         # target font value
         self.w._target_value = PopUpButton(
                     (x, y,
-                    -self._padding,
-                    self._line_height),
-                    self._all_fonts_names,
-                    sizeStyle='small')
+                    -self.padding_x,
+                    self.text_height),
+                    self.all_fonts_names,
+                    sizeStyle=self.size_style)
         # buttons
-        y += self._line_height + self._padding + 7
+        y += (self.text_height + self.padding_y)
         self.w.button_apply = SquareButton(
                     (x, y,
-                    -self._padding,
-                    self._button_height),
+                    -self.padding_x,
+                    self.button_height),
                     "transfer",
                     callback=self.apply_callback,
-                    sizeStyle='small')
+                    sizeStyle=self.size_style)
         # update button
-        y += self._button_height + self._padding
+        y += (self.button_height + self.padding_y)
         self.w.button_update = SquareButton(
                     (x, y,
-                    -self._padding,
-                    self._button_height),
+                    -self.padding_x,
+                    self.button_height),
                     "update",
                     callback=self.update_fonts_callback,
-                    sizeStyle='small')
+                    sizeStyle=self.size_style)
         # open window
         self.w.open()
 
     # callbacks
 
     def _update_fonts(self):
-        self._all_fonts = AllFonts()
-        self._all_fonts_names = []
-        for font in self._all_fonts:
-            self._all_fonts_names.append(get_full_name(font))
+        self.all_fonts = AllFonts()
+        self.all_fonts_names = []
+        for font in self.all_fonts:
+            self.all_fonts_names.append(get_full_name(font))
 
     def update_fonts_callback(self, sender):
         self._update_fonts()
-        self.w._source_value.setItems(self._all_fonts_names)
-        self.w._target_value.setItems(self._all_fonts_names)
+        self.w._source_value.setItems(self.all_fonts_names)
+        self.w._target_value.setItems(self.all_fonts_names)
 
     def apply_callback(self, sender):
         if len(self._all_fonts) > 0:
             # get parameters
-            _source_font = self._all_fonts[self.w._source_value.get()]
-            _target_font = self._all_fonts[self.w._target_value.get()]
+            _source_font = self.all_fonts[self.w._source_value.get()]
+            _target_font = self.all_fonts[self.w._target_value.get()]
             # print info
             print 'transfering anchors...\n'
             print '\tsource: %s' % get_full_name(_source_font)

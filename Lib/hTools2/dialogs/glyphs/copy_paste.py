@@ -22,95 +22,90 @@ except:
 
 from vanilla import *
 
+from hTools2 import hConstants
 from hTools2.modules.fontutils import get_glyphs
 from hTools2.modules.anchors import transfer_anchors
 
 # object
 
-class copyPasteGlyphDialog(object):
+class copyPasteGlyphDialog(hConstants):
 
     """A dialog to copy and paste glyphs, with a few special options."""
 
-    #------------
     # attributes
-    #------------
 
-    _padding = 10
-    _padding_top = 8
-    _row_height = 20
-    _button_height = 30
-    _height = (_button_height * 2) + (_row_height * 5) + (_padding * 4)
-    _width = 123
+    source_font = None
+    source_glyph = None
 
-    #---------
     # methods
-    #---------
 
     def __init__(self):
+        self.title = "paste+"
+        self.width = 123
+        self.height = (self.button_height * 2) + (self.text_height * 5) + (self.padding_y * 4)
         self.w = FloatingWindow(
-                    (self._width,
-                    self._height),
-                    "paste+")
-        x = self._padding
-        y = self._padding
+                    (self.width, self.height),
+                    self.title)
+        x = self.padding_x
+        y = self.padding_y
         # paste
         self.w.button_copy = SquareButton(
                     (x, y,
-                    -self._padding,
-                    self._button_height),
+                    -self.padding_x,
+                    self.button_height),
                     "copy",
                     callback=self.copy_callback,
-                    sizeStyle='small')
+                    sizeStyle=self.size_style)
         # options
-        y += self._button_height + self._padding
+        y += (self.button_height + self.padding_y)
         self.w.foreground = CheckBox(
                     (x, y,
-                    -self._padding,
-                    self._row_height),
+                    -self.padding_x,
+                    self.text_height),
                     "foreground",
                     value=True,
-                    sizeStyle='small')
-        y += self._row_height
+                    sizeStyle=self.size_style)
+        y += self.text_height
         self.w.layers = CheckBox(
                     (x, y,
-                    -self._padding,
-                    self._row_height),
+                    -self.padding_x,
+                    self.text_height),
                     "layers",
                     value=True,
-                    sizeStyle='small')
-        y += self._row_height
+                    sizeStyle=self.size_style)
+        y += self.text_height
         self.w.metrics = CheckBox(
                     (x, y,
-                    -self._padding,
-                    self._row_height),
+                    -self.padding_x,
+                    self.text_height),
                     "width",
                     value=True,
-                    sizeStyle='small')
-        y += self._row_height
+                    sizeStyle=self.size_style)
+        y += self.text_height
         self.w.anchors = CheckBox(
                     (x, y,
-                    -self._padding,
-                    self._row_height),
+                    -self.padding_x,
+                    self.text_height),
                     "anchors",
                     value=True,
-                    sizeStyle='small')
-        y += self._row_height
+                    sizeStyle=self.size_style)
+        y += self.text_height
         self.w.color = CheckBox(
                     (x, y,
-                    -self._padding,
-                    self._row_height),
+                    -self.padding_x,
+                    self.text_height),
                     "color",
                     value=True,
-                    sizeStyle='small')
+                    sizeStyle=self.size_style)
         # paste
-        y += self._row_height + self._padding
+        y += (self.text_height + self.padding_y)
         self.w.button_paste = SquareButton(
                     (x, y,
-                    -self._padding,
-                    self._button_height),
+                    -self.padding_x,
+                    self.button_height),
                     "paste",
                     callback=self.paste_callback,
-                    sizeStyle='small')
+                    sizeStyle=self.size_style)
         # open
         self.w.open()
 
@@ -175,3 +170,4 @@ class copyPasteGlyphDialog(object):
             f.update()
         print
         print '\n...done.\n'
+

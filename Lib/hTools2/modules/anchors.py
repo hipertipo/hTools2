@@ -2,9 +2,11 @@
 
 '''Tools to remove, create, move and transfer anchors.'''
 
-#------------------
+# imports
+
+from hTools2.modules.color import clear_colors, random_color
+
 # font-level tools
-#------------------
 
 def get_anchors(font, glyph_names=None):
     '''Get all anchors in glyphs as a dictionary.'''
@@ -32,9 +34,58 @@ def clear_anchors(font, glyph_names=None):
             font[glyph_name].update()
     font.update()
 
-#-------------------
+def find_lost_anchors(font):
+    """Find anchors which are lost outside of the bounding box."""
+    clear_colors(font)
+    c = random_color()
+    lost_anchors = []
+    for g in font:
+        if len(g.anchors) > 0:
+            for a in g.anchors:
+                if a.position[1] > f.info.unitsPerEm:
+                    lost_anchors.append((g.name, a.name, a.position))
+                    g.mark = c
+    return lost_anchors
+
+def remove_duplicate_anchors(font):
+    """Delete duplicate anchors with same name and position."""
+    # save existing anchors
+    old_anchors = get_anchors(font)
+    # collect clean anchors
+    new_anchors = {}    
+    for glyph_name in old_anchors.keys():
+        # glyphs with more than 1 anchor
+        if len(old_anchors[glyph_name]) > 1:
+            clean_anchors = []
+            for i, a in enumerate(old_anchors[glyph_name]):
+                if i == 0:
+                    clean_anchors.append(a)
+                    previous = a
+                else:
+                    # same name
+                    if a[0] == previous[0]: 
+                        # same pos
+                        if a[1][0] == previous[1][0] and a[1][1] == previous[1][1]:
+                            pass
+                        else:
+                            clean_anchors.append(a)
+                previous = a
+            # done glyph
+            new_anchors[glyph_name] = clean_anchors
+        # glyphs with only 1 anchor
+        else:
+            new_anchors[glyph_name] = old_anchors[glyph_name]
+    # remove all anchors
+    clear_anchors(font)
+    # place new anchors
+    for glyph_name in new_anchors.keys():
+        for anchor in new_anchors[glyph_name]:
+            name, pos = anchor
+            font[glyph_name].appendAnchor(name, pos)
+            font[glyph_name].update()
+    # done
+
 # glyph-level tools
-#-------------------
 
 def rename_anchor(glyph, old_name, new_name):
     '''Rename anchors with name ``old_name`` in ``glyph`` to ``new_name``.'''

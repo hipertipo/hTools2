@@ -1,8 +1,6 @@
 # [h] hFont
 
-#-------
 # debug
-#-------
 
 import hTools2
 reload(hTools2)
@@ -33,9 +31,7 @@ if hTools2.DEBUG:
     import hTools2.modules.opentype
     reload(hTools2.modules.opentype)
 
-#--------
 # import
-#--------
 
 import os
 
@@ -49,86 +45,41 @@ from hTools2.modules.fontutils import *
 from hTools2.modules.ftp import *
 from hTools2.modules.opentype import import_features, clear_features, import_kern_feature
 
-#---------
 # objects
-#---------
 
 class hFont:
 
-    """An object to represent a ``.ufo`` font source, wrapped in a few useful functions.
-
-    The ``hFont`` object must be initialized with an ``RFont`` object as argument:
-
-    >>> from robofab.world import RFont
-    >>> from hTools2.objects import hFont
-    >>> ufo = RFont('/fonts/_Publica/_ufos/Publica_55.ufo', showUI=False) 
-    >>> font = hFont(ufo)
-    >>> print font
-    <hFont instance at 0x1228591b8>
-
-    In a similar way, it is also possible to initiate ``hFont`` using ``CurrentFont()``:
-
-    >>> from hTools2.objects import hFont
-    >>> font = hFont(CurrentFont())
-    >>> print font
-    <hTools2.objects.hFont instance at 0x129af09e0>
-
-    .. py:attribute:: project
-
-    The parent :py:class:`hProject` object to which the font belongs.
-
-    >>> from hTools2.objects import hFont
-    >>> font = hFont(CurrentFont())
-    >>> print font.project
-    >>> print font.project.name
-    <hTools2.objects.hProject instance at 0x125c03ea8>
-    Publica
-    >>> print font.project.libs.keys()
-    ['info', 'composed', 'accents', 'spacing', 'project', 'groups', 'interpol', 'vmetrics']
-
-    .. py:attribute:: ufo
-
-    The ``.ufo`` file containing the actual font.
-
-    See the `UFO documentation`_ for more information about the UFO format, and the `RoboFab documentation`_ for information about the available methods and attributes for :py:class:`RFont`.
-
-    .. _UFO documentation : http://unifiedfontobject.org/
-    .. _RoboFab documentation : http://robofab.org/
-
-    .. py:attribute:: file_name
-
-    The name of the ``.ufo`` file, without the extension.
-
-    .. py:attribute:: style_name
-
-    The ``styleName`` of the font, parsed from the name of the ``.ufo`` file on initialization. See the method :py:func:`init_from_filename()` for details.
-
-    >>> from hTools2.objects import hFont
-    >>> font = hFont(CurrentFont())
-    >>> print font.ufo
-    >>> print font.file_name
-    >>> print font.style_name
-    <Font Publica 55>
-    Publica_55
-    55
-
-    """
+    """An object to represent a ``.ufo`` font source, wrapped in a few useful functions."""
 
     # attributes
 
     project = None
+    """The parent ``hProject`` object to which the font belongs."""
+
     ufo = None
+    """The ``.ufo`` file containing the actual font."""
+
     file_name = None
+    """The name of the ``.ufo`` file, without the extension."""
+
     style_name = None
+    """The ``styleName`` of the font, parsed from the name of the ``.ufo`` file on initialization. See ``init_from_filename()``."""
+
     parameters = {}
+    """A dictionary with the parameters which identify this particular font in the family's variation space."""
+
+    guides_dict = {}
+    """A dictionary to contain this font's guidelines, once the basic vertical metrics have been defined and set."""
 
     # methods
 
     def __init__(self, ufo):
+        """Initiate the ``hFont`` object from a ``.ufo`` file."""
         self.ufo = ufo
         self.init_from_filename()
 
     def __repr__(self):
+        """Return textual representation of ``hFont``."""
         return '<hFont %s>' % self.full_name()
 
     def init_from_filename(self, set_names=True):
@@ -329,8 +280,10 @@ class hFont:
     def clear_anchors(self, gstring=None):
         """Delete all anchors in the font."""
         if gstring is not None:
-            glyph_names = self.project.parse_gstring(gstring)
-        clear_anchors(self.ufo, glyph_names=glyph_names)
+            _glyph_names = self.project.parse_gstring(gstring)
+        else:
+            _glyph_names = self.project.all_glyphs()
+        clear_anchors(self.ufo, glyph_names=_glyph_names)
 
     def build_glyph(self, glyph_name):
         """Build glyph with the given ``glyph_name`` from components based on the project's ``accents`` or ``composed`` libs."""
@@ -410,9 +363,9 @@ class hFont:
 
     # font info
 
-    # def set_info(self):
-    #     """Set font names from the ``.ufo``'s path name."""
-    #     set_names_from_path(self.ufo)
+    def set_info(self):
+        """Set font names from the ``.ufo``'s path name."""
+        set_names_from_path(self.ufo)
 
     def set_foundry_info(self):
         """Set foundry info from the project's ``info`` lib."""
@@ -448,23 +401,111 @@ class hFont:
         """Print different kinds of font information."""
         pass
 
-    def set_vmetrics(self, verbose=True):
-        """Set vertical metrics from the project's ``vmetrics`` lib."""
-        if verbose:
-            print 'setting vertical metrics...',
-        grid = self.project.libs['project']['grid']
-        xheight = self.project.libs['project']['vmetrics']['xheight']
-        capheight = self.project.libs['project']['vmetrics']['capheight']
-        ascender = self.project.libs['project']['vmetrics']['ascender']
-        descender = self.project.libs['project']['vmetrics']['descender']
-        emsquare = self.project.libs['project']['vmetrics']['emsquare']
-        set_vmetrics(self.ufo, xheight, capheight, ascender, descender, emsquare)
-        if verbose:
-            print 'done./n'
-
     def clear_info(self):
         """Print different kinds of font information."""
         clear_font_info(self.ufo)
+
+    # vertical metrics
+
+    def get_vmetrics(self):
+        """Build a ``vmetrics`` dict using data from the ``vmetrics`` lib."""
+        # build up vmetrics dict
+        vmetrics_lib = self.project.libs['project']['vmetrics']
+        vmetrics = {}
+        # get default values
+        if vmetrics_lib.has_key('default'):
+            vmetrics = vmetrics_lib['default']
+        # get style-specific values
+        if vmetrics_lib.has_key(self.style_name):
+            for k in vmetrics_lib[self.style_name].keys():
+                vmetrics[k] = vmetrics_lib[self.style_name][k]
+        # condensed: get values from normal
+        else:
+            for style in vmetrics_lib.keys():
+                if style[0] == self.style_name[0]:
+                    for k in vmetrics_lib[style].keys():
+                        vmetrics[k] = vmetrics_lib[style][k]
+        return vmetrics
+
+    def set_vmetrics(self, verbose=True):
+        """Set the font's vertical metrics from the a ``vmetrics`` dict."""
+        if verbose:
+            print 'setting vertical metrics...',
+        vmetrics = self.get_vmetrics()
+        # set vmetrics
+        set_vmetrics(self.ufo, vmetrics['xheight'], vmetrics['capheight'], vmetrics['ascender'], vmetrics['descender'], vmetrics['emsquare'])
+        if verbose:
+            print 'done.\n'
+
+    def make_guides(self):
+        """Build a guides dictionary from the project's ``vmetrics`` lib."""
+        vmetrics = self.get_vmetrics()
+        guides = vmetrics.keys()
+        # separate guides into groups
+        guides_names = {
+            'anchors' : [ g for g in guides if 'anchors' in g.split('_') ],
+            'overshoots' : [ g for g in guides if 'overshoot' in g.split('_') ],
+            'lc' : [ g for g in guides if 'lc' in g.split('_') ],
+            'uc' : [ g for g in guides if 'uc' in g.split('_') ] + [ g for g in guides if 'capheight' in g.split('_') ],
+        }
+        # compile guides dict from offsets
+        guides_dict = {}
+        for k in guides_names.keys():
+            guides_dict[k] = {}
+            for guides_name in guides_names[k]:
+                if k in [ 'anchors', 'overshoots'] :
+                    pos = vmetrics[guides_name]
+                    pos_ref = guides_name.split('_')[0]
+                    pos += vmetrics[pos_ref]
+                    guides_dict[k][guides_name] = pos
+                else:
+                    guides_dict[k][guides_name] = vmetrics[guides_name]
+        self.guides_dict = guides_dict
+
+    def draw_guides(self, case='lowercase', guides_group='overshoots', verbose=True):
+        """Create guidelines using data from the project's ``vmetrics`` lib."""
+        if verbose:
+            print 'creating guidelines...',
+        # clear current guides
+        self.make_guides()
+        clear_guides(self.ufo)
+        # create the guides
+        for guide_name, guide_pos in self.guides_dict[guides_group].items():
+            if case == 'lowercase':
+                if guide_name not in self.guides_dict['uc'].keys():
+                    self.ufo.addGuide((0, guide_pos), 0, name=guide_name)
+            else:
+                if guide_name in self.guides_dict['uc'].keys():
+                    self.ufo.addGuide((0, guide_pos), 0, name=guide_name)
+        # done
+        self.ufo.update()
+        if verbose:
+            print 'done.\n'
+
+    def clear_guides(self):
+        """Delete all global guides in the font."""
+        clear_guides(self.ufo)
+
+    def set_bluezones(self):
+        """Set the PostScript blue zones from the font's vertical metrics and guidelines dict."""
+        self.make_guides()
+        bluezones = []
+        bluezones.append(self.guides_dict['overshoots']['descender_overshoot'])
+        bluezones.append(self.ufo.info.descender)
+        bluezones.append(self.guides_dict['overshoots']['baseline_lc_overshoot'])
+        bluezones.append(0)
+        bluezones.append(self.guides_dict['overshoots']['xheight_overshoot'])
+        bluezones.append(self.ufo.info.xHeight)
+        bluezones.append(self.guides_dict['overshoots']['capheight_overshoot'])
+        bluezones.append(self.ufo.info.capHeight)
+        bluezones.append(self.guides_dict['overshoots']['ascender_overshoot'])
+        bluezones.append(self.ufo.info.ascender)
+        bluezones.sort()
+        self.ufo.info.postscriptBlueValues = bluezones
+        self.ufo.update()
+
+    def clear_bluezones(self):
+        self.ufo.info.postscriptBlueValues =[]
 
     # font paths
 
@@ -488,14 +529,7 @@ class hFont:
         return otf_path
 
     def woff_path(self):
-        """Return the default path for ``.woff`` font generation, in the project's ``_woffs/`` folder.
-
-        >>> from hTools2.objects import hFont
-        >>> font = hFont(CurrentFont())
-        >>> print font.woff_path()
-        /fonts/_Publica/_woffs/Publica_55.woff
-
-        """
+        """Return the default path for ``.woff`` font generation, in the project's ``_woffs/`` folder."""
         woff_file = self.file_name + '.woff'
         woff_path = os.path.join(self.project.paths['woffs'], woff_file)
         return woff_path
@@ -503,17 +537,7 @@ class hFont:
     # font generation
 
     def generate_otf(self, options=None, verbose=False, folder=None):
-        """Generate an ``.otf`` for the font using the given ``options``.
-
-        If no ``options`` are given, the ``.otf`` will be generated using the settings in the ``project`` lib.
-
-        ::
-
-            from hTools2.objects import hFont
-            font = hFont(CurrentFont())
-            font.generate_otf()
-
-        """
+        """Generate an ``.otf`` for the font using the given ``options``."""
         # get options
         if options is None:
             try:
@@ -557,17 +581,7 @@ class hFont:
             print '...done.\n'
 
     def generate_woff(self):
-        """Generate a ``.woff`` font file from the available ``.otf`` font.
-
-        ::
-
-            from hTools2.objects import hFont
-            font = hFont(CurrentFont())
-            font.generate_woff()
-
-        .. note:: This function requires Karsten Luecke's ``KLTF_WOFF`` library.
-
-        """
+        """Generate a ``.woff`` font file from the available ``.otf`` font."""
         try:
             from hTools2.extras.KLTF_WOFF import compressFont
             compressFont(self.otf_path(), self.woff_path())

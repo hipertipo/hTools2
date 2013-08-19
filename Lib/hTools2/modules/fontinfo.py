@@ -1,6 +1,10 @@
 # [h] hTools2.modules.fontinfo
 
-"""Tools to get and set different kinds of font information."""
+"""Tools to get and set different kinds of font information.
+
+See the `UFO documentation <http://unifiedfontobject.org/versions/ufo2/fontinfo.html>`_.
+
+"""
 
 # debug
 
@@ -17,9 +21,7 @@ import os
 
 from fileutils import get_names_from_path
 
-#----------
 # set info
-#----------
 
 def set_font_names(font, family_name, style_name):
     """Set several font naming fields from ``family`` and ``style`` names."""
@@ -54,13 +56,11 @@ def set_names_from_path(font, prefix=None):
 def set_vmetrics(font, xheight, capheight, ascender, descender, emsquare, gridsize=1):
     font.info.xHeight = xheight * gridsize
     font.info.capHeight = capheight * gridsize
-    font.info.descender = -(descender * gridsize)
-    font.info.ascender = (xheight + ascender) * gridsize
+    font.info.descender = descender * gridsize
+    font.info.ascender = ascender * gridsize
     font.info.unitsPerEm = emsquare * gridsize
 
-#------------
 # print info
-#------------
 
 def print_font_info(font, options=None):
     """Print several kinds of font information, using a special method for each section.
@@ -232,9 +232,7 @@ def print_postscript_data(font):
     print 'postscriptWindowsCharacterSet: %s' % font.info.postscriptWindowsCharacterSet
     print
 
-#------------
 # clear info
-#------------
 
 def clear_font_info(font):
     """Clears all font information fields in the font."""
