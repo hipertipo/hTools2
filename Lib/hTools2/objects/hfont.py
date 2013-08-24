@@ -86,21 +86,24 @@ class hFont:
         """Initiate ``hFont`` object from ``RFont``, get parent project, parse name parts."""
         ufo_file = os.path.basename(self.ufo.path)
         self.file_name = os.path.splitext(ufo_file)[0]
-        family_name, self.style_name = self.file_name.split('_')
-        # get parent project
-        self.project = hProject(family_name)
-        # set font names
-        if set_names:
-            set_font_names(self.ufo, family_name, self.style_name)
-        # get parameters from name, create dict
         try:
-            name_parameters = self.style_name.split('-')
-            parameters_order = self.project.libs['project']['parameters_order']
-            self.parameters = dict(zip(parameters_order, name_parameters))
-        # keep parameters dict empty
+            # break file name into family- and style name
+            family_name, self.style_name = self.file_name.split('_')
+            # get parent project
+            self.project = hProject(family_name)
+            # set font names
+            if set_names:
+                set_font_names(self.ufo, family_name, self.style_name)
+            # get parameters from name and store them into a dict
+            try:
+                name_parameters = self.style_name.split('-')
+                parameters_order = self.project.libs['project']['parameters_order']
+                self.parameters = dict(zip(parameters_order, name_parameters))
+            # keep parameters dict empty
+            except:
+                print 'Error: no parameters lib for this font.\n'
         except:
-            # print 'there is no parameters lib for this font.\n'
-            pass
+            print 'Error: font name is not in the format family_style'
 
     # groups and glyphs
 

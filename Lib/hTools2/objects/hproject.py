@@ -324,7 +324,7 @@ class hProject:
 
     def make_folders(self):
         """Check if all the necessary project sub-folders exist, and create them if they don't."""
-        print 'creating folders and files in %s...' % self.name
+        print 'creating folders and files in %s...\n' % self.name
         for path in self._path_names:
             if self.paths[path] is not None:
                 if os.path.exists(self.paths[path]) == False:
@@ -336,7 +336,8 @@ class hProject:
                         print 'aborted, no Adobe fonts folder available.'
                 else:
                     print '\t%s exists.' % self.paths[path]
-        print '...done.'
+        print
+        print '...done.\n'
 
     # file lists
 

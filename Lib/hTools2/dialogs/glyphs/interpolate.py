@@ -43,7 +43,7 @@ class interpolateGlyphsDialog(hConstants):
         self._get_fonts()
         self.title = 'interpol'
         self.width = 123
-        self.height = (self.nudge_button * 2) + (self.text_height * 9) + self.progress_bar + (self.padding_y * 11)
+        self.height = (self.nudge_button * 4) + (self.text_height * 7) + self.progress_bar + (self.padding_y * 10) + (self.button_height * 2) - 10
         self.value_box = 60
         self.column_2 = self.value_box + (self.nudge_button * 7) - 6
         # window
@@ -52,7 +52,7 @@ class interpolateGlyphsDialog(hConstants):
                     self.title)
         # master 1
         x = self.padding_x
-        y = self.padding_y - 5
+        y = self.padding_y - 8
         self.w._f1_label = TextBox(
                     (x, y + 3,
                     -self.padding_x,
@@ -262,7 +262,7 @@ class interpolateGlyphsDialog(hConstants):
         # buttons
         #---------
         x = self.padding_x
-        y += (self.text_height + self.padding_y)
+        y += (self.text_height + self.padding_y) - 3
         self.w.button_apply = SquareButton(
                     (x, y,
                     -self.padding_x,
@@ -277,6 +277,15 @@ class interpolateGlyphsDialog(hConstants):
                     -self.padding_x,
                     self.progress_bar),
                     isIndeterminate=True,
+                    sizeStyle=self.size_style)
+        # update fonts menu
+        y += (self.progress_bar + self.padding_y)
+        self.w.button_update = SquareButton(
+                    (x, y,
+                    -self.padding_x,
+                    self.button_height),
+                    "update",
+                    callback=self.update_callback,
                     sizeStyle=self.size_style)
         # open window
         self.w.open()
@@ -377,10 +386,19 @@ class interpolateGlyphsDialog(hConstants):
         self.proportional = self.w._proportional_checkbox.get()
 
     def _get_fonts(self):
+        # get all fonts
         self.all_fonts = AllFonts()
+        # get font names
+        self.all_fonts_names = []
         if len(self.all_fonts) > 0:
             for font in self.all_fonts:
                 self.all_fonts_names.append(get_full_name(font))
+
+    def update_callback(self, sender):
+        self._get_fonts()
+        self.w._f1_font.setItems(self.all_fonts_names)
+        self.w._f2_font.setItems(self.all_fonts_names)
+        self.w._f3_font.setItems(self.all_fonts_names)
 
     def apply_callback(self, sender):
         # get fonts

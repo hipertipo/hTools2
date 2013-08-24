@@ -28,7 +28,7 @@ from hTools2.modules.anchors import create_anchors
 # settings
 
 _top = True
-_bottom = False
+_bottom = True
 _accent = False
 _top_delta = 20
 _bottom_delta = 20
@@ -47,3 +47,4 @@ for glyph_name in get_glyphs(f):
 f.update()
 print
 print "\n...done.\n"
+
