@@ -117,7 +117,7 @@ class transferAnchorsDialog(hConstants):
         self.w._target_value.setItems(self.all_fonts_names)
 
     def apply_callback(self, sender):
-        if len(self._all_fonts) > 0:
+        if len(self.all_fonts) > 0:
             # get parameters
             _source_font = self.all_fonts[self.w._source_value.get()]
             _target_font = self.all_fonts[self.w._target_value.get()]
