@@ -32,13 +32,15 @@ If you are used to git, you can grab the code directly from the project's reposi
 
     git clone https://github.com/gferreira/hTools2.git
 
-------------------------------
-2. Adding the module to Python
-------------------------------
+------------------------------------------
+2a. Adding the module to Python (manually)
+------------------------------------------
 
 Create a simple text file, containing the path to the ``Lib`` folder inside :py:mod:`hTools2`::
 
     /code/hTools2/Lib/
+
+.. note:: The easiest way to get the correct path is by dragging the ``Lib`` folder from Finder into a code editor or Terminal -- so you'll get the path without having to type it.
 
 Save this file as ``hTools2.pth`` in the ``site-packages`` folder for the desired Python(s)::
 
@@ -47,6 +49,23 @@ Save this file as ``hTools2.pth`` in the ``site-packages`` folder for the desire
     /Library/Python/2.7/site-packages/hTools2.pth
 
 And that’s it.
+
+----------------------------------------------
+2b. Adding the module to Python (setup script)
+----------------------------------------------
+
+As an alternative to the manual installation (2a), it is also possible to install :py:mod:`hTools2` by running a setup script. 
+
+In the Terminal, go the ``hTools2`` folder, and simply run the script ``setup.py`` with Python::
+
+    cd /_code/hTools2/
+    python setup.py
+
+If you get an error message regarding user permissions, try running the script with ``sudo``::
+
+    sudo python setup.py
+
+This will prompt you to input your user name and password to allow access to system folders.
 
 ---------------------------
 3. Testing the installation
