@@ -6,6 +6,7 @@ import hTools2
 reload(hTools2)
 
 if hTools2.DEBUG:
+
     import hTools2.modules.fontutils
     reload(hTools2.modules.fontutils)
 
@@ -25,7 +26,7 @@ from hTools2.modules.fontutils import get_full_name, get_glyphs
 
 class interpolateGlyphsDialog(hConstants):
 
-    '''A dialog to interpolate the selected glyphs in one font with the same glyphs in another font into a third font.'''
+    """A dialog to interpolate the selected glyphs in one font with the same glyphs in another font into a third font."""
 
     # attributes
 
@@ -39,8 +40,8 @@ class interpolateGlyphsDialog(hConstants):
     # methods
 
     def __init__(self):
-        # window settings
         self._get_fonts()
+        # window settings
         self.title = 'interpol'
         self.width = 123
         self.height = (self.nudge_button * 4) + (self.text_height * 7) + self.progress_bar + (self.padding_y * 10) + (self.button_height * 2) - 10

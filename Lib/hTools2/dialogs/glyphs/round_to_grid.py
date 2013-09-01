@@ -66,6 +66,7 @@ class roundToGridDialog(hConstants):
                     -self.padding_x,
                     self.text_height),
                     text=self.gridsize,
+                    readOnly=self.read_only,
                     sizeStyle=self.size_style)
         x = self.padding_x
         # nudge spinners

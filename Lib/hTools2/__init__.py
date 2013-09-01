@@ -27,7 +27,7 @@ class hConstants(object):
     square_button = 35
     #: Height of standard button in dialogs.
     button_height = 25
-    #: Can nummerical text input be edited directly with the keyboard? A boolean. Set to ``False`` as default.
+    #: Can nummerical text input be edited directly with the keyboard? A boolean. Set to ``True`` as default.
     read_only = True
     #: The size style of text and standard dialog elements. Possible options are ``small``, ``regular``, ``mini``.
     size_style = 'small'

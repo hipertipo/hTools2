@@ -1,6 +1,6 @@
 # [h] hTools2.modules.anchors
 
-"""Tools to remove, create, move and transfer anchors."""
+"""Tools to create, move, delete and transfer anchors."""
 
 # imports
 
@@ -52,7 +52,7 @@ def remove_duplicate_anchors(font):
     # save existing anchors
     old_anchors = get_anchors(font)
     # collect clean anchors
-    new_anchors = {}    
+    new_anchors = {}
     for glyph_name in old_anchors.keys():
         # glyphs with more than 1 anchor
         if len(old_anchors[glyph_name]) > 1:
@@ -62,9 +62,8 @@ def remove_duplicate_anchors(font):
                     clean_anchors.append(a)
                     previous = a
                 else:
-                    # same name
-                    if a[0] == previous[0]: 
-                        # same pos
+                    # same name and pos: skip
+                    if a[0] == previous[0]:
                         if a[1][0] == previous[1][0] and a[1][1] == previous[1][1]:
                             pass
                         else:

@@ -1,3 +1,6 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
 # [h] dialog to move selected glyphs
 
 # debug
@@ -20,7 +23,7 @@ from hTools2 import hConstants
 
 class moveGlyphsDialog(hConstants):
 
-    '''A dialog to move the selected glyphs in a font.'''
+    """A dialog to move the selected glyphs in a font."""
 
     # attributes
 

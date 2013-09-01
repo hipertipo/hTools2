@@ -474,15 +474,36 @@ class hFont:
                         vmetrics[k] = vmetrics_lib[style][k]
         return vmetrics
 
+    def get_stems(self):
+        # build up vmetrics dict
+        stems_lib = self.project.libs['project']['stems']
+        stems = []
+        # get default values
+        if stems_lib.has_key('default'):
+            stems = stems_lib['default']
+        # get style-specific values
+        if stems_lib.has_key(self.style_name):
+            stems = stems_lib[self.style_name]
+        # condensed: get values from normal
+        else:
+            for style in stems_lib.keys():
+                if style[0] == self.style_name[0]:
+                    stems = stems_lib[style]
+        return stems
+
     def set_vmetrics(self, verbose=True):
         """Set the font's vertical metrics from the a ``vmetrics`` dict."""
         if verbose:
-            print 'setting vertical metrics...',
-        vmetrics = self.get_vmetrics()
+            print 'setting vertical metrics in %s...' % self.full_name(),
         # set vmetrics
+        vmetrics = self.get_vmetrics()
         set_vmetrics(self.ufo, vmetrics['xheight'], vmetrics['capheight'], vmetrics['ascender'], vmetrics['descender'], vmetrics['emsquare'])
+        # set stems
+        stems = self.get_stems()
+        self.ufo.info.postscriptStemSnapH = stems
+        # done
         if verbose:
-            print 'done.\n'
+            print 'done.'
 
     def make_guides(self):
         """Build a guides dictionary from the project's ``vmetrics`` lib."""
@@ -615,8 +636,7 @@ class hFont:
             print
         # generate
         self.ufo.generate(
-                    _otf_path,
-                    'otf',
+                    _otf_path, 'otf',
                     decompose=options['decompose'],
                     autohint=options['autohint'],
                     checkOutlines=options['remove overlap'],

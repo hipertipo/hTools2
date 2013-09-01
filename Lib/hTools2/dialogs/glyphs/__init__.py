@@ -1,3 +1,6 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
 # [h] dialogs.glyphs
 
 '''A collection of dialogs to do things to the selected glyphs of one or more fonts.'''
