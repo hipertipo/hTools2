@@ -1,0 +1,444 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>hProject &mdash; hTools2</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.6',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/sidebar.js"></script>
+    <link rel="top" title="hTools2" href="../index.html" />
+    <link rel="up" title="Objects" href="objects.html" />
+    <link rel="next" title="hFont" href="hfont.html" />
+    <link rel="prev" title="hSpace" href="hspace.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="hfont.html" title="hFont"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="hspace.html" title="hSpace"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">hTools2</a> &raquo;</li>
+          <li><a href="objects.html" accesskey="U">Objects</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-hTools2.objects.hproject">
+<span id="hproject"></span><h1>hProject<a class="headerlink" href="#module-hTools2.objects.hproject" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="hTools2.objects.hproject.hProject">
+<em class="property">class </em><tt class="descclassname">hTools2.objects.hproject.</tt><tt class="descname">hProject</tt><big>(</big><em>name=None</em><big>)</big><a class="reference internal" href="../_modules/hTools2/objects/hproject.html#hProject"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools2.objects.hproject.hProject" title="Permalink to this definition">¶</a></dt>
+<dd><p>A project represents a font-family and related meta-data.</p>
+<dl class="attribute">
+<dt id="hTools2.objects.hproject.hProject.name">
+<tt class="descname">name</tt><a class="headerlink" href="#hTools2.objects.hproject.hProject.name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>The name of the project. It usually starts with an uppercase letter. Space, hyphen, accented characters, symbols etc are not allowed.</p>
+<dl class="attribute">
+<dt id="hTools2.objects.hproject.hProject.world">
+<tt class="descname">world</tt><a class="headerlink" href="#hTools2.objects.hproject.hProject.world" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>An &#8216;embedded&#8217; hWorld object, containing a list of all other projects and access to local settings.</p>
+<dl class="attribute">
+<dt id="hTools2.objects.hproject.hProject.libs">
+<tt class="descname">libs</tt><a class="headerlink" href="#hTools2.objects.hproject.hProject.libs" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>A dictionary containing a working copy of all data libs in the project, imported on object initialization.</p>
+<dl class="attribute">
+<dt id="hTools2.objects.hproject.hProject.paths">
+<tt class="descname">paths</tt><a class="headerlink" href="#hTools2.objects.hproject.hProject.paths" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>A dictionary containing the paths to all relevant project sub-folders (libs, ufos, otfs, woffs etc).</p>
+<dl class="attribute">
+<dt id="hTools2.objects.hproject.hProject.lib_paths">
+<tt class="descname">lib_paths</tt><a class="headerlink" href="#hTools2.objects.hproject.hProject.lib_paths" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>A dictionary containing the paths to all data libs in the project.</p>
+<dl class="attribute">
+<dt id="hTools2.objects.hproject.hProject.fonts">
+<tt class="descname">fonts</tt><a class="headerlink" href="#hTools2.objects.hproject.hProject.fonts" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>Returns a dictionary with the style names and paths of all masters and instances in the project.</p>
+<dl class="method">
+<dt id="hTools2.objects.hproject.hProject.all_glyphs">
+<tt class="descname">all_glyphs</tt><big>(</big><em>ignore=['invisible']</em><big>)</big><a class="reference internal" href="../_modules/hTools2/objects/hproject.html#hProject.all_glyphs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools2.objects.hproject.hProject.all_glyphs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the full list of glyphs for all fonts in project.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools2.objects.hproject.hProject.check_libs">
+<tt class="descname">check_libs</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/hTools2/objects/hproject.html#hProject.check_libs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools2.objects.hproject.hProject.check_libs" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hTools2.objects.hproject.hProject.collect_fonts">
+<tt class="descname">collect_fonts</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/hTools2/objects/hproject.html#hProject.collect_fonts"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools2.objects.hproject.hProject.collect_fonts" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update the font names and file paths at <a class="reference internal" href="#hTools2.objects.hproject.hProject.fonts" title="hTools2.objects.hproject.hProject.fonts"><tt class="xref py py-attr docutils literal"><span class="pre">hProject.fonts</span></tt></a>.</p>
+<p>This method is called automatically when the <a class="reference internal" href="#hTools2.objects.hproject.hProject" title="hTools2.objects.hproject.hProject"><tt class="xref py py-class docutils literal"><span class="pre">hProject</span></tt></a> object is initialized.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools2.objects.hproject.hProject.delete_instances">
+<tt class="descname">delete_instances</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/hTools2/objects/hproject.html#hProject.delete_instances"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools2.objects.hproject.hProject.delete_instances" title="Permalink to this definition">¶</a></dt>
+<dd><p>Delete all <tt class="docutils literal"><span class="pre">.ufo</span></tt> instances in project.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools2.objects.hproject.hProject.delete_otfs">
+<tt class="descname">delete_otfs</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/hTools2/objects/hproject.html#hProject.delete_otfs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools2.objects.hproject.hProject.delete_otfs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Delete all <tt class="docutils literal"><span class="pre">.otfs</span></tt> in project.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools2.objects.hproject.hProject.delete_otfs_test">
+<tt class="descname">delete_otfs_test</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/hTools2/objects/hproject.html#hProject.delete_otfs_test"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools2.objects.hproject.hProject.delete_otfs_test" title="Permalink to this definition">¶</a></dt>
+<dd><p>Delete all <tt class="docutils literal"><span class="pre">.otfs</span></tt> in the <tt class="docutils literal"><span class="pre">Adobe/fonts</span></tt> folder.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools2.objects.hproject.hProject.delete_woffs">
+<tt class="descname">delete_woffs</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/hTools2/objects/hproject.html#hProject.delete_woffs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools2.objects.hproject.hProject.delete_woffs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Delete all <tt class="docutils literal"><span class="pre">.woffs</span></tt> in project.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<tt class="descname">fonts</tt><em class="property"> = None</em></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hTools2.objects.hproject.hProject.ftp_path">
+<tt class="descname">ftp_path</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/hTools2/objects/hproject.html#hProject.ftp_path"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools2.objects.hproject.hProject.ftp_path" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the project&#8217;s path on the FTP server.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools2.objects.hproject.hProject.generate_instance">
+<tt class="descname">generate_instance</tt><big>(</big><em>instance_name</em>, <em>verbose=False</em>, <em>folder=None</em><big>)</big><a class="reference internal" href="../_modules/hTools2/objects/hproject.html#hProject.generate_instance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools2.objects.hproject.hProject.generate_instance" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate a <tt class="docutils literal"><span class="pre">.ufo</span></tt> instance with name <tt class="docutils literal"><span class="pre">instance_name</span></tt>, using data from the project&#8217;s interpol lib.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools2.objects.hproject.hProject.generate_vfbs">
+<tt class="descname">generate_vfbs</tt><big>(</big><em>masters=True</em>, <em>instances=False</em>, <em>interpol=False</em><big>)</big><a class="reference internal" href="../_modules/hTools2/objects/hproject.html#hProject.generate_vfbs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools2.objects.hproject.hProject.generate_vfbs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Batch convert ufos in project to vfb format.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools2.objects.hproject.hProject.get_ufo">
+<tt class="descname">get_ufo</tt><big>(</big><em>parameters</em>, <em>verbose=False</em><big>)</big><a class="reference internal" href="../_modules/hTools2/objects/hproject.html#hProject.get_ufo"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools2.objects.hproject.hProject.get_ufo" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the ufo path for the given parameters dict.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools2.objects.hproject.hProject.git_commit">
+<tt class="descname">git_commit</tt><big>(</big><em>message='maintenance'</em>, <em>push=False</em><big>)</big><a class="reference internal" href="../_modules/hTools2/objects/hproject.html#hProject.git_commit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools2.objects.hproject.hProject.git_commit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Commit current version to the project&#8217;s repository.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools2.objects.hproject.hProject.git_push">
+<tt class="descname">git_push</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/hTools2/objects/hproject.html#hProject.git_push"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools2.objects.hproject.hProject.git_push" title="Permalink to this definition">¶</a></dt>
+<dd><p>Push current version to git.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools2.objects.hproject.hProject.git_status">
+<tt class="descname">git_status</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/hTools2/objects/hproject.html#hProject.git_status"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools2.objects.hproject.hProject.git_status" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get current git status.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools2.objects.hproject.hProject.import_encoding">
+<tt class="descname">import_encoding</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/hTools2/objects/hproject.html#hProject.import_encoding"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools2.objects.hproject.hProject.import_encoding" title="Permalink to this definition">¶</a></dt>
+<dd><p>Import groups, glyph names and glyph order from the project&#8217;s encoding file, and temporarily saves them into a &#8216;groups lib&#8217;.</p>
+<p>Group and glyph names are stored in a dictionary in <tt class="docutils literal"><span class="pre">hProject.libs['groups']['glyphs']</span></tt>, while the glyph order is stored in <tt class="docutils literal"><span class="pre">hProject.libs['groups']['order']</span></tt>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools2.objects.hproject.hProject.instances">
+<tt class="descname">instances</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/hTools2/objects/hproject.html#hProject.instances"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools2.objects.hproject.hProject.instances" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a list of all instances in project.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<tt class="descname">lib_paths</tt><em class="property"> = None</em></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt>
+<tt class="descname">libs</tt><em class="property"> = {}</em></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hTools2.objects.hproject.hProject.make_folders">
+<tt class="descname">make_folders</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/hTools2/objects/hproject.html#hProject.make_folders"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools2.objects.hproject.hProject.make_folders" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if all the necessary project sub-folders exist, and create them if they don&#8217;t.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools2.objects.hproject.hProject.make_lib_paths">
+<tt class="descname">make_lib_paths</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/hTools2/objects/hproject.html#hProject.make_lib_paths"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools2.objects.hproject.hProject.make_lib_paths" title="Permalink to this definition">¶</a></dt>
+<dd><p>Make the paths to all project libs.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools2.objects.hproject.hProject.make_paths">
+<tt class="descname">make_paths</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/hTools2/objects/hproject.html#hProject.make_paths"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools2.objects.hproject.hProject.make_paths" title="Permalink to this definition">¶</a></dt>
+<dd><p>Make all project paths and collect them into a dictionary.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools2.objects.hproject.hProject.masters">
+<tt class="descname">masters</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/hTools2/objects/hproject.html#hProject.masters"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools2.objects.hproject.hProject.masters" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a list of all masters in project.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools2.objects.hproject.hProject.masters_interpol">
+<tt class="descname">masters_interpol</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/hTools2/objects/hproject.html#hProject.masters_interpol"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools2.objects.hproject.hProject.masters_interpol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a list of all &#8216;super masters&#8217; in project.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hTools2.objects</span> <span class="kn">import</span> <span class="n">hProject</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p</span> <span class="o">=</span> <span class="n">hProject</span><span class="p">(</span><span class="s">&#39;Publica&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">master</span> <span class="ow">in</span> <span class="n">p</span><span class="o">.</span><span class="n">masters_interpol</span><span class="p">():</span> <span class="k">print</span> <span class="n">master</span>
+<span class="go">/_fonts/_Publica/_ufos/_interpol/Publica_Black-Compressed.ufo</span>
+<span class="go">/_fonts/_Publica/_ufos/_interpol/Publica_Black.ufo</span>
+<span class="go">/_fonts/_Publica/_ufos/_interpol/Publica_Compressed.ufo</span>
+<span class="go">/_fonts/_Publica/_ufos/_interpol/Publica_Regular.ufo</span>
+<span class="go">/_fonts/_Publica/_ufos/_interpol/Publica_UltraLight-Compressed.ufo</span>
+<span class="go">/_fonts/_Publica/_ufos/_interpol/Publica_UltraLight.ufo</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<tt class="descname">name</tt><em class="property"> = None</em></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hTools2.objects.hproject.hProject.otfs">
+<tt class="descname">otfs</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/hTools2/objects/hproject.html#hProject.otfs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools2.objects.hproject.hProject.otfs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a list of all <tt class="docutils literal"><span class="pre">.otf</span></tt> files in project.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools2.objects.hproject.hProject.otfs_test">
+<tt class="descname">otfs_test</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/hTools2/objects/hproject.html#hProject.otfs_test"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools2.objects.hproject.hProject.otfs_test" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a list of all <tt class="docutils literal"><span class="pre">.otfs</span></tt> in the project&#8217;s <tt class="docutils literal"><span class="pre">Adobe/fonts/</span></tt> folder.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools2.objects.hproject.hProject.parse_gstring">
+<tt class="descname">parse_gstring</tt><big>(</big><em>gstring</em><big>)</big><a class="reference internal" href="../_modules/hTools2/objects/hproject.html#hProject.parse_gstring"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools2.objects.hproject.hProject.parse_gstring" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt>
+<tt class="descname">paths</tt><em class="property"> = {}</em></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hTools2.objects.hproject.hProject.print_info">
+<tt class="descname">print_info</tt><big>(</big><em>masters=True</em>, <em>instances=True</em>, <em>otfs=True</em>, <em>woffs=True</em>, <em>libs=True</em>, <em>scripts=True</em><big>)</big><a class="reference internal" href="../_modules/hTools2/objects/hproject.html#hProject.print_info"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools2.objects.hproject.hProject.print_info" title="Permalink to this definition">¶</a></dt>
+<dd><p>Print different kinds of information about the project.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools2.objects.hproject.hProject.print_instances">
+<tt class="descname">print_instances</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/hTools2/objects/hproject.html#hProject.print_instances"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools2.objects.hproject.hProject.print_instances" title="Permalink to this definition">¶</a></dt>
+<dd><p>Print all <tt class="docutils literal"><span class="pre">.ufo</span></tt> instances in project.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools2.objects.hproject.hProject.print_libs">
+<tt class="descname">print_libs</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/hTools2/objects/hproject.html#hProject.print_libs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools2.objects.hproject.hProject.print_libs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Print all libs in project.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools2.objects.hproject.hProject.print_masters">
+<tt class="descname">print_masters</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/hTools2/objects/hproject.html#hProject.print_masters"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools2.objects.hproject.hProject.print_masters" title="Permalink to this definition">¶</a></dt>
+<dd><p>Print all <tt class="docutils literal"><span class="pre">.ufo</span></tt> masters in project.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools2.objects.hproject.hProject.print_otfs">
+<tt class="descname">print_otfs</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/hTools2/objects/hproject.html#hProject.print_otfs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools2.objects.hproject.hProject.print_otfs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Print all <tt class="docutils literal"><span class="pre">.otfs</span></tt> in project.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools2.objects.hproject.hProject.print_paths">
+<tt class="descname">print_paths</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/hTools2/objects/hproject.html#hProject.print_paths"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools2.objects.hproject.hProject.print_paths" title="Permalink to this definition">¶</a></dt>
+<dd><p>Print all standard paths is in project.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools2.objects.hproject.hProject.print_scripts">
+<tt class="descname">print_scripts</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/hTools2/objects/hproject.html#hProject.print_scripts"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools2.objects.hproject.hProject.print_scripts" title="Permalink to this definition">¶</a></dt>
+<dd><p>Print all RoboFont and NodeBox scripts in project.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools2.objects.hproject.hProject.print_woffs">
+<tt class="descname">print_woffs</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/hTools2/objects/hproject.html#hProject.print_woffs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools2.objects.hproject.hProject.print_woffs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Print all <tt class="docutils literal"><span class="pre">.woffs</span></tt> in project.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools2.objects.hproject.hProject.read_libs">
+<tt class="descname">read_libs</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/hTools2/objects/hproject.html#hProject.read_libs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools2.objects.hproject.hProject.read_libs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read all project libs into one dictionary.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools2.objects.hproject.hProject.scripts">
+<tt class="descname">scripts</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/hTools2/objects/hproject.html#hProject.scripts"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools2.objects.hproject.hProject.scripts" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a list of all <tt class="docutils literal"><span class="pre">.py</span></tt> files in project.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools2.objects.hproject.hProject.ufos">
+<tt class="descname">ufos</tt><big>(</big><em>masters_interpol=False</em><big>)</big><a class="reference internal" href="../_modules/hTools2/objects/hproject.html#hProject.ufos"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools2.objects.hproject.hProject.ufos" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return all <tt class="docutils literal"><span class="pre">.ufos</span></tt> in project (masters, istances and meta-masters).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools2.objects.hproject.hProject.vfbs">
+<tt class="descname">vfbs</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/hTools2/objects/hproject.html#hProject.vfbs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools2.objects.hproject.hProject.vfbs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a list of all <tt class="docutils literal"><span class="pre">.vfb</span></tt> files in project.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools2.objects.hproject.hProject.woffs">
+<tt class="descname">woffs</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/hTools2/objects/hproject.html#hProject.woffs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools2.objects.hproject.hProject.woffs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a list of all <tt class="docutils literal"><span class="pre">.woff</span></tt> files in project.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<tt class="descname">world</tt><em class="property"> = None</em></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hTools2.objects.hproject.hProject.write_lib">
+<tt class="descname">write_lib</tt><big>(</big><em>lib_name</em><big>)</big><a class="reference internal" href="../_modules/hTools2/objects/hproject.html#hProject.write_lib"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools2.objects.hproject.hProject.write_lib" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write the lib with the given <tt class="docutils literal"><span class="pre">lib_name</span></tt> to its <tt class="docutils literal"><span class="pre">.plist</span></tt> file.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hTools2.objects</span> <span class="kn">import</span> <span class="n">hProject</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p</span> <span class="o">=</span> <span class="n">hProject</span><span class="p">(</span><span class="s">&#39;Publica&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p</span><span class="o">.</span><span class="n">write_lib</span><span class="p">(</span><span class="s">&#39;interpol&#39;</span><span class="p">)</span>
+<span class="go">saving interpol lib to file /_fonts/_Publica/_libs/interpol.plist... done.</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools2.objects.hproject.hProject.write_libs">
+<tt class="descname">write_libs</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/hTools2/objects/hproject.html#hProject.write_libs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools2.objects.hproject.hProject.write_libs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write all libs in project to their corresponding <tt class="docutils literal"><span class="pre">.plist</span></tt> files.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="hspace.html"
+                        title="previous chapter">hSpace</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="hfont.html"
+                        title="next chapter">hFont</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/objects/hproject.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="hfont.html" title="hFont"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="hspace.html" title="hSpace"
+             >previous</a> |</li>
+        <li><a href="../index.html">hTools2</a> &raquo;</li>
+          <li><a href="objects.html" >Objects</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Gustavo Ferreira.
+      Last updated on Aug 30, 2013.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b1.
+    </div>
+  </body>
+</html>

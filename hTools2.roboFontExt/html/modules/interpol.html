@@ -1,0 +1,149 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>interpol &mdash; hTools2</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.6',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/sidebar.js"></script>
+    <link rel="top" title="hTools2" href="../index.html" />
+    <link rel="up" title="Modules" href="modules.html" />
+    <link rel="next" title="messages" href="messages.html" />
+    <link rel="prev" title="gstring" href="gstring.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="messages.html" title="messages"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="gstring.html" title="gstring"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">hTools2</a> &raquo;</li>
+          <li><a href="modules.html" accesskey="U">Modules</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-hTools2.modules.interpol">
+<span id="interpol"></span><h1>interpol<a class="headerlink" href="#module-hTools2.modules.interpol" title="Permalink to this headline">¶</a></h1>
+<p>A collection of tools for working with interpolation.</p>
+<dl class="function">
+<dt id="hTools2.modules.interpol.check_compatibility">
+<tt class="descclassname">hTools2.modules.interpol.</tt><tt class="descname">check_compatibility</tt><big>(</big><em>f1</em>, <em>f2</em>, <em>names=None</em>, <em>report=True</em><big>)</big><a class="reference internal" href="../_modules/hTools2/modules/interpol.html#check_compatibility"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools2.modules.interpol.check_compatibility" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks if glyphs in <tt class="docutils literal"><span class="pre">f1</span></tt> and <tt class="docutils literal"><span class="pre">f2</span></tt> are compatible for interpolation.</p>
+<p>If <tt class="docutils literal"><span class="pre">names=None</span></tt>, all glyphs in <tt class="docutils literal"><span class="pre">f1</span></tt> will be checked - otherwise, only the ones in the list <tt class="docutils literal"><span class="pre">names</span></tt>.</p>
+<p>Glyph compatibility is indicated by colors in <tt class="docutils literal"><span class="pre">f1</span></tt>: glyphs marked with <tt class="docutils literal"><span class="pre">green</span></tt> are compatible, glyphs marked with <tt class="docutils literal"><span class="pre">red</span></tt> are not compatible (because contours and/or amount of points do not match), and glyphs marked with <tt class="docutils literal"><span class="pre">blue</span></tt> do not exist in <tt class="docutils literal"><span class="pre">f2</span></tt>.</p>
+<p>If <tt class="docutils literal"><span class="pre">report=True</span></tt>, the check results will be printed to the output window.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="hTools2.modules.interpol.condense_glyphs">
+<tt class="descclassname">hTools2.modules.interpol.</tt><tt class="descname">condense_glyphs</tt><big>(</big><em>f3</em>, <em>f1</em>, <em>f2</em>, <em>f1_stem</em>, <em>f2_stem</em>, <em>factor</em>, <em>glyph_names</em><big>)</big><a class="headerlink" href="#hTools2.modules.interpol.condense_glyphs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate condensed glyphs from a &#8216;Regular&#8217; font <tt class="docutils literal"><span class="pre">f1</span></tt> and a &#8216;Bold&#8217; font <tt class="docutils literal"><span class="pre">f2</span></tt>.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="hTools2.modules.interpol.interpolate_glyph">
+<tt class="descclassname">hTools2.modules.interpol.</tt><tt class="descname">interpolate_glyph</tt><big>(</big><em>gName</em>, <em>f1</em>, <em>f2</em>, <em>f3</em>, <em>factor</em>, <em>clear=True</em><big>)</big><a class="reference internal" href="../_modules/hTools2/modules/interpol.html#interpolate_glyph"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools2.modules.interpol.interpolate_glyph" title="Permalink to this definition">¶</a></dt>
+<dd><p>Interpolates the glyphs with name <tt class="docutils literal"><span class="pre">glyph_name</span></tt> from masters <tt class="docutils literal"><span class="pre">f1</span></tt> and <tt class="docutils literal"><span class="pre">f2</span></tt>, with interpolation factor <tt class="docutils literal"><span class="pre">(factor_x,</span> <span class="pre">factor_y)</span></tt>, into the destination font <tt class="docutils literal"><span class="pre">f3</span></tt>.</p>
+<p>The optional parameter <tt class="docutils literal"><span class="pre">clear</span></tt> controls if existing glyphs in <tt class="docutils literal"><span class="pre">f3</span></tt> should be overwritten.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="hTools2.modules.interpol.interpolate_kerning">
+<tt class="descclassname">hTools2.modules.interpol.</tt><tt class="descname">interpolate_kerning</tt><big>(</big><em>f1</em>, <em>f2</em>, <em>f3</em>, <em>factor</em><big>)</big><a class="reference internal" href="../_modules/hTools2/modules/interpol.html#interpolate_kerning"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools2.modules.interpol.interpolate_kerning" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="gstring.html"
+                        title="previous chapter">gstring</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="messages.html"
+                        title="next chapter">messages</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/modules/interpol.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="messages.html" title="messages"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="gstring.html" title="gstring"
+             >previous</a> |</li>
+        <li><a href="../index.html">hTools2</a> &raquo;</li>
+          <li><a href="modules.html" >Modules</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Gustavo Ferreira.
+      Last updated on Sep 01, 2013.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b1.
+    </div>
+  </body>
+</html>

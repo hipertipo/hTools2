@@ -1,0 +1,277 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>glyphs &mdash; hTools2</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.6',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/sidebar.js"></script>
+    <link rel="top" title="hTools2" href="../index.html" />
+    <link rel="up" title="Dialogs" href="dialogs.html" />
+    <link rel="next" title="font" href="font.html" />
+    <link rel="prev" title="Dialogs" href="dialogs.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="font.html" title="font"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="dialogs.html" title="Dialogs"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">hTools2</a> &raquo;</li>
+          <li><a href="dialogs.html" accesskey="U">Dialogs</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-hTools2.dialogs.glyphs">
+<span id="glyphs"></span><h1>glyphs<a class="headerlink" href="#module-hTools2.dialogs.glyphs" title="Permalink to this headline">¶</a></h1>
+<p>A collection of dialogs to do things to the selected glyphs of one or more fonts.</p>
+<dl class="class">
+<dt id="hTools2.dialogs.glyphs.copyMarginsDialog">
+<em class="property">class </em><tt class="descclassname">hTools2.dialogs.glyphs.</tt><tt class="descname">copyMarginsDialog</tt><a class="headerlink" href="#hTools2.dialogs.glyphs.copyMarginsDialog" title="Permalink to this definition">¶</a></dt>
+<dd><p>A dialog to copy margins from selected glyphs in one font to the same glyphs in another font.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="hTools2.dialogs.glyphs.copyWidthsDialog">
+<em class="property">class </em><tt class="descclassname">hTools2.dialogs.glyphs.</tt><tt class="descname">copyWidthsDialog</tt><a class="headerlink" href="#hTools2.dialogs.glyphs.copyWidthsDialog" title="Permalink to this definition">¶</a></dt>
+<dd><p>A dialog to copy the advance width of selected glyphs in one font to the same glyphs in another font.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="hTools2.dialogs.glyphs.copyToMaskDialog">
+<em class="property">class </em><tt class="descclassname">hTools2.dialogs.glyphs.</tt><tt class="descname">copyToMaskDialog</tt><a class="headerlink" href="#hTools2.dialogs.glyphs.copyToMaskDialog" title="Permalink to this definition">¶</a></dt>
+<dd><p>A dialog to transfer the foreground layer of the selcted glyphs in the current font to the mask layer of the same glyphs of another font.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="hTools2.dialogs.glyphs.changeSuffixDialog">
+<em class="property">class </em><tt class="descclassname">hTools2.dialogs.glyphs.</tt><tt class="descname">changeSuffixDialog</tt><a class="headerlink" href="#hTools2.dialogs.glyphs.changeSuffixDialog" title="Permalink to this definition">¶</a></dt>
+<dd><p>A dialog to change the suffix of the selected glyphs.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="hTools2.dialogs.glyphs.moveAnchorsDialog">
+<em class="property">class </em><tt class="descclassname">hTools2.dialogs.glyphs.</tt><tt class="descname">moveAnchorsDialog</tt><a class="headerlink" href="#hTools2.dialogs.glyphs.moveAnchorsDialog" title="Permalink to this definition">¶</a></dt>
+<dd><p>A dialog to move the anchors in the selected glyphs of the current font.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="hTools2.dialogs.glyphs.moveGlyphsDialog">
+<em class="property">class </em><tt class="descclassname">hTools2.dialogs.glyphs.</tt><tt class="descname">moveGlyphsDialog</tt><a class="headerlink" href="#hTools2.dialogs.glyphs.moveGlyphsDialog" title="Permalink to this definition">¶</a></dt>
+<dd><p>A dialog to move the selected glyphs in a font.</p>
+<div class="highlight-python"><pre>┌─────────────────────┐
+│ × - +  move         │
+├─────────────────────┤
+│       ┌─────┐       │
+|    ↖  |  ↑  |  ↗    │
+| ┌─────┼─────┼─────┐ │
+| |  ←  |     |  →  │ │
+| └─────┼─────┼─────┘ │
+|    ↙  |  ↓  |  ↘    │
+|       └─────┘       │
+|  [               ]  │
+|  [ - +  - +  - + ]  │
+|                     │
+|  [×] all layers     │
+|                     │
+└─────────────────────┘</pre>
+</div>
+</dd></dl>
+
+<dl class="class">
+<dt id="hTools2.dialogs.glyphs.maskDialog">
+<em class="property">class </em><tt class="descclassname">hTools2.dialogs.glyphs.</tt><tt class="descname">maskDialog</tt><a class="headerlink" href="#hTools2.dialogs.glyphs.maskDialog" title="Permalink to this definition">¶</a></dt>
+<dd><p>A dialog to transfer glyphs to and from the mask layer.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="hTools2.dialogs.glyphs.copyToLayerDialog">
+<em class="property">class </em><tt class="descclassname">hTools2.dialogs.glyphs.</tt><tt class="descname">copyToLayerDialog</tt><a class="headerlink" href="#hTools2.dialogs.glyphs.copyToLayerDialog" title="Permalink to this definition">¶</a></dt>
+<dd><p>A dialog to copy the foreground layer in the selected glyphs to another layer.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="hTools2.dialogs.glyphs.copyPasteGlyphDialog">
+<em class="property">class </em><tt class="descclassname">hTools2.dialogs.glyphs.</tt><tt class="descname">copyPasteGlyphDialog</tt><a class="headerlink" href="#hTools2.dialogs.glyphs.copyPasteGlyphDialog" title="Permalink to this definition">¶</a></dt>
+<dd><p>A dialog to copy and paste glyphs, with a few special options.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="hTools2.dialogs.glyphs.mirrorGlyphsDialog">
+<em class="property">class </em><tt class="descclassname">hTools2.dialogs.glyphs.</tt><tt class="descname">mirrorGlyphsDialog</tt><a class="headerlink" href="#hTools2.dialogs.glyphs.mirrorGlyphsDialog" title="Permalink to this definition">¶</a></dt>
+<dd><p>A dialog to mirror the selected glyphs in the current font.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="hTools2.dialogs.glyphs.glyphActionsDialog">
+<em class="property">class </em><tt class="descclassname">hTools2.dialogs.glyphs.</tt><tt class="descname">glyphActionsDialog</tt><a class="headerlink" href="#hTools2.dialogs.glyphs.glyphActionsDialog" title="Permalink to this definition">¶</a></dt>
+<dd><p>A dialog to apply actions to one or more layers in the selected glyphs.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="hTools2.dialogs.glyphs.interpolateGlyphsDialog">
+<em class="property">class </em><tt class="descclassname">hTools2.dialogs.glyphs.</tt><tt class="descname">interpolateGlyphsDialog</tt><a class="headerlink" href="#hTools2.dialogs.glyphs.interpolateGlyphsDialog" title="Permalink to this definition">¶</a></dt>
+<dd><p>A dialog to interpolate the selected glyphs in one font with the same glyphs in another font into a third font.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="hTools2.dialogs.glyphs.paintGlyphsDialog">
+<em class="property">class </em><tt class="descclassname">hTools2.dialogs.glyphs.</tt><tt class="descname">paintGlyphsDialog</tt><a class="headerlink" href="#hTools2.dialogs.glyphs.paintGlyphsDialog" title="Permalink to this definition">¶</a></dt>
+<dd><p>A dialog to apply a color to the selected glyph boxes, and to select glyphs by color.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="hTools2.dialogs.glyphs.rasterizeGlyphDialog">
+<em class="property">class </em><tt class="descclassname">hTools2.dialogs.glyphs.</tt><tt class="descname">rasterizeGlyphDialog</tt><a class="headerlink" href="#hTools2.dialogs.glyphs.rasterizeGlyphDialog" title="Permalink to this definition">¶</a></dt>
+<dd><p>A dialog to rasterize the selected glyphs of the current font with element components.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="hTools2.dialogs.glyphs.renameAnchorsDialog">
+<em class="property">class </em><tt class="descclassname">hTools2.dialogs.glyphs.</tt><tt class="descname">renameAnchorsDialog</tt><a class="headerlink" href="#hTools2.dialogs.glyphs.renameAnchorsDialog" title="Permalink to this definition">¶</a></dt>
+<dd><p>A dialog to rename the anchors in the selected glyphs of the current font.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="hTools2.dialogs.glyphs.roundToGridDialog">
+<em class="property">class </em><tt class="descclassname">hTools2.dialogs.glyphs.</tt><tt class="descname">roundToGridDialog</tt><a class="headerlink" href="#hTools2.dialogs.glyphs.roundToGridDialog" title="Permalink to this definition">¶</a></dt>
+<dd><p>A dialog to round features of the selected glyphs to a grid.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="hTools2.dialogs.glyphs.shiftPointsDialog">
+<em class="property">class </em><tt class="descclassname">hTools2.dialogs.glyphs.</tt><tt class="descname">shiftPointsDialog</tt><a class="headerlink" href="#hTools2.dialogs.glyphs.shiftPointsDialog" title="Permalink to this definition">¶</a></dt>
+<dd><p>A dialog to select and shift points in the selected glyphs in a font.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="hTools2.dialogs.glyphs.scaleGlyphsDialog">
+<em class="property">class </em><tt class="descclassname">hTools2.dialogs.glyphs.</tt><tt class="descname">scaleGlyphsDialog</tt><a class="headerlink" href="#hTools2.dialogs.glyphs.scaleGlyphsDialog" title="Permalink to this definition">¶</a></dt>
+<dd><p>A dialog to scale the selected glyphs in a font.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="hTools2.dialogs.glyphs.skewGlyphsDialog">
+<em class="property">class </em><tt class="descclassname">hTools2.dialogs.glyphs.</tt><tt class="descname">skewGlyphsDialog</tt><a class="headerlink" href="#hTools2.dialogs.glyphs.skewGlyphsDialog" title="Permalink to this definition">¶</a></dt>
+<dd><p>A dialog to skew the selected glyphs in a font.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="hTools2.dialogs.glyphs.slideGlyphsDialog">
+<em class="property">class </em><tt class="descclassname">hTools2.dialogs.glyphs.</tt><tt class="descname">slideGlyphsDialog</tt><a class="headerlink" href="#hTools2.dialogs.glyphs.slideGlyphsDialog" title="Permalink to this definition">¶</a></dt>
+<dd><p>A dialog to slide the selected glyphs vertically and/or horizontally.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="hTools2.dialogs.glyphs.setWidthDialog">
+<em class="property">class </em><tt class="descclassname">hTools2.dialogs.glyphs.</tt><tt class="descname">setWidthDialog</tt><a class="headerlink" href="#hTools2.dialogs.glyphs.setWidthDialog" title="Permalink to this definition">¶</a></dt>
+<dd><p>A dialog to set the advance width of the selected glyphs.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="hTools2.dialogs.glyphs.setMarginsDialog">
+<em class="property">class </em><tt class="descclassname">hTools2.dialogs.glyphs.</tt><tt class="descname">setMarginsDialog</tt><a class="headerlink" href="#hTools2.dialogs.glyphs.setMarginsDialog" title="Permalink to this definition">¶</a></dt>
+<dd><p>A dialog to set the left/right side-bearings of the selected glyphs in the current font.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="hTools2.dialogs.glyphs.transferAnchorsDialog">
+<em class="property">class </em><tt class="descclassname">hTools2.dialogs.glyphs.</tt><tt class="descname">transferAnchorsDialog</tt><a class="headerlink" href="#hTools2.dialogs.glyphs.transferAnchorsDialog" title="Permalink to this definition">¶</a></dt>
+<dd><p>A dialog to transfer anchors from selected glyphs in one font to the same glyphs in another font.</p>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="dialogs.html"
+                        title="previous chapter">Dialogs</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="font.html"
+                        title="next chapter">font</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/dialogs/glyphs.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="font.html" title="font"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="dialogs.html" title="Dialogs"
+             >previous</a> |</li>
+        <li><a href="../index.html">hTools2</a> &raquo;</li>
+          <li><a href="dialogs.html" >Dialogs</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Gustavo Ferreira.
+      Last updated on Aug 30, 2013.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b1.
+    </div>
+  </body>
+</html>

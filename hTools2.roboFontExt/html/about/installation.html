@@ -1,0 +1,324 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Installing (manually) &mdash; hTools2</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.6',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/sidebar.js"></script>
+    <link rel="top" title="hTools2" href="../index.html" />
+    <link rel="up" title="Introduction" href="introduction.html" />
+    <link rel="next" title="Installing (as a RoboFont Extension)" href="install-extension.html" />
+    <link rel="prev" title="Overview" href="overview.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="install-extension.html" title="Installing (as a RoboFont Extension)"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="overview.html" title="Overview"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">hTools2</a> &raquo;</li>
+          <li><a href="introduction.html" accesskey="U">Introduction</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="installing-manually">
+<h1><a class="toc-backref" href="#id1">Installing (manually)</a><a class="headerlink" href="#installing-manually" title="Permalink to this headline">¶</a></h1>
+<div class="contents topic" id="table-of-contents">
+<p class="topic-title first">Table of Contents</p>
+<ul class="simple">
+<li><a class="reference internal" href="#installing-manually" id="id1">Installing (manually)</a><ul>
+<li><a class="reference internal" href="#choose-a-location" id="id2">0. Choose a location</a></li>
+<li><a class="reference internal" href="#get-the-source-code" id="id3">1. Get the source-code</a><ul>
+<li><a class="reference internal" href="#a-download-the-zip" id="id4">1a. Download the zip</a></li>
+<li><a class="reference internal" href="#b-check-out-with-git" id="id5">1b. Check-out with git</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#adding-the-module-to-python" id="id6">2. Adding the module to Python</a><ul>
+<li><a class="reference internal" href="#a-manually" id="id7">2a. manually</a></li>
+<li><a class="reference internal" href="#b-with-a-setup-script" id="id8">2b. with a setup script</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#testing-the-installation" id="id9">3. Testing the installation</a></li>
+<li><a class="reference internal" href="#configuring-htools2-scripts" id="id10">4. Configuring hTools2 Scripts</a><ul>
+<li><a class="reference internal" href="#a-scripts-under-a-custom-menu" id="id11">4a. Scripts under a custom menu</a></li>
+<li><a class="reference internal" href="#b-scripts-under-the-extensions-menu" id="id12">4b. Scripts under the Extensions menu</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#configuring-keyboard-shortcuts" id="id13">5. Configuring keyboard shortcuts</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="choose-a-location">
+<h2><a class="toc-backref" href="#id2">0. Choose a location</a><a class="headerlink" href="#choose-a-location" title="Permalink to this headline">¶</a></h2>
+<p>Choose a location on your hard disk to store the code libraries. For example:</p>
+<div class="highlight-python"><pre>/_code/</pre>
+</div>
+<p>Avoid using spaces or non-ASCII characters in folder names above the <a class="reference internal" href="../hTools2.html#module-hTools2" title="hTools2"><tt class="xref py py-mod docutils literal"><span class="pre">hTools2</span></tt></a> folder, since it may cause a problems.</p>
+</div>
+<div class="section" id="get-the-source-code">
+<h2><a class="toc-backref" href="#id3">1. Get the source-code</a><a class="headerlink" href="#get-the-source-code" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="a-download-the-zip">
+<h3><a class="toc-backref" href="#id4">1a. Download the zip</a><a class="headerlink" href="#a-download-the-zip" title="Permalink to this headline">¶</a></h3>
+<p>Download the latest version of <a class="reference internal" href="../hTools2.html#module-hTools2" title="hTools2"><tt class="xref py py-mod docutils literal"><span class="pre">hTools2</span></tt></a> from the project’s repository on <a class="reference external" href="https://github.com/gferreira/hTools2">github</a>.</p>
+<p>Unzip it into the newly created <tt class="docutils literal"><span class="pre">_code</span></tt> folder.</p>
+</div>
+<div class="section" id="b-check-out-with-git">
+<h3><a class="toc-backref" href="#id5">1b. Check-out with git</a><a class="headerlink" href="#b-check-out-with-git" title="Permalink to this headline">¶</a></h3>
+<p>If you are used to git, you can grab the code directly from the project&#8217;s repository on github:</p>
+<div class="highlight-python"><pre>git clone https://github.com/gferreira/hTools2.git</pre>
+</div>
+</div>
+</div>
+<div class="section" id="adding-the-module-to-python">
+<h2><a class="toc-backref" href="#id6">2. Adding the module to Python</a><a class="headerlink" href="#adding-the-module-to-python" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="a-manually">
+<h3><a class="toc-backref" href="#id7">2a. manually</a><a class="headerlink" href="#a-manually" title="Permalink to this headline">¶</a></h3>
+<p>Create a simple text file, containing the path to the <tt class="docutils literal"><span class="pre">Lib</span></tt> folder inside <a class="reference internal" href="../hTools2.html#module-hTools2" title="hTools2"><tt class="xref py py-mod docutils literal"><span class="pre">hTools2</span></tt></a>:</p>
+<div class="highlight-python"><pre>/code/hTools2/Lib/</pre>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The easiest way to get the correct path is by dragging the <tt class="docutils literal"><span class="pre">Lib</span></tt> folder from Finder into a code editor or Terminal &#8211; so you&#8217;ll get the path without having to type it.</p>
+</div>
+<p>Save this file as <tt class="docutils literal"><span class="pre">hTools2.pth</span></tt> in the <tt class="docutils literal"><span class="pre">site-packages</span></tt> folder for the desired Python(s):</p>
+<div class="highlight-python"><pre>/Library/Python/2.5/site-packages/hTools2.pth
+/Library/Python/2.6/site-packages/hTools2.pth
+/Library/Python/2.7/site-packages/hTools2.pth</pre>
+</div>
+<p>And that’s it.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This method will create a <strong>reference</strong> to the current <tt class="docutils literal"><span class="pre">Lib</span></tt> folder, in this case <tt class="docutils literal"><span class="pre">/code/hTools2/Lib/</span></tt>.</p>
+</div>
+</div>
+<div class="section" id="b-with-a-setup-script">
+<h3><a class="toc-backref" href="#id8">2b. with a setup script</a><a class="headerlink" href="#b-with-a-setup-script" title="Permalink to this headline">¶</a></h3>
+<p>As an alternative to the manual installation (2a), it is also possible to install <a class="reference internal" href="../hTools2.html#module-hTools2" title="hTools2"><tt class="xref py py-mod docutils literal"><span class="pre">hTools2</span></tt></a> by running a setup script.</p>
+<p>In the Terminal, go the <tt class="docutils literal"><span class="pre">hTools2</span></tt> folder, and simply run the script <tt class="docutils literal"><span class="pre">setup.py</span></tt> with Python:</p>
+<div class="highlight-python"><pre>cd /_code/hTools2/
+python setup.py</pre>
+</div>
+<p>If you get an error message regarding user permissions, try running the script with <tt class="docutils literal"><span class="pre">sudo</span></tt>:</p>
+<div class="highlight-python"><pre>sudo python setup.py</pre>
+</div>
+<p>This will prompt you to input your user name and password to allow access to system folders.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This method will <strong>copy</strong> the <tt class="docutils literal"><span class="pre">Lib</span></tt> folder to the Python <tt class="docutils literal"><span class="pre">site-packages</span></tt> folder.</p>
+</div>
+</div>
+</div>
+<div class="section" id="testing-the-installation">
+<h2><a class="toc-backref" href="#id9">3. Testing the installation</a><a class="headerlink" href="#testing-the-installation" title="Permalink to this headline">¶</a></h2>
+<p>To check if <tt class="docutils literal"><span class="pre">hTools2</span></tt> has been installed successfully, try to run this line in the RoboFont scripting window or in Terminal:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">hTools2</span>
+</pre></div>
+</div>
+<p>If no error message is returned, the installation was successful.</p>
+</div>
+<div class="section" id="configuring-htools2-scripts">
+<h2><a class="toc-backref" href="#id10">4. Configuring hTools2 Scripts</a><a class="headerlink" href="#configuring-htools2-scripts" title="Permalink to this headline">¶</a></h2>
+<p><tt class="docutils literal"><span class="pre">hTools2</span></tt> comes with many scripts and dialogs which need to me made available to the user via RoboFont’s inteface.</p>
+<div class="section" id="a-scripts-under-a-custom-menu">
+<h3><a class="toc-backref" href="#id11">4a. Scripts under a custom menu</a><a class="headerlink" href="#a-scripts-under-a-custom-menu" title="Permalink to this headline">¶</a></h3>
+<p>To add a <tt class="docutils literal"><span class="pre">hTools2</span></tt> entry to main menu in RoboFont, go to RoboFont&#8217;s <tt class="docutils literal"><span class="pre">Preferences/Extensions</span></tt> Window. In the section <tt class="docutils literal"><span class="pre">start-up</span> <span class="pre">scripts</span></tt>, select the file <tt class="docutils literal"><span class="pre">hTools2/add-RF-menu.py</span></tt>.</p>
+<p>Use this option if you already have many Scripts under your <tt class="docutils literal"><span class="pre">Extensions</span></tt> menu.</p>
+</div>
+<div class="section" id="b-scripts-under-the-extensions-menu">
+<h3><a class="toc-backref" href="#id12">4b. Scripts under the Extensions menu</a><a class="headerlink" href="#b-scripts-under-the-extensions-menu" title="Permalink to this headline">¶</a></h3>
+<p>Another option is to have the scripts appear under RoboFont’s <tt class="docutils literal"><span class="pre">Extensions</span></tt> menu. To configure this option, go to RoboFont&#8217;s <tt class="docutils literal"><span class="pre">Preferences/Python</span></tt> Window, and select the folder <tt class="docutils literal"><span class="pre">hTools2/Scripts</span></tt> as the scripts folder.</p>
+</div>
+</div>
+<div class="section" id="configuring-keyboard-shortcuts">
+<h2><a class="toc-backref" href="#id13">5. Configuring keyboard shortcuts</a><a class="headerlink" href="#configuring-keyboard-shortcuts" title="Permalink to this headline">¶</a></h2>
+<p>As an optional last step, it is also possible to configure keyboard shortcuts for <tt class="docutils literal"><span class="pre">hTools2</span></tt> scripts in RoboFont&#8217;s <tt class="docutils literal"><span class="pre">Preferences/Extensions</span></tt> Window. In the section <tt class="docutils literal"><span class="pre">start-up</span> <span class="pre">scripts</span></tt>, add the file <tt class="docutils literal"><span class="pre">add-RF-shortcuts.py</span></tt>.</p>
+<p>Here is an overview of all current keyboard schortcuts:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="11%" />
+<col width="89%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">key</th>
+<th class="head">dialog</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">a</span></tt></td>
+<td>selected glyphs &gt; actions &gt; actions</td>
+</tr>
+<tr class="row-odd"><td><tt class="docutils literal"><span class="pre">c</span></tt></td>
+<td>selected glyphs &gt; color &gt; paint select</td>
+</tr>
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">f</span></tt></td>
+<td>selected glyphs &gt; transform &gt; gridfit</td>
+</tr>
+<tr class="row-odd"><td><tt class="docutils literal"><span class="pre">h</span></tt></td>
+<td>selected glyphs &gt; metrics &gt; set width</td>
+</tr>
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">i</span></tt></td>
+<td>selected glyphs &gt; interpol &gt; interpolate</td>
+</tr>
+<tr class="row-odd"><td><tt class="docutils literal"><span class="pre">k</span></tt></td>
+<td>selected glyphs &gt; layers &gt; mask</td>
+</tr>
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">l</span></tt></td>
+<td>selected glyphs &gt; layers &gt; copy to layer</td>
+</tr>
+<tr class="row-odd"><td><tt class="docutils literal"><span class="pre">m</span></tt></td>
+<td>selected glyphs &gt; transform &gt; move</td>
+</tr>
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">o</span></tt></td>
+<td>selected glyphs &gt; layers &gt; copy to mask</td>
+</tr>
+<tr class="row-odd"><td><tt class="docutils literal"><span class="pre">p</span></tt></td>
+<td>selected glyphs &gt; actions &gt; copy paste</td>
+</tr>
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">r</span></tt></td>
+<td>selected glyphs &gt; transform &gt; mirror</td>
+</tr>
+<tr class="row-odd"><td><tt class="docutils literal"><span class="pre">s</span></tt></td>
+<td>selected glyphs &gt; transform &gt; scale</td>
+</tr>
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">t</span></tt></td>
+<td>selected glyphs &gt; transform &gt; shift</td>
+</tr>
+<tr class="row-odd"><td><tt class="docutils literal"><span class="pre">w</span></tt></td>
+<td>selected glyphs &gt; transform  &gt; skew</td>
+</tr>
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">v</span></tt></td>
+<td>current font &gt; vmetrics &gt; adjust</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">These shortcuts might clash with existing ones defined by other extensions or by the user.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">To customize the shortcuts used by <tt class="docutils literal"><span class="pre">hTools2</span></tt>, simply edit the contents of the file <tt class="docutils literal"><span class="pre">add-RF-shortcuts.py</span></tt>. It is recommended to save your custom shortcuts under a different file name, to avoid them from being overwritten in future <tt class="docutils literal"><span class="pre">hTools2</span></tt> code updates. Also, in the <tt class="docutils literal"><span class="pre">Preferences/Extensions</span></tt> Window, make sure that the correct (customized) script is set as a start-up script.</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Installing (manually)</a><ul>
+<li><a class="reference internal" href="#choose-a-location">0. Choose a location</a></li>
+<li><a class="reference internal" href="#get-the-source-code">1. Get the source-code</a><ul>
+<li><a class="reference internal" href="#a-download-the-zip">1a. Download the zip</a></li>
+<li><a class="reference internal" href="#b-check-out-with-git">1b. Check-out with git</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#adding-the-module-to-python">2. Adding the module to Python</a><ul>
+<li><a class="reference internal" href="#a-manually">2a. manually</a></li>
+<li><a class="reference internal" href="#b-with-a-setup-script">2b. with a setup script</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#testing-the-installation">3. Testing the installation</a></li>
+<li><a class="reference internal" href="#configuring-htools2-scripts">4. Configuring hTools2 Scripts</a><ul>
+<li><a class="reference internal" href="#a-scripts-under-a-custom-menu">4a. Scripts under a custom menu</a></li>
+<li><a class="reference internal" href="#b-scripts-under-the-extensions-menu">4b. Scripts under the Extensions menu</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#configuring-keyboard-shortcuts">5. Configuring keyboard shortcuts</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="overview.html"
+                        title="previous chapter">Overview</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="install-extension.html"
+                        title="next chapter">Installing (as a RoboFont Extension)</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/about/installation.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="install-extension.html" title="Installing (as a RoboFont Extension)"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="overview.html" title="Overview"
+             >previous</a> |</li>
+        <li><a href="../index.html">hTools2</a> &raquo;</li>
+          <li><a href="introduction.html" >Introduction</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Gustavo Ferreira.
+      Last updated on Sep 01, 2013.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b1.
+    </div>
+  </body>
+</html>

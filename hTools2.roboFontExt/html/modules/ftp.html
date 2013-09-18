@@ -1,0 +1,136 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>ftp &mdash; hTools2</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.6',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/sidebar.js"></script>
+    <link rel="top" title="hTools2" href="../index.html" />
+    <link rel="up" title="Modules" href="modules.html" />
+    <link rel="next" title="glyphutils" href="glyphutils.html" />
+    <link rel="prev" title="fontutils" href="fontutils.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="glyphutils.html" title="glyphutils"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="fontutils.html" title="fontutils"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">hTools2</a> &raquo;</li>
+          <li><a href="modules.html" accesskey="U">Modules</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-hTools2.modules.ftp">
+<span id="ftp"></span><h1>ftp<a class="headerlink" href="#module-hTools2.modules.ftp" title="Permalink to this headline">¶</a></h1>
+<p>Tools to connect to a FTP server, upload files etc.</p>
+<dl class="function">
+<dt id="hTools2.modules.ftp.connect_to_server">
+<tt class="descclassname">hTools2.modules.ftp.</tt><tt class="descname">connect_to_server</tt><big>(</big><em>url</em>, <em>login</em>, <em>password</em>, <em>folder</em>, <em>verbose=False</em><big>)</big><a class="reference internal" href="../_modules/hTools2/modules/ftp.html#connect_to_server"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools2.modules.ftp.connect_to_server" title="Permalink to this definition">¶</a></dt>
+<dd><p>Connects to the FTP server using the given connection settings.</p>
+<p>Use the given <tt class="docutils literal"><span class="pre">url</span></tt>, <tt class="docutils literal"><span class="pre">login</span></tt> and <tt class="docutils literal"><span class="pre">password</span></tt> information to make a connection. Move to the given <tt class="docutils literal"><span class="pre">folder</span></tt> (if it exists), and return a <tt class="docutils literal"><span class="pre">FTP</span></tt> object.</p>
+<p>To get to the lower level details about the FTP connection, use the optional parameter <tt class="docutils literal"><span class="pre">verbose=True</span></tt>.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="hTools2.modules.ftp.upload_file">
+<tt class="descclassname">hTools2.modules.ftp.</tt><tt class="descname">upload_file</tt><big>(</big><em>filePath</em>, <em>FTPconnection</em><big>)</big><a class="reference internal" href="../_modules/hTools2/modules/ftp.html#upload_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools2.modules.ftp.upload_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Upload the file at <tt class="docutils literal"><span class="pre">file_path</span></tt> to a FTP server, using the given <tt class="docutils literal"><span class="pre">ftp_connection</span></tt>.</p>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="fontutils.html"
+                        title="previous chapter">fontutils</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="glyphutils.html"
+                        title="next chapter">glyphutils</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/modules/ftp.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="glyphutils.html" title="glyphutils"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="fontutils.html" title="fontutils"
+             >previous</a> |</li>
+        <li><a href="../index.html">hTools2</a> &raquo;</li>
+          <li><a href="modules.html" >Modules</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Gustavo Ferreira.
+      Last updated on Aug 30, 2013.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b1.
+    </div>
+  </body>
+</html>

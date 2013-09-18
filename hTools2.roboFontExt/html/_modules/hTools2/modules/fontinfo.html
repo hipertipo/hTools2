@@ -1,0 +1,467 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>hTools2.modules.fontinfo &mdash; hTools2</title>
+    
+    <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '1.6',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../../_static/sidebar.js"></script>
+    <link rel="top" title="hTools2" href="../../../index.html" />
+    <link rel="up" title="hTools2" href="../../hTools2.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">hTools2</a> &raquo;</li>
+          <li><a href="../../index.html" >Module code</a> &raquo;</li>
+          <li><a href="../../hTools2.html" accesskey="U">hTools2</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for hTools2.modules.fontinfo</h1><div class="highlight"><pre>
+<span class="c"># [h] hTools2.modules.fontinfo</span>
+
+<span class="sd">&quot;&quot;&quot;Tools to get and set different kinds of font information.</span>
+
+<span class="sd">See the `UFO documentation &lt;http://unifiedfontobject.org/versions/ufo2/fontinfo.html&gt;`_.</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="c"># debug</span>
+
+<span class="kn">import</span> <span class="nn">hTools2</span>
+<span class="nb">reload</span><span class="p">(</span><span class="n">hTools2</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">hTools2</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">fileutils</span>
+    <span class="nb">reload</span><span class="p">(</span><span class="n">fileutils</span><span class="p">)</span>
+
+<span class="c"># imports</span>
+
+<span class="kn">import</span> <span class="nn">os</span>
+
+<span class="kn">from</span> <span class="nn">fileutils</span> <span class="kn">import</span> <span class="n">get_names_from_path</span>
+
+<span class="c"># set info</span>
+
+<div class="viewcode-block" id="set_font_names"><a class="viewcode-back" href="../../../modules/fontinfo.html#hTools2.modules.fontinfo.set_font_names">[docs]</a><span class="k">def</span> <span class="nf">set_font_names</span><span class="p">(</span><span class="n">font</span><span class="p">,</span> <span class="n">family_name</span><span class="p">,</span> <span class="n">style_name</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Set several font naming fields from ``family`` and ``style`` names.&quot;&quot;&quot;</span>
+    <span class="n">full_name</span> <span class="o">=</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s">_</span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">family_name</span><span class="p">,</span> <span class="n">style_name</span><span class="p">)</span>
+    <span class="c"># main family/style names</span>
+    <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">familyName</span> <span class="o">=</span> <span class="n">family_name</span>
+    <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">styleName</span> <span class="o">=</span> <span class="n">style_name</span>
+    <span class="c"># style map names</span>
+    <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">styleMapFamilyName</span> <span class="o">=</span> <span class="bp">None</span> <span class="c"># full_name</span>
+    <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">styleMapStyleName</span> <span class="o">=</span> <span class="bp">None</span> <span class="c"># &#39;regular&#39;</span>
+    <span class="c"># opentype names</span>
+    <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">openTypeNamePreferredFamilyName</span> <span class="o">=</span> <span class="bp">None</span> <span class="c"># family_name</span>
+    <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">openTypeNamePreferredSubfamilyName</span> <span class="o">=</span> <span class="bp">None</span> <span class="c"># style_name</span>
+    <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">openTypeNameCompatibleFullName</span> <span class="o">=</span> <span class="bp">None</span> <span class="c"># full_name</span>
+    <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">openTypeNameUniqueID</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="c"># postscript names</span>
+    <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">postscriptFontName</span> <span class="o">=</span> <span class="bp">None</span> <span class="c"># full_name</span>
+    <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">postscriptFullName</span> <span class="o">=</span> <span class="bp">None</span> <span class="c"># full_name</span>
+    <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">postscriptUniqueID</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">postscriptWeightName</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="c"># FOND names</span>
+    <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">macintoshFONDFamilyID</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">macintoshFONDName</span> <span class="o">=</span> <span class="bp">None</span>
+</div>
+<div class="viewcode-block" id="set_names_from_path"><a class="viewcode-back" href="../../../modules/fontinfo.html#hTools2.modules.fontinfo.set_names_from_path">[docs]</a><span class="k">def</span> <span class="nf">set_names_from_path</span><span class="p">(</span><span class="n">font</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Set the font naming fields using parts of the name of the font file.&quot;&quot;&quot;</span>
+    <span class="n">family_name</span><span class="p">,</span> <span class="n">style_name</span> <span class="o">=</span> <span class="n">get_names_from_path</span><span class="p">(</span><span class="n">font</span><span class="o">.</span><span class="n">path</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">prefix</span><span class="p">:</span>
+        <span class="n">family_name</span> <span class="o">=</span> <span class="n">prefix</span> <span class="o">+</span> <span class="s">&#39; &#39;</span> <span class="o">+</span> <span class="n">family_name</span>
+    <span class="n">set_font_names</span><span class="p">(</span><span class="n">font</span><span class="p">,</span> <span class="n">family_name</span><span class="p">,</span> <span class="n">style_name</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="set_vmetrics"><a class="viewcode-back" href="../../../modules/fontinfo.html#hTools2.modules.fontinfo.set_vmetrics">[docs]</a><span class="k">def</span> <span class="nf">set_vmetrics</span><span class="p">(</span><span class="n">font</span><span class="p">,</span> <span class="n">xheight</span><span class="p">,</span> <span class="n">capheight</span><span class="p">,</span> <span class="n">ascender</span><span class="p">,</span> <span class="n">descender</span><span class="p">,</span> <span class="n">emsquare</span><span class="p">,</span> <span class="n">gridsize</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+    <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">xHeight</span> <span class="o">=</span> <span class="n">xheight</span> <span class="o">*</span> <span class="n">gridsize</span>
+    <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">capHeight</span> <span class="o">=</span> <span class="n">capheight</span> <span class="o">*</span> <span class="n">gridsize</span>
+    <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">descender</span> <span class="o">=</span> <span class="n">descender</span> <span class="o">*</span> <span class="n">gridsize</span>
+    <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">ascender</span> <span class="o">=</span> <span class="n">ascender</span> <span class="o">*</span> <span class="n">gridsize</span>
+    <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">unitsPerEm</span> <span class="o">=</span> <span class="n">emsquare</span> <span class="o">*</span> <span class="n">gridsize</span>
+
+<span class="c"># print info</span>
+</div>
+<div class="viewcode-block" id="print_font_info"><a class="viewcode-back" href="../../../modules/fontinfo.html#hTools2.modules.fontinfo.print_font_info">[docs]</a><span class="k">def</span> <span class="nf">print_font_info</span><span class="p">(</span><span class="n">font</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Print several kinds of font information, using a special method for each section.</span>
+
+<span class="sd">    The data and related functions are organized according to the UFO 2 spec.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">print</span> <span class="s">&#39;printing font info...&#39;</span>
+    <span class="n">print_generic_identification</span><span class="p">(</span><span class="n">font</span><span class="p">)</span>
+    <span class="n">print_generic_legal</span><span class="p">(</span><span class="n">font</span><span class="p">)</span>
+    <span class="n">print_generic_dimension</span><span class="p">(</span><span class="n">font</span><span class="p">)</span>
+    <span class="n">print_generic_miscellaneous</span><span class="p">(</span><span class="n">font</span><span class="p">)</span>
+    <span class="n">print_opentype_head</span><span class="p">(</span><span class="n">font</span><span class="p">)</span>
+    <span class="n">print_opentype_hhea</span><span class="p">(</span><span class="n">font</span><span class="p">)</span>
+    <span class="n">print_opentype_name</span><span class="p">(</span><span class="n">font</span><span class="p">)</span>
+    <span class="n">print_opentype_os2</span><span class="p">(</span><span class="n">font</span><span class="p">)</span>
+    <span class="n">print_opentype_vhea</span><span class="p">(</span><span class="n">font</span><span class="p">)</span>
+    <span class="n">print_postscript_data</span><span class="p">(</span><span class="n">font</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="print_generic_identification"><a class="viewcode-back" href="../../../modules/fontinfo.html#hTools2.modules.fontinfo.print_generic_identification">[docs]</a><span class="k">def</span> <span class="nf">print_generic_identification</span><span class="p">(</span><span class="n">font</span><span class="p">):</span>
+    <span class="k">print</span> <span class="s">&#39;-&#39;</span> <span class="o">*</span> <span class="mi">60</span>
+    <span class="k">print</span> <span class="s">&#39;Generic Identification Information&#39;</span>
+    <span class="k">print</span> <span class="s">&#39;-&#39;</span> <span class="o">*</span> <span class="mi">60</span>
+    <span class="k">print</span> <span class="s">&#39;familyName:&#39;</span><span class="p">,</span> <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">familyName</span>
+    <span class="k">print</span> <span class="s">&#39;styleName:&#39;</span><span class="p">,</span> <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">styleName</span>
+    <span class="k">print</span> <span class="s">&#39;styleMapFamilyName:&#39;</span><span class="p">,</span> <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">styleMapFamilyName</span>
+    <span class="k">print</span> <span class="s">&#39;styleMapStyleName:&#39;</span><span class="p">,</span> <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">styleMapStyleName</span>
+    <span class="k">print</span> <span class="s">&#39;versionMajor:&#39;</span><span class="p">,</span> <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">versionMajor</span>
+    <span class="k">print</span> <span class="s">&#39;versionMinor:&#39;</span><span class="p">,</span> <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">versionMinor</span>
+    <span class="k">print</span> <span class="s">&#39;year:&#39;</span><span class="p">,</span> <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">year</span>
+    <span class="k">print</span>
+</div>
+<div class="viewcode-block" id="print_generic_legal"><a class="viewcode-back" href="../../../modules/fontinfo.html#hTools2.modules.fontinfo.print_generic_legal">[docs]</a><span class="k">def</span> <span class="nf">print_generic_legal</span><span class="p">(</span><span class="n">font</span><span class="p">):</span>
+    <span class="k">print</span> <span class="s">&#39;-&#39;</span> <span class="o">*</span> <span class="mi">60</span>
+    <span class="k">print</span> <span class="s">&#39;Generic Legal Information&#39;</span>
+    <span class="k">print</span> <span class="s">&#39;-&#39;</span> <span class="o">*</span> <span class="mi">60</span>
+    <span class="k">print</span> <span class="s">&#39;copyright: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">copyright</span>
+    <span class="k">print</span> <span class="s">&#39;trademark: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">trademark</span>
+    <span class="k">print</span>
+</div>
+<div class="viewcode-block" id="print_generic_dimension"><a class="viewcode-back" href="../../../modules/fontinfo.html#hTools2.modules.fontinfo.print_generic_dimension">[docs]</a><span class="k">def</span> <span class="nf">print_generic_dimension</span><span class="p">(</span><span class="n">font</span><span class="p">):</span>
+    <span class="k">print</span> <span class="s">&#39;-&#39;</span> <span class="o">*</span> <span class="mi">60</span>
+    <span class="k">print</span> <span class="s">&#39;Generic Dimension Information&#39;</span>
+    <span class="k">print</span> <span class="s">&#39;-&#39;</span> <span class="o">*</span> <span class="mi">60</span>
+    <span class="k">print</span> <span class="s">&#39;unitsPerEm: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">unitsPerEm</span>
+    <span class="k">print</span> <span class="s">&#39;descender: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">descender</span>
+    <span class="k">print</span> <span class="s">&#39;xHeight: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">xHeight</span>
+    <span class="k">print</span> <span class="s">&#39;capHeight: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">capHeight</span>
+    <span class="k">print</span> <span class="s">&#39;ascender: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">ascender</span>
+    <span class="k">print</span> <span class="s">&#39;italicAngle: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">italicAngle</span>
+    <span class="k">print</span>
+</div>
+<div class="viewcode-block" id="print_generic_miscellaneous"><a class="viewcode-back" href="../../../modules/fontinfo.html#hTools2.modules.fontinfo.print_generic_miscellaneous">[docs]</a><span class="k">def</span> <span class="nf">print_generic_miscellaneous</span><span class="p">(</span><span class="n">font</span><span class="p">):</span>
+    <span class="k">print</span> <span class="s">&#39;-&#39;</span> <span class="o">*</span> <span class="mi">60</span>
+    <span class="k">print</span> <span class="s">&#39;Generic Miscellaneous Information&#39;</span>
+    <span class="k">print</span> <span class="s">&#39;-&#39;</span> <span class="o">*</span> <span class="mi">60</span>
+    <span class="k">print</span> <span class="s">&#39;note: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">note</span>
+    <span class="k">print</span>
+</div>
+<div class="viewcode-block" id="print_opentype_head"><a class="viewcode-back" href="../../../modules/fontinfo.html#hTools2.modules.fontinfo.print_opentype_head">[docs]</a><span class="k">def</span> <span class="nf">print_opentype_head</span><span class="p">(</span><span class="n">font</span><span class="p">):</span>
+    <span class="k">print</span> <span class="s">&#39;-&#39;</span> <span class="o">*</span> <span class="mi">60</span>
+    <span class="k">print</span> <span class="s">&#39;OpenType head Table Fields&#39;</span>
+    <span class="k">print</span> <span class="s">&#39;-&#39;</span> <span class="o">*</span> <span class="mi">60</span>
+    <span class="k">print</span> <span class="s">&#39;openTypeHeadCreated: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">openTypeHeadCreated</span>
+    <span class="k">print</span> <span class="s">&#39;openTypeHeadLowestRecPPEM: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">openTypeHeadLowestRecPPEM</span>
+    <span class="k">print</span> <span class="s">&#39;openTypeHeadFlags: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">openTypeHeadFlags</span>
+    <span class="k">print</span>
+</div>
+<div class="viewcode-block" id="print_opentype_hhea"><a class="viewcode-back" href="../../../modules/fontinfo.html#hTools2.modules.fontinfo.print_opentype_hhea">[docs]</a><span class="k">def</span> <span class="nf">print_opentype_hhea</span><span class="p">(</span><span class="n">font</span><span class="p">):</span>
+    <span class="k">print</span> <span class="s">&#39;-&#39;</span> <span class="o">*</span> <span class="mi">60</span>
+    <span class="k">print</span> <span class="s">&#39;OpenType hhea Table Fields&#39;</span>
+    <span class="k">print</span> <span class="s">&#39;-&#39;</span> <span class="o">*</span> <span class="mi">60</span>
+    <span class="k">print</span> <span class="s">&#39;openTypeHheaAscender: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">openTypeHheaAscender</span>
+    <span class="k">print</span> <span class="s">&#39;openTypeHheaDescender: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">openTypeHheaDescender</span>
+    <span class="k">print</span> <span class="s">&#39;openTypeHheaLineGap: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">openTypeHheaLineGap</span>
+    <span class="k">print</span> <span class="s">&#39;openTypeHheaCaretSlopeRise: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">openTypeHheaCaretSlopeRise</span>
+    <span class="k">print</span> <span class="s">&#39;openTypeHheaCaretSlopeRun: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">openTypeHheaCaretSlopeRun</span>
+    <span class="k">print</span> <span class="s">&#39;openTypeHheaCaretOffset: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">openTypeHheaCaretOffset</span>
+    <span class="k">print</span>
+</div>
+<div class="viewcode-block" id="print_opentype_name"><a class="viewcode-back" href="../../../modules/fontinfo.html#hTools2.modules.fontinfo.print_opentype_name">[docs]</a><span class="k">def</span> <span class="nf">print_opentype_name</span><span class="p">(</span><span class="n">font</span><span class="p">):</span>
+    <span class="k">print</span> <span class="s">&#39;-&#39;</span> <span class="o">*</span> <span class="mi">60</span>
+    <span class="k">print</span> <span class="s">&#39;OpenType Name Table Fields&#39;</span>
+    <span class="k">print</span> <span class="s">&#39;-&#39;</span> <span class="o">*</span> <span class="mi">60</span>
+    <span class="k">print</span> <span class="s">&#39;openTypeNameDesigner: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">openTypeNameDesigner</span>
+    <span class="k">print</span> <span class="s">&#39;openTypeNameDesignerURL: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">openTypeNameDesignerURL</span>
+    <span class="k">print</span> <span class="s">&#39;openTypeNameManufacturer: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">openTypeNameManufacturer</span>
+    <span class="k">print</span> <span class="s">&#39;openTypeNameManufacturerURL: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">openTypeNameManufacturerURL</span>
+    <span class="k">print</span> <span class="s">&#39;openTypeNameLicense: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">openTypeNameLicense</span>
+    <span class="k">print</span> <span class="s">&#39;openTypeNameLicenseURL: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">openTypeNameLicenseURL</span>
+    <span class="k">print</span> <span class="s">&#39;openTypeNameVersion: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">openTypeNameVersion</span>
+    <span class="k">print</span> <span class="s">&#39;openTypeNameUniqueID: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">openTypeNameUniqueID</span>
+    <span class="k">print</span> <span class="s">&#39;openTypeNameDescription: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">openTypeNameDescription</span>
+    <span class="k">print</span> <span class="s">&#39;openTypeNamePreferredFamilyName: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">openTypeNamePreferredFamilyName</span>
+    <span class="k">print</span> <span class="s">&#39;openTypeNamePreferredSubfamilyName: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">openTypeNamePreferredSubfamilyName</span>
+    <span class="k">print</span> <span class="s">&#39;openTypeNameCompatibleFullName: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">openTypeNameCompatibleFullName</span>
+    <span class="k">print</span> <span class="s">&#39;openTypeNameSampleText: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">openTypeNameSampleText</span>
+    <span class="k">print</span> <span class="s">&#39;openTypeNameWWSFamilyName: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">openTypeNameWWSFamilyName</span>
+    <span class="k">print</span> <span class="s">&#39;openTypeNameWWSSubfamilyName: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">openTypeNameWWSSubfamilyName</span>
+    <span class="k">print</span>
+</div>
+<div class="viewcode-block" id="print_opentype_os2"><a class="viewcode-back" href="../../../modules/fontinfo.html#hTools2.modules.fontinfo.print_opentype_os2">[docs]</a><span class="k">def</span> <span class="nf">print_opentype_os2</span><span class="p">(</span><span class="n">font</span><span class="p">):</span>
+    <span class="k">print</span> <span class="s">&#39;-&#39;</span> <span class="o">*</span> <span class="mi">60</span>
+    <span class="k">print</span> <span class="s">&#39;OpenType OS/2 Table Fields&#39;</span>
+    <span class="k">print</span> <span class="s">&#39;-&#39;</span> <span class="o">*</span> <span class="mi">60</span>
+    <span class="k">print</span> <span class="s">&#39;openTypeOS2WidthClass: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">openTypeOS2WidthClass</span>
+    <span class="k">print</span> <span class="s">&#39;openTypeOS2WeightClass: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">openTypeOS2WeightClass</span>
+    <span class="k">print</span> <span class="s">&#39;openTypeOS2Selection: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">openTypeOS2Selection</span>
+    <span class="k">print</span> <span class="s">&#39;openTypeOS2VendorID: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">openTypeOS2VendorID</span>
+    <span class="k">print</span> <span class="s">&#39;openTypeOS2Panose: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">openTypeOS2Panose</span>
+    <span class="k">print</span> <span class="s">&#39;openTypeOS2FamilyClass: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">openTypeOS2FamilyClass</span>
+    <span class="k">print</span> <span class="s">&#39;openTypeOS2UnicodeRanges: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">openTypeOS2UnicodeRanges</span>
+    <span class="k">print</span> <span class="s">&#39;openTypeOS2CodePageRanges: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">openTypeOS2CodePageRanges</span>
+    <span class="k">print</span> <span class="s">&#39;openTypeOS2TypoAscender: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">openTypeOS2TypoAscender</span>
+    <span class="k">print</span> <span class="s">&#39;openTypeOS2TypoDescender: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">openTypeOS2TypoDescender</span>
+    <span class="k">print</span> <span class="s">&#39;openTypeOS2TypoLineGap: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">openTypeOS2TypoLineGap</span>
+    <span class="k">print</span> <span class="s">&#39;openTypeOS2WinAscent: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">openTypeOS2WinAscent</span>
+    <span class="k">print</span> <span class="s">&#39;openTypeOS2WinDescent: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">openTypeOS2WinDescent</span>
+    <span class="k">print</span> <span class="s">&#39;openTypeOS2Type: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">openTypeOS2Type</span>
+    <span class="k">print</span> <span class="s">&#39;openTypeOS2SubscriptXSize: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">openTypeOS2SubscriptXSize</span>
+    <span class="k">print</span> <span class="s">&#39;openTypeOS2SubscriptYSize: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">openTypeOS2SubscriptYSize</span>
+    <span class="k">print</span> <span class="s">&#39;openTypeOS2SubscriptXOffset: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">openTypeOS2SubscriptXOffset</span>
+    <span class="k">print</span> <span class="s">&#39;openTypeOS2SubscriptYOffset: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">openTypeOS2SubscriptYOffset</span>
+    <span class="k">print</span> <span class="s">&#39;openTypeOS2SuperscriptXSize: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">openTypeOS2SuperscriptXSize</span>
+    <span class="k">print</span> <span class="s">&#39;openTypeOS2SuperscriptYSize: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">openTypeOS2SuperscriptYSize</span>
+    <span class="k">print</span> <span class="s">&#39;openTypeOS2SuperscriptXOffset: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">openTypeOS2SuperscriptXOffset</span>
+    <span class="k">print</span> <span class="s">&#39;openTypeOS2SuperscriptYOffset: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">openTypeOS2SuperscriptYOffset</span>
+    <span class="k">print</span> <span class="s">&#39;openTypeOS2StrikeoutSize: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">openTypeOS2StrikeoutSize</span>
+    <span class="k">print</span> <span class="s">&#39;openTypeOS2StrikeoutPosition: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">openTypeOS2StrikeoutPosition</span>
+    <span class="k">print</span>
+</div>
+<div class="viewcode-block" id="print_opentype_vhea"><a class="viewcode-back" href="../../../modules/fontinfo.html#hTools2.modules.fontinfo.print_opentype_vhea">[docs]</a><span class="k">def</span> <span class="nf">print_opentype_vhea</span><span class="p">(</span><span class="n">font</span><span class="p">):</span>
+    <span class="k">print</span> <span class="s">&#39;-&#39;</span> <span class="o">*</span> <span class="mi">60</span>
+    <span class="k">print</span> <span class="s">&#39;OpenType vhea Table Fields&#39;</span>
+    <span class="k">print</span> <span class="s">&#39;-&#39;</span> <span class="o">*</span> <span class="mi">60</span>
+    <span class="k">print</span> <span class="s">&#39;openTypeVheaVertTypoAscender: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">openTypeVheaVertTypoAscender</span>
+    <span class="k">print</span> <span class="s">&#39;openTypeVheaVertTypoDescender: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">openTypeVheaVertTypoDescender</span>
+    <span class="k">print</span> <span class="s">&#39;openTypeVheaVertTypoLineGap: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">openTypeVheaVertTypoLineGap</span>
+    <span class="k">print</span> <span class="s">&#39;openTypeVheaCaretSlopeRise: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">openTypeVheaCaretSlopeRise</span>
+    <span class="k">print</span> <span class="s">&#39;openTypeVheaCaretSlopeRun: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">openTypeVheaCaretSlopeRun</span>
+    <span class="k">print</span> <span class="s">&#39;openTypeVheaCaretOffset: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">openTypeVheaCaretOffset</span>
+    <span class="k">print</span>
+</div>
+<div class="viewcode-block" id="print_postscript_data"><a class="viewcode-back" href="../../../modules/fontinfo.html#hTools2.modules.fontinfo.print_postscript_data">[docs]</a><span class="k">def</span> <span class="nf">print_postscript_data</span><span class="p">(</span><span class="n">font</span><span class="p">):</span>
+    <span class="k">print</span> <span class="s">&#39;-&#39;</span> <span class="o">*</span> <span class="mi">60</span>
+    <span class="k">print</span> <span class="s">&#39;PostScript Specific Data&#39;</span>
+    <span class="k">print</span> <span class="s">&#39;-&#39;</span> <span class="o">*</span> <span class="mi">60</span>
+    <span class="k">print</span> <span class="s">&#39;postscriptFontName: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">postscriptFontName</span>
+    <span class="k">print</span> <span class="s">&#39;postscriptFullName: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">postscriptFullName</span>
+    <span class="k">print</span> <span class="s">&#39;postscriptSlantAngle: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">postscriptSlantAngle</span>
+    <span class="k">print</span> <span class="s">&#39;postscriptUniqueID: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">postscriptUniqueID</span>
+    <span class="k">print</span> <span class="s">&#39;postscriptUnderlineThickness: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">postscriptUnderlineThickness</span>
+    <span class="k">print</span> <span class="s">&#39;postscriptUnderlinePosition: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">postscriptUnderlinePosition</span>
+    <span class="k">print</span> <span class="s">&#39;postscriptIsFixedPitch: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">postscriptIsFixedPitch</span>
+    <span class="k">print</span> <span class="s">&#39;postscriptBlueValues: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">postscriptBlueValues</span>
+    <span class="k">print</span> <span class="s">&#39;postscriptOtherBlues: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">postscriptOtherBlues</span>
+    <span class="k">print</span> <span class="s">&#39;postscriptFamilyBlues: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">postscriptFamilyBlues</span>
+    <span class="k">print</span> <span class="s">&#39;postscriptFamilyOtherBlues: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">postscriptFamilyOtherBlues</span>
+    <span class="k">print</span> <span class="s">&#39;postscriptStemSnapH: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">postscriptStemSnapH</span>
+    <span class="k">print</span> <span class="s">&#39;postscriptStemSnapV: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">postscriptStemSnapV</span>
+    <span class="k">print</span> <span class="s">&#39;postscriptBlueFuzz: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">postscriptBlueFuzz</span>
+    <span class="k">print</span> <span class="s">&#39;postscriptBlueShift: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">postscriptBlueShift</span>
+    <span class="k">print</span> <span class="s">&#39;postscriptBlueScale: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">postscriptBlueScale</span>
+    <span class="k">print</span> <span class="s">&#39;postscriptForceBold: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">postscriptForceBold</span>
+    <span class="k">print</span> <span class="s">&#39;postscriptDefaultWidthX: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">postscriptDefaultWidthX</span>
+    <span class="k">print</span> <span class="s">&#39;postscriptNominalWidthX: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">postscriptNominalWidthX</span>
+    <span class="k">print</span> <span class="s">&#39;postscriptWeightName: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">postscriptWeightName</span>
+    <span class="k">print</span> <span class="s">&#39;postscriptDefaultCharacter: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">postscriptDefaultCharacter</span>
+    <span class="k">print</span> <span class="s">&#39;postscriptWindowsCharacterSet: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">postscriptWindowsCharacterSet</span>
+    <span class="k">print</span>
+
+<span class="c"># clear info</span>
+</div>
+<div class="viewcode-block" id="clear_font_info"><a class="viewcode-back" href="../../../modules/fontinfo.html#hTools2.modules.fontinfo.clear_font_info">[docs]</a><span class="k">def</span> <span class="nf">clear_font_info</span><span class="p">(</span><span class="n">font</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Clears all font information fields in the font.&quot;&quot;&quot;</span>
+    <span class="c"># print &#39;deleting font info&#39;</span>
+    <span class="n">clear_generic_identification</span><span class="p">(</span><span class="n">font</span><span class="p">)</span>
+    <span class="n">clear_generic_legal</span><span class="p">(</span><span class="n">font</span><span class="p">)</span>
+    <span class="n">clear_generic_dimension</span><span class="p">(</span><span class="n">font</span><span class="p">)</span>
+    <span class="n">clear_generic_miscellaneous</span><span class="p">(</span><span class="n">font</span><span class="p">)</span>
+    <span class="n">clear_opentype_head</span><span class="p">(</span><span class="n">font</span><span class="p">)</span>
+    <span class="n">clear_opentype_hhea</span><span class="p">(</span><span class="n">font</span><span class="p">)</span>
+    <span class="n">clear_opentype_name</span><span class="p">(</span><span class="n">font</span><span class="p">)</span>
+    <span class="n">clear_opentype_os2</span><span class="p">(</span><span class="n">font</span><span class="p">)</span>
+    <span class="n">clear_opentype_vhea</span><span class="p">(</span><span class="n">font</span><span class="p">)</span>
+    <span class="n">clear_postscript_data</span><span class="p">(</span><span class="n">font</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="clear_generic_identification"><a class="viewcode-back" href="../../../modules/fontinfo.html#hTools2.modules.fontinfo.clear_generic_identification">[docs]</a><span class="k">def</span> <span class="nf">clear_generic_identification</span><span class="p">(</span><span class="n">font</span><span class="p">):</span>
+    <span class="c"># print &#39;deleting Generic Identification Information&#39;</span>
+    <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">familyName</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">styleName</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">styleMapFamilyName</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">styleMapStyleName</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">versionMajor</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">versionMinor</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">year</span> <span class="o">=</span> <span class="bp">None</span>
+</div>
+<div class="viewcode-block" id="clear_generic_legal"><a class="viewcode-back" href="../../../modules/fontinfo.html#hTools2.modules.fontinfo.clear_generic_legal">[docs]</a><span class="k">def</span> <span class="nf">clear_generic_legal</span><span class="p">(</span><span class="n">font</span><span class="p">):</span>
+    <span class="c"># print &#39;deleting Generic Legal Information&#39;</span>
+    <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">copyright</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">trademark</span> <span class="o">=</span> <span class="bp">None</span>
+</div>
+<div class="viewcode-block" id="clear_generic_dimension"><a class="viewcode-back" href="../../../modules/fontinfo.html#hTools2.modules.fontinfo.clear_generic_dimension">[docs]</a><span class="k">def</span> <span class="nf">clear_generic_dimension</span><span class="p">(</span><span class="n">font</span><span class="p">):</span>
+    <span class="c"># print &#39;deleting Generic Dimension Information&#39;</span>
+    <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">unitsPerEm</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">descender</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">xHeight</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">capHeight</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">ascender</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">italicAngle</span> <span class="o">=</span> <span class="bp">None</span>
+</div>
+<div class="viewcode-block" id="clear_generic_miscellaneous"><a class="viewcode-back" href="../../../modules/fontinfo.html#hTools2.modules.fontinfo.clear_generic_miscellaneous">[docs]</a><span class="k">def</span> <span class="nf">clear_generic_miscellaneous</span><span class="p">(</span><span class="n">font</span><span class="p">):</span>
+    <span class="c"># print &#39;deleting Generic Miscellaneous Information&#39;</span>
+    <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">note</span> <span class="o">=</span> <span class="bp">None</span>
+</div>
+<div class="viewcode-block" id="clear_opentype_head"><a class="viewcode-back" href="../../../modules/fontinfo.html#hTools2.modules.fontinfo.clear_opentype_head">[docs]</a><span class="k">def</span> <span class="nf">clear_opentype_head</span><span class="p">(</span><span class="n">font</span><span class="p">):</span>
+    <span class="c"># print &#39;deleting OpenType head Table Fields&#39;</span>
+    <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">openTypeHeadCreated</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">openTypeHeadLowestRecPPEM</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">openTypeHeadFlags</span> <span class="o">=</span> <span class="bp">None</span>
+</div>
+<div class="viewcode-block" id="clear_opentype_hhea"><a class="viewcode-back" href="../../../modules/fontinfo.html#hTools2.modules.fontinfo.clear_opentype_hhea">[docs]</a><span class="k">def</span> <span class="nf">clear_opentype_hhea</span><span class="p">(</span><span class="n">font</span><span class="p">):</span>
+    <span class="c"># print &#39;deleting OpenType hhea Table Fields&#39;</span>
+    <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">openTypeHheaAscender</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">openTypeHheaDescender</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">openTypeHheaLineGap</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">openTypeHheaCaretSlopeRise</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">openTypeHheaCaretSlopeRun</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">openTypeHheaCaretOffset</span> <span class="o">=</span> <span class="bp">None</span>
+</div>
+<div class="viewcode-block" id="clear_opentype_name"><a class="viewcode-back" href="../../../modules/fontinfo.html#hTools2.modules.fontinfo.clear_opentype_name">[docs]</a><span class="k">def</span> <span class="nf">clear_opentype_name</span><span class="p">(</span><span class="n">font</span><span class="p">):</span>
+    <span class="c"># print &#39;deleting OpenType Name Table Fields&#39;</span>
+    <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">openTypeNameDesigner</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">openTypeNameDesignerURL</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">openTypeNameManufacturer</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">openTypeNameManufacturerURL</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">openTypeNameLicense</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">openTypeNameLicenseURL</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">openTypeNameVersion</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">openTypeNameUniqueID</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">openTypeNameDescription</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">openTypeNamePreferredFamilyName</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">openTypeNamePreferredSubfamilyName</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">openTypeNameCompatibleFullName</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">openTypeNameSampleText</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">openTypeNameWWSFamilyName</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">openTypeNameWWSSubfamilyName</span> <span class="o">=</span> <span class="bp">None</span>
+</div>
+<div class="viewcode-block" id="clear_opentype_os2"><a class="viewcode-back" href="../../../modules/fontinfo.html#hTools2.modules.fontinfo.clear_opentype_os2">[docs]</a><span class="k">def</span> <span class="nf">clear_opentype_os2</span><span class="p">(</span><span class="n">font</span><span class="p">):</span>
+    <span class="c"># print &#39;deleting OpenType OS/2 Table Fields&#39;</span>
+    <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">openTypeOS2WidthClass</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">openTypeOS2WeightClass</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">openTypeOS2Selection</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">openTypeOS2VendorID</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">openTypeOS2Panose</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">openTypeOS2FamilyClass</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">openTypeOS2UnicodeRanges</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">openTypeOS2CodePageRanges</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">openTypeOS2TypoAscender</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">openTypeOS2TypoDescender</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">openTypeOS2TypoLineGap</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">openTypeOS2WinAscent</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">openTypeOS2WinDescent</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">openTypeOS2Type</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">openTypeOS2SubscriptXSize</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">openTypeOS2SubscriptYSize</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">openTypeOS2SubscriptXOffset</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">openTypeOS2SubscriptYOffset</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">openTypeOS2SuperscriptXSize</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">openTypeOS2SuperscriptYSize</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">openTypeOS2SuperscriptXOffset</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">openTypeOS2SuperscriptYOffset</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">openTypeOS2StrikeoutSize</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">openTypeOS2StrikeoutPosition</span> <span class="o">=</span> <span class="bp">None</span>
+</div>
+<div class="viewcode-block" id="clear_opentype_vhea"><a class="viewcode-back" href="../../../modules/fontinfo.html#hTools2.modules.fontinfo.clear_opentype_vhea">[docs]</a><span class="k">def</span> <span class="nf">clear_opentype_vhea</span><span class="p">(</span><span class="n">font</span><span class="p">):</span>
+    <span class="c"># print &#39;deleting OpenType vhea Table Fields&#39;</span>
+    <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">openTypeVheaVertTypoAscender</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">openTypeVheaVertTypoDescender</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">openTypeVheaVertTypoLineGap</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">openTypeVheaCaretSlopeRise</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">openTypeVheaCaretSlopeRun</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">openTypeVheaCaretOffset</span> <span class="o">=</span> <span class="bp">None</span>
+</div>
+<div class="viewcode-block" id="clear_postscript_data"><a class="viewcode-back" href="../../../modules/fontinfo.html#hTools2.modules.fontinfo.clear_postscript_data">[docs]</a><span class="k">def</span> <span class="nf">clear_postscript_data</span><span class="p">(</span><span class="n">font</span><span class="p">):</span>
+    <span class="c"># print &#39;deleting PostScript Specific Data&#39;</span>
+    <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">postscriptFontName</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">postscriptFullName</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">postscriptSlantAngle</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">postscriptUniqueID</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">postscriptUnderlineThickness</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">postscriptUnderlinePosition</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">postscriptIsFixedPitch</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">postscriptBlueValues</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">postscriptOtherBlues</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">postscriptFamilyBlues</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">postscriptFamilyOtherBlues</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">postscriptStemSnapH</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">postscriptStemSnapV</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">postscriptBlueFuzz</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">postscriptBlueShift</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">postscriptBlueScale</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">postscriptForceBold</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">postscriptDefaultWidthX</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">postscriptNominalWidthX</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">postscriptWeightName</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">postscriptDefaultCharacter</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">font</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">postscriptWindowsCharacterSet</span> <span class="o">=</span> <span class="bp">None</span>
+</pre></div></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">hTools2</a> &raquo;</li>
+          <li><a href="../../index.html" >Module code</a> &raquo;</li>
+          <li><a href="../../hTools2.html" >hTools2</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Gustavo Ferreira.
+      Last updated on Sep 01, 2013.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b1.
+    </div>
+  </body>
+</html>

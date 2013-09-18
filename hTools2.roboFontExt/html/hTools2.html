@@ -1,0 +1,203 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>hTools2 &mdash; hTools2</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.6',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/sidebar.js"></script>
+    <link rel="top" title="hTools2" href="index.html" />
+    <link rel="next" title="Modules" href="modules/modules.html" />
+    <link rel="prev" title="Shortcuts" href="about/shortcuts.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="modules/modules.html" title="Modules"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="about/shortcuts.html" title="Shortcuts"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">hTools2</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-hTools2">
+<span id="htools2"></span><h1>hTools2<a class="headerlink" href="#module-hTools2" title="Permalink to this headline">¶</a></h1>
+<p>hTools2, a UFO-based Python-powered font production toolkit.</p>
+<dl class="data">
+<dt id="hTools2.DEBUG">
+<tt class="descclassname">hTools2.</tt><tt class="descname">DEBUG</tt><em class="property"> = True</em><a class="headerlink" href="#hTools2.DEBUG" title="Permalink to this definition">¶</a></dt>
+<dd><p>Debug mode. Set to <tt class="docutils literal"><span class="pre">True</span></tt> during development to always reload modules.</p>
+</dd></dl>
+
+<dl class="data">
+<dt id="hTools2.ROOT">
+<tt class="descclassname">hTools2.</tt><tt class="descname">ROOT</tt><em class="property"> = '/_fonts'</em><a class="headerlink" href="#hTools2.ROOT" title="Permalink to this definition">¶</a></dt>
+<dd><p>The root folder for all project folders. By default, <tt class="docutils literal"><span class="pre">/_fonts</span></tt>.</p>
+</dd></dl>
+
+<dl class="data">
+<dt id="hTools2.VERSION">
+<tt class="descclassname">hTools2.</tt><tt class="descname">VERSION</tt><em class="property"> = 1.6</em><a class="headerlink" href="#hTools2.VERSION" title="Permalink to this definition">¶</a></dt>
+<dd><p>The current version number of <tt class="docutils literal"><span class="pre">hTools2</span></tt>.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="hTools2.hConstants">
+<em class="property">class </em><tt class="descclassname">hTools2.</tt><tt class="descname">hConstants</tt><a class="reference internal" href="_modules/hTools2.html#hConstants"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools2.hConstants" title="Permalink to this definition">¶</a></dt>
+<dd><p>An object collecting constants and default settings for dialogs.</p>
+<dl class="attribute">
+<dt id="hTools2.hConstants.body">
+<tt class="descname">body</tt><em class="property"> = 103</em><a class="headerlink" href="#hTools2.hConstants.body" title="Permalink to this definition">¶</a></dt>
+<dd><p>The body width of vertical dialogs.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="hTools2.hConstants.button_height">
+<tt class="descname">button_height</tt><em class="property"> = 25</em><a class="headerlink" href="#hTools2.hConstants.button_height" title="Permalink to this definition">¶</a></dt>
+<dd><p>Height of standard button in dialogs.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="hTools2.hConstants.nudge_button">
+<tt class="descname">nudge_button</tt><em class="property"> = 18</em><a class="headerlink" href="#hTools2.hConstants.nudge_button" title="Permalink to this definition">¶</a></dt>
+<dd><p>Size of individual button in nudge button set.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="hTools2.hConstants.padding_x">
+<tt class="descname">padding_x</tt><em class="property"> = 10</em><a class="headerlink" href="#hTools2.hConstants.padding_x" title="Permalink to this definition">¶</a></dt>
+<dd><p>Horizontal padding in dialogs.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="hTools2.hConstants.padding_y">
+<tt class="descname">padding_y</tt><em class="property"> = 10</em><a class="headerlink" href="#hTools2.hConstants.padding_y" title="Permalink to this definition">¶</a></dt>
+<dd><p>Vertical padding in dialogs.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="hTools2.hConstants.progress_bar">
+<tt class="descname">progress_bar</tt><em class="property"> = 18</em><a class="headerlink" href="#hTools2.hConstants.progress_bar" title="Permalink to this definition">¶</a></dt>
+<dd><p>The height of rhe progress bar.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="hTools2.hConstants.read_only">
+<tt class="descname">read_only</tt><em class="property"> = True</em><a class="headerlink" href="#hTools2.hConstants.read_only" title="Permalink to this definition">¶</a></dt>
+<dd><p>Can nummerical text input be edited directly with the keyboard? A boolean. Set to <tt class="docutils literal"><span class="pre">True</span></tt> as default.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="hTools2.hConstants.size_style">
+<tt class="descname">size_style</tt><em class="property"> = 'small'</em><a class="headerlink" href="#hTools2.hConstants.size_style" title="Permalink to this definition">¶</a></dt>
+<dd><p>The size style of text and standard dialog elements. Possible options are <tt class="docutils literal"><span class="pre">small</span></tt>, <tt class="docutils literal"><span class="pre">regular</span></tt>, <tt class="docutils literal"><span class="pre">mini</span></tt>.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="hTools2.hConstants.square_button">
+<tt class="descname">square_button</tt><em class="property"> = 35</em><a class="headerlink" href="#hTools2.hConstants.square_button" title="Permalink to this definition">¶</a></dt>
+<dd><p>Size of square button in cross nudge button set.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="hTools2.hConstants.text_height">
+<tt class="descname">text_height</tt><em class="property"> = 20</em><a class="headerlink" href="#hTools2.hConstants.text_height" title="Permalink to this definition">¶</a></dt>
+<dd><p>Height of text elements in dialogs.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="about/shortcuts.html"
+                        title="previous chapter">Shortcuts</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="modules/modules.html"
+                        title="next chapter">Modules</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/hTools2.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="modules/modules.html" title="Modules"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="about/shortcuts.html" title="Shortcuts"
+             >previous</a> |</li>
+        <li><a href="index.html">hTools2</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Gustavo Ferreira.
+      Last updated on Sep 01, 2013.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b1.
+    </div>
+  </body>
+</html>

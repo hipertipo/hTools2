@@ -1,0 +1,672 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>hTools2.objects.hproject &mdash; hTools2</title>
+    
+    <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '1.6',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../../_static/sidebar.js"></script>
+    <link rel="top" title="hTools2" href="../../../index.html" />
+    <link rel="up" title="hTools2" href="../../hTools2.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">hTools2</a> &raquo;</li>
+          <li><a href="../../index.html" >Module code</a> &raquo;</li>
+          <li><a href="../../hTools2.html" accesskey="U">hTools2</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for hTools2.objects.hproject</h1><div class="highlight"><pre>
+<span class="c"># [h] hProject</span>
+
+<span class="c"># debug</span>
+
+<span class="kn">import</span> <span class="nn">hTools2</span>
+<span class="nb">reload</span><span class="p">(</span><span class="n">hTools2</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">hTools2</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">:</span>
+
+    <span class="kn">import</span> <span class="nn">hworld</span>
+    <span class="nb">reload</span><span class="p">(</span><span class="n">hworld</span><span class="p">)</span>
+
+    <span class="kn">import</span> <span class="nn">hTools2.modules.fileutils</span>
+    <span class="nb">reload</span><span class="p">(</span><span class="n">hTools2</span><span class="o">.</span><span class="n">modules</span><span class="o">.</span><span class="n">fileutils</span><span class="p">)</span>
+
+    <span class="kn">import</span> <span class="nn">hTools2.modules.encoding</span>
+    <span class="nb">reload</span><span class="p">(</span><span class="n">hTools2</span><span class="o">.</span><span class="n">modules</span><span class="o">.</span><span class="n">encoding</span><span class="p">)</span>
+
+<span class="c"># imports</span>
+
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">plistlib</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">mojo.roboFont</span> <span class="kn">import</span> <span class="n">RFont</span><span class="p">,</span> <span class="n">NewFont</span>
+<span class="k">except</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">robofab.world</span> <span class="kn">import</span> <span class="n">RFont</span><span class="p">,</span> <span class="n">NewFont</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">sh</span> <span class="kn">import</span> <span class="n">cd</span><span class="p">,</span> <span class="n">git</span>
+<span class="k">except</span><span class="p">:</span>
+    <span class="n">sh</span> <span class="o">=</span> <span class="n">cd</span> <span class="o">=</span> <span class="n">git</span> <span class="o">=</span> <span class="bp">False</span>
+
+<span class="kn">from</span> <span class="nn">hworld</span> <span class="kn">import</span> <span class="n">hWorld</span>
+<span class="kn">from</span> <span class="nn">hTools2.modules.fileutils</span> <span class="kn">import</span> <span class="n">walk</span><span class="p">,</span> <span class="n">get_names_from_path</span><span class="p">,</span> <span class="n">delete_files</span>
+<span class="kn">from</span> <span class="nn">hTools2.modules.fontutils</span> <span class="kn">import</span> <span class="n">parse_glyphs_groups</span>
+<span class="kn">from</span> <span class="nn">hTools2.modules.encoding</span> <span class="kn">import</span> <span class="n">import_encoding</span>
+
+<span class="c"># object</span>
+
+<div class="viewcode-block" id="hProject"><a class="viewcode-back" href="../../../objects/hproject.html#hTools2.objects.hproject.hProject">[docs]</a><span class="k">class</span> <span class="nc">hProject</span><span class="p">:</span>
+
+    <span class="sd">&quot;&quot;&quot;A project represents a font-family and related meta-data.</span>
+
+<span class="sd">    .. py:attribute:: name</span>
+
+<span class="sd">    The name of the project. It usually starts with an uppercase letter. Space, hyphen, accented characters, symbols etc are not allowed.</span>
+<span class="sd">    </span>
+<span class="sd">    .. py:attribute:: world</span>
+
+<span class="sd">    An &#39;embedded&#39; hWorld object, containing a list of all other projects and access to local settings.</span>
+
+<span class="sd">    .. py:attribute:: libs</span>
+
+<span class="sd">    A dictionary containing a working copy of all data libs in the project, imported on object initialization.</span>
+
+<span class="sd">    .. py:attribute:: paths</span>
+
+<span class="sd">    A dictionary containing the paths to all relevant project sub-folders (libs, ufos, otfs, woffs etc).</span>
+
+<span class="sd">    .. py:attribute:: lib_paths</span>
+
+<span class="sd">    A dictionary containing the paths to all data libs in the project.</span>
+
+<span class="sd">    .. py:attribute:: fonts</span>
+
+<span class="sd">    Returns a dictionary with the style names and paths of all masters and instances in the project.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c"># attributes</span>
+
+    <span class="n">name</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">world</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">libs</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">paths</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">lib_paths</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">fonts</span> <span class="o">=</span> <span class="bp">None</span>
+
+    <span class="n">_path_names</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="s">&#39;root&#39;</span><span class="p">,</span>
+        <span class="s">&#39;libs&#39;</span><span class="p">,</span>
+        <span class="s">&#39;ufos&#39;</span><span class="p">,</span>
+        <span class="s">&#39;vfbs&#39;</span><span class="p">,</span>
+        <span class="s">&#39;otfs&#39;</span><span class="p">,</span>
+        <span class="s">&#39;woffs&#39;</span><span class="p">,</span>
+        <span class="s">&#39;temp&#39;</span><span class="p">,</span>
+        <span class="s">&#39;instances&#39;</span><span class="p">,</span>
+        <span class="s">&#39;interpol&#39;</span><span class="p">,</span>
+        <span class="s">&#39;python&#39;</span><span class="p">,</span>
+        <span class="s">&#39;python_robofont&#39;</span><span class="p">,</span>
+        <span class="s">&#39;python_nodebox&#39;</span><span class="p">,</span>
+        <span class="s">&#39;otfs_test&#39;</span><span class="p">,</span>
+    <span class="p">]</span>
+
+    <span class="n">_lib_names</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="s">&#39;project&#39;</span><span class="p">,</span>
+        <span class="s">&#39;info&#39;</span><span class="p">,</span>
+        <span class="s">&#39;vmetrics&#39;</span><span class="p">,</span>
+        <span class="s">&#39;accents&#39;</span><span class="p">,</span>
+        <span class="s">&#39;composed&#39;</span><span class="p">,</span>
+        <span class="s">&#39;spacing&#39;</span><span class="p">,</span>
+        <span class="s">&#39;interpol&#39;</span><span class="p">,</span>
+        <span class="s">&#39;groups&#39;</span>
+    <span class="p">]</span>
+
+    <span class="n">_lib_extension</span> <span class="o">=</span> <span class="s">&#39;plist&#39;</span>
+
+    <span class="c"># methods</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Initiate the ``hProject`` object.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">world</span> <span class="o">=</span> <span class="n">hWorld</span><span class="p">()</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">make_paths</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">make_lib_paths</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">read_libs</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">collect_fonts</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s">&#39;&lt;hProject </span><span class="si">%s</span><span class="s">&gt;&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
+
+<div class="viewcode-block" id="hProject.get_ufo"><a class="viewcode-back" href="../../../objects/hproject.html#hTools2.objects.hproject.hProject.get_ufo">[docs]</a>    <span class="k">def</span> <span class="nf">get_ufo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parameters</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Get the ufo path for the given parameters dict.&quot;&quot;&quot;</span>
+        <span class="n">font_name</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">parameter_name</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">libs</span><span class="p">[</span><span class="s">&#39;project&#39;</span><span class="p">][</span><span class="s">&#39;parameters_order&#39;</span><span class="p">]):</span>
+            <span class="n">font_name</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="n">parameters</span><span class="p">[</span><span class="n">parameter_name</span><span class="p">])</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">libs</span><span class="p">[</span><span class="s">&#39;project&#39;</span><span class="p">][</span><span class="s">&#39;parameters_order&#39;</span><span class="p">]):</span>
+                <span class="n">font_name</span> <span class="o">+=</span> <span class="s">&#39; &#39;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">fonts</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="n">font_name</span><span class="p">):</span>
+            <span class="n">ufo_path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fonts</span><span class="p">[</span><span class="n">font_name</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+                <span class="k">print</span> <span class="s">&quot;Font &#39;</span><span class="si">%s</span><span class="s">&#39; does not exist.&quot;</span> <span class="o">%</span> <span class="n">font_name</span>
+            <span class="n">ufo_path</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="k">return</span> <span class="n">ufo_path</span>
+</div>
+<div class="viewcode-block" id="hProject.print_masters"><a class="viewcode-back" href="../../../objects/hproject.html#hTools2.objects.hproject.hProject.print_masters">[docs]</a>    <span class="k">def</span> <span class="nf">print_masters</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Print all ``.ufo`` masters in project.&quot;&quot;&quot;</span>
+        <span class="n">_masters</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">masters</span><span class="p">()</span>
+        <span class="k">print</span> <span class="s">&#39;masters (</span><span class="si">%s</span><span class="s">):</span><span class="se">\n</span><span class="s">&#39;</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="n">_masters</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">ufo</span> <span class="ow">in</span> <span class="n">_masters</span><span class="p">:</span>
+            <span class="k">print</span> <span class="s">&#39;</span><span class="se">\t</span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">ufo</span>
+        <span class="k">print</span>
+</div>
+<div class="viewcode-block" id="hProject.print_instances"><a class="viewcode-back" href="../../../objects/hproject.html#hTools2.objects.hproject.hProject.print_instances">[docs]</a>    <span class="k">def</span> <span class="nf">print_instances</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Print all ``.ufo`` instances in project.&quot;&quot;&quot;</span>
+        <span class="n">_instances</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">instances</span><span class="p">()</span>
+        <span class="k">print</span> <span class="s">&#39;instances (</span><span class="si">%s</span><span class="s">):</span><span class="se">\n</span><span class="s">&#39;</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="n">_instances</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">ufo</span> <span class="ow">in</span> <span class="n">_instances</span><span class="p">:</span>
+            <span class="k">print</span> <span class="s">&#39;</span><span class="se">\t</span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">ufo</span>
+        <span class="k">print</span>
+</div>
+<div class="viewcode-block" id="hProject.print_otfs"><a class="viewcode-back" href="../../../objects/hproject.html#hTools2.objects.hproject.hProject.print_otfs">[docs]</a>    <span class="k">def</span> <span class="nf">print_otfs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Print all ``.otfs`` in project.&quot;&quot;&quot;</span>
+        <span class="n">_otfs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">otfs</span><span class="p">()</span>
+        <span class="k">print</span> <span class="s">&#39;otfs (</span><span class="si">%s</span><span class="s">):</span><span class="se">\n</span><span class="s">&#39;</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="n">_otfs</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">otf</span> <span class="ow">in</span> <span class="n">_otfs</span><span class="p">:</span>
+            <span class="k">print</span> <span class="s">&#39;</span><span class="se">\t</span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">otf</span>
+        <span class="k">print</span>
+</div>
+<div class="viewcode-block" id="hProject.print_libs"><a class="viewcode-back" href="../../../objects/hproject.html#hTools2.objects.hproject.hProject.print_libs">[docs]</a>    <span class="k">def</span> <span class="nf">print_libs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Print all libs in project.&quot;&quot;&quot;</span>
+        <span class="n">_libs</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">paths</span><span class="p">[</span><span class="s">&#39;libs&#39;</span><span class="p">])</span>
+        <span class="k">print</span> <span class="s">&#39;libs (</span><span class="si">%s</span><span class="s">):</span><span class="se">\n</span><span class="s">&#39;</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="n">_libs</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">lib</span> <span class="ow">in</span> <span class="n">_libs</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">lib</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="s">&#39;.&#39;</span><span class="p">:</span>
+                <span class="k">print</span> <span class="s">&#39;</span><span class="se">\t</span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">lib</span>
+        <span class="k">print</span>
+</div>
+<div class="viewcode-block" id="hProject.print_woffs"><a class="viewcode-back" href="../../../objects/hproject.html#hTools2.objects.hproject.hProject.print_woffs">[docs]</a>    <span class="k">def</span> <span class="nf">print_woffs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Print all ``.woffs`` in project.&quot;&quot;&quot;</span>
+        <span class="n">_woffs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">woffs</span><span class="p">()</span>
+        <span class="k">print</span> <span class="s">&#39;woffs (</span><span class="si">%s</span><span class="s">):</span><span class="se">\n</span><span class="s">&#39;</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="n">_woffs</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">woff</span> <span class="ow">in</span> <span class="n">_woffs</span><span class="p">:</span>
+            <span class="k">print</span> <span class="s">&#39;</span><span class="se">\t</span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">woff</span>
+        <span class="k">print</span>
+</div>
+<div class="viewcode-block" id="hProject.print_scripts"><a class="viewcode-back" href="../../../objects/hproject.html#hTools2.objects.hproject.hProject.print_scripts">[docs]</a>    <span class="k">def</span> <span class="nf">print_scripts</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Print all RoboFont and NodeBox scripts in project.&quot;&quot;&quot;</span>
+        <span class="n">_scripts</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">scripts</span><span class="p">()</span>
+        <span class="k">print</span> <span class="s">&#39;RoboFont scripts (</span><span class="si">%s</span><span class="s">):</span><span class="se">\n</span><span class="s">&#39;</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="n">_scripts</span><span class="p">[</span><span class="s">&#39;RoboFont&#39;</span><span class="p">])</span>
+        <span class="k">for</span> <span class="n">script</span> <span class="ow">in</span> <span class="n">_scripts</span><span class="p">[</span><span class="s">&#39;RoboFont&#39;</span><span class="p">]:</span>
+            <span class="k">print</span> <span class="s">&#39;</span><span class="se">\t</span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">script</span>
+        <span class="k">print</span>
+        <span class="k">print</span> <span class="s">&#39;NodeBox scripts (</span><span class="si">%s</span><span class="s">):</span><span class="se">\n</span><span class="s">&#39;</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="n">_scripts</span><span class="p">[</span><span class="s">&#39;NodeBox&#39;</span><span class="p">])</span>
+        <span class="k">for</span> <span class="n">script</span> <span class="ow">in</span> <span class="n">_scripts</span><span class="p">[</span><span class="s">&#39;NodeBox&#39;</span><span class="p">]:</span>
+            <span class="k">print</span> <span class="s">&#39;</span><span class="se">\t</span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">script</span>
+        <span class="k">print</span>
+</div>
+<div class="viewcode-block" id="hProject.print_info"><a class="viewcode-back" href="../../../objects/hproject.html#hTools2.objects.hproject.hProject.print_info">[docs]</a>    <span class="k">def</span> <span class="nf">print_info</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">masters</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">instances</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">otfs</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">woffs</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">libs</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">scripts</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Print different kinds of information about the project.&quot;&quot;&quot;</span>
+        <span class="n">line_length</span> <span class="o">=</span> <span class="mi">40</span>
+        <span class="k">print</span> <span class="s">&#39;project info for </span><span class="si">%s</span><span class="s">...&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
+        <span class="k">print</span> <span class="s">&#39;-&#39;</span> <span class="o">*</span> <span class="n">line_length</span>
+        <span class="k">print</span>
+        <span class="k">if</span> <span class="n">libs</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">print_libs</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">masters</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">print_masters</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">instances</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">print_instances</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">otfs</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">print_otfs</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">woffs</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">print_woffs</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">scripts</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">print_scripts</span><span class="p">()</span>
+        <span class="c"># done</span>
+        <span class="k">print</span> <span class="s">&#39;-&#39;</span> <span class="o">*</span> <span class="n">line_length</span>
+        <span class="k">print</span> <span class="s">&#39;...done.</span><span class="se">\n</span><span class="s">&#39;</span>
+
+    <span class="c"># libs</span>
+</div>
+<div class="viewcode-block" id="hProject.read_libs"><a class="viewcode-back" href="../../../objects/hproject.html#hTools2.objects.hproject.hProject.read_libs">[docs]</a>    <span class="k">def</span> <span class="nf">read_libs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Read all project libs into one dictionary.&quot;&quot;&quot;</span>
+        <span class="c"># import libs</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">libs</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">lib_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">lib_paths</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="n">_lib_path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lib_paths</span><span class="p">[</span><span class="n">lib_name</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">_lib_path</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">libs</span><span class="p">[</span><span class="n">lib_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">plistlib</span><span class="o">.</span><span class="n">readPlist</span><span class="p">(</span><span class="n">_lib_path</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">libs</span><span class="p">[</span><span class="n">lib_name</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="c"># import encoding</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">import_encoding</span><span class="p">()</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">print</span> <span class="s">&#39;no encoding file available.</span><span class="se">\n</span><span class="s">&#39;</span>
+</div>
+<div class="viewcode-block" id="hProject.import_encoding"><a class="viewcode-back" href="../../../objects/hproject.html#hTools2.objects.hproject.hProject.import_encoding">[docs]</a>    <span class="k">def</span> <span class="nf">import_encoding</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Import groups, glyph names and glyph order from the project&#39;s encoding file, and temporarily saves them into a &#39;groups lib&#39;.</span>
+
+<span class="sd">        Group and glyph names are stored in a dictionary in ``hProject.libs[&#39;groups&#39;][&#39;glyphs&#39;]``, while the glyph order is stored in ``hProject.libs[&#39;groups&#39;][&#39;order&#39;]``.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">_groups</span><span class="p">,</span> <span class="n">_order</span> <span class="o">=</span> <span class="n">import_encoding</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">paths</span><span class="p">[</span><span class="s">&#39;encoding&#39;</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">libs</span><span class="p">[</span><span class="s">&#39;groups&#39;</span><span class="p">][</span><span class="s">&#39;glyphs&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_groups</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">libs</span><span class="p">[</span><span class="s">&#39;groups&#39;</span><span class="p">][</span><span class="s">&#39;order&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_order</span>
+</div>
+<div class="viewcode-block" id="hProject.write_lib"><a class="viewcode-back" href="../../../objects/hproject.html#hTools2.objects.hproject.hProject.write_lib">[docs]</a>    <span class="k">def</span> <span class="nf">write_lib</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lib_name</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Write the lib with the given ``lib_name`` to its ``.plist`` file.</span>
+
+<span class="sd">        &gt;&gt;&gt; from hTools2.objects import hProject</span>
+<span class="sd">        &gt;&gt;&gt; p = hProject(&#39;Publica&#39;)</span>
+<span class="sd">        &gt;&gt;&gt; p.write_lib(&#39;interpol&#39;)</span>
+<span class="sd">        saving interpol lib to file /_fonts/_Publica/_libs/interpol.plist... done.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">_filename</span> <span class="o">=</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s">.</span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">lib_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lib_extension</span><span class="p">)</span>
+        <span class="n">_lib_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">paths</span><span class="p">[</span><span class="s">&#39;libs&#39;</span><span class="p">],</span> <span class="n">_filename</span><span class="p">)</span>
+        <span class="k">print</span> <span class="s">&#39;saving </span><span class="si">%s</span><span class="s"> lib to file </span><span class="si">%s</span><span class="s">...&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">lib_name</span><span class="p">,</span> <span class="n">_lib_path</span><span class="p">),</span>
+        <span class="n">plistlib</span><span class="o">.</span><span class="n">writePlist</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">libs</span><span class="p">[</span><span class="n">lib_name</span><span class="p">],</span> <span class="n">_lib_path</span><span class="p">)</span>
+        <span class="k">print</span> <span class="s">&#39;done.&#39;</span>
+</div>
+<div class="viewcode-block" id="hProject.write_libs"><a class="viewcode-back" href="../../../objects/hproject.html#hTools2.objects.hproject.hProject.write_libs">[docs]</a>    <span class="k">def</span> <span class="nf">write_libs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Write all libs in project to their corresponding ``.plist`` files.&quot;&quot;&quot;</span>
+        <span class="k">print</span> <span class="s">&#39;saving project libs...</span><span class="se">\n</span><span class="s">&#39;</span>
+        <span class="k">for</span> <span class="n">lib_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">libs</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="n">_filename</span> <span class="o">=</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s">.</span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">lib_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lib_extension</span><span class="p">)</span>
+            <span class="n">_lib_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">paths</span><span class="p">[</span><span class="s">&#39;libs&#39;</span><span class="p">],</span> <span class="n">_filename</span><span class="p">)</span>
+            <span class="k">print</span> <span class="s">&#39;</span><span class="se">\t</span><span class="s">saving </span><span class="si">%s</span><span class="s"> lib to file </span><span class="si">%s</span><span class="s">...&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">lib_name</span><span class="p">,</span> <span class="n">_lib_path</span><span class="p">)</span>
+            <span class="n">plistlib</span><span class="o">.</span><span class="n">writePlist</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">libs</span><span class="p">[</span><span class="n">lib_name</span><span class="p">],</span> <span class="n">_lib_path</span><span class="p">)</span>
+        <span class="k">print</span>
+        <span class="k">print</span> <span class="s">&#39;...done.</span><span class="se">\n</span><span class="s">&#39;</span>
+
+    <span class="c"># paths</span>
+</div>
+<div class="viewcode-block" id="hProject.make_paths"><a class="viewcode-back" href="../../../objects/hproject.html#hTools2.objects.hproject.hProject.make_paths">[docs]</a>    <span class="k">def</span> <span class="nf">make_paths</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Make all project paths and collect them into a dictionary.&quot;&quot;&quot;</span>
+        <span class="n">_paths</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">_project_root</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">world</span><span class="o">.</span><span class="n">settings</span><span class="o">.</span><span class="n">root</span><span class="p">,</span> <span class="s">&#39;_</span><span class="si">%s</span><span class="s">&#39;</span><span class="p">)</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
+        <span class="n">_paths</span><span class="p">[</span><span class="s">&#39;root&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_project_root</span>
+        <span class="n">_paths</span><span class="p">[</span><span class="s">&#39;ufos&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">_project_root</span><span class="p">,</span> <span class="s">&#39;_ufos&#39;</span><span class="p">)</span>
+        <span class="n">_paths</span><span class="p">[</span><span class="s">&#39;otfs&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">_project_root</span><span class="p">,</span> <span class="s">&#39;_otfs&#39;</span><span class="p">)</span>
+        <span class="n">_paths</span><span class="p">[</span><span class="s">&#39;libs&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">_project_root</span><span class="p">,</span> <span class="s">&#39;_libs&#39;</span><span class="p">)</span>
+        <span class="n">_paths</span><span class="p">[</span><span class="s">&#39;vfbs&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">_project_root</span><span class="p">,</span> <span class="s">&#39;_vfbs&#39;</span><span class="p">)</span>
+        <span class="n">_paths</span><span class="p">[</span><span class="s">&#39;temp&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">_project_root</span><span class="p">,</span> <span class="s">&#39;_temp&#39;</span><span class="p">)</span>
+        <span class="n">_paths</span><span class="p">[</span><span class="s">&#39;woffs&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">_project_root</span><span class="p">,</span> <span class="s">&#39;_woffs&#39;</span><span class="p">)</span>
+        <span class="n">_paths</span><span class="p">[</span><span class="s">&#39;python&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">_project_root</span><span class="p">,</span> <span class="s">&#39;_py&#39;</span><span class="p">)</span>
+        <span class="c"># sub-folders</span>
+        <span class="n">_paths</span><span class="p">[</span><span class="s">&#39;instances&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">_project_root</span><span class="p">,</span> <span class="s">&#39;_ufos/_instances&#39;</span><span class="p">)</span>
+        <span class="n">_paths</span><span class="p">[</span><span class="s">&#39;interpol&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">_project_root</span><span class="p">,</span> <span class="s">&#39;_ufos/_interpol&#39;</span><span class="p">)</span>
+        <span class="n">_paths</span><span class="p">[</span><span class="s">&#39;python_robofont&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">_project_root</span><span class="p">,</span> <span class="s">&#39;_py/RoboFont&#39;</span><span class="p">)</span>
+        <span class="n">_paths</span><span class="p">[</span><span class="s">&#39;python_nodebox&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">_project_root</span><span class="p">,</span> <span class="s">&#39;_py/NodeBox&#39;</span><span class="p">)</span>
+        <span class="c"># Adobe fonts folder</span>
+        <span class="n">_paths</span><span class="p">[</span><span class="s">&#39;otfs_test&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">world</span><span class="o">.</span><span class="n">settings</span><span class="o">.</span><span class="n">hDict</span><span class="p">[</span><span class="s">&#39;test&#39;</span><span class="p">],</span> <span class="s">&#39;_</span><span class="si">%s</span><span class="s">&#39;</span><span class="p">)</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
+        <span class="c"># encoding path</span>
+        <span class="n">_enc_filename</span> <span class="o">=</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s">.enc&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
+        <span class="n">_enc_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">_paths</span><span class="p">[</span><span class="s">&#39;libs&#39;</span><span class="p">],</span> <span class="n">_enc_filename</span><span class="p">)</span>
+        <span class="n">_paths</span><span class="p">[</span><span class="s">&#39;encoding&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_enc_path</span>
+        <span class="c"># features path</span>
+        <span class="n">_fea_filename</span> <span class="o">=</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s">.fea&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
+        <span class="n">_fea_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">_paths</span><span class="p">[</span><span class="s">&#39;libs&#39;</span><span class="p">],</span> <span class="n">_fea_filename</span><span class="p">)</span>
+        <span class="n">_paths</span><span class="p">[</span><span class="s">&#39;features&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_fea_path</span>
+        <span class="c"># save to project</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">paths</span> <span class="o">=</span> <span class="n">_paths</span>
+</div>
+<div class="viewcode-block" id="hProject.make_lib_paths"><a class="viewcode-back" href="../../../objects/hproject.html#hTools2.objects.hproject.hProject.make_lib_paths">[docs]</a>    <span class="k">def</span> <span class="nf">make_lib_paths</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Make the paths to all project libs.&quot;&quot;&quot;</span>
+        <span class="n">_lib_paths</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">_lib_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lib_names</span><span class="p">:</span>
+            <span class="n">_filename</span> <span class="o">=</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s">.</span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">_lib_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lib_extension</span><span class="p">)</span>
+            <span class="n">_lib_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">paths</span><span class="p">[</span><span class="s">&#39;libs&#39;</span><span class="p">],</span> <span class="n">_filename</span><span class="p">)</span>
+            <span class="n">_lib_paths</span><span class="p">[</span><span class="n">_lib_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">_lib_path</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lib_paths</span> <span class="o">=</span> <span class="n">_lib_paths</span>
+</div>
+<div class="viewcode-block" id="hProject.ftp_path"><a class="viewcode-back" href="../../../objects/hproject.html#hTools2.objects.hproject.hProject.ftp_path">[docs]</a>    <span class="k">def</span> <span class="nf">ftp_path</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return the project&#39;s path on the FTP server.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">world</span><span class="o">.</span><span class="n">settings</span><span class="o">.</span><span class="n">hDict</span><span class="p">[</span><span class="s">&#39;ftp&#39;</span><span class="p">][</span><span class="s">&#39;folder&#39;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span>
+</div>
+<div class="viewcode-block" id="hProject.print_paths"><a class="viewcode-back" href="../../../objects/hproject.html#hTools2.objects.hproject.hProject.print_paths">[docs]</a>    <span class="k">def</span> <span class="nf">print_paths</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Print all standard paths is in project.&quot;&quot;&quot;</span>
+        <span class="k">print</span> <span class="s">&#39;printing paths in project </span><span class="si">%s</span><span class="s">...&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
+        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">paths</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="k">print</span> <span class="s">&#39;</span><span class="se">\t</span><span class="si">%s</span><span class="s"> : </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span> <span class="n">k</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">paths</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="p">)</span>
+        <span class="k">print</span>
+
+    <span class="c"># folders</span>
+</div>
+<div class="viewcode-block" id="hProject.check_libs"><a class="viewcode-back" href="../../../objects/hproject.html#hTools2.objects.hproject.hProject.check_libs">[docs]</a>    <span class="k">def</span> <span class="nf">check_libs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">pass</span>
+</div>
+<div class="viewcode-block" id="hProject.make_folders"><a class="viewcode-back" href="../../../objects/hproject.html#hTools2.objects.hproject.hProject.make_folders">[docs]</a>    <span class="k">def</span> <span class="nf">make_folders</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Check if all the necessary project sub-folders exist, and create them if they don&#39;t.&quot;&quot;&quot;</span>
+        <span class="k">print</span> <span class="s">&#39;creating folders and files in </span><span class="si">%s</span><span class="s">...</span><span class="se">\n</span><span class="s">&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
+        <span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_path_names</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">paths</span><span class="p">[</span><span class="n">path</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">paths</span><span class="p">[</span><span class="n">path</span><span class="p">])</span> <span class="o">==</span> <span class="bp">False</span><span class="p">:</span>
+                    <span class="k">try</span><span class="p">:</span>
+                        <span class="k">print</span> <span class="s">&#39;</span><span class="se">\t</span><span class="s">creating folder </span><span class="si">%s</span><span class="s">...&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">paths</span><span class="p">[</span><span class="n">path</span><span class="p">],</span>
+                        <span class="n">os</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">paths</span><span class="p">[</span><span class="n">path</span><span class="p">])</span>
+                        <span class="k">print</span> <span class="s">&#39;[</span><span class="si">%s</span><span class="s">]&#39;</span> <span class="o">%</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">paths</span><span class="p">[</span><span class="n">path</span><span class="p">])</span>
+                    <span class="k">except</span> <span class="ne">OSError</span><span class="p">:</span>
+                        <span class="k">print</span> <span class="s">&#39;aborted, no Adobe fonts folder available.&#39;</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">print</span> <span class="s">&#39;</span><span class="se">\t</span><span class="si">%s</span><span class="s"> exists.&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">paths</span><span class="p">[</span><span class="n">path</span><span class="p">]</span>
+        <span class="k">print</span>
+        <span class="k">print</span> <span class="s">&#39;...done.</span><span class="se">\n</span><span class="s">&#39;</span>
+
+    <span class="c"># file lists</span>
+</div>
+<div class="viewcode-block" id="hProject.masters"><a class="viewcode-back" href="../../../objects/hproject.html#hTools2.objects.hproject.hProject.masters">[docs]</a>    <span class="k">def</span> <span class="nf">masters</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return a list of all masters in project.&quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">walk</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">paths</span><span class="p">[</span><span class="s">&#39;ufos&#39;</span><span class="p">],</span> <span class="s">&#39;ufo&#39;</span><span class="p">)</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">[]</span>
+</div>
+<div class="viewcode-block" id="hProject.masters_interpol"><a class="viewcode-back" href="../../../objects/hproject.html#hTools2.objects.hproject.hProject.masters_interpol">[docs]</a>    <span class="k">def</span> <span class="nf">masters_interpol</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return a list of all &#39;super masters&#39; in project.</span>
+
+<span class="sd">        &gt;&gt;&gt; from hTools2.objects import hProject</span>
+<span class="sd">        &gt;&gt;&gt; p = hProject(&#39;Publica&#39;)</span>
+<span class="sd">        &gt;&gt;&gt; for master in p.masters_interpol(): print master</span>
+<span class="sd">        /_fonts/_Publica/_ufos/_interpol/Publica_Black-Compressed.ufo</span>
+<span class="sd">        /_fonts/_Publica/_ufos/_interpol/Publica_Black.ufo</span>
+<span class="sd">        /_fonts/_Publica/_ufos/_interpol/Publica_Compressed.ufo</span>
+<span class="sd">        /_fonts/_Publica/_ufos/_interpol/Publica_Regular.ufo</span>
+<span class="sd">        /_fonts/_Publica/_ufos/_interpol/Publica_UltraLight-Compressed.ufo</span>
+<span class="sd">        /_fonts/_Publica/_ufos/_interpol/Publica_UltraLight.ufo</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">walk</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">paths</span><span class="p">[</span><span class="s">&#39;interpol&#39;</span><span class="p">],</span> <span class="s">&#39;ufo&#39;</span><span class="p">)</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">[]</span>
+</div>
+<div class="viewcode-block" id="hProject.instances"><a class="viewcode-back" href="../../../objects/hproject.html#hTools2.objects.hproject.hProject.instances">[docs]</a>    <span class="k">def</span> <span class="nf">instances</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return a list of all instances in project.&quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">walk</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">paths</span><span class="p">[</span><span class="s">&#39;instances&#39;</span><span class="p">],</span> <span class="s">&#39;ufo&#39;</span><span class="p">)</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">[]</span>
+</div>
+<div class="viewcode-block" id="hProject.ufos"><a class="viewcode-back" href="../../../objects/hproject.html#hTools2.objects.hproject.hProject.ufos">[docs]</a>    <span class="k">def</span> <span class="nf">ufos</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">masters_interpol</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return all ``.ufos`` in project (masters, istances and meta-masters).&quot;&quot;&quot;</span>
+        <span class="n">ufos</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">ufos</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">masters</span><span class="p">()</span>
+        <span class="n">ufos</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">instances</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">masters_interpol</span><span class="p">:</span>
+            <span class="n">ufos</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">masters_interpol</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">ufos</span>
+</div>
+<div class="viewcode-block" id="hProject.collect_fonts"><a class="viewcode-back" href="../../../objects/hproject.html#hTools2.objects.hproject.hProject.collect_fonts">[docs]</a>    <span class="k">def</span> <span class="nf">collect_fonts</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Update the font names and file paths at :py:attr:`hProject.fonts`.</span>
+
+<span class="sd">        This method is called automatically when the :py:class:`hProject` object is initialized.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">_ufos</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ufos</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fonts</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">_ufos</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">ufo_path</span> <span class="ow">in</span> <span class="n">_ufos</span><span class="p">:</span>
+                <span class="n">_style_name</span> <span class="o">=</span> <span class="n">get_names_from_path</span><span class="p">(</span><span class="n">ufo_path</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">fonts</span><span class="p">[</span><span class="n">_style_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">ufo_path</span>
+</div>
+<div class="viewcode-block" id="hProject.otfs"><a class="viewcode-back" href="../../../objects/hproject.html#hTools2.objects.hproject.hProject.otfs">[docs]</a>    <span class="k">def</span> <span class="nf">otfs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return a list of all ``.otf`` files in project.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">walk</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">paths</span><span class="p">[</span><span class="s">&#39;otfs&#39;</span><span class="p">],</span> <span class="s">&#39;otf&#39;</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="hProject.otfs_test"><a class="viewcode-back" href="../../../objects/hproject.html#hTools2.objects.hproject.hProject.otfs_test">[docs]</a>    <span class="k">def</span> <span class="nf">otfs_test</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return a list of all ``.otfs`` in the project&#39;s ``Adobe/fonts/`` folder.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">walk</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">paths</span><span class="p">[</span><span class="s">&#39;otfs_test&#39;</span><span class="p">],</span> <span class="s">&#39;otf&#39;</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="hProject.woffs"><a class="viewcode-back" href="../../../objects/hproject.html#hTools2.objects.hproject.hProject.woffs">[docs]</a>    <span class="k">def</span> <span class="nf">woffs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return a list of all ``.woff`` files in project.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">walk</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">paths</span><span class="p">[</span><span class="s">&#39;woffs&#39;</span><span class="p">],</span> <span class="s">&#39;woff&#39;</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="hProject.vfbs"><a class="viewcode-back" href="../../../objects/hproject.html#hTools2.objects.hproject.hProject.vfbs">[docs]</a>    <span class="k">def</span> <span class="nf">vfbs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return a list of all ``.vfb`` files in project.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">walk</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">paths</span><span class="p">[</span><span class="s">&#39;vfbs&#39;</span><span class="p">],</span> <span class="s">&#39;vfb&#39;</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="hProject.scripts"><a class="viewcode-back" href="../../../objects/hproject.html#hTools2.objects.hproject.hProject.scripts">[docs]</a>    <span class="k">def</span> <span class="nf">scripts</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return a list of all ``.py`` files in project.&quot;&quot;&quot;</span>
+        <span class="n">scripts</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="c"># collect RoboFont scripts</span>
+        <span class="n">RF_folder</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">paths</span><span class="p">[</span><span class="s">&#39;python_robofont&#39;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">RF_folder</span><span class="p">):</span>
+            <span class="n">scripts</span><span class="p">[</span><span class="s">&#39;RoboFont&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">script_path</span> <span class="ow">in</span> <span class="n">walk</span><span class="p">(</span><span class="n">RF_folder</span><span class="p">,</span> <span class="s">&#39;py&#39;</span><span class="p">):</span>
+                <span class="c"># script_name = os.path.split(script_path)[1]</span>
+                <span class="c"># script_name = script_name.split(&#39;.&#39;)[0]</span>
+                <span class="c"># script_name = script_name.replace(&#39;-&#39;, &#39; &#39;)</span>
+                <span class="n">scripts</span><span class="p">[</span><span class="s">&#39;RoboFont&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">script_path</span><span class="p">)</span>
+        <span class="c"># collect NodeBox scripts</span>
+        <span class="n">NB_folder</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">paths</span><span class="p">[</span><span class="s">&#39;python_nodebox&#39;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">NB_folder</span><span class="p">):</span>
+            <span class="n">scripts</span><span class="p">[</span><span class="s">&#39;NodeBox&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">script_path</span> <span class="ow">in</span> <span class="n">walk</span><span class="p">(</span><span class="n">NB_folder</span><span class="p">,</span> <span class="s">&#39;py&#39;</span><span class="p">):</span>
+                <span class="n">scripts</span><span class="p">[</span><span class="s">&#39;NodeBox&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">script_path</span><span class="p">)</span>
+        <span class="c"># done</span>
+        <span class="k">return</span> <span class="n">scripts</span>
+
+    <span class="c"># delete files</span>
+</div>
+<div class="viewcode-block" id="hProject.delete_otfs"><a class="viewcode-back" href="../../../objects/hproject.html#hTools2.objects.hproject.hProject.delete_otfs">[docs]</a>    <span class="k">def</span> <span class="nf">delete_otfs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Delete all ``.otfs`` in project.&quot;&quot;&quot;</span>
+        <span class="n">otf_paths</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">otfs</span><span class="p">()</span>
+        <span class="n">delete_files</span><span class="p">(</span><span class="n">otf_paths</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="hProject.delete_instances"><a class="viewcode-back" href="../../../objects/hproject.html#hTools2.objects.hproject.hProject.delete_instances">[docs]</a>    <span class="k">def</span> <span class="nf">delete_instances</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Delete all ``.ufo`` instances in project.&quot;&quot;&quot;</span>
+        <span class="n">instances_paths</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">instances</span><span class="p">()</span>
+        <span class="n">delete_files</span><span class="p">(</span><span class="n">instances_paths</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="hProject.delete_otfs_test"><a class="viewcode-back" href="../../../objects/hproject.html#hTools2.objects.hproject.hProject.delete_otfs_test">[docs]</a>    <span class="k">def</span> <span class="nf">delete_otfs_test</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Delete all ``.otfs`` in the ``Adobe/fonts`` folder.&quot;&quot;&quot;</span>
+        <span class="n">otf_paths</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">otfs_test</span><span class="p">()</span>
+        <span class="n">delete_files</span><span class="p">(</span><span class="n">otf_paths</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="hProject.delete_woffs"><a class="viewcode-back" href="../../../objects/hproject.html#hTools2.objects.hproject.hProject.delete_woffs">[docs]</a>    <span class="k">def</span> <span class="nf">delete_woffs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Delete all ``.woffs`` in project.&quot;&quot;&quot;</span>
+        <span class="n">woff_paths</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">woffs</span><span class="p">()</span>
+        <span class="n">delete_files</span><span class="p">(</span><span class="n">woff_paths</span><span class="p">)</span>
+
+    <span class="c"># groups and glyph names</span>
+</div>
+<div class="viewcode-block" id="hProject.all_glyphs"><a class="viewcode-back" href="../../../objects/hproject.html#hTools2.objects.hproject.hProject.all_glyphs">[docs]</a>    <span class="k">def</span> <span class="nf">all_glyphs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ignore</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;invisible&#39;</span><span class="p">]):</span>
+        <span class="sd">&quot;&quot;&quot;Return the full list of glyphs for all fonts in project.&quot;&quot;&quot;</span>
+        <span class="n">_all_glyphs</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">import_encoding</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">group</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">libs</span><span class="p">[</span><span class="s">&#39;groups&#39;</span><span class="p">][</span><span class="s">&#39;order&#39;</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="n">group</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ignore</span><span class="p">:</span>
+                <span class="n">_all_glyphs</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">libs</span><span class="p">[</span><span class="s">&#39;groups&#39;</span><span class="p">][</span><span class="s">&#39;glyphs&#39;</span><span class="p">][</span><span class="n">group</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">_all_glyphs</span>
+</div>
+<div class="viewcode-block" id="hProject.parse_gstring"><a class="viewcode-back" href="../../../objects/hproject.html#hTools2.objects.hproject.hProject.parse_gstring">[docs]</a>    <span class="k">def</span> <span class="nf">parse_gstring</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">gstring</span><span class="p">):</span>
+        <span class="n">names</span> <span class="o">=</span> <span class="n">gstring</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39; &#39;</span><span class="p">)</span>
+        <span class="n">glyph_names</span> <span class="o">=</span> <span class="n">parse_glyphs_groups</span><span class="p">(</span><span class="n">names</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">libs</span><span class="p">[</span><span class="s">&#39;groups&#39;</span><span class="p">][</span><span class="s">&#39;glyphs&#39;</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">glyph_names</span>
+
+    <span class="c"># generation</span>
+</div>
+<div class="viewcode-block" id="hProject.generate_instance"><a class="viewcode-back" href="../../../objects/hproject.html#hTools2.objects.hproject.hProject.generate_instance">[docs]</a>    <span class="k">def</span> <span class="nf">generate_instance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">instance_name</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">folder</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Generate a ``.ufo`` instance with name ``instance_name``, using data from the project&#39;s interpol lib.&quot;&quot;&quot;</span>
+        <span class="n">_masters</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">masters</span><span class="p">()</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">libs</span><span class="p">[</span><span class="s">&#39;interpol&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="n">instance_name</span><span class="p">):</span>
+            <span class="c"># get instance info</span>
+            <span class="n">master_1</span><span class="p">,</span> <span class="n">master_2</span><span class="p">,</span> <span class="n">interpol_factor</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">libs</span><span class="p">[</span><span class="s">&#39;interpol&#39;</span><span class="p">][</span><span class="n">instance_name</span><span class="p">]</span>
+            <span class="c"># make file names</span>
+            <span class="n">master_1_filename</span> <span class="o">=</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s">_</span><span class="si">%s</span><span class="s">.ufo&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">master_1</span><span class="p">)</span>
+            <span class="n">master_2_filename</span> <span class="o">=</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s">_</span><span class="si">%s</span><span class="s">.ufo&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">master_2</span><span class="p">)</span>
+            <span class="c"># master masters</span>
+            <span class="n">master_1_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">paths</span><span class="p">[</span><span class="s">&#39;ufos&#39;</span><span class="p">],</span> <span class="n">master_1_filename</span><span class="p">)</span>
+            <span class="n">master_2_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">paths</span><span class="p">[</span><span class="s">&#39;ufos&#39;</span><span class="p">],</span> <span class="n">master_2_filename</span><span class="p">)</span>
+            <span class="c"># instance masters</span>
+            <span class="k">if</span> <span class="n">master_1_path</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">_masters</span><span class="p">:</span>
+                <span class="n">master_1_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">paths</span><span class="p">[</span><span class="s">&#39;instances&#39;</span><span class="p">],</span> <span class="n">master_1_filename</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">master_2_path</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">_masters</span><span class="p">:</span>
+                <span class="n">master_2_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">paths</span><span class="p">[</span><span class="s">&#39;instances&#39;</span><span class="p">],</span> <span class="n">master_2_filename</span><span class="p">)</span>
+            <span class="c"># generate instance</span>
+            <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">master_1_path</span><span class="p">)</span> <span class="ow">and</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">master_2_path</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+                    <span class="k">print</span> <span class="s">&#39;generating </span><span class="si">%s</span><span class="s"> </span><span class="si">%s</span><span class="s"> (factor: </span><span class="si">%s</span><span class="s">, </span><span class="si">%s</span><span class="s">)...&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">instance_name</span><span class="p">,</span> <span class="n">interpol_factor</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">interpol_factor</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span>
+                <span class="n">instance_filename</span> <span class="o">=</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s">_</span><span class="si">%s</span><span class="s">.ufo&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">instance_name</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">folder</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                    <span class="n">instance_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">paths</span><span class="p">[</span><span class="s">&#39;instances&#39;</span><span class="p">],</span> <span class="n">instance_filename</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">instance_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="n">instance_filename</span><span class="p">)</span>
+                <span class="c"># open/create fonts</span>
+                <span class="n">f1</span> <span class="o">=</span> <span class="n">RFont</span><span class="p">(</span><span class="n">master_1_path</span><span class="p">,</span> <span class="n">showUI</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+                <span class="n">f2</span> <span class="o">=</span> <span class="n">RFont</span><span class="p">(</span><span class="n">master_2_path</span><span class="p">,</span> <span class="n">showUI</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+                <span class="n">f3</span> <span class="o">=</span> <span class="n">NewFont</span><span class="p">(</span><span class="n">showUI</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+                <span class="c"># interpolate</span>
+                <span class="n">f3</span><span class="o">.</span><span class="n">interpolate</span><span class="p">((</span><span class="n">interpol_factor</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">interpol_factor</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="n">f1</span><span class="p">,</span> <span class="n">f2</span><span class="p">)</span>
+                <span class="n">f3</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
+                <span class="n">f1</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+                <span class="n">f2</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+                <span class="n">f3</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">instance_path</span><span class="p">)</span>
+                <span class="n">f3</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+                <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+                    <span class="k">print</span> <span class="s">&#39;done.</span><span class="se">\n</span><span class="s">&#39;</span>
+        <span class="c"># instance not in lib</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+                <span class="k">print</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s"> is not an instance.</span><span class="se">\n</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">instance_name</span>
+</div>
+<div class="viewcode-block" id="hProject.generate_vfbs"><a class="viewcode-back" href="../../../objects/hproject.html#hTools2.objects.hproject.hProject.generate_vfbs">[docs]</a>    <span class="k">def</span> <span class="nf">generate_vfbs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">masters</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">instances</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">interpol</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Batch convert ufos in project to vfb format.&quot;&quot;&quot;</span>
+        <span class="kn">import</span> <span class="nn">os</span>
+        <span class="kn">from</span> <span class="nn">robofab.world</span> <span class="kn">import</span> <span class="n">NewFont</span>
+        <span class="c"># collect files</span>
+        <span class="n">_ufos</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="n">masters</span><span class="p">:</span>
+            <span class="n">_ufos</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">masters</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">instances</span><span class="p">:</span>
+            <span class="n">_ufos</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">instances</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">interpol</span><span class="p">:</span>
+            <span class="n">_ufos</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">masters_interpol</span><span class="p">()</span>
+        <span class="c"># run</span>
+        <span class="k">for</span> <span class="n">ufo</span> <span class="ow">in</span> <span class="n">_ufos</span><span class="p">:</span>
+            <span class="n">_vfb_name</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">ufo</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">_vfb_file</span> <span class="o">=</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s">.vfb&#39;</span> <span class="o">%</span> <span class="n">_vfb_name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;.&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">_vfb_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">paths</span><span class="p">[</span><span class="s">&#39;vfbs&#39;</span><span class="p">],</span> <span class="n">_vfb_file</span><span class="p">)</span>
+            <span class="n">font</span> <span class="o">=</span> <span class="n">NewFont</span><span class="p">()</span>
+            <span class="n">font</span><span class="o">.</span><span class="n">readUFO</span><span class="p">(</span><span class="n">ufo</span><span class="p">,</span> <span class="n">doProgress</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+            <span class="n">font</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">_vfb_path</span><span class="p">)</span>
+            <span class="n">font</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+    <span class="c"># basic git management</span>
+</div>
+<div class="viewcode-block" id="hProject.git_commit"><a class="viewcode-back" href="../../../objects/hproject.html#hTools2.objects.hproject.hProject.git_commit">[docs]</a>    <span class="k">def</span> <span class="nf">git_commit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="o">=</span><span class="s">&#39;maintenance&#39;</span><span class="p">,</span> <span class="n">push</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Commit current version to the project&#39;s repository.&quot;&quot;&quot;</span>
+        <span class="n">sucess</span> <span class="o">=</span> <span class="bp">False</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">cd</span> <span class="ow">and</span> <span class="n">git</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">False</span><span class="p">:</span>
+            <span class="c"># switch to project folder</span>
+            <span class="n">cd</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">paths</span><span class="p">[</span><span class="s">&#39;root&#39;</span><span class="p">])</span>
+            <span class="c"># add changes</span>
+            <span class="n">git</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s">&#39;.&#39;</span><span class="p">)</span>
+            <span class="n">git</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s">&#39;-A&#39;</span><span class="p">)</span>
+            <span class="c"># commit changes</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">print</span> <span class="n">git</span><span class="o">.</span><span class="n">commit</span><span class="p">(</span><span class="s">&quot;-m &#39;</span><span class="si">%s</span><span class="s">&#39;&quot;</span> <span class="o">%</span> <span class="n">message</span><span class="p">)</span>
+                <span class="n">sucess</span> <span class="o">=</span> <span class="bp">True</span>
+            <span class="c"># get status</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="k">print</span> <span class="n">git</span><span class="o">.</span><span class="n">status</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">print</span> <span class="s">&#39;sh and/or git not available.</span><span class="se">\n</span><span class="s">&#39;</span>
+        <span class="c"># push to remote server</span>
+        <span class="k">if</span> <span class="n">sucess</span> <span class="ow">and</span> <span class="n">push</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">git_push</span><span class="p">()</span>
+</div>
+<div class="viewcode-block" id="hProject.git_push"><a class="viewcode-back" href="../../../objects/hproject.html#hTools2.objects.hproject.hProject.git_push">[docs]</a>    <span class="k">def</span> <span class="nf">git_push</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Push current version to git.&quot;&quot;&quot;</span>
+        <span class="c"># switch to project folder</span>
+        <span class="n">cd</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">paths</span><span class="p">[</span><span class="s">&#39;root&#39;</span><span class="p">])</span>
+        <span class="c"># push changes to remote</span>
+        <span class="k">print</span> <span class="n">git</span><span class="o">.</span><span class="n">push</span><span class="p">(</span><span class="s">&#39;origin&#39;</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="hProject.git_status"><a class="viewcode-back" href="../../../objects/hproject.html#hTools2.objects.hproject.hProject.git_status">[docs]</a>    <span class="k">def</span> <span class="nf">git_status</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Get current git status.&quot;&quot;&quot;</span>
+        <span class="n">cd</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">paths</span><span class="p">[</span><span class="s">&#39;root&#39;</span><span class="p">])</span>
+        <span class="k">print</span> <span class="n">git</span><span class="o">.</span><span class="n">status</span><span class="p">()</span></div></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">hTools2</a> &raquo;</li>
+          <li><a href="../../index.html" >Module code</a> &raquo;</li>
+          <li><a href="../../hTools2.html" >hTools2</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Gustavo Ferreira.
+      Last updated on Sep 01, 2013.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b1.
+    </div>
+  </body>
+</html>

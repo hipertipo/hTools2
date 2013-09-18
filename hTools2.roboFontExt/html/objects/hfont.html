@@ -1,0 +1,494 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>hFont &mdash; hTools2</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.6',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/sidebar.js"></script>
+    <link rel="top" title="hTools2" href="../index.html" />
+    <link rel="up" title="Objects" href="objects.html" />
+    <link rel="next" title="hGlyph" href="hglyph.html" />
+    <link rel="prev" title="hProject" href="hproject.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="hglyph.html" title="hGlyph"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="hproject.html" title="hProject"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">hTools2</a> &raquo;</li>
+          <li><a href="objects.html" accesskey="U">Objects</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-hTools2.objects.hfont">
+<span id="hfont"></span><h1>hFont<a class="headerlink" href="#module-hTools2.objects.hfont" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="hTools2.objects.hfont.hFont">
+<em class="property">class </em><tt class="descclassname">hTools2.objects.hfont.</tt><tt class="descname">hFont</tt><big>(</big><em>ufo</em><big>)</big><a class="reference internal" href="../_modules/hTools2/objects/hfont.html#hFont"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools2.objects.hfont.hFont" title="Permalink to this definition">¶</a></dt>
+<dd><p>An object to represent a <tt class="docutils literal"><span class="pre">.ufo</span></tt> font source, wrapped in a few useful functions.</p>
+<dl class="method">
+<dt id="hTools2.objects.hfont.hFont.__init__">
+<tt class="descname">__init__</tt><big>(</big><em>ufo</em><big>)</big><a class="reference internal" href="../_modules/hTools2/objects/hfont.html#hFont.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools2.objects.hfont.hFont.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initiate the <tt class="docutils literal"><span class="pre">hFont</span></tt> object from a <tt class="docutils literal"><span class="pre">.ufo</span></tt> file.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="hTools2.objects.hfont.hFont.__module__">
+<tt class="descname">__module__</tt><em class="property"> = 'hTools2.objects.hfont'</em><a class="headerlink" href="#hTools2.objects.hfont.hFont.__module__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hTools2.objects.hfont.hFont.__repr__">
+<tt class="descname">__repr__</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/hTools2/objects/hfont.html#hFont.__repr__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools2.objects.hfont.hFont.__repr__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return textual representation of <tt class="docutils literal"><span class="pre">hFont</span></tt>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools2.objects.hfont.hFont.add_extremes">
+<tt class="descname">add_extremes</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/hTools2/objects/hfont.html#hFont.add_extremes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools2.objects.hfont.hFont.add_extremes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Auto add extreme points in all glyphs in font.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools2.objects.hfont.hFont.align_to_grid">
+<tt class="descname">align_to_grid</tt><big>(</big><em>(sizeX</em>, <em>sizeY)</em><big>)</big><a class="reference internal" href="../_modules/hTools2/objects/hfont.html#hFont.align_to_grid"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools2.objects.hfont.hFont.align_to_grid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Align points in all glyphs in font to the given <tt class="docutils literal"><span class="pre">(x,y)</span></tt> grid.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools2.objects.hfont.hFont.apply_actions">
+<tt class="descname">apply_actions</tt><big>(</big><em>actions_dict</em><big>)</big><a class="reference internal" href="../_modules/hTools2/objects/hfont.html#hFont.apply_actions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools2.objects.hfont.hFont.apply_actions" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hTools2.objects.hfont.hFont.auto_contour_direction">
+<tt class="descname">auto_contour_direction</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/hTools2/objects/hfont.html#hFont.auto_contour_direction"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools2.objects.hfont.hFont.auto_contour_direction" title="Permalink to this definition">¶</a></dt>
+<dd><p>Auto set contour direction in all glyphs in font.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools2.objects.hfont.hFont.auto_contour_order">
+<tt class="descname">auto_contour_order</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/hTools2/objects/hfont.html#hFont.auto_contour_order"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools2.objects.hfont.hFont.auto_contour_order" title="Permalink to this definition">¶</a></dt>
+<dd><p>Auto set contour order in all glyphs in font.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools2.objects.hfont.hFont.auto_order_direction">
+<tt class="descname">auto_order_direction</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/hTools2/objects/hfont.html#hFont.auto_order_direction"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools2.objects.hfont.hFont.auto_order_direction" title="Permalink to this definition">¶</a></dt>
+<dd><p>Auto set contour order and direction in all glyphs in font.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools2.objects.hfont.hFont.auto_unicodes">
+<tt class="descname">auto_unicodes</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/hTools2/objects/hfont.html#hFont.auto_unicodes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools2.objects.hfont.hFont.auto_unicodes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Automatically set unicodes for all glyphs in the font.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools2.objects.hfont.hFont.build_accents">
+<tt class="descname">build_accents</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/hTools2/objects/hfont.html#hFont.build_accents"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools2.objects.hfont.hFont.build_accents" title="Permalink to this definition">¶</a></dt>
+<dd><p>Build all accented glyphs in the font based on the project&#8217;s <tt class="docutils literal"><span class="pre">accents</span></tt> libs.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools2.objects.hfont.hFont.build_anchors">
+<tt class="descname">build_anchors</tt><big>(</big><em>clear=True</em><big>)</big><a class="reference internal" href="../_modules/hTools2/objects/hfont.html#hFont.build_anchors"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools2.objects.hfont.hFont.build_anchors" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hTools2.objects.hfont.hFont.build_composed">
+<tt class="descname">build_composed</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/hTools2/objects/hfont.html#hFont.build_composed"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools2.objects.hfont.hFont.build_composed" title="Permalink to this definition">¶</a></dt>
+<dd><p>Build all composed glyphs in the font based on the project&#8217;s <tt class="docutils literal"><span class="pre">composed</span></tt> libs.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools2.objects.hfont.hFont.build_glyph">
+<tt class="descname">build_glyph</tt><big>(</big><em>glyph_name</em><big>)</big><a class="reference internal" href="../_modules/hTools2/objects/hfont.html#hFont.build_glyph"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools2.objects.hfont.hFont.build_glyph" title="Permalink to this definition">¶</a></dt>
+<dd><p>Build glyph with the given <tt class="docutils literal"><span class="pre">glyph_name</span></tt> from components based on the project&#8217;s <tt class="docutils literal"><span class="pre">accents</span></tt> or <tt class="docutils literal"><span class="pre">composed</span></tt> libs.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools2.objects.hfont.hFont.clear_anchors">
+<tt class="descname">clear_anchors</tt><big>(</big><em>gstring=None</em><big>)</big><a class="reference internal" href="../_modules/hTools2/objects/hfont.html#hFont.clear_anchors"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools2.objects.hfont.hFont.clear_anchors" title="Permalink to this definition">¶</a></dt>
+<dd><p>Delete all anchors in the font.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools2.objects.hfont.hFont.clear_bluezones">
+<tt class="descname">clear_bluezones</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/hTools2/objects/hfont.html#hFont.clear_bluezones"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools2.objects.hfont.hFont.clear_bluezones" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hTools2.objects.hfont.hFont.clear_features">
+<tt class="descname">clear_features</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/hTools2/objects/hfont.html#hFont.clear_features"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools2.objects.hfont.hFont.clear_features" title="Permalink to this definition">¶</a></dt>
+<dd><p>Delete all OpenType features and classes in font.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools2.objects.hfont.hFont.clear_groups">
+<tt class="descname">clear_groups</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/hTools2/objects/hfont.html#hFont.clear_groups"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools2.objects.hfont.hFont.clear_groups" title="Permalink to this definition">¶</a></dt>
+<dd><p>Delete all groups in the font.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools2.objects.hfont.hFont.clear_guides">
+<tt class="descname">clear_guides</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/hTools2/objects/hfont.html#hFont.clear_guides"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools2.objects.hfont.hFont.clear_guides" title="Permalink to this definition">¶</a></dt>
+<dd><p>Delete all global guides in the font.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools2.objects.hfont.hFont.clear_info">
+<tt class="descname">clear_info</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/hTools2/objects/hfont.html#hFont.clear_info"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools2.objects.hfont.hFont.clear_info" title="Permalink to this definition">¶</a></dt>
+<dd><p>Print different kinds of font information.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools2.objects.hfont.hFont.create_glyphs">
+<tt class="descname">create_glyphs</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/hTools2/objects/hfont.html#hFont.create_glyphs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools2.objects.hfont.hFont.create_glyphs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create all glyphs from the project&#8217;s encoding file.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools2.objects.hfont.hFont.crop_glyphset">
+<tt class="descname">crop_glyphset</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/hTools2/objects/hfont.html#hFont.crop_glyphset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools2.objects.hfont.hFont.crop_glyphset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Delete all glyphs which are not in the font&#8217;s glyphset.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools2.objects.hfont.hFont.decompose">
+<tt class="descname">decompose</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/hTools2/objects/hfont.html#hFont.decompose"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools2.objects.hfont.hFont.decompose" title="Permalink to this definition">¶</a></dt>
+<dd><p>Decompose all glyphs in font.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools2.objects.hfont.hFont.delete_layers">
+<tt class="descname">delete_layers</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/hTools2/objects/hfont.html#hFont.delete_layers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools2.objects.hfont.hFont.delete_layers" title="Permalink to this definition">¶</a></dt>
+<dd><p>Delete all layers in the font.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools2.objects.hfont.hFont.draw_guides">
+<tt class="descname">draw_guides</tt><big>(</big><em>case='lowercase'</em>, <em>guides_group='overshoots'</em>, <em>verbose=True</em><big>)</big><a class="reference internal" href="../_modules/hTools2/objects/hfont.html#hFont.draw_guides"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools2.objects.hfont.hFont.draw_guides" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create guidelines using data from the project&#8217;s <tt class="docutils literal"><span class="pre">vmetrics</span></tt> lib.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools2.objects.hfont.hFont.export_features">
+<tt class="descname">export_features</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/hTools2/objects/hfont.html#hFont.export_features"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools2.objects.hfont.hFont.export_features" title="Permalink to this definition">¶</a></dt>
+<dd><p>Export features from font to features file.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="hTools2.objects.hfont.hFont.file_name">
+<tt class="descname">file_name</tt><em class="property"> = None</em><a class="headerlink" href="#hTools2.objects.hfont.hFont.file_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>The name of the <tt class="docutils literal"><span class="pre">.ufo</span></tt> file, without the extension.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools2.objects.hfont.hFont.full_name">
+<tt class="descname">full_name</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/hTools2/objects/hfont.html#hFont.full_name"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools2.objects.hfont.hFont.full_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the full name of the font, made of the <cite>hProject.name</cite> and <cite>font.style_name</cite>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools2.objects.hfont.hFont.generate_otf">
+<tt class="descname">generate_otf</tt><big>(</big><em>options=None</em>, <em>verbose=False</em>, <em>folder=None</em><big>)</big><a class="reference internal" href="../_modules/hTools2/objects/hfont.html#hFont.generate_otf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools2.objects.hfont.hFont.generate_otf" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate an <tt class="docutils literal"><span class="pre">.otf</span></tt> for the font using the given <tt class="docutils literal"><span class="pre">options</span></tt>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools2.objects.hfont.hFont.generate_woff">
+<tt class="descname">generate_woff</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/hTools2/objects/hfont.html#hFont.generate_woff"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools2.objects.hfont.hFont.generate_woff" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate a <tt class="docutils literal"><span class="pre">.woff</span></tt> font file from the available <tt class="docutils literal"><span class="pre">.otf</span></tt> font.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools2.objects.hfont.hFont.get_stems">
+<tt class="descname">get_stems</tt><big>(</big><big>)</big><a class="headerlink" href="#hTools2.objects.hfont.hFont.get_stems" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="hTools2.objects.hfont.hFont.get_vmetrics">
+<tt class="descname">get_vmetrics</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/hTools2/objects/hfont.html#hFont.get_vmetrics"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools2.objects.hfont.hFont.get_vmetrics" title="Permalink to this definition">¶</a></dt>
+<dd><p>Build a <tt class="docutils literal"><span class="pre">vmetrics</span></tt> dict using data from the <tt class="docutils literal"><span class="pre">vmetrics</span></tt> lib.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools2.objects.hfont.hFont.glyphset">
+<tt class="descname">glyphset</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/hTools2/objects/hfont.html#hFont.glyphset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools2.objects.hfont.hFont.glyphset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a list with all glyph names in the font&#8217;s glyphset.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="hTools2.objects.hfont.hFont.guides_dict">
+<tt class="descname">guides_dict</tt><em class="property"> = {}</em><a class="headerlink" href="#hTools2.objects.hfont.hFont.guides_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>A dictionary to contain this font&#8217;s guidelines, once the basic vertical metrics have been defined and set.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools2.objects.hfont.hFont.import_features">
+<tt class="descname">import_features</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/hTools2/objects/hfont.html#hFont.import_features"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools2.objects.hfont.hFont.import_features" title="Permalink to this definition">¶</a></dt>
+<dd><p>Import features from features file into font.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools2.objects.hfont.hFont.import_groups_from_encoding">
+<tt class="descname">import_groups_from_encoding</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/hTools2/objects/hfont.html#hFont.import_groups_from_encoding"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools2.objects.hfont.hFont.import_groups_from_encoding" title="Permalink to this definition">¶</a></dt>
+<dd><p>Import glyph names and order from encoding file, and stores them in a lib.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools2.objects.hfont.hFont.import_kern_feature">
+<tt class="descname">import_kern_feature</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/hTools2/objects/hfont.html#hFont.import_kern_feature"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools2.objects.hfont.hFont.import_kern_feature" title="Permalink to this definition">¶</a></dt>
+<dd><p>Import <cite>kern</cite> feature from features file into font.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools2.objects.hfont.hFont.import_spacing_groups">
+<tt class="descname">import_spacing_groups</tt><big>(</big><em>mode=0</em><big>)</big><a class="reference internal" href="../_modules/hTools2/objects/hfont.html#hFont.import_spacing_groups"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools2.objects.hfont.hFont.import_spacing_groups" title="Permalink to this definition">¶</a></dt>
+<dd><p>Import left/right spacing classes from lib into groups.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools2.objects.hfont.hFont.init_from_filename">
+<tt class="descname">init_from_filename</tt><big>(</big><em>set_names=True</em><big>)</big><a class="reference internal" href="../_modules/hTools2/objects/hfont.html#hFont.init_from_filename"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools2.objects.hfont.hFont.init_from_filename" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initiate <tt class="docutils literal"><span class="pre">hFont</span></tt> object from <tt class="docutils literal"><span class="pre">RFont</span></tt>, get parent project, parse name parts.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools2.objects.hfont.hFont.make_guides">
+<tt class="descname">make_guides</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/hTools2/objects/hfont.html#hFont.make_guides"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools2.objects.hfont.hFont.make_guides" title="Permalink to this definition">¶</a></dt>
+<dd><p>Build a guides dictionary from the project&#8217;s <tt class="docutils literal"><span class="pre">vmetrics</span></tt> lib.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools2.objects.hfont.hFont.move_glyphs">
+<tt class="descname">move_glyphs</tt><big>(</big><em>(delta_x</em>, <em>delta_y)</em><big>)</big><a class="reference internal" href="../_modules/hTools2/objects/hfont.html#hFont.move_glyphs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools2.objects.hfont.hFont.move_glyphs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Move all glyphs in font by the given distance <tt class="docutils literal"><span class="pre">(x,y)</span></tt>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools2.objects.hfont.hFont.name_from_parameters">
+<tt class="descname">name_from_parameters</tt><big>(</big><em>separator=''</em><big>)</big><a class="reference internal" href="../_modules/hTools2/objects/hfont.html#hFont.name_from_parameters"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools2.objects.hfont.hFont.name_from_parameters" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set font names from the font&#8217;s parameters lib.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools2.objects.hfont.hFont.order_glyphs">
+<tt class="descname">order_glyphs</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/hTools2/objects/hfont.html#hFont.order_glyphs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools2.objects.hfont.hFont.order_glyphs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Automatically set the order of the glyphs in the font based on the project&#8217;s <tt class="docutils literal"><span class="pre">groups</span></tt> lib.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools2.objects.hfont.hFont.otf_path">
+<tt class="descname">otf_path</tt><big>(</big><em>test=False</em>, <em>folder=None</em><big>)</big><a class="reference internal" href="../_modules/hTools2/objects/hfont.html#hFont.otf_path"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools2.objects.hfont.hFont.otf_path" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the default path for <tt class="docutils literal"><span class="pre">.otf</span></tt> font generation, in the project&#8217;s <tt class="docutils literal"><span class="pre">_otfs/</span></tt> folder.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hTools2.objects</span> <span class="kn">import</span> <span class="n">hFont</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">font</span> <span class="o">=</span> <span class="n">hFont</span><span class="p">(</span><span class="n">CurrentFont</span><span class="p">())</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">font</span><span class="o">.</span><span class="n">otf_path</span><span class="p">()</span>
+<span class="go">/fonts/_Publica/_otfs/Publica_55.otf</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools2.objects.hfont.hFont.paint_groups">
+<tt class="descname">paint_groups</tt><big>(</big><em>crop=False</em><big>)</big><a class="reference internal" href="../_modules/hTools2/objects/hfont.html#hFont.paint_groups"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools2.objects.hfont.hFont.paint_groups" title="Permalink to this definition">¶</a></dt>
+<dd><p>Paints and orders the glyphs in the font based on the project&#8217;s <tt class="docutils literal"><span class="pre">groups</span></tt> lib.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools2.objects.hfont.hFont.paint_spacing_groups">
+<tt class="descname">paint_spacing_groups</tt><big>(</big><em>side</em>, <em>verbose=False</em><big>)</big><a class="reference internal" href="../_modules/hTools2/objects/hfont.html#hFont.paint_spacing_groups"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools2.objects.hfont.hFont.paint_spacing_groups" title="Permalink to this definition">¶</a></dt>
+<dd><p>Paint left or right spacing groups.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="hTools2.objects.hfont.hFont.parameters">
+<tt class="descname">parameters</tt><em class="property"> = {}</em><a class="headerlink" href="#hTools2.objects.hfont.hFont.parameters" title="Permalink to this definition">¶</a></dt>
+<dd><p>A dictionary with the parameters which identify this particular font in the family&#8217;s variation space.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools2.objects.hfont.hFont.print_info">
+<tt class="descname">print_info</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/hTools2/objects/hfont.html#hFont.print_info"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools2.objects.hfont.hFont.print_info" title="Permalink to this definition">¶</a></dt>
+<dd><p>Print different kinds of font information.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="hTools2.objects.hfont.hFont.project">
+<tt class="descname">project</tt><em class="property"> = None</em><a class="headerlink" href="#hTools2.objects.hfont.hFont.project" title="Permalink to this definition">¶</a></dt>
+<dd><p>The parent <tt class="docutils literal"><span class="pre">hProject</span></tt> object to which the font belongs.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools2.objects.hfont.hFont.remove_overlap">
+<tt class="descname">remove_overlap</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/hTools2/objects/hfont.html#hFont.remove_overlap"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools2.objects.hfont.hFont.remove_overlap" title="Permalink to this definition">¶</a></dt>
+<dd><p>Remove overlaps for all glyphs in font.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools2.objects.hfont.hFont.round_to_grid">
+<tt class="descname">round_to_grid</tt><big>(</big><em>gridsize</em>, <em>gstring=None</em><big>)</big><a class="reference internal" href="../_modules/hTools2/objects/hfont.html#hFont.round_to_grid"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools2.objects.hfont.hFont.round_to_grid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Round points in all given glyphs in the font to the given <tt class="docutils literal"><span class="pre">gridsize</span></tt>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools2.objects.hfont.hFont.scale_glyphs">
+<tt class="descname">scale_glyphs</tt><big>(</big><em>(factor_x</em>, <em>factor_y)</em><big>)</big><a class="reference internal" href="../_modules/hTools2/objects/hfont.html#hFont.scale_glyphs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools2.objects.hfont.hFont.scale_glyphs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Scale all glyphs in font by the given factor <tt class="docutils literal"><span class="pre">(x,y)</span></tt>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools2.objects.hfont.hFont.set_bluezones">
+<tt class="descname">set_bluezones</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/hTools2/objects/hfont.html#hFont.set_bluezones"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools2.objects.hfont.hFont.set_bluezones" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the PostScript blue zones from the font&#8217;s vertical metrics and guidelines dict.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools2.objects.hfont.hFont.set_foundry_info">
+<tt class="descname">set_foundry_info</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/hTools2/objects/hfont.html#hFont.set_foundry_info"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools2.objects.hfont.hFont.set_foundry_info" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set foundry info from the project&#8217;s <tt class="docutils literal"><span class="pre">info</span></tt> lib.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools2.objects.hfont.hFont.set_info">
+<tt class="descname">set_info</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/hTools2/objects/hfont.html#hFont.set_info"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools2.objects.hfont.hFont.set_info" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set font names from the <tt class="docutils literal"><span class="pre">.ufo</span></tt>&#8216;s path name.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools2.objects.hfont.hFont.set_names">
+<tt class="descname">set_names</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/hTools2/objects/hfont.html#hFont.set_names"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools2.objects.hfont.hFont.set_names" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set font names from the font&#8217;s <tt class="docutils literal"><span class="pre">.ufo</span></tt> file name.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools2.objects.hfont.hFont.set_vmetrics">
+<tt class="descname">set_vmetrics</tt><big>(</big><em>verbose=True</em><big>)</big><a class="reference internal" href="../_modules/hTools2/objects/hfont.html#hFont.set_vmetrics"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools2.objects.hfont.hFont.set_vmetrics" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the font&#8217;s vertical metrics from the a <tt class="docutils literal"><span class="pre">vmetrics</span></tt> dict.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="hTools2.objects.hfont.hFont.style_name">
+<tt class="descname">style_name</tt><em class="property"> = None</em><a class="headerlink" href="#hTools2.objects.hfont.hFont.style_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>The <tt class="docutils literal"><span class="pre">styleName</span></tt> of the font, parsed from the name of the <tt class="docutils literal"><span class="pre">.ufo</span></tt> file on initialization. See <tt class="docutils literal"><span class="pre">init_from_filename()</span></tt>.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="hTools2.objects.hfont.hFont.ufo">
+<tt class="descname">ufo</tt><em class="property"> = None</em><a class="headerlink" href="#hTools2.objects.hfont.hFont.ufo" title="Permalink to this definition">¶</a></dt>
+<dd><p>The <tt class="docutils literal"><span class="pre">.ufo</span></tt> file containing the actual font.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools2.objects.hfont.hFont.upload_woff">
+<tt class="descname">upload_woff</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/hTools2/objects/hfont.html#hFont.upload_woff"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools2.objects.hfont.hFont.upload_woff" title="Permalink to this definition">¶</a></dt>
+<dd><p>Upload the font&#8217;s <tt class="docutils literal"><span class="pre">.woff</span></tt> file to the project&#8217;s folder in the FTP server.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="hTools2.objects.hfont.hFont.woff_path">
+<tt class="descname">woff_path</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/hTools2/objects/hfont.html#hFont.woff_path"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools2.objects.hfont.hFont.woff_path" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the default path for <tt class="docutils literal"><span class="pre">.woff</span></tt> font generation, in the project&#8217;s <tt class="docutils literal"><span class="pre">_woffs/</span></tt> folder.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="hproject.html"
+                        title="previous chapter">hProject</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="hglyph.html"
+                        title="next chapter">hGlyph</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/objects/hfont.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="hglyph.html" title="hGlyph"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="hproject.html" title="hProject"
+             >previous</a> |</li>
+        <li><a href="../index.html">hTools2</a> &raquo;</li>
+          <li><a href="objects.html" >Objects</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Gustavo Ferreira.
+      Last updated on Sep 01, 2013.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b1.
+    </div>
+  </body>
+</html>

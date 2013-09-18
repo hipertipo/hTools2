@@ -1,0 +1,170 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>fileutils &mdash; hTools2</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.6',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/sidebar.js"></script>
+    <link rel="top" title="hTools2" href="../index.html" />
+    <link rel="up" title="Modules" href="modules.html" />
+    <link rel="next" title="fontinfo" href="fontinfo.html" />
+    <link rel="prev" title="encoding" href="encoding.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="fontinfo.html" title="fontinfo"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="encoding.html" title="encoding"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">hTools2</a> &raquo;</li>
+          <li><a href="modules.html" accesskey="U">Modules</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-hTools2.modules.fileutils">
+<span id="fileutils"></span><h1>fileutils<a class="headerlink" href="#module-hTools2.modules.fileutils" title="Permalink to this headline">¶</a></h1>
+<p>Simple tools to work with files, paths etc.</p>
+<dl class="function">
+<dt id="hTools2.modules.fileutils.delete_files">
+<tt class="descclassname">hTools2.modules.fileutils.</tt><tt class="descname">delete_files</tt><big>(</big><em>files_list</em><big>)</big><a class="reference internal" href="../_modules/hTools2/modules/fileutils.html#delete_files"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools2.modules.fileutils.delete_files" title="Permalink to this definition">¶</a></dt>
+<dd><p>Delete the files at the file paths in the list.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="hTools2.modules.fileutils.get_names_from_path">
+<tt class="descclassname">hTools2.modules.fileutils.</tt><tt class="descname">get_names_from_path</tt><big>(</big><em>fontpath</em><big>)</big><a class="reference internal" href="../_modules/hTools2/modules/fileutils.html#get_names_from_path"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools2.modules.fileutils.get_names_from_path" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parse underscore(or hyphen)-separated font file names into <tt class="docutils literal"><span class="pre">family</span></tt> and <tt class="docutils literal"><span class="pre">style</span></tt> names.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="hTools2.modules.fileutils.get_parameters_from_path">
+<tt class="descclassname">hTools2.modules.fileutils.</tt><tt class="descname">get_parameters_from_path</tt><big>(</big><em>fontpath</em><big>)</big><a class="reference internal" href="../_modules/hTools2/modules/fileutils.html#get_parameters_from_path"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools2.modules.fileutils.get_parameters_from_path" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get individual parameters from the path of a font file.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="hTools2.modules.fileutils.get_parameters_from_style">
+<tt class="descclassname">hTools2.modules.fileutils.</tt><tt class="descname">get_parameters_from_style</tt><big>(</big><em>style_name</em><big>)</big><a class="reference internal" href="../_modules/hTools2/modules/fileutils.html#get_parameters_from_style"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools2.modules.fileutils.get_parameters_from_style" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get individual parameters from the style name of a font.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="hTools2.modules.fileutils.prepend_zeros">
+<tt class="descclassname">hTools2.modules.fileutils.</tt><tt class="descname">prepend_zeros</tt><big>(</big><em>number</em>, <em>length</em><big>)</big><a class="reference internal" href="../_modules/hTools2/modules/fileutils.html#prepend_zeros"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools2.modules.fileutils.prepend_zeros" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add padding with zeros before number for sorting.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="hTools2.modules.fileutils.read_names_list_from_file">
+<tt class="descclassname">hTools2.modules.fileutils.</tt><tt class="descname">read_names_list_from_file</tt><big>(</big><em>filepath</em><big>)</big><a class="reference internal" href="../_modules/hTools2/modules/fileutils.html#read_names_list_from_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools2.modules.fileutils.read_names_list_from_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read pairs of glyph names from a simple text file.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="hTools2.modules.fileutils.rename_file">
+<tt class="descclassname">hTools2.modules.fileutils.</tt><tt class="descname">rename_file</tt><big>(</big><em>filepath</em>, <em>new_name</em>, <em>overwrite=True</em>, <em>delete=True</em><big>)</big><a class="reference internal" href="../_modules/hTools2/modules/fileutils.html#rename_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools2.modules.fileutils.rename_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Rename a file or folder, and save it with the new name.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="hTools2.modules.fileutils.walk">
+<tt class="descclassname">hTools2.modules.fileutils.</tt><tt class="descname">walk</tt><big>(</big><em>folder</em>, <em>extension</em><big>)</big><a class="reference internal" href="../_modules/hTools2/modules/fileutils.html#walk"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools2.modules.fileutils.walk" title="Permalink to this definition">¶</a></dt>
+<dd><p>A simple non-recursive <tt class="docutils literal"><span class="pre">walk</span></tt> function to collect files with a given extension.</p>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="encoding.html"
+                        title="previous chapter">encoding</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="fontinfo.html"
+                        title="next chapter">fontinfo</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/modules/fileutils.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="fontinfo.html" title="fontinfo"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="encoding.html" title="encoding"
+             >previous</a> |</li>
+        <li><a href="../index.html">hTools2</a> &raquo;</li>
+          <li><a href="modules.html" >Modules</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Gustavo Ferreira.
+      Last updated on Aug 30, 2013.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b1.
+    </div>
+  </body>
+</html>

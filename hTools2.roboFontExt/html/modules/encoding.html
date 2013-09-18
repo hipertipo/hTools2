@@ -1,0 +1,171 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>encoding &mdash; hTools2</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.6',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/sidebar.js"></script>
+    <link rel="top" title="hTools2" href="../index.html" />
+    <link rel="up" title="Modules" href="modules.html" />
+    <link rel="next" title="fileutils" href="fileutils.html" />
+    <link rel="prev" title="color" href="color.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="fileutils.html" title="fileutils"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="color.html" title="color"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">hTools2</a> &raquo;</li>
+          <li><a href="modules.html" accesskey="U">Modules</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-hTools2.modules.encoding">
+<span id="encoding"></span><h1>encoding<a class="headerlink" href="#module-hTools2.modules.encoding" title="Permalink to this headline">¶</a></h1>
+<p>Unicode tools, glyph name to hex/uni conversion etc.</p>
+<dl class="function">
+<dt id="hTools2.modules.encoding.auto_unicode">
+<tt class="descclassname">hTools2.modules.encoding.</tt><tt class="descname">auto_unicode</tt><big>(</big><em>g</em><big>)</big><a class="reference internal" href="../_modules/hTools2/modules/encoding.html#auto_unicode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools2.modules.encoding.auto_unicode" title="Permalink to this definition">¶</a></dt>
+<dd><p>Automatically set unicode value(s) for the specified glyph.</p>
+<p>The method uses RoboFab&#8217;s <tt class="docutils literal"><span class="pre">glyph.autoUnicodes()</span></tt> function for common glyphs, and complements it with additional values from <tt class="docutils literal"><span class="pre">unicodes_extra</span></tt>.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="hTools2.modules.encoding.auto_unicodes">
+<tt class="descclassname">hTools2.modules.encoding.</tt><tt class="descname">auto_unicodes</tt><big>(</big><em>f</em><big>)</big><a class="reference internal" href="../_modules/hTools2/modules/encoding.html#auto_unicodes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools2.modules.encoding.auto_unicodes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Automatically set unicode values for all glyphs in the font.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="hTools2.modules.encoding.clear_unicodes">
+<tt class="descclassname">hTools2.modules.encoding.</tt><tt class="descname">clear_unicodes</tt><big>(</big><em>f</em><big>)</big><a class="reference internal" href="../_modules/hTools2/modules/encoding.html#clear_unicodes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools2.modules.encoding.clear_unicodes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Remove unicodes from all glyphs in the font.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="hTools2.modules.encoding.import_encoding">
+<tt class="descclassname">hTools2.modules.encoding.</tt><tt class="descname">import_encoding</tt><big>(</big><em>file_path</em><big>)</big><a class="reference internal" href="../_modules/hTools2/modules/encoding.html#import_encoding"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools2.modules.encoding.import_encoding" title="Permalink to this definition">¶</a></dt>
+<dd><p>Import group and glyphs names from an <tt class="docutils literal"><span class="pre">.enc</span></tt> file.</p>
+<p>Return a dictionary with a dict of group names and lists of glyph names, and a list with the order of the groups.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="hTools2.modules.encoding.paint_groups">
+<tt class="descclassname">hTools2.modules.encoding.</tt><tt class="descname">paint_groups</tt><big>(</big><em>f</em>, <em>crop=False</em><big>)</big><a class="reference internal" href="../_modules/hTools2/modules/encoding.html#paint_groups"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools2.modules.encoding.paint_groups" title="Permalink to this definition">¶</a></dt>
+<dd><p>Paint the glyphs in the font according to their groups.</p>
+<p>If a <tt class="docutils literal"><span class="pre">groups_order</span></tt> lib is available, it is used to set the order of the glyphs in the font.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="hTools2.modules.encoding.unicode_hexstr_to_int">
+<tt class="descclassname">hTools2.modules.encoding.</tt><tt class="descname">unicode_hexstr_to_int</tt><big>(</big><em>hexUnicode</em>, <em>replaceUni=True</em><big>)</big><a class="reference internal" href="../_modules/hTools2/modules/encoding.html#unicode_hexstr_to_int"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools2.modules.encoding.unicode_hexstr_to_int" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts a unicode hexadecimal value into an integer.</p>
+<p>It does exactly the reverse of <tt class="docutils literal"><span class="pre">unicode_int_to_hexstr</span></tt>.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="hTools2.modules.encoding.unicode_int_to_hexstr">
+<tt class="descclassname">hTools2.modules.encoding.</tt><tt class="descname">unicode_int_to_hexstr</tt><big>(</big><em>intUnicode</em>, <em>_0x=False</em>, <em>uni=False</em><big>)</big><a class="reference internal" href="../_modules/hTools2/modules/encoding.html#unicode_int_to_hexstr"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools2.modules.encoding.unicode_int_to_hexstr" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts unicode integers to hexadecimal.</p>
+<p>See also the reverse function <tt class="docutils literal"><span class="pre">unicode_hexstr_to_int</span></tt>.</p>
+<p>Note that <tt class="docutils literal"><span class="pre">glyph.unicodes</span></tt> is a list (a glyph can have many unicodes), so we need to pass the first value only.</p>
+<p>The optional parameters <tt class="docutils literal"><span class="pre">uni</span></tt> and <tt class="docutils literal"><span class="pre">_0x</span></tt> add the respective prefixes.</p>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="color.html"
+                        title="previous chapter">color</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="fileutils.html"
+                        title="next chapter">fileutils</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/modules/encoding.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="fileutils.html" title="fileutils"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="color.html" title="color"
+             >previous</a> |</li>
+        <li><a href="../index.html">hTools2</a> &raquo;</li>
+          <li><a href="modules.html" >Modules</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Gustavo Ferreira.
+      Last updated on Aug 30, 2013.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b1.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,187 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>hTools2.modules.fileutils &mdash; hTools2</title>
+    
+    <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '1.6',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../../_static/sidebar.js"></script>
+    <link rel="top" title="hTools2" href="../../../index.html" />
+    <link rel="up" title="hTools2" href="../../hTools2.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">hTools2</a> &raquo;</li>
+          <li><a href="../../index.html" >Module code</a> &raquo;</li>
+          <li><a href="../../hTools2.html" accesskey="U">hTools2</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for hTools2.modules.fileutils</h1><div class="highlight"><pre>
+<span class="c"># [h] hTools2.modules.fileutils</span>
+
+<span class="sd">&quot;&quot;&quot;Simple tools to work with files, paths etc.&quot;&quot;&quot;</span>
+
+<span class="c"># imports</span>
+
+<span class="kn">import</span> <span class="nn">glob</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">shutil</span>
+
+<span class="c"># functions</span>
+
+<div class="viewcode-block" id="walk"><a class="viewcode-back" href="../../../modules/fileutils.html#hTools2.modules.fileutils.walk">[docs]</a><span class="k">def</span> <span class="nf">walk</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="n">extension</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A simple non-recursive ``walk`` function to collect files with a given extension.&quot;&quot;&quot;</span>
+    <span class="n">folder</span> <span class="o">=</span> <span class="n">folder</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">folder</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s">&quot;/&quot;</span><span class="p">)</span> <span class="k">else</span> <span class="n">folder</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%s</span><span class="s">/*.</span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="n">extension</span><span class="p">))</span>
+</div>
+<div class="viewcode-block" id="get_names_from_path"><a class="viewcode-back" href="../../../modules/fileutils.html#hTools2.modules.fileutils.get_names_from_path">[docs]</a><span class="k">def</span> <span class="nf">get_names_from_path</span><span class="p">(</span><span class="n">fontpath</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Parse underscore(or hyphen)-separated font file names into ``family`` and ``style`` names.&quot;&quot;&quot;</span>
+    <span class="n">_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">fontpath</span><span class="p">)</span>
+    <span class="n">_file_name</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">_file</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">family_name</span><span class="p">,</span> <span class="n">style_name</span> <span class="o">=</span> <span class="n">_file_name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;_&#39;</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+        <span class="n">family_name</span><span class="p">,</span> <span class="n">style_name</span> <span class="o">=</span> <span class="n">_file_name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;-&#39;</span><span class="p">)</span>
+    <span class="n">style_name</span> <span class="o">=</span> <span class="n">get_parameters_from_style</span><span class="p">(</span><span class="n">style_name</span><span class="p">)</span>
+    <span class="n">style_name</span> <span class="o">=</span> <span class="s">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">style_name</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">family_name</span><span class="p">,</span> <span class="n">style_name</span>
+</div>
+<div class="viewcode-block" id="get_parameters_from_style"><a class="viewcode-back" href="../../../modules/fileutils.html#hTools2.modules.fileutils.get_parameters_from_style">[docs]</a><span class="k">def</span> <span class="nf">get_parameters_from_style</span><span class="p">(</span><span class="n">style_name</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Get individual parameters from the style name of a font.&quot;&quot;&quot;</span>
+    <span class="n">parameters</span> <span class="o">=</span> <span class="n">style_name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;-&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">parameters</span>
+</div>
+<div class="viewcode-block" id="get_parameters_from_path"><a class="viewcode-back" href="../../../modules/fileutils.html#hTools2.modules.fileutils.get_parameters_from_path">[docs]</a><span class="k">def</span> <span class="nf">get_parameters_from_path</span><span class="p">(</span><span class="n">fontpath</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Get individual parameters from the path of a font file.&quot;&quot;&quot;</span>
+    <span class="n">family_name</span><span class="p">,</span> <span class="n">style_name</span> <span class="o">=</span> <span class="n">get_names_from_path</span><span class="p">(</span><span class="n">fontpath</span><span class="p">)</span>
+    <span class="n">parameters</span> <span class="o">=</span> <span class="n">style_name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;-&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">parameters</span>
+</div>
+<div class="viewcode-block" id="read_names_list_from_file"><a class="viewcode-back" href="../../../modules/fileutils.html#hTools2.modules.fileutils.read_names_list_from_file">[docs]</a><span class="k">def</span> <span class="nf">read_names_list_from_file</span><span class="p">(</span><span class="n">filepath</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Read pairs of glyph names from a simple text file.&quot;&quot;&quot;</span>
+    <span class="n">lines_raw</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="s">&#39;r&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
+    <span class="n">names_list</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">lines_raw</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">line</span><span class="p">[:</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="s">&#39;#&#39;</span><span class="p">:</span>
+            <span class="n">old_name</span><span class="p">,</span> <span class="n">new_name</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+            <span class="n">old_name</span> <span class="o">=</span> <span class="n">old_name</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+            <span class="n">new_name</span> <span class="o">=</span> <span class="n">new_name</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+            <span class="n">names_list</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">old_name</span><span class="p">,</span> <span class="n">new_name</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">names_list</span>
+</div>
+<div class="viewcode-block" id="delete_files"><a class="viewcode-back" href="../../../modules/fileutils.html#hTools2.modules.fileutils.delete_files">[docs]</a><span class="k">def</span> <span class="nf">delete_files</span><span class="p">(</span><span class="n">files_list</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Delete the files at the file paths in the list.&quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">file_path</span> <span class="ow">in</span> <span class="n">files_list</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">file_path</span><span class="p">):</span>
+            <span class="n">shutil</span><span class="o">.</span><span class="n">rmtree</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="rename_file"><a class="viewcode-back" href="../../../modules/fileutils.html#hTools2.modules.fileutils.rename_file">[docs]</a><span class="k">def</span> <span class="nf">rename_file</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="n">new_name</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">delete</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Rename a file or folder, and save it with the new name.&quot;&quot;&quot;</span>
+    <span class="n">_dir</span><span class="p">,</span> <span class="n">_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span>
+    <span class="n">_ext</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">_file</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">_new_file_name</span> <span class="o">=</span> <span class="n">new_name</span> <span class="o">+</span> <span class="n">_ext</span>
+    <span class="n">_new_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">_dir</span><span class="p">,</span> <span class="n">_new_file_name</span><span class="p">)</span>
+    <span class="k">print</span> <span class="s">&#39;renaming file...&#39;</span>
+    <span class="c"># folder</span>
+    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">filepath</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">_new_path</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">overwrite</span><span class="p">:</span>
+                <span class="n">shutil</span><span class="o">.</span><span class="n">rmtree</span><span class="p">(</span><span class="n">_new_path</span><span class="p">)</span>
+        <span class="k">print</span> <span class="s">&#39;</span><span class="se">\t</span><span class="s">saving </span><span class="si">%s</span><span class="s"> as </span><span class="si">%s</span><span class="s">...&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="n">_new_path</span><span class="p">)</span>
+        <span class="n">shutil</span><span class="o">.</span><span class="n">copytree</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="n">_new_path</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">delete</span><span class="p">:</span>
+            <span class="k">print</span> <span class="s">&#39;</span><span class="se">\t</span><span class="s">deleting </span><span class="si">%s</span><span class="s">...&#39;</span> <span class="o">%</span> <span class="n">filepath</span>
+            <span class="n">shutil</span><span class="o">.</span><span class="n">rmtree</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span>
+    <span class="c"># file</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s">&#39;</span><span class="se">\t</span><span class="s">saving </span><span class="si">%s</span><span class="s"> as </span><span class="si">%s</span><span class="s">...&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="n">_new_path</span><span class="p">)</span>
+        <span class="n">shutil</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="n">_new_path</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">delete</span><span class="p">:</span>
+            <span class="k">print</span> <span class="s">&#39;</span><span class="se">\t</span><span class="s">deleting </span><span class="si">%s</span><span class="s">...&#39;</span> <span class="o">%</span> <span class="n">filepath</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span>
+    <span class="k">print</span> <span class="s">&#39;...done.</span><span class="se">\n</span><span class="s">&#39;</span>
+</div>
+<div class="viewcode-block" id="prepend_zeros"><a class="viewcode-back" href="../../../modules/fileutils.html#hTools2.modules.fileutils.prepend_zeros">[docs]</a><span class="k">def</span> <span class="nf">prepend_zeros</span><span class="p">(</span><span class="n">number</span><span class="p">,</span> <span class="n">length</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Add padding with zeros before number for sorting.&quot;&quot;&quot;</span>
+    <span class="n">_number</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">number</span><span class="p">)</span>
+    <span class="n">_padding</span> <span class="o">=</span> <span class="n">length</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">_number</span><span class="p">)</span>
+    <span class="k">return</span> <span class="s">&#39;</span><span class="si">%s%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="s">&#39;0&#39;</span> <span class="o">*</span> <span class="n">_padding</span><span class="p">,</span> <span class="n">_number</span><span class="p">)</span>
+</pre></div></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">hTools2</a> &raquo;</li>
+          <li><a href="../../index.html" >Module code</a> &raquo;</li>
+          <li><a href="../../hTools2.html" >hTools2</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Gustavo Ferreira.
+      Last updated on Sep 01, 2013.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b1.
+    </div>
+  </body>
+</html>

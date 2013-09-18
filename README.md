@@ -38,7 +38,8 @@ If you use these tools on a regular basis, please consider contributing back to 
 
 ## Download
 
-[https://github.com/gferreira/hTools2](https://github.com/gferreira/hTools2)
+- [download from GitHub (zip)](https://github.com/gferreira/hTools2/archive/master.zip)
+- [download from BitBucket (zip)](https://bitbucket.org/hipertipo/htools2/get/master.zip)
 
 ## License
 

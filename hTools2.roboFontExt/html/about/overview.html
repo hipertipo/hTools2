@@ -1,0 +1,154 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Overview &mdash; hTools2</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.6',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/sidebar.js"></script>
+    <link rel="top" title="hTools2" href="../index.html" />
+    <link rel="up" title="Introduction" href="introduction.html" />
+    <link rel="next" title="Installing (manually)" href="installation.html" />
+    <link rel="prev" title="About" href="about.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="installation.html" title="Installing (manually)"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="about.html" title="About"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">hTools2</a> &raquo;</li>
+          <li><a href="introduction.html" accesskey="U">Introduction</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="overview">
+<h1>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h1>
+<p><a class="reference internal" href="../index.html#module-hTools2" title="hTools2"><tt class="xref py py-mod docutils literal"><span class="pre">hTools2</span></tt></a> is organized in three main packages: <tt class="xref py py-mod docutils literal"><span class="pre">modules</span></tt>, <tt class="xref py py-mod docutils literal"><span class="pre">objects</span></tt> and <tt class="xref py py-mod docutils literal"><span class="pre">dialogs</span></tt>.</p>
+<p>The additional package <tt class="xref py py-mod docutils literal"><span class="pre">extras</span></tt> is used to keep custom modules which are not part of the public distribution of <a class="reference internal" href="../index.html#module-hTools2" title="hTools2"><tt class="xref py py-mod docutils literal"><span class="pre">hTools2</span></tt></a>.</p>
+<div class="section" id="modules">
+<h2>Modules<a class="headerlink" href="#modules" title="Permalink to this headline">¶</a></h2>
+<p>Modules are the base layer of <a class="reference internal" href="../index.html#module-hTools2" title="hTools2"><tt class="xref py py-mod docutils literal"><span class="pre">hTools2</span></tt></a>, and are used to collect and organize low-level, generic, reusable functions.</p>
+<p>Each module is dedicated to one aspect of font data – for example <tt class="xref py py-mod docutils literal"><span class="pre">interpol</span></tt> contains functions to work with interpolation, <tt class="xref py py-mod docutils literal"><span class="pre">anchors</span></tt> deals with anchors, and so on.</p>
+<p><a class="reference internal" href="../index.html#module-hTools2" title="hTools2"><tt class="xref py py-mod docutils literal"><span class="pre">hTools2</span></tt></a> modules rely heavily on underlying functionality provided by <a class="reference external" href="http://robofab.org/">RoboFab</a> and <a class="reference external" href="http://robofont.com/">RoboFont</a> to manipulate fonts.</p>
+<p><a class="reference internal" href="../index.html#module-hTools2" title="hTools2"><tt class="xref py py-mod docutils literal"><span class="pre">hTools2</span></tt></a> also integrates a few third-party external modules in a special <tt class="xref py py-mod docutils literal"><span class="pre">extras</span></tt> package, for example <tt class="xref py py-mod docutils literal"><span class="pre">colorsys</span></tt> for dealing with color conversions and <tt class="xref py py-mod docutils literal"><span class="pre">nudge</span></tt> for special manipulation of bezier points.</p>
+</div>
+<div class="section" id="objects">
+<h2>Objects<a class="headerlink" href="#objects" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference internal" href="../index.html#module-hTools2" title="hTools2"><tt class="xref py py-mod docutils literal"><span class="pre">hTools2</span></tt></a> objects are built on top of the functionality contained in the modules, and provide a simple API for manipulating font files and related data in projects.</p>
+</div>
+<div class="section" id="libs">
+<h2>Libs<a class="headerlink" href="#libs" title="Permalink to this headline">¶</a></h2>
+<p>Metadata in font projects is stored in standardized <tt class="docutils literal"><span class="pre">plist</span></tt> and plain text files.</p>
+</div>
+<div class="section" id="dialogs">
+<h2>Dialogs<a class="headerlink" href="#dialogs" title="Permalink to this headline">¶</a></h2>
+<p>Scripts and dialogs make <a class="reference internal" href="../index.html#module-hTools2" title="hTools2"><tt class="xref py py-mod docutils literal"><span class="pre">hTools2</span></tt></a> objects and modules easily accessible in applications. Current scripts in <a class="reference internal" href="../index.html#module-hTools2" title="hTools2"><tt class="xref py py-mod docutils literal"><span class="pre">hTools2</span></tt></a> are built specially for use with RoboFont.</p>
+<p>In RoboFont, scripts can be accessed with the ‘Extensions’ section of the main application menu, or via keyboard shortcuts (if properly configured).</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Overview</a><ul>
+<li><a class="reference internal" href="#modules">Modules</a></li>
+<li><a class="reference internal" href="#objects">Objects</a></li>
+<li><a class="reference internal" href="#libs">Libs</a></li>
+<li><a class="reference internal" href="#dialogs">Dialogs</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="about.html"
+                        title="previous chapter">About</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="installation.html"
+                        title="next chapter">Installing (manually)</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/about/overview.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="installation.html" title="Installing (manually)"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="about.html" title="About"
+             >previous</a> |</li>
+        <li><a href="../index.html">hTools2</a> &raquo;</li>
+          <li><a href="introduction.html" >Introduction</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Gustavo Ferreira.
+      Last updated on Aug 30, 2013.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b1.
+    </div>
+  </body>
+</html>

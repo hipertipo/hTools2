@@ -1,0 +1,203 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Conventions &mdash; hTools2</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.6',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/sidebar.js"></script>
+    <link rel="top" title="hTools2" href="../index.html" />
+    <link rel="up" title="Introduction" href="introduction.html" />
+    <link rel="next" title="Shortcuts" href="shortcuts.html" />
+    <link rel="prev" title="Installing (as a RoboFont Extension)" href="install-extension.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="shortcuts.html" title="Shortcuts"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="install-extension.html" title="Installing (as a RoboFont Extension)"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">hTools2</a> &raquo;</li>
+          <li><a href="introduction.html" accesskey="U">Introduction</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="conventions">
+<h1>Conventions<a class="headerlink" href="#conventions" title="Permalink to this headline">¶</a></h1>
+<p>Part of the functionality in <a class="reference internal" href="../index.html#module-hTools2" title="hTools2"><tt class="xref py py-mod docutils literal"><span class="pre">hTools2</span></tt></a> depends on a few conventions being followed – for example, the way font files are named, the project sub-folders structure, the name of data files etc.</p>
+<p>This applies only to the objects in <a class="reference internal" href="../objects/objects.html#module-hTools2.objects" title="hTools2.objects"><tt class="xref py py-mod docutils literal"><span class="pre">hTools2.objects</span></tt></a>, and to the dialogs which use these objects. All modules and generic dialogs work fine without any special setting.</p>
+<div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<p>In <a class="reference internal" href="../index.html#module-hTools2" title="hTools2"><tt class="xref py py-mod docutils literal"><span class="pre">hTools2</span></tt></a>, each font-family is a separate project, and all projects are stored in one main root folder.</p>
+<p>Every project contains a set of sub-folders to collect and organize <tt class="docutils literal"><span class="pre">,ufo</span></tt> sources, generated <tt class="docutils literal"><span class="pre">.otf</span></tt> fonts, additional data files etc. The same folder structure is used for all projects. Additional &#8216;custom&#8217; folders per project are allowed.</p>
+<p>Every project also contains a set of files with font-related data – for example, data for building composed glyphs, data for generating instances with interpolation, data about vertical metrics, data about the character set and glyph groups etc.</p>
+</div>
+<div class="section" id="the-root-folder">
+<h2>The <tt class="docutils literal"><span class="pre">ROOT</span></tt> folder<a class="headerlink" href="#the-root-folder" title="Permalink to this headline">¶</a></h2>
+<p>The paths system in <a class="reference internal" href="../index.html#module-hTools2" title="hTools2"><tt class="xref py py-mod docutils literal"><span class="pre">hTools2</span></tt></a> is bootstrapped from one single path: the root folder in which all projects are contained. The default root folder is <tt class="docutils literal"><span class="pre">/_fonts</span></tt>.</p>
+<p>The path to this folder is stored in <a class="reference internal" href="../hTools2.html#hTools2.ROOT" title="hTools2.ROOT"><tt class="xref py py-attr docutils literal"><span class="pre">hTools2.ROOT</span></tt></a>, and currently needs to be edited by hand in the file <tt class="docutils literal"><span class="pre">hTools2/__init__.py</span></tt>.:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">ROOT</span> <span class="o">=</span> <span class="s">&#39;/_fonts&#39;</span>
+</pre></div>
+</div>
+<p>This is the only hardcoded path in hTools2. After set, this path can be read via <tt class="xref py py-attr docutils literal"><span class="pre">hSettings.root</span></tt>.</p>
+</div>
+<div class="section" id="project-folders">
+<h2>Project folders<a class="headerlink" href="#project-folders" title="Permalink to this headline">¶</a></h2>
+<p>All project folders live inside the <tt class="docutils literal"><span class="pre">ROOT</span></tt> folder. Project folder names start with an underscore, followed by the name of the font family. For example, the folder containing the files for the type family ‘Publica’ must be named <tt class="docutils literal"><span class="pre">_Publica</span></tt>.:</p>
+<div class="highlight-python"><pre>fonts/
+    _Publica/
+    _Quantica/
+    ...
+    test/
+    ...</pre>
+</div>
+<p>A typical root folder with projects would look like this:</p>
+<p>Folders which do not start with an underscore are not recognized as projects, and are simply ignored by the tools.</p>
+</div>
+<div class="section" id="project-sub-folders">
+<h2>Project sub-folders<a class="headerlink" href="#project-sub-folders" title="Permalink to this headline">¶</a></h2>
+<p>In hTools2:</p>
+<ul class="simple">
+<li>every font-family is a project,</li>
+<li>every project is a folder, and</li>
+<li>every project contains a standard set of folders and files.</li>
+</ul>
+<p>A typical project folder looks like this:</p>
+<div class="highlight-python"><pre>_Publica/
+    _docs/
+    _libs/
+    _otfs/
+    _temp/
+    _ttfs/
+    _ufos/
+    _vfbs/
+    _woffs/</pre>
+</div>
+</div>
+<div class="section" id="project-libs">
+<h2>Project libs<a class="headerlink" href="#project-libs" title="Permalink to this headline">¶</a></h2>
+<p>Project libs are different kinds of data files contained in the <cite>_libs/</cite> folder of each project.:</p>
+<div class="highlight-python"><pre>_libs/
+    Publica.enc
+    accents.plist
+    composed.plist
+    groups.plist
+    info.plist
+    interpol.plist
+    spacing.plist
+    vmetrics.plist</pre>
+</div>
+</div>
+<div class="section" id="ftp-connection">
+<h2>FTP connection<a class="headerlink" href="#ftp-connection" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference internal" href="../index.html#module-hTools2" title="hTools2"><tt class="xref py py-mod docutils literal"><span class="pre">hTools2</span></tt></a> also includes a few functions to connect to a FTP server and upload files. This is specially handy for working with webfonts and live tests.</p>
+<p>The FTP connection settings (<tt class="docutils literal"><span class="pre">URL</span></tt>, <tt class="docutils literal"><span class="pre">login</span></tt>, <tt class="docutils literal"><span class="pre">password</span></tt>) are stored in the <tt class="xref py py-class docutils literal"><span class="pre">hSettings</span></tt> object, and can be edited with a special dialog.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Conventions</a><ul>
+<li><a class="reference internal" href="#overview">Overview</a></li>
+<li><a class="reference internal" href="#the-root-folder">The <tt class="docutils literal"><span class="pre">ROOT</span></tt> folder</a></li>
+<li><a class="reference internal" href="#project-folders">Project folders</a></li>
+<li><a class="reference internal" href="#project-sub-folders">Project sub-folders</a></li>
+<li><a class="reference internal" href="#project-libs">Project libs</a></li>
+<li><a class="reference internal" href="#ftp-connection">FTP connection</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="install-extension.html"
+                        title="previous chapter">Installing (as a RoboFont Extension)</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="shortcuts.html"
+                        title="next chapter">Shortcuts</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/about/conventions.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="shortcuts.html" title="Shortcuts"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="install-extension.html" title="Installing (as a RoboFont Extension)"
+             >previous</a> |</li>
+        <li><a href="../index.html">hTools2</a> &raquo;</li>
+          <li><a href="introduction.html" >Introduction</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Gustavo Ferreira.
+      Last updated on Aug 30, 2013.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b1.
+    </div>
+  </body>
+</html>

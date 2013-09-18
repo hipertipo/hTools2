@@ -1,0 +1,269 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>hTools2.modules.rasterizer &mdash; hTools2</title>
+    
+    <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '1.6',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../../_static/sidebar.js"></script>
+    <link rel="top" title="hTools2" href="../../../index.html" />
+    <link rel="up" title="hTools2" href="../../hTools2.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">hTools2</a> &raquo;</li>
+          <li><a href="../../index.html" >Module code</a> &raquo;</li>
+          <li><a href="../../hTools2.html" accesskey="U">hTools2</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for hTools2.modules.rasterizer</h1><div class="highlight"><pre>
+<span class="c"># [h] hTools2.modules.rasterizer</span>
+
+<span class="c"># debug</span>
+
+<span class="kn">import</span> <span class="nn">hTools2</span>
+<span class="nb">reload</span><span class="p">(</span><span class="n">hTools2</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">hTools2</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">hTools2.modules.primitives</span>
+    <span class="nb">reload</span><span class="p">(</span><span class="n">hTools2</span><span class="o">.</span><span class="n">modules</span><span class="o">.</span><span class="n">primitives</span><span class="p">)</span>
+
+<span class="c"># imports</span>
+
+<span class="kn">import</span> <span class="nn">random</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">mojo.roboFont</span> <span class="kn">import</span> <span class="n">NewFont</span>
+<span class="k">except</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">robofab.world</span> <span class="kn">import</span> <span class="n">NewFont</span>
+
+<span class="kn">from</span> <span class="nn">hTools2.modules.primitives</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="c"># objects</span>
+
+<div class="viewcode-block" id="RasterGlyph"><a class="viewcode-back" href="../../../modules/rasterizer.html#hTools2.modules.rasterizer.RasterGlyph">[docs]</a><span class="k">class</span> <span class="nc">RasterGlyph</span><span class="p">:</span>
+
+    <span class="sd">&#39;&#39;&#39;An object to scan glyphs and rasterize them into elements/components.&#39;&#39;&#39;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sourceGlyph</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">g</span> <span class="o">=</span> <span class="n">sourceGlyph</span>
+
+<div class="viewcode-block" id="RasterGlyph.scan"><a class="viewcode-back" href="../../../modules/rasterizer.html#hTools2.modules.rasterizer.RasterGlyph.scan">[docs]</a>    <span class="k">def</span> <span class="nf">scan</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">res</span><span class="p">):</span>
+        <span class="n">success</span> <span class="o">=</span> <span class="bp">False</span>
+        <span class="c"># get margins</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">leftMargin</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">g</span><span class="o">.</span><span class="n">leftMargin</span> <span class="o">/</span> <span class="n">res</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rightMargin</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">g</span><span class="o">.</span><span class="n">rightMargin</span> <span class="o">/</span> <span class="n">res</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">g</span><span class="o">.</span><span class="n">contours</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="c"># get bounding box</span>
+            <span class="n">xMin</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">g</span><span class="o">.</span><span class="n">box</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="n">yMin</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">g</span><span class="o">.</span><span class="n">box</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+            <span class="n">xMax</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">g</span><span class="o">.</span><span class="n">box</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+            <span class="n">yMax</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">g</span><span class="o">.</span><span class="n">box</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
+            <span class="n">yValues</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="n">yMin</span><span class="p">,</span> <span class="n">yMax</span><span class="p">,</span> <span class="n">res</span><span class="p">)</span>
+            <span class="n">yValues</span><span class="o">.</span><span class="n">reverse</span><span class="p">()</span>
+            <span class="n">xValues</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="n">xMin</span><span class="p">,</span> <span class="n">xMax</span><span class="p">,</span> <span class="n">res</span><span class="p">)</span>
+            <span class="c"># scan lines</span>
+            <span class="n">lines</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">yValues</span><span class="p">:</span>
+                <span class="n">lineNumber</span> <span class="o">=</span> <span class="n">y</span> <span class="o">/</span> <span class="n">res</span>
+                <span class="n">bits</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">xValues</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">g</span><span class="o">.</span><span class="n">pointInside</span><span class="p">((</span><span class="n">x</span> <span class="o">+</span> <span class="p">(</span><span class="n">res</span> <span class="o">/</span> <span class="mi">2</span><span class="p">),</span> <span class="n">y</span> <span class="o">+</span> <span class="p">(</span><span class="n">res</span> <span class="o">/</span> <span class="mi">2</span><span class="p">))):</span>
+                        <span class="n">bits</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">1</span><span class="p">,)</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">bits</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">0</span><span class="p">,)</span>
+                <span class="n">lines</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">lineNumber</span><span class="p">)]</span> <span class="o">=</span> <span class="n">bits</span>
+            <span class="c"># store scan data</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">coordenates</span> <span class="o">=</span> <span class="n">lines</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_save_bits_to_lib</span><span class="p">()</span>
+            <span class="n">success</span> <span class="o">=</span> <span class="bp">True</span>
+        <span class="k">return</span> <span class="n">success</span>
+</div>
+    <span class="k">def</span> <span class="nf">_save_bits_to_lib</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">g</span><span class="o">.</span><span class="n">lib</span><span class="p">[</span><span class="s">&quot;rasterizer.coordenates&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">coordenates</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">g</span><span class="o">.</span><span class="n">lib</span><span class="p">[</span><span class="s">&quot;rasterizer.margins&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">leftMargin</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">rightMargin</span>
+
+    <span class="k">def</span> <span class="nf">_read_bits_from_lib</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">coordenates</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">g</span><span class="o">.</span><span class="n">lib</span><span class="p">[</span><span class="s">&quot;rasterizer.coordenates&quot;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">leftMargin</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">rightMargin</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">g</span><span class="o">.</span><span class="n">lib</span><span class="p">[</span><span class="s">&quot;rasterizer.margins&quot;</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">_print</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">black</span><span class="o">=</span><span class="s">&quot;#&quot;</span><span class="p">,</span> <span class="n">white</span><span class="o">=</span><span class="s">&quot;-&quot;</span><span class="p">,</span> <span class="n">res</span><span class="o">=</span><span class="mi">125</span><span class="p">):</span>
+        <span class="n">_line_length</span> <span class="o">=</span> <span class="mi">30</span>
+        <span class="c"># see if glyph has been scanned already</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&#39;coordenates&#39;</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">True</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_read_bits_from_lib</span><span class="p">()</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">scan</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+        <span class="n">marginLeft</span> <span class="o">=</span> <span class="n">white</span>
+        <span class="n">marginRight</span> <span class="o">=</span> <span class="n">white</span> <span class="o">+</span> <span class="s">&#39; &#39;</span>
+        <span class="n">lineNumbers</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">coordenates</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+        <span class="n">belowBase</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">aboveBase</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">lineNumbers</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">int</span><span class="p">(</span><span class="n">l</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">belowBase</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">l</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">aboveBase</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">l</span><span class="p">))</span>
+        <span class="n">aboveBase</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
+        <span class="n">aboveBase</span><span class="o">.</span><span class="n">reverse</span><span class="p">()</span>
+        <span class="n">belowBase</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
+        <span class="n">belowBase</span><span class="o">.</span><span class="n">reverse</span><span class="p">()</span>
+        <span class="k">print</span> <span class="s">&quot;-&quot;</span> <span class="o">*</span> <span class="n">_line_length</span>
+        <span class="k">print</span> <span class="s">&quot;GlyphRasterizer&quot;</span>
+        <span class="k">print</span> <span class="s">&quot;-&quot;</span> <span class="o">*</span> <span class="n">_line_length</span>
+        <span class="k">print</span> <span class="s">&#39;glyph name: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">g</span><span class="o">.</span><span class="n">name</span>
+        <span class="k">print</span> <span class="s">&#39;left margin: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">leftMargin</span>
+        <span class="k">print</span> <span class="s">&#39;right margin: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">rightMargin</span>
+        <span class="k">print</span> <span class="s">&quot;-&quot;</span> <span class="o">*</span> <span class="n">_line_length</span>
+        <span class="k">print</span>
+        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">aboveBase</span><span class="p">:</span>
+            <span class="k">print</span> <span class="n">line</span><span class="p">,</span> <span class="s">&quot;</span><span class="se">\t</span><span class="s">&quot;</span><span class="p">,</span>
+            <span class="k">print</span> <span class="n">marginLeft</span> <span class="o">*</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">leftMargin</span><span class="p">),</span>
+            <span class="k">for</span> <span class="n">bit</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">coordenates</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">line</span><span class="p">)]:</span>
+                <span class="k">if</span> <span class="n">bit</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                    <span class="k">print</span> <span class="n">black</span><span class="p">,</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">print</span> <span class="n">white</span><span class="p">,</span>
+            <span class="k">print</span> <span class="n">marginRight</span> <span class="o">*</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rightMargin</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">belowBase</span><span class="p">:</span>
+            <span class="k">print</span> <span class="n">line</span><span class="p">,</span> <span class="s">&quot;</span><span class="se">\t</span><span class="s">&quot;</span><span class="p">,</span>
+            <span class="k">print</span> <span class="n">marginLeft</span> <span class="o">*</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">leftMargin</span><span class="p">),</span>
+            <span class="k">for</span> <span class="n">bit</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">coordenates</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">line</span><span class="p">)]:</span>
+                <span class="k">if</span> <span class="n">bit</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                    <span class="k">print</span> <span class="n">black</span><span class="p">,</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">print</span> <span class="n">white</span><span class="p">,</span>
+            <span class="k">print</span> <span class="n">marginRight</span> <span class="o">*</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rightMargin</span><span class="p">)</span>
+        <span class="k">print</span>
+        <span class="k">print</span> <span class="s">&quot;-&quot;</span> <span class="o">*</span> <span class="n">_line_length</span><span class="p">,</span> <span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span>
+
+<div class="viewcode-block" id="RasterGlyph.rasterize"><a class="viewcode-back" href="../../../modules/rasterizer.html#hTools2.modules.rasterizer.RasterGlyph.rasterize">[docs]</a>    <span class="k">def</span> <span class="nf">rasterize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">destGlyph</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">res</span><span class="o">=</span><span class="mi">125</span><span class="p">):</span>
+        <span class="c"># define destination glyph</span>
+        <span class="k">if</span> <span class="n">destGlyph</span> <span class="o">==</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">destGlyph</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">g</span>
+        <span class="c"># see if glyph has been scanned already</span>
+        <span class="n">lib_exists</span> <span class="o">=</span> <span class="bp">True</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">g</span><span class="o">.</span><span class="n">lib</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="s">&quot;rasterizer.coordenates&quot;</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">True</span><span class="p">:</span>
+            <span class="n">lib_exists</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">scan</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">lib_exists</span><span class="p">:</span>
+            <span class="c"># prepare glyphs</span>
+            <span class="n">element_</span> <span class="o">=</span> <span class="s">&quot;_element&quot;</span>
+            <span class="n">destGlyph</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+            <span class="c"># prepare lines</span>
+            <span class="n">lineNumbers</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">g</span><span class="o">.</span><span class="n">lib</span><span class="p">[</span><span class="s">&quot;rasterizer.coordenates&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+            <span class="n">lineNumbers</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
+            <span class="n">lineNumbers</span><span class="o">.</span><span class="n">reverse</span><span class="p">()</span>
+            <span class="c"># place components from matrix</span>
+            <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">lineNumbers</span><span class="p">:</span>
+                <span class="n">bitCount</span> <span class="o">=</span> <span class="mi">0</span>
+                <span class="k">for</span> <span class="n">bit</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">g</span><span class="o">.</span><span class="n">lib</span><span class="p">[</span><span class="s">&quot;rasterizer.coordenates&quot;</span><span class="p">][</span><span class="n">line</span><span class="p">]:</span>
+                    <span class="k">if</span> <span class="n">bit</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                        <span class="n">x</span> <span class="o">=</span> <span class="n">bitCount</span> <span class="o">*</span> <span class="n">res</span>
+                        <span class="n">y</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">line</span><span class="p">)</span> <span class="o">*</span> <span class="n">res</span>
+                        <span class="n">destGlyph</span><span class="o">.</span><span class="n">appendComponent</span><span class="p">(</span><span class="n">element_</span><span class="p">,</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="k">pass</span>
+                    <span class="n">bitCount</span> <span class="o">=</span> <span class="n">bitCount</span> <span class="o">+</span> <span class="mi">1</span>
+            <span class="c"># set glyph data &amp; update</span>
+            <span class="n">destGlyph</span><span class="o">.</span><span class="n">leftMargin</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">g</span><span class="o">.</span><span class="n">lib</span><span class="p">[</span><span class="s">&quot;rasterizer.margins&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">res</span>
+            <span class="n">destGlyph</span><span class="o">.</span><span class="n">rightMargin</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">g</span><span class="o">.</span><span class="n">lib</span><span class="p">[</span><span class="s">&quot;rasterizer.margins&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">res</span>
+            <span class="n">destGlyph</span><span class="o">.</span><span class="n">autoUnicodes</span><span class="p">()</span>
+            <span class="n">destGlyph</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c"># print &#39;\tglyph %s is empty.\n&#39; % destGlyph.name</span>
+            <span class="k">pass</span>
+</div></div>
+<div class="viewcode-block" id="set_element"><a class="viewcode-back" href="../../../modules/rasterizer.html#hTools2.modules.rasterizer.set_element">[docs]</a><span class="k">def</span> <span class="nf">set_element</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="s">&#39;rect&#39;</span><span class="p">,</span> <span class="n">magic</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">element_</span><span class="o">=</span><span class="s">&#39;_element&#39;</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Set the shape of the element glyph in the font.&#39;&#39;&#39;</span>
+    <span class="k">if</span> <span class="n">f</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="n">element_</span><span class="p">)</span> <span class="o">!=</span> <span class="bp">True</span><span class="p">:</span>
+        <span class="n">f</span><span class="o">.</span><span class="n">newGlyph</span><span class="p">(</span><span class="n">element_</span><span class="p">)</span>
+    <span class="n">g</span> <span class="o">=</span> <span class="n">f</span><span class="p">[</span><span class="n">element_</span><span class="p">]</span>
+    <span class="n">g</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">getPen</span><span class="p">()</span>
+    <span class="k">if</span> <span class="nb">type</span> <span class="o">==</span> <span class="s">&#39;oval&#39;</span><span class="p">:</span>
+        <span class="n">oval</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">size</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="nb">type</span> <span class="o">==</span> <span class="s">&#39;super&#39;</span><span class="p">:</span>
+        <span class="n">element</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">magic</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">rect</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">size</span><span class="p">)</span>
+    <span class="n">g</span><span class="o">.</span><span class="n">width</span> <span class="o">=</span> <span class="n">size</span>
+    <span class="n">g</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
+</pre></div></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">hTools2</a> &raquo;</li>
+          <li><a href="../../index.html" >Module code</a> &raquo;</li>
+          <li><a href="../../hTools2.html" >hTools2</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Gustavo Ferreira.
+      Last updated on Sep 01, 2013.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b1.
+    </div>
+  </body>
+</html>

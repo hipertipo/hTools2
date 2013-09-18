@@ -1,0 +1,415 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>hTools2.modules.color &mdash; hTools2</title>
+    
+    <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '1.6',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../../_static/sidebar.js"></script>
+    <link rel="top" title="hTools2" href="../../../index.html" />
+    <link rel="up" title="hTools2" href="../../hTools2.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">hTools2</a> &raquo;</li>
+          <li><a href="../../index.html" >Module code</a> &raquo;</li>
+          <li><a href="../../hTools2.html" accesskey="U">hTools2</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for hTools2.modules.color</h1><div class="highlight"><pre>
+<span class="c"># [h] hTools2.modules.color</span>
+
+<span class="sd">&#39;&#39;&#39;Tools for working with colors, color system conversions etc.&#39;&#39;&#39;</span>
+
+<span class="c"># debug</span>
+
+<span class="kn">import</span> <span class="nn">hTools2</span>
+<span class="nb">reload</span><span class="p">(</span><span class="n">hTools2</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">hTools2</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">:</span>
+
+    <span class="kn">import</span> <span class="nn">sysutils</span>
+    <span class="nb">reload</span><span class="p">(</span><span class="n">sysutils</span><span class="p">)</span>
+
+    <span class="kn">import</span> <span class="nn">hTools2.extras.colorsys</span>
+    <span class="nb">reload</span><span class="p">(</span><span class="n">hTools2</span><span class="o">.</span><span class="n">extras</span><span class="o">.</span><span class="n">colorsys</span><span class="p">)</span>
+
+<span class="c"># import</span>
+
+<span class="kn">import</span> <span class="nn">random</span>
+
+<span class="kn">from</span> <span class="nn">hTools2.modules.sysutils</span> <span class="kn">import</span> <span class="n">_ctx</span>
+<span class="kn">from</span> <span class="nn">hTools2.extras.colorsys</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="c"># functions</span>
+
+<div class="viewcode-block" id="random_color"><a class="viewcode-back" href="../../../modules/color.html#hTools2.modules.color.random_color">[docs]</a><span class="k">def</span> <span class="nf">random_color</span><span class="p">():</span>
+    <span class="sd">&#39;&#39;&#39;Return a random color.&#39;&#39;&#39;</span>
+    <span class="c"># FontLab</span>
+    <span class="k">if</span> <span class="n">_ctx</span> <span class="o">==</span> <span class="s">&#39;FontLab&#39;</span><span class="p">:</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="mi">255</span> <span class="o">*</span> <span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">())</span>
+    <span class="c"># RoboFont &amp; NoneLab</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">R</span><span class="p">,</span> <span class="n">G</span><span class="p">,</span> <span class="n">B</span> <span class="o">=</span> <span class="n">hsv_to_rgb</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">(),</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+        <span class="n">_alpha</span> <span class="o">=</span> <span class="mf">1.0</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">G</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">_alpha</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">c</span>
+</div>
+<div class="viewcode-block" id="clear_colors"><a class="viewcode-back" href="../../../modules/color.html#hTools2.modules.color.clear_colors">[docs]</a><span class="k">def</span> <span class="nf">clear_colors</span><span class="p">(</span><span class="n">font</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Clear the color from all glyph cells in the font.&#39;&#39;&#39;</span>
+    <span class="k">for</span> <span class="n">gName</span> <span class="ow">in</span> <span class="n">font</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="n">clear_color</span><span class="p">(</span><span class="n">font</span><span class="p">[</span><span class="n">gName</span><span class="p">])</span>
+    <span class="n">font</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
+</div>
+<div class="viewcode-block" id="clear_color"><a class="viewcode-back" href="../../../modules/color.html#hTools2.modules.color.clear_color">[docs]</a><span class="k">def</span> <span class="nf">clear_color</span><span class="p">(</span><span class="n">glyph</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Clear the color of a glyph cell.&#39;&#39;&#39;</span>
+    <span class="c"># FontLab</span>
+    <span class="k">if</span> <span class="n">_ctx</span> <span class="o">==</span> <span class="s">&#39;FontLab&#39;</span><span class="p">:</span>
+        <span class="n">g</span><span class="o">.</span><span class="n">mark</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="c"># RoboFont &amp; NoneLab</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">glyph</span><span class="o">.</span><span class="n">mark</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="n">glyph</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
+</div>
+<div class="viewcode-block" id="RGB_to_nodebox_color"><a class="viewcode-back" href="../../../modules/color.html#hTools2.modules.color.RGB_to_nodebox_color">[docs]</a><span class="k">def</span> <span class="nf">RGB_to_nodebox_color</span><span class="p">((</span><span class="n">R</span><span class="p">,</span> <span class="n">G</span><span class="p">,</span> <span class="n">B</span><span class="p">),</span> <span class="n">ctx</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">1.0</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Convert an ``(R,G,B)`` tuple to a NodeBox ``color`` object.&#39;&#39;&#39;</span>
+    <span class="n">colors</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">.</span><span class="n">ximport</span><span class="p">(</span><span class="s">&quot;colors&quot;</span><span class="p">)</span>
+    <span class="n">_alpha</span> <span class="o">=</span> <span class="mi">255</span> <span class="o">*</span> <span class="n">alpha</span>
+    <span class="n">_color</span> <span class="o">=</span> <span class="n">colors</span><span class="o">.</span><span class="n">rgb</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">G</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">_alpha</span><span class="p">,</span> <span class="nb">range</span><span class="o">=</span><span class="mi">255</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">_color</span>
+
+<span class="c"># named colors</span>
+</div>
+<span class="n">named_colors</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="c"># A dictionary with color names and RGBa values.</span>
+    <span class="s">&#39;red&#39;</span> <span class="p">:</span> <span class="n">hsv_to_rgb</span><span class="p">(</span><span class="o">.</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span><span class="p">,),</span>
+    <span class="s">&#39;orange&#39;</span> <span class="p">:</span> <span class="n">hsv_to_rgb</span><span class="p">(</span><span class="o">.</span><span class="mi">11</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span><span class="p">,),</span>
+    <span class="s">&#39;yellow&#39;</span> <span class="p">:</span> <span class="n">hsv_to_rgb</span><span class="p">(</span><span class="o">.</span><span class="mi">15</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span><span class="p">,),</span>
+    <span class="s">&#39;green&#39;</span> <span class="p">:</span> <span class="n">hsv_to_rgb</span><span class="p">(</span><span class="o">.</span><span class="mi">35</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span><span class="p">,),</span>
+    <span class="s">&#39;cyan&#39;</span> <span class="p">:</span> <span class="n">hsv_to_rgb</span><span class="p">(</span><span class="o">.</span><span class="mi">5</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span><span class="p">,),</span>
+    <span class="s">&#39;blue&#39;</span> <span class="p">:</span> <span class="n">hsv_to_rgb</span><span class="p">(</span><span class="o">.</span><span class="mi">7</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span><span class="p">,),</span>
+    <span class="s">&#39;purple&#39;</span> <span class="p">:</span> <span class="n">hsv_to_rgb</span><span class="p">(</span><span class="o">.</span><span class="mi">8</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span><span class="p">,),</span>
+    <span class="s">&#39;pink&#39;</span> <span class="p">:</span> <span class="n">hsv_to_rgb</span><span class="p">(</span><span class="o">.</span><span class="mi">9</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span><span class="p">,),</span>
+<span class="p">}</span>
+
+<span class="c"># solarized</span>
+
+<div class="viewcode-block" id="solarized_color"><a class="viewcode-back" href="../../../modules/color.html#hTools2.modules.color.solarized_color">[docs]</a><span class="k">def</span> <span class="nf">solarized_color</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Return an ``RGB`` color for a solarized color name.&#39;&#39;&#39;</span>
+    <span class="c"># name is color group</span>
+    <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">solarized_groups</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="n">_colors</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">_color</span> <span class="ow">in</span> <span class="n">solarized_groups</span><span class="p">[</span><span class="n">name</span><span class="p">]:</span>
+            <span class="n">_colors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">solarized_colors</span><span class="p">[</span><span class="n">_color</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">_colors</span>
+    <span class="c"># name is color</span>
+    <span class="k">elif</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">solarized_colors</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="k">return</span> <span class="n">solarized_colors</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
+    <span class="c"># name has no meaning</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s">&#39;name </span><span class="si">%s</span><span class="s"> is not a solarized group or color.</span><span class="se">\n</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">name</span>
+
+<span class="c"># Solarized colors by name, divided in groups.</span>
+</div>
+<span class="n">solarized_groups</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s">&#39;colors&#39;</span> <span class="p">:</span> <span class="p">[</span> <span class="s">&#39;yellow&#39;</span><span class="p">,</span> <span class="s">&#39;orange&#39;</span><span class="p">,</span> <span class="s">&#39;red&#39;</span><span class="p">,</span> <span class="s">&#39;magenta&#39;</span><span class="p">,</span> <span class="s">&#39;violet&#39;</span><span class="p">,</span> <span class="s">&#39;blue&#39;</span><span class="p">,</span> <span class="s">&#39;cyan&#39;</span><span class="p">,</span> <span class="s">&#39;green&#39;</span> <span class="p">],</span>
+    <span class="s">&#39;dark&#39;</span> <span class="p">:</span> <span class="p">[</span> <span class="s">&#39;base03&#39;</span><span class="p">,</span> <span class="s">&#39;base02&#39;</span> <span class="p">],</span>
+    <span class="s">&#39;bright&#39;</span> <span class="p">:</span> <span class="p">[</span> <span class="s">&#39;base3&#39;</span><span class="p">,</span> <span class="s">&#39;base2&#39;</span> <span class="p">],</span>
+    <span class="s">&#39;content&#39;</span> <span class="p">:</span> <span class="p">[</span> <span class="s">&#39;base01&#39;</span><span class="p">,</span> <span class="s">&#39;base00&#39;</span><span class="p">,</span> <span class="s">&#39;base0&#39;</span><span class="p">,</span> <span class="s">&#39;base1&#39;</span> <span class="p">],</span>
+<span class="p">}</span>
+
+<span class="c"># Solarized colors by name and `(R,G,B)` values.</span>
+
+<span class="n">solarized_colors</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="c"># dark</span>
+    <span class="s">&#39;base03&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">43</span><span class="p">,</span> <span class="mi">54</span><span class="p">),</span>
+    <span class="s">&#39;base02&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">54</span><span class="p">,</span> <span class="mi">66</span><span class="p">),</span>
+    <span class="c"># bright</span>
+    <span class="s">&#39;base2&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">238</span><span class="p">,</span> <span class="mi">232</span><span class="p">,</span> <span class="mi">213</span><span class="p">),</span>
+    <span class="s">&#39;base3&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">253</span><span class="p">,</span> <span class="mi">246</span><span class="p">,</span> <span class="mi">227</span><span class="p">),</span>
+    <span class="c"># content</span>
+    <span class="s">&#39;base01&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">88</span><span class="p">,</span> <span class="mi">110</span><span class="p">,</span> <span class="mi">117</span><span class="p">),</span>
+    <span class="s">&#39;base00&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">101</span><span class="p">,</span> <span class="mi">123</span><span class="p">,</span> <span class="mi">131</span><span class="p">),</span>
+    <span class="s">&#39;base0&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">131</span><span class="p">,</span> <span class="mi">148</span><span class="p">,</span> <span class="mi">150</span><span class="p">),</span>
+    <span class="s">&#39;base1&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">147</span><span class="p">,</span> <span class="mi">161</span><span class="p">,</span> <span class="mi">161</span><span class="p">),</span>
+    <span class="c"># accent</span>
+    <span class="s">&#39;yellow&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">181</span><span class="p">,</span> <span class="mi">137</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+    <span class="s">&#39;orange&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">203</span><span class="p">,</span> <span class="mi">75</span><span class="p">,</span> <span class="mi">22</span><span class="p">),</span>
+    <span class="s">&#39;red&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">220</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">47</span><span class="p">),</span>
+    <span class="s">&#39;magenta&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">211</span><span class="p">,</span> <span class="mi">54</span><span class="p">,</span> <span class="mi">130</span><span class="p">),</span>
+    <span class="s">&#39;violet&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">108</span><span class="p">,</span> <span class="mi">113</span><span class="p">,</span> <span class="mi">196</span><span class="p">),</span>
+    <span class="s">&#39;blue&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">38</span><span class="p">,</span> <span class="mi">139</span><span class="p">,</span> <span class="mi">210</span><span class="p">),</span>
+    <span class="s">&#39;cyan&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">42</span><span class="p">,</span> <span class="mi">161</span><span class="p">,</span> <span class="mi">152</span><span class="p">),</span>
+    <span class="s">&#39;green&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">133</span><span class="p">,</span> <span class="mi">152</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+<span class="p">}</span>
+
+<span class="c">#-----------------</span>
+<span class="c"># X11 color names</span>
+<span class="c">#-----------------</span>
+
+<div class="viewcode-block" id="x11_color"><a class="viewcode-back" href="../../../modules/color.html#hTools2.modules.color.x11_color">[docs]</a><span class="k">def</span> <span class="nf">x11_color</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Return an ``RGB`` color for an x11 color name.&#39;&#39;&#39;</span>
+    <span class="c"># name is color</span>
+    <span class="n">_color_names</span> <span class="o">=</span> <span class="n">x11_colors</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">_color_names</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">x11_colors</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c"># build lowercase dict</span>
+        <span class="n">_color_names_lower</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">color_name</span> <span class="ow">in</span> <span class="n">_color_names</span><span class="p">:</span>
+            <span class="n">_color_names_lower</span><span class="p">[</span><span class="n">color_name</span><span class="o">.</span><span class="n">lower</span><span class="p">()]</span> <span class="o">=</span> <span class="n">color_name</span>
+        <span class="c"># try name in lowercase</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">_color_names_lower</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="n">color_name</span> <span class="o">=</span> <span class="n">_color_names_lower</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
+            <span class="k">return</span> <span class="n">x11_colors</span><span class="p">[</span><span class="n">color_name</span><span class="p">]</span>
+        <span class="c"># name is not x11 color</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">print</span> <span class="s">&#39;name </span><span class="si">%s</span><span class="s"> is not a x11 group or color.</span><span class="se">\n</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">name</span>
+
+<span class="c"># X11 colors by name, divided in groups.</span>
+</div>
+<span class="n">x11_groups</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s">&#39;red&#39;</span> <span class="p">:</span> <span class="p">[</span> <span class="s">&#39;IndianRed&#39;</span><span class="p">,</span> <span class="s">&#39;LightCoral&#39;</span><span class="p">,</span> <span class="s">&#39;Salmon&#39;</span><span class="p">,</span> <span class="s">&#39;DarkSalmon&#39;</span><span class="p">,</span> <span class="s">&#39;LightSalmon&#39;</span><span class="p">,</span> <span class="s">&#39;Red&#39;</span><span class="p">,</span> <span class="s">&#39;Crimson&#39;</span><span class="p">,</span> <span class="s">&#39;FireBrick&#39;</span><span class="p">,</span> <span class="s">&#39;DarkRed&#39;</span> <span class="p">],</span>
+    <span class="s">&#39;pink&#39;</span> <span class="p">:</span> <span class="p">[</span> <span class="s">&#39;Pink&#39;</span><span class="p">,</span> <span class="s">&#39;LightPink&#39;</span><span class="p">,</span> <span class="s">&#39;HotPink&#39;</span><span class="p">,</span> <span class="s">&#39;DeepPink&#39;</span><span class="p">,</span> <span class="s">&#39;MediumVioletRed&#39;</span><span class="p">,</span> <span class="s">&#39;PaleVioletRed&#39;</span> <span class="p">],</span>
+    <span class="s">&#39;orange&#39;</span> <span class="p">:</span> <span class="p">[</span> <span class="s">&#39;LightSalmon&#39;</span><span class="p">,</span> <span class="s">&#39;Coral&#39;</span><span class="p">,</span> <span class="s">&#39;Tomato&#39;</span><span class="p">,</span> <span class="s">&#39;OrangeRed&#39;</span><span class="p">,</span> <span class="s">&#39;DarkOrange&#39;</span><span class="p">,</span> <span class="s">&#39;Orange&#39;</span> <span class="p">],</span>
+    <span class="s">&#39;yellow&#39;</span> <span class="p">:</span> <span class="p">[</span> <span class="s">&#39;Gold&#39;</span><span class="p">,</span> <span class="s">&#39;Yellow&#39;</span><span class="p">,</span> <span class="s">&#39;LightYellow&#39;</span><span class="p">,</span> <span class="s">&#39;LemonChiffon&#39;</span><span class="p">,</span> <span class="s">&#39;LightGoldenrodYellow&#39;</span><span class="p">,</span> <span class="s">&#39;PapayaWhip&#39;</span><span class="p">,</span> <span class="s">&#39;Moccasin&#39;</span><span class="p">,</span> <span class="s">&#39;PeachPuff&#39;</span><span class="p">,</span> <span class="s">&#39;PaleGoldenrod&#39;</span><span class="p">,</span> <span class="s">&#39;Khaki&#39;</span><span class="p">,</span> <span class="s">&#39;DarkKhaki&#39;</span> <span class="p">],</span>
+    <span class="s">&#39;purple&#39;</span> <span class="p">:</span> <span class="p">[</span> <span class="s">&#39;Lavender&#39;</span><span class="p">,</span> <span class="s">&#39;Thistle&#39;</span><span class="p">,</span> <span class="s">&#39;Plum&#39;</span><span class="p">,</span> <span class="s">&#39;Violet&#39;</span><span class="p">,</span> <span class="s">&#39;Orchid&#39;</span><span class="p">,</span> <span class="s">&#39;Fuchsia&#39;</span><span class="p">,</span> <span class="s">&#39;Magenta&#39;</span><span class="p">,</span> <span class="s">&#39;MediumOrchid&#39;</span><span class="p">,</span> <span class="s">&#39;MediumPurple&#39;</span><span class="p">,</span> <span class="s">&#39;BlueViolet&#39;</span><span class="p">,</span> <span class="s">&#39;DarkViolet&#39;</span><span class="p">,</span> <span class="s">&#39;DarkOrchid&#39;</span><span class="p">,</span> <span class="s">&#39;DarkMagenta&#39;</span><span class="p">,</span> <span class="s">&#39;Purple&#39;</span><span class="p">,</span> <span class="s">&#39;Indigo&#39;</span><span class="p">,</span> <span class="s">&#39;DarkSlateBlue&#39;</span><span class="p">,</span> <span class="s">&#39;SlateBlue&#39;</span><span class="p">,</span> <span class="s">&#39;MediumSlateBlue&#39;</span> <span class="p">],</span>
+    <span class="s">&#39;green&#39;</span> <span class="p">:</span> <span class="p">[</span> <span class="s">&#39;GreenYellow&#39;</span><span class="p">,</span> <span class="s">&#39;Chartreuse&#39;</span><span class="p">,</span> <span class="s">&#39;LawnGreen&#39;</span><span class="p">,</span> <span class="s">&#39;Lime&#39;</span><span class="p">,</span> <span class="s">&#39;LimeGreen&#39;</span><span class="p">,</span> <span class="s">&#39;PaleGreen&#39;</span><span class="p">,</span> <span class="s">&#39;LightGreen&#39;</span><span class="p">,</span> <span class="s">&#39;MediumSpringGreen&#39;</span><span class="p">,</span> <span class="s">&#39;SpringGreen&#39;</span><span class="p">,</span> <span class="s">&#39;MediumSeaGreen&#39;</span><span class="p">,</span> <span class="s">&#39;SeaGreen&#39;</span><span class="p">,</span> <span class="s">&#39;ForestGreen&#39;</span><span class="p">,</span> <span class="s">&#39;Green&#39;</span><span class="p">,</span> <span class="s">&#39;DarkGreen&#39;</span><span class="p">,</span> <span class="s">&#39;YellowGreen&#39;</span><span class="p">,</span> <span class="s">&#39;OliveDrab&#39;</span><span class="p">,</span> <span class="s">&#39;Olive&#39;</span><span class="p">,</span> <span class="s">&#39;DarkOliveGreen&#39;</span><span class="p">,</span> <span class="s">&#39;MediumAquamarine&#39;</span><span class="p">,</span> <span class="s">&#39;DarkSeaGreen&#39;</span><span class="p">,</span> <span class="s">&#39;LightSeaGreen&#39;</span><span class="p">,</span> <span class="s">&#39;DarkCyan&#39;</span><span class="p">,</span> <span class="s">&#39;Teal&#39;</span> <span class="p">],</span>
+    <span class="s">&#39;blue&#39;</span> <span class="p">:</span> <span class="p">[</span> <span class="s">&#39;Aqua&#39;</span><span class="p">,</span> <span class="s">&#39;Cyan&#39;</span><span class="p">,</span> <span class="s">&#39;LightCyan&#39;</span><span class="p">,</span> <span class="s">&#39;PaleTurquoise&#39;</span><span class="p">,</span> <span class="s">&#39;Aquamarine&#39;</span><span class="p">,</span> <span class="s">&#39;Turquoise&#39;</span><span class="p">,</span> <span class="s">&#39;MediumTurquoise&#39;</span><span class="p">,</span> <span class="s">&#39;DarkTurquoise&#39;</span><span class="p">,</span> <span class="s">&#39;CadetBlue&#39;</span><span class="p">,</span> <span class="s">&#39;SteelBlue&#39;</span><span class="p">,</span> <span class="s">&#39;LightSteelBlue&#39;</span><span class="p">,</span> <span class="s">&#39;PowderBlue&#39;</span><span class="p">,</span> <span class="s">&#39;LightBlue&#39;</span><span class="p">,</span> <span class="s">&#39;SkyBlue&#39;</span><span class="p">,</span> <span class="s">&#39;LightSkyBlue&#39;</span><span class="p">,</span> <span class="s">&#39;DeepSkyBlue&#39;</span><span class="p">,</span> <span class="s">&#39;DodgerBlue&#39;</span><span class="p">,</span> <span class="s">&#39;CornflowerBlue&#39;</span><span class="p">,</span> <span class="s">&#39;RoyalBlue&#39;</span><span class="p">,</span> <span class="s">&#39;Blue&#39;</span><span class="p">,</span> <span class="s">&#39;MediumBlue&#39;</span><span class="p">,</span> <span class="s">&#39;DarkBlue&#39;</span><span class="p">,</span> <span class="s">&#39;Navy&#39;</span><span class="p">,</span> <span class="s">&#39;MidnightBlue&#39;</span> <span class="p">],</span>
+    <span class="s">&#39;brown&#39;</span> <span class="p">:</span> <span class="p">[</span> <span class="s">&#39;Cornsilk&#39;</span><span class="p">,</span> <span class="s">&#39;BlanchedAlmond&#39;</span><span class="p">,</span> <span class="s">&#39;Bisque&#39;</span><span class="p">,</span> <span class="s">&#39;NavajoWhite&#39;</span><span class="p">,</span> <span class="s">&#39;Wheat&#39;</span><span class="p">,</span> <span class="s">&#39;BurlyWood&#39;</span><span class="p">,</span> <span class="s">&#39;Tan&#39;</span><span class="p">,</span> <span class="s">&#39;RosyBrown&#39;</span><span class="p">,</span> <span class="s">&#39;SandyBrown&#39;</span><span class="p">,</span> <span class="s">&#39;Goldenrod&#39;</span><span class="p">,</span> <span class="s">&#39;DarkGoldenrod&#39;</span><span class="p">,</span> <span class="s">&#39;Peru&#39;</span><span class="p">,</span> <span class="s">&#39;Chocolate&#39;</span><span class="p">,</span> <span class="s">&#39;SaddleBrown&#39;</span><span class="p">,</span> <span class="s">&#39;Sienna&#39;</span><span class="p">,</span> <span class="s">&#39;Brown&#39;</span><span class="p">,</span> <span class="s">&#39;Maroon&#39;</span> <span class="p">],</span>
+    <span class="s">&#39;white&#39;</span> <span class="p">:</span> <span class="p">[</span> <span class="s">&#39;White&#39;</span><span class="p">,</span> <span class="s">&#39;Snow&#39;</span><span class="p">,</span> <span class="s">&#39;Honeydew&#39;</span><span class="p">,</span> <span class="s">&#39;MintCream&#39;</span><span class="p">,</span> <span class="s">&#39;Azure&#39;</span><span class="p">,</span> <span class="s">&#39;AliceBlue&#39;</span><span class="p">,</span> <span class="s">&#39;GhostWhite&#39;</span><span class="p">,</span> <span class="s">&#39;WhiteSmoke&#39;</span><span class="p">,</span> <span class="s">&#39;Seashell&#39;</span><span class="p">,</span> <span class="s">&#39;Beige&#39;</span><span class="p">,</span> <span class="s">&#39;OldLace&#39;</span><span class="p">,</span> <span class="s">&#39;FloralWhite&#39;</span><span class="p">,</span> <span class="s">&#39;Ivory&#39;</span><span class="p">,</span> <span class="s">&#39;AntiqueWhite&#39;</span><span class="p">,</span> <span class="s">&#39;Linen&#39;</span><span class="p">,</span> <span class="s">&#39;LavenderBlush&#39;</span><span class="p">,</span> <span class="s">&#39;MistyRose&#39;</span> <span class="p">],</span>
+    <span class="s">&#39;gray&#39;</span> <span class="p">:</span> <span class="p">[</span> <span class="s">&#39;Gainsboro&#39;</span><span class="p">,</span> <span class="s">&#39;LightGrey&#39;</span><span class="p">,</span> <span class="s">&#39;Silver&#39;</span><span class="p">,</span> <span class="s">&#39;DarkGray&#39;</span><span class="p">,</span> <span class="s">&#39;Gray&#39;</span><span class="p">,</span> <span class="s">&#39;DimGray&#39;</span><span class="p">,</span> <span class="s">&#39;LightSlateGray&#39;</span><span class="p">,</span> <span class="s">&#39;SlateGray&#39;</span><span class="p">,</span> <span class="s">&#39;DarkSlateGray&#39;</span><span class="p">,</span> <span class="s">&#39;Black&#39;</span><span class="p">,</span> <span class="p">]</span>
+<span class="p">}</span>
+
+<span class="c"># X11 colors by name and `(R,G,B)` values.</span>
+
+<span class="n">x11_colors</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="c"># red colors</span>
+    <span class="s">&#39;IndianRed&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">205</span><span class="p">,</span> <span class="mi">92</span><span class="p">,</span> <span class="mi">92</span><span class="p">),</span>
+    <span class="s">&#39;LightCoral&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">240</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="mi">128</span><span class="p">),</span>
+    <span class="s">&#39;Salmon&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">250</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="mi">114</span><span class="p">),</span>
+    <span class="s">&#39;DarkSalmon&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">233</span><span class="p">,</span> <span class="mi">150</span><span class="p">,</span> <span class="mi">122</span><span class="p">),</span>
+    <span class="s">&#39;LightSalmon&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">160</span><span class="p">,</span> <span class="mi">122</span><span class="p">),</span>
+    <span class="s">&#39;Red&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+    <span class="s">&#39;Crimson&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">220</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">60</span><span class="p">),</span>
+    <span class="s">&#39;FireBrick&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">178</span><span class="p">,</span> <span class="mi">34</span><span class="p">,</span> <span class="mi">34</span><span class="p">),</span>
+    <span class="s">&#39;DarkRed&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">139</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+    <span class="c"># pink colors</span>
+    <span class="s">&#39;Pink&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">192</span><span class="p">,</span> <span class="mi">203</span><span class="p">),</span>
+    <span class="s">&#39;LightPink&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">182</span><span class="p">,</span> <span class="mi">193</span><span class="p">),</span>
+    <span class="s">&#39;HotPink&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">105</span><span class="p">,</span> <span class="mi">180</span><span class="p">),</span>
+    <span class="s">&#39;DeepPink&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">147</span><span class="p">),</span>
+    <span class="s">&#39;MediumVioletRed&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">199</span><span class="p">,</span> <span class="mi">21</span><span class="p">,</span> <span class="mi">133</span><span class="p">),</span>
+    <span class="s">&#39;PaleVioletRed&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">219</span><span class="p">,</span> <span class="mi">112</span><span class="p">,</span> <span class="mi">147</span><span class="p">),</span>
+    <span class="c"># orange colors</span>
+    <span class="s">&#39;LightSalmon&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">160</span><span class="p">,</span> <span class="mi">122</span><span class="p">),</span>
+    <span class="s">&#39;Coral&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">127</span><span class="p">,</span> <span class="mi">80</span><span class="p">),</span>
+    <span class="s">&#39;Tomato&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">99</span><span class="p">,</span> <span class="mi">71</span><span class="p">),</span>
+    <span class="s">&#39;OrangeRed&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">69</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+    <span class="s">&#39;DarkOrange&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">140</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+    <span class="s">&#39;Orange&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">165</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+    <span class="c"># yellow colors</span>
+    <span class="s">&#39;Gold&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">215</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+    <span class="s">&#39;Yellow&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+    <span class="s">&#39;LightYellow&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">224</span><span class="p">),</span>
+    <span class="s">&#39;LemonChiffon&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">250</span><span class="p">,</span> <span class="mi">205</span><span class="p">),</span>
+    <span class="s">&#39;LightGoldenrodYellow&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">250</span><span class="p">,</span> <span class="mi">250</span><span class="p">,</span> <span class="mi">210</span><span class="p">),</span>
+    <span class="s">&#39;PapayaWhip&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">239</span><span class="p">,</span> <span class="mi">213</span><span class="p">),</span>
+    <span class="s">&#39;Moccasin&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">228</span><span class="p">,</span> <span class="mi">181</span><span class="p">),</span>
+    <span class="s">&#39;PeachPuff&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">218</span><span class="p">,</span> <span class="mi">185</span><span class="p">),</span>
+    <span class="s">&#39;PaleGoldenrod&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">238</span><span class="p">,</span> <span class="mi">232</span><span class="p">,</span> <span class="mi">170</span><span class="p">),</span>
+    <span class="s">&#39;Khaki&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">240</span><span class="p">,</span> <span class="mi">230</span><span class="p">,</span> <span class="mi">140</span><span class="p">),</span>
+    <span class="s">&#39;DarkKhaki&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">189</span><span class="p">,</span> <span class="mi">183</span><span class="p">,</span> <span class="mi">107</span><span class="p">),</span>
+    <span class="c"># purple colors</span>
+    <span class="s">&#39;Lavender&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">230</span><span class="p">,</span> <span class="mi">230</span><span class="p">,</span> <span class="mi">250</span><span class="p">),</span>
+    <span class="s">&#39;Thistle&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">216</span><span class="p">,</span> <span class="mi">191</span><span class="p">,</span> <span class="mi">216</span><span class="p">),</span>
+    <span class="s">&#39;Plum&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">221</span><span class="p">,</span> <span class="mi">160</span><span class="p">,</span> <span class="mi">221</span><span class="p">),</span>
+    <span class="s">&#39;Violet&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">238</span><span class="p">,</span> <span class="mi">130</span><span class="p">,</span> <span class="mi">238</span><span class="p">),</span>
+    <span class="s">&#39;Orchid&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">218</span><span class="p">,</span> <span class="mi">112</span><span class="p">,</span> <span class="mi">214</span><span class="p">),</span>
+    <span class="s">&#39;Fuchsia&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">),</span>
+    <span class="s">&#39;Magenta&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">),</span>
+    <span class="s">&#39;MediumOrchid&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">186</span><span class="p">,</span> <span class="mi">85</span><span class="p">,</span> <span class="mi">211</span><span class="p">),</span>
+    <span class="s">&#39;MediumPurple&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">147</span><span class="p">,</span> <span class="mi">112</span><span class="p">,</span> <span class="mi">219</span><span class="p">),</span>
+    <span class="s">&#39;BlueViolet&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">138</span><span class="p">,</span> <span class="mi">43</span><span class="p">,</span> <span class="mi">226</span><span class="p">),</span>
+    <span class="s">&#39;DarkViolet&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">148</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">211</span><span class="p">),</span>
+    <span class="s">&#39;DarkOrchid&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">153</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">204</span><span class="p">),</span>
+    <span class="s">&#39;DarkMagenta&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">139</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">139</span><span class="p">),</span>
+    <span class="s">&#39;Purple&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">128</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">128</span><span class="p">),</span>
+    <span class="s">&#39;Indigo&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">75</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">130</span><span class="p">),</span>
+    <span class="s">&#39;DarkSlateBlue&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">72</span><span class="p">,</span> <span class="mi">61</span><span class="p">,</span> <span class="mi">139</span><span class="p">),</span>
+    <span class="s">&#39;SlateBlue&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">106</span><span class="p">,</span> <span class="mi">90</span><span class="p">,</span> <span class="mi">205</span><span class="p">),</span>
+    <span class="s">&#39;MediumSlateBlue&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">123</span><span class="p">,</span> <span class="mi">104</span><span class="p">,</span> <span class="mi">238</span><span class="p">),</span>
+    <span class="c"># green colors</span>
+    <span class="s">&#39;GreenYellow&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">173</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">47</span><span class="p">),</span>
+    <span class="s">&#39;Chartreuse&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">127</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+    <span class="s">&#39;LawnGreen&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">124</span><span class="p">,</span> <span class="mi">252</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+    <span class="s">&#39;Lime&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+    <span class="s">&#39;LimeGreen&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">205</span><span class="p">,</span> <span class="mi">50</span><span class="p">),</span>
+    <span class="s">&#39;PaleGreen&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">152</span><span class="p">,</span> <span class="mi">251</span><span class="p">,</span> <span class="mi">152</span><span class="p">),</span>
+    <span class="s">&#39;LightGreen&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">144</span><span class="p">,</span> <span class="mi">238</span><span class="p">,</span> <span class="mi">144</span><span class="p">),</span>
+    <span class="s">&#39;MediumSpringGreen&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">250</span><span class="p">,</span> <span class="mi">154</span><span class="p">),</span>
+    <span class="s">&#39;SpringGreen&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">127</span><span class="p">),</span>
+    <span class="s">&#39;MediumSeaGreen&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">60</span><span class="p">,</span> <span class="mi">179</span><span class="p">,</span> <span class="mi">113</span><span class="p">),</span>
+    <span class="s">&#39;SeaGreen&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">46</span><span class="p">,</span> <span class="mi">139</span><span class="p">,</span> <span class="mi">87</span><span class="p">),</span>
+    <span class="s">&#39;ForestGreen&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">34</span><span class="p">,</span> <span class="mi">139</span><span class="p">,</span> <span class="mi">34</span><span class="p">),</span>
+    <span class="s">&#39;Green&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+    <span class="s">&#39;DarkGreen&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+    <span class="s">&#39;YellowGreen&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">154</span><span class="p">,</span> <span class="mi">205</span><span class="p">,</span> <span class="mi">50</span><span class="p">),</span>
+    <span class="s">&#39;OliveDrab&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">107</span><span class="p">,</span> <span class="mi">142</span><span class="p">,</span> <span class="mi">35</span><span class="p">),</span>
+    <span class="s">&#39;Olive&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">128</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+    <span class="s">&#39;DarkOliveGreen&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">85</span><span class="p">,</span> <span class="mi">107</span><span class="p">,</span> <span class="mi">47</span><span class="p">),</span>
+    <span class="s">&#39;MediumAquamarine&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">102</span><span class="p">,</span> <span class="mi">205</span><span class="p">,</span> <span class="mi">170</span><span class="p">),</span>
+    <span class="s">&#39;DarkSeaGreen&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">143</span><span class="p">,</span> <span class="mi">188</span><span class="p">,</span> <span class="mi">143</span><span class="p">),</span>
+    <span class="s">&#39;LightSeaGreen&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="mi">178</span><span class="p">,</span> <span class="mi">170</span><span class="p">),</span>
+    <span class="s">&#39;DarkCyan&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">139</span><span class="p">,</span> <span class="mi">139</span><span class="p">),</span>
+    <span class="s">&#39;Teal&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="mi">128</span><span class="p">),</span>
+    <span class="c"># blue/cyan colors</span>
+    <span class="s">&#39;Aqua&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">),</span>
+    <span class="s">&#39;Cyan&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">),</span>
+    <span class="s">&#39;LightCyan&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">224</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">),</span>
+    <span class="s">&#39;PaleTurquoise&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">175</span><span class="p">,</span> <span class="mi">238</span><span class="p">,</span> <span class="mi">238</span><span class="p">),</span>
+    <span class="s">&#39;Aquamarine&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">127</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">212</span><span class="p">),</span>
+    <span class="s">&#39;Turquoise&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">64</span><span class="p">,</span> <span class="mi">224</span><span class="p">,</span> <span class="mi">208</span><span class="p">),</span>
+    <span class="s">&#39;MediumTurquoise&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">72</span><span class="p">,</span> <span class="mi">209</span><span class="p">,</span> <span class="mi">204</span><span class="p">),</span>
+    <span class="s">&#39;DarkTurquoise&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">206</span><span class="p">,</span> <span class="mi">209</span><span class="p">),</span>
+    <span class="s">&#39;CadetBlue&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">95</span><span class="p">,</span> <span class="mi">158</span><span class="p">,</span> <span class="mi">160</span><span class="p">),</span>
+    <span class="s">&#39;SteelBlue&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">70</span><span class="p">,</span> <span class="mi">130</span><span class="p">,</span> <span class="mi">180</span><span class="p">),</span>
+    <span class="s">&#39;LightSteelBlue&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">176</span><span class="p">,</span> <span class="mi">196</span><span class="p">,</span> <span class="mi">222</span><span class="p">),</span>
+    <span class="s">&#39;PowderBlue&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">176</span><span class="p">,</span> <span class="mi">224</span><span class="p">,</span> <span class="mi">230</span><span class="p">),</span>
+    <span class="s">&#39;LightBlue&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">173</span><span class="p">,</span> <span class="mi">216</span><span class="p">,</span> <span class="mi">230</span><span class="p">),</span>
+    <span class="s">&#39;SkyBlue&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">135</span><span class="p">,</span> <span class="mi">206</span><span class="p">,</span> <span class="mi">235</span><span class="p">),</span>
+    <span class="s">&#39;LightSkyBlue&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">135</span><span class="p">,</span> <span class="mi">206</span><span class="p">,</span> <span class="mi">250</span><span class="p">),</span>
+    <span class="s">&#39;DeepSkyBlue&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">191</span><span class="p">,</span> <span class="mi">255</span><span class="p">),</span>
+    <span class="s">&#39;DodgerBlue&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">30</span><span class="p">,</span> <span class="mi">144</span><span class="p">,</span> <span class="mi">255</span><span class="p">),</span>
+    <span class="s">&#39;CornflowerBlue&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">149</span><span class="p">,</span> <span class="mi">237</span><span class="p">),</span>
+    <span class="s">&#39;RoyalBlue&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">65</span><span class="p">,</span> <span class="mi">105</span><span class="p">,</span> <span class="mi">225</span><span class="p">),</span>
+    <span class="s">&#39;Blue&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">),</span>
+    <span class="s">&#39;MediumBlue&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">205</span><span class="p">),</span>
+    <span class="s">&#39;DarkBlue&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">139</span><span class="p">),</span>
+    <span class="s">&#39;Navy&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">128</span><span class="p">),</span>
+    <span class="s">&#39;MidnightBlue&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">25</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">112</span><span class="p">),</span>
+    <span class="c"># brown colors</span>
+    <span class="s">&#39;Cornsilk&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">248</span><span class="p">,</span> <span class="mi">220</span><span class="p">),</span>
+    <span class="s">&#39;BlanchedAlmond&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">235</span><span class="p">,</span> <span class="mi">205</span><span class="p">),</span>
+    <span class="s">&#39;Bisque&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">228</span><span class="p">,</span> <span class="mi">196</span><span class="p">),</span>
+    <span class="s">&#39;NavajoWhite&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">222</span><span class="p">,</span> <span class="mi">173</span><span class="p">),</span>
+    <span class="s">&#39;Wheat&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">245</span><span class="p">,</span> <span class="mi">222</span><span class="p">,</span> <span class="mi">179</span><span class="p">),</span>
+    <span class="s">&#39;BurlyWood&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">222</span><span class="p">,</span> <span class="mi">184</span><span class="p">,</span> <span class="mi">135</span><span class="p">),</span>
+    <span class="s">&#39;Tan&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">210</span><span class="p">,</span> <span class="mi">180</span><span class="p">,</span> <span class="mi">140</span><span class="p">),</span>
+    <span class="s">&#39;RosyBrown&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">188</span><span class="p">,</span> <span class="mi">143</span><span class="p">,</span> <span class="mi">143</span><span class="p">),</span>
+    <span class="s">&#39;SandyBrown&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">244</span><span class="p">,</span> <span class="mi">164</span><span class="p">,</span> <span class="mi">96</span><span class="p">),</span>
+    <span class="s">&#39;Goldenrod&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">218</span><span class="p">,</span> <span class="mi">165</span><span class="p">,</span>  <span class="mi">32</span><span class="p">),</span>
+    <span class="s">&#39;DarkGoldenrod&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">184</span><span class="p">,</span> <span class="mi">134</span><span class="p">,</span> <span class="mi">11</span><span class="p">),</span>
+    <span class="s">&#39;Peru&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">205</span><span class="p">,</span> <span class="mi">133</span><span class="p">,</span> <span class="mi">63</span><span class="p">),</span>
+    <span class="s">&#39;Chocolate&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">210</span><span class="p">,</span> <span class="mi">105</span><span class="p">,</span> <span class="mi">30</span><span class="p">),</span>
+    <span class="s">&#39;SaddleBrown&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">139</span><span class="p">,</span> <span class="mi">69</span><span class="p">,</span> <span class="mi">19</span><span class="p">),</span>
+    <span class="s">&#39;Sienna&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">160</span><span class="p">,</span> <span class="mi">82</span><span class="p">,</span> <span class="mi">45</span><span class="p">),</span>
+    <span class="s">&#39;Brown&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">165</span><span class="p">,</span> <span class="mi">42</span><span class="p">,</span> <span class="mi">42</span><span class="p">),</span>
+    <span class="s">&#39;Maroon&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">128</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+    <span class="c"># white colors</span>
+    <span class="s">&#39;White&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">),</span>
+    <span class="s">&#39;Snow&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">250</span><span class="p">,</span> <span class="mi">250</span><span class="p">),</span>
+    <span class="s">&#39;Honeydew&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">240</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">240</span><span class="p">),</span>
+    <span class="s">&#39;MintCream&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">245</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">250</span><span class="p">),</span>
+    <span class="s">&#39;Azure&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">240</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">),</span>
+    <span class="s">&#39;AliceBlue&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">240</span><span class="p">,</span> <span class="mi">248</span><span class="p">,</span> <span class="mi">255</span><span class="p">),</span>
+    <span class="s">&#39;GhostWhite&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">248</span><span class="p">,</span> <span class="mi">248</span><span class="p">,</span> <span class="mi">255</span><span class="p">),</span>
+    <span class="s">&#39;WhiteSmoke&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">245</span><span class="p">,</span> <span class="mi">245</span><span class="p">,</span> <span class="mi">245</span><span class="p">),</span>
+    <span class="s">&#39;Seashell&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">245</span><span class="p">,</span> <span class="mi">238</span><span class="p">),</span>
+    <span class="s">&#39;Beige&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">245</span><span class="p">,</span> <span class="mi">245</span><span class="p">,</span> <span class="mi">220</span><span class="p">),</span>
+    <span class="s">&#39;OldLace&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">253</span><span class="p">,</span> <span class="mi">245</span><span class="p">,</span> <span class="mi">230</span><span class="p">),</span>
+    <span class="s">&#39;FloralWhite&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">250</span><span class="p">,</span> <span class="mi">240</span><span class="p">),</span>
+    <span class="s">&#39;Ivory&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">240</span><span class="p">),</span>
+    <span class="s">&#39;AntiqueWhite&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">250</span><span class="p">,</span> <span class="mi">235</span><span class="p">,</span> <span class="mi">215</span><span class="p">),</span>
+    <span class="s">&#39;Linen&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">250</span><span class="p">,</span> <span class="mi">240</span><span class="p">,</span> <span class="mi">230</span><span class="p">),</span>
+    <span class="s">&#39;LavenderBlush&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">240</span><span class="p">,</span> <span class="mi">245</span><span class="p">),</span>
+    <span class="s">&#39;MistyRose&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">228</span><span class="p">,</span> <span class="mi">225</span><span class="p">),</span>
+    <span class="c"># gray colors</span>
+    <span class="s">&#39;Gainsboro&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">220</span><span class="p">,</span> <span class="mi">220</span><span class="p">,</span> <span class="mi">220</span><span class="p">),</span>
+    <span class="s">&#39;LightGrey&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">211</span><span class="p">,</span> <span class="mi">211</span><span class="p">,</span> <span class="mi">211</span><span class="p">),</span>
+    <span class="s">&#39;Silver&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">192</span><span class="p">,</span> <span class="mi">192</span><span class="p">,</span> <span class="mi">192</span><span class="p">),</span>
+    <span class="s">&#39;DarkGray&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">169</span><span class="p">,</span> <span class="mi">169</span><span class="p">,</span> <span class="mi">169</span><span class="p">),</span>
+    <span class="s">&#39;Gray&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">128</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="mi">128</span><span class="p">),</span>
+    <span class="s">&#39;DimGray&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">105</span><span class="p">,</span> <span class="mi">105</span><span class="p">,</span> <span class="mi">105</span><span class="p">),</span>
+    <span class="s">&#39;LightSlateGray&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">119</span><span class="p">,</span> <span class="mi">136</span><span class="p">,</span> <span class="mi">153</span><span class="p">),</span>
+    <span class="s">&#39;SlateGray&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">112</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="mi">144</span><span class="p">),</span>
+    <span class="s">&#39;DarkSlateGray&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">47</span><span class="p">,</span> <span class="mi">79</span><span class="p">,</span> <span class="mi">79</span><span class="p">),</span>
+    <span class="s">&#39;Black&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+<span class="p">}</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">hTools2</a> &raquo;</li>
+          <li><a href="../../index.html" >Module code</a> &raquo;</li>
+          <li><a href="../../hTools2.html" >hTools2</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Gustavo Ferreira.
+      Last updated on Sep 01, 2013.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b1.
+    </div>
+  </body>
+</html>

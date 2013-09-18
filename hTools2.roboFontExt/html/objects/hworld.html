@@ -1,0 +1,153 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>hWorld &mdash; hTools2</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.6',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/sidebar.js"></script>
+    <link rel="top" title="hTools2" href="../index.html" />
+    <link rel="up" title="Objects" href="objects.html" />
+    <link rel="next" title="hSpace" href="hspace.html" />
+    <link rel="prev" title="hSettings" href="hsettings.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="hspace.html" title="hSpace"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="hsettings.html" title="hSettings"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">hTools2</a> &raquo;</li>
+          <li><a href="objects.html" accesskey="U">Objects</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-hTools2.objects.hworld">
+<span id="hworld"></span><h1>hWorld<a class="headerlink" href="#module-hTools2.objects.hworld" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="hTools2.objects.hworld.hWorld">
+<em class="property">class </em><tt class="descclassname">hTools2.objects.hworld.</tt><tt class="descname">hWorld</tt><a class="reference internal" href="../_modules/hTools2/objects/hworld.html#hWorld"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools2.objects.hworld.hWorld" title="Permalink to this definition">¶</a></dt>
+<dd><p>An object representing the local fonts folder where all project folders live.</p>
+<dl class="attribute">
+<dt id="hTools2.objects.hworld.hWorld.settings">
+<tt class="descname">settings</tt><a class="headerlink" href="#hTools2.objects.hworld.hWorld.settings" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>A <tt class="xref py py-class docutils literal"><span class="pre">hSettings</span></tt> object with information about the local system.</p>
+<dl class="attribute">
+<dt id="hTools2.objects.hworld.hWorld.context">
+<tt class="descname">context</tt><a class="headerlink" href="#hTools2.objects.hworld.hWorld.context" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>The environment in which the current script is running.</p>
+<p>The possible options are: <tt class="docutils literal"><span class="pre">RoboFont</span></tt>, <tt class="docutils literal"><span class="pre">FontLab</span></tt> and <tt class="docutils literal"><span class="pre">NoneLab</span></tt>.</p>
+<dl class="method">
+<dt id="hTools2.objects.hworld.hWorld.projects">
+<tt class="descname">projects</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/hTools2/objects/hworld.html#hWorld.projects"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hTools2.objects.hworld.hWorld.projects" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a list of all projects contained in the root fonts folder.</p>
+<p>According to hTools2 conventions, names of project folders start with an underscore.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hTools2.objects</span> <span class="kn">import</span> <span class="n">hWorld</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">w</span> <span class="o">=</span> <span class="n">hWorld</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">w</span><span class="o">.</span><span class="n">projects</span><span class="p">()</span>
+<span class="go">[&#39;Elementar&#39;, &#39;EMono&#39;, &#39;Modular&#39;, ... , &#39;Publica&#39;]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="hsettings.html"
+                        title="previous chapter">hSettings</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="hspace.html"
+                        title="next chapter">hSpace</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/objects/hworld.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="hspace.html" title="hSpace"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="hsettings.html" title="hSettings"
+             >previous</a> |</li>
+        <li><a href="../index.html">hTools2</a> &raquo;</li>
+          <li><a href="objects.html" >Objects</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Gustavo Ferreira.
+      Last updated on Aug 30, 2013.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b1.
+    </div>
+  </body>
+</html>

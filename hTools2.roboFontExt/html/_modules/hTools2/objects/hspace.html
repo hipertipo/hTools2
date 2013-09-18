@@ -1,0 +1,871 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>hTools2.objects.hspace &mdash; hTools2</title>
+    
+    <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '1.6',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../../_static/sidebar.js"></script>
+    <link rel="top" title="hTools2" href="../../../index.html" />
+    <link rel="up" title="hTools2" href="../../hTools2.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">hTools2</a> &raquo;</li>
+          <li><a href="../../index.html" >Module code</a> &raquo;</li>
+          <li><a href="../../hTools2.html" accesskey="U">hTools2</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for hTools2.objects.hspace</h1><div class="highlight"><pre>
+<span class="c"># [h] hSpace</span>
+
+<span class="c"># debug</span>
+
+<span class="kn">import</span> <span class="nn">hTools2</span>
+<span class="nb">reload</span><span class="p">(</span><span class="n">hTools2</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">hTools2</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">:</span>
+
+    <span class="kn">import</span> <span class="nn">hproject</span>
+    <span class="nb">reload</span><span class="p">(</span><span class="n">hproject</span><span class="p">)</span>
+
+    <span class="kn">import</span> <span class="nn">hfont</span>
+    <span class="nb">reload</span><span class="p">(</span><span class="n">hfont</span><span class="p">)</span>
+
+    <span class="kn">import</span> <span class="nn">hTools2.modules.anchors</span>
+    <span class="nb">reload</span><span class="p">(</span><span class="n">hTools2</span><span class="o">.</span><span class="n">modules</span><span class="o">.</span><span class="n">anchors</span><span class="p">)</span>
+
+    <span class="kn">import</span> <span class="nn">hTools2.modules.fontinfo</span>
+    <span class="nb">reload</span><span class="p">(</span><span class="n">hTools2</span><span class="o">.</span><span class="n">modules</span><span class="o">.</span><span class="n">fontinfo</span><span class="p">)</span>
+
+    <span class="kn">import</span> <span class="nn">hTools2.modules.fontutils</span>
+    <span class="nb">reload</span><span class="p">(</span><span class="n">hTools2</span><span class="o">.</span><span class="n">modules</span><span class="o">.</span><span class="n">fontutils</span><span class="p">)</span>
+
+    <span class="kn">import</span> <span class="nn">hTools2.modules.fileutils</span>
+    <span class="nb">reload</span><span class="p">(</span><span class="n">hTools2</span><span class="o">.</span><span class="n">modules</span><span class="o">.</span><span class="n">fileutils</span><span class="p">)</span>
+
+    <span class="kn">import</span> <span class="nn">hTools2.modules.ftp</span>
+    <span class="nb">reload</span><span class="p">(</span><span class="n">hTools2</span><span class="o">.</span><span class="n">modules</span><span class="o">.</span><span class="n">ftp</span><span class="p">)</span>
+
+    <span class="kn">import</span> <span class="nn">hTools2.modules.glyphutils</span>
+    <span class="nb">reload</span><span class="p">(</span><span class="n">hTools2</span><span class="o">.</span><span class="n">modules</span><span class="o">.</span><span class="n">glyphutils</span><span class="p">)</span>
+
+<span class="c"># imports</span>
+
+<span class="kn">import</span> <span class="nn">os</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">mojo.roboFont</span> <span class="kn">import</span> <span class="n">RFont</span><span class="p">,</span> <span class="n">NewFont</span>
+<span class="k">except</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">robofab.world</span> <span class="kn">import</span> <span class="n">RFont</span><span class="p">,</span> <span class="n">NewFont</span>
+
+<span class="kn">from</span> <span class="nn">hproject</span> <span class="kn">import</span> <span class="n">hProject</span>
+<span class="kn">from</span> <span class="nn">hfont</span> <span class="kn">import</span> <span class="n">hFont</span>
+<span class="kn">from</span> <span class="nn">hTools2.modules.anchors</span> <span class="kn">import</span> <span class="n">transfer_anchors</span>
+<span class="kn">from</span> <span class="nn">hTools2.modules.fileutils</span> <span class="kn">import</span> <span class="n">get_names_from_path</span>
+<span class="kn">from</span> <span class="nn">hTools2.modules.fontutils</span> <span class="kn">import</span> <span class="n">rename_glyphs_from_list</span>
+<span class="kn">from</span> <span class="nn">hTools2.modules.glyphutils</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">hTools2.modules.fontinfo</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">hTools2.modules.fontutils</span> <span class="kn">import</span> <span class="n">get_full_name</span><span class="p">,</span> <span class="n">scale_glyphs</span><span class="p">,</span> <span class="n">parse_glyphs_groups</span>
+<span class="kn">from</span> <span class="nn">hTools2.modules.ftp</span> <span class="kn">import</span> <span class="n">connect_to_server</span><span class="p">,</span> <span class="n">upload_file</span>
+
+<span class="c"># object</span>
+
+<div class="viewcode-block" id="hSpace"><a class="viewcode-back" href="../../../objects/hspace.html#hTools2.objects.hspace.hSpace">[docs]</a><span class="k">class</span> <span class="nc">hSpace</span><span class="p">:</span>
+
+    <span class="sd">&quot;&quot;&quot;A space describes a parametric range of fonts inside a project.</span>
+
+<span class="sd">    It makes it easier to address a subset of fonts using the project&#39;s parameters.</span>
+
+<span class="sd">    .. py:attribute:: project</span>
+
+<span class="sd">    The parent :py:class:`hProject` object to which the space applies.</span>
+
+<span class="sd">    .. py:attribute:: parameters</span>
+
+<span class="sd">    A dictionary containing parameter names and related value ranges.</span>
+
+<span class="sd">    ::</span>
+
+<span class="sd">        parameters = {</span>
+<span class="sd">            &#39;weight&#39; : [1, 3, 5],</span>
+<span class="sd">            &#39;width&#39; : [3, 4, 5]</span>
+<span class="sd">        }</span>
+
+<span class="sd">    .. py:attribute:: parameters_order</span>
+
+<span class="sd">    A list with the order in which the parameters appear (for use in font names, lists etc).</span>
+
+<span class="sd">    .. py:attribute:: parameters_separator</span>
+
+<span class="sd">    The character used as separator in font file names.</span>
+
+<span class="sd">    .. py:attribute:: fonts</span>
+
+<span class="sd">    A dictionary with parametric names and ``.ufo`` paths for all fonts in the current space.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c"># attributes</span>
+
+    <span class="n">project</span> <span class="o">=</span> <span class="bp">None</span>
+
+    <span class="n">parameters</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">parameters_order</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">parameters_separator</span> <span class="o">=</span> <span class="s">&#39;-&#39;</span>
+
+    <span class="n">fonts</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="c"># methods</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">project_name</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">project</span> <span class="o">=</span> <span class="n">hProject</span><span class="p">(</span><span class="n">project_name</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">import_project_parameters</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">build</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s">&#39;&lt;hSpace </span><span class="si">%s</span><span class="s">&gt;&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">project</span><span class="o">.</span><span class="n">name</span>
+
+<div class="viewcode-block" id="hSpace.import_project_parameters"><a class="viewcode-back" href="../../../objects/hspace.html#hTools2.objects.hspace.hSpace.import_project_parameters">[docs]</a>    <span class="k">def</span> <span class="nf">import_project_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Import parameters from ``project`` lib.&quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">project</span><span class="o">.</span><span class="n">libs</span><span class="p">[</span><span class="s">&#39;project&#39;</span><span class="p">][</span><span class="s">&#39;parameters&#39;</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">parameters_order</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">project</span><span class="o">.</span><span class="n">libs</span><span class="p">[</span><span class="s">&#39;project&#39;</span><span class="p">][</span><span class="s">&#39;parameters_order&#39;</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">parameters_separator</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">project</span><span class="o">.</span><span class="n">libs</span><span class="p">[</span><span class="s">&#39;project&#39;</span><span class="p">][</span><span class="s">&#39;parameters_separator&#39;</span><span class="p">]</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">print</span> <span class="s">&#39;project </span><span class="si">%s</span><span class="s"> has no parameters lib&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">project</span><span class="o">.</span><span class="n">name</span>
+</div>
+<div class="viewcode-block" id="hSpace.build"><a class="viewcode-back" href="../../../objects/hspace.html#hTools2.objects.hspace.hSpace.build">[docs]</a>    <span class="k">def</span> <span class="nf">build</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Build the defined variation space, using the parameters order, and create individual font names.</span>
+
+<span class="sd">        .. warning:: Awful redundant code, needs to be rewritten.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">parts</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">parameters_order</span><span class="p">)</span>
+        <span class="n">font_names</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="n">parts</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">print</span> <span class="s">&#39;parameters order is empty, please set some values first.</span><span class="se">\n</span><span class="s">&#39;</span>
+        <span class="k">elif</span> <span class="n">parts</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">param_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters_order</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="n">param_name</span><span class="p">]:</span>
+                <span class="n">style_name</span> <span class="o">=</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">a</span>
+                <span class="n">font_names</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">style_name</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">parts</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="n">param_name_1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters_order</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">param_name_2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters_order</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="n">param_name_1</span><span class="p">]:</span>
+                <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="n">param_name_2</span><span class="p">]:</span>
+                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters_separator</span><span class="p">:</span>
+                        <span class="n">style_name</span> <span class="o">=</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s">-</span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">style_name</span> <span class="o">=</span> <span class="s">&#39;</span><span class="si">%s%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+                    <span class="n">font_names</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">style_name</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">parts</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+            <span class="n">param_name_1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters_order</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">param_name_2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters_order</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">param_name_3</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters_order</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="n">param_name_1</span><span class="p">]:</span>
+                <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="n">param_name_2</span><span class="p">]:</span>
+                    <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="n">param_name_3</span><span class="p">]:</span>
+                        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters_separator</span><span class="p">:</span>
+                            <span class="n">style_name</span> <span class="o">=</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s">-</span><span class="si">%s</span><span class="s">-</span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="n">style_name</span> <span class="o">=</span> <span class="s">&#39;</span><span class="si">%s%s%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span>
+                        <span class="n">font_names</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">style_name</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">parts</span> <span class="o">==</span> <span class="mi">4</span><span class="p">:</span>
+            <span class="n">param_name_1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters_order</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">param_name_2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters_order</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">param_name_3</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters_order</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+            <span class="n">param_name_4</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters_order</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="n">param_name_1</span><span class="p">]:</span>
+                <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="n">param_name_2</span><span class="p">]:</span>
+                    <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="n">param_name_3</span><span class="p">]:</span>
+                        <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="n">param_name_4</span><span class="p">]:</span>
+                            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters_separator</span><span class="p">:</span>
+                                <span class="n">style_name</span> <span class="o">=</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s">-</span><span class="si">%s</span><span class="s">-</span><span class="si">%s</span><span class="s">-</span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span>
+                            <span class="k">else</span><span class="p">:</span>
+                                <span class="n">style_name</span> <span class="o">=</span> <span class="s">&#39;</span><span class="si">%s%s%s%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span>
+                            <span class="n">font_names</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">style_name</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">parts</span> <span class="o">==</span> <span class="mi">5</span><span class="p">:</span>
+            <span class="n">param_name_1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters_order</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">param_name_2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters_order</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">param_name_3</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters_order</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+            <span class="n">param_name_4</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters_order</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+            <span class="n">param_name_5</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters_order</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="n">param_name_1</span><span class="p">]:</span>
+                <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="n">param_name_2</span><span class="p">]:</span>
+                    <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="n">param_name_3</span><span class="p">]:</span>
+                        <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="n">param_name_4</span><span class="p">]:</span>
+                            <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="n">param_name_5</span><span class="p">]:</span>
+                                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters_separator</span><span class="p">:</span>
+                                    <span class="n">style_name</span> <span class="o">=</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s">-</span><span class="si">%s</span><span class="s">-</span><span class="si">%s</span><span class="s">-</span><span class="si">%s</span><span class="s">-</span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
+                                <span class="k">else</span><span class="p">:</span>
+                                    <span class="n">style_name</span> <span class="o">=</span> <span class="s">&#39;</span><span class="si">%s%s%s%s%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
+                                <span class="n">font_names</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">style_name</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">parts</span> <span class="o">==</span> <span class="mi">6</span><span class="p">:</span>
+            <span class="n">param_name_1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters_order</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">param_name_2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters_order</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">param_name_3</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters_order</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+            <span class="n">param_name_4</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters_order</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+            <span class="n">param_name_5</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters_order</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span>
+            <span class="n">param_name_6</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters_order</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="n">param_name_1</span><span class="p">]:</span>
+                <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="n">param_name_2</span><span class="p">]:</span>
+                    <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="n">param_name_3</span><span class="p">]:</span>
+                        <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="n">param_name_4</span><span class="p">]:</span>
+                            <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="n">param_name_5</span><span class="p">]:</span>
+                                <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="n">param_name_6</span><span class="p">]:</span>
+                                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters_separator</span><span class="p">:</span>
+                                        <span class="n">style_name</span> <span class="o">=</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s">-</span><span class="si">%s</span><span class="s">-</span><span class="si">%s</span><span class="s">-</span><span class="si">%s</span><span class="s">-</span><span class="si">%s</span><span class="s">-</span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
+                                    <span class="k">else</span><span class="p">:</span>
+                                        <span class="n">style_name</span> <span class="o">=</span> <span class="s">&#39;</span><span class="si">%s%s%s%s%s%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
+                                    <span class="n">font_names</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">style_name</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">print</span> <span class="s">&#39;too many parts, current hSpace implementation only supports 6 parameters.</span><span class="se">\n</span><span class="s">&#39;</span>
+        <span class="c"># save font list</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fonts</span> <span class="o">=</span> <span class="n">font_names</span>
+</div>
+<div class="viewcode-block" id="hSpace.ufos"><a class="viewcode-back" href="../../../objects/hspace.html#hTools2.objects.hspace.hSpace.ufos">[docs]</a>    <span class="k">def</span> <span class="nf">ufos</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return a list containing the ``.ufo`` paths of all existing fonts in the current space.&quot;&quot;&quot;</span>
+        <span class="n">font_paths</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">masters</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">project</span><span class="o">.</span><span class="n">masters</span><span class="p">()</span>
+        <span class="n">instances</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">project</span><span class="o">.</span><span class="n">instances</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">style_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">fonts</span><span class="p">:</span>
+            <span class="n">font_name</span> <span class="o">=</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s">_</span><span class="si">%s</span><span class="s">.ufo&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">project</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">style_name</span><span class="p">)</span>
+            <span class="n">master_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">project</span><span class="o">.</span><span class="n">paths</span><span class="p">[</span><span class="s">&#39;ufos&#39;</span><span class="p">],</span> <span class="n">font_name</span><span class="p">)</span>
+            <span class="n">instance_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">project</span><span class="o">.</span><span class="n">paths</span><span class="p">[</span><span class="s">&#39;instances&#39;</span><span class="p">],</span> <span class="n">font_name</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">master_path</span><span class="p">):</span>
+                <span class="n">font_paths</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">master_path</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">instance_path</span><span class="p">):</span>
+                <span class="n">font_paths</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">instance_path</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">continue</span>
+        <span class="k">return</span> <span class="n">font_paths</span>
+</div>
+<div class="viewcode-block" id="hSpace.set_parameters"><a class="viewcode-back" href="../../../objects/hspace.html#hTools2.objects.hspace.hSpace.set_parameters">[docs]</a>    <span class="k">def</span> <span class="nf">set_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parameters</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Set space attributes from parameters dict.&quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">parameters</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="n">k</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">parameters</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
+
+    <span class="c"># ftp</span>
+</div>
+<div class="viewcode-block" id="hSpace.upload_woffs"><a class="viewcode-back" href="../../../objects/hspace.html#hTools2.objects.hspace.hSpace.upload_woffs">[docs]</a>    <span class="k">def</span> <span class="nf">upload_woffs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Upload all ``.woffs`` in space to the project&#39;s folder in the FTP server.&quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">ufo_path</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">ufos</span><span class="p">():</span>
+            <span class="n">file_name</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">ufo_path</span><span class="p">)[</span><span class="mi">1</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">woff_file</span> <span class="o">=</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s">.woff&#39;</span> <span class="o">%</span> <span class="n">file_name</span>
+            <span class="n">woff_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">project</span><span class="o">.</span><span class="n">paths</span><span class="p">[</span><span class="s">&#39;woffs&#39;</span><span class="p">],</span> <span class="n">woff_file</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">woff_path</span><span class="p">):</span>
+                <span class="n">F</span> <span class="o">=</span> <span class="n">connect_to_server</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">project</span><span class="o">.</span><span class="n">world</span><span class="o">.</span><span class="n">settings</span><span class="o">.</span><span class="n">hDict</span><span class="p">[</span><span class="s">&#39;ftp&#39;</span><span class="p">][</span><span class="s">&#39;url&#39;</span><span class="p">],</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">project</span><span class="o">.</span><span class="n">world</span><span class="o">.</span><span class="n">settings</span><span class="o">.</span><span class="n">hDict</span><span class="p">[</span><span class="s">&#39;ftp&#39;</span><span class="p">][</span><span class="s">&#39;login&#39;</span><span class="p">],</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">project</span><span class="o">.</span><span class="n">world</span><span class="o">.</span><span class="n">settings</span><span class="o">.</span><span class="n">hDict</span><span class="p">[</span><span class="s">&#39;ftp&#39;</span><span class="p">][</span><span class="s">&#39;password&#39;</span><span class="p">],</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">project</span><span class="o">.</span><span class="n">ftp_path</span><span class="p">(),</span>
+                    <span class="n">verbose</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+                <span class="n">upload_file</span><span class="p">(</span><span class="n">woff_path</span><span class="p">,</span> <span class="n">F</span><span class="p">)</span>
+                <span class="n">F</span><span class="o">.</span><span class="n">quit</span><span class="p">()</span>
+
+    <span class="c"># initialization tools</span>
+</div>
+<div class="viewcode-block" id="hSpace.create_fonts"><a class="viewcode-back" href="../../../objects/hspace.html#hTools2.objects.hspace.hSpace.create_fonts">[docs]</a>    <span class="k">def</span> <span class="nf">create_fonts</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Create fonts in space, if they don&#39;t exist yet.&quot;&quot;&quot;</span>
+        <span class="k">print</span> <span class="s">&quot;batch creating fonts...</span><span class="se">\n</span><span class="s">&quot;</span>
+        <span class="k">for</span> <span class="n">font</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">fonts</span><span class="p">:</span>
+            <span class="n">font_path</span> <span class="o">=</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s">_</span><span class="si">%s</span><span class="s">.ufo&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">project</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">font</span><span class="p">)</span>
+            <span class="n">font_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">project</span><span class="o">.</span><span class="n">paths</span><span class="p">[</span><span class="s">&#39;ufos&#39;</span><span class="p">],</span> <span class="n">font_path</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">font_path</span><span class="p">)</span> <span class="ow">is</span> <span class="bp">False</span><span class="p">:</span>
+                <span class="n">f</span> <span class="o">=</span> <span class="n">NewFont</span><span class="p">(</span><span class="n">showUI</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+                <span class="k">print</span> <span class="s">&#39;</span><span class="se">\t</span><span class="si">%s</span><span class="s"> creating font...&#39;</span> <span class="o">%</span> <span class="n">font</span>
+                <span class="n">f</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">destDir</span><span class="o">=</span><span class="n">font_path</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">print</span> <span class="s">&#39;</span><span class="se">\t</span><span class="si">%s</span><span class="s"> already exists.&#39;</span> <span class="o">%</span> <span class="n">font</span>
+        <span class="k">print</span> <span class="s">&quot;</span><span class="se">\n</span><span class="s">...done.</span><span class="se">\n</span><span class="s">&quot;</span>
+</div>
+<div class="viewcode-block" id="hSpace.create_glyphs"><a class="viewcode-back" href="../../../objects/hspace.html#hTools2.objects.hspace.hSpace.create_glyphs">[docs]</a>    <span class="k">def</span> <span class="nf">create_glyphs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">gstring</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Create all glyphs in all fonts in space.&quot;&quot;&quot;</span>
+        <span class="c"># get glyphs</span>
+        <span class="k">if</span> <span class="n">gstring</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">glyph_names</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">project</span><span class="o">.</span><span class="n">all_glyphs</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">names</span> <span class="o">=</span> <span class="n">gstring</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39; &#39;</span><span class="p">)</span>
+            <span class="n">groups</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">project</span><span class="o">.</span><span class="n">libs</span><span class="p">[</span><span class="s">&#39;groups&#39;</span><span class="p">][</span><span class="s">&#39;glyphs&#39;</span><span class="p">]</span>
+            <span class="n">glyph_names</span> <span class="o">=</span> <span class="n">parse_glyphs_groups</span><span class="p">(</span><span class="n">names</span><span class="p">,</span> <span class="n">groups</span><span class="p">)</span>
+        <span class="c"># create glyphs</span>
+        <span class="k">print</span> <span class="s">&quot;creating glyphs in space...</span><span class="se">\n</span><span class="s">&quot;</span>
+        <span class="k">for</span> <span class="n">ufo_path</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">ufos</span><span class="p">():</span>
+            <span class="n">ufo</span> <span class="o">=</span> <span class="n">RFont</span><span class="p">(</span><span class="n">ufo_path</span><span class="p">,</span> <span class="n">showUI</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+            <span class="k">print</span> <span class="s">&quot;</span><span class="se">\t</span><span class="s">creating glyphs in </span><span class="si">%s</span><span class="s">...&quot;</span> <span class="o">%</span> <span class="n">get_full_name</span><span class="p">(</span><span class="n">ufo</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span> <span class="k">print</span> <span class="s">&#39;</span><span class="se">\t\t</span><span class="s">&#39;</span><span class="p">,</span>
+            <span class="k">for</span> <span class="n">glyph_name</span> <span class="ow">in</span> <span class="n">glyph_names</span><span class="p">:</span>
+                <span class="c"># create glyph in font</span>
+                <span class="k">if</span> <span class="n">ufo</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="n">glyph_name</span><span class="p">)</span> <span class="ow">is</span> <span class="bp">False</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span> <span class="k">print</span> <span class="n">glyph_name</span><span class="p">,</span>
+                    <span class="n">ufo</span><span class="o">.</span><span class="n">newGlyph</span><span class="p">(</span><span class="n">glyph_name</span><span class="p">)</span>
+            <span class="c"># done with font</span>
+            <span class="n">ufo</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span> <span class="k">print</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span>
+        <span class="c"># done</span>
+        <span class="k">print</span> <span class="s">&quot;</span><span class="se">\n</span><span class="s">...done.</span><span class="se">\n</span><span class="s">&quot;</span>
+</div>
+<div class="viewcode-block" id="hSpace.build_accents"><a class="viewcode-back" href="../../../objects/hspace.html#hTools2.objects.hspace.hSpace.build_accents">[docs]</a>    <span class="k">def</span> <span class="nf">build_accents</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Build all accents in all fonts in space.&quot;&quot;&quot;</span>
+        <span class="k">print</span> <span class="s">&quot;building accented glyphs in space...</span><span class="se">\n</span><span class="s">&quot;</span>
+        <span class="k">for</span> <span class="n">ufo_path</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">ufos</span><span class="p">():</span>
+            <span class="n">font</span> <span class="o">=</span> <span class="n">hFont</span><span class="p">(</span><span class="n">RFont</span><span class="p">(</span><span class="n">ufo_path</span><span class="p">,</span> <span class="n">showUI</span><span class="o">=</span><span class="bp">False</span><span class="p">))</span>
+            <span class="k">print</span> <span class="s">&quot;</span><span class="se">\t</span><span class="s">building glyphs in </span><span class="si">%s</span><span class="s">...&quot;</span> <span class="o">%</span> <span class="n">get_full_name</span><span class="p">(</span><span class="n">font</span><span class="o">.</span><span class="n">ufo</span><span class="p">)</span>
+            <span class="n">font</span><span class="o">.</span><span class="n">build_accents</span><span class="p">()</span>
+            <span class="n">font</span><span class="o">.</span><span class="n">ufo</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+        <span class="k">print</span> <span class="s">&quot;</span><span class="se">\n</span><span class="s">...done.</span><span class="se">\n</span><span class="s">&quot;</span>
+
+    <span class="c"># clear data</span>
+</div>
+<div class="viewcode-block" id="hSpace.clear_kerning"><a class="viewcode-back" href="../../../objects/hspace.html#hTools2.objects.hspace.hSpace.clear_kerning">[docs]</a>    <span class="k">def</span> <span class="nf">clear_kerning</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Delete kerning in all fonts in space.&quot;&quot;&quot;</span>
+        <span class="k">print</span> <span class="s">&quot;batch deleting kerning...</span><span class="se">\n</span><span class="s">&quot;</span>
+        <span class="k">for</span> <span class="n">ufo_path</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">ufos</span><span class="p">():</span>
+            <span class="n">ufo</span> <span class="o">=</span> <span class="n">RFont</span><span class="p">(</span><span class="n">ufo_path</span><span class="p">,</span> <span class="n">showUI</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+            <span class="n">amount_pairs</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">ufo</span><span class="o">.</span><span class="n">kerning</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">amount_pairs</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">print</span> <span class="s">&#39;</span><span class="se">\t</span><span class="s"> deleting </span><span class="si">%s</span><span class="s"> kerning pairs in </span><span class="si">%s</span><span class="s"> </span><span class="si">%s</span><span class="s">...&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">amount_pairs</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">project</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">ufo</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">styleName</span><span class="p">)</span>
+                <span class="n">ufo</span><span class="o">.</span><span class="n">kerning</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+                <span class="n">ufo</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">print</span> <span class="s">&#39;</span><span class="se">\t</span><span class="s"> no kerning pairs in </span><span class="si">%s</span><span class="s"> </span><span class="si">%s</span><span class="s">...&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">project</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">ufo</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">styleName</span><span class="p">)</span>
+        <span class="k">print</span> <span class="s">&quot;</span><span class="se">\n</span><span class="s">...done.</span><span class="se">\n</span><span class="s">&quot;</span>
+</div>
+<div class="viewcode-block" id="hSpace.clear_unicodes"><a class="viewcode-back" href="../../../objects/hspace.html#hTools2.objects.hspace.hSpace.clear_unicodes">[docs]</a>    <span class="k">def</span> <span class="nf">clear_unicodes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">pass</span>
+</div>
+<div class="viewcode-block" id="hSpace.clear_info"><a class="viewcode-back" href="../../../objects/hspace.html#hTools2.objects.hspace.hSpace.clear_info">[docs]</a>    <span class="k">def</span> <span class="nf">clear_info</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">pass</span>
+</div>
+<div class="viewcode-block" id="hSpace.clear_groups"><a class="viewcode-back" href="../../../objects/hspace.html#hTools2.objects.hspace.hSpace.clear_groups">[docs]</a>    <span class="k">def</span> <span class="nf">clear_groups</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">pass</span>
+</div>
+<div class="viewcode-block" id="hSpace.clear_features"><a class="viewcode-back" href="../../../objects/hspace.html#hTools2.objects.hspace.hSpace.clear_features">[docs]</a>    <span class="k">def</span> <span class="nf">clear_features</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">pass</span>
+</div>
+<div class="viewcode-block" id="hSpace.clear_anchors"><a class="viewcode-back" href="../../../objects/hspace.html#hTools2.objects.hspace.hSpace.clear_anchors">[docs]</a>    <span class="k">def</span> <span class="nf">clear_anchors</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Remove anchors in all fonts in space.&quot;&quot;&quot;</span>
+        <span class="k">print</span> <span class="s">&quot;deleting all anchors in space...&quot;</span>
+        <span class="k">for</span> <span class="n">ufo_path</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">ufos</span><span class="p">():</span>
+            <span class="n">font</span> <span class="o">=</span> <span class="n">hFont</span><span class="p">(</span><span class="n">RFont</span><span class="p">(</span><span class="n">ufo_path</span><span class="p">,</span> <span class="n">showUI</span><span class="o">=</span><span class="bp">False</span><span class="p">))</span>
+            <span class="n">font</span><span class="o">.</span><span class="n">clear_anchors</span><span class="p">()</span>
+
+    <span class="c"># transfer tools</span>
+</div>
+<div class="viewcode-block" id="hSpace.transfer_glyphs"><a class="viewcode-back" href="../../../objects/hspace.html#hTools2.objects.hspace.hSpace.transfer_glyphs">[docs]</a>    <span class="k">def</span> <span class="nf">transfer_glyphs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">gstring</span><span class="p">,</span> <span class="n">var</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Batch transfer glyphs from one set of fonts to another.</span>
+
+<span class="sd">        ``gstring``</span>
+<span class="sd">            A string of glyph names and/or group names.</span>
+
+<span class="sd">        ``var``</span>
+<span class="sd">            A tuple expressing the variable space for the transfer operation.</span>
+
+<span class="sd">            The variation tuple must contain three items, representing in this order:</span>
+
+<span class="sd">            ::</span>
+
+<span class="sd">                (axis, source, (dest1, dest2, dest3))</span>
+
+<span class="sd">            1. the name of the variation axis (the parameter)</span>
+<span class="sd">            2. the source value in this axis (from where the glyphs will be copied from)</span>
+<span class="sd">            3. a tuple with one or more destinations for the glyphs</span>
+
+<span class="sd">        ``verbose``</span>
+<span class="sd">            A boolean to print/supress messages during execution.</span>
+
+<span class="sd">        ::</span>
+
+<span class="sd">            # set parameters</span>
+<span class="sd">            project_name = &#39;Publica&#39;</span>
+<span class="sd">            gstring = &#39;@lowercase&#39;</span>
+<span class="sd">            var = ( &#39;style&#39;, &#39;Sans&#39;, ( &#39;Slab&#39;, &#39;Serif&#39;, ) )</span>
+<span class="sd">            parameters = {</span>
+<span class="sd">                &#39;weight&#39; :  [ 1, 5, 9 ],</span>
+<span class="sd">                &#39;width&#39; :  [ 5 ],</span>
+<span class="sd">                var[0] :   [ var[1] ],</span>
+<span class="sd">            }</span>
+<span class="sd">            # run script</span>
+<span class="sd">            s = hSpace(project_name)</span>
+<span class="sd">            s.set_parameters(parameters)</span>
+<span class="sd">            s.transfer_glyphs(gstring, var, verbose=False)</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">axis</span><span class="p">,</span> <span class="n">src</span><span class="p">,</span> <span class="n">dest_list</span> <span class="o">=</span> <span class="n">var</span>
+        <span class="c"># define source space</span>
+        <span class="k">for</span> <span class="n">param</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">param</span> <span class="o">==</span> <span class="n">axis</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="n">param</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span> <span class="n">src</span> <span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">build</span><span class="p">()</span>
+        <span class="c"># get glyphs</span>
+        <span class="n">names</span> <span class="o">=</span> <span class="n">gstring</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39; &#39;</span><span class="p">)</span>
+        <span class="n">groups</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">project</span><span class="o">.</span><span class="n">libs</span><span class="p">[</span><span class="s">&#39;groups&#39;</span><span class="p">][</span><span class="s">&#39;glyphs&#39;</span><span class="p">]</span>
+        <span class="n">glyph_names</span> <span class="o">=</span> <span class="n">parse_glyphs_groups</span><span class="p">(</span><span class="n">names</span><span class="p">,</span> <span class="n">groups</span><span class="p">)</span>
+        <span class="c"># batch copy</span>
+        <span class="k">print</span> <span class="s">&quot;batch transfering glyphs in </span><span class="si">%s</span><span class="s">...&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">project</span><span class="o">.</span><span class="n">name</span>
+        <span class="k">for</span> <span class="n">src_path</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">ufos</span><span class="p">():</span>
+            <span class="n">font</span> <span class="o">=</span> <span class="n">hFont</span><span class="p">(</span><span class="n">RFont</span><span class="p">(</span><span class="n">src_path</span><span class="p">,</span> <span class="n">showUI</span><span class="o">=</span><span class="bp">False</span><span class="p">))</span>
+            <span class="k">for</span> <span class="n">dest</span> <span class="ow">in</span> <span class="n">dest_list</span><span class="p">:</span>
+                <span class="n">dest_parameters</span> <span class="o">=</span> <span class="n">font</span><span class="o">.</span><span class="n">parameters</span>
+                <span class="n">dest_parameters</span><span class="p">[</span><span class="n">axis</span><span class="p">]</span> <span class="o">=</span> <span class="n">dest</span>
+                <span class="n">dest_file</span> <span class="o">=</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s">_</span><span class="si">%s</span><span class="s">.ufo&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">font</span><span class="o">.</span><span class="n">project</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">font</span><span class="o">.</span><span class="n">name_from_parameters</span><span class="p">(</span><span class="n">separator</span><span class="o">=</span><span class="s">&#39;-&#39;</span><span class="p">))</span>
+                <span class="n">dest_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">font</span><span class="o">.</span><span class="n">project</span><span class="o">.</span><span class="n">paths</span><span class="p">[</span><span class="s">&#39;ufos&#39;</span><span class="p">],</span> <span class="n">dest_file</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">dest_path</span><span class="p">):</span>
+                    <span class="n">dest_ufo</span> <span class="o">=</span> <span class="n">RFont</span><span class="p">(</span><span class="n">dest_path</span><span class="p">,</span> <span class="n">showUI</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+                    <span class="k">print</span>
+                    <span class="k">print</span> <span class="s">&quot;</span><span class="se">\t</span><span class="s">copying glyphs from </span><span class="si">%s</span><span class="s"> to </span><span class="si">%s</span><span class="s">...&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">get_full_name</span><span class="p">(</span><span class="n">font</span><span class="o">.</span><span class="n">ufo</span><span class="p">),</span> <span class="n">get_full_name</span><span class="p">(</span><span class="n">dest_ufo</span><span class="p">))</span>
+                    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span> <span class="k">print</span> <span class="s">&#39;</span><span class="se">\t\t</span><span class="s">&#39;</span><span class="p">,</span>
+                    <span class="k">for</span> <span class="n">glyph_name</span> <span class="ow">in</span> <span class="n">glyph_names</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="n">font</span><span class="o">.</span><span class="n">ufo</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="n">glyph_name</span><span class="p">):</span>
+                            <span class="k">if</span> <span class="n">dest_ufo</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="n">glyph_name</span><span class="p">)</span> <span class="ow">is</span> <span class="bp">False</span><span class="p">:</span>
+                                <span class="n">dest_ufo</span><span class="o">.</span><span class="n">newGlyph</span><span class="p">(</span><span class="n">glyph_name</span><span class="p">)</span>
+                            <span class="c"># decompose first</span>
+                            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">font</span><span class="o">.</span><span class="n">ufo</span><span class="p">[</span><span class="n">glyph_name</span><span class="p">]</span><span class="o">.</span><span class="n">components</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                                <span class="n">font</span><span class="o">.</span><span class="n">ufo</span><span class="p">[</span><span class="n">glyph_name</span><span class="p">]</span><span class="o">.</span><span class="n">decompose</span><span class="p">()</span>
+                            <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span> <span class="k">print</span> <span class="n">glyph_name</span><span class="p">,</span>
+                            <span class="c"># insert glyph</span>
+                            <span class="n">dest_ufo</span><span class="o">.</span><span class="n">insertGlyph</span><span class="p">(</span><span class="n">font</span><span class="o">.</span><span class="n">ufo</span><span class="p">[</span><span class="n">glyph_name</span><span class="p">])</span>
+                            <span class="n">dest_ufo</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+                    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span> <span class="k">print</span>
+        <span class="k">print</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">...done.</span><span class="se">\n</span><span class="s">&#39;</span>
+</div>
+<div class="viewcode-block" id="hSpace.transfer_anchors"><a class="viewcode-back" href="../../../objects/hspace.html#hTools2.objects.hspace.hSpace.transfer_anchors">[docs]</a>    <span class="k">def</span> <span class="nf">transfer_anchors</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">var</span><span class="p">,</span> <span class="n">gstring</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">clear</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Transfer anchors from one variable set of fonts to another.&quot;&quot;&quot;</span>
+        <span class="n">axis</span><span class="p">,</span> <span class="n">src</span><span class="p">,</span> <span class="n">dest_list</span> <span class="o">=</span> <span class="n">var</span>
+        <span class="c"># define source space</span>
+        <span class="k">for</span> <span class="n">param</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">param</span> <span class="o">==</span> <span class="n">axis</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="n">param</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span> <span class="n">src</span> <span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">build</span><span class="p">()</span>
+        <span class="c"># parse gstring</span>
+        <span class="k">if</span> <span class="n">gstring</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">glyph_names</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">project</span><span class="o">.</span><span class="n">all_glyphs</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">glyph_names</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">project</span><span class="o">.</span><span class="n">parse_gstring</span><span class="p">(</span><span class="n">gstring</span><span class="p">)</span>
+        <span class="c"># batch copy</span>
+        <span class="k">print</span> <span class="s">&quot;batch transfering anchors in </span><span class="si">%s</span><span class="s">...&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">project</span><span class="o">.</span><span class="n">name</span>
+        <span class="k">for</span> <span class="n">src_path</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">ufos</span><span class="p">():</span>
+            <span class="n">font</span> <span class="o">=</span> <span class="n">hFont</span><span class="p">(</span><span class="n">RFont</span><span class="p">(</span><span class="n">src_path</span><span class="p">,</span> <span class="n">showUI</span><span class="o">=</span><span class="bp">False</span><span class="p">))</span>
+            <span class="k">for</span> <span class="n">dest</span> <span class="ow">in</span> <span class="n">dest_list</span><span class="p">:</span>
+                <span class="n">dest_parameters</span> <span class="o">=</span> <span class="n">font</span><span class="o">.</span><span class="n">parameters</span>
+                <span class="n">dest_parameters</span><span class="p">[</span><span class="n">axis</span><span class="p">]</span> <span class="o">=</span> <span class="n">dest</span>
+                <span class="n">dest_file</span> <span class="o">=</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s">_</span><span class="si">%s</span><span class="s">.ufo&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">font</span><span class="o">.</span><span class="n">project</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">font</span><span class="o">.</span><span class="n">name_from_parameters</span><span class="p">(</span><span class="n">separator</span><span class="o">=</span><span class="s">&#39;-&#39;</span><span class="p">))</span>
+                <span class="n">dest_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">font</span><span class="o">.</span><span class="n">project</span><span class="o">.</span><span class="n">paths</span><span class="p">[</span><span class="s">&#39;ufos&#39;</span><span class="p">],</span> <span class="n">dest_file</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">dest_path</span><span class="p">):</span>
+                    <span class="n">dest_ufo</span> <span class="o">=</span> <span class="n">RFont</span><span class="p">(</span><span class="n">dest_path</span><span class="p">,</span> <span class="n">showUI</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+                    <span class="k">print</span>
+                    <span class="k">if</span> <span class="n">clear</span><span class="p">:</span>
+                        <span class="k">print</span> <span class="s">&quot;</span><span class="se">\t</span><span class="s">removing anchors in </span><span class="si">%s</span><span class="s">...&quot;</span> <span class="o">%</span> <span class="n">get_full_name</span><span class="p">(</span><span class="n">dest_ufo</span><span class="p">)</span>
+                        <span class="n">dest_font</span> <span class="o">=</span> <span class="n">hFont</span><span class="p">(</span><span class="n">dest_ufo</span><span class="p">)</span>
+                        <span class="n">dest_font</span><span class="o">.</span><span class="n">clear_anchors</span><span class="p">(</span><span class="n">gstring</span><span class="p">)</span>
+                    <span class="k">print</span> <span class="s">&quot;</span><span class="se">\t</span><span class="s">copying anchors from </span><span class="si">%s</span><span class="s"> to </span><span class="si">%s</span><span class="s">...&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">get_full_name</span><span class="p">(</span><span class="n">font</span><span class="o">.</span><span class="n">ufo</span><span class="p">),</span> <span class="n">get_full_name</span><span class="p">(</span><span class="n">dest_ufo</span><span class="p">))</span>
+                    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span> <span class="k">print</span> <span class="s">&#39;</span><span class="se">\t\t</span><span class="s">&#39;</span><span class="p">,</span>
+                    <span class="k">for</span> <span class="n">glyph_name</span> <span class="ow">in</span> <span class="n">glyph_names</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="n">font</span><span class="o">.</span><span class="n">ufo</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="n">glyph_name</span><span class="p">):</span>
+                            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">font</span><span class="o">.</span><span class="n">ufo</span><span class="p">[</span><span class="n">glyph_name</span><span class="p">]</span><span class="o">.</span><span class="n">anchors</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                                <span class="k">if</span> <span class="n">dest_ufo</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="n">glyph_name</span><span class="p">)</span> <span class="ow">is</span> <span class="bp">False</span><span class="p">:</span>
+                                    <span class="n">dest_ufo</span><span class="o">.</span><span class="n">newGlyph</span><span class="p">(</span><span class="n">glyph_name</span><span class="p">)</span>
+                                <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span> <span class="k">print</span> <span class="n">glyph_name</span><span class="p">,</span>
+                                <span class="n">transfer_anchors</span><span class="p">(</span><span class="n">font</span><span class="o">.</span><span class="n">ufo</span><span class="p">[</span><span class="n">glyph_name</span><span class="p">],</span> <span class="n">dest_ufo</span><span class="p">[</span><span class="n">glyph_name</span><span class="p">])</span>
+                                <span class="n">dest_ufo</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+                    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span> <span class="k">print</span>
+        <span class="k">print</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">...done.</span><span class="se">\n</span><span class="s">&#39;</span>
+
+    <span class="c"># transformation tools</span>
+</div>
+<div class="viewcode-block" id="hSpace.copy_glyphs"><a class="viewcode-back" href="../../../objects/hspace.html#hTools2.objects.hspace.hSpace.copy_glyphs">[docs]</a>    <span class="k">def</span> <span class="nf">copy_glyphs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">src_glyphs</span><span class="p">,</span> <span class="n">dst_glyphs</span><span class="p">,</span> <span class="n">parameters</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="c"># build space</span>
+        <span class="k">if</span> <span class="n">parameters</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span> <span class="o">=</span> <span class="n">parameters</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">build</span><span class="p">()</span>
+        <span class="c"># get glyphs</span>
+        <span class="n">groups</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">project</span><span class="o">.</span><span class="n">libs</span><span class="p">[</span><span class="s">&#39;groups&#39;</span><span class="p">][</span><span class="s">&#39;glyphs&#39;</span><span class="p">]</span>
+        <span class="n">src_glyph_names</span> <span class="o">=</span> <span class="n">parse_glyphs_groups</span><span class="p">(</span><span class="n">src_glyphs</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39; &#39;</span><span class="p">),</span> <span class="n">groups</span><span class="p">)</span>
+        <span class="n">dst_glyph_names</span> <span class="o">=</span> <span class="n">parse_glyphs_groups</span><span class="p">(</span><span class="n">dst_glyphs</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39; &#39;</span><span class="p">),</span> <span class="n">groups</span><span class="p">)</span>
+        <span class="c"># batch copy glyphs</span>
+        <span class="k">print</span> <span class="s">&quot;batch copying glyphs in </span><span class="si">%s</span><span class="s">...</span><span class="se">\n</span><span class="s">&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">project</span><span class="o">.</span><span class="n">name</span>
+        <span class="k">for</span> <span class="n">font_path</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">ufos</span><span class="p">():</span>
+            <span class="n">font</span> <span class="o">=</span> <span class="n">hFont</span><span class="p">(</span><span class="n">RFont</span><span class="p">(</span><span class="n">font_path</span><span class="p">,</span> <span class="n">showUI</span><span class="o">=</span><span class="bp">False</span><span class="p">))</span>
+            <span class="k">print</span> <span class="s">&#39;</span><span class="se">\t</span><span class="s">copying glyphs in font </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">font</span><span class="o">.</span><span class="n">full_name</span><span class="p">()</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">src_glyph_names</span><span class="p">)):</span>
+                <span class="n">_src_glyph_name</span> <span class="o">=</span> <span class="n">src_glyph_names</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                <span class="n">_dst_glyph_name</span> <span class="o">=</span> <span class="n">dst_glyph_names</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                <span class="c"># copy glyph</span>
+                <span class="k">if</span> <span class="n">font</span><span class="o">.</span><span class="n">ufo</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="n">_src_glyph_name</span><span class="p">):</span>
+                    <span class="k">print</span> <span class="s">&#39;</span><span class="se">\t\t</span><span class="s">copying </span><span class="si">%s</span><span class="s"> to </span><span class="si">%s</span><span class="s">...&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">_src_glyph_name</span><span class="p">,</span> <span class="n">_dst_glyph_name</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="ow">not</span> <span class="n">font</span><span class="o">.</span><span class="n">ufo</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="n">_dst_glyph_name</span><span class="p">):</span>
+                        <span class="n">font</span><span class="o">.</span><span class="n">ufo</span><span class="o">.</span><span class="n">newGlyph</span><span class="p">(</span><span class="n">_dst_glyph_name</span><span class="p">)</span>
+                    <span class="n">font</span><span class="o">.</span><span class="n">ufo</span><span class="o">.</span><span class="n">insertGlyph</span><span class="p">(</span><span class="n">font</span><span class="o">.</span><span class="n">ufo</span><span class="p">[</span><span class="n">_src_glyph_name</span><span class="p">],</span> <span class="n">name</span><span class="o">=</span><span class="n">_dst_glyph_name</span><span class="p">)</span>
+                    <span class="n">font</span><span class="o">.</span><span class="n">ufo</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+            <span class="c"># print &#39;\t...done.&#39;</span>
+            <span class="k">print</span>
+        <span class="c"># done</span>
+        <span class="k">print</span> <span class="s">&#39;...done.</span><span class="se">\n</span><span class="s">&#39;</span>
+</div>
+<div class="viewcode-block" id="hSpace.shift_x"><a class="viewcode-back" href="../../../objects/hspace.html#hTools2.objects.hspace.hSpace.shift_x">[docs]</a>    <span class="k">def</span> <span class="nf">shift_x</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dest_width</span><span class="p">,</span> <span class="n">gstring</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">delta</span><span class="p">,</span> <span class="n">side</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+        <span class="k">print</span> <span class="s">&#39;batch x-shifting glyphs in hSpace...</span><span class="se">\n</span><span class="s">&#39;</span>
+        <span class="c"># get glyphs</span>
+        <span class="n">names</span> <span class="o">=</span> <span class="n">gstring</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39; &#39;</span><span class="p">)</span>
+        <span class="n">groups</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">project</span><span class="o">.</span><span class="n">libs</span><span class="p">[</span><span class="s">&#39;groups&#39;</span><span class="p">][</span><span class="s">&#39;glyphs&#39;</span><span class="p">]</span>
+        <span class="n">glyph_names</span> <span class="o">=</span> <span class="n">parse_glyphs_groups</span><span class="p">(</span><span class="n">names</span><span class="p">,</span> <span class="n">groups</span><span class="p">)</span>
+        <span class="c"># get base width</span>
+        <span class="n">source_width</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s">&#39;width&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+        <span class="c"># batch shift glyphs in fonts</span>
+        <span class="k">for</span> <span class="n">src_path</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">ufos</span><span class="p">():</span>
+            <span class="n">font</span> <span class="o">=</span> <span class="n">hFont</span><span class="p">(</span><span class="n">RFont</span><span class="p">(</span><span class="n">src_path</span><span class="p">,</span> <span class="n">showUI</span><span class="o">=</span><span class="bp">False</span><span class="p">))</span>
+            <span class="c"># get dest font</span>
+            <span class="n">dest_parameters</span> <span class="o">=</span> <span class="n">font</span><span class="o">.</span><span class="n">parameters</span>
+            <span class="n">dest_parameters</span><span class="p">[</span><span class="s">&#39;width&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dest_width</span>
+            <span class="n">dest_file</span> <span class="o">=</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s">_</span><span class="si">%s</span><span class="s">.ufo&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">font</span><span class="o">.</span><span class="n">project</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">font</span><span class="o">.</span><span class="n">name_from_parameters</span><span class="p">(</span><span class="n">separator</span><span class="o">=</span><span class="s">&#39;-&#39;</span><span class="p">))</span>
+            <span class="n">dest_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">font</span><span class="o">.</span><span class="n">project</span><span class="o">.</span><span class="n">paths</span><span class="p">[</span><span class="s">&#39;ufos&#39;</span><span class="p">],</span> <span class="n">dest_file</span><span class="p">)</span>
+            <span class="c"># transform font</span>
+            <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">dest_path</span><span class="p">):</span>
+                <span class="n">dest_font</span> <span class="o">=</span> <span class="n">RFont</span><span class="p">(</span><span class="n">dest_path</span><span class="p">,</span> <span class="n">showUI</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+                <span class="k">print</span> <span class="s">&quot;</span><span class="se">\t</span><span class="s">x-shifting glyphs from </span><span class="si">%s</span><span class="s"> to </span><span class="si">%s</span><span class="s">...</span><span class="se">\n</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">get_full_name</span><span class="p">(</span><span class="n">font</span><span class="o">.</span><span class="n">ufo</span><span class="p">),</span> <span class="n">get_full_name</span><span class="p">(</span><span class="n">dest_font</span><span class="p">))</span>
+                <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span> <span class="k">print</span> <span class="s">&#39;</span><span class="se">\t\t</span><span class="s">&#39;</span><span class="p">,</span>
+                <span class="k">for</span> <span class="n">glyph_name</span> <span class="ow">in</span> <span class="n">glyph_names</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">font</span><span class="o">.</span><span class="n">ufo</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="n">glyph_name</span><span class="p">):</span>
+                        <span class="k">if</span> <span class="n">dest_font</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="n">glyph_name</span><span class="p">)</span> <span class="ow">is</span> <span class="bp">False</span><span class="p">:</span>
+                            <span class="n">dest_font</span><span class="o">.</span><span class="n">newGlyph</span><span class="p">(</span><span class="n">glyph_name</span><span class="p">)</span>
+                        <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span> <span class="k">print</span> <span class="n">glyph_name</span><span class="p">,</span>
+                        <span class="c"># insert glyph</span>
+                        <span class="n">dest_font</span><span class="o">.</span><span class="n">insertGlyph</span><span class="p">(</span><span class="n">font</span><span class="o">.</span><span class="n">ufo</span><span class="p">[</span><span class="n">glyph_name</span><span class="p">])</span>
+                        <span class="c"># shift points</span>
+                        <span class="n">deselect_points</span><span class="p">(</span><span class="n">dest_font</span><span class="p">[</span><span class="n">glyph_name</span><span class="p">])</span>
+                        <span class="n">select_points_x</span><span class="p">(</span><span class="n">dest_font</span><span class="p">[</span><span class="n">glyph_name</span><span class="p">],</span> <span class="n">pos</span><span class="p">,</span> <span class="n">side</span><span class="o">=</span><span class="n">side</span><span class="p">)</span>
+                        <span class="n">shift_selected_points_x</span><span class="p">(</span><span class="n">dest_font</span><span class="p">[</span><span class="n">glyph_name</span><span class="p">],</span> <span class="n">delta</span><span class="p">)</span>
+                        <span class="n">deselect_points</span><span class="p">(</span><span class="n">dest_font</span><span class="p">[</span><span class="n">glyph_name</span><span class="p">])</span>
+                        <span class="c"># increase width</span>
+                        <span class="n">dest_font</span><span class="p">[</span><span class="n">glyph_name</span><span class="p">]</span><span class="o">.</span><span class="n">width</span> <span class="o">+=</span> <span class="n">delta</span>
+                        <span class="c"># done</span>
+                        <span class="n">dest_font</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+                <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span> <span class="k">print</span>
+        <span class="k">print</span> <span class="s">&#39;...done.</span><span class="se">\n</span><span class="s">&#39;</span>
+</div>
+<div class="viewcode-block" id="hSpace.shift_y"><a class="viewcode-back" href="../../../objects/hspace.html#hTools2.objects.hspace.hSpace.shift_y">[docs]</a>    <span class="k">def</span> <span class="nf">shift_y</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dest_height</span><span class="p">,</span> <span class="n">gstring</span><span class="p">,</span> <span class="n">transformations</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+        <span class="k">print</span> <span class="s">&#39;batch y-shifting glyphs in hSpace...</span><span class="se">\n</span><span class="s">&#39;</span>
+        <span class="c"># get glyphs</span>
+        <span class="n">names</span> <span class="o">=</span> <span class="n">gstring</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39; &#39;</span><span class="p">)</span>
+        <span class="n">groups</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">project</span><span class="o">.</span><span class="n">libs</span><span class="p">[</span><span class="s">&#39;groups&#39;</span><span class="p">][</span><span class="s">&#39;glyphs&#39;</span><span class="p">]</span>
+        <span class="n">glyph_names</span> <span class="o">=</span> <span class="n">parse_glyphs_groups</span><span class="p">(</span><span class="n">names</span><span class="p">,</span> <span class="n">groups</span><span class="p">)</span>
+        <span class="c"># get base height</span>
+        <span class="n">source_width</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s">&#39;height&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+        <span class="c"># batch shift glyphs in fonts</span>
+        <span class="k">for</span> <span class="n">src_path</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">ufos</span><span class="p">():</span>
+            <span class="n">font</span> <span class="o">=</span> <span class="n">hFont</span><span class="p">(</span><span class="n">RFont</span><span class="p">(</span><span class="n">src_path</span><span class="p">,</span> <span class="n">showUI</span><span class="o">=</span><span class="bp">False</span><span class="p">))</span>
+            <span class="c"># get dest font</span>
+            <span class="n">dest_parameters</span> <span class="o">=</span> <span class="n">font</span><span class="o">.</span><span class="n">parameters</span>
+            <span class="n">dest_parameters</span><span class="p">[</span><span class="s">&#39;height&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dest_height</span>
+            <span class="n">dest_file</span> <span class="o">=</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s">_</span><span class="si">%s</span><span class="s">.ufo&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">font</span><span class="o">.</span><span class="n">project</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">font</span><span class="o">.</span><span class="n">name_from_parameters</span><span class="p">(</span><span class="n">separator</span><span class="o">=</span><span class="s">&#39;-&#39;</span><span class="p">))</span>
+            <span class="n">dest_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">font</span><span class="o">.</span><span class="n">project</span><span class="o">.</span><span class="n">paths</span><span class="p">[</span><span class="s">&#39;ufos&#39;</span><span class="p">],</span> <span class="n">dest_file</span><span class="p">)</span>
+            <span class="c"># transform font</span>
+            <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">dest_path</span><span class="p">):</span>
+                <span class="n">dest_font</span> <span class="o">=</span> <span class="n">RFont</span><span class="p">(</span><span class="n">dest_path</span><span class="p">,</span> <span class="n">showUI</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+                <span class="k">print</span> <span class="s">&quot;</span><span class="se">\t</span><span class="s">y-shifting glyphs from </span><span class="si">%s</span><span class="s"> to </span><span class="si">%s</span><span class="s">...</span><span class="se">\n</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">get_full_name</span><span class="p">(</span><span class="n">font</span><span class="o">.</span><span class="n">ufo</span><span class="p">),</span> <span class="n">get_full_name</span><span class="p">(</span><span class="n">dest_font</span><span class="p">))</span>
+                <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span> <span class="k">print</span> <span class="s">&#39;</span><span class="se">\t\t</span><span class="s">&#39;</span><span class="p">,</span>
+                <span class="k">for</span> <span class="n">glyph_name</span> <span class="ow">in</span> <span class="n">glyph_names</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">font</span><span class="o">.</span><span class="n">ufo</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="n">glyph_name</span><span class="p">):</span>
+                        <span class="k">if</span> <span class="n">dest_font</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="n">glyph_name</span><span class="p">)</span> <span class="ow">is</span> <span class="bp">False</span><span class="p">:</span>
+                            <span class="n">dest_font</span><span class="o">.</span><span class="n">newGlyph</span><span class="p">(</span><span class="n">glyph_name</span><span class="p">)</span>
+                        <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span> <span class="k">print</span> <span class="n">glyph_name</span><span class="p">,</span>
+                        <span class="c"># insert glyph</span>
+                        <span class="n">dest_font</span><span class="o">.</span><span class="n">insertGlyph</span><span class="p">(</span><span class="n">font</span><span class="o">.</span><span class="n">ufo</span><span class="p">[</span><span class="n">glyph_name</span><span class="p">])</span>
+                        <span class="c"># shift points</span>
+                        <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">transformations</span><span class="p">:</span>
+                            <span class="n">pos</span><span class="p">,</span> <span class="n">delta</span><span class="p">,</span> <span class="n">side</span> <span class="o">=</span> <span class="n">t</span>
+                            <span class="n">deselect_points</span><span class="p">(</span><span class="n">dest_font</span><span class="p">[</span><span class="n">glyph_name</span><span class="p">])</span>
+                            <span class="n">select_points_y</span><span class="p">(</span><span class="n">dest_font</span><span class="p">[</span><span class="n">glyph_name</span><span class="p">],</span> <span class="n">pos</span><span class="p">,</span> <span class="n">side</span><span class="o">=</span><span class="n">side</span><span class="p">)</span>
+                            <span class="n">shift_selected_points_y</span><span class="p">(</span><span class="n">dest_font</span><span class="p">[</span><span class="n">glyph_name</span><span class="p">],</span> <span class="n">delta</span><span class="p">)</span>
+                            <span class="n">deselect_points</span><span class="p">(</span><span class="n">dest_font</span><span class="p">[</span><span class="n">glyph_name</span><span class="p">])</span>
+                            <span class="c"># save</span>
+                            <span class="n">dest_font</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+                <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span> <span class="k">print</span>
+        <span class="k">print</span> <span class="s">&#39;...done.</span><span class="se">\n</span><span class="s">&#39;</span>
+</div>
+<div class="viewcode-block" id="hSpace.scale_glyphs"><a class="viewcode-back" href="../../../objects/hspace.html#hTools2.objects.hspace.hSpace.scale_glyphs">[docs]</a>    <span class="k">def</span> <span class="nf">scale_glyphs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">factor</span><span class="p">,</span> <span class="n">gstring</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+        <span class="c"># get glyphs</span>
+        <span class="k">if</span> <span class="n">gstring</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">glyph_names</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">project</span><span class="o">.</span><span class="n">all_glyphs</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">names</span> <span class="o">=</span> <span class="n">gstring</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39; &#39;</span><span class="p">)</span>
+            <span class="n">groups</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">project</span><span class="o">.</span><span class="n">libs</span><span class="p">[</span><span class="s">&#39;groups&#39;</span><span class="p">][</span><span class="s">&#39;glyphs&#39;</span><span class="p">]</span>
+            <span class="n">glyph_names</span> <span class="o">=</span> <span class="n">parse_glyphs_groups</span><span class="p">(</span><span class="n">names</span><span class="p">,</span> <span class="n">groups</span><span class="p">)</span>
+        <span class="c"># scale glyphs</span>
+        <span class="k">print</span> <span class="s">&#39;scaling glyphs in space...</span><span class="se">\n</span><span class="s">&#39;</span>
+        <span class="k">for</span> <span class="n">ufo_path</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">ufos</span><span class="p">():</span>
+            <span class="n">ufo</span> <span class="o">=</span> <span class="n">RFont</span><span class="p">(</span><span class="n">ufo_path</span><span class="p">,</span> <span class="n">showUI</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+            <span class="k">print</span> <span class="s">&#39;</span><span class="se">\t</span><span class="s">scaling </span><span class="si">%s</span><span class="s"> by </span><span class="si">%s</span><span class="s">...&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">get_full_name</span><span class="p">(</span><span class="n">ufo</span><span class="p">),</span> <span class="n">factor</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span> <span class="k">print</span> <span class="s">&#39;</span><span class="se">\t\t</span><span class="s">&#39;</span><span class="p">,</span>
+            <span class="k">for</span> <span class="n">glyph_name</span> <span class="ow">in</span> <span class="n">glyph_names</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span> <span class="k">print</span> <span class="n">glyph_name</span><span class="p">,</span>
+                <span class="n">leftMargin</span><span class="p">,</span> <span class="n">rightMargin</span> <span class="o">=</span> <span class="n">ufo</span><span class="p">[</span><span class="n">glyph_name</span><span class="p">]</span><span class="o">.</span><span class="n">leftMargin</span><span class="p">,</span> <span class="n">ufo</span><span class="p">[</span><span class="n">glyph_name</span><span class="p">]</span><span class="o">.</span><span class="n">rightMargin</span>
+                <span class="n">ufo</span><span class="p">[</span><span class="n">glyph_name</span><span class="p">]</span><span class="o">.</span><span class="n">scale</span><span class="p">((</span><span class="n">factor</span><span class="p">,</span> <span class="n">factor</span><span class="p">))</span>
+                <span class="n">ufo</span><span class="p">[</span><span class="n">glyph_name</span><span class="p">]</span><span class="o">.</span><span class="n">leftMargin</span> <span class="o">=</span> <span class="n">leftMargin</span> <span class="o">*</span> <span class="n">factor</span>
+                <span class="n">ufo</span><span class="p">[</span><span class="n">glyph_name</span><span class="p">]</span><span class="o">.</span><span class="n">rightMargin</span> <span class="o">=</span> <span class="n">rightMargin</span> <span class="o">*</span> <span class="n">factor</span>
+            <span class="c"># done with font</span>
+            <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span> <span class="k">print</span>
+            <span class="n">ufo</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+        <span class="k">print</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">...done.</span><span class="se">\n</span><span class="s">&#39;</span>
+</div>
+<div class="viewcode-block" id="hSpace.move_glyphs"><a class="viewcode-back" href="../../../objects/hspace.html#hTools2.objects.hspace.hSpace.move_glyphs">[docs]</a>    <span class="k">def</span> <span class="nf">move_glyphs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">delta</span><span class="p">,</span> <span class="n">gstring</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+        <span class="c"># get glyphs</span>
+        <span class="k">if</span> <span class="n">gstring</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">glyph_names</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">project</span><span class="o">.</span><span class="n">all_glyphs</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">names</span> <span class="o">=</span> <span class="n">gstring</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39; &#39;</span><span class="p">)</span>
+            <span class="n">groups</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">project</span><span class="o">.</span><span class="n">libs</span><span class="p">[</span><span class="s">&#39;groups&#39;</span><span class="p">][</span><span class="s">&#39;glyphs&#39;</span><span class="p">]</span>
+            <span class="n">glyph_names</span> <span class="o">=</span> <span class="n">parse_glyphs_groups</span><span class="p">(</span><span class="n">names</span><span class="p">,</span> <span class="n">groups</span><span class="p">)</span>
+        <span class="c"># move glyphs</span>
+        <span class="k">print</span> <span class="s">&#39;moving glyphs in space...&#39;</span>
+        <span class="k">print</span>
+        <span class="k">for</span> <span class="n">ufo_path</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">ufos</span><span class="p">():</span>
+            <span class="n">ufo</span> <span class="o">=</span> <span class="n">RFont</span><span class="p">(</span><span class="n">ufo_path</span><span class="p">,</span> <span class="n">showUI</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+            <span class="k">print</span> <span class="s">&#39;</span><span class="se">\t</span><span class="s">moving glyphs in </span><span class="si">%s</span><span class="s"> by </span><span class="si">%s</span><span class="s">...&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">get_full_name</span><span class="p">(</span><span class="n">ufo</span><span class="p">),</span> <span class="n">delta</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span> <span class="k">print</span> <span class="s">&#39;</span><span class="se">\t\t</span><span class="s">&#39;</span><span class="p">,</span>
+            <span class="k">for</span> <span class="n">glyph_name</span> <span class="ow">in</span> <span class="n">glyph_names</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span> <span class="k">print</span> <span class="n">glyph_name</span><span class="p">,</span>
+                <span class="n">ufo</span><span class="p">[</span><span class="n">glyph_name</span><span class="p">]</span><span class="o">.</span><span class="n">move</span><span class="p">(</span><span class="n">delta</span><span class="p">)</span>
+            <span class="c"># done with font</span>
+            <span class="n">ufo</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+            <span class="k">print</span>
+        <span class="k">print</span> <span class="s">&#39;...done.</span><span class="se">\n</span><span class="s">&#39;</span>
+</div>
+<div class="viewcode-block" id="hSpace.change_glyph_widths"><a class="viewcode-back" href="../../../objects/hspace.html#hTools2.objects.hspace.hSpace.change_glyph_widths">[docs]</a>    <span class="k">def</span> <span class="nf">change_glyph_widths</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">delta</span><span class="p">,</span> <span class="n">gstring</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="k">print</span> <span class="s">&#39;changing glyph widths in space...</span><span class="se">\n</span><span class="s">&#39;</span>
+        <span class="n">groups</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">project</span><span class="o">.</span><span class="n">libs</span><span class="p">[</span><span class="s">&#39;groups&#39;</span><span class="p">][</span><span class="s">&#39;glyphs&#39;</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">src_path</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">ufos</span><span class="p">():</span>
+            <span class="n">font</span> <span class="o">=</span> <span class="n">hFont</span><span class="p">(</span><span class="n">RFont</span><span class="p">(</span><span class="n">src_path</span><span class="p">,</span> <span class="n">showUI</span><span class="o">=</span><span class="bp">False</span><span class="p">))</span>
+            <span class="k">if</span> <span class="n">gstring</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="n">glyph_names</span> <span class="o">=</span> <span class="n">font</span><span class="o">.</span><span class="n">ufo</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">glyph_names</span> <span class="o">=</span> <span class="n">parse_glyphs_groups</span><span class="p">(</span><span class="n">gstring</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39; &#39;</span><span class="p">),</span> <span class="n">groups</span><span class="p">)</span>
+            <span class="k">print</span> <span class="s">&#39;</span><span class="se">\t</span><span class="s">settings widths in </span><span class="si">%s</span><span class="s">...&#39;</span> <span class="o">%</span> <span class="n">get_full_name</span><span class="p">(</span><span class="n">font</span><span class="o">.</span><span class="n">ufo</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">glyph_name</span> <span class="ow">in</span> <span class="n">glyph_names</span><span class="p">:</span>
+                <span class="n">font</span><span class="o">.</span><span class="n">ufo</span><span class="p">[</span><span class="n">glyph_name</span><span class="p">]</span><span class="o">.</span><span class="n">width</span> <span class="o">+=</span> <span class="n">delta</span>
+            <span class="n">font</span><span class="o">.</span><span class="n">ufo</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+        <span class="k">print</span>
+        <span class="k">print</span> <span class="s">&#39;...done.</span><span class="se">\n</span><span class="s">&#39;</span>
+</div>
+<div class="viewcode-block" id="hSpace.rename_glyphs"><a class="viewcode-back" href="../../../objects/hspace.html#hTools2.objects.hspace.hSpace.rename_glyphs">[docs]</a>    <span class="k">def</span> <span class="nf">rename_glyphs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">names_list</span><span class="p">):</span>
+        <span class="k">print</span> <span class="s">&#39;renaming glyphs in space...</span><span class="se">\n</span><span class="s">&#39;</span>
+        <span class="k">for</span> <span class="n">ufo_path</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">ufos</span><span class="p">():</span>
+            <span class="n">ufo</span> <span class="o">=</span> <span class="n">RFont</span><span class="p">(</span><span class="n">ufo_path</span><span class="p">,</span> <span class="n">showUI</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+            <span class="k">print</span> <span class="s">&#39;</span><span class="se">\t</span><span class="s">renaming glyphs in </span><span class="si">%s</span><span class="s">...&#39;</span> <span class="o">%</span> <span class="n">get_full_name</span><span class="p">(</span><span class="n">ufo</span><span class="p">)</span>
+            <span class="n">rename_glyphs_from_list</span><span class="p">(</span><span class="n">ufo</span><span class="p">,</span> <span class="n">names_list</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">mark</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+            <span class="n">ufo</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+        <span class="k">print</span>
+        <span class="k">print</span> <span class="s">&#39;...done.</span><span class="se">\n</span><span class="s">&#39;</span>
+
+    <span class="c"># generation</span>
+</div>
+<div class="viewcode-block" id="hSpace.generate_fonts"><a class="viewcode-back" href="../../../objects/hspace.html#hTools2.objects.hspace.hSpace.generate_fonts">[docs]</a>    <span class="k">def</span> <span class="nf">generate_fonts</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="c"># get options or defaults</span>
+        <span class="k">if</span> <span class="n">options</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">options</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s">&#39;decompose&#39;</span> <span class="p">:</span> <span class="bp">True</span><span class="p">,</span>
+                <span class="s">&#39;remove overlap&#39;</span> <span class="p">:</span> <span class="bp">True</span><span class="p">,</span>
+                <span class="s">&#39;autohint&#39;</span> <span class="p">:</span> <span class="bp">False</span><span class="p">,</span>
+                <span class="s">&#39;release mode&#39;</span> <span class="p">:</span> <span class="bp">False</span><span class="p">,</span>
+                <span class="s">&#39;otfs test&#39;</span> <span class="p">:</span> <span class="bp">False</span><span class="p">,</span>
+                <span class="s">&#39;woff generate&#39;</span> <span class="p">:</span> <span class="bp">False</span><span class="p">,</span>
+                <span class="s">&#39;woff upload&#39;</span> <span class="p">:</span> <span class="bp">False</span><span class="p">,</span>
+            <span class="p">}</span>
+        <span class="c"># generate fonts</span>
+        <span class="k">print</span> <span class="s">&quot;generating fonts in space...</span><span class="se">\n</span><span class="s">&quot;</span>
+        <span class="k">for</span> <span class="n">ufo_path</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">ufos</span><span class="p">():</span>
+            <span class="n">ufo</span> <span class="o">=</span> <span class="n">RFont</span><span class="p">(</span><span class="n">ufo_path</span><span class="p">,</span> <span class="n">showUI</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+            <span class="n">font</span> <span class="o">=</span> <span class="n">hFont</span><span class="p">(</span><span class="n">ufo</span><span class="p">)</span>
+            <span class="c"># get otf path</span>
+            <span class="k">if</span> <span class="n">options</span><span class="p">[</span><span class="s">&#39;otfs test&#39;</span><span class="p">]:</span>
+                <span class="n">otf_path</span> <span class="o">=</span> <span class="n">font</span><span class="o">.</span><span class="n">otf_path</span><span class="p">(</span><span class="n">test</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">otf_path</span> <span class="o">=</span> <span class="n">font</span><span class="o">.</span><span class="n">otf_path</span><span class="p">()</span>
+            <span class="c"># generate otf</span>
+            <span class="k">print</span> <span class="s">&quot;</span><span class="se">\t</span><span class="s">generating </span><span class="si">%s</span><span class="s">...&quot;</span> <span class="o">%</span> <span class="n">get_full_name</span><span class="p">(</span><span class="n">ufo</span><span class="p">)</span>
+            <span class="n">font</span><span class="o">.</span><span class="n">ufo</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="n">otf_path</span><span class="p">,</span> <span class="s">&#39;otf&#39;</span><span class="p">,</span>
+                        <span class="n">decompose</span><span class="o">=</span><span class="n">options</span><span class="p">[</span><span class="s">&#39;decompose&#39;</span><span class="p">],</span>
+                        <span class="n">autohint</span><span class="o">=</span><span class="n">options</span><span class="p">[</span><span class="s">&#39;autohint&#39;</span><span class="p">],</span>
+                        <span class="n">checkOutlines</span><span class="o">=</span><span class="n">options</span><span class="p">[</span><span class="s">&#39;remove overlap&#39;</span><span class="p">],</span>
+                        <span class="n">releaseMode</span><span class="o">=</span><span class="n">options</span><span class="p">[</span><span class="s">&#39;release mode&#39;</span><span class="p">])</span>
+            <span class="c"># generate woff</span>
+            <span class="k">if</span> <span class="n">options</span><span class="p">[</span><span class="s">&#39;woff generate&#39;</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">otf_path</span><span class="p">):</span>
+                    <span class="k">print</span> <span class="s">&#39;</span><span class="se">\t</span><span class="s">generating .woff...&#39;</span>
+                    <span class="n">font</span><span class="o">.</span><span class="n">generate_woff</span><span class="p">()</span>
+            <span class="c"># upload woff</span>
+            <span class="k">if</span> <span class="n">options</span><span class="p">[</span><span class="s">&#39;woff upload&#39;</span><span class="p">]:</span>
+                <span class="n">woff_path</span> <span class="o">=</span> <span class="n">font</span><span class="o">.</span><span class="n">woff_path</span><span class="p">()</span>
+                <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">woff_path</span><span class="p">):</span>
+                    <span class="k">print</span> <span class="s">&#39;</span><span class="se">\t</span><span class="s">uploading .woff...&#39;</span>
+                    <span class="n">font</span><span class="o">.</span><span class="n">upload_woff</span><span class="p">()</span>
+            <span class="k">print</span>
+        <span class="c"># done</span>
+        <span class="k">print</span> <span class="s">&quot;...done.</span><span class="se">\n</span><span class="s">&quot;</span>
+</div>
+<div class="viewcode-block" id="hSpace.generate_css"><a class="viewcode-back" href="../../../objects/hspace.html#hTools2.objects.hspace.hSpace.generate_css">[docs]</a>    <span class="k">def</span> <span class="nf">generate_css</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c"># create css file</span>
+        <span class="n">css_file_name</span> <span class="o">=</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s">.css&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">project</span><span class="o">.</span><span class="n">name</span> <span class="c"># .lower()</span>
+        <span class="n">css_file_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">project</span><span class="o">.</span><span class="n">paths</span><span class="p">[</span><span class="s">&#39;woffs&#39;</span><span class="p">],</span> <span class="n">css_file_name</span><span class="p">)</span>
+        <span class="n">css_file</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">css_file_path</span><span class="p">,</span> <span class="s">&#39;w&#39;</span><span class="p">)</span>
+        <span class="c"># generate css rules</span>
+        <span class="k">print</span> <span class="s">&quot;generating css for space...</span><span class="se">\n</span><span class="s">&quot;</span>
+        <span class="k">for</span> <span class="n">ufo_path</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">ufos</span><span class="p">():</span>
+            <span class="n">file_name</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">ufo_path</span><span class="p">)[</span><span class="mi">1</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">woff_path</span> <span class="o">=</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s">.woff&#39;</span> <span class="o">%</span> <span class="n">file_name</span>
+            <span class="n">family_name</span><span class="p">,</span> <span class="n">style_name</span> <span class="o">=</span> <span class="n">get_names_from_path</span><span class="p">(</span><span class="n">file_name</span><span class="p">)</span>
+            <span class="n">font_name</span> <span class="o">=</span> <span class="s">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">((</span><span class="n">family_name</span><span class="p">,</span> <span class="n">style_name</span><span class="p">))</span>
+            <span class="n">css</span> <span class="o">=</span> <span class="s">&quot;@font-face { font-family: &#39;</span><span class="si">%s</span><span class="s">&#39;; src: url(&#39;</span><span class="si">%s</span><span class="s">&#39;) format(&#39;woff&#39;); }</span><span class="se">\n</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">font_name</span><span class="p">,</span> <span class="n">woff_path</span><span class="p">)</span>
+            <span class="n">css_file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">css</span><span class="p">)</span>
+        <span class="n">css_file</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="c"># upload css file</span>
+        <span class="c">#...</span>
+        <span class="k">print</span> <span class="s">&quot;...done.</span><span class="se">\n</span><span class="s">&quot;</span>
+</div>
+<div class="viewcode-block" id="hSpace.set_vmetrics"><a class="viewcode-back" href="../../../objects/hspace.html#hTools2.objects.hspace.hSpace.set_vmetrics">[docs]</a>    <span class="k">def</span> <span class="nf">set_vmetrics</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">print</span> <span class="s">&#39;setting vertical metrics in space...&#39;</span>
+        <span class="k">print</span>
+        <span class="k">for</span> <span class="n">ufo_path</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">ufos</span><span class="p">():</span>
+            <span class="n">ufo</span> <span class="o">=</span> <span class="n">RFont</span><span class="p">(</span><span class="n">ufo_path</span><span class="p">,</span> <span class="n">showUI</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+            <span class="n">font</span> <span class="o">=</span> <span class="n">hFont</span><span class="p">(</span><span class="n">ufo</span><span class="p">)</span>
+            <span class="c"># get vmetrics data</span>
+            <span class="k">if</span> <span class="n">font</span><span class="o">.</span><span class="n">parameters</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="s">&#39;size&#39;</span><span class="p">):</span>
+                <span class="n">size</span> <span class="o">=</span> <span class="n">font</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s">&#39;size&#39;</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">size</span> <span class="o">=</span> <span class="n">font</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s">&#39;height&#39;</span><span class="p">]</span>
+            <span class="n">vmetrics</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">project</span><span class="o">.</span><span class="n">libs</span><span class="p">[</span><span class="s">&#39;project&#39;</span><span class="p">][</span><span class="s">&#39;vmetrics&#39;</span><span class="p">][</span><span class="nb">str</span><span class="p">(</span><span class="n">size</span><span class="p">)]</span>
+            <span class="n">_gridsize</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">project</span><span class="o">.</span><span class="n">libs</span><span class="p">[</span><span class="s">&#39;project&#39;</span><span class="p">][</span><span class="s">&#39;grid&#39;</span><span class="p">]</span>
+            <span class="c"># clear vmetrics</span>
+            <span class="n">clear_opentype_os2</span><span class="p">(</span><span class="n">font</span><span class="o">.</span><span class="n">ufo</span><span class="p">)</span>
+            <span class="n">clear_opentype_hhea</span><span class="p">(</span><span class="n">font</span><span class="o">.</span><span class="n">ufo</span><span class="p">)</span>
+            <span class="n">clear_opentype_vhea</span><span class="p">(</span><span class="n">font</span><span class="o">.</span><span class="n">ufo</span><span class="p">)</span>
+            <span class="c"># set vmetrics</span>
+            <span class="k">print</span> <span class="s">&#39;</span><span class="se">\t</span><span class="s">setting vmetrics in </span><span class="si">%s</span><span class="s">...&#39;</span> <span class="o">%</span> <span class="n">font</span><span class="o">.</span><span class="n">full_name</span><span class="p">()</span>
+            <span class="n">set_vmetrics</span><span class="p">(</span><span class="n">font</span><span class="o">.</span><span class="n">ufo</span><span class="p">,</span>
+                        <span class="n">vmetrics</span><span class="p">[</span><span class="s">&#39;xheight&#39;</span><span class="p">],</span>
+                        <span class="n">vmetrics</span><span class="p">[</span><span class="s">&#39;capheight&#39;</span><span class="p">],</span>
+                        <span class="n">vmetrics</span><span class="p">[</span><span class="s">&#39;ascender&#39;</span><span class="p">],</span>
+                        <span class="n">vmetrics</span><span class="p">[</span><span class="s">&#39;descender&#39;</span><span class="p">],</span>
+                        <span class="nb">int</span><span class="p">(</span><span class="n">size</span><span class="p">),</span>
+                        <span class="n">gridsize</span><span class="o">=</span><span class="n">_gridsize</span><span class="p">)</span>
+            <span class="n">font</span><span class="o">.</span><span class="n">ufo</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+            <span class="c"># print_generic_dimension(font.ufo)</span>
+        <span class="k">print</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">...done.</span><span class="se">\n</span><span class="s">&#39;</span>
+</div>
+<div class="viewcode-block" id="hSpace.set_info"><a class="viewcode-back" href="../../../objects/hspace.html#hTools2.objects.hspace.hSpace.set_info">[docs]</a>    <span class="k">def</span> <span class="nf">set_info</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">print</span> <span class="s">&#39;setting font info in space...</span><span class="se">\n</span><span class="s">&#39;</span>
+        <span class="k">for</span> <span class="n">ufo_path</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">ufos</span><span class="p">():</span>
+            <span class="n">ufo</span> <span class="o">=</span> <span class="n">RFont</span><span class="p">(</span><span class="n">ufo_path</span><span class="p">,</span> <span class="n">showUI</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+            <span class="n">font</span> <span class="o">=</span> <span class="n">hFont</span><span class="p">(</span><span class="n">ufo</span><span class="p">)</span>
+            <span class="n">font</span><span class="o">.</span><span class="n">set_info</span><span class="p">()</span>
+            <span class="k">print</span> <span class="s">&#39;</span><span class="se">\t</span><span class="s">setting font info for </span><span class="si">%s</span><span class="s">...&#39;</span> <span class="o">%</span> <span class="n">font</span><span class="o">.</span><span class="n">full_name</span><span class="p">()</span>
+            <span class="n">font</span><span class="o">.</span><span class="n">ufo</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+        <span class="k">print</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">...done.</span><span class="se">\n</span><span class="s">&#39;</span>
+</div>
+<div class="viewcode-block" id="hSpace.round_to_grid"><a class="viewcode-back" href="../../../objects/hspace.html#hTools2.objects.hspace.hSpace.round_to_grid">[docs]</a>    <span class="k">def</span> <span class="nf">round_to_grid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">gridsize</span><span class="p">,</span> <span class="n">gstring</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="k">print</span> <span class="s">&#39;rounding points and widths to grid...</span><span class="se">\n</span><span class="s">&#39;</span>
+        <span class="k">for</span> <span class="n">ufo_path</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">ufos</span><span class="p">():</span>
+            <span class="n">ufo</span> <span class="o">=</span> <span class="n">RFont</span><span class="p">(</span><span class="n">ufo_path</span><span class="p">,</span> <span class="n">showUI</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+            <span class="n">font</span> <span class="o">=</span> <span class="n">hFont</span><span class="p">(</span><span class="n">ufo</span><span class="p">)</span>
+            <span class="k">print</span> <span class="s">&#39;</span><span class="se">\t</span><span class="s">rounding points and widths in </span><span class="si">%s</span><span class="s">...&#39;</span> <span class="o">%</span> <span class="n">font</span><span class="o">.</span><span class="n">full_name</span><span class="p">()</span>
+            <span class="n">font</span><span class="o">.</span><span class="n">round_to_grid</span><span class="p">(</span><span class="n">gridsize</span><span class="p">,</span> <span class="n">gstring</span><span class="p">)</span>
+            <span class="n">font</span><span class="o">.</span><span class="n">ufo</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+        <span class="k">print</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">...done.</span><span class="se">\n</span><span class="s">&#39;</span>
+</div>
+<div class="viewcode-block" id="hSpace.decompose"><a class="viewcode-back" href="../../../objects/hspace.html#hTools2.objects.hspace.hSpace.decompose">[docs]</a>    <span class="k">def</span> <span class="nf">decompose</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">print</span> <span class="s">&#39;decomposing fonts...</span><span class="se">\n</span><span class="s">&#39;</span>
+        <span class="k">for</span> <span class="n">ufo_path</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">ufos</span><span class="p">():</span>
+            <span class="n">ufo</span> <span class="o">=</span> <span class="n">RFont</span><span class="p">(</span><span class="n">ufo_path</span><span class="p">,</span> <span class="n">showUI</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+            <span class="n">font</span> <span class="o">=</span> <span class="n">hFont</span><span class="p">(</span><span class="n">ufo</span><span class="p">)</span>
+            <span class="k">print</span> <span class="s">&#39;</span><span class="se">\t</span><span class="s">decomposing glyphs in </span><span class="si">%s</span><span class="s">...&#39;</span> <span class="o">%</span> <span class="n">font</span><span class="o">.</span><span class="n">full_name</span><span class="p">()</span>
+            <span class="n">font</span><span class="o">.</span><span class="n">decompose</span><span class="p">()</span>
+            <span class="n">font</span><span class="o">.</span><span class="n">ufo</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+        <span class="k">print</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">...done.</span><span class="se">\n</span><span class="s">&#39;</span>
+</div>
+<div class="viewcode-block" id="hSpace.remove_overlap"><a class="viewcode-back" href="../../../objects/hspace.html#hTools2.objects.hspace.hSpace.remove_overlap">[docs]</a>    <span class="k">def</span> <span class="nf">remove_overlap</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">print</span> <span class="s">&#39;removing overlaps in fonts...</span><span class="se">\n</span><span class="s">&#39;</span>
+        <span class="k">for</span> <span class="n">ufo_path</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">ufos</span><span class="p">():</span>
+            <span class="n">ufo</span> <span class="o">=</span> <span class="n">RFont</span><span class="p">(</span><span class="n">ufo_path</span><span class="p">,</span> <span class="n">showUI</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+            <span class="n">font</span> <span class="o">=</span> <span class="n">hFont</span><span class="p">(</span><span class="n">ufo</span><span class="p">)</span>
+            <span class="n">font</span><span class="o">.</span><span class="n">remove_overlap</span><span class="p">()</span>
+            <span class="n">font</span><span class="o">.</span><span class="n">ufo</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+        <span class="k">print</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">...done.</span><span class="se">\n</span><span class="s">&#39;</span>
+</pre></div></div></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">hTools2</a> &raquo;</li>
+          <li><a href="../../index.html" >Module code</a> &raquo;</li>
+          <li><a href="../../hTools2.html" >hTools2</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Gustavo Ferreira.
+      Last updated on Sep 01, 2013.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b1.
+    </div>
+  </body>
+</html>

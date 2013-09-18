@@ -68,11 +68,11 @@ As an alternative to the manual installation (2a), it is also possible to instal
 In the Terminal, go the ``hTools2`` folder, and simply run the script ``setup.py`` with Python::
 
     cd /_code/hTools2/
-    python setup.py
+    python setup.py install
 
 If you get an error message regarding user permissions, try running the script with ``sudo``::
 
-    sudo python setup.py
+    sudo python setup.py install
 
 This will prompt you to input your user name and password to allow access to system folders.
 
