@@ -2,15 +2,6 @@
 # -*- coding: utf-8 -*-
 # [h] align points
 
-# debug
-
-import hTools2
-reload(hTools2)
-
-if hTools2.DEBUG:
-    import hTools2.modules.messages
-    reload(hTools2.modules.messages)
-
 # imports
 
 try:

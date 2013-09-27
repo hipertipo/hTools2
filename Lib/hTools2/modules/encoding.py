@@ -2,19 +2,6 @@
 
 """Unicode tools, glyph name to hex/uni conversion etc."""
 
-# debug
-
-import hTools2
-reload(hTools2)
-
-if hTools2.DEBUG:
-
-    import hTools2.modules.color
-    reload(hTools2.modules.color)
-
-    import hTools2.modules.fontutils
-    reload(hTools2.modules.fontutils)
-
 # imports
 
 import os

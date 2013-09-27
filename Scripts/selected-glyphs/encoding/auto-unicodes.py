@@ -2,15 +2,6 @@
 
 '''Automatically set unicode values for selected glyphs.'''
 
-# debug
-
-import hTools2
-reload(hTools2)
-
-if hTools2.DEBUG:
-    import hTools2.modules.encoding
-    reload(hTools2.modules.encoding)
-
 # imports
 
 from hTools2.modules.encoding import auto_unicode

@@ -1,18 +1,5 @@
 # [h] a dialog to rasterize glyphs into elements
 
-# debug
-
-import hTools2
-reload(hTools2)
-
-if hTools2.DEBUG:
-
-    import hTools2.modules.fontutils
-    reload(hTools2.modules.fontutils)
-
-    import hTools2.modules.rasterizer
-    reload(hTools2.modules.rasterizer)
-
 # imports
 
 try:

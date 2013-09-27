@@ -1,36 +1,5 @@
 # [h] hSpace
 
-# debug
-
-import hTools2
-reload(hTools2)
-
-if hTools2.DEBUG:
-
-    import hproject
-    reload(hproject)
-
-    import hfont
-    reload(hfont)
-
-    import hTools2.modules.anchors
-    reload(hTools2.modules.anchors)
-
-    import hTools2.modules.fontinfo
-    reload(hTools2.modules.fontinfo)
-
-    import hTools2.modules.fontutils
-    reload(hTools2.modules.fontutils)
-
-    import hTools2.modules.fileutils
-    reload(hTools2.modules.fileutils)
-
-    import hTools2.modules.ftp
-    reload(hTools2.modules.ftp)
-
-    import hTools2.modules.glyphutils
-    reload(hTools2.modules.glyphutils)
-
 # imports
 
 import os

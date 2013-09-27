@@ -1,30 +1,5 @@
 '''objects'''
 
-import hTools2
-reload(hTools2)
-
-# debug
-
-if hTools2.DEBUG:
-
-    import hsettings
-    reload(hsettings)
-
-    import hworld
-    reload(hworld)
-
-    import hproject
-    reload(hproject)
-
-    import hspace
-    reload(hspace)
-
-    import hfont
-    reload(hfont)
-
-    import hglyph
-    reload(hglyph)
-
 # import objects
 
 from hsettings import hSettings

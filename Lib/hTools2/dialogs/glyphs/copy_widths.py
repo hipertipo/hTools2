@@ -1,21 +1,5 @@
 # [h] a dialog to copy widths from selected glyphs in one font to another
 
-# debug
-
-import hTools2
-reload(hTools2)
-
-if hTools2.DEBUG:
-
-    import hTools2.modules.fontutils
-    reload(hTools2.modules.fontutils)
-
-    import hTools2.modules.glyphutils
-    reload(hTools2.modules.glyphutils)
-
-    import hTools2.modules.messages
-    reload(hTools2.modules.messages)
-
 # imports
 
 try:

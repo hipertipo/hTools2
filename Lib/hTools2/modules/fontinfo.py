@@ -1,19 +1,11 @@
 # [h] hTools2.modules.fontinfo
 
-"""Tools to get and set different kinds of font information.
+"""
+Tools to get and set different kinds of font information.
 
 See the `UFO documentation <http://unifiedfontobject.org/versions/ufo2/fontinfo.html>`_.
 
 """
-
-# debug
-
-import hTools2
-reload(hTools2)
-
-if hTools2.DEBUG:
-    import fileutils
-    reload(fileutils)
 
 # imports
 

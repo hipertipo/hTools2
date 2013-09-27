@@ -2,19 +2,6 @@
 
 """A collection of tools for working with interpolation."""
 
-# debug
-
-import hTools2
-reload(hTools2)
-
-if hTools2.DEBUG:
-
-    import hTools2.modules.fontutils
-    reload(hTools2.modules.fontutils)
-
-    import hTools2.modules.color
-    reload(hTools2.modules.color)
-
 # imports
 
 from hTools2.modules.fontutils import get_full_name

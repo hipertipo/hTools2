@@ -1,14 +1,5 @@
 # [h] copy side-bearings of selected glyphs in one font to another
 
-# debug
-
-import hTools2
-reload(hTools2)
-
-if hTools2.DEBUG:
-    import hTools2.modules.fontutils
-    reload(hTools2.modules.fontutils)
-
 # imports
 
 try:

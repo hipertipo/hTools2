@@ -10,19 +10,6 @@
 # http://betatype.com/node/18
 #---------------------------------------------------------------------------
 
-# debug
-
-import hTools2
-reload(hTools2)
-
-if hTools2.DEBUG:
-
-    import hTools2.extras.nudge
-    reload(hTools2.extras.nudge)
-
-    import hTools2.modules.glyphutils
-    reload(hTools2.modules.glyphutils)
-
 # imports
 
 try:

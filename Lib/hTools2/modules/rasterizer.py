@@ -1,14 +1,5 @@
 # [h] hTools2.modules.rasterizer
 
-# debug
-
-import hTools2
-reload(hTools2)
-
-if hTools2.DEBUG:
-    import hTools2.modules.primitives
-    reload(hTools2.modules.primitives)
-
 # imports
 
 import random

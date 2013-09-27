@@ -1,15 +1,5 @@
 # [h] condense glyphs
 
-# debug
-
-import hTools2
-reload(hTools2)
-
-if hTools2.DEBUG:
-
-    import hTools2.modules.interpol
-    reload(hTools2.modules.interpol)
-
 # imports
 
 from mojo.roboFont import AllFonts

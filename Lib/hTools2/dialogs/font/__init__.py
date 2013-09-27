@@ -2,34 +2,6 @@
 
 '''A collection of dialogs to do things to the current font.'''
 
-import hTools2
-reload(hTools2)
-
-# debug
-
-if hTools2.DEBUG:
-
-    import adjust_vmetrics
-    reload(adjust_vmetrics)
-
-    import create_spaces
-    reload(create_spaces)
-
-    import delete_layer
-    reload(delete_layer)
-
-    import import_layer
-    reload(import_layer)
-
-    import print_groups
-    reload(print_groups)
-
-    import rename_glyphs
-    reload(rename_glyphs)
-
-    import transfer_vmetrics
-    reload(transfer_vmetrics)
-
 # import
 
 from adjust_vmetrics import adjustVerticalMetrics

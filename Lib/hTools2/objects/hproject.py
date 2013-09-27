@@ -1,21 +1,5 @@
 # [h] hProject
 
-# debug
-
-import hTools2
-reload(hTools2)
-
-if hTools2.DEBUG:
-
-    import hworld
-    reload(hworld)
-
-    import hTools2.modules.fileutils
-    reload(hTools2.modules.fileutils)
-
-    import hTools2.modules.encoding
-    reload(hTools2.modules.encoding)
-
 # imports
 
 import os
@@ -41,41 +25,26 @@ from hTools2.modules.ftp import connect_to_server, upload_file
 
 class hProject:
 
-    """A project represents a font-family and related meta-data.
-
-    .. py:attribute:: name
-
-    The name of the project. It usually starts with an uppercase letter. Space, hyphen, accented characters, symbols etc are not allowed.
-    
-    .. py:attribute:: world
-
-    An 'embedded' hWorld object, containing a list of all other projects and access to local settings.
-
-    .. py:attribute:: libs
-
-    A dictionary containing a working copy of all data libs in the project, imported on object initialization.
-
-    .. py:attribute:: paths
-
-    A dictionary containing the paths to all relevant project sub-folders (libs, ufos, otfs, woffs etc).
-
-    .. py:attribute:: lib_paths
-
-    A dictionary containing the paths to all data libs in the project.
-
-    .. py:attribute:: fonts
-
-    Returns a dictionary with the style names and paths of all masters and instances in the project.
-
-    """
+    """A project represents a font-family and related meta-data."""
 
     # attributes
 
+    #: The name of the project. It usually starts with an uppercase letter. Space, hyphen, accented characters, symbols etc are not allowed.
     name = None
+
+    #: An 'embedded' hWorld object, containing a list of all other projects and access to local settings.
     world = None
+
+    #: A dictionary containing a working copy of all data libs in the project, imported on object initialization.
     libs = {}
+
+    #: A dictionary containing the paths to all relevant project sub-folders (libs, ufos, otfs, woffs etc).
     paths = {}
+
+    #: A dictionary containing the paths to all data libs in the project.
     lib_paths = None
+
+    #: A dictionary with the style names and paths of all masters and instances in the project.
     fonts = None
 
     _path_names = [

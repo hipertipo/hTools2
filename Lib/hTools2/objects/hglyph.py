@@ -8,19 +8,17 @@ from hfont import hFont
 
 class hGlyph:
 
-    """An object to wrap single glyphs, making it easier to access their parent :py:class:`hFont` and :py:class:`hProject` objects.
+    """An object to wrap single glyphs, making it easier to access their parent :py:class:`hFont` and :py:class:`hProject` objects."""
 
-    .. py:attribute:: glyph
+    # attributes
 
-    The actual glyph from a ``.ufo`` font (an :py:class:`RGlyph` object).
-
-    .. py:attribute:: font
-
-    The glyph's parent :py:class:`hFont` object.
-
-    """
+    #: An RGlyph object with glyph data.
     glyph = None
+
+    #: The glyph's parent `hFont` object.
     font = None
+
+    # methods
 
     def __init__(self, glyph):
         self.glyph = glyph

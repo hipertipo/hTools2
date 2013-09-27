@@ -1,18 +1,5 @@
 # [h] a dialog to paint and select glyphs by color
 
-# debug
-
-import hTools2
-reload(hTools2)
-
-if hTools2.DEBUG:
-
-    import hTools2.modules.color
-    reload(hTools2.modules.color)
-
-    import hTools2.modules.fontutils
-    reload(hTools2.modules.fontutils)
-
 # imports
 
 from AppKit import NSColor

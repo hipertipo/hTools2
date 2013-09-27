@@ -1,7 +1,6 @@
 # [h] open all 'selected glyphs' dialogs
 
 import hTools2.dialogs.glyphs
-reload(hTools2.dialogs.glyphs)
 
 for dialog in hTools2.dialogs.glyphs.__all__:
     try:

@@ -3,11 +3,6 @@
 
 # [h] dialog to move selected glyphs
 
-# debug
-
-import hTools2
-reload(hTools2)
-
 # imports
 
 try:

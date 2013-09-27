@@ -1,10 +1,5 @@
 # [h] mirror glyphs dialog
 
-# debug
-
-import hTools2
-reload(hTools2)
-
 # imports
 
 try:

@@ -2,9 +2,6 @@
 
 # imports
 
-import hTools2
-reload(hTools2)
-
 import os
 import plistlib
 

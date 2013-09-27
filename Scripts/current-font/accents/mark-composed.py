@@ -2,15 +2,6 @@
 
 '''Mark all composed glyphs in font.'''
 
-# debug
-
-import hTools2
-reload(hTools2)
-
-if hTools2.DEBUG:
-    import hTools2.modules.color
-    reload(hTools2.modules.color)
-
 # import
 
 from hTools2.modules.color import clear_colors, random_color

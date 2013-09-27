@@ -1,20 +1,6 @@
 # [h] hTools2.modules.gstring
 
-#---------
-# imports
-#---------
-
-import hTools2
-reload(hTools2)
-
-if hTools2.DEBUG:
-    
-    import encoding
-    reload(encoding)
-
-#-----------
 # functions
-#-----------
 
 def make_string(names_list, spacer=None):
     'Makes a string of text from a list of `glyph_names`. Optionally, uses a `spacer` glyph between the glyphs.'

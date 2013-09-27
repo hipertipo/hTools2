@@ -1,18 +1,5 @@
 # [h] apply actions to all fonts in folder
 
-# debug
-
-import hTools2
-reload(hTools2)
-
-if hTools2.DEBUG:
-
-    import hTools2.modules.fileutils
-    reload(hTools2.modules.fileutils)
-
-    import hTools2.modules.fontutils
-    reload(hTools2.modules.fontutils)
-
 # imports
 
 from mojo.roboFont import RFont

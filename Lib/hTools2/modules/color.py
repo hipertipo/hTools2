@@ -2,19 +2,6 @@
 
 '''Tools for working with colors, color system conversions etc.'''
 
-# debug
-
-import hTools2
-reload(hTools2)
-
-if hTools2.DEBUG:
-
-    import sysutils
-    reload(sysutils)
-
-    import hTools2.extras.colorsys
-    reload(hTools2.extras.colorsys)
-
 # import
 
 import random

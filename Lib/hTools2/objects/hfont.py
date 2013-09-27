@@ -1,36 +1,5 @@
 # [h] hFont
 
-# debug
-
-import hTools2
-reload(hTools2)
-
-if hTools2.DEBUG:
-
-    import hproject
-    reload(hproject)
-
-    import hTools2.modules.anchors
-    reload(hTools2.modules.anchors)
-
-    import hTools2.modules.color
-    reload(hTools2.modules.color)
-
-    import hTools2.modules.encoding
-    reload(hTools2.modules.encoding)
-
-    import hTools2.modules.fontinfo
-    reload(hTools2.modules.fontinfo)
-
-    import hTools2.modules.fontutils
-    reload(hTools2.modules.fontutils)
-
-    import hTools2.modules.ftp
-    reload(hTools2.modules.ftp)
-
-    import hTools2.modules.opentype
-    reload(hTools2.modules.opentype)
-
 # import
 
 import os
@@ -53,23 +22,23 @@ class hFont:
 
     # attributes
 
+    #: The parent ``hProject`` object to which the font belongs.
     project = None
-    """The parent ``hProject`` object to which the font belongs."""
 
+    #: The ``.ufo`` file containing the actual font.
     ufo = None
-    """The ``.ufo`` file containing the actual font."""
 
+    #: The name of the ``.ufo`` file, without the extension.
     file_name = None
-    """The name of the ``.ufo`` file, without the extension."""
 
+    #: The ``styleName`` of the font, parsed from the name of the ``.ufo`` file on initialization. See ``init_from_filename()``.
     style_name = None
-    """The ``styleName`` of the font, parsed from the name of the ``.ufo`` file on initialization. See ``init_from_filename()``."""
 
+    #: A dictionary with the parameters which identify this particular font in the family's variation space.
     parameters = {}
-    """A dictionary with the parameters which identify this particular font in the family's variation space."""
 
+    #: A dictionary to contain this font's guidelines, once the basic vertical metrics have been defined and set.
     guides_dict = {}
-    """A dictionary to contain this font's guidelines, once the basic vertical metrics have been defined and set."""
 
     # methods
 

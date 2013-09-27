@@ -1,18 +1,5 @@
 # [h] hWorld
 
-# debug
-
-import hTools2
-reload(hTools2)
-
-if hTools2.DEBUG:
-
-    import hsettings
-    reload(hsettings)
-
-    import hTools2.modules.sysutils
-    reload(hTools2.modules.sysutils)
-
 # imports
 
 import os
@@ -24,23 +11,14 @@ from hTools2.modules.sysutils import _ctx
 
 class hWorld:
 
-    '''An object representing the local fonts folder where all project folders live.
-
-    .. py:attribute:: settings
-
-    A :py:class:`hSettings` object with information about the local system.
-    
-    .. py:attribute:: context
-
-    The environment in which the current script is running.
-
-    The possible options are: ``RoboFont``, ``FontLab`` and ``NoneLab``.
-
-    '''
+    '''An object representing the local fonts folder where all project folders live.'''
 
     # attributes
 
+    #: A ``hSettings`` object with information about the local system.
     settings = None
+
+    #: The environment in which the current script is running: ``RoboFont``, ``FontLab`` and ``NoneLab``.
     context = None
 
     # methods
@@ -54,16 +32,7 @@ class hWorld:
         return '<hWorld>'
 
     def projects(self):
-        '''Returns a list of all projects contained in the root fonts folder.
-
-        According to hTools2 conventions, names of project folders start with an underscore.
-
-        >>> from hTools2.objects import hWorld
-        >>> w = hWorld()
-        >>> print w.projects()
-        ['Elementar', 'EMono', 'Modular', ... , 'Publica']
-
-        '''
+        '''Returns a list of all projects contained in the root fonts folder.'''
         allFiles = os.listdir(self.settings.root)
         projects = []
         for n in allFiles:
@@ -71,4 +40,3 @@ class hWorld:
             if n[:1] == "_":
                 projects.append(n[1:])
         return projects
-

@@ -2,19 +2,6 @@
 
 """A collection of handy functions for working with fonts."""
 
-# debug
-
-import hTools2
-reload(hTools2)
-
-if hTools2.DEBUG:
-
-    import glyphutils
-    reload(glyphutils)
-
-    import color
-    reload(color)
-
 # imports
 
 import os

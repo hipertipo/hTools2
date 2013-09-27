@@ -5,15 +5,6 @@
 # suggested and funded by Bas Jacobs / Underware
 #-------------------------------------------------
 
-# debug
-
-import hTools2
-reload(hTools2)
-
-if hTools2.DEBUG:
-    import hTools2.modules.glyphutils
-    reload(hTools2.modules.glyphutils)
-
 # imports
 
 try:
