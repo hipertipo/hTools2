@@ -54,47 +54,21 @@ from hTools2.modules.ftp import connect_to_server, upload_file
 
 class hSpace:
 
-    """A space describes a parametric range of fonts inside a project.
-
-    It makes it easier to address a subset of fonts using the project's parameters.
-
-    .. py:attribute:: project
-
-    The parent :py:class:`hProject` object to which the space applies.
-
-    .. py:attribute:: parameters
-
-    A dictionary containing parameter names and related value ranges.
-
-    ::
-
-        parameters = {
-            'weight' : [1, 3, 5],
-            'width' : [3, 4, 5]
-        }
-
-    .. py:attribute:: parameters_order
-
-    A list with the order in which the parameters appear (for use in font names, lists etc).
-
-    .. py:attribute:: parameters_separator
-
-    The character used as separator in font file names.
-
-    .. py:attribute:: fonts
-
-    A dictionary with parametric names and ``.ufo`` paths for all fonts in the current space.
-
-    """
+    """A space describes a parametric range of fonts inside a project."""
 
     # attributes
 
+    #: The parent :py:class:`hProject` object to which the space applies.
     project = None
 
+    #: A dictionary containing parameter names and related value ranges.
     parameters = {}
+    #: A list with the order in which the parameters appear (for use in font names, lists etc).
     parameters_order = []
+    #: The character used as separator in font file names.
     parameters_separator = '-'
 
+    #: A dictionary with parametric names and ``.ufo`` paths for all fonts in the current space.
     fonts = {}
 
     # methods

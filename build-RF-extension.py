@@ -10,26 +10,7 @@ import time
 from mojo.extensions import *
 
 import hTools2
-
-# functions
-
-def copy_files(source_path, dest_path):
-    """"Copy all files from one folder to another."""
-    for root, dirs, files in os.walk(source_path):
-        dest = dest_path + root.replace(source_path, '')
-        if not os.path.isdir(dest):
-            os.mkdir(dest)
-        # loop through all files in the directory
-        for f in files:
-            file_name, extension = os.path.splitext(f)
-            # ignore files
-            if extension != '.pyc' and f[0] != '.':
-                    old_loc = os.path.join(root, f)
-                    new_loc = os.path.join(dest, f)
-                    # copy file
-                    if not os.path.isfile(new_loc):
-                        # print 'copying file from %s to %s.' % (old_loc, new_loc)
-                        shutil.copy2(old_loc, new_loc)
+from hTools2.modules.fileutils import copy_files
 
 # parameters
 
@@ -89,6 +70,7 @@ if _test:
     print 'testing hTools2 extension...\n'
     B = ExtensionBundle(name='hTools2', path=extension_path)
     #print dir(B)
-    B.validate()
+    #B.validate()
+    print B.validationErrors()
     #B.install()
-    print '...done\n.'
+    print '...done.\n'

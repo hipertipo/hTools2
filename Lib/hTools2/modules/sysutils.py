@@ -14,28 +14,48 @@ def clean_pyc(directory, path):
         elif os.path.isdir(file_path):
             clean_pyc(os.listdir(file_path), file_path)
 
-def get_context():
-    '''Get the current environment in which hTools2 is running.'''
-    # test for FontLab
+def in_FontLab():
     try:
         import FL
-        _FL = True
+        in_FL = True
     except:
-        _FL = False
-    # test for RoboFont
+        in_FL = False
+    return in_FL
+
+def in_RoboFont():
     try:
         import mojo
-        _RF = True
+        in_RF = True
     except:
-        _RF = False
-    # if none is `True`, return `NoneLab`
+        in_RF = False
+    return in_RF
+
+def in_DrawBot():
+    try:
+        import drawBot
+        in_DB = True
+    except:
+        in_DB = False
+    return in_DB
+
+# def in_NodeBox():
+#     try:
+#         import _ctx
+#         in_NB = True
+#     except:
+#         in_NB = False
+#     return in_NB
+
+def get_context():
+    '''Get the current environment in which hTools2 is running.'''
+    _FL = in_FontLab()
+    _RF = in_RoboFont()
     if _FL:
         context = 'FontLab'
     elif _RF:
         context = 'RoboFont'
     else:
         context = 'NoneLab'
-    # done
     return context
 
 # def load_modules(modules_list, debug=True):

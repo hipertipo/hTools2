@@ -15,33 +15,22 @@ if hTools2.DEBUG:
 
 # imports
 
-try:
-    from mojo.roboFont import RFont
-except:
-    from robofab.world import RFont
+from mojo.roboFont import RFont
 
 from vanilla import *
 from vanilla.dialogs import getFolder
 
+from hTools2 import hConstants
 from hTools2.modules.fileutils import walk
 from hTools2.modules.fontutils import get_full_name, decompose, auto_contour_order, auto_contour_direction, add_extremes
 
 # objects
 
-class actionsFolderDialog(object):
+class actionsFolderDialog(hConstants):
 
     """A dialog to apply a set of actions to all fonts in a folder."""
 
-    #------------
     # attributes
-    #------------
-
-    _title = 'actions'
-    _row_height = 20
-    _button_height = 30
-    _padding = 10
-    _width = 123
-    _height = (_row_height * 8) + (_button_height * 2) + (_padding * 5) + 2
 
     _round = False
     _decompose = False
@@ -53,103 +42,105 @@ class actionsFolderDialog(object):
     _close = False
     _ufos_folder = None
 
-    #---------
     # methods
-    #---------
 
     def __init__(self):
-        self.w = FloatingWindow((self._width, self._height), self._title, closable=True)
+        self.title = 'actions'
+        self.width = 123
+        self.height = (self.text_height * 7) + (self.button_height * 2) + (self.padding_y * 5) + self.progress_bar
+        self.w = FloatingWindow((self.width, self.height), self.title)
         # ufos folder
-        x = self._padding
-        y = self._padding
+        x = self.padding_x
+        y = self.padding_y
         self.w.ufos_get_folder_button = SquareButton(
                     (x, y,
-                    -self._padding,
-                    self._button_height),
+                    -self.padding_x,
+                    self.button_height),
                     "ufos folder...",
-                    sizeStyle="small",
+                    sizeStyle=self.size_style,
                     callback=self.ufos_get_folder_callback)
         # round to integers
-        y += self._button_height + self._padding
+        y += (self.button_height + self.padding_y)
         self.w.round_checkBox = CheckBox(
                     (x, y,
-                    -self._padding,
-                    self._row_height),
+                    -self.padding_x,
+                    self.text_height),
                     "round points",
                     callback=self.round_callback,
                     value=self._round,
-                    sizeStyle='small')
+                    sizeStyle=self.size_style)
         # decompose
-        y += self._row_height
+        y += self.text_height
         self.w.decompose_checkBox = CheckBox(
                     (x, y,
-                    -self._padding,
-                    self._row_height),
+                    -self.padding_x,
+                    self.text_height),
                     "decompose",
                     callback=self.decompose_callback,
                     value=self._decompose,
-                    sizeStyle='small')
-        y += self._row_height
+                    sizeStyle=self.size_style)
+        y += self.text_height
         self.w.order_checkBox = CheckBox(
                     (x, y,
-                    -self._padding,
-                    self._row_height),
+                    -self.padding_x,
+                    self.text_height),
                     "auto order",
                     callback=self.order_callback,
                     value=self._order,
-                    sizeStyle='small')
-        y += self._row_height
+                    sizeStyle=self.size_style)
+        y += self.text_height
         self.w.direction_checkBox = CheckBox(
                     (x, y,
-                    -self._padding,
-                    self._row_height),
+                    -self.padding_x,
+                    self.text_height),
                     "auto direction",
                     callback=self.direction_callback,
                     value=self._direction,
-                    sizeStyle='small')
-        y += self._row_height
+                    sizeStyle=self.size_style)
+        y += self.text_height
         self.w.overlaps_checkBox = CheckBox(
                     (x, y,
-                    -self._padding,
-                    self._row_height),
+                    -self.padding_x,
+                    self.text_height),
                     "remove overlap",
                     callback=self.overlaps_callback,
                     value=self._overlaps,
-                    sizeStyle='small')
-        y += self._row_height
+                    sizeStyle=self.size_style)
+        y += self.text_height
         self.w.extremes_checkBox = CheckBox(
                     (x, y,
-                    -self._padding,
-                    self._row_height),
+                    -self.padding_x,
+                    self.text_height),
                     "add extremes",
                     callback=self.extremes_callback,
                     value=self._overlaps,
-                    sizeStyle='small')
-        y += self._row_height
+                    sizeStyle=self.size_style)
+        y += self.text_height
         self.w.save_checkBox = CheckBox(
                     (x, y,
-                    -self._padding,
-                    self._row_height),
+                    -self.padding_x,
+                    self.text_height),
                     "save ufo",
                     callback=self.save_callback,
                     value=self._save,
-                    sizeStyle='small')
+                    sizeStyle=self.size_style)
         # progress bar
-        y += self._row_height + self._padding
+        y += (self.text_height + self.padding_y) - 2
         self.w.bar = ProgressBar(
                     (x, y,
-                    -self._padding,
-                    self._row_height),
-                    isIndeterminate=True)
+                    -self.padding_x,
+                    self.progress_bar),
+                    isIndeterminate=True,
+                    sizeStyle=self.size_style)
         # buttons
-        y += self._row_height + self._padding
+        y += (self.progress_bar + self.padding_y)
         self.w.button_apply = SquareButton(
                     (x, y,
-                    -self._padding,
-                    self._button_height),
+                    -self.padding_x,
+                    self.button_height),
                     "apply",
                     callback = self.apply_callback,
-                    sizeStyle='small')
+                    sizeStyle=self.size_style)
         # open window
         self.w.open()
 

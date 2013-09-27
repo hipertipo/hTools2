@@ -1,4 +1,4 @@
-# [h] condense glyphs dialog
+# [h] condense glyphs
 
 # debug
 
@@ -12,12 +12,8 @@ if hTools2.DEBUG:
 
 # imports
 
-try:
-    from mojo.roboFont import AllFonts
-    from mojo.events import addObserver, removeObserver
-
-except:
-    from robofab.world import AllFonts
+from mojo.roboFont import AllFonts
+from mojo.events import addObserver, removeObserver
 
 from vanilla import *
 
@@ -58,9 +54,7 @@ class condenseGlyphsDialog(hConstants):
         self.height = (self.nudge_button * 2) + (self.text_height * 6) + self.progress_bar + (self.padding_y * 7) + (self.button_height * 2) - 8
         self.value_box = 60
         self.column_2 = self.value_box + (self.nudge_button * 7) - 6
-        self.w = FloatingWindow(
-                    (self.width, self.height),
-                    title=self.title)
+        self.w = FloatingWindow((self.width, self.height), title=self.title)
         #-------
         # fonts
         #-------
@@ -218,7 +212,9 @@ class condenseGlyphsDialog(hConstants):
         # bind
         self.w.bind("became key", self.update_callback)
         self.w.bind("close", self.on_close_window)
+        #-----------
         # observers
+        #-----------
         addObserver(self, "update_callback", "fontDidOpen")
         # NOTE: fontDidClose observer seems not working
         # addObserver(self, "update_callback", "fontDidClose")

@@ -369,4 +369,3 @@ def clear_postscript_data(font):
     font.info.postscriptWeightName = None
     font.info.postscriptDefaultCharacter = None
     font.info.postscriptWindowsCharacterSet = None
-

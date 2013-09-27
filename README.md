@@ -26,15 +26,19 @@ Work on hTools2 is supported by users and collaborators.
 
 Join the [mailing list](http://lists.hipertipo.com/listinfo/htools2) for questions and general discussions about hTools2.
 
-## Support
+## Sponsors
 
-Special thanks to the following designers/companies who contributed ideas and funds to the project:
+Special thanks to the following designers/companies who contributed funds to the project:
 
 - Nikola Djurek ([Typonine](http://typonine.com/))
 - Bas Jacobs ([Underware](http://underware.nl/))
 - Johannes Breyer & Fabian Harb ([Dinamo](http://dinamo.us/))
 
 If you use these tools on a regular basis, please consider contributing back to the project.
+
+## Thanks
+
+Thanks to everyone else who contributed with ideas, comments and suggestions: [Miguel Sousa](#), [Mathieu Christe](#), [Marcos Ojeda](#), [Joancarles Casasín](#), [Frank Grießhammer](#).
 
 ## Download
 

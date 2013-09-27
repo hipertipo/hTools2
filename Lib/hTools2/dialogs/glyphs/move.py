@@ -18,6 +18,7 @@ except:
 from vanilla import *
 
 from hTools2 import hConstants
+import hTools2.modules.messages as messages
 
 # objects
 
@@ -34,7 +35,7 @@ class moveGlyphsDialog(hConstants):
     def __init__(self):
         self.title = "move"
         self.width = (self.square_button * 3) + (self.padding_x * 2) - 2
-        self.height = (self.square_button * 3) + (self.padding_y * 5) + (self.text_height * 3) - 7
+        self.height = (self.square_button * 3) + (self.padding_y * 5) + (self.text_height * 4) - 7
         self.w = FloatingWindow(
                     (self.width, self.height),
                     self.title)
@@ -158,11 +159,19 @@ class moveGlyphsDialog(hConstants):
         # checkbox
         x = self.padding_x
         y += self.nudge_button + self.padding_y
+        self.w._foreground = CheckBox(
+                    (x, y,
+                    -self.padding_x,
+                    self.text_height),
+                    "foreground",
+                    value=True,
+                    sizeStyle=self.size_style)
+        y += self.text_height
         self.w._layers = CheckBox(
                     (x, y,
                     -self.padding_x,
                     self.text_height),
-                    "all layers",
+                    "layers",
                     value=False,
                     sizeStyle=self.size_style)
         # open dialog
@@ -236,19 +245,20 @@ class moveGlyphsDialog(hConstants):
     def _move_glyphs(self, (x, y)):
         f = CurrentFont()
         boolstring = [ False, True ]
+        _foreground = self.w._foreground.get()
         _layers = self.w._layers.get()
         if f is not None:
             # current glyph
             g = CurrentGlyph()
             if g is not None:
-                g.prepareUndo('scale')
+                g.prepareUndo('move')
                 # all layers
                 if _layers:
                     for layer_name in f.layerOrder:
                         glyph = g.getLayer(layer_name)
                         glyph.move((x, y))
                 # active layer
-                else:
+                if _foreground:
                     g.move((x, y))
                 # done glyph
                 g.performUndo()
@@ -258,33 +268,37 @@ class moveGlyphsDialog(hConstants):
                 glyph_names = f.selection
                 # transform glyphs
                 if len(glyph_names) > 0:
-                    print 'moving selected glyphs...\n'
-                    print '\tx: %s' % x
-                    print '\ty: %s' % y
-                    print '\tlayers: %s' % boolstring[_layers]
-                    print
-                    print '\t',
-                    for glyph_name in glyph_names:
-                        print glyph_name,
-                        f[glyph_name].prepareUndo('scale')
-                        # all layers
-                        if _layers:
-                            for layer_name in f.layerOrder:
-                                glyph = f[glyph_name].getLayer(layer_name)
-                                glyph.move((x, y))
-                        # active layer
-                        else:
-                            f[glyph_name].move((x, y))
-                        # done glyph
-                        f[glyph_name].performUndo()
-                        f[glyph_name].update()
-                    # done font
-                    f.update()
-                    print
-                    print '\n...done.\n'
+                    if (_layers and _foreground) is not False:
+                        print 'moving selected glyphs...\n'
+                        print '\tx: %s' % x
+                        print '\ty: %s' % y
+                        print '\tlayers: %s' % boolstring[_layers]
+                        print
+                        print '\t',
+                        for glyph_name in glyph_names:
+                            print glyph_name,
+                            f[glyph_name].prepareUndo('scale')
+                            # all layers
+                            if _layers:
+                                for layer_name in f.layerOrder:
+                                    glyph = f[glyph_name].getLayer(layer_name)
+                                    glyph.move((x, y))
+                            # active layer
+                            if _foreground:
+                                f[glyph_name].move((x, y))
+                            # done glyph
+                            f[glyph_name].performUndo()
+                            f[glyph_name].update()
+                        # done font
+                        f.update()
+                        print
+                        print '\n...done.\n'
+                    # no layer selected
+                    else:
+                        print messages.no_layer_selected
                 # no glyph selected
                 else:
-                    print 'please select a one or more glyphs first.\n'
+                    print messages.no_glyph_selected
         # no font open
         else:
-            print 'please open a font first.\n'
+            print messages.no_font_open

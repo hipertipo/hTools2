@@ -1,6 +1,4 @@
-# [h] mask dialog
-
-'''copy foreground to mask, flip mask/foreground, clear mask'''
+# [h] mask
 
 # debug
 
@@ -13,10 +11,7 @@ if hTools2.DEBUG:
 
 # imports
 
-try:
-    from mojo.roboFont import CurrentFont
-except:
-    from robofab.world import CurrentFont
+from mojo.roboFont import CurrentFont
 
 from vanilla import *
 

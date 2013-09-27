@@ -12,22 +12,22 @@ if hTools2.DEBUG:
     import actions
     reload(actions)
 
-    import generate
-    reload(generate)
-
     import otfs2ufos
     reload(otfs2ufos)
+
+    import ufos2otfs
+    reload(ufos2otfs)
 
 # import
 
 from actions import actionsFolderDialog
-from generate import generateFolderDialog
 from otfs2ufos import OTFsToUFOsDialog
+from ufos2otfs import UFOsToOTFsDialog
 
 # export
 
 __all__ = [
     'actionsFolderDialog',
     'OTFsToUFOsDialog',
-    'generateFolderDialog',
+    'UFOsToOTFsDialog',
 ]

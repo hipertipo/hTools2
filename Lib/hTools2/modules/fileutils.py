@@ -12,7 +12,8 @@ import shutil
 
 def walk(folder, extension):
     """A simple non-recursive ``walk`` function to collect files with a given extension."""
-    folder = folder if not folder.endswith("/") else folder[:-1]
+    if folder.endswith("/"):
+        folder = folder[:-1]
     return glob.glob("%s/*.%s" % (folder, extension))
 
 def get_names_from_path(fontpath):
@@ -84,9 +85,27 @@ def rename_file(filepath, new_name, overwrite=True, delete=True):
             os.remove(filepath)
     print '...done.\n'
 
-def prepend_zeros(number, length):
-    """Add padding with zeros before number for sorting."""
-    _number = str(number)
-    _padding = length - len(_number)
-    return '%s%s' % ('0' * _padding, _number)
+# def prepend_zeros(number, length):
+#     """Add padding with zeros before number for sorting."""
+#     _number = str(number)
+#     _padding = length - len(_number)
+#     return '%s%s' % ('0' * _padding, _number)
 
+def copy_files(source_path, dest_path, verbose=False):
+    """"Copy all files from one folder to another."""
+    for root, dirs, files in os.walk(source_path):
+        dest = dest_path + root.replace(source_path, '')
+        if not os.path.isdir(dest):
+            os.mkdir(dest)
+        # loop through all files in the directory
+        for f in files:
+            file_name, extension = os.path.splitext(f)
+            # ignore .pyc and hidden files
+            if extension != '.pyc' and f[0] != '.':
+                    old_loc = os.path.join(root, f)
+                    new_loc = os.path.join(dest, f)
+                    # copy file
+                    if not os.path.isfile(new_loc):
+                        if verbose:
+                            print 'copying file from %s to %s.' % (old_loc, new_loc)
+                        shutil.copy2(old_loc, new_loc)

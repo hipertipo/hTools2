@@ -1,6 +1,6 @@
-# [h] dialog to generate otfs from all fonts in folder
+# [h] ufos -> otfs
 
-# reload when debugging
+# debug
 
 import hTools2
 reload(hTools2)
@@ -21,108 +21,100 @@ except:
 from vanilla import *
 from vanilla.dialogs import getFolder
 
+from hTools2 import hConstants
 from hTools2.modules.fileutils import walk
 
 # objects
 
-class generateFolderDialog(object):
+class UFOsToOTFsDialog(hConstants):
 
-    """A dialog to generate ``.otf`` fonts for all fonts in a folder."""
+    """A dialog to generate ``.otf`` fonts for all ``.ufos`` in a folder."""
 
-    #------------
     # attributes
-    #------------
 
-    _title = "generate"
-    _padding = 10
-    _row_height = 20
-    _button_height = 30
-    _width = 123
-    _height = (_button_height * 3) + (_padding * 6) + (_row_height * 5)
+    ufos_folder = None
+    ufos_folder_message = 'select a folder containing .ufo font sources'
 
-    _ufos_folder = None
-    _ufos_folder_message = 'select a folder containing .ufo font sources'
+    otfs_folder = None
+    otfs_folder_message = 'leave empty to generate .ofts in the same folder as .ufos'
 
-    _otfs_folder = None
-    _otfs_folder_message = 'leave empty to generate .ofts in the same folder as .ufos'
-
-    #---------
     # methods
-    #---------
 
     def __init__(self):
-        self.w = FloatingWindow(
-                    (self._width, self._height),
-                    self._title,
-                    closable=True)
-        x = self._padding
-        y = self._padding
+        # window
+        self.title = "ufos2otfs"
+        self.width = 123
+        self.height = (self.button_height * 3) + (self.padding_y * 6) + (self.text_height * 4) + self.progress_bar
+        self.w = FloatingWindow((self.width, self.height), self.title)
+        x = self.padding_x
+        y = self.padding_y
         # ufos folder
         self.w.ufos_get_folder_button = SquareButton(
                     (x, y,
-                    -self._padding,
-                    self._button_height),
+                    -self.padding_x,
+                    self.button_height),
                     "ufos folder...",
-                    sizeStyle="small",
+                    sizeStyle=self.size_style,
                     callback=self.ufos_get_folder_callback)
-        y += self._button_height + self._padding
+        y += (self.button_height + self.padding_y)
         # otfs folder
         self.w.otfs_get_folder_button = SquareButton(
                     (x, y,
-                    -self._padding,
-                    self._button_height),
+                    -self.padding_x,
+                    self.button_height),
                     "otfs folder...",
-                    sizeStyle="small",
+                    sizeStyle=self.size_style,
                     callback=self.otfs_get_folder_callback)
-        y += self._button_height + self._padding
+        y += (self.button_height + self.padding_y) -2
         # options
         self.w._decompose = CheckBox(
                     (x, y,
-                    -self._padding,
-                    self._row_height),
+                    -self.padding_x,
+                    self.text_height),
                     "decompose",
-                    sizeStyle="small",
+                    sizeStyle=self.size_style,
                     value=True)
-        y += self._row_height
+        y += self.text_height
         self.w._overlaps = CheckBox(
                     (x, y,
-                    -self._padding,
-                    self._row_height),
+                    -self.padding_x,
+                    self.text_height),
                     "remove overlap",
-                    sizeStyle="small",
+                    sizeStyle=self.size_style,
                     value=True)
-        y += self._row_height
+        y += self.text_height
         self.w._autohint = CheckBox(
                     (x, y,
-                    -self._padding,
-                    self._row_height),
+                    -self.padding_x,
+                    self.text_height),
                     "ps autohint",
-                    sizeStyle="small",
+                    sizeStyle=self.size_style,
                     value=True)
-        y += self._row_height
+        y += self.text_height
         self.w._release_mode = CheckBox(
                     (x, y,
-                    -self._padding,
-                    self._row_height),
+                    -self.padding_x,
+                    self.text_height),
                     "release mode",
-                    sizeStyle="small",
+                    sizeStyle=self.size_style,
                     value=True)
-        y += self._row_height + self._padding
+        y += (self.text_height + self.padding_y)
         # progress bar
         self.w.bar = ProgressBar(
                     (x, y,
-                    -self._padding,
-                    self._row_height),
-                    isIndeterminate=True)
-        y += self._row_height + self._padding
+                    -self.padding_x,
+                    self.progress_bar),
+                    isIndeterminate=True,
+                    sizeStyle=self.size_style)
+        y += (self.progress_bar + self.padding_y)
         # buttons
         self.w.button_apply = SquareButton(
                     (x, y,
-                    -self._padding,
-                    self._button_height),
+                    -self.padding_x,
+                    self.button_height),
                     "generate",
                     callback=self.button_apply_callback,
-                    sizeStyle="small")
+                    sizeStyle=self.size_style,)
         # open window
         self.w.open()
 
@@ -130,19 +122,19 @@ class generateFolderDialog(object):
 
     def ufos_get_folder_callback(self, sender):
         folder_ufos = getFolder()
-        self._ufos_folder = folder_ufos[0]
+        self.ufos_folder = folder_ufos[0]
 
     def otfs_get_folder_callback(self, sender):
         folder_otfs = getFolder()
-        self._otfs_folder = folder_otfs[0]
+        self.otfs_folder = folder_otfs[0]
 
     def button_apply_callback(self, sender):
-        if self._ufos_folder is not None:
-            _ufo_paths = walk(self._ufos_folder, 'ufo')
+        if self.ufos_folder is not None:
+            _ufo_paths = walk(self.ufos_folder, 'ufo')
             if len(_ufo_paths) > 0:
                 # set otfs folder
-                if self._otfs_folder is None:
-                    self._otfs_folder = self._ufos_folder
+                if self.otfs_folder is None:
+                    self.otfs_folder = self.ufos_folder
                 # get parameters
                 _decompose = self.w._decompose.get()
                 _overlaps = self.w._overlaps.get()
@@ -151,8 +143,8 @@ class generateFolderDialog(object):
                 # print settings
                 boolstring = ("False", "True")
                 print 'batch generating .otfs for all fonts in folder...\n'
-                print '\tufos folder: %s' % self._ufos_folder
-                print '\totfs folder: %s' % self._otfs_folder
+                print '\tufos folder: %s' % self.ufos_folder
+                print '\totfs folder: %s' % self.otfs_folder
                 print '\tdecompose: %s' % boolstring[_decompose]
                 print '\tremove overlaps: %s' % boolstring[_overlaps]
                 print '\tautohint: %s' % boolstring[_autohint]
@@ -165,7 +157,7 @@ class generateFolderDialog(object):
                     ufo = RFont(ufo_path, showUI=False)
                     # generate otf
                     otf_file = os.path.splitext(os.path.split(ufo_path)[1])[0] + '.otf'
-                    otf_path = os.path.join(self._otfs_folder, otf_file)
+                    otf_path = os.path.join(self.otfs_folder, otf_file)
                     ufo.generate(otf_path, 'otf',
                                 decompose=_decompose,
                                 autohint=_autohint,

@@ -130,13 +130,6 @@ def rename_glyphs_from_list(font, names_list, overwrite=True, mark=True, verbose
         print
         print '...done.\n'
 
-def crop_glyphset(font, glyphset):
-    for glyph in font:
-        if glyph.name not in glyphset:
-            if glyph.name is not None:
-                font.removeGlyph(glyph.name)
-    font.update()
-
 #--------
 # groups
 #--------

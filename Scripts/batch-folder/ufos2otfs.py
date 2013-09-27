@@ -8,13 +8,13 @@ import hTools2
 reload(hTools2)
 
 if hTools2.DEBUG:
-    import hTools2.dialogs
-    reload(hTools2.dialogs)
+    import hTools2.dialogs.folder
+    reload(hTools2.dialogs.folder)
 
 # imports
 
-from hTools2.dialogs import generateFolderDialog
+from hTools2.dialogs.folder import UFOsToOTFsDialog
 
 # run
 
-generateFolderDialog()
+UFOsToOTFsDialog()

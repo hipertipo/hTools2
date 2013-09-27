@@ -4,9 +4,7 @@
 
 ### thanks Frederik ###
 
-#---------
 # imports
-#---------
 
 import os
 
@@ -14,9 +12,7 @@ from AppKit import *
 
 from lib.UI.fileBrowser import PathItem
 
-#-----------
 # functions
-#-----------
 
 def add_menu(name, path):
     # create a new menu
@@ -35,9 +31,7 @@ def add_menu(name, path):
     # set the menu as submenu
     newItem.setSubmenu_(menu)
 
-#--------
 # script
-#--------
 
 menu_name = "hTools2"
 scripts_path = os.path.join(os.getcwd(), 'Scripts')

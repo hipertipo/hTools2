@@ -26,7 +26,6 @@ except ImportError:
     from robofab.world import CurrentFont
 
 from hTools2.modules.color import clear_colors, hls_to_rgb
-from hTools2.modules.fontutils import crop_glyphset
 
 # functions
 
@@ -106,6 +105,19 @@ def paint_groups(f, crop=False):
             crop_glyphset(f, _order)
     else:
         print 'font has no groups.\n'
+
+def crop_glyphset(font, glyph_names):
+    for glyph in font:
+        if glyph.name not in glyph_names:
+            if glyph.name is not None:
+                font.removeGlyph(glyph.name)
+    font.update()
+
+def all_glyphs(groups_dict):
+    glyphs = []
+    for group_name in groups_dict.keys():
+        glyphs += groups_dict[group_name]
+    return glyphs
 
 #-------------------
 # glyph-level tools

@@ -1,6 +1,6 @@
-# [h] dialog to generate otfs from ufos
+# [h] otfs -> ufos
 
-# reload when debugging
+# debug
 
 import hTools2
 reload(hTools2)
@@ -13,80 +13,69 @@ if hTools2.DEBUG:
 
 import os
 
-try:
-    from mojo.roboFont import OpenFont
-except:
-    from robofab.world import OpenFont
+from mojo.roboFont import OpenFont
 
 from vanilla import *
 from vanilla.dialogs import getFolder
 
+from hTools2 import hConstants
 from hTools2.modules.fileutils import walk
 
 # objects
 
-class OTFsToUFOsDialog(object):
+class OTFsToUFOsDialog(hConstants):
 
-    '''A dialog to generate ``.ufos`` for all ``.otfs`` in a folder.'''
+    """A dialog to generate ``.ufos`` for all ``.otfs`` in a folder."""
 
-    #------------
     # attributes
-    #------------
 
-    _title = "otf2ufo"
-    _padding = 10
-    _row_height = 20
-    _button_height = 30
-    _width = 123
-    _height = (_button_height * 3) + (_padding * 5) + (_row_height) + 1
+    otfs_folder = None
+    ufos_folder = None
 
-    _otfs_folder = None
-    _ufos_folder = None
-
-    #---------
     # methods
-    #---------
 
     def __init__(self):
-        self.w = FloatingWindow(
-                    (self._width, self._height),
-                    self._title,
-                    closable=True)
+        # window
+        self.title = "otfs2ufos"
+        self.width = 123
+        self.height = (self.button_height * 3) + (self.padding_y * 5) + self.progress_bar
+        self.w = FloatingWindow((self.width, self.height), self.title)
         # otfs folder
-        x = self._padding
-        y = self._padding
+        x = self.padding_x
+        y = self.padding_y
         self.w.otfs_get_folder_button = SquareButton(
                     (x, y,
-                    -self._padding,
-                    self._button_height),
+                    -self.padding_x,
+                    self.button_height),
                     "otfs folder...",
-                    sizeStyle="small",
+                    sizeStyle=self.size_style,
                     callback=self.otfs_get_folder_callback)
         # ufos folder
-        y += self._button_height + self._padding
+        y += (self.button_height + self.padding_y)
         self.w.ufos_get_folder_button = SquareButton(
                     (x, y,
-                    -self._padding,
-                    self._button_height),
+                    -self.padding_x,
+                    self.button_height),
                     "ufos folder...",
-                    sizeStyle="small",
+                    sizeStyle=self.size_style,
                     callback=self.ufos_get_folder_callback)
         # progress bar
-        y += self._button_height + self._padding
+        y += (self.button_height + self.padding_y)
         self.w.bar = ProgressBar(
                     (x, y,
-                    -self._padding,
-                    self._row_height),
-                    isIndeterminate=True)
+                    -self.padding_x,
+                    self.progress_bar),
+                    isIndeterminate=True,
+                    sizeStyle=self.size_style)
         # buttons
-        y += self._row_height + self._padding
+        y += (self.progress_bar + self.padding_y)
         self.w.button_apply = SquareButton(
                     (x, y,
-                    -self._padding,
-                    self._button_height),
-                    "apply",
+                    -self.padding_x,
+                    self.button_height),
+                    "generate",
                     callback=self.button_apply_callback,
-                    sizeStyle="small")
+                    sizeStyle=self.size_style)
         # open window
         self.w.open()
 
@@ -94,24 +83,24 @@ class OTFsToUFOsDialog(object):
 
     def ufos_get_folder_callback(self, sender):
         folder_ufos = getFolder()
-        self._ufos_folder = folder_ufos[0]
+        self.ufos_folder = folder_ufos[0]
 
     def otfs_get_folder_callback(self, sender):
         folder_otfs = getFolder()
-        self._otfs_folder = folder_otfs[0]
+        self.otfs_folder = folder_otfs[0]
 
     def button_apply_callback(self, sender):
-        if self._otfs_folder is not None:
-            _otfs_paths = walk(self._otfs_folder, 'otf')
+        if self.otfs_folder is not None:
+            _otfs_paths = walk(self.otfs_folder, 'otf')
             if len(_otfs_paths) > 0:
                 # set ufos folder
-                if self._ufos_folder is None:
-                    self._ufos_folder = self._otfs_folder
+                if self.ufos_folder is None:
+                    self.ufos_folder = self.otfs_folder
                 # print settings
                 boolstring = ("False", "True")
                 print 'batch generating ufos for all otfs in folder...\n'
-                print '\totfs folder: %s' % self._otfs_folder
-                print '\tufos folder: %s' % self._ufos_folder
+                print '\totfs folder: %s' % self.otfs_folder
+                print '\tufos folder: %s' % self.ufos_folder
                 print
                 # batch convert
                 self.w.bar.start()
@@ -119,7 +108,7 @@ class OTFsToUFOsDialog(object):
                     print '\tcreating ufo from %s...' % os.path.split(otf_path)[1]
                     otf = OpenFont(otf_path, showUI=True) # does not work without UI
                     ufo_file = os.path.splitext(os.path.split(otf_path)[1])[0] + '.ufo'
-                    ufo_path = os.path.join(self._ufos_folder, ufo_file)
+                    ufo_path = os.path.join(self.ufos_folder, ufo_file)
                     otf.save(ufo_path)
                     # close
                     otf.close()

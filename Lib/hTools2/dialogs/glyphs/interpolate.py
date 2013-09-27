@@ -1,4 +1,4 @@
-# [h] interpolate glyphs dialog
+# [h] interpolate glyphs
 
 # debug
 
@@ -12,10 +12,8 @@ if hTools2.DEBUG:
 
 # imports
 
-try:
-    from mojo.roboFont import AllFonts
-except:
-    from robofab.world import AllFonts
+from mojo.roboFont import AllFonts
+from mojo.events import addObserver, removeObserver
 
 from vanilla import *
 
@@ -41,16 +39,13 @@ class interpolateGlyphsDialog(hConstants):
 
     def __init__(self):
         self._get_fonts()
-        # window settings
+        # window
         self.title = 'interpol'
         self.width = 123
         self.height = (self.nudge_button * 4) + (self.text_height * 7) + self.progress_bar + (self.padding_y * 10) + (self.button_height * 2) - 10
         self.value_box = 60
         self.column_2 = self.value_box + (self.nudge_button * 7) - 6
-        # window
-        self.w = FloatingWindow(
-                    (self.width, self.height),
-                    self.title)
+        self.w = FloatingWindow((self.width, self.height), self.title)
         # master 1
         x = self.padding_x
         y = self.padding_y - 8
@@ -288,6 +283,17 @@ class interpolateGlyphsDialog(hConstants):
                     "update",
                     callback=self.update_callback,
                     sizeStyle=self.size_style)
+        # bind
+        self.w.bind("became key", self.update_callback)
+        self.w.bind("close", self.on_close_window)
+        #-----------
+        # observers
+        #-----------
+        addObserver(self, "update_callback", "fontDidOpen")
+        # NOTE: fontDidClose observer seems not working
+        # addObserver(self, "update_callback", "fontDidClose")
+        # temporal workaround:
+        addObserver(self, "update_callback", "fontResignCurrent")
         # open window
         self.w.open()
 
@@ -443,3 +449,7 @@ class interpolateGlyphsDialog(hConstants):
         print
         print '\n...done.\n'
 
+    def on_close_window(self, sender):
+        # remove observers on close window
+        removeObserver(self, "fontDidOpen")
+        removeObserver(self, "fontResignCurrent")
