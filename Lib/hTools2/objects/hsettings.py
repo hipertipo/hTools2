@@ -5,6 +5,8 @@
 import os
 import plistlib
 
+import hTools2
+
 # object
 
 class hSettings:
