@@ -48,3 +48,6 @@ class hConstants(object):
 
     #: The height of rhe progress bar.
     progress_bar = 18
+
+    #: Print (or not) messages to the console when running scripts.
+    verbose = True

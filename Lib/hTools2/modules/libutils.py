@@ -2,9 +2,7 @@
 
 '''A collection of functions to check the integrity of libs.'''
 
-### thanks to Frederik Berlaen
-### http://typemytype.com/
-### http://doc.robofont.com/
+### thanks to Frederik Berlaen ###
 
 # functions
 
@@ -39,4 +37,3 @@ def check_glyph_libs(font):
     for g in font:
         print g.name, check_value(dict(g.lib))
     print '...done.\n'
-

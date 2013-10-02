@@ -45,12 +45,31 @@ def set_names_from_path(font, prefix=None):
         family_name = prefix + ' ' + family_name
     set_font_names(font, family_name, style_name)
 
+# vertical metrics
+
 def set_vmetrics(font, xheight, capheight, ascender, descender, emsquare, gridsize=1):
     font.info.xHeight = xheight * gridsize
     font.info.capHeight = capheight * gridsize
     font.info.descender = descender * gridsize
     font.info.ascender = ascender * gridsize
     font.info.unitsPerEm = emsquare * gridsize
+
+# ps hinting
+
+from robofab.pens.marginPen import MarginPen
+
+def get_stems(font):
+    ref_glyph = 'i'
+    ref_y = font.info.xHeight / 2
+    g = font[ref_glyph]
+    pen = MarginPen(g, ref_y, isHorizontal=True)
+    g.draw(pen)
+    left_edge, right_edge = pen.getMargins()
+    stem = right_edge - left_edge
+    return [ stem ]
+
+def set_stems(font, stems):
+    font.info.postscriptStemSnapH = stems
 
 # print info
 

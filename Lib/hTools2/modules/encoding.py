@@ -17,11 +17,7 @@ from hTools2.modules.color import clear_colors, hls_to_rgb
 # functions
 
 def import_encoding(file_path):
-    """Import group and glyphs names from an ``.enc`` file.
-
-    Return a dictionary with a dict of group names and lists of glyph names, and a list with the order of the groups.
-
-    """
+    """Import group and glyphs names from an ``.enc`` file."""
     if os.path.exists(file_path):
         lines = open(file_path, 'r').readlines()
         groups = {}

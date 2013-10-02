@@ -54,6 +54,7 @@ class hProject:
         'ufos',
         'vfbs',
         'otfs',
+        'ttfs',
         'woffs',
         'temp',
         'instances',
@@ -245,6 +246,7 @@ class hProject:
         _paths['root'] = _project_root
         _paths['ufos'] = os.path.join(_project_root, '_ufos')
         _paths['otfs'] = os.path.join(_project_root, '_otfs')
+        _paths['ttfs'] = os.path.join(_project_root, '_ttfs')
         _paths['libs'] = os.path.join(_project_root, '_libs')
         _paths['data'] = os.path.join(_project_root, '_data')
         _paths['vfbs'] = os.path.join(_project_root, '_vfbs')

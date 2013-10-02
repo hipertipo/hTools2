@@ -9,7 +9,7 @@ from hproject import hProject
 from hTools2.modules.anchors import clear_anchors, get_anchors_dict
 from hTools2.modules.color import clear_colors, hls_to_rgb
 from hTools2.modules.encoding import paint_groups, auto_unicodes
-from hTools2.modules.fontinfo import set_names_from_path, set_vmetrics
+from hTools2.modules.fontinfo import set_names_from_path, set_vmetrics, get_stems, set_stems
 from hTools2.modules.fontutils import *
 from hTools2.modules.ftp import *
 from hTools2.modules.opentype import import_features, clear_features, import_kern_feature
@@ -443,22 +443,32 @@ class hFont:
                         vmetrics[k] = vmetrics_lib[style][k]
         return vmetrics
 
-    def get_stems(self):
-        # build up vmetrics dict
-        stems_lib = self.project.libs['project']['stems']
-        stems = []
-        # get default values
-        if stems_lib.has_key('default'):
-            stems = stems_lib['default']
-        # get style-specific values
-        if stems_lib.has_key(self.style_name):
-            stems = stems_lib[self.style_name]
-        # condensed: get values from normal
-        else:
-            for style in stems_lib.keys():
-                if style[0] == self.style_name[0]:
-                    stems = stems_lib[style]
-        return stems
+    # def get_stems(self):
+    #     # build up vmetrics dict
+    #     stems_lib = self.project.libs['project']['stems']
+    #     stems = []
+    #     # get default values
+    #     if stems_lib.has_key('default'):
+    #         stems = stems_lib['default']
+    #     # get style-specific values
+    #     if stems_lib.has_key(self.style_name):
+    #         stems = stems_lib[self.style_name]
+    #     # condensed: get values from normal
+    #     else:
+    #         for style in stems_lib.keys():
+    #             if style[0] == self.style_name[0]:
+    #                 stems = stems_lib[style]
+    #     return stems
+
+    def set_stems(self, verbose=True):
+        """Set PS stems by measuring glyph data in the font."""
+        if verbose:
+            print 'setting stems in %s...' % self.full_name(),
+        stems = get_stems(self.ufo)
+        set_stems(self.ufo, stems)
+        # done
+        if verbose:
+            print 'done.'
 
     def set_vmetrics(self, verbose=True):
         """Set the font's vertical metrics from the a ``vmetrics`` dict."""
@@ -467,9 +477,6 @@ class hFont:
         # set vmetrics
         vmetrics = self.get_vmetrics()
         set_vmetrics(self.ufo, vmetrics['xheight'], vmetrics['capheight'], vmetrics['ascender'], vmetrics['descender'], vmetrics['emsquare'])
-        # set stems
-        stems = self.get_stems()
-        self.ufo.info.postscriptStemSnapH = stems
         # done
         if verbose:
             print 'done.'
