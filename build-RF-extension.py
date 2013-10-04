@@ -25,11 +25,12 @@ B.developerURL = 'http://hipertipo.com/'
 B.version = "1.6"
 B.mainScript = "add-RF-menu.py"
 B.launchAtStartUp = True
+B.addToMenu = []
 # lib
 B.requiresVersionMajor = '1'
 B.requiresVersionMinor = '5'
 B.infoDictionary["repository"] = 'gferreira/hTools2'
 # html
-B.html = True
+B.html = 1
 # save bundle
-B.save(extension_path, libPath=base_path, htmlPath=html_path, resourcesPath=None, pycOnly=False)
+B.save(extension_path, libPath=lib_path, htmlPath=html_path, resourcesPath=None, pycOnly=False)
