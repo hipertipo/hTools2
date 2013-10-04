@@ -635,11 +635,11 @@ class hFont:
         """Upload the font's ``.woff`` file to the project's folder in the FTP server."""
         woff_path = self.woff_path()
         if os.path.exists(woff_path):
-            _url = self.project.world.settings.hDict['ftp']['url']
-            _login = self.project.world.settings.hDict['ftp']['login']
-            _password = self.project.world.settings.hDict['ftp']['password']
-            _folder = self.project.ftp_path()
-            F = connect_to_server(_url, _login, _password, _folder, verbose=False)
+            url = self.project.world.settings.hDict['ftp']['url']
+            login = self.project.world.settings.hDict['ftp']['login']
+            password = self.project.world.settings.hDict['ftp']['password']
+            folder = self.project.ftp_path()
+            F = connect_to_server(url, login, password, folder, verbose=False)
             upload_file(woff_path, F)
             F.quit()
         else:

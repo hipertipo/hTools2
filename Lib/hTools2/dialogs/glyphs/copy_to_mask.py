@@ -2,10 +2,8 @@
 
 # imports
 
-try:
-    from mojo.roboFont import AllFonts
-except:
-    from robofab.world import AllFonts
+from mojo.roboFont import AllFonts
+from mojo.events import addObserver, removeObserver
 
 from vanilla import *
 
@@ -17,7 +15,7 @@ from hTools2.modules.fontutils import get_full_name, get_glyphs
 
 class copyToMaskDialog(hConstants):
 
-    """A dialog to transfer the foreground layer of the selcted glyphs in the current font to the mask layer of the same glyphs of another font."""
+    """A dialog to transfer the foreground layer of the selected glyphs in the current font to the mask layer of the same glyphs of another font."""
 
     # attributes
 
@@ -27,19 +25,15 @@ class copyToMaskDialog(hConstants):
     # methods
 
     def __init__(self):
-        self._update_fonts()
+        self._get_fonts()
         # window
-        self.title = 'copy'
-        self.column_1 = 103
-        self.width = self.column_1 + (self.padding_x * 2)
-        self.height = (self.text_height * 4) + (self.button_height * 2) + (self.padding_y * 5) #- 2
-        self.w = FloatingWindow(
-                    (self.width, self.height),
-                    self.title,
-                    closable=True)
+        self.title = 'layers'
+        self.width = 123
+        self.height = (self.text_height * 4) + (self.button_height * 1) + (self.padding_y * 4) #- 2
+        self.w = FloatingWindow((self.width, self.height), self.title)
+        # source label
         x = self.padding_x
         y = self.padding_y - 1
-        # source label
         self.w._source_label = TextBox(
                     (x, y,
                     -self.padding_x,
@@ -76,31 +70,28 @@ class copyToMaskDialog(hConstants):
                     (x, y,
                     -self.padding_x,
                     self.button_height),
-                    "apply",
+                    "copy",
                     sizeStyle=self.size_style,
                     callback=self.apply_callback)
-        # update button
-        y += (self.button_height + self.padding_y)
-        self.w.button_update = SquareButton(
-                    (x, y,
-                    -self.padding_x,
-                    self.button_height),
-                    "update",
-                    sizeStyle=self.size_style,
-                    callback=self.update_fonts_callback)
+        # bind
+        self.w.bind("became key", self.update_callback)
+        self.w.bind("close", self.on_close_window)
+        # observers
+        addObserver(self, "update_callback", "fontDidOpen")
+        addObserver(self, "update_callback", "fontDidClose")
         # open window
         self.w.open()
 
     # callbacks
 
-    def _update_fonts(self):
+    def _get_fonts(self):
         self.all_fonts = AllFonts()
         self.all_fonts_names = []
         for font in self.all_fonts:
             self.all_fonts_names.append(get_full_name(font))
 
-    def update_fonts_callback(self, sender):
-        self._update_fonts()
+    def update_callback(self, sender):
+        self._get_fonts()
         self.w._source_value.setItems(self.all_fonts_names)
         self.w._target_value.setItems(self.all_fonts_names)
 
@@ -136,3 +127,7 @@ class copyToMaskDialog(hConstants):
         else:
             print no_font_open
 
+    def on_close_window(self, sender):
+        # remove observers on close window
+        removeObserver(self, "fontDidOpen")
+        removeObserver(self, "fontDidClose")

@@ -206,10 +206,7 @@ class condenseGlyphsDialog(hConstants):
         # observers
         #-----------
         addObserver(self, "update_callback", "fontDidOpen")
-        # NOTE: fontDidClose observer seems not working
-        # addObserver(self, "update_callback", "fontDidClose")
-        # temporal workaround:
-        addObserver(self, "update_callback", "fontResignCurrent")
+        addObserver(self, "update_callback", "fontDidClose")
         # open window
         self.w.open()
 
@@ -294,4 +291,4 @@ class condenseGlyphsDialog(hConstants):
     def on_close_window(self, sender):
         # remove observers on close window
         removeObserver(self, "fontDidOpen")
-        removeObserver(self, "fontResignCurrent")
+        removeObserver(self, "fontDidClose")

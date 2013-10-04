@@ -11,8 +11,9 @@ from mojo.extensions import ExtensionBundle
 
 extension_file = 'hTools2.roboFontExt'
 lib_path = os.path.dirname(os.path.dirname(hTools2.__file__))
-extension_path = os.path.join(os.path.dirname(lib_path), extension_file)
-html_path = os.path.join(lib_path, "Documentation/build/html")
+base_path = os.path.dirname(lib_path)
+extension_path = os.path.join(base_path, extension_file)
+html_path = os.path.join(base_path, "Documentation/build/html")
 
 # create bundle
 
@@ -31,5 +32,4 @@ B.infoDictionary["repository"] = 'gferreira/hTools2'
 # html
 B.html = True
 # save bundle
-B.save(extension_path, libPath=lib_path, resourcesPath=None, pycOnly=False) # htmlPath=html_path, 
-
+B.save(extension_path, libPath=base_path, htmlPath=html_path, resourcesPath=None, pycOnly=False)

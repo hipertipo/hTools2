@@ -1,11 +1,6 @@
 # [h] transfer anchors dialog
 
-'''Transfer anchors in selected glyphs from one font to another.'''
+import hTools2.dialogs.glyphs.transfer_anchors 
+reload(hTools2.dialogs.glyphs.transfer_anchors)
 
-# imports
-
-from hTools2.dialogs.glyphs import transferAnchorsDialog
-
-# run
-
-transferAnchorsDialog()
+hTools2.dialogs.glyphs.transfer_anchors.transferAnchorsDialog()

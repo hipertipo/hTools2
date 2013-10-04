@@ -2,10 +2,8 @@
 
 # imports
 
-try:
-    from mojo.roboFont import AllFonts
-except:
-    from robofab.world import AllFonts
+from mojo.roboFont import AllFonts
+from mojo.events import addObserver, removeObserver
 
 from vanilla import *
 
@@ -22,7 +20,7 @@ class copyMarginsDialog(hConstants):
     # attributes
 
     all_fonts_names = []
-    _all_fonts = []
+    all_fonts = []
 
     # methods
 
@@ -32,19 +30,17 @@ class copyMarginsDialog(hConstants):
         self.title = 'margins'
         self.width = 123
         self.column_1 = 180
-        self.height = (self.button_height * 2) + (self.text_height * 2) + (self.padding_y * 5) + self.button_height + 8
-        self.w = FloatingWindow(
-                    (self.width, self.height),
-                    self.title)
+        self.height = (self.button_height) + (self.text_height * 5) + (self.padding_y * 5)
+        self.w = FloatingWindow((self.width, self.height), self.title)
         # source font
         x = self.padding_x
-        y = self.padding_y
+        y = self.padding_y - 1
         self.w._source_label = TextBox(
                     (x, y,
                     -self.padding_x,
                     self.text_height),
                     "source font",
-                    sizeStyle='small')
+                    sizeStyle=self.size_style)
         y += self.text_height
         self.w._source_value = PopUpButton(
                     (x, y,
@@ -68,7 +64,7 @@ class copyMarginsDialog(hConstants):
                     self.all_fonts_names,
                     sizeStyle=self.size_style)
         # left / right
-        y += (self.text_height + self.padding_y) + 7
+        y += (self.text_height + self.padding_y)# + 7
         self.w.left_checkbox = CheckBox(
                     (x, y,
                     -self.padding_x,
@@ -94,6 +90,12 @@ class copyMarginsDialog(hConstants):
                     "copy",
                     sizeStyle=self.size_style,
                     callback=self.apply_callback)
+        # bind
+        self.w.bind("became key", self.update_callback)
+        self.w.bind("close", self.on_close_window)
+        # observers
+        addObserver(self, "update_callback", "fontDidOpen")
+        addObserver(self, "update_callback", "fontDidClose")
         # open window
         self.w.open()
 
@@ -105,9 +107,19 @@ class copyMarginsDialog(hConstants):
             for f in self.all_fonts:
                 self.all_fonts_names.append(get_full_name(f))
 
+    def update_callback(self, sender):
+        self._get_fonts()
+        self.w._source_value.setItems(self.all_fonts_names)
+        self.w._dest_value.setItems(self.all_fonts_names)
+
     def apply_callback(self, sender):
-        if not len(self.all_fonts) > 1:
-            print only_one_font
+        # no font open
+        if len(self.all_fonts) == 0:
+            print no_font_open
+        # only one font open
+        elif len(self.all_fonts) == 1:
+            print no_other_fonts
+        # two or more fonts open
         else:
             boolstring = [False, True]
             # source font
@@ -132,24 +144,28 @@ class copyMarginsDialog(hConstants):
                 print '\tcopy right: %s' % boolstring[_right]
                 print
                 # batch copy side-bearings
-                for gName in _source_font.selection:
+                for glyph_name in _source_font.selection:
                     try:
                         # set undo
-                        _dest_font[gName].prepareUndo('copy margins')
-                        print '\t%s' % gName,
+                        _dest_font[glyph_name].prepareUndo('copy margins')
+                        print '\t%s' % glyph_name,
                         # copy
                         if _left:
-                            _dest_font[gName].leftMargin = _source_font[gName].leftMargin
+                            _dest_font[glyph_name].leftMargin = _source_font[glyph_name].leftMargin
                         if _right:
-                            _dest_font[gName].rightMargin = _source_font[gName].rightMargin
+                            _dest_font[glyph_name].rightMargin = _source_font[glyph_name].rightMargin
                         # call undo
                         _dest_font.performUndo()
                         _dest_font.update()
                     except:
-                        print '\tcannot process %s' % gName
+                        print '\tcannot process %s' % glyph_name
                 print
                 print '\n...done.\n'
             # nothing selected
             else:
                 print 'Nothing to copy. Please select "left" or "right" side-bearings, and try again.\n'
 
+    def on_close_window(self, sender):
+        # remove observers on close window
+        removeObserver(self, "fontDidOpen")
+        removeObserver(self, "fontDidClose")

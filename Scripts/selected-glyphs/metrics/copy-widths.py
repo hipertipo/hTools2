@@ -1,11 +1,6 @@
 # [h] copy widths dialog
 
-'''Copy the advance widths in selected glyphs from one font to another.'''
+import hTools2.dialogs.glyphs.copy_widths
+reload(hTools2.dialogs.glyphs.copy_widths)
 
-# import
-
-from hTools2.dialogs.glyphs import copyWidthsDialog
-
-# run
-
-copyWidthsDialog()
+hTools2.dialogs.glyphs.copy_widths.copyWidthsDialog()

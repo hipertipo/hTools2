@@ -1,11 +1,6 @@
 # [h] copy side-bearings
 
-'''Copy side-bearings in selected glyphs from one font to another.'''
+import hTools2.dialogs.glyphs.copy_margins
+reload(hTools2.dialogs.glyphs.copy_margins)
 
-# import
-
-from hTools2.dialogs.glyphs import copyMarginsDialog
-
-# run
-
-copyMarginsDialog()
+hTools2.dialogs.glyphs.copy_margins.copyMarginsDialog()
