@@ -1,4 +1,4 @@
-# [h] a dialog to paint and select glyphs by color
+# [h] paint and select glyphs by color
 
 # imports
 
@@ -6,10 +6,7 @@ from AppKit import NSColor
 
 from vanilla import *
 
-try:
-    from mojo.roboFont import CurrentFont, CurrentGlyph
-except:
-    from robofab.world import CurrentFont, CurrentGlyph
+from mojo.roboFont import CurrentFont, CurrentGlyph
 
 from hTools2 import hConstants
 from hTools2.modules.color import random_color, clear_color

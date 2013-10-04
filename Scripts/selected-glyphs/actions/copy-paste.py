@@ -1,11 +1,6 @@
 # [h] copy / paste
 
-'''Copy glyph data and paste it into selected glyphs.'''
+import hTools2.dialogs.glyphs.copy_paste
+reload(hTools2.dialogs.glyphs.copy_paste)
 
-# import
-
-from hTools2.dialogs.glyphs import copyPasteGlyphDialog
-
-# run
-
-copyPasteGlyphDialog()
+hTools2.dialogs.glyphs.copy_paste.copyPasteGlyphDialog()

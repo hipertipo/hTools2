@@ -1,14 +1,8 @@
-#!/usr/bin/python
-# -*- coding: utf-8 -*-
-
-# [h] dialog to move selected glyphs
+# [h] move selected glyphs
 
 # imports
 
-try:
-    from mojo.roboFont import CurrentFont, CurrentGlyph
-except:
-    from robofab.world import CurrentFont, CurrentGlyph
+from mojo.roboFont import CurrentFont, CurrentGlyph
 
 from vanilla import *
 

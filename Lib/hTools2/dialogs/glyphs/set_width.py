@@ -1,16 +1,11 @@
-# [h] set glyph width
+# [h] set advance width of selected glyphs
 
-#-------------------------------------------------
-# options `split difference` and `relative split`
-# suggested and funded by Bas Jacobs / Underware
-#-------------------------------------------------
+### options `split difference` and `relative split`
+### suggested and funded by Bas Jacobs / Underware
 
 # imports
 
-try:
-    from mojo.roboFont import CurrentFont, CurrentGlyph
-except:
-    from robofab.world import CurrentFont, CurrentGlyph
+from mojo.roboFont import CurrentFont, CurrentGlyph
 
 from vanilla import *
 

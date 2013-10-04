@@ -1,13 +1,10 @@
-# [h] dialog to skew selected glyphs
+# [h] skew selected glyphs
 
 # imports
 
 import math
 
-try:
-    from mojo.roboFont import CurrentFont, CurrentGlyph
-except:
-    from robofab.world import CurrentFont, CurrentGlyph
+from mojo.roboFont import CurrentFont, CurrentGlyph
 
 from vanilla import *
 

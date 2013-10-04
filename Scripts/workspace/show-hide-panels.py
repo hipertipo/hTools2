@@ -1,6 +1,6 @@
 # [h] show/hide panels
 
-### thanks Frederik ###
+### thanks Frederik
 
 from AppKit import NSApp, NSPanel
 

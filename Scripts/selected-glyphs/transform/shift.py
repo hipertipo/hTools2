@@ -1,11 +1,6 @@
 # [h] shift points
 
-'''Select points by position and shift them by a given distance.'''
+import hTools2.dialogs.glyphs.shift_points
+reload(hTools2.dialogs.glyphs.shift_points)
 
-# import
-
-from hTools2.dialogs.glyphs import shiftPointsDialog
-
-# run
-
-shiftPointsDialog()
+hTools2.dialogs.glyphs.shift_points.shiftPointsDialog()

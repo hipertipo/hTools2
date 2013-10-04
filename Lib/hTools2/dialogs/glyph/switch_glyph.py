@@ -4,10 +4,7 @@
 
 from vanilla import *
 
-try:
-    from mojo.roboFont import AllFonts, CurrentFont, CurrentGlyph
-except:
-    from robofab.world import AllFonts, CurrentFont, CurrentGlyph
+from mojo.roboFont import AllFonts, CurrentFont, CurrentGlyph
 
 from mojo.UI import CurrentGlyphWindow, OpenGlyphWindow
 

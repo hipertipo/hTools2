@@ -1,11 +1,6 @@
 # [h] skew glyphs dialog
 
-'''Skew selected glyphs by a given angle.'''
+import hTools2.dialogs.glyphs.skew
+reload(hTools2.dialogs.glyphs.skew)
 
-# imports
-
-from hTools2.dialogs.glyphs import skewGlyphsDialog
-
-# run
-
-skewGlyphsDialog()
+hTools2.dialogs.glyphs.skew.skewGlyphsDialog()

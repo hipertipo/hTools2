@@ -1,11 +1,8 @@
-# [h] dialog to change suffix in selected glyphs
+# [h] change suffix in selected glyphs
 
 # imports
 
-try:
-    from mojo.roboFont import CurrentFont
-except:
-    from robofab.world import CurrentFont
+from mojo.roboFont import CurrentFont
 
 from vanilla import *
 
@@ -18,9 +15,7 @@ class changeSuffixDialog(object):
 
     """A dialog to change the suffix of the selected glyphs."""
 
-    #------------
     # attributes
-    #------------
 
     _title = 'suffix'
     _padding = 10
@@ -36,9 +31,7 @@ class changeSuffixDialog(object):
     _new_suffix = ''
     _overwrite = True
 
-    #---------
     # methods
-    #---------
 
     def __init__(self):
         self.w = FloatingWindow(

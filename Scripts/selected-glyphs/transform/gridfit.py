@@ -1,11 +1,6 @@
 # [h] fit to grid dialog
 
-'''Round different glyph features to a given grid.'''
+import hTools2.dialogs.glyphs.round_to_grid
+reload(hTools2.dialogs.glyphs.round_to_grid)
 
-# import
-
-from hTools2.dialogs.glyphs import roundToGridDialog
-
-# run
-
-roundToGridDialog()
+hTools2.dialogs.glyphs.round_to_grid.roundToGridDialog()

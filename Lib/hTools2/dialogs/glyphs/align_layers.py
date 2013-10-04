@@ -1,4 +1,4 @@
-# [h] center layers dialog
+# [h] center layers in selected glyphs
 
 # imports
 
@@ -10,9 +10,7 @@ class alignLayersDialog(object):
 
     """A dialog to center all layers in the selected glyphs."""
 
-    #------------
     # attributes
-    #------------
 
     _title = 'center'
     _padding = 10
@@ -28,9 +26,7 @@ class alignLayersDialog(object):
     _all_layers = False
     _guides = True
 
-    #---------
     # methods
-    #---------
 
     def __init__(self):
         self._get_layers()

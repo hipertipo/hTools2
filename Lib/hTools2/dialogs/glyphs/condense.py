@@ -1,4 +1,4 @@
-# [h] condense glyphs
+# [h] condense glyphs by interpolating Regular and Bold
 
 # imports
 
@@ -45,9 +45,6 @@ class condenseGlyphsDialog(hConstants):
         self.value_box = 60
         self.column_2 = self.value_box + (self.nudge_button * 7) - 6
         self.w = FloatingWindow((self.width, self.height), title=self.title)
-        #-------
-        # fonts
-        #-------
         # master 1 (regular)
         x = self.padding_x
         y = self.padding_y - 8
@@ -95,10 +92,7 @@ class condenseGlyphsDialog(hConstants):
                     self.all_fonts_names,
                     sizeStyle=self.size_style)
         y += (self.text_height + self.padding_y)
-        #-------
-        # factor
-        #-------
-        # label
+        # factor label
         _label_width = self.nudge_button * 3
         self.w._factor_label = TextBox(
                     (x, y,
@@ -107,7 +101,7 @@ class condenseGlyphsDialog(hConstants):
                     "factor",
                     sizeStyle=self.size_style)
         x += _label_width - 2
-        # value
+        # factor value
         self.w._factor_value = EditText(
                     (x, y,
                     -self.padding_x,
@@ -170,9 +164,7 @@ class condenseGlyphsDialog(hConstants):
                     '+',
                     callback=self._factor_plus_100_callback,
                     sizeStyle=self.size_style)
-        #---------
-        # buttons
-        #---------
+        # apply buttons
         x = self.padding_x
         y += (self.text_height + self.padding_y) - 3
         self.w.button_apply = SquareButton(
@@ -202,9 +194,7 @@ class condenseGlyphsDialog(hConstants):
         # bind
         self.w.bind("became key", self.update_callback)
         self.w.bind("close", self.on_close_window)
-        #-----------
         # observers
-        #-----------
         addObserver(self, "update_callback", "fontDidOpen")
         addObserver(self, "update_callback", "fontDidClose")
         # open window

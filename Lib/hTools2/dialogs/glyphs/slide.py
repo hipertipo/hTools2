@@ -1,11 +1,8 @@
-# [h] dialog to move selected glyphs with sliders
+# [h] slide selected glyphs
 
 # imports
 
-try:
-    from mojo.roboFont import CurrentFont, CurrentGlyph
-except:
-    from robofab.world import CurrentFont, CurrentGlyph
+from mojo.roboFont import CurrentFont, CurrentGlyph
 
 from vanilla import *
 
@@ -41,9 +38,7 @@ class slideGlyphsDialog(hConstants):
         self.column_2 = 240
         self.width = self.column_1 + self.column_2 + self.button_width + (self.padding_x * 3) # 600
         self.height = (self.text_height * 3) + (self.padding_y * 4)
-        self.w = FloatingWindow(
-                    (self.width, self.height),
-                    self.title)
+        self.w = FloatingWindow((self.width, self.height), self.title)
         x = self.padding_x
         y = self.padding_y
         # current font name
@@ -148,8 +143,6 @@ class slideGlyphsDialog(hConstants):
         else:
             print 'No font selected, please open a font and try again.\n'
 
-
-
     def set_defaults(self):
         self._xMax = self.font.info.unitsPerEm
         self._yMax = self.font.info.unitsPerEm / 2
@@ -166,9 +159,9 @@ class slideGlyphsDialog(hConstants):
         y = self._moveY - yValue
         self._moveX = xValue
         self._moveY = yValue
-        for gName in self.font.selection:
+        for glyph_name in self.font.selection:
             try:
-                self.font[gName].move((-x, -y))
+                self.font[glyph_name].move((-x, -y))
             except:
-                print 'cannot transform %s' % gName
+                print 'cannot transform %s' % glyph_name
 

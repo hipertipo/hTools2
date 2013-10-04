@@ -1,4 +1,4 @@
-# [h] mask
+# [h] mask actions for selected glyphs
 
 # imports
 

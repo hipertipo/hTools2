@@ -1,19 +1,14 @@
 # [h] import layer from ufo
 
-#---------------------------
-# suggested and sponsored
-# by Bas Jacobs (Underware)
-# http://www.underware.nl/
-#---------------------------
+### suggested and sponsored
+### by Bas Jacobs (Underware)
+### http://www.underware.nl/
 
 # import
 
 import os
 
-try:
-    from mojo.roboFont import CurrentFont, RFont
-except:
-    from robofab.world import CurrentFont, RFont
+from mojo.roboFont import CurrentFont, RFont
 
 from vanilla import *
 from vanilla.dialogs import getFile
@@ -36,9 +31,7 @@ class importUFOIntoLayerDialog(object):
     ufo_path = None
 
     def __init__(self):
-            self.w = FloatingWindow(
-                        (self._width, self._height),
-                        self._title, closable=True)
+            self.w = FloatingWindow((self._width, self._height), self._title)
             x = self._padding
             y = self._padding
             # get ufo button

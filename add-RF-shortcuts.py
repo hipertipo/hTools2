@@ -13,9 +13,9 @@ from hTools2.modules.sysutils import *
 scripts_path = os.path.join(os.getcwd(), 'Scripts')
 
 scripts_shortcuts = [
-    (   'd',    'actions',          u'selected-glyphs/actions/actions.py',            ),
+    (   '1',    'actions',          u'selected-glyphs/actions/actions.py',            ),
     (   'c',    'paint select',     u'selected-glyphs/color/paint-select.py',         ),
-    (   'f',    'gridfit',          u'selected-glyphs/transform/gridfit.py',          ),
+    (   'g',    'gridfit',          u'selected-glyphs/transform/gridfit.py',          ),
     (   'h',    'set width',        u'selected-glyphs/metrics/set-width.py',          ),
     (   'i',    'interpolate',      u'selected-glyphs/interpol/interpolate.py',       ),
     (   'k',    'mask',             u'selected-glyphs/layers/mask.py',                ),

@@ -2,10 +2,7 @@
 
 # imports
 
-try:
-    from mojo.roboFont import AllFonts
-except:
-    from robofab.world import AllFonts
+from mojo.roboFont import AllFonts
 
 from vanilla import *
 

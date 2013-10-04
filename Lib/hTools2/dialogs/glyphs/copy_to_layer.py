@@ -1,11 +1,8 @@
-# [h] copy to layer dialog
+# [h] copy foreground to other layers in selected glyphs
 
-# import
+# imports
 
-try:
-    from mojo.roboFont import CurrentFont
-except:
-    from robofab.world import CurrentFont
+from mojo.roboFont import CurrentFont
 
 from vanilla import *
 

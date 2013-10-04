@@ -1,11 +1,6 @@
 # [h] slide glyphs
 
-'''Slide selected glyphs interactively with a slider.'''
+import hTools2.dialogs.glyphs.slide
+reload(hTools2.dialogs.glyphs.slide)
 
-# imports
-
-from hTools2.dialogs.glyphs import slideGlyphsDialog
-
-# run
-
-slideGlyphsDialog()
+hTools2.dialogs.glyphs.slide.slideGlyphsDialog()

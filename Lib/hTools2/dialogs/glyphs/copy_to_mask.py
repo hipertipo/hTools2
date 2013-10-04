@@ -1,4 +1,4 @@
-# [h] copy to mask
+# [h] copy foreground to background layer
 
 # imports
 

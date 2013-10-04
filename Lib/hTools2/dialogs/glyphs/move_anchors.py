@@ -2,10 +2,7 @@
 
 # imports
 
-try:
-    from mojo.roboFont import CurrentFont
-except:
-    from robofab.world import CurrentFont
+from mojo.roboFont import CurrentFont
 
 from vanilla import *
 
@@ -18,9 +15,7 @@ class moveAnchorsDialog(object):
 
     """A dialog to move the anchors in the selected glyphs of the current font."""
 
-    #------------
     # attributes
-    #------------
 
     _title = "anchors"
     _padding = 10
@@ -40,9 +35,7 @@ class moveAnchorsDialog(object):
     _anchors_accents = True
     _anchors_layers = False
 
-    #---------
     # methods
-    #---------
 
     def __init__(self):
         self.w = FloatingWindow(

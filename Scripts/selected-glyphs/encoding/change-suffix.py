@@ -1,11 +1,6 @@
-# [h] change glyph suffix
+# [h] change suffix in glyph names
 
-'''Change the existing suffix of selected glyphs by a new one.'''
+import hTools2.dialogs.glyphs.change_suffix
+reload(hTools2.dialogs.glyphs.change_suffix)
 
-# import
-
-from hTools2.dialogs.glyphs import changeSuffixDialog
-
-# run
-
-changeSuffixDialog()
+hTools2.dialogs.glyphs.change_suffix.changeSuffixDialog()

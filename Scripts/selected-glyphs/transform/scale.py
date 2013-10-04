@@ -1,11 +1,6 @@
 # [h] scale glyphs dialog
 
-'''Scale selected glyphs by a given factor.'''
+import hTools2.dialogs.glyphs.scale
+reload(hTools2.dialogs.glyphs.scale)
 
-# import
-
-from hTools2.dialogs.glyphs import scaleGlyphsDialog
-
-# run
-
-scaleGlyphsDialog()
+hTools2.dialogs.glyphs.scale.scaleGlyphsDialog()

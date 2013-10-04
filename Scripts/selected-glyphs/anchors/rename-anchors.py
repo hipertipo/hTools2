@@ -1,11 +1,6 @@
 # [h] rename anchors
 
-'''Change the name of anchors in selected glyphs into a new name.'''
+import hTools2.dialogs.glyphs.rename_anchors
+reload(hTools2.dialogs.glyphs.rename_anchors)
 
-# imports
-
-from hTools2.dialogs.glyphs import renameAnchorsDialog
-
-# run
-
-renameAnchorsDialog()
+hTools2.dialogs.glyphs.rename_anchors.renameAnchorsDialog()

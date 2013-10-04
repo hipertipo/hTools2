@@ -1,9 +1,6 @@
 # [h] condensomatic
 
-# import
+import hTools2.dialogs.glyphs.condense
+reload(hTools2.dialogs.glyphs.condense)
 
-from hTools2.dialogs.glyphs.condense import condenseGlyphsDialog
-
-# run!
-
-condenseGlyphsDialog()
+hTools2.dialogs.glyphs.condense.condenseGlyphsDialog()

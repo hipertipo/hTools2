@@ -1,11 +1,6 @@
 # [h] move dialog
 
-'''Mirror contours in selected glyphs.'''
+import hTools2.dialogs.glyphs.mirror
+reload(hTools2.dialogs.glyphs.mirror)
 
-# imports
-
-from hTools2.dialogs.glyphs import mirrorGlyphsDialog
-
-# run
-
-mirrorGlyphsDialog()
+hTools2.dialogs.glyphs.mirror.mirrorGlyphsDialog()

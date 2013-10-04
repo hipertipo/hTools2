@@ -1,11 +1,6 @@
 # [h] actions
 
-'''Apply common actions to selected glyphs.'''
+import hTools2.dialogs.glyphs.actions
+reload(hTools2.dialogs.glyphs.actions)
 
-# imports
-
-from hTools2.dialogs.glyphs import glyphActionsDialog
-
-# run
-
-glyphActionsDialog()
+hTools2.dialogs.glyphs.actions.glyphActionsDialog()

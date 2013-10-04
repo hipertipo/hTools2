@@ -1,11 +1,8 @@
-# [h] set side-bearings
+# [h] set side-bearings in selected glyphs
 
 # imports
 
-try:
-    from mojo.roboFont import CurrentFont, CurrentGlyph
-except:
-    from robofab.world import CurrentFont, CurrentGlyph
+from mojo.roboFont import CurrentFont, CurrentGlyph
 
 from vanilla import *
 

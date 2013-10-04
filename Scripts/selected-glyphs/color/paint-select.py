@@ -1,11 +1,6 @@
 # [h] paint and select
 
-'''Paint selected glyphs and select glyphs by color.'''
-
-# import
-
-from hTools2.dialogs.glyphs import paintGlyphsDialog
-
-# run
+import hTools2.dialogs.glyphs.paint
+reload(hTools2.dialogs.glyphs.paint)
 
 paintGlyphsDialog()

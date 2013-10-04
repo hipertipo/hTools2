@@ -1,21 +1,14 @@
 # [h] nudge points
 
-"""A simple RoboFont dialog for the famous 'interpolated nudge' script."""
+### Interpolated Nudge for RoboFont by Travis Kochel
+### http://tktype.tumblr.com/post/15254264845/interpolated-nudge-for-robofont
 
-#---------------------------------------------------------------------------
-# Interpolated Nudge for RoboFont by Travis Kochel
-# http://tktype.tumblr.com/post/15254264845/interpolated-nudge-for-robofont
-#---------------------------------------------------------------------------
-# Interpolated Nudge by Christian Robertson
-# http://betatype.com/node/18
-#---------------------------------------------------------------------------
+### Interpolated Nudge by Christian Robertson
+### http://betatype.com/node/18
 
 # imports
 
-try:
-    from mojo.roboFont import CurrentGlyph
-except:
-    from robofab.world import CurrentGlyph
+from mojo.roboFont import CurrentGlyph
 
 from vanilla import *
 
@@ -40,6 +33,8 @@ def nudgeSelected(x):
 # objects
 
 class nudgePointsDialog(object):
+
+    """A simple RoboFont dialog for the famous 'interpolated nudge' script."""
 
     _title = "nudge"
     _padding = 10

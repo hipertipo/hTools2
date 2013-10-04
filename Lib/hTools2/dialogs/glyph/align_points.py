@@ -1,13 +1,6 @@
-#!/usr/bin/python
-# -*- coding: utf-8 -*-
-# [h] align points
-
 # imports
 
-try:
-    from mojo.roboFont import CurrentGlyph
-except:
-    from robofab.world import CurrentGlyph
+from mojo.roboFont import CurrentGlyph
 
 from vanilla import *
 

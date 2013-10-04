@@ -1,11 +1,6 @@
 # [h] move glyphs dialog
 
-'''Move contours in selected glyphs by a given distance.'''
+import hTools2.dialogs.glyphs.move
+reload(hTools2.dialogs.glyphs.move)
 
-# import
-
-from hTools2.dialogs.glyphs import moveGlyphsDialog
-
-# run
-
-moveGlyphsDialog()
+hTools2.dialogs.glyphs.move.moveGlyphsDialog()

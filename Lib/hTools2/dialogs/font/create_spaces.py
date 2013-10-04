@@ -4,10 +4,7 @@
 
 from vanilla import *
 
-try:
-    from mojo.roboFont import CurrentFont, CurrentGlyph
-except:
-    from robofab.world import CurrentFont, CurrentGlyph
+from mojo.roboFont import CurrentFont, CurrentGlyph
 
 from hTools2.modules.fontutils import get_full_name
 from hTools2.modules.encoding import unicode_hexstr_to_int

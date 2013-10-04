@@ -1,11 +1,8 @@
-# [h] a dialog to apply actions to glyphs
+# [h] apply actions to selected glyphs
 
 # imports
 
-try:
-    from mojo.roboFont import CurrentFont
-except:
-    from robofab.world import CurrentFont
+from mojo.roboFont import CurrentFont
 
 from vanilla import *
 

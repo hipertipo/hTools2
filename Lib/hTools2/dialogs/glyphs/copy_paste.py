@@ -1,11 +1,8 @@
-# [h] copy/paste special
+# [h] selectively copy-and-paste data from one glyph to others
 
 # imports
 
-try:
-    from mojo.roboFont import CurrentFont, CurrentGlyph
-except:
-    from robofab.world import CurrentFont, CurrentGlyph
+from mojo.roboFont import CurrentFont, CurrentGlyph
 
 from vanilla import *
 
