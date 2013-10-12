@@ -1,5 +1,10 @@
 # [h] hProject
 
+# debug
+
+import hTools2.modules.git
+reload(hTools2.modules.git)
+
 # imports
 
 import os
@@ -10,16 +15,12 @@ try:
 except:
     from robofab.world import RFont, NewFont
 
-try:
-    from sh import cd, git
-except:
-    sh = cd = git = False
-
 from hworld import hWorld
 from hTools2.modules.fileutils import walk, get_names_from_path, delete_files
 from hTools2.modules.fontutils import parse_glyphs_groups
 from hTools2.modules.encoding import import_encoding
 from hTools2.modules.ftp import connect_to_server, upload_file
+from hTools2.modules.git import GitHandler
 
 # object
 
@@ -46,6 +47,9 @@ class hProject:
 
     #: A dictionary with the style names and paths of all masters and instances in the project.
     fonts = None
+
+    #: An object to control the project's git repository.
+    git = None
 
     _path_names = [
         'root',
@@ -89,6 +93,7 @@ class hProject:
             self.make_lib_paths()
             self.read_libs()
             self.collect_fonts()
+            self.get_repository()
 
     def __repr__(self):
         return '<hProject %s>' % self.name
@@ -493,8 +498,6 @@ class hProject:
 
     def generate_vfbs(self, masters=True, instances=False, interpol=False):
         """Batch convert ufos in project to vfb format."""
-        import os
-        from robofab.world import NewFont
         # collect files
         _ufos = []
         if masters:
@@ -557,37 +560,8 @@ class hProject:
 
     # basic git management
 
-    def git_commit(self, message='maintenance', push=False):
-        """Commit current version to the project's repository."""
-        sucess = False
-        if (cd and git) is not False:
-            # switch to project folder
-            cd(self.paths['root'])
-            # add changes
-            git.add('.')
-            git.add('-A')
-            # commit changes
-            try:
-                print git.commit("-m '%s'" % message)
-                sucess = True
-            # get status
-            except:
-                print git.status()
-        else:
-            print 'sh and/or git not available.\n'
-        # push to remote server
-        if sucess and push:
-            self.git_push()
-
-    def git_push(self):
-        """Push current version to git."""
-        # switch to project folder
-        cd(self.paths['root'])
-        # push changes to remote
-        print git.push('origin')
-
-    def git_status(self):
-        """Get current git status."""
-        cd(self.paths['root'])
-        print git.status()
-
+    def get_repository(self):
+        try:
+            self.git = GitHandler(self.paths['root'])
+        except:
+            print 'project has no git repository.'

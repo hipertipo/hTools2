@@ -9,7 +9,7 @@ import subprocess
 
 class GitHandler(object):
 
-    """An object to call commands on a git repository."""
+    """A simple object to call commands on a git repository."""
 
     # attributes
 
@@ -31,43 +31,59 @@ class GitHandler(object):
             command = command.split(' ')
         _command = [ 'git' ] + command
         # run command
-        pr = subprocess.Popen(_command,
-               cwd=os.path.dirname(self.folder),
+        process = subprocess.Popen(_command,
+               cwd=self.folder,
                stdout=subprocess.PIPE,
                stderr=subprocess.PIPE,
                shell=False)
-        (out, error) = pr.communicate()
-        return out, error
+        (output, error) = process.communicate()
+        # return
+        if len(output) > 0:
+            return output
+        else:
+            return error
     
-    def status(self, mode='short'):
-        #out, err = self.command('status')
-        out, err = self.command(['status', '--%s' % mode])
-        return out
+    def status(self, mode='patch'):
+        output = self.command(['status', '--%s' % mode])
+        return output
 
     def add(self, file_name=None, all_files=True, track=True):
         if file_name:
-            self.command('add %s' % file_name)
+            output = self.command('add %s' % file_name)
         else:
             if all_files:
-                self.command('add .')
+                output = self.command('add .')
             if track:
-                self.command('add -A')
+                output = self.command('add -A')
+        return output
 
     def commit(self, message):
-        out, err = self.command('commit -m %s' % message)
-        return out
+        output = self.command(['commit', '-m %s' % message])
+        return output
 
     def log(self, n=10):
-        out, err = self.command(['log', '--pretty=format:%H; %ad; %an; %ae; %s;', '-%s' % n])
-        return out
+        #output = self.command(['log', '--pretty=oneline', '-%s' % n])
+        output = self.command(['log', '--pretty=format:%H %ad %an %s', '-%s' % n])
+        return output
 
     def diff(self, mode='raw'):
         ### modes: raw, numstat, shortstat, summary, patch-with-stat, name-status, name-only
         ### see http://git-scm.com/docs/git-diff
-        out, err = self.command(['diff', '--%s' % mode])
-        return out
+        output = self.command(['diff', '--%s' % mode])
+        return output
 
     def remote(self):
-        out, err = self.command('remote')
-        remotes = out.split()
+        output = self.command('remote')
+        remotes = output.split()
         return remotes
+
+    def push(self, remote=None, branch=None):
+        if (branch and remote) is None:
+            output = self.command('push')
+        else:
+            if remote:
+                if branch:
+                    output = self.command(['push', remote, branch])
+                else:
+                    output = self.command(['push', remote])
+        return output
