@@ -28,6 +28,9 @@ class hConstants(object):
     #: Height of text elements in dialogs.
     text_height = 20
 
+    #: Height of text elements in dialogs.
+    text_input = 18
+
     #: Size of individual button in nudge button set.
     nudge_button = 18
 
@@ -43,8 +46,8 @@ class hConstants(object):
     #: The size style of text and standard dialog elements. Possible options are ``small``, ``regular``, ``mini``.
     size_style = 'small'
 
-    #: The body width of vertical dialogs.
-    body = 103
+    #: The default width of vertical dialogs.
+    width = 123
 
     #: The height of rhe progress bar.
     progress_bar = 18

@@ -311,7 +311,7 @@ class shiftPointsDialog(hConstants):
         self.shift_callback(mode=0)
 
     def shift_callback(self, mode):
-        if self.font is not None and len(self.glyph_names > 0):
+        if self.font is not None and len(self.glyph_names) > 0:
             _boolstring = [ 'False', 'True' ]
             _modes = [ 'minus', 'plus' ]
             _axes = [ 'x', 'y' ]
@@ -363,7 +363,7 @@ class shiftPointsDialog(hConstants):
                 # shift x
                 else:
                     # all layers
-                    if self._layers:
+                    if self.layers:
                         for layer_name in self.font.layerOrder:
                             _g = g.getLayer(layer_name)
                             _g.prepareUndo('shift points x')

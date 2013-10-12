@@ -388,28 +388,29 @@ class hFont:
         fontinfo_lib = self.project.libs['info']
         # set info fields
         for k in fontinfo_lib.keys():
+            v = fontinfo_lib[k]
             if k == 'copyright':
-                self.ufo.info.copyright = fontinfo_lib[k]
+                self.ufo.info.copyright = v
             if k == 'trademark':
-                self.ufo.info.trademark = fontinfo_lib[k]
+                self.ufo.info.trademark = v
             if k == 'note':
-                self.ufo.info.note = fontinfo_lib[k]
+                self.ufo.info.note = v
             if k == 'licence':
-                self.ufo.info.openTypeNameLicense = fontinfo_lib[k]
+                self.ufo.info.openTypeNameLicense = v
             if k == 'sample':
-                self.ufo.info.openTypeNameSampleText = fontinfo_lib[k]
+                self.ufo.info.openTypeNameSampleText = v
             if k == 'description':
-                self.ufo.info.openTypeNameDescription = fontinfo_lib[k]
+                self.ufo.info.openTypeNameDescription = v
             if k == 'year':
-                self.ufo.info.year = int(fontinfo_lib[k])
+                self.ufo.info.year = int(v)
             if k == 'designer':
-                self.ufo.info.openTypeNameDesigner = fontinfo_lib[k]
+                self.ufo.info.openTypeNameDesigner = v
             if k == 'designer_url':
-                self.ufo.info.openTypeNameDesignerURL = fontinfo_lib[k]
+                self.ufo.info.openTypeNameDesignerURL = v
             if k == 'manufacturer':
-                self.ufo.info.openTypeNameManufacturer = fontinfo_lib[k]
+                self.ufo.info.openTypeNameManufacturer = v
             if k == 'manufacturer_url':
-                self.ufo.info.openTypeNameManufacturerURL = fontinfo_lib[k]
+                self.ufo.info.openTypeNameManufacturerURL = v
         # done
         self.ufo.update()
 

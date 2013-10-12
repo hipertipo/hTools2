@@ -34,9 +34,7 @@ class adjustVerticalMetrics(object):
     _descender_min = 1
 
     def __init__(self):
-        self.w = FloatingWindow(
-                    (self._width, self._height),
-                    self._title)
+        self.w = FloatingWindow((self._width, self._height), self._title)
         # get font vmetrics
         self.font = CurrentFont()
         _units_per_em = self.font.info.unitsPerEm

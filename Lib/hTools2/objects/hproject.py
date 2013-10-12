@@ -535,13 +535,13 @@ class hProject:
         css_file.write(css_code)
         print 'done.\n'
 
-    def upload_css(self):
-        """Upload the project's ``.css`` file to the project's folder in the FTP server."""
+    def upload_css(self, verbose=True):
+        """Upload the project's ``.css`` files to the project's fonts folder in the FTP server."""
         woffs_folder = self.paths['woffs']
-        css_file = '%s.css' % self.name.lower()
-        css_path = os.path.join(woffs_folder, css_file)
-        if os.path.exists(css_path):
-            print 'uploading %s to ftp server...' % css_file,
+        css_files = walk(woffs_folder, 'css')
+        for css_file in css_files:
+            if verbose:
+                print 'uploading %s to ftp server...' % css_file,
             # get ftp parameters
             url = self.world.settings.hDict['ftp']['url']
             login = self.world.settings.hDict['ftp']['login']
@@ -549,11 +549,11 @@ class hProject:
             folder = self.ftp_path()
             # connect to ftp
             F = connect_to_server(url, login, password, folder, verbose=False)
-            upload_file(css_path, F)
+            upload_file(css_file, F)
             F.quit()
-            print 'done.\n'
-        else:
-            print 'css file does not exist.'
+            # done
+            if verbose:
+                print 'done.\n'
 
     # basic git management
 
