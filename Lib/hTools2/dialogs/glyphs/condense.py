@@ -254,7 +254,6 @@ class condenseGlyphsDialog(hConstants):
         factor = self.factor
         # print info
         print 'condensing glyphs...\n'
-        boolstring = [False, True]
         print '\tmaster 1: %s' % get_full_name(f1)
         print '\tmaster 2: %s' % get_full_name(f2)
         print '\ttarget: %s' % get_full_name(f3)

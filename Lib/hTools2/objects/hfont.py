@@ -14,11 +14,31 @@ from hTools2.modules.fontutils import *
 from hTools2.modules.ftp import *
 from hTools2.modules.opentype import import_features, clear_features, import_kern_feature
 
+from fontTools.ttLib import TTFont
+
+# functions
+
+def strip_names(ttx_path):
+    import hTools2.extras.ElementTree as ET
+    # nameIDs which will be erased
+    nameIDs = [ 1, 2, 4, 16, 17, 18 ]
+    tree = ET.parse(ttx_path)
+    root = tree.getroot()
+    for child in root.find('name'):
+        if int(child.attrib['nameID']) in nameIDs:
+            child.text = ' '
+    tree.write(ttx_path)
+
+def ttx2otf(ttx_path, otf_path):
+    tt = TTFont()
+    tt.importXML(ttx_path)
+    tt.save(otf_path)
+
 # objects
 
 class hFont:
 
-    """An object to represent a ``.ufo`` font source, wrapped in a few useful functions."""
+    '''An object to represent a ``.ufo`` font source, wrapped in a few useful functions.'''
 
     # attributes
 
@@ -43,16 +63,16 @@ class hFont:
     # methods
 
     def __init__(self, ufo):
-        """Initiate the ``hFont`` object from a ``.ufo`` file."""
+        '''Initiate the ``hFont`` object from a ``.ufo`` file.'''
         self.ufo = ufo
         self.init_from_filename()
 
     def __repr__(self):
-        """Return textual representation of ``hFont``."""
+        '''Return textual representation of ``hFont``.'''
         return '<hFont %s>' % self.full_name()
 
     def init_from_filename(self, set_names=True):
-        """Initiate ``hFont`` object from ``RFont``, get parent project, parse name parts."""
+        '''Initiate ``hFont`` object from ``RFont``, get parent project, parse name parts.'''
         ufo_file = os.path.basename(self.ufo.path)
         self.file_name = os.path.splitext(ufo_file)[0]
         try:
@@ -78,7 +98,7 @@ class hFont:
     # groups and glyphs
 
     def create_glyphs(self):
-        """Create all glyphs from the project's encoding file."""
+        '''Create all glyphs from the project's encoding file.'''
         glyph_set = self.glyphset()
         for glyph_name in glyph_set:
             if self.ufo.has_key(glyph_name) is not True:
@@ -86,7 +106,7 @@ class hFont:
         self.ufo.save()
 
     def glyphset(self):
-        """Return a list with all glyph names in the font's glyphset."""
+        '''Return a list with all glyph names in the font's glyphset.'''
         _glyph_order = []
         for group in self.project.libs['groups']['order']:
             for glyph in self.project.libs['groups']['glyphs'][group]:
@@ -94,25 +114,25 @@ class hFont:
         return _glyph_order
 
     def auto_unicodes(self):
-        """Automatically set unicodes for all glyphs in the font."""
+        '''Automatically set unicodes for all glyphs in the font.'''
         auto_unicodes(self.ufo)
 
     def clear_groups(self):
-        """Delete all groups in the font."""
+        '''Delete all groups in the font.'''
         delete_groups(self.ufo)
 
     def order_glyphs(self):
-        """Automatically set the order of the glyphs in the font based on the project's ``groups`` lib."""
+        '''Automatically set the order of the glyphs in the font based on the project's ``groups`` lib.'''
         glyph_order = self.glyphset()
         self.ufo.glyphOrder = glyph_order
         self.ufo.update()
 
     def paint_groups(self, crop=False):
-        """Paints and orders the glyphs in the font based on the project's ``groups`` lib."""
+        '''Paints and orders the glyphs in the font based on the project's ``groups`` lib.'''
         paint_groups(self.ufo, crop)
 
     def import_spacing_groups(self, mode=0):
-        """Import left/right spacing classes from lib into groups."""
+        '''Import left/right spacing classes from lib into groups.'''
         _spacing_dict = self.project.libs['spacing']
         # old hTools1 format
         if mode == 1:
@@ -130,7 +150,7 @@ class hFont:
         self.ufo.update()
 
     def paint_spacing_groups(self, side, verbose=False):
-        """Paint left or right spacing groups."""
+        '''Paint left or right spacing groups.'''
         # collect groups & glyphs to paint
         _groups_dict = get_spacing_groups(self.ufo)
         if side == 'left':
@@ -168,7 +188,7 @@ class hFont:
                 print 'there are no spacing groups to paint.\n'
 
     def import_groups_from_encoding(self):
-        """Import glyph names and order from encoding file, and stores them in a lib."""
+        '''Import glyph names and order from encoding file, and stores them in a lib.'''
         self.project.import_encoding()
         self.ufo.groups.clear()
         for group in self.project.libs['groups']['glyphs'].keys():
@@ -176,7 +196,7 @@ class hFont:
         self.ufo.lib['groups_order'] = self.project.libs['groups']['order']
 
     def crop_glyphset(self):
-        """Delete all glyphs which are not in the font's glyphset."""
+        '''Delete all glyphs which are not in the font's glyphset.'''
         glyph_set = self.glyphset()
         crop_glyphset(self.ufo, glyph_set)
 
@@ -198,43 +218,43 @@ class hFont:
         pass
 
     def remove_overlap(self):
-        """Remove overlaps for all glyphs in font."""
+        '''Remove overlaps for all glyphs in font.'''
         remove_overlap(self.ufo)
 
     def decompose(self):
-        """Decompose all glyphs in font."""
+        '''Decompose all glyphs in font.'''
         decompose(self.ufo)
 
     def auto_contour_order(self):
-        """Auto set contour order in all glyphs in font."""
+        '''Auto set contour order in all glyphs in font.'''
         auto_contour_order(self.ufo)
 
     def auto_contour_direction(self):
-        """Auto set contour direction in all glyphs in font."""
+        '''Auto set contour direction in all glyphs in font.'''
         auto_contour_direction(self.ufo)
 
     def auto_order_direction(self):
-        """Auto set contour order and direction in all glyphs in font."""
+        '''Auto set contour order and direction in all glyphs in font.'''
         auto_order_direction(self.ufo)
 
     def add_extremes(self):
-        """Auto add extreme points in all glyphs in font."""
+        '''Auto add extreme points in all glyphs in font.'''
         add_extremes(self.ufo)
 
     def align_to_grid(self, (sizeX, sizeY)):
-        """Align points in all glyphs in font to the given ``(x,y)`` grid."""
+        '''Align points in all glyphs in font to the given ``(x,y)`` grid.'''
         align_to_grid(self.ufo, (sizeX, sizeY))
 
     def scale_glyphs(self, (factor_x, factor_y)):
-        """Scale all glyphs in font by the given factor ``(x,y)``."""
+        '''Scale all glyphs in font by the given factor ``(x,y)``.'''
         scale_glyphs(self.ufo, (factor_x, factor_y))
 
     def move_glyphs(self, (delta_x, delta_y)):
-        """Move all glyphs in font by the given distance ``(x,y)``."""
+        '''Move all glyphs in font by the given distance ``(x,y)``.'''
         move_glyphs(self.ufo, (delta_x, delta_y))
 
     def round_to_grid(self, gridsize, gstring=None):
-        """Round points in all given glyphs in the font to the given ``gridsize``."""
+        '''Round points in all given glyphs in the font to the given ``gridsize``.'''
         glyph_names = None
         if gstring is not None:
             names = gstring.split(' ')
@@ -243,7 +263,7 @@ class hFont:
         round_to_grid(self.ufo, gridsize, glyph_names)
 
     def delete_layers(self):
-        """Delete all layers in the font."""
+        '''Delete all layers in the font.'''
         while len(self.ufo.layerOrder) > 0:
             self.ufo.removeLayer(self.ufo.layerOrder[0])
             self.ufo.update()
@@ -251,7 +271,7 @@ class hFont:
     # building glyphs
 
     def clear_anchors(self, gstring=None):
-        """Delete all anchors in the font."""
+        '''Delete all anchors in the font.'''
         if gstring is not None:
             _glyph_names = self.project.parse_gstring(gstring)
         else:
@@ -259,7 +279,7 @@ class hFont:
         clear_anchors(self.ufo, glyph_names=_glyph_names)
 
     def build_glyph(self, glyph_name):
-        """Build glyph with the given ``glyph_name`` from components based on the project's ``accents`` or ``composed`` libs."""
+        '''Build glyph with the given ``glyph_name`` from components based on the project's ``accents`` or ``composed`` libs.'''
         # accents
         if self.project.libs['accents'].has_key(glyph_name):
             base_glyph, accents = self.project.libs['accents'][glyph_name]
@@ -281,13 +301,13 @@ class hFont:
             print '%s is not composed.\n' % glyph_name
 
     def build_accents(self):
-        """Build all accented glyphs in the font based on the project's ``accents`` libs."""
+        '''Build all accented glyphs in the font based on the project's ``accents`` libs.'''
         for glyph_name in self.project.libs['accents'].keys():
             if self.ufo.has_key(glyph_name):
                 self.build_glyph(glyph_name)
 
     def build_composed(self):
-        """Build all composed glyphs in the font based on the project's ``composed`` libs."""
+        '''Build all composed glyphs in the font based on the project's ``composed`` libs.'''
         for glyph_name in self.project.libs['composed'].keys():
             if self.ufo.has_key(glyph_name):
                 self.build_glyph(glyph_name)
@@ -338,35 +358,35 @@ class hFont:
     # OT features
 
     def clear_features(self):
-        """Delete all OpenType features and classes in font."""
+        '''Delete all OpenType features and classes in font.'''
         clear_features(self.ufo)
 
     def import_features(self):
-        """Import features from features file into font."""
+        '''Import features from features file into font.'''
         import_features(self.ufo, self.project.paths['features'])
 
     def import_kern_feature(self):
-        """Import `kern` feature from features file into font."""
+        '''Import `kern` feature from features file into font.'''
         # extend: make switch to get style-specific kerning
         kern_path = os.path.join(self.project.paths['libs'], 'kern.fea')
         import_kern_feature(self.ufo, kern_path)
 
     def export_features(self):
-        """Export features from font to features file."""
+        '''Export features from font to features file.'''
         export_features(self.ufo, self.project.paths['features'])
 
     # font names
 
     def full_name(self):
-        """Return the full name of the font, made of the `hProject.name` and `font.style_name`."""
+        '''Return the full name of the font, made of the `hProject.name` and `font.style_name`.'''
         return '%s %s' % (self.project.name, self.style_name)
 
     def set_names(self):
-        """Set font names from the font's ``.ufo`` file name."""
+        '''Set font names from the font's ``.ufo`` file name.'''
         set_names_from_path(self.ufo, prefix='HPTP')
 
     def name_from_parameters(self, separator=''):
-        """Set font names from the font's parameters lib."""
+        '''Set font names from the font's parameters lib.'''
         name = ''
         parameters = self.project.libs['project']['parameters_order']
         count = 0
@@ -380,11 +400,11 @@ class hFont:
     # font info
 
     def set_info(self):
-        """Set font names from the ``.ufo``'s path name."""
+        '''Set font names from the ``.ufo``'s path name.'''
         set_names_from_path(self.ufo)
 
     def set_foundry_info(self):
-        """Set foundry info from the project's ``info`` lib."""
+        '''Set foundry info from the project's ``info`` lib.'''
         fontinfo_lib = self.project.libs['info']
         # set info fields
         for k in fontinfo_lib.keys():
@@ -415,17 +435,17 @@ class hFont:
         self.ufo.update()
 
     def print_info(self):
-        """Print different kinds of font information."""
+        '''Print different kinds of font information.'''
         pass
 
     def clear_info(self):
-        """Print different kinds of font information."""
+        '''Print different kinds of font information.'''
         clear_font_info(self.ufo)
 
     # vertical metrics
 
     def get_vmetrics(self):
-        """Build a ``vmetrics`` dict using data from the ``vmetrics`` lib."""
+        '''Build a ``vmetrics`` dict using data from the ``vmetrics`` lib.'''
         # build up vmetrics dict
         vmetrics_lib = self.project.libs['project']['vmetrics']
         vmetrics = {}
@@ -462,7 +482,7 @@ class hFont:
     #     return stems
 
     def set_stems(self, verbose=True):
-        """Set PS stems by measuring glyph data in the font."""
+        '''Set PS stems by measuring glyph data in the font.'''
         if verbose:
             print 'setting stems in %s...' % self.full_name(),
         stems = get_stems(self.ufo)
@@ -472,7 +492,7 @@ class hFont:
             print 'done.'
 
     def set_vmetrics(self, verbose=True):
-        """Set the font's vertical metrics from the a ``vmetrics`` dict."""
+        '''Set the font's vertical metrics from the a ``vmetrics`` dict.'''
         if verbose:
             print 'setting vertical metrics in %s...' % self.full_name(),
         # set vmetrics
@@ -483,7 +503,7 @@ class hFont:
             print 'done.'
 
     def make_guides(self):
-        """Build a guides dictionary from the project's ``vmetrics`` lib."""
+        '''Build a guides dictionary from the project's ``vmetrics`` lib.'''
         vmetrics = self.get_vmetrics()
         guides = vmetrics.keys()
         # separate guides into groups
@@ -508,7 +528,7 @@ class hFont:
         self.guides_dict = guides_dict
 
     def draw_guides(self, case='lowercase', guides_group='overshoots', verbose=True):
-        """Create guidelines using data from the project's ``vmetrics`` lib."""
+        '''Create guidelines using data from the project's ``vmetrics`` lib.'''
         if verbose:
             print 'creating guidelines...',
         # clear current guides
@@ -528,11 +548,11 @@ class hFont:
             print 'done.\n'
 
     def clear_guides(self):
-        """Delete all global guides in the font."""
+        '''Delete all global guides in the font.'''
         clear_guides(self.ufo)
 
     def set_bluezones(self):
-        """Set the PostScript blue zones from the font's vertical metrics and guidelines dict."""
+        '''Set the PostScript blue zones from the font's vertical metrics and guidelines dict.'''
         self.make_guides()
         bluezones = []
         bluezones.append(self.guides_dict['overshoots']['descender_overshoot'])
@@ -555,14 +575,7 @@ class hFont:
     # font paths
 
     def otf_path(self, test=False, folder=None):
-        """Return the default path for ``.otf`` font generation, in the project's ``_otfs/`` folder.
-        
-        >>> from hTools2.objects import hFont
-        >>> font = hFont(CurrentFont())
-        >>> print font.otf_path()
-        /fonts/_Publica/_otfs/Publica_55.otf
-
-        """
+        '''Return the default path for ``.otf`` font generation, in the project's ``_otfs/`` folder.'''
         otf_file = self.file_name + '.otf'
         if test is True:
             otf_path = os.path.join(self.project.paths['otfs_test'], otf_file)
@@ -574,15 +587,21 @@ class hFont:
         return otf_path
 
     def woff_path(self):
-        """Return the default path for ``.woff`` font generation, in the project's ``_woffs/`` folder."""
+        '''Return the default path for ``.woff`` font generation, in the project's ``_woffs/`` folder.'''
         woff_file = self.file_name + '.woff'
         woff_path = os.path.join(self.project.paths['woffs'], woff_file)
         return woff_path
 
+    def ttx_path(self):
+        '''Return the default path for ``.ttx`` generation, in the project's ``_ttx/`` folder.'''
+        ttx_file = self.file_name + '.ttx'
+        ttx_path = os.path.join(self.project.paths['ttx'], ttx_file)
+        return ttx_path
+
     # font generation
 
     def generate_otf(self, options=None, verbose=False, folder=None):
-        """Generate an ``.otf`` for the font using the given ``options``."""
+        '''Generate an ``.otf`` for the font using the given ``options``.'''
         # get options
         if options is None:
             try:
@@ -624,16 +643,38 @@ class hFont:
             print
             print '...done.\n'
 
-    def generate_woff(self):
-        """Generate a ``.woff`` font file from the available ``.otf`` font."""
+    def generate_woff(self, strip=False):
+        '''Generate a ``.woff`` font file from the available ``.otf`` font.'''
+        from hTools2_plus.extras.KLTF_WOFF import compressFont
         try:
-            from hTools2_plus.extras.KLTF_WOFF import compressFont
-            compressFont(self.otf_path(), self.woff_path())
+            if strip:
+                # save to ttx
+                self.generate_ttx()    
+                # strip names from ttx
+                ttx_path = self.ttx_path()
+                strip_names(ttx_path)
+                # generate otf
+                otf_path = os.path.join(self.project.paths['woffs'], os.path.split(ttx_path)[1]+'.otf')
+                ttx2otf(ttx_path, otf_path)
+                # generate woff
+                compressFont(otf_path, self.woff_path())
+                os.remove(otf_path)
+            else:
+                compressFont(self.otf_path(), self.woff_path())
         except:
             print 'KLTF WOFF module could not be imported.\n '
 
+    def generate_ttx(self):
+        '''Generate a ``.ttx`` file from the available ``.otf`` font.'''
+        otf_path = self.otf_path()
+        ttx_path = self.ttx_path()
+        if not os.path.exists(otf_path):
+            self.generate_otf()
+        tt = TTFont(otf_path)
+        tt.saveXML(ttx_path)
+
     def upload_woff(self):
-        """Upload the font's ``.woff`` file to the project's folder in the FTP server."""
+        '''Upload the font's ``.woff`` file to the project's folder in the FTP server.'''
         woff_path = self.woff_path()
         if os.path.exists(woff_path):
             url = self.project.world.settings.hDict['ftp']['url']
