@@ -588,3 +588,4 @@ class hProject:
             self.git = GitHandler(self.paths['root'])
         except:
             print 'project has no git repository.'
+

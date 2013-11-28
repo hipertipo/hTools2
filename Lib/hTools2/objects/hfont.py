@@ -8,7 +8,7 @@ from hproject import hProject
 
 from hTools2.modules.anchors import clear_anchors, get_anchors_dict
 from hTools2.modules.color import clear_colors, hls_to_rgb
-from hTools2.modules.encoding import paint_groups, auto_unicodes
+from hTools2.modules.encoding import paint_groups, auto_unicodes, crop_glyphset
 from hTools2.modules.fontinfo import set_names_from_path, set_vmetrics, get_stems, set_stems
 from hTools2.modules.fontutils import *
 from hTools2.modules.ftp import *
