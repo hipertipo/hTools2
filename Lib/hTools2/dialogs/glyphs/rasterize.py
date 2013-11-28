@@ -13,7 +13,7 @@ from hTools2.modules.rasterizer import *
 
 class rasterizeGlyphDialog(object):
 
-    """A dialog to rasterize the selected glyphs of the current font with element components."""
+    '''A dialog to rasterize the selected glyphs of the current font with element components.'''
 
     _title = 'rasterizer'
     _padding = 10

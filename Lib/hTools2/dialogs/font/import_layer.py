@@ -17,7 +17,7 @@ from vanilla.dialogs import getFile
 
 class importUFOIntoLayerDialog(object):
 
-    """A dialog to import a font from an external file into a background layer of the current font."""
+    '''A dialog to import a font from an external file into a background layer of the current font.'''
 
     _title = 'layers'
     _padding = 10

@@ -12,7 +12,7 @@ from hTools2.modules.fontutils import get_full_name
 
 class adjustVerticalMetrics(object):
 
-    """A dialog to adjust the vertical metrics in the font with the help of sliders and nudge buttons."""
+    '''A dialog to adjust the vertical metrics in the font with the help of sliders and nudge buttons.'''
 
     _title = "vertical metrics"
     _moveX = 0

@@ -12,7 +12,7 @@ from hTools2 import hConstants
 
 class mirrorGlyphsDialog(hConstants):
 
-    """A dialog to mirror the selected glyphs in the current font."""
+    '''A dialog to mirror the selected glyphs in the current font.'''
 
     # attributes
 

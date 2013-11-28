@@ -11,7 +11,7 @@ import hTools2
 
 class hSettings:
 
-    """An object to store information about local settings and preferences.
+    '''An object to store information about local settings and preferences.
 
     When initialized, the :py:class:`hSettings` object does the following:
 
@@ -66,7 +66,7 @@ class hSettings:
     >>> print s.filename
     hSettings.plist
 
-    """
+    '''
 
     # attributes
 
@@ -85,21 +85,21 @@ class hSettings:
         return '<hSettings>'
 
     def read(self, trim=False):
-        """Read settings from ``.plist`` file into :py:attr:`hSettings.hDict`."""
+        '''Read settings from ``.plist`` file into :py:attr:`hSettings.hDict`.'''
         if os.path.exists(self.path):
             self.hDict = plistlib.readPlist(self.path)
         else:
             self.hDict = {}
 
     def write(self):
-        """Write contents of :py:attr:`hSettings.hDict` to its ``.plist`` file."""
+        '''Write contents of :py:attr:`hSettings.hDict` to its ``.plist`` file.'''
         if os.path.exists(self.root):
             plistlib.writePlist(self.hDict, self.path)
         else:
             print 'cannot save settings, :py:attr:`hTools2.ROOT` folder does not exist.\n'
 
     def report(self):
-        """Print all settings data to the console."""
+        '''Print all settings data to the console.'''
         for k in self.hDict.keys():
             print k, self.hDict[k]
 

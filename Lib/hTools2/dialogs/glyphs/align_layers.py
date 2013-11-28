@@ -8,7 +8,7 @@ from hTools2.modules.glyphutils import center_glyph_layers
 
 class alignLayersDialog(object):
 
-    """A dialog to center all layers in the selected glyphs."""
+    '''A dialog to center all layers in the selected glyphs.'''
 
     # attributes
 

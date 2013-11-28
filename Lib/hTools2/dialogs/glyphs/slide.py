@@ -13,7 +13,7 @@ from hTools2.modules.fontutils import get_full_name
 
 class slideGlyphsDialog(hConstants):
 
-    """A dialog to slide the selected glyphs vertically and/or horizontally."""
+    '''A dialog to slide the selected glyphs vertically and/or horizontally.'''
 
     # attributes
 

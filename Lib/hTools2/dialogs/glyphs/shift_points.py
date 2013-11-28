@@ -15,7 +15,7 @@ from hTools2.modules.messages import no_font_open, no_glyph_selected
 
 class shiftPointsDialog(hConstants):
 
-    """A dialog to select and shift points in the selected glyphs in a font."""
+    '''A dialog to select and shift points in the selected glyphs in a font.'''
 
     # attributes
 

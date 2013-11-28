@@ -13,7 +13,7 @@ from hTools2.modules.encoding import unicode_hexstr_to_int
 
 class createSpaceGlyphsDialog(object):
 
-    """A dialog to create space glyphs in a font."""
+    '''A dialog to create space glyphs in a font.'''
 
     _title = 'spaces'
     _padding = 10

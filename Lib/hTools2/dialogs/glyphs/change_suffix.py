@@ -13,7 +13,7 @@ from hTools2.modules.glyphutils import has_suffix, change_suffix
 
 class changeSuffixDialog(object):
 
-    """A dialog to change the suffix of the selected glyphs."""
+    '''A dialog to change the suffix of the selected glyphs.'''
 
     # attributes
 

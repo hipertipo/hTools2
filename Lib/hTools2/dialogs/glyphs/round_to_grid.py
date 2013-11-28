@@ -14,7 +14,7 @@ from hTools2.modules.messages import no_font_open
 
 class roundToGridDialog(hConstants):
 
-    """A dialog to round features of the selected glyphs to a grid."""
+    '''A dialog to round features of the selected glyphs to a grid.'''
 
     # attributes
 

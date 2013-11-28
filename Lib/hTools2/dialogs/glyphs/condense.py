@@ -15,7 +15,7 @@ from hTools2.modules.fontutils import get_full_name #, get_glyphs
 
 class condenseGlyphsDialog(hConstants):
 
-    """A dialog to generate condensed glyphs from a regular and a bold font."""
+    '''A dialog to generate condensed glyphs from a regular and a bold font.'''
 
     # attributes
 

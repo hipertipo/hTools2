@@ -15,7 +15,7 @@ from hTools2.modules.fontutils import get_full_name, get_glyphs
 
 class copyToMaskDialog(hConstants):
 
-    """A dialog to transfer the foreground layer of the selected glyphs in the current font to the mask layer of the same glyphs of another font."""
+    '''A dialog to transfer the foreground layer of the selected glyphs in the current font to the mask layer of the same glyphs of another font.'''
 
     # attributes
 

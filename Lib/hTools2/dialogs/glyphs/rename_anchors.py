@@ -13,7 +13,7 @@ from hTools2.modules.anchors import rename_anchor
 
 class renameAnchorsDialog(object):
 
-    """A dialog to rename the anchors in the selected glyphs of the current font."""
+    '''A dialog to rename the anchors in the selected glyphs of the current font.'''
 
     _title = 'anchors'
     _padding = 10

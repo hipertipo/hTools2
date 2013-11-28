@@ -10,7 +10,7 @@ from mojo.roboFont import CurrentFont
 
 class deleteLayerDialog(object):
 
-    """A dialog to delete a layer in a font."""
+    '''A dialog to delete a layer in a font.'''
 
     _title = 'layer'
     _row_height = 20

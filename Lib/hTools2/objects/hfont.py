@@ -645,8 +645,8 @@ class hFont:
 
     def generate_woff(self, strip=False):
         '''Generate a ``.woff`` font file from the available ``.otf`` font.'''
-        from hTools2_plus.extras.KLTF_WOFF import compressFont
         try:
+            from hTools2_plus.extras.KLTF_WOFF import compressFont
             if strip:
                 # save to ttx
                 self.generate_ttx()    

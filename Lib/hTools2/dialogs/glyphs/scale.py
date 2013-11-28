@@ -13,7 +13,7 @@ from hTools2.modules.fontutils import get_glyphs
 
 class scaleGlyphsDialog(hConstants):
 
-    """A dialog to scale the selected glyphs in a font."""
+    '''A dialog to scale the selected glyphs in a font.'''
 
     # attributes
 

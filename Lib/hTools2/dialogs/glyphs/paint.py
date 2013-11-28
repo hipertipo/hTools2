@@ -16,7 +16,7 @@ from hTools2.modules.fontutils import get_glyphs
 
 class paintGlyphsDialog(hConstants):
 
-    """A dialog to apply a color to the selected glyph boxes, and to select glyphs by color."""
+    '''A dialog to apply a color to the selected glyph boxes, and to select glyphs by color.'''
 
     # attributes
 

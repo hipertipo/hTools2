@@ -14,7 +14,7 @@ from hTools2.modules.messages import no_font_open, no_glyph_selected
 
 class setMarginsDialog(hConstants):
 
-    """A dialog to set the left/right side-bearings of the selected glyphs in the current font."""
+    '''A dialog to set the left/right side-bearings of the selected glyphs in the current font.'''
 
     # attributes
 

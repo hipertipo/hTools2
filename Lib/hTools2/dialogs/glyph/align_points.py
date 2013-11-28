@@ -22,7 +22,7 @@ def get_min(values):
 
 class alignPointsDialog(hConstants):
     
-    """Align selected points vertically or horizontally."""
+    '''Align selected points vertically or horizontally.'''
     
     glyph = None
     points = []

@@ -16,7 +16,7 @@ from hTools2.modules.fileutils import walk
 
 class UFOsToOTFsDialog(hConstants):
 
-    """A dialog to generate ``.otf`` fonts for all ``.ufos`` in a folder."""
+    '''A dialog to generate ``.otf`` fonts for all ``.ufos`` in a folder.'''
 
     # attributes
 

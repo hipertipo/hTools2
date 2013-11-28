@@ -12,7 +12,7 @@ from hTools2.modules.fontutils import delete_groups, print_groups
 
 class printGroupsDialog(object):
 
-    """A dialog to print all groups in the font in different formats."""
+    '''A dialog to print all groups in the font in different formats.'''
 
     _title = 'groups'
     _padding = 10

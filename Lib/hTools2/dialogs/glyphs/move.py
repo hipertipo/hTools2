@@ -13,7 +13,7 @@ import hTools2.modules.messages as messages
 
 class moveGlyphsDialog(hConstants):
 
-    """A dialog to move the selected glyphs in a font."""
+    '''A dialog to move the selected glyphs in a font.'''
 
     # attributes
 

@@ -15,7 +15,7 @@ from hTools2.modules.fontutils import get_full_name, decompose, auto_contour_ord
 
 class actionsFolderDialog(hConstants):
 
-    """A dialog to apply a set of actions to all fonts in a folder."""
+    '''A dialog to apply a set of actions to all fonts in a folder.'''
 
     # attributes
 

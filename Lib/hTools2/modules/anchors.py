@@ -1,6 +1,6 @@
 # [h] hTools2.modules.anchors
 
-"""Tools to create, move, delete and transfer anchors."""
+'''Tools to create, move, delete and transfer anchors.'''
 
 # imports
 
@@ -9,7 +9,7 @@ from hTools2.modules.color import clear_colors, random_color
 # font-level tools
 
 def get_anchors(font, glyph_names=None):
-    """Get all anchors in glyphs as a dictionary."""
+    '''Get all anchors in glyphs as a dictionary.'''
     anchors_dict = {}
     if glyph_names == None:
         _glyph_names = font.keys()
@@ -25,7 +25,7 @@ def get_anchors(font, glyph_names=None):
     return anchors_dict
 
 def clear_anchors(font, glyph_names=None):
-    """Delete all anchors in font."""
+    '''Delete all anchors in font.'''
     if glyph_names is None:
         glyph_names = font.keys()
     for glyph_name in glyph_names:
@@ -35,7 +35,7 @@ def clear_anchors(font, glyph_names=None):
     font.update()
 
 def find_lost_anchors(font):
-    """Find anchors which are lost outside of the bounding box."""
+    '''Find anchors which are lost outside of the bounding box.'''
     clear_colors(font)
     c = random_color()
     lost_anchors = []
@@ -48,7 +48,7 @@ def find_lost_anchors(font):
     return lost_anchors
 
 def remove_duplicate_anchors(font):
-    """Delete duplicate anchors with same name and position."""
+    '''Delete duplicate anchors with same name and position.'''
     # save existing anchors
     old_anchors = get_anchors(font)
     # collect clean anchors
@@ -85,7 +85,7 @@ def remove_duplicate_anchors(font):
     # done
 
 def get_anchors_dict(accents_dict):
-    """Get an anchors dict from an accented glyphs dict."""
+    '''Get an anchors dict from an accented glyphs dict.'''
     # get anchors
     anchors_dict = {}
     for accented_glyph in accents_dict.keys():
@@ -105,7 +105,7 @@ def get_anchors_dict(accents_dict):
 # glyph-level tools
 
 def rename_anchor(glyph, old_name, new_name):
-    """Rename anchors with name ``old_name`` in ``glyph`` to ``new_name``."""
+    '''Rename anchors with name ``old_name`` in ``glyph`` to ``new_name``.'''
     has_name = False
     if len(glyph.anchors) > 0:
         for a in glyph.anchors:
@@ -116,7 +116,7 @@ def rename_anchor(glyph, old_name, new_name):
     return has_name
 
 def transfer_anchors(source_glyph, dest_glyph):
-    """Transfer all anchors in ``source_glyph`` to ``dest_glyph``."""
+    '''Transfer all anchors in ``source_glyph`` to ``dest_glyph``.'''
     has_anchor = False
     if len(source_glyph.anchors) > 0 :
         # collect anchors in source glyph
@@ -134,14 +134,14 @@ def transfer_anchors(source_glyph, dest_glyph):
     return has_anchor
 
 def move_anchors(glyph, anchor_names, (delta_x, delta_y)):
-    """Move named anchors by ``(x,y)`` units."""
+    '''Move named anchors by ``(x,y)`` units.'''
     for anchor in glyph.anchors:
         if anchor.name in anchor_names:
             anchor.move((delta_x, delta_y))
             glyph.update()
 
 def create_anchors(glyph, top=True, bottom=True, accent=False, top_delta=20, bottom_delta=20):
-    """Create ``top`` and ``bottom`` anchors at relative positions."""
+    '''Create ``top`` and ``bottom`` anchors at relative positions.'''
     # make anchors list
     anchor_names = []
     if top:

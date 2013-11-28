@@ -14,7 +14,7 @@ from hTools2.modules.fontutils import get_full_name, get_glyphs
 
 class interpolateGlyphsDialog(hConstants):
 
-    """A dialog to interpolate the selected glyphs in one font with the same glyphs in another font into a third font."""
+    '''A dialog to interpolate the selected glyphs in one font with the same glyphs in another font into a third font.'''
 
     # attributes
 

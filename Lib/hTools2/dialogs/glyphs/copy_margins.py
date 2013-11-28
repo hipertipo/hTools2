@@ -15,7 +15,7 @@ from hTools2.modules.messages import no_font_open, no_glyph_selected
 
 class copyMarginsDialog(hConstants):
 
-    """A dialog to copy margins from selected glyphs in one font to the same glyphs in another font."""
+    '''A dialog to copy margins from selected glyphs in one font to the same glyphs in another font.'''
 
     # attributes
 

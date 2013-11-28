@@ -14,7 +14,7 @@ from hTools2.modules.messages import no_font_open
 
 class maskDialog(hConstants):
 
-    """A dialog to transfer glyphs to and from the mask layer."""
+    '''A dialog to transfer glyphs to and from the mask layer.'''
 
     # attributes
 

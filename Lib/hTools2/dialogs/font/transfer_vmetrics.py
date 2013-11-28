@@ -12,7 +12,7 @@ from hTools2.modules.fontutils import get_full_name
 
 class transferVMetricsDialog(object):
 
-    """A dialog to transfer the vertical metrics from one font to another."""
+    '''A dialog to transfer the vertical metrics from one font to another.'''
 
     _title = 'vmetrics'
     _padding = 10
