@@ -9,8 +9,9 @@ try:
 except:
     from robofab.world import RFont, NewFont
 
-from hproject import hProject
-from hfont import hFont
+from hTools2.objects.hproject import hProject
+from hTools2.objects.hfont import hFont
+
 from hTools2.modules.anchors import transfer_anchors
 from hTools2.modules.fileutils import get_names_from_path
 from hTools2.modules.fontutils import rename_glyphs_from_list
@@ -32,8 +33,10 @@ class hSpace:
 
     #: A dictionary containing parameter names and related value ranges.
     parameters = {}
+
     #: A list with the order in which the parameters appear (for use in font names, lists etc).
     parameters_order = []
+
     #: The character used as separator in font file names.
     parameters_separator = '-'
 
@@ -58,6 +61,11 @@ class hSpace:
             self.parameters_separator = self.project.libs['project']['parameters_separator']
         except:
             print 'project %s has no parameters lib' % self.project.name
+
+    def set_parameters(self, parameters):
+        '''Set space attributes from parameters dict.'''
+        for parameter in parameters.keys():
+            setattr(self, parameter, parameters[parameter])
 
     def build(self):
         '''Build the defined variation space, using the parameters order, and create individual font names.
@@ -166,12 +174,6 @@ class hSpace:
                 continue
         return font_paths
 
-    def set_parameters(self, parameters):
-        '''Set space attributes from parameters dict.'''
-        for k in parameters.keys():
-            if self.parameters.has_key(k):
-                self.parameters[k] = parameters[k]
-
     # ftp
 
     def upload_woffs(self):
@@ -279,7 +281,7 @@ class hSpace:
 
     # transfer tools
 
-    def transfer_glyphs(self, gstring, var, verbose=False):
+    def transfer_glyphs(self, var, gstring, verbose=False):
         '''Batch transfer glyphs from one set of fonts to another.
 
         ``gstring``

@@ -20,11 +20,11 @@ hTools2 (and RoboFont) are built with libraries by Erik van Blokland & Just van 
 
 Visit [htools2.hipertipo.com](http://htools2.hipertipo.com/) for the updated docs.
 
-## Development
+## Development & Support
 
 Work on hTools2 is supported by users and collaborators.
 
-Join the [mailing list](http://lists.hipertipo.com/listinfo/htools2) for questions and general discussions about hTools2.
+For bug reports, feature requests and related discussions, please use the [hTools2 mailing list](http://lists.hipertipo.com/listinfo/htools2) and the project’s [Issues tracker](https://github.com/gferreira/hTools2/issues).
 
 ## Sponsors
 
@@ -38,7 +38,7 @@ If you use these tools on a regular basis, please consider contributing back to 
 
 ## Thanks
 
-Thanks to everyone else who contributed with ideas, comments and suggestions: [Miguel Sousa](#), [Mathieu Christe](#), [Marcos Ojeda](#), [Joancarles Casasín](#), [Frank Grießhammer](#).
+Thanks to everyone else who contributed with ideas, comments and suggestions: [Miguel Sousa](http://adhesiontext.com/), [Mathieu Christe](http://grafix.bulbfactory.ch/), [Marcos Ojeda](http://generic.cx/), [Joancarles Casasín](http://casasin.com/), [Frank Grießhammer](http://frgr.de/), …
 
 ## Download
 

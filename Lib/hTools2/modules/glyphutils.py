@@ -47,7 +47,7 @@ def has_suffix(glyph, suffix):
 def change_suffix(glyph, old_suffix, new_suffix=None):
     '''Return a new modified name for ``glyph``, using ``new_suffix`` in place of ``old_suffix``.'''
     _base_name = glyph.name.split(".")[0]
-    _old_suffix = glyph.name.split(".")[1]
+    #_old_suffix = glyph.name.split(".")[1]
     if new_suffix is not None:
         _new_name = "%s.%s" % (_base_name, new_suffix)
     else:

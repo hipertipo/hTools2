@@ -1,5 +1,10 @@
 # [h] change suffix in selected glyphs
 
+# debug
+
+import hTools2.modules.glyphutils
+reload(hTools2.modules.glyphutils)
+
 # imports
 
 from mojo.roboFont import CurrentFont
@@ -35,10 +40,8 @@ class changeSuffixDialog(object):
 
     def __init__(self):
         self.w = FloatingWindow(
-                    (self._width,
-                    self._height),
-                    self._title,
-                    closable=True)
+                    (self._width, self._height),
+                    self._title,)
         # old suffix
         x = self._padding
         y = self._padding
@@ -55,7 +58,7 @@ class changeSuffixDialog(object):
                     self._box_height),
                     placeholder='old suffix',
                     text=self._old_suffix,
-                    callback=self.old_suffix_callback,
+                    #callback=self.old_suffix_callback,
                     sizeStyle='small')
         # new suffix
         x = self._padding
@@ -73,7 +76,7 @@ class changeSuffixDialog(object):
                     self._box_height),
                     placeholder='optional',
                     text=self._new_suffix,
-                    callback=self.new_suffix_callback,
+                    #callback=self.new_suffix_callback,
                     sizeStyle='small')
         y += (self._box_height + self._padding)
         # checkbox overwrite
@@ -83,7 +86,7 @@ class changeSuffixDialog(object):
                     self._box_height),
                     "overwrite",
                     value=self._overwrite,
-                    callback=self.overwrite_callback,
+                    #callback=self.overwrite_callback,
                     sizeStyle='small')
         # apply button
         x = self._padding
@@ -98,23 +101,28 @@ class changeSuffixDialog(object):
         # open window
         self.w.open()
 
-    def old_suffix_callback(self, sender):
-        self._old_suffix = sender.get()
+    # def old_suffix_callback(self, sender):
+    #     self._old_suffix = sender.get()
 
-    def new_suffix_callback(self, sender):
-        self._new_suffix = sender.get()
+    # def new_suffix_callback(self, sender):
+    #     self._new_suffix = sender.get()
 
-    def overwrite_callback(self, sender):
-        self._overwrite = sender.get()
+    # def overwrite_callback(self, sender):
+    #     self._overwrite = sender.get()
 
     def apply_callback(self, sender):
-        boolstring = [ False, True ]
+        # get font
         f = CurrentFont()
         if f is not None:
             if len(f.selection) > 0:
+                boolstring = [ False, True ]
+                # get parameters
+                self._old_suffix = sender.get()
+                self._new_suffix = sender.get()
+                self._overwrite = sender.get()
                 # print info
                 print 'changing glyph name suffixes...\n'
-                print '\told suffix: %s' % self._old_suffix
+                print '\told suffix: %s (%s)' % self._old_suffix, type(self._old_suffix)
                 print '\tnew suffix: %s' % self._new_suffix
                 print '\toverwrite: %s' % boolstring[self._overwrite]
                 print
@@ -128,8 +136,9 @@ class changeSuffixDialog(object):
                             _new_name = change_suffix(g, self._old_suffix, self._new_suffix)
                         else:
                             _new_name = change_suffix(g, self._old_suffix, None)
-                        # if new name not in font, rename
+                        # new name not in font
                         if not f.has_key(_new_name):
+                            # rename glyph
                             print '\trenaming %s to %s...' % (glyph_name, _new_name)
                             g.name = _new_name
                         # new name in font

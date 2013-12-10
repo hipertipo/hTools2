@@ -550,9 +550,11 @@ class hProject:
         # generate css code
         css_links = ''
         css_styles = ''
-        for woff in self.woffs():
-            file_name = os.path.basename(woff)
-            font_name = os.path.splitext(file_name)[0]
+        font_files = self.ufos() # self.woffs()
+        for font in font_files:
+            ufo_name = os.path.basename(font)
+            font_name = os.path.splitext(ufo_name)[0]
+            file_name = '%s.woff' % font_name
             css_links += "@font-face { font-family: '%s'; src: url('%s') format('woff'); }\n" % (font_name, file_name)
             css_styles += ".%s { font-family: '%s'; }\n" % (font_name.lower(), font_name)
         css_code = '/* ----- %s ----- */\n' % self.name
