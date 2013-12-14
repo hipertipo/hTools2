@@ -1,10 +1,13 @@
 # [h] hWorld
 
+import hTools2.modules.sysutils
+reload(hTools2.modules.sysutils)
+
 # imports
 
 import os
 
-from hsettings import hSettings
+from hTools2.objects.hsettings import hSettings
 from hTools2.modules.sysutils import _ctx
 
 # objects

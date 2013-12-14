@@ -5,7 +5,7 @@ import os
 # functions
 
 def clean_pyc(directory, path):
-    '''Remove .pyc files recursively in path.'''
+    '''Remove all .pyc files recursively in path.'''
     for file_name in directory:
         file_path = os.path.join(path, file_name)
         if file_name[-3:] == 'pyc':

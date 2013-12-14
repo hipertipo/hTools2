@@ -39,20 +39,24 @@ def has_suffix(glyph, suffix):
     '''Check if the name of ``glyph`` has the extension ``suffix``, and returns ``True`` or ``False``.'''
     has_suffix = False
     nameParts = glyph.name.split(".")
-    if len(nameParts) is 2:
+    # check for suffix
+    if len(nameParts) == 2:
         if nameParts[1] == suffix:
+            has_suffix = True
+    # check for no suffix
+    else:
+        if len(nameParts) == 1 and len(suffix) == 0:
             has_suffix = True
     return has_suffix
 
 def change_suffix(glyph, old_suffix, new_suffix=None):
     '''Return a new modified name for ``glyph``, using ``new_suffix`` in place of ``old_suffix``.'''
-    _base_name = glyph.name.split(".")[0]
-    #_old_suffix = glyph.name.split(".")[1]
+    base_name = glyph.name.split(".")[0]
     if new_suffix is not None:
-        _new_name = "%s.%s" % (_base_name, new_suffix)
+        new_name = "%s.%s" % (base_name, new_suffix)
     else:
-        _new_name = _base_name
-    return _new_name
+        new_name = base_name
+    return new_name
 
 #---------------
 # round to grid

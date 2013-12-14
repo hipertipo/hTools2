@@ -181,10 +181,10 @@ unicodes_extra = {
     # greek exceptions
     'Delta' : '2206',
     'Deltagreek' : '0394',
-    'mu' : '00B5',
-    'mugreek' : '03BC',
-    'Omega' : '2126',
-    'Omegagreek' : '03A9',
+    'mu' : '03BC',
+    'mugreek' : '00B5',
+    'Omega' : '03A9',
+    'Omegagreek' : '2126',
     # superiors
     'zerosuperior' : '2070',
     'onesuperior' : '00B9',
