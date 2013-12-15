@@ -5,8 +5,10 @@
 from vanilla import *
 
 from mojo.roboFont import CurrentFont
+from mojo.events import addObserver, removeObserver
 
 from hTools2 import hConstants
+from hTools2.modules.messages import no_font_open
 
 # object
 
@@ -14,9 +16,18 @@ class deleteLayerDialog(hConstants):
 
     '''A dialog to delete a layer in a font.'''
 
-    layer_name = 'mask'
+    # attributes
+
+    #: The font which is currently selected.
+    font = None
+
+    #: A list of all layers in the current font.
+    layers = []
+
+    # methods
 
     def __init__(self):
+        self.get_font()
         # window
         self.title = 'layer'
         self.column_1 = 50
@@ -25,18 +36,18 @@ class deleteLayerDialog(hConstants):
         self.w = FloatingWindow((self.width, self.height), self.title)
         x = self.padding_x
         y = self.padding_y
-        self.w._layer_name_label = TextBox(
+        self.w.layer_name_label = TextBox(
                     (x, y - 2,
                     -self.padding_x,
                     self.text_height),
                     "name",
                     sizeStyle=self.size_style)
         y += self.text_height
-        self.w._layer_name = EditText(
+        self.w.layers = PopUpButton(
                     (x, y,
                     -self.padding_x,
                     self.text_height),
-                    self.layer_name,
+                    self.layers,
                     sizeStyle=self.size_style)
         x = self.padding_x
         y += self.padding_y + self.text_height
@@ -47,18 +58,50 @@ class deleteLayerDialog(hConstants):
                     "delete",
                     sizeStyle=self.size_style,
                     callback=self.apply_callback)
+        # bind
+        self.w.bind("became key", self.update_callback)
+        self.w.bind("close", self.on_close_window)
+        # observers
+        addObserver(self, "update_callback", "fontBecameCurrent")
         # open
         self.w.open()
 
     # callbacks
 
-    def apply_callback(self, sender):
-        font = CurrentFont()
-        _layer_name = self.w._layer_name.get()
-        if _layer_name in font.layerOrder:
-            print 'deleting layer %s...' % _layer_name
-            font.removeLayer(_layer_name)
-            print '...done.\n'
-            font.update()
+    def get_font(self):
+        self.font = CurrentFont()
+        if self.font is not None:
+            self.layers = self.font.layerOrder
         else:
-            print 'font does not have layer %s.' % _layer_name
+            self.layers = []
+
+    def update_ui(self):
+        self.w.layers.setItems(self.layers)
+
+    def update_callback(self, sender):
+        self.get_font()
+        self.update_ui()
+
+    def apply_callback(self, sender):
+        # no font open
+        if self.font is None:
+            print no_font_open
+        # delete layer
+        else:
+            layer_index = self.w.layers.get()
+            layer_name = self.layers[layer_index]
+            if layer_name in self.font.layerOrder:
+                print 'deleting layer...\n'
+                print '\t%s' % layer_name
+                self.font.removeLayer(layer_name)
+                print
+                print '...done.\n'
+                self.font.update()
+                self.get_font()
+                self.update_ui()
+            else:
+                print 'Font does not have layer %s.' % layer_name
+
+    def on_close_window(self, sender):
+        '''Remove observers when font window is closed.'''
+        removeObserver(self, "fontResignCurrent")
