@@ -19,10 +19,10 @@ class condenseGlyphsDialog(hConstants):
 
     # attributes
 
-    #: A list containing all open fonts.
+    #: A list of all open fonts.
     all_fonts = []
 
-    #: A list containing the names of all open fonts.
+    #: A list with names of all open fonts.
     all_fonts_names = []
 
     #: The stem width of the Regular master.
@@ -37,11 +37,10 @@ class condenseGlyphsDialog(hConstants):
     # methods
 
     def __init__(self):
-        self._get_fonts()
+        self.get_fonts()
         # window
         self.title = 'condense'
-        self.width = 123
-        self.height = (self.nudge_button * 2) + (self.text_height * 6) + self.progress_bar + (self.padding_y * 7) + (self.button_height * 2) - 8
+        self.height = (self.nudge_button * 2) + (self.text_height * 6) + self.progress_bar + (self.padding_y * 5) + (self.button_height * 1)
         self.value_box = 60
         self.column_2 = self.value_box + (self.nudge_button * 7) - 6
         self.w = FloatingWindow((self.width, self.height), title=self.title)
@@ -183,14 +182,14 @@ class condenseGlyphsDialog(hConstants):
                     isIndeterminate=True,
                     sizeStyle=self.size_style)
         # update fonts menu
-        y += (self.progress_bar + self.padding_y)
-        self.w.button_update = SquareButton(
-                    (x, y,
-                    -self.padding_x,
-                    self.button_height),
-                    "update",
-                    callback=self.update_callback,
-                    sizeStyle=self.size_style)
+        # y += (self.progress_bar + self.padding_y)
+        # self.w.button_update = SquareButton(
+        #             (x, y,
+        #             -self.padding_x,
+        #             self.button_height),
+        #             "update",
+        #             callback=self.update_callback,
+        #             sizeStyle=self.size_style)
         # bind
         self.w.bind("became key", self.update_callback)
         self.w.bind("close", self.on_close_window)
@@ -199,8 +198,6 @@ class condenseGlyphsDialog(hConstants):
         addObserver(self, "update_callback", "fontDidClose")
         # open window
         self.w.open()
-
-    # callbacks
 
     def _factor_plus_001_callback(self, sender):
         self.factor = float(self.w._factor_value.get()) + 0.001
@@ -228,22 +225,10 @@ class condenseGlyphsDialog(hConstants):
 
     def update_callback(self, sender):
         print 'updating fonts'
-        self._get_fonts()
+        self.get_fonts()
         self.w._f1_font.setItems(self.all_fonts_names)
         self.w._f2_font.setItems(self.all_fonts_names)
         self.w._f3_font.setItems(self.all_fonts_names)
-
-    # methods
-
-    def _get_fonts(self):
-        # get all fonts
-        self.all_fonts = AllFonts()
-        # get font names
-        self.all_fonts_names = []
-        if len(self.all_fonts) > 0:
-            for font in self.all_fonts:
-                self.all_fonts_names.append(get_full_name(font))
-        self.all_fonts_names.sort()
 
     def apply_callback(self, sender):
         # get fonts
@@ -271,11 +256,21 @@ class condenseGlyphsDialog(hConstants):
         if len(f1_stems) > 0 and len(f2_stems) > 0:
             condense_glyphs(f3, f1, f2, f1_stems[0], f2_stems[0], factor, glyph_names)
         else:
-            print 'fonts have no stem widths.'
+            print 'One or both fonts have no PS stem widths.'
         # done
         self.w.bar.stop()
         print
         print '\n...done.\n'
+
+    def get_fonts(self):
+        # get all fonts
+        self.all_fonts = AllFonts()
+        # get font names
+        self.all_fonts_names = []
+        if len(self.all_fonts) > 0:
+            for font in self.all_fonts:
+                self.all_fonts_names.append(get_full_name(font))
+        self.all_fonts_names.sort()
 
     def on_close_window(self, sender):
         # remove observers on close window
