@@ -1,11 +1,6 @@
 # [h] copy to layer
 
-'''Copy selected glyphs to a given layer.'''
+import hTools2.dialogs.glyphs.copy_to_layer
+reload(hTools2.dialogs.glyphs.copy_to_layer)
 
-# import
-
-from hTools2.dialogs.glyphs import copyToLayerDialog
-
-# run
-
-copyToLayerDialog()
+hTools2.dialogs.glyphs.copy_to_layer.copyToLayerDialog()

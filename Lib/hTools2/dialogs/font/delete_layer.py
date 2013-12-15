@@ -6,53 +6,46 @@ from vanilla import *
 
 from mojo.roboFont import CurrentFont
 
+from hTools2 import hConstants
+
 # object
 
-class deleteLayerDialog(object):
+class deleteLayerDialog(hConstants):
 
     '''A dialog to delete a layer in a font.'''
 
-    _title = 'layer'
-    _row_height = 20
-    _button_height = 30
-    _column_1 = 50
-    _column_2 = 140
-    _padding = 10
-    _padding_top = 10
-    _width = 123
-    _height = _button_height + (_padding_top * 3) + (_row_height * 2) + 2
-
-    _layer_name = 'mask'
+    layer_name = 'mask'
 
     def __init__(self):
-        self.w = FloatingWindow(
-                    (self._width, self._height),
-                    self._title,
-                    closable=True)
-        x = self._padding
-        y = self._padding_top
+        # window
+        self.title = 'layer'
+        self.column_1 = 50
+        self.column_2 = 140
+        self.height = self.button_height + (self.padding_y * 3) + (self.text_height * 2) + 2
+        self.w = FloatingWindow((self.width, self.height), self.title)
+        x = self.padding_x
+        y = self.padding_y
         self.w._layer_name_label = TextBox(
                     (x, y - 2,
-                    -self._padding,
-                    self._row_height),
+                    -self.padding_x,
+                    self.text_height),
                     "name",
-                    sizeStyle='small')
-        y += self._row_height
+                    sizeStyle=self.size_style)
+        y += self.text_height
         self.w._layer_name = EditText(
                     (x, y,
-                    -self._padding,
-                    self._row_height),
-                    self._layer_name,
-                    sizeStyle='small',
-                    readOnly=False)
-        x = self._padding
-        y += self._padding_top + self._row_height
+                    -self.padding_x,
+                    self.text_height),
+                    self.layer_name,
+                    sizeStyle=self.size_style)
+        x = self.padding_x
+        y += self.padding_y + self.text_height
         self.w.button_apply = SquareButton(
                     (x, y,
-                    -self._padding,
-                    self._button_height),
+                    -self.padding_x,
+                    self.button_height),
                     "delete",
-                    sizeStyle='small',
+                    sizeStyle=self.size_style,
                     callback=self.apply_callback)
         # open
         self.w.open()

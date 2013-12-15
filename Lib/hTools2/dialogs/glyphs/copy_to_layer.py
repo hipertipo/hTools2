@@ -1,10 +1,11 @@
-# [h] copy foreground to other layers in selected glyphs
+# [h] copy glyph contents of one layer to other layers
 
 # imports
 
-from mojo.roboFont import CurrentFont
-
 from vanilla import *
+
+from mojo.roboFont import CurrentFont
+from mojo.events import addObserver, removeObserver
 
 from hTools2 import hConstants
 from hTools2.modules.fontutils import get_glyphs
@@ -18,23 +19,24 @@ class copyToLayerDialog(hConstants):
 
     # attributes
 
-    overwrite = False
+    #: The font which is currently selected.
     font = None
+
+    #: A list of all layers in the current font.
     layers = []
+
+    #: Overwrite (or now) the contents of the target layer, if it already exists.
+    overwrite = False
 
     # methods
 
     def __init__(self):
-        # get font
-        self.update()
+        self.get_font()
         # open window
         self.title = 'layers'
         self.list_height = 80
-        self.width = 123
-        self.height = (self.padding_y * 6) + (self.text_height * 4) + (self.button_height * 2) + self.list_height
-        self.w = FloatingWindow(
-                    (self.width, self.height),
-                    self.title)
+        self.height = (self.padding_y * 5) + (self.text_height * 4) + (self.button_height) + self.list_height
+        self.w = FloatingWindow((self.width, self.height), self.title)
         x = self.padding_x
         y = self.padding_y - 2
         # source label
@@ -66,7 +68,7 @@ class copyToLayerDialog(hConstants):
                     (x, y,
                     -self.padding_x,
                     self.list_height),
-                    self.layers[1:])
+                    self.layers)
         # checkboxes
         y += (self.list_height + self.padding_y)
         self.w.checkbox_overwrite = CheckBox(
@@ -85,32 +87,25 @@ class copyToLayerDialog(hConstants):
                     "apply",
                     callback=self.apply_callback,
                     sizeStyle=self.size_style)
-        # update button
-        y += (self.button_height + self.padding_y)
-        self.w.button_update = SquareButton(
-                    (x, y,
-                    -self.padding_x,
-                    self.button_height),
-                    "update",
-                    callback=self.update_callback,
-                    sizeStyle=self.size_style)
+        # bind
+        self.w.bind("became key", self.update_callback)
+        self.w.bind("close", self.on_close_window)
+        # observers
+        addObserver(self, "update_callback", "fontBecameCurrent")
         # open window
         self.w.open()
 
-    # methods
-
-    def update(self):
+    def get_font(self):
         self.font = CurrentFont()
         if self.font is not None:
-            self.layers = ['foreground'] + self.font.layerOrder
-
-    # callbacks
+            self.layers = [ 'foreground' ] + self.font.layerOrder
+        else:
+            self.layers = []
 
     def update_callback(self, sender):
-        self.update()
-        # update source layers
+        self.get_font()
+        # update layers
         self.w.layers_source.setItems(self.layers)
-        # update target layers
         self.w.layers_target.set([])
         self.w.layers_target.extend(self.layers)
 
@@ -128,12 +123,11 @@ class copyToLayerDialog(hConstants):
             source_layer = self.layers[source]
             target_layers = []
             for t in targets:
-                target_layers.append(self.layers[t+1])
-            target_layer_names = ' '.join(target_layers)
+                target_layers.append(self.layers[t])
             # copy to selected layers
             print 'copying glyphs between layers...\n'
             print '\tsource layer: %s' % self.layers[source]
-            print '\ttarget layers: %s' % target_layer_names
+            print '\ttarget layers: %s' % ' '.join(target_layers)
             print
             for glyph_name in get_glyphs(self.font):
                 print '\t%s' % glyph_name,
@@ -149,3 +143,6 @@ class copyToLayerDialog(hConstants):
             print
             print '\n...done.\n'
 
+    def on_close_window(self, sender):
+        '''Remove observers when font window is closed.'''
+        removeObserver(self, "fontResignCurrent")

@@ -2,10 +2,10 @@
 
 # imports
 
+from vanilla import *
+
 from mojo.roboFont import AllFonts
 from mojo.events import addObserver, removeObserver
-
-from vanilla import *
 
 from hTools2 import hConstants
 from hTools2.modules.fontutils import get_full_name, get_glyphs
@@ -428,6 +428,6 @@ class interpolateGlyphsDialog(hConstants):
         print '\n...done.\n'
 
     def on_close_window(self, sender):
-        # remove observers on close window
+        '''Remove observers when font window is closed.'''
         removeObserver(self, "fontDidOpen")
         removeObserver(self, "fontDidClose")

@@ -5,7 +5,6 @@
 # imports
 
 from vanilla import *
-from AppKit import NSColor
 
 from mojo.roboFont import AllFonts
 from mojo.events import addObserver, removeObserver
