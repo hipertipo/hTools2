@@ -10,14 +10,13 @@ reload(hTools2.modules.sysutils)
 import os
 import random
 
-from hTools2.modules.sysutils import * # build_shortcuts_dict, set_shortcuts, print_shortcuts
+from hTools2.modules.sysutils import build_shortcuts_dict, set_shortcuts, print_shortcuts
 
 from mojo.UI import setScriptingMenuNamingShortKeyForPath
 
 # shortcuts
 
 scripts_path = os.path.join(os.getcwd(), 'Scripts')
-#print scripts_path, os.path.exists(scripts_path)
 
 scripts_shortcuts = [
     (   '1',    'actions',          u'selected-glyphs/actions/actions.py',            ),
@@ -40,11 +39,5 @@ scripts_shortcuts = [
 # run
 
 scripts_dict = build_shortcuts_dict(scripts_path, scripts_shortcuts)
-
-for path in scripts_dict.keys():
-    name = scripts_dict[path]['preferredName']
-    shortkey = scripts_dict[path]['shortKey']
-    setScriptingMenuNamingShortKeyForPath(path, name, shortkey)
-
-#set_shortcuts(scripts_dict)
-#print_shortcuts(verbose=False)
+set_shortcuts(scripts_dict)
+print_shortcuts(verbose=False)
