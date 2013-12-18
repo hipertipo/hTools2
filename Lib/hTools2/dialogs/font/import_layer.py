@@ -1,8 +1,8 @@
 # [h] import layer from ufo
 
-### suggested and sponsored
+### suggested & sponsored
 ### by Bas Jacobs (Underware)
-### http://www.underware.nl/
+### http://underware.nl/
 
 # import
 
@@ -13,44 +13,44 @@ from mojo.roboFont import CurrentFont, RFont
 from vanilla import *
 from vanilla.dialogs import getFile
 
+from hTools2 import hConstants
+
 # object
 
-class importUFOIntoLayerDialog(object):
+class importUFOIntoLayerDialog(hConstants):
 
     '''A dialog to import a font from an external file into a background layer of the current font.'''
 
-    _title = 'layers'
-    _padding = 10
-    _padding_top = 10
-    _column_1 = 110
-    _row_height = 20
-    _button_height = 30
-    _height = (_button_height * 2) + (_padding * 3)
-    _width = 123
+    # attributes
 
+    #: Path of the ufo file to import into layer.
     ufo_path = None
 
+    # methods
+
     def __init__(self):
-            self.w = FloatingWindow((self._width, self._height), self._title)
-            x = self._padding
-            y = self._padding
+            self.title = 'layers'
+            self.height = (self.button_height * 2) + (self.padding_y * 3)
+            self.w = FloatingWindow((self.width, self.height), self.title)
+            x = self.padding_x
+            y = self.padding_y
             # get ufo button
             self.w.get_file = SquareButton(
                         (x, y,
-                        -self._padding,
-                        self._button_height),
+                        -self.padding_x,
+                        self.button_height),
                         "get ufo...",
                         callback=self.get_file_callback,
-                        sizeStyle="small")
-            y += (self._button_height + self._padding_top)
+                        sizeStyle=self.size_style)
+            y += (self.button_height + self.padding_y)
             # apply button
             self.w.apply_button = SquareButton(
                         (x, y,
-                        -self._padding,
-                        self._button_height),
+                        -self.padding_x,
+                        self.button_height),
                         "import",
                         callback=self.apply_callback,
-                        sizeStyle='small')
+                        sizeStyle=self.size_style)
             # open window
             self.w.open()
 

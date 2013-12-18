@@ -104,4 +104,4 @@ class deleteLayerDialog(hConstants):
 
     def on_close_window(self, sender):
         '''Remove observers when font window is closed.'''
-        removeObserver(self, "fontResignCurrent")
+        removeObserver(self, "fontBecameCurrent")

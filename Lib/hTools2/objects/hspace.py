@@ -12,7 +12,7 @@ except:
 from hTools2.objects.hproject import hProject
 from hTools2.objects.hfont import hFont
 
-from hTools2.modules.anchors import transfer_anchors
+from hTools2.modules.anchors import transfer_anchors, move_anchors
 from hTools2.modules.fileutils import get_names_from_path
 from hTools2.modules.fontutils import rename_glyphs_from_list
 from hTools2.modules.glyphutils import *
@@ -64,8 +64,10 @@ class hSpace:
 
     def set_parameters(self, parameters):
         '''Set space attributes from parameters dict.'''
-        for parameter in parameters.keys():
-            setattr(self, parameter, parameters[parameter])
+        for k in parameters.keys():
+            if self.parameters.has_key(k):
+                self.parameters[k] = parameters[k]
+        self.build()
 
     def build(self):
         '''Build the defined variation space, using the parameters order, and create individual font names.
@@ -153,7 +155,7 @@ class hSpace:
                                         style_name = '%s%s%s%s%s%s' % (a, b, c, d, e, f)
                                     font_names.append(style_name)
         else:
-            print 'too many parts, current hSpace implementation only supports 6 parameters.\n'
+            print 'too many parts, hSpace only supports 6 parameters.\n'
         # save font list
         self.fonts = font_names
 
@@ -398,6 +400,23 @@ class hSpace:
                                 transfer_anchors(font.ufo[glyph_name], dest_ufo[glyph_name])
                                 dest_ufo.save()
                     if verbose: print
+        print '\n...done.\n'
+
+    def move_anchors(self, gstring, anchor_names, (delta_x, delta_y)):
+        '''Move all anchors of given anchor names in glyphs by ``(x,y)`` units.'''
+        # get glyphs
+        names = gstring.split(' ')
+        groups = self.project.libs['groups']['glyphs']
+        glyph_names = parse_glyphs_groups(names, groups)
+        # batch move anchors
+        print "batch moving anchors in %s...\n" % self.project.name
+        for src_path in self.ufos():
+            ufo = RFont(src_path, showUI=False)
+            print "\tmoving anchors in %s..." % get_full_name(ufo)
+            for glyph_name in glyph_names:
+                move_anchors(ufo[glyph_name], anchor_names, (delta_x, delta_y))
+            ufo.save()
+        # done
         print '\n...done.\n'
 
     # transformation tools

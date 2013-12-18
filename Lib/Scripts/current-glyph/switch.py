@@ -1,11 +1,6 @@
 # [h] switch current glyph
 
-'''Switch the contents of the current glyph window (layers, glyphs, fonts).'''
+import hTools2.dialogs.glyph.switch_glyph
+reload(hTools2.dialogs.glyph.switch_glyph)
 
-# import
-
-from hTools2.dialogs.glyph import switchGlyphDialog
-
-# run
-
-switchGlyphDialog()
+hTools2.dialogs.glyph.switch_glyph.switchGlyphDialog()

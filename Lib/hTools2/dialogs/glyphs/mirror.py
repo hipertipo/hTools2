@@ -65,26 +65,39 @@ class mirrorGlyphsDialog(hConstants):
     def _layers_callback(self, sender):
         self.layers = sender.get()
 
+    def _get_center(self, box):
+        xMin, yMin, xMax, yMax = box
+        w = xMax - xMin
+        h = yMax - yMin
+        center_x = xMin + (w / 2.0)
+        center_y = yMin + (h / 2.0)
+        return center_x, center_y
+
+    def _mirror_contour(self, contour, (scale_x, scale_y)):
+        center = self._get_center(contour.box)
+        contour.scale((scale_x, scale_y), center)
+
     def _mirror_glyph(self, glyph, (scale_x, scale_y)):
         if len(glyph.contours) > 0:
-            # get center
-            xMin, yMin, xMax, yMax = glyph.box
-            w = xMax - xMin
-            h = yMax - yMin
-            center_x = xMin + (w / 2)
-            center_y = yMin + (h / 2)
-            # transform
+            selected = False
             glyph.prepareUndo('mirror')
-            glyph.scale((scale_x, scale_y), center=(center_x, center_y))
+            # mirror selected contours only
+            for c in glyph.contours:
+                if c.selected:
+                    self._mirror_contour(c, ((scale_x, scale_y)))
+                    selected = True
+            # mirror all contours
+            if not selected:
+                center = self._get_center(glyph.box)
+                glyph.scale((scale_x, scale_y), center)
+            # done
             glyph.performUndo()
             glyph.update()
 
     def _mirror_glyphs(self, (scale_x, scale_y)):
         f = CurrentFont()
         if f is not None:
-            #----------------------
             # current glyph window
-            #----------------------
             g = CurrentGlyph()
             if g is not None:
                 print 'reflecting current glyph...\n'
@@ -98,9 +111,7 @@ class mirrorGlyphsDialog(hConstants):
                 else:
                     self._mirror_glyph(g, (scale_x, scale_y))
                 print '\n...done.\n'
-            #-----------------
             # selected glyphs
-            #-----------------
             else:
                 if len(f.selection) > 0:
                     print 'reflecting selected glyphs...\n'

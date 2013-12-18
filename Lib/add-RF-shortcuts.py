@@ -12,8 +12,6 @@ import random
 
 from hTools2.modules.sysutils import build_shortcuts_dict, set_shortcuts, print_shortcuts
 
-from mojo.UI import setScriptingMenuNamingShortKeyForPath
-
 # shortcuts
 
 scripts_path = os.path.join(os.getcwd(), 'Scripts')

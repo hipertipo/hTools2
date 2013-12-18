@@ -8,7 +8,10 @@ from mojo.roboFont import AllFonts, CurrentFont, CurrentGlyph
 
 from mojo.UI import CurrentGlyphWindow, OpenGlyphWindow
 
+from hTools2 import hConstants
 from hTools2.modules.fontutils import get_full_name, get_glyphs
+
+from hTools2.modules.messages import no_glyph_selected, no_font_open
 
 # functions
 
@@ -28,17 +31,16 @@ def previous_glyph(font, index):
 
 # objects
 
-class switchGlyphDialog(object):
+class switchGlyphDialog(hConstants):
 
-    _title = "switch"
-    _padding_top = 8
-    _padding = 10
-    _button_1 = 30
-    _button_2 = 18
-    _line_height = 18
-    _box_height = 23
-    _width = 320
-    _height = (_button_1 * 3) + (_padding_top * 2)
+    # _padding_top = 8
+    # _padding = 10
+    # _button_1 = 30
+    # _button_2 = 18
+    # _line_height = 18
+    # _box_height = 23
+    # _width = 320
+    # _height = (_button_1 * 3) + (_padding_top * 2)
 
     _move_default = 70
 
@@ -46,94 +48,95 @@ class switchGlyphDialog(object):
         # get fonts
         self.all_fonts = AllFonts()
         if len(self.all_fonts) > 0:
-            self.w = FloatingWindow(
-                        (self._width,
-                        self._height),
-                        self._title)
+            self.title = "switch"
+            self.height = self.width
+            self.width = 320
+            self.w = FloatingWindow((self.width, self.height), self.title)
             # move buttons
-            p = self._padding
-            b1 = self._button_1
-            b2 = self._button_2
-            box = self._box_height
-            x = self._padding
-            y = self._padding_top
-            x1 = x + b1 - 1
-            x2 = x + (b1 * 2) - 2
-            # buttons
+            x = self.padding_x
+            y = self.padding_y
+            x1 = x + (self.square_button * 1) - 1
+            x2 = x + (self.square_button * 2) - 2
             self.w._up = SquareButton(
                         (x1, y,
-                        b1, b1),
+                        self.square_button,
+                        self.square_button),
                         unichr(8673),
                         callback=self._up_callback)
             self.w._up_right = SquareButton(
                         (x2 + 8, y,
-                        b1 - 8, b1 - 8),
+                        self.square_button - 8,
+                        self.square_button - 8),
                         unichr(8599),
                         callback=self._up_right_callback,
-                        sizeStyle='small')
-            y += b1 - 1
+                        sizeStyle=self.size_style)
+            y += self.square_button - 1
             self.w._left = SquareButton(
                         (x, y,
-                        b1, b1),
+                        self.square_button,
+                        self.square_button),
                         unichr(8672),
                         callback=self._left_callback)
             self.w._right = SquareButton(
                         (x2, y,
-                        b1, b1),
+                        self.square_button,
+                        self.square_button),
                         unichr(8674),
                         callback=self._right_callback)
-            y += b1 - 1
-            self.w._down = SquareButton(
-                        (x1, y,
-                        b1, b1),
-                        unichr(8675),
-                        callback=self._down_callback)
+            y += self.square_button - 1
             self.w._down_left = SquareButton(
                         (x, y + 8,
-                        b1 - 8, b1 - 8),
+                        self.square_button - 8,
+                        self.square_button - 8),
                         unichr(8601),
                         callback=self._down_left_callback,
-                        sizeStyle='small')
+                        sizeStyle=self.size_style)
+            self.w._down = SquareButton(
+                        (x1, y,
+                        self.square_button,
+                        self.square_button),
+                        unichr(8675),
+                        callback=self._down_callback)
             # location
-            y = p
-            x3 = x2 + b1 + 16
+            y = self.padding_y
+            x3 = x2 + self.square_button + 16
             self.w.box_font = Box(
                         (x3, y,
-                        -self._padding,
-                        self._box_height))
+                        -self.padding_x,
+                        self.text_height))
             self.w.box_font.text = TextBox(
                         (5, 0,
-                        -self._padding,
+                        -self.padding_x,
                         -0),
                         '',
-                        sizeStyle='small')
-            y += self._box_height + self._padding_top
+                        sizeStyle=self.size_style)
+            y += self.text_height + self.padding_y
             self.w.box_glyph = Box(
                         (x3, y,
-                        -self._padding,
-                        self._box_height))
+                        -self.padding_x,
+                        self.text_height))
             self.w.box_glyph.text = TextBox(
                         (5, 0,
-                        -self._padding,
+                        -self.padding_x,
                         -0),
                         '',
-                        sizeStyle='small')
-            y += self._box_height + self._padding_top
+                        sizeStyle=self.size_style)
+            y += self.text_height + self.padding_y
             self.w.box_layer = Box(
                         (x3, y,
-                        -self._padding,
-                        self._box_height))
+                        -self.padding_x,
+                        self.text_height))
             self.w.box_layer.text = TextBox(
                         (5, 0,
-                        -self._padding,
+                        -self.padding_x,
                         -0),
                         '',
-                        sizeStyle='small')
+                        sizeStyle=self.size_style)
             # open
             if self.update():
                 self.w.open()
         else:
-            print 'please open at least one font first.\n'
+            print no_font_open
 
     # methods
 
@@ -172,8 +175,8 @@ class switchGlyphDialog(object):
         self.update()
 
     def _update_text_box(self):
-        self.w.box_font.text.set('%s [%s]' % (get_full_name(self.font), self.font_index))
-        self.w.box_glyph.text.set('%s [%s]' % (self.glyph.name, self.glyph_index))
+        self.w.box_font.text.set(get_full_name(self.font))
+        self.w.box_glyph.text.set(self.glyph.name)
         self.w.box_layer.text.set(self.glyph.layerName)
 
     def update(self):
@@ -198,10 +201,10 @@ class switchGlyphDialog(object):
                     self._update_text_box()
                     return True
                 else:
-                    print 'please select a glyph first.\n'
+                    print no_glyph_selected
                     return False
             else:
-                print 'please open a font first.\n'
+                print no_font_open
                 return False
 
     # callbacks
@@ -263,4 +266,3 @@ class switchGlyphDialog(object):
                 G = OpenGlyphWindow(prev_glyph, newWindow=False)
                 # update UI
                 self.update()
-

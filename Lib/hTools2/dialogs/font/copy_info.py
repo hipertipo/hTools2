@@ -94,75 +94,75 @@ class copyFontInfoDialog(hConstants):
         x = self.padding_x
         y = self.padding_y - 8
         self.w.source_label = TextBox(
-                (x, y + 3,
-                -self.padding_x,
-                self.text_height),
-                "source",
-                sizeStyle=self.size_style)
+                    (x, y + 3,
+                    -self.padding_x,
+                    self.text_height),
+                    "source",
+                    sizeStyle=self.size_style)
         y += self.text_height
         self.w.source_value = PopUpButton(
-                (x, y,
-                -self.padding_x,
-                self.text_height),
-                self.all_fonts_names,
-                sizeStyle=self.size_style)
+                    (x, y,
+                    -self.padding_x,
+                    self.text_height),
+                    self.all_fonts_names,
+                    sizeStyle=self.size_style)
         # dest font
         y += self.text_height # + self.padding_y
         self.w.dest_label = TextBox(
-                (x, y + 3,
-                -self.padding_x,
-                self.text_height),
-                "target",
-                sizeStyle=self.size_style)
+                    (x, y + 3,
+                    -self.padding_x,
+                    self.text_height),
+                    "target",
+                    sizeStyle=self.size_style)
         y += self.text_height
         self.w.dest_value = PopUpButton(
-                (x, y,
-                -self.padding_x,
-                self.text_height),
-                self.all_fonts_names,
-                sizeStyle=self.size_style)
+                    (x, y,
+                    -self.padding_x,
+                    self.text_height),
+                    self.all_fonts_names,
+                    sizeStyle=self.size_style)
         # division
         y += (self.text_height + self.padding_y)
         self.w.general_identification_checkbox = CheckBox(
-                (x, y,
-                -self.padding_x,
-                self.text_height),
-                "identification",
-                value=self.general_identification,
-                sizeStyle=self.size_style)
+                    (x, y,
+                    -self.padding_x,
+                    self.text_height),
+                    "identification",
+                    value=self.general_identification,
+                    sizeStyle=self.size_style)
         y += self.text_height
         self.w.general_dimensions_checkbox = CheckBox(
-                (x, y,
-                -self.padding_x,
-                self.text_height),
-                "dimensions",
-                value=self.general_dimensions,
-                sizeStyle=self.size_style)
+                    (x, y,
+                    -self.padding_x,
+                    self.text_height),
+                    "dimensions",
+                    value=self.general_dimensions,
+                    sizeStyle=self.size_style)
         y += self.text_height
         self.w.general_legal_checkbox = CheckBox(
-                (x, y,
-                -self.padding_x,
-                self.text_height),
-                "legal",
-                value=self.general_legal,
-                sizeStyle=self.size_style)
+                    (x, y,
+                    -self.padding_x,
+                    self.text_height),
+                    "legal",
+                    value=self.general_legal,
+                    sizeStyle=self.size_style)
         y += self.text_height
         self.w.general_parties_checkbox = CheckBox(
-                (x, y,
-                -self.padding_x,
-                self.text_height),
-                "parties",
-                value=self.general_parties,
-                sizeStyle=self.size_style)
+                    (x, y,
+                    -self.padding_x,
+                    self.text_height),
+                    "parties",
+                    value=self.general_parties,
+                    sizeStyle=self.size_style)
         # buttons
         y += (self.text_height + self.padding_y)
         self.w.button_apply = SquareButton(
-                (x, y,
-                -self.padding_x,
-                self.button_height),
-                "apply",
-                callback=self.apply_callback,
-                sizeStyle=self.size_style)
+                    (x, y,
+                    -self.padding_x,
+                    self.button_height),
+                    "apply",
+                    callback=self.apply_callback,
+                    sizeStyle=self.size_style)
         # bind
         self.w.bind("became key", self.update_callback)
         self.w.bind("close", self.on_close_window)

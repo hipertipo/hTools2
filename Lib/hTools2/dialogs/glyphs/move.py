@@ -7,7 +7,7 @@ from mojo.roboFont import CurrentFont, CurrentGlyph
 from vanilla import *
 
 from hTools2 import hConstants
-import hTools2.modules.messages as messages
+from hTools2.modules.messages import no_glyph_selected, no_font_open, no_layer_selected
 
 # objects
 
@@ -284,10 +284,10 @@ class moveGlyphsDialog(hConstants):
                         print '\n...done.\n'
                     # no layer selected
                     else:
-                        print messages.no_layer_selected
+                        print no_layer_selected
                 # no glyph selected
                 else:
-                    print messages.no_glyph_selected
+                    print no_glyph_selected
         # no font open
         else:
-            print messages.no_font_open
+            print no_font_open

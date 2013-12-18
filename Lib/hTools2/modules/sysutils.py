@@ -72,7 +72,7 @@ _ctx = get_context()
 
 if _ctx == 'RoboFont':
 
-    from mojo.UI import getScriptingMenuNamingShortKey, setScriptingMenuNamingShortKey
+    from mojo.UI import getScriptingMenuNamingShortKey, setScriptingMenuNamingShortKey, createModifier, setScriptingMenuNamingShortKeyForPath
 
     def clear_shortcuts():
         '''Remove all current shorcuts.'''
@@ -94,7 +94,12 @@ if _ctx == 'RoboFont':
 
     def set_shortcuts(shortcuts_dict):
         '''Set RoboFont shortcuts from a dictionary.'''
-        setScriptingMenuNamingShortKey(shortcuts_dict)
+        # setScriptingMenuNamingShortKey(shortcuts_dict)
+        for path in shortcuts_dict.keys():
+            preferredName = shortcuts_dict[path]['preferredName']
+            shortKey = shortcuts_dict[path]['shortKey']
+            modifier = shortcuts_dict[path]['modifier']
+            setScriptingMenuNamingShortKeyForPath(path, preferredName, shortKey, modifier)
 
 def build_shortcuts_dict(path, shortcuts):
     '''Build a shortcuts dictionary with script paths, names and shortcut keys.'''
@@ -102,6 +107,7 @@ def build_shortcuts_dict(path, shortcuts):
     #       u'/path/to/script.py': {
     #           'preferredName' : 'my script',
     #           'shortKey' : 'n',
+    #           'modifier' : createModifier(command=True, shift=True),
     #       }
     #   }
     _shortcuts_dict = {}
@@ -112,6 +118,7 @@ def build_shortcuts_dict(path, shortcuts):
             _shortcuts_dict[_file_path] = {}
             _shortcuts_dict[_file_path]['preferredName'] = _name
             _shortcuts_dict[_file_path]['shortKey'] = _key
+            _shortcuts_dict[_file_path]['modifier'] = createModifier(command=True, shift=True)
         else:
             print '%s does not exist.' % _file_path
     return _shortcuts_dict
