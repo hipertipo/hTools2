@@ -14,6 +14,7 @@ lib_path = os.path.dirname(os.path.dirname(hTools2.__file__))
 base_path = os.path.dirname(lib_path)
 extension_path = os.path.join(base_path, extension_file)
 html_path = os.path.join(base_path, "Documentation/build/html")
+os.makedirs(html_path)
 
 # create bundle
 
