@@ -11,7 +11,24 @@ from hTools2.extras.colorsys import *
 
 # functions
 
-def random_color():
+def convert_to_1(R, G, B, A=None):
+    r = R / 255.0
+    g = G / 255.0
+    b = B / 255.0
+    if A:
+        a = A / 255.0
+        return (r, g, b, a)
+    else:
+        return (r, g, b)
+
+def convert_to_255(r, g, b, a=None):
+    R = r * 255.0
+    G = g * 255.0
+    B = b * 255.0
+    A = a * 255.0
+    return (R, G, B, A)
+
+def random_color(alpha=1.0):
     '''Return a random color.'''
     # FontLab
     if _ctx == 'FontLab':
@@ -19,8 +36,7 @@ def random_color():
     # RoboFont & NoneLab
     else:
         R, G, B = hsv_to_rgb(random.random(), 1.0, 1.0)
-        _alpha = 1.0
-        c = (R, G, B, _alpha)
+        c = (R, G, B, alpha)
     return c
 
 def clear_colors(font):

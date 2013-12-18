@@ -117,6 +117,17 @@ def rename_glyphs_from_list(font, names_list, overwrite=True, mark=True, verbose
         print
         print '...done.\n'
 
+def mark_composed_glyphs(font, color='Orange', alpha=.35):
+    '''Mark all composed glyphs in the font.'''
+    R, G, B = x11_colors[color]
+    mark_color = convert_to_1(R, G, B)
+    mark_color += (alpha,)
+    for glyph in font:
+        if len(glyph.components) > 0:
+            glyph.mark = mark_color
+            glyph.update()
+    font.update()
+
 #--------
 # groups
 #--------

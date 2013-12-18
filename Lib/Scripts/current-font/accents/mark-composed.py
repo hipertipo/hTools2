@@ -1,21 +1,13 @@
 # [h] mark composed glyphs
 
-'''Mark all composed glyphs in font.'''
+import hTools2.modules.fontutils
+reload(hTools2.modules.fontutils)
 
-# import
-
-from hTools2.modules.color import clear_colors, random_color
+from hTools2.modules.fontutils import clear_colors, mark_composed_glyphs
 
 # run
 
 f = CurrentFont()
 
 clear_colors(f)
-mark_color = random_color()
-
-for g in f:
-    if len(g.components) > 0:
-        g.mark = mark_color
-        g.update()
-
-f.update()
+mark_composed_glyphs(f)
