@@ -50,7 +50,7 @@ def set_names_from_path(font, prefix=None):
 def set_vmetrics(font, xheight, capheight, ascender, descender, emsquare, gridsize=1):
     font.info.xHeight = xheight * gridsize
     font.info.capHeight = capheight * gridsize
-    font.info.descender = descender * gridsize
+    font.info.descender = -abs(descender * gridsize)
     font.info.ascender = ascender * gridsize
     font.info.unitsPerEm = emsquare * gridsize
 

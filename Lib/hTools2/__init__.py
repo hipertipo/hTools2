@@ -31,14 +31,14 @@ class hConstants(object):
     #: Height of text elements in dialogs.
     text_input = 18
 
+    #: Height of standard button in dialogs.
+    button_height = 25
+
     #: Size of individual button in nudge button set.
     nudge_button = 18
 
     #: Size of square button in cross nudge button set.
     square_button = 35
-
-    #: Height of standard button in dialogs.
-    button_height = 25
 
     #: Can nummerical text input be edited directly with the keyboard? A boolean. Set to ``True`` as default.
     read_only = True

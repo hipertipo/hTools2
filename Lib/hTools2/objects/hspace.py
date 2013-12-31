@@ -3,6 +3,7 @@
 # imports
 
 import os
+import itertools
 
 try:
     from mojo.roboFont import RFont, NewFont
@@ -16,7 +17,8 @@ from hTools2.modules.anchors import transfer_anchors, move_anchors
 from hTools2.modules.fileutils import get_names_from_path
 from hTools2.modules.fontutils import rename_glyphs_from_list
 from hTools2.modules.glyphutils import *
-from hTools2.modules.fontinfo import *
+from hTools2.modules.fontinfo import set_vmetrics, clear_opentype_os2, clear_opentype_hhea, clear_opentype_vhea
+
 from hTools2.modules.fontutils import get_full_name, scale_glyphs, parse_glyphs_groups
 from hTools2.modules.ftp import connect_to_server, upload_file
 
@@ -58,6 +60,7 @@ class hSpace:
         try:
             self.parameters = self.project.libs['project']['parameters']
             self.parameters_order = self.project.libs['project']['parameters_order']
+            self.parameters_length = self.project.libs['project']['parameters_length']
             self.parameters_separator = self.project.libs['project']['parameters_separator']
         except:
             print 'project %s has no parameters lib' % self.project.name
@@ -70,93 +73,28 @@ class hSpace:
         self.build()
 
     def build(self):
-        '''Build the defined variation space, using the parameters order, and create individual font names.
-
-        .. warning:: Awful redundant code, needs to be rewritten.
-
-        '''
-        parts = len(self.parameters_order)
+        '''Build the defined variation space, using the parameters order, and create individual font names.'''
+        # get parameters
+        parameters = []
+        for parameter in self.parameters_order:
+            parameters.append(self.parameters[parameter])
+        parameters = tuple(parameters)
+        # get font parameters
         font_names = []
-        if parts == 0:
-            print 'parameters order is empty, please set some values first.\n'
-        elif parts == 1:
-            param_name = self.parameters_order[0]
-            for a in self.parameters[param_name]:
-                style_name = '%s' % a
-                font_names.append(style_name)
-        elif parts == 2:
-            param_name_1 = self.parameters_order[0]
-            param_name_2 = self.parameters_order[1]
-            for a in self.parameters[param_name_1]:
-                for b in self.parameters[param_name_2]:
-                    if self.parameters_separator:
-                        style_name = '%s-%s' % (a, b)
-                    else:
-                        style_name = '%s%s' % (a, b)
-                    font_names.append(style_name)
-        elif parts == 3:
-            param_name_1 = self.parameters_order[0]
-            param_name_2 = self.parameters_order[1]
-            param_name_3 = self.parameters_order[2]
-            for a in self.parameters[param_name_1]:
-                for b in self.parameters[param_name_2]:
-                    for c in self.parameters[param_name_3]:
-                        if self.parameters_separator:
-                            style_name = '%s-%s-%s' % (a, b, c)
-                        else:
-                            style_name = '%s%s%s' % (a, b, c)
-                        font_names.append(style_name)
-        elif parts == 4:
-            param_name_1 = self.parameters_order[0]
-            param_name_2 = self.parameters_order[1]
-            param_name_3 = self.parameters_order[2]
-            param_name_4 = self.parameters_order[3]
-            for a in self.parameters[param_name_1]:
-                for b in self.parameters[param_name_2]:
-                    for c in self.parameters[param_name_3]:
-                        for d in self.parameters[param_name_4]:
-                            if self.parameters_separator:
-                                style_name = '%s-%s-%s-%s' % (a, b, c, d)
-                            else:
-                                style_name = '%s%s%s%s' % (a, b, c, d)
-                            font_names.append(style_name)
-        elif parts == 5:
-            param_name_1 = self.parameters_order[0]
-            param_name_2 = self.parameters_order[1]
-            param_name_3 = self.parameters_order[2]
-            param_name_4 = self.parameters_order[3]
-            param_name_5 = self.parameters_order[4]
-            for a in self.parameters[param_name_1]:
-                for b in self.parameters[param_name_2]:
-                    for c in self.parameters[param_name_3]:
-                        for d in self.parameters[param_name_4]:
-                            for e in self.parameters[param_name_5]:
-                                if self.parameters_separator:
-                                    style_name = '%s-%s-%s-%s-%s' % (a, b, c, d, e)
-                                else:
-                                    style_name = '%s%s%s%s%s' % (a, b, c, d, e)
-                                font_names.append(style_name)
-        elif parts == 6:
-            param_name_1 = self.parameters_order[0]
-            param_name_2 = self.parameters_order[1]
-            param_name_3 = self.parameters_order[2]
-            param_name_4 = self.parameters_order[3]
-            param_name_5 = self.parameters_order[4]
-            param_name_6 = self.parameters_order[5]
-            for a in self.parameters[param_name_1]:
-                for b in self.parameters[param_name_2]:
-                    for c in self.parameters[param_name_3]:
-                        for d in self.parameters[param_name_4]:
-                            for e in self.parameters[param_name_5]:
-                                for f in self.parameters[param_name_6]:
-                                    if self.parameters_separator:
-                                        style_name = '%s-%s-%s-%s-%s-%s' % (a, b, c, d, e, f)
-                                    else:
-                                        style_name = '%s%s%s%s%s%s' % (a, b, c, d, e, f)
-                                    font_names.append(style_name)
-        else:
-            print 'too many parts, hSpace only supports 6 parameters.\n'
-        # save font list
+        for font_parameters in itertools.product(*parameters):
+            params = [str(p) for p in font_parameters]
+            # normalize parameters
+            font_name = []
+            for i, param in enumerate(params):
+                param_length = self.parameters_length[i]
+                if param_length > 0:
+                    if len(param) != param_length:
+                        zeros = param_length - len(param)
+                        param = ('0' * zeros) + str(param)
+                font_name.append(param)
+            font_name = '-'.join(font_name)
+            font_names.append(font_name)
+        # store font list
         self.fonts = font_names
 
     def ufos(self):
@@ -175,6 +113,15 @@ class hSpace:
             else:
                 continue
         return font_paths
+
+    def get_glyph_names(self, gstring):
+        if gstring is None:
+            glyph_names = self.project.all_glyphs()
+        else:
+            names = gstring.split(' ')
+            groups = self.project.libs['groups']['glyphs']
+            glyph_names = parse_glyphs_groups(names, groups)
+        return glyph_names
 
     # ftp
 
@@ -213,12 +160,7 @@ class hSpace:
     def create_glyphs(self, gstring=None, verbose=False):
         '''Create all glyphs in all fonts in space.'''
         # get glyphs
-        if gstring is None:
-            glyph_names = self.project.all_glyphs()
-        else:
-            names = gstring.split(' ')
-            groups = self.project.libs['groups']['glyphs']
-            glyph_names = parse_glyphs_groups(names, groups)
+        glyph_names = self.get_glyph_names(gstring)
         # create glyphs
         print "creating glyphs in space...\n"
         for ufo_path in self.ufos():
@@ -236,13 +178,14 @@ class hSpace:
         # done
         print "\n...done.\n"
 
-    def build_accents(self, verbose=False):
-        '''Build all accents in all fonts in space.'''
+    def build_accents(self, gstring=None, ignore=[]):
+        '''Build accents in all fonts in space.'''
+        # build glyphs
         print "building accented glyphs in space...\n"
         for ufo_path in self.ufos():
             font = hFont(RFont(ufo_path, showUI=False))
             print "\tbuilding glyphs in %s..." % get_full_name(font.ufo)
-            font.build_accents()
+            font.build_accents(gstring=gstring, ignore=ignore)
             font.ufo.save()
         print "\n...done.\n"
 
@@ -329,9 +272,7 @@ class hSpace:
                 self.parameters[param] = [ src ]
         self.build()
         # get glyphs
-        names = gstring.split(' ')
-        groups = self.project.libs['groups']['glyphs']
-        glyph_names = parse_glyphs_groups(names, groups)
+        glyph_names = self.get_glyph_names(gstring)
         # batch copy
         print "batch transfering glyphs in %s..." % self.project.name
         for src_path in self.ufos():
@@ -368,11 +309,8 @@ class hSpace:
             if param == axis:
                 self.parameters[param] = [ src ]
         self.build()
-        # parse gstring
-        if gstring is None:
-            glyph_names = self.project.all_glyphs()
-        else:
-            glyph_names = self.project.parse_gstring(gstring)
+        # get glyph names
+        glyph_names = self.get_glyph_names(gstring)
         # batch copy
         print "batch transfering anchors in %s..." % self.project.name
         for src_path in self.ufos():
@@ -405,9 +343,7 @@ class hSpace:
     def move_anchors(self, gstring, anchor_names, (delta_x, delta_y)):
         '''Move all anchors of given anchor names in glyphs by ``(x,y)`` units.'''
         # get glyphs
-        names = gstring.split(' ')
-        groups = self.project.libs['groups']['glyphs']
-        glyph_names = parse_glyphs_groups(names, groups)
+        glyph_names = self.get_glyph_names(gstring)
         # batch move anchors
         print "batch moving anchors in %s...\n" % self.project.name
         for src_path in self.ufos():
@@ -453,9 +389,7 @@ class hSpace:
     def shift_x(self, dest_width, gstring, pos, delta, side, verbose=True):
         print 'batch x-shifting glyphs in hSpace...\n'
         # get glyphs
-        names = gstring.split(' ')
-        groups = self.project.libs['groups']['glyphs']
-        glyph_names = parse_glyphs_groups(names, groups)
+        glyph_names = self.get_glyph_names(gstring)
         # get base width
         source_width = str(self.parameters['width'][0])
         # batch shift glyphs in fonts
@@ -493,9 +427,7 @@ class hSpace:
     def shift_y(self, dest_height, gstring, transformations, verbose=True):
         print 'batch y-shifting glyphs in hSpace...\n'
         # get glyphs
-        names = gstring.split(' ')
-        groups = self.project.libs['groups']['glyphs']
-        glyph_names = parse_glyphs_groups(names, groups)
+        glyph_names = self.get_glyph_names(gstring)
         # get base height
         source_width = str(self.parameters['height'][0])
         # batch shift glyphs in fonts
@@ -532,24 +464,20 @@ class hSpace:
 
     def scale_glyphs(self, factor, gstring=None, verbose=False):
         # get glyphs
-        if gstring is None:
-            glyph_names = self.project.all_glyphs()
-        else:
-            names = gstring.split(' ')
-            groups = self.project.libs['groups']['glyphs']
-            glyph_names = parse_glyphs_groups(names, groups)
+        glyph_names = self.get_glyph_names(gstring)
+        factor_x, factor_y = factor
         # scale glyphs
         print 'scaling glyphs in space...\n'
         for ufo_path in self.ufos():
             ufo = RFont(ufo_path, showUI=False)
-            print '\tscaling %s by %s...' % (get_full_name(ufo), factor)
+            print '\tscaling %s by (%s, %s)...' % (get_full_name(ufo), factor_x, factor_y)
             if verbose: print '\t\t',
             for glyph_name in glyph_names:
                 if verbose: print glyph_name,
                 leftMargin, rightMargin = ufo[glyph_name].leftMargin, ufo[glyph_name].rightMargin
-                ufo[glyph_name].scale((factor, factor))
-                ufo[glyph_name].leftMargin = leftMargin * factor
-                ufo[glyph_name].rightMargin = rightMargin * factor
+                ufo[glyph_name].scale(factor)
+                ufo[glyph_name].leftMargin = leftMargin * factor_x
+                ufo[glyph_name].rightMargin = rightMargin * factor_x
             # done with font
             if verbose: print
             ufo.save()
@@ -557,12 +485,7 @@ class hSpace:
 
     def move_glyphs(self, delta, gstring=None, verbose=False):
         # get glyphs
-        if gstring is None:
-            glyph_names = self.project.all_glyphs()
-        else:
-            names = gstring.split(' ')
-            groups = self.project.libs['groups']['glyphs']
-            glyph_names = parse_glyphs_groups(names, groups)
+        glyph_names = self.get_glyph_names(gstring)
         # move glyphs
         print 'moving glyphs in space...'
         print
@@ -574,19 +497,16 @@ class hSpace:
                 if verbose: print glyph_name,
                 ufo[glyph_name].move(delta)
             # done with font
+            if verbose: print
             ufo.save()
-            print
-        print '...done.\n'
+        print '\n...done.\n'
 
     def change_glyph_widths(self, delta, gstring=None):
         print 'changing glyph widths in space...\n'
         groups = self.project.libs['groups']['glyphs']
+        glyph_names = self.get_glyph_names(gstring)
         for src_path in self.ufos():
             font = hFont(RFont(src_path, showUI=False))
-            if gstring is None:
-                glyph_names = font.ufo.keys()
-            else:
-                glyph_names = parse_glyphs_groups(gstring.split(' '), groups)
             print '\tsettings widths in %s...' % get_full_name(font.ufo)
             for glyph_name in glyph_names:
                 font.ufo[glyph_name].width += delta
@@ -681,7 +601,7 @@ class hSpace:
             else:
                 size = font.parameters['height']
             vmetrics = self.project.libs['project']['vmetrics'][str(size)]
-            _gridsize = self.project.libs['project']['grid']
+            gridsize = self.project.libs['project']['grid']
             # clear vmetrics
             clear_opentype_os2(font.ufo)
             clear_opentype_hhea(font.ufo)
@@ -694,7 +614,7 @@ class hSpace:
                         vmetrics['ascender'],
                         vmetrics['descender'],
                         int(size),
-                        gridsize=_gridsize)
+                        gridsize)
             font.ufo.save()
             # print_generic_dimension(font.ufo)
         print '\n...done.\n'

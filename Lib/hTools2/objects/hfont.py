@@ -7,18 +7,20 @@ import os
 from hproject import hProject
 
 from hTools2.modules.anchors import clear_anchors, get_anchors_dict
-from hTools2.modules.color import clear_colors, hls_to_rgb
+from hTools2.modules.color import clear_colors, hls_to_rgb, x11_colors, convert_to_1
 from hTools2.modules.encoding import paint_groups, auto_unicodes, crop_glyphset
 from hTools2.modules.fontinfo import set_names_from_path, set_vmetrics, get_stems, set_stems
 from hTools2.modules.fontutils import *
 from hTools2.modules.ftp import *
 from hTools2.modules.opentype import import_features, clear_features, import_kern_feature
+from hTools2.modules.messages import no_glyph_selected
 
 from fontTools.ttLib import TTFont
 
 # functions
 
 def strip_names(ttx_path):
+    '''Remove several nameIDs to prevent the font from being installable.'''
     import hTools2.extras.ElementTree as ET
     # nameIDs which will be erased
     nameIDs = [ 1, 2, 4, 16, 17, 18 ]
@@ -30,6 +32,7 @@ def strip_names(ttx_path):
     tree.write(ttx_path)
 
 def ttx2otf(ttx_path, otf_path):
+    '''Generate an .otf font from a .ttx file.'''
     tt = TTFont()
     tt.importXML(ttx_path)
     tt.save(otf_path)
@@ -104,6 +107,13 @@ class hFont:
             if self.ufo.has_key(glyph_name) is not True:
                 self.ufo.newGlyph(glyph_name)
         self.ufo.save()
+
+    def get_glyph_names(self, gstring):
+        if gstring is not None:
+            glyph_names = self.project.parse_gstring(gstring)
+        else:
+            glyph_names = self.project.all_glyphs()
+        return glyph_names
 
     def glyphset(self):
         '''Return a list with all glyph names in the font's glyphset.'''
@@ -255,11 +265,7 @@ class hFont:
 
     def round_to_grid(self, gridsize, gstring=None):
         '''Round points in all given glyphs in the font to the given ``gridsize``.'''
-        glyph_names = None
-        if gstring is not None:
-            names = gstring.split(' ')
-            groups = self.project.libs['groups']['glyphs']
-            glyph_names = parse_glyphs_groups(names, groups)
+        glyph_names = self.get_glyph_names(gstring)
         round_to_grid(self.ufo, gridsize, glyph_names)
 
     def delete_layers(self):
@@ -272,13 +278,10 @@ class hFont:
 
     def clear_anchors(self, gstring=None):
         '''Delete all anchors in the font.'''
-        if gstring is not None:
-            _glyph_names = self.project.parse_gstring(gstring)
-        else:
-            _glyph_names = self.project.all_glyphs()
-        clear_anchors(self.ufo, glyph_names=_glyph_names)
+        glyph_names = self.get_glyph_names(gstring)
+        clear_anchors(self.ufo, glyph_names=glyph_names)
 
-    def build_glyph(self, glyph_name):
+    def build_glyph(self, glyph_name, composed=True, verbose=True):
         '''Build glyph with the given ``glyph_name`` from components based on the project's ``accents`` or ``composed`` libs.'''
         # accents
         if self.project.libs['accents'].has_key(glyph_name):
@@ -286,25 +289,32 @@ class hFont:
             self.ufo.removeGlyph(glyph_name)
             self.ufo.compileGlyph(glyph_name, base_glyph, accents)
             self.ufo[glyph_name].update()
+            return True
         # composed
         elif self.project.libs['composed'].has_key(glyph_name):
             self.ufo.newGlyph(glyph_name, clear=True)
             components = self.project.libs['composed'][glyph_name]
-            _offset_x, _offset_y = 0, 0
-            _scale_x, _scale_y = 1, 1
+            offset_x, offset_y = 0, 0
+            scale_x, scale_y = 1, 1
             for component in components:
-                self.ufo[glyph_name].appendComponent(component, (_offset_x, _offset_y), (_scale_x, _scale_y))
-                _offset_x += self.ufo[component].width
+                self.ufo[glyph_name].appendComponent(component, (offset_x, offset_y), (scale_x, scale_y))
+                offset_x += self.ufo[component].width
             self.ufo[glyph_name].update()
+            return True
         # not composed
         else:
-            print '%s is not composed.\n' % glyph_name
+            if verbose: print '%s is not composed.' % glyph_name
+            return False
 
-    def build_accents(self):
+    def build_accents(self, gstring=None, ignore=[], composed=False):
         '''Build all accented glyphs in the font based on the project's ``accents`` libs.'''
-        for glyph_name in self.project.libs['accents'].keys():
+        glyph_names = self.get_glyph_names(gstring)
+        # build glyphs
+        for glyph_name in glyph_names:
             if self.ufo.has_key(glyph_name):
-                self.build_glyph(glyph_name)
+                # skip glyphs in ignore list
+                if glyph_name not in ignore:
+                    self.build_glyph(glyph_name, composed=composed, verbose=False)
 
     def build_composed(self):
         '''Build all composed glyphs in the font based on the project's ``composed`` libs.'''
@@ -354,6 +364,24 @@ class hFont:
                 glyph.appendAnchor('_top', (x_center, y))
         # done font
         self.ufo.update()
+
+    def build_selected_glyphs(self):
+        # get glyphs
+        glyph_names = get_glyphs(self.ufo)
+        # get color
+        R, G, B = x11_colors['Orange']
+        mark_color = convert_to_1(R, G, B)
+        mark_color += (.35,)
+        # build glyphs
+        if len(glyph_names) > 0:
+            for glyph_name in glyph_names:
+                composed = self.build_glyph(glyph_name)
+                # paint glyph
+                if composed:
+                    self.ufo[glyph_name].mark = mark_color
+            self.ufo.update()
+        else:
+            print no_glyph_selected
 
     # OT features
 

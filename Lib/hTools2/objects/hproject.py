@@ -1,10 +1,5 @@
 # [h] hProject
 
-# debug
-
-import hTools2.modules.git
-reload(hTools2.modules.git)
-
 # imports
 
 import os
@@ -16,9 +11,9 @@ except:
     from robofab.world import RFont, NewFont
 
 from hTools2.objects.hworld import hWorld
+from hTools2.modules.encoding import import_encoding
 from hTools2.modules.fileutils import walk, get_names_from_path, delete_files
 from hTools2.modules.fontutils import parse_glyphs_groups
-from hTools2.modules.encoding import import_encoding
 from hTools2.modules.ftp import connect_to_server, upload_file
 from hTools2.modules.git import GitHandler
 
