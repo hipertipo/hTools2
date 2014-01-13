@@ -1,5 +1,8 @@
 # [h] hFont
 
+import hTools2.modules.color
+reload(hTools2.modules.color)
+
 # import
 
 import os
@@ -12,30 +15,9 @@ from hTools2.modules.encoding import paint_groups, auto_unicodes, crop_glyphset
 from hTools2.modules.fontinfo import set_names_from_path, set_vmetrics, get_stems, set_stems
 from hTools2.modules.fontutils import *
 from hTools2.modules.ftp import *
-from hTools2.modules.opentype import import_features, clear_features, import_kern_feature
+from hTools2.modules.opentype import import_features, export_features, clear_features, import_kern_feature
 from hTools2.modules.messages import no_glyph_selected
-
-from fontTools.ttLib import TTFont
-
-# functions
-
-def strip_names(ttx_path):
-    '''Remove several nameIDs to prevent the font from being installable.'''
-    import hTools2.extras.ElementTree as ET
-    # nameIDs which will be erased
-    nameIDs = [ 1, 2, 4, 16, 17, 18 ]
-    tree = ET.parse(ttx_path)
-    root = tree.getroot()
-    for child in root.find('name'):
-        if int(child.attrib['nameID']) in nameIDs:
-            child.text = ' '
-    tree.write(ttx_path)
-
-def ttx2otf(ttx_path, otf_path):
-    '''Generate an .otf font from a .ttx file.'''
-    tt = TTFont()
-    tt.importXML(ttx_path)
-    tt.save(otf_path)
+from hTools2.modules.ttx import *
 
 # objects
 

@@ -3,4 +3,4 @@
 import hTools2.dialogs.glyphs.paint
 reload(hTools2.dialogs.glyphs.paint)
 
-paintGlyphsDialog()
+hTools2.dialogs.glyphs.paint.paintGlyphsDialog()

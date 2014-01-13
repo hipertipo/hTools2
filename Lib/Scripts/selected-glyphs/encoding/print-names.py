@@ -4,21 +4,10 @@
 
 # import
 
-try:
-    from mojo.roboFont import CurrentFont
-except:
-    from robofab.world import CurrentFont
-
 from hTools2.modules.fontutils import print_selected_glyphs
 
-# settings
-
-# mode=0 : list of Python strings
-# mode=1 : plain list with linebreaks
-
-_mode = 0
-
-# run
+# mode 0 : list of Python strings
+# mode 1 : plain list with linebreaks
 
 font = CurrentFont()
-print_selected_glyphs(font, mode=_mode)
+print_selected_glyphs(font, mode=1)

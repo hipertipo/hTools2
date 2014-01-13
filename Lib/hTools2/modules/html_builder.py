@@ -13,8 +13,9 @@ import subprocess
 # constants
 #-----------
 
+# https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes
+
 LANG_CODES = {
-    # https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes
     'arabic' : 'ar',
     'english' : 'en',
     'malayalam' : 'ml',
