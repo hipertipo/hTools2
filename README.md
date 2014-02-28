@@ -6,7 +6,7 @@ It is built with [RoboFab](http://robofab.org) & [vanilla](http://code.typesuppl
 
 ## Credits
 
-hTools2 is developed by Gustavo Ferreira ([Hipertipo](http://hipertipo.com)).
+hTools2 is developed by Gustavo Ferreira ([Hipertipo](http://hipertipo.com)) with input from users and collaborators.
 
 Special thanks to Frederik Berlaen for the many tips, comments and corrections.
 
@@ -16,24 +16,24 @@ hTools2 (and RoboFont) are built with libraries by Erik van Blokland & Just van 
 
 ## Documentation
 
-Visit [htools2.hipertipo.com](http://htools2.hipertipo.com/) for the updated docs.
+Visit [htools2.hipertipo.com](http://htools2.hipertipo.com/) for the latest version of the documentation.
 
 ## Development & Support
 
-Work on hTools2 is supported by users and collaborators.
+Work on hTools2 is generously supported by users and collaborators.
 
 For bug reports, feature requests and related discussions, please use the [hTools2 mailing list](http://lists.hipertipo.com/listinfo/htools2) and the project’s [Issues tracker](https://github.com/gferreira/hTools2/issues).
 
 ## Sponsors
 
-Special thanks to the following designers/companies who contributed funds to the project:
+Special thanks to the following designers/companies who have contributed funds to the project:
 
 - Nikola Djurek ([Typonine](http://typonine.com/))
 - Bas Jacobs ([Underware](http://underware.nl/))
 - Johannes Breyer & Fabian Harb ([Dinamo](http://dinamo.us/))
 - Kris Sowersby ([KLIM](http://klim.co.nz/))
 
-If you use these tools on a regular basis, please consider contributing back to the project.
+If you use hTools2 on a regular basis, please consider contributing back to the project.
 
 ## Thanks
 
