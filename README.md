@@ -1,7 +1,5 @@
 # hTools2
 
-**v1.6 – 07.2013**
-
 hTools2 is a [UFO](http://unifiedfontobject.org/)-based [Python](http://python.org/)-powered font-production toolkit.
 
 It is built with [RoboFab](http://robofab.org) & [vanilla](http://code.typesupply.com/wiki/Vanilla) for use with [RoboFont](http://robofont.com/).
@@ -33,12 +31,13 @@ Special thanks to the following designers/companies who contributed funds to the
 - Nikola Djurek ([Typonine](http://typonine.com/))
 - Bas Jacobs ([Underware](http://underware.nl/))
 - Johannes Breyer & Fabian Harb ([Dinamo](http://dinamo.us/))
+- Kris Sowersby ([KLIM](http://klim.co.nz/))
 
 If you use these tools on a regular basis, please consider contributing back to the project.
 
 ## Thanks
 
-Thanks to everyone else who contributed with ideas, comments and suggestions: [Miguel Sousa](http://adhesiontext.com/), [Mathieu Christe](http://grafix.bulbfactory.ch/), [Marcos Ojeda](http://generic.cx/), [Joancarles Casasín](http://casasin.com/), [Frank Grießhammer](http://frgr.de/), …
+Thanks to everyone else who contributed with ideas, comments, suggestions and pull requests: [Miguel Sousa](http://adhesiontext.com/), [Mathieu Christe](http://grafix.bulbfactory.ch/), [Marcos Ojeda](http://generic.cx/), [Joancarles Casasín](http://casasin.com/), [Frank Grießhammer](http://frgr.de/), …
 
 ## Download
 
