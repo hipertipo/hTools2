@@ -1,18 +1,14 @@
-# [h] create hTools2 menu
+# [h] add hTools2 menu to RoboFont
 
-'''Add hTools2 as a menu item in RoboFont’s application menu.'''
+'''Add hTools2 as a menu item in RoboFont's application menu.'''
 
 ### thanks Frederik ###
-
-# imports
 
 import os
 
 from AppKit import *
 
 from lib.UI.fileBrowser import PathItem
-
-# functions
 
 def add_menu(name, path):
     # create a new menu
@@ -30,8 +26,6 @@ def add_menu(name, path):
         menubar.insertItem_atIndex_(newItem, menubar.numberOfItems()-1)
     # set the menu as submenu
     newItem.setSubmenu_(menu)
-
-# script
 
 menu_name = "hTools2"
 scripts_path = os.path.join(os.getcwd(), 'Scripts')

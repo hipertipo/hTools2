@@ -2,21 +2,11 @@
 
 '''Create RoboFont keyboard shortcuts for scripts in hTools2.'''
 
-import hTools2.modules.sysutils
-reload(hTools2.modules.sysutils)
-
-# imports
-
 import os
-import random
 
-from hTools2.modules.sysutils import build_shortcuts_dict, set_shortcuts, print_shortcuts
+from mojo.UI import setScriptingMenuNamingShortKeyForPath, createModifier
 
-# shortcuts
-
-scripts_path = os.path.join(os.getcwd(), 'Scripts')
-
-scripts_shortcuts = [
+shortcuts = [
     (   '1',    'actions',          u'selected-glyphs/actions/actions.py',            ),
     (   'c',    'paint select',     u'selected-glyphs/color/paint-select.py',         ),
     (   'g',    'gridfit',          u'selected-glyphs/transform/gridfit.py',          ),
@@ -34,8 +24,12 @@ scripts_shortcuts = [
     (   'w',    'skew',             u'selected-glyphs/transform/skew.py',             ),
 ]
 
-# run
+scripts_folder = os.path.join(os.getcwd(), 'Scripts')
 
-scripts_dict = build_shortcuts_dict(scripts_path, scripts_shortcuts)
-set_shortcuts(scripts_dict)
-print_shortcuts(verbose=False)
+for shortcut in shortcuts:
+    short_key, name, script_file = shortcut
+    script_path = os.path.join(scripts_folder, script_file)
+    modifier = createModifier(command=True, shift=True)
+    if os.path.exists(script_path):
+        # print script_path, name, short_key, modifier
+        setScriptingMenuNamingShortKeyForPath(script_path, name, short_key, modifier)
