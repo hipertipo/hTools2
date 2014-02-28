@@ -39,6 +39,9 @@ class hSpace:
     #: A list with the order in which the parameters appear (for use in font names, lists etc).
     parameters_order = []
 
+    #: A list with the character length of each parameter.
+    parameters_length = []
+
     #: The character used as separator in font file names.
     parameters_separator = '-'
 
@@ -72,7 +75,7 @@ class hSpace:
                 self.parameters[k] = parameters[k]
         self.build()
 
-    def build(self):
+    def build(self, verbose=False):
         '''Build the defined variation space, using the parameters order, and create individual font names.'''
         # get parameters
         parameters = []
@@ -86,11 +89,15 @@ class hSpace:
             # normalize parameters
             font_name = []
             for i, param in enumerate(params):
-                param_length = self.parameters_length[i]
-                if param_length > 0:
-                    if len(param) != param_length:
-                        zeros = param_length - len(param)
-                        param = ('0' * zeros) + str(param)
+                try:
+                    param_length = self.parameters_length[i]
+                    if param_length > 0:
+                        if len(param) != param_length:
+                            zeros = param_length - len(param)
+                            param = ('0' * zeros) + str(param)
+                except:
+                    if verbose: print 'project has no `parameters length` lib.'
+                    pass
                 font_name.append(param)
             font_name = '-'.join(font_name)
             font_names.append(font_name)

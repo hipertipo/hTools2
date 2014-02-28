@@ -2,6 +2,8 @@
 
 # imports
 
+from mojo.roboFont import CurrentFont
+
 from vanilla import *
 
 from hTools2 import hConstants
