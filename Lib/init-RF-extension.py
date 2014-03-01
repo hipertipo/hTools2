@@ -7,6 +7,8 @@ from AppKit import *
 
 from lib.UI.fileBrowser import PathItem
 
+# add hTools2 to RoboFont main menu
+
 def add_menu(name, path):
     # create a new menu
     menu = NSMenu.alloc().initWithTitle_(name)
@@ -24,11 +26,9 @@ def add_menu(name, path):
     # set the menu as submenu
     newItem.setSubmenu_(menu)
 
-# add hTools2 to RoboFont main menu
-
 menu_name = "hTools2"
-scripts_path = os.path.join(os.getcwd(), 'Scripts')
-add_menu(menu_name, scripts_path)
+scripts_folder = os.path.join(os.getcwd(), 'Scripts')
+add_menu(menu_name, scripts_folder)
 
 # add hTools2 modules to sys.path
 

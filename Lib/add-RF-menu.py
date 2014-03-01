@@ -32,5 +32,3 @@ menu_name = "hTools2"
 scripts_path = os.path.join(os.getcwd(), 'Scripts')
 
 add_menu(menu_name, scripts_path)
-
-# sys.path.append(os.path.dirname(__file__))

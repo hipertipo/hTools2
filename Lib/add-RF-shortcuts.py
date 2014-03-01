@@ -3,7 +3,6 @@
 '''Create RoboFont keyboard shortcuts for scripts in hTools2.'''
 
 import os
-
 from mojo.UI import setScriptingMenuNamingShortKeyForPath, createModifier
 
 shortcuts = [
@@ -31,5 +30,5 @@ for shortcut in shortcuts:
     script_path = os.path.join(scripts_folder, script_file)
     modifier = createModifier(command=True, shift=True)
     if os.path.exists(script_path):
-        # print script_path, name, short_key, modifier
+        # print 'creating shortcut for', script_path
         setScriptingMenuNamingShortKeyForPath(script_path, name, short_key, modifier)

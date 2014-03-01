@@ -38,13 +38,13 @@ def in_DrawBot():
         in_DB = False
     return in_DB
 
-# def in_NodeBox():
-#     try:
-#         import _ctx
-#         in_NB = True
-#     except:
-#         in_NB = False
-#     return in_NB
+def in_NodeBox():
+    try:
+        import _ctx
+        in_NB = True
+    except:
+        in_NB = False
+    return in_NB
 
 def get_context():
     '''Get the current environment in which hTools2 is running.'''
@@ -123,7 +123,6 @@ if _ctx == 'RoboFont':
                 if str(type(panel)) != '<objective-c class NSColorPanel at 0x7fff750fad60>':
                     panel.orderBack_(None)
             setExtensionDefault('com.hipertipo.showHidePanels', True)
-
 
 def build_shortcuts_dict(path, shortcuts):
     '''Build a shortcuts dictionary with script paths, names and shortcut keys.'''
