@@ -2,7 +2,9 @@
 
 '''A collection of standard messages used in multiple dialogs.'''
 
+#-----------
 # functions
+#-----------
 
 def no_x_selected(x):
     message = 'No %s selected. Please select one or more %ss before using this dialog.' % (x, x)
@@ -12,7 +14,9 @@ def no_x_open(x):
     message = 'There is no %s window open. Please open at least one %s before using this dialog.' % (x, x)
     return message
 
+#----------
 # messages
+#----------
 
 # points 
 no_point_selected = no_x_selected('point')
