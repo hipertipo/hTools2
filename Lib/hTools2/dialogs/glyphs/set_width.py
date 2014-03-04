@@ -10,7 +10,9 @@ from mojo.roboFont import CurrentFont, CurrentGlyph
 from vanilla import *
 
 from hTools2 import hConstants
+from hTools2.modules.fontutils import get_glyphs
 from hTools2.modules.glyphutils import center_glyph
+from hTools2.modules.messages import no_font_open, no_glyph_selected
 
 # objects
 
@@ -33,9 +35,7 @@ class setWidthDialog(hConstants):
         self.col_3 = 70
         self.width = 123
         self.height = self.button_height + (self.text_height * 5) + self.nudge_button + (self.padding_y * 6) + 1
-        self.w = FloatingWindow(
-                    (self.width, self.height),
-                    self.title)
+        self.w = FloatingWindow((self.width, self.height), self.title)
         # left
         x = self.padding_x
         y = self.padding_y
@@ -65,7 +65,8 @@ class setWidthDialog(hConstants):
                     self.text_height),
                     placeholder='set value',
                     text=self._width_,
-                    sizeStyle=self.size_style)
+                    sizeStyle=self.size_style,
+                    readOnly=self.read_only)
         # nudge spinners
         x = self.padding_x
         y += (self.nudge_button + self.padding_y)
@@ -219,17 +220,16 @@ class setWidthDialog(hConstants):
     # apply
 
     def set_width(self, glyph, width, mode=None):
-        #------------------
+
         # store old values
-        #------------------
         _old_left = glyph.leftMargin
         _old_right = glyph.rightMargin
         _old_width = glyph.width
         _glyph_width = _old_width - (_old_left + _old_right)
-        #---------------
-        # compute width
-        #---------------
+
+        # save undo state
         glyph.prepareUndo('set glyph width')
+
         # add value
         if self._mode == 1:
             _width = _old_width + width
@@ -239,14 +239,12 @@ class setWidthDialog(hConstants):
         # equal to value
         else:
             _width = width
-        #-------------
-        # set margins
-        #-------------
+
         # center glyph
         if mode == 'center':
             glyph.width = _width
             center_glyph(glyph)
-        #------------------
+
         # split difference
         elif mode == 'split difference':
             # calculate new left margin
@@ -258,7 +256,7 @@ class setWidthDialog(hConstants):
             # set margins
             glyph.leftMargin = _new_left
             glyph.width = _width
-        #----------------
+
         # split relative
         elif mode == 'split relative':
             # calculate new left margin
@@ -270,19 +268,21 @@ class setWidthDialog(hConstants):
             # set margins
             glyph.leftMargin = _new_left
             glyph.width = _width
-        #-----------
+
         # set width
         else:
             glyph.width = _width
-        #-------
+
         # done!
-        #-------
         glyph.update()
         glyph.performUndo()
 
     def apply_callback(self, sender):
+
         f = CurrentFont()
+
         if f is not None:
+
             # get parameters
             _width = int(self.w.width_value.get())
             _center = self.w.center_checkbox.get()
@@ -290,6 +290,7 @@ class setWidthDialog(hConstants):
             _split_relative = self.w.split_relative_checkbox.get()
             _gNames = f.selection
             boolstring = ( False, True )
+
             # set sidebearings mode
             if _center:
                 _w_mode = 'center'
@@ -299,34 +300,28 @@ class setWidthDialog(hConstants):
                 _w_mode = 'split relative'
             else:
                 _w_mode = None
+
             # print info
             print 'setting character widths...\n'
             print '\t%s %s' % (self._modes[self._mode], _width)
             print '\tmode: %s' % _w_mode
             print
             print '\t',
-            # current glyph
-            glyph = CurrentGlyph()
-            if glyph is not None:
-                print glyph.name,
-                self.set_width(glyph, _width, _w_mode)
+
+            # iterate over glyphs
+            glyph_names = get_glyphs(f)
+            if len(glyph_names) > 0:
+                for glyph_name in glyph_names:
+                    print glyph_name,
+                    self.set_width(f[glyph_name], _width, _w_mode)
                 f.update()
                 print
                 print '\n...done.\n'
-            # selected glyphs
+
+            # no glyph selected
             else:
-                glyph_names = f.selection
-                if len(glyph_names) > 0:
-                    for glyph_name in glyph_names:
-                        print glyph_name,
-                        self.set_width(f[glyph_name], _width, _w_mode)
-                    f.update()
-                    print
-                    print '\n...done.\n'
-                # no glyph selected
-                else:
-                    print 'please select one or more glyphs first.\n'
+                print no_glyph_selected
+
         # no font open
         else:
-            print 'please open a font first.\n'
-
+            print no_font_open

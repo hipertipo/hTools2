@@ -37,9 +37,7 @@ class setMarginsDialog(hConstants):
         self.title = 'margins'
         self.width = 123
         self.height = (self.text_height * 5) + (self.padding_y * 9) + (self.nudge_button * 2) + self.button_height
-        self.w = FloatingWindow(
-                    (self.width, self.height),
-                    self.title)
+        self.w = FloatingWindow((self.width, self.height), self.title)
         #-------------
         # left margin
         #-------------
@@ -70,7 +68,7 @@ class setMarginsDialog(hConstants):
                     self.text_height),
                     self._left_value,
                     sizeStyle=self.size_style,
-                    readOnly=False)
+                    readOnly=self.read_only)
         # spinners
         x = self.padding_x
         y += (self.text_height + 10)
@@ -152,7 +150,7 @@ class setMarginsDialog(hConstants):
                     self.text_height),
                     self._right_value,
                     sizeStyle=self.size_style,
-                    readOnly=False)
+                    readOnly=self.read_only)
         x = self.padding_x
         y += (self.text_height + 10)
         # spinners
@@ -310,6 +308,7 @@ class setMarginsDialog(hConstants):
 
     def set_margins(self, glyph, (left, left_value, left_mode), (right, right_value, right_mode)):
         glyph.prepareUndo('set margins')
+
         # left margin
         if left:
             # increase by
@@ -324,6 +323,7 @@ class setMarginsDialog(hConstants):
             # set left margin
             glyph.leftMargin = _left_value_new
             glyph.update()
+
         # right margin
         if right:
             # increase by
@@ -338,39 +338,48 @@ class setMarginsDialog(hConstants):
             # set right margin
             glyph.rightMargin = _right_value_new
             glyph.update()
+
         # done glyph
         glyph.performUndo()
         glyph.update()
 
     def apply_callback(self, sender):
+
         f = CurrentFont()
+
         if f is not None:
             boolstring = [ 'False', 'True' ]
+
             # get parameters
             _left = self.w.left_checkbox.get()
             _left_mode = self.w.left_mode.get()
+            _left_value = int(self.w.left_value.get())
             _right = self.w.right_checkbox.get()
             _right_mode = self.w.right_mode.get()
+            _right_value = int(self.w.right_value.get())
+
             # iterate over glyphs
             glyph_names = get_glyphs(f)
             if len(glyph_names) > 0:
+
                 # print info
                 print 'setting margins for selected glyphs...\n'
-                print '\tleft: %s %s [%s]' % (self._modes[_left_mode], self._left_value, boolstring[_left])
-                print '\tright: %s %s [%s]' % (self._modes[_right_mode], self._right_value, boolstring[_right])
+                print '\tleft: %s %s [%s]' % (self._modes[_left_mode], _left_value, boolstring[_left])
+                print '\tright: %s %s [%s]' % (self._modes[_right_mode], _right_value, boolstring[_right])
                 print
                 print '\t\t',
+
                 # set margins
                 for glyph_name in glyph_names:
                     print glyph_name,
-                    self.set_margins(f[glyph_name],
-                                (_left, self._left_value, _left_mode),
-                                (_right, self._right_value, _right_mode))
+                    self.set_margins(f[glyph_name], (_left, _left_value, _left_mode), (_right, _right_value, _right_mode))
                 f.update()
                 print '\n...done.\n'
+
             # no glyph selected
             else:
                 print no_glyph_selected
+
         # no font open
         else:
             print no_font_open

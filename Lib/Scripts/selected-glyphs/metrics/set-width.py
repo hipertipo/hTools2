@@ -1,11 +1,6 @@
 # [h] set width dialog
 
-'''Set the advance width of the selected glyphs.'''
+import hTools2.dialogs.glyphs.set_width
+reload(hTools2.dialogs.glyphs.set_width)
 
-# import
-
-from hTools2.dialogs.glyphs import setWidthDialog
-
-# run
-
-setWidthDialog()
+hTools2.dialogs.glyphs.set_width.setWidthDialog()

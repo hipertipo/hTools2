@@ -41,7 +41,7 @@ class hConstants(object):
     square_button = 35
 
     #: Can nummerical text input be edited directly with the keyboard? A boolean. Set to ``True`` as default.
-    read_only = True
+    read_only = False
 
     #: The size style of text and standard dialog elements. Possible options are ``small``, ``regular``, ``mini``.
     size_style = 'small'
