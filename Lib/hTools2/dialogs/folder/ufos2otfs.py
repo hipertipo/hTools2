@@ -9,12 +9,13 @@ from mojo.roboFont import RFont
 from vanilla import *
 from vanilla.dialogs import getFolder
 
-from hTools2 import hConstants
+from hTools2 import hDialog
 from hTools2.modules.fileutils import walk
+from hTools2.modules.messages import no_font_in_folder
 
 # objects
 
-class UFOsToOTFsDialog(hConstants):
+class UFOsToOTFsDialog(hDialog):
 
     '''A dialog to generate ``.otf`` fonts for all ``.ufos`` in a folder.'''
 
@@ -31,7 +32,6 @@ class UFOsToOTFsDialog(hConstants):
     def __init__(self):
         # window
         self.title = "ufos2otfs"
-        self.width = 123
         self.height = (self.button_height * 3) + (self.padding_y * 6) + (self.text_height * 4) + self.progress_bar
         self.w = FloatingWindow((self.width, self.height), self.title)
         x = self.padding_x
@@ -158,3 +158,6 @@ class UFOsToOTFsDialog(hConstants):
                 # done
                 self.w.bar.stop()
                 print '...done.\n'
+        # no font in folder
+        else:
+            print no_font_in_folder

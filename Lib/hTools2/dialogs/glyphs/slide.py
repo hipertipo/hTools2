@@ -6,12 +6,13 @@ from mojo.roboFont import CurrentFont, CurrentGlyph
 
 from vanilla import *
 
-from hTools2 import hConstants
-from hTools2.modules.fontutils import get_full_name
+from hTools2 import hDialog
+from hTools2.modules.fontutils import get_full_name, get_glyphs
+from hTools2.modules.messages import no_font_open, no_glyph_selected
 
 # objects
 
-class slideGlyphsDialog(hConstants):
+class slideGlyphsDialog(hDialog):
 
     '''A dialog to slide the selected glyphs vertically and/or horizontally.'''
 
@@ -19,7 +20,6 @@ class slideGlyphsDialog(hConstants):
 
     _moveX = 0
     _moveY = 0
-
     _xMax = 1000
     _xMin = -1000
     _yMax = 500
@@ -36,7 +36,7 @@ class slideGlyphsDialog(hConstants):
         self.button_width = 70
         self.column_1 = 20
         self.column_2 = 240
-        self.width = self.column_1 + self.column_2 + self.button_width + (self.padding_x * 3) # 600
+        self.width = self.column_1 + self.column_2 + self.button_width + (self.padding_x * 3)
         self.height = (self.text_height * 3) + (self.padding_y * 4)
         self.w = FloatingWindow((self.width, self.height), self.title)
         x = self.padding_x
@@ -116,6 +116,7 @@ class slideGlyphsDialog(hConstants):
                     sizeStyle=self.size_style)
         # open
         self.w.open()
+        self.update_font()
 
     # callbacks
 
@@ -141,7 +142,7 @@ class slideGlyphsDialog(hConstants):
             self.restore_x()
             self.restore_y()
         else:
-            print 'No font selected, please open a font and try again.\n'
+            print no_font_open
 
     def set_defaults(self):
         self._xMax = self.font.info.unitsPerEm
@@ -159,9 +160,12 @@ class slideGlyphsDialog(hConstants):
         y = self._moveY - yValue
         self._moveX = xValue
         self._moveY = yValue
-        for glyph_name in self.font.selection:
-            try:
-                self.font[glyph_name].move((-x, -y))
-            except:
-                print 'cannot transform %s' % glyph_name
-
+        glyph_names = get_glyphs(self.font)
+        if len(glyph_names) > 0:
+            for glyph_name in glyph_names:
+                try:
+                    self.font[glyph_name].move((-x, -y))
+                except:
+                    print 'cannot transform %s' % glyph_name
+        else:
+            print no_glyph_selected

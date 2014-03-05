@@ -6,29 +6,21 @@ from mojo.roboFont import CurrentFont
 
 from vanilla import *
 
-from hTools2 import hConstants
+from hTools2 import hDialog
 from hTools2.modules.rasterizer import * # set_element
 
 # object
 
-class setElementDialog(hConstants):
+class setElementDialog(hDialog):
 
-    # _title = 'element'
-    # _padding = 10
-    # _padding_top = 12
-    # _column_1 = 40
-    # _box_height = 22
-    # _row_height = 22
-    # _box = 20
-    # _button_height = 30
-    # _button_2 = 18
-    # _width = 123
-
+    # attributes
 
     _scale = 100
     _super = .552
     _super_min = 0.001
     _super_max = 1.00
+
+    # methods
 
     def __init__(self):
         self.title = 'element'

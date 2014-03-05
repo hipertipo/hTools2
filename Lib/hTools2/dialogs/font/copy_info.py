@@ -9,12 +9,12 @@ from vanilla import *
 from mojo.roboFont import AllFonts
 from mojo.events import addObserver, removeObserver
 
-from hTools2 import hConstants
+from hTools2 import hDialog
 from hTools2.modules.fontutils import get_full_name
 
 # objects
 
-class copyFontInfoDialog(hConstants):
+class copyFontInfoDialog(hDialog):
 
     # attributes
 

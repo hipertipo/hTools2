@@ -16,18 +16,18 @@ def center_glyph(glyph):
 
 def round_width(glyph, gridsize):
     '''Round ``glyph.width`` to a multiple of ``gridsize``.'''
-    _width = glyph.width / gridsize
+    _width = float(glyph.width) / gridsize
     glyph.width = round(_width) * gridsize
     glyph.update()
 
 def round_margins(glyph, gridsize, left=True, right=True):
     '''Round left and/or right margins to multiples of ``gridsize``.'''
     if left:
-        _left = glyph.leftMargin / gridsize
+        _left = float(glyph.leftMargin) / gridsize
         glyph.leftMargin = round(_left) * gridsize
         glyph.update()
     if right:
-        _right = glyph.rightMargin / gridsize
+        _right = float(glyph.rightMargin) / gridsize
         glyph.rightMargin = round(_right) * gridsize
         glyph.update()
 

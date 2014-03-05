@@ -6,359 +6,368 @@ from mojo.roboFont import CurrentFont
 
 from vanilla import *
 
+from hTools2 import hDialog
 from hTools2.modules.fontutils import get_glyphs
 from hTools2.modules.anchors import move_anchors
+from hTools2.modules.messages import no_glyph_selected, no_font_open
 
 # objects
 
-class moveAnchorsDialog(object):
+class moveAnchorsDialog(hDialog):
 
     '''A dialog to move the anchors in the selected glyphs of the current font.'''
 
     # attributes
 
-    _title = "anchors"
-    _padding = 10
-    _button_1 = 35
-    _button_1_small = _button_1 - 8
-    _button_2 = 18
-    _box_height = 20
-    _width = (_button_1 * 3) + (_padding * 2) - 2
-    _height = (_button_1 * 3) + (_padding * 6) + (_box_height * 5) - 8
+    move_default = 70
 
-    _move_default = 70
-    _anchors_top = True
-    _anchors_bottom = False
-    _anchors_left = False
-    _anchors_right = False
-    _anchors_base = True
-    _anchors_accents = True
-    _anchors_layers = False
+    anchors_top = True
+    anchors_bottom = False
+    anchors_left = False
+    anchors_right = False
+    anchors_base = True
+    anchors_accents = True
+    anchors_layers = False
 
     # methods
 
     def __init__(self):
-        self.w = FloatingWindow(
-                    (self._width, self._height),
-                    self._title)
+        self.title = "anchors"
+        self.width = (self.square_button * 3) + (self.padding_x * 2) - 2
+        self.height = (self.square_button * 3) + (self.padding_y * 7) + (self.text_height * 3) + self.nudge_button + 3
+        self.w = FloatingWindow((self.width, self.height), self.title)
         #---------------
         # arrow buttons
         #---------------
-        x = self._padding
-        x1 = x + self._button_1 - 1
-        x2 = (self._button_1 * 2) + self._padding - 2
-        y = self._padding
+        x = self.padding_x
+        y = self.padding_y
+        x1 = x + (self.square_button * 1) - 1
+        x2 = x + (self.square_button * 2) - 2
         # up
-        self.w._up = SquareButton(
+        self.w.up = SquareButton(
                     (x1, y,
-                    self._button_1,
-                    self._button_1),
+                    self.square_button,
+                    self.square_button),
                     unichr(8673),
-                    callback=self._up_callback)
+                    callback=self.up_callback)
         # up left
-        self.w._up_left = SquareButton(
+        self.w.up_left = SquareButton(
                     (x, y,
-                    self._button_1_small,
-                    self._button_1_small),
+                    self.square_button - 8,
+                    self.square_button - 8),
                     unichr(8598),
-                    callback=self._up_left_callback,
-                    sizeStyle='small')
+                    callback=self.up_left_callback,
+                    sizeStyle=self.size_style)
         # up right
-        self.w._up_right = SquareButton(
+        self.w.up_right = SquareButton(
                     (x2 + 8, y,
-                    self._button_1_small,
-                    self._button_1_small),
+                    self.square_button - 8,
+                    self.square_button - 8),
                     unichr(8599),
-                    callback=self._up_right_callback,
-                    sizeStyle='small')
-        y += (self._button_1 - 1)
+                    callback=self.up_right_callback,
+                    sizeStyle=self.size_style)
+        y += self.square_button - 1
         # left
-        self.w._left = SquareButton(
+        self.w.left = SquareButton(
                     (x, y,
-                    self._button_1,
-                    self._button_1),
+                    self.square_button,
+                    self.square_button),
                     unichr(8672),
-                    callback=self._left_callback)
+                    callback=self.left_callback)
         # right
-        self.w._right = SquareButton(
+        self.w.right = SquareButton(
                     (x2, y,
-                    self._button_1,
-                    self._button_1),
+                    self.square_button,
+                    self.square_button),
                     unichr(8674),
-                    callback=self._right_callback)
-        y += (self._button_1 - 1)
+                    callback=self.right_callback)
+        y += self.square_button - 1
         # down left
-        self.w._down_left = SquareButton(
+        self.w.down_left = SquareButton(
                     (x, y + 8,
-                    self._button_1_small,
-                    self._button_1_small),
+                    self.square_button - 8,
+                    self.square_button - 8),
                     unichr(8601),
-                    callback=self._down_left_callback,
-                    sizeStyle='small')
+                    callback=self.down_left_callback,
+                    sizeStyle=self.size_style)
         # down
-        self.w._down = SquareButton(
+        self.w.down = SquareButton(
                     (x1, y,
-                    self._button_1,
-                    self._button_1),
+                    self.square_button,
+                    self.square_button),
                     unichr(8675),
-                    callback=self._down_callback)
+                    callback=self.down_callback)
         # down right
-        self.w._down_right = SquareButton(
+        self.w.down_right = SquareButton(
                     (x2 + 8, y + 8,
-                    self._button_1_small,
-                    self._button_1_small),
+                    self.square_button - 8,
+                    self.square_button - 8),
                     unichr(8600),
-                    callback=self._down_right_callback,
-                    sizeStyle='small')
+                    callback=self.down_right_callback,
+                    sizeStyle=self.size_style)
         # move offset
-        y += (self._button_1 + self._padding)
-        self.w._move_value = EditText(
+        y += self.square_button + self.padding_y
+        self.w.move_value = EditText(
                     (x, y,
-                    -self._padding,
-                    self._box_height),
-                    self._move_default,
-                    sizeStyle='small',
-                    readOnly=True)
+                    -self.padding_x,
+                    self.text_height),
+                    self.move_default,
+                    sizeStyle=self.size_style,
+                    readOnly=self.read_only)
         #----------
         # spinners
         #----------
-        y += (self._box_height + self._padding)
-        self.w._minus_001 = SquareButton(
+        y += self.text_height + self.padding_y
+        self.w.minus_001 = SquareButton(
                     (x, y,
-                    self._button_2,
-                    self._button_2),
+                    self.nudge_button,
+                    self.nudge_button),
                     '-',
-                    sizeStyle='small',
-                    callback=self._minus_001_callback)
-        x += (self._button_2 - 1)
-        self.w._plus_001 = SquareButton(
+                    sizeStyle=self.size_style,
+                    callback=self.minus_001_callback)
+        x += self.nudge_button - 1
+        self.w.plus_001 = SquareButton(
                     (x, y,
-                    self._button_2,
-                    self._button_2),
+                    self.nudge_button,
+                    self.nudge_button),
                     '+',
-                    sizeStyle='small',
-                    callback=self._plus_001_callback)
-        x += (self._button_2 - 1)
+                    sizeStyle=self.size_style,
+                    callback=self.plus_001_callback)
+        x += self.nudge_button - 1
         self.w._minus_010 = SquareButton(
                     (x, y,
-                    self._button_2,
-                    self._button_2),
+                    self.nudge_button,
+                    self.nudge_button),
                     '-',
-                    sizeStyle='small',
-                    callback=self._minus_010_callback)
-        x += (self._button_2 - 1)
-        self.w._plus_010 = SquareButton(
+                    sizeStyle=self.size_style,
+                    callback=self.minus_010_callback)
+        x += self.nudge_button - 1
+        self.w.plus_010 = SquareButton(
                     (x, y,
-                    self._button_2,
-                    self._button_2),
+                    self.nudge_button,
+                    self.nudge_button),
                     '+',
-                    sizeStyle='small',
-                    callback=self._plus_010_callback)
-        x += (self._button_2 - 1)
-        self.w._minus_100 = SquareButton(
+                    sizeStyle=self.size_style,
+                    callback=self.plus_010_callback)
+        x += self.nudge_button - 1
+        self.w.minus_100 = SquareButton(
                     (x, y,
-                    self._button_2,
-                    self._button_2),
+                    self.nudge_button,
+                    self.nudge_button),
                     '-',
-                    sizeStyle='small',
-                    callback=self._minus_100_callback)
-        x += (self._button_2 - 1)
-        self.w._plus_100 = SquareButton(
+                    sizeStyle=self.size_style,
+                    callback=self.minus_100_callback)
+        x += self.nudge_button - 1
+        self.w.plus_100 = SquareButton(
                     (x, y,
-                    self._button_2,
-                    self._button_2),
+                    self.nudge_button,
+                    self.nudge_button),
                     '+',
-                    sizeStyle='small',
-                    callback=self._plus_100_callback)
+                    sizeStyle=self.size_style,
+                    callback=self.plus_100_callback)
         #------------
         # checkboxes
         #------------
         # top anchors
-        x = self._padding
-        y += self._padding + self._button_2
-        _shift_x = ((self._width - (self._padding * 2)) / 4) + 1
-        self.w._anchors_top = CheckBox(
+        x = self.padding_x
+        y += self.padding_y + self.nudge_button
+        shift_x = ((self.width - (self.padding_x * 2)) / 4) + 1
+        self.w.anchors_top = CheckBox(
                     (x, y,
-                    -self._padding,
-                    self._box_height),
+                    -self.padding_x,
+                    self.text_height),
                     "T",
-                    value=self._anchors_top,
-                    sizeStyle='small')
+                    value=self.anchors_top,
+                    sizeStyle=self.size_style)
         # bottom anchors
-        x += _shift_x
-        self.w._anchors_bottom = CheckBox(
+        x += shift_x
+        self.w.anchors_bottom = CheckBox(
                     (x, y,
-                    -self._padding,
-                    self._box_height),
+                    -self.padding_x,
+                    self.text_height),
                     "B",
-                    value=self._anchors_bottom,
-                    sizeStyle='small')
-        x += _shift_x
-        self.w._anchors_left = CheckBox(
+                    value=self.anchors_bottom,
+                    sizeStyle=self.size_style)
+        x += shift_x
+        self.w.anchors_left = CheckBox(
                     (x, y,
-                    -self._padding,
-                    self._box_height),
+                    -self.padding_x,
+                    self.text_height),
                     "L",
-                    value=self._anchors_left,
-                    sizeStyle='small')
-        x += _shift_x
-        self.w._anchors_right = CheckBox(
+                    value=self.anchors_left,
+                    sizeStyle=self.size_style)
+        x += shift_x
+        self.w.anchors_right = CheckBox(
                     (x, y,
-                    -self._padding,
-                    self._box_height),
+                    -self.padding_x,
+                    self.text_height),
                     "R",
-                    value=self._anchors_right,
-                    sizeStyle='small')
+                    value=self.anchors_right,
+                    sizeStyle=self.size_style)
         # base anchors
-        x = self._padding
-        y += self._box_height + (self._padding/2)
-        self.w._anchors_base = CheckBox(
+        x = self.padding_x
+        y += self.text_height + (self.padding_y / 2)
+        self.w.anchors_base = CheckBox(
                     (x, y,
-                    -self._padding,
-                    self._box_height),
+                    -self.padding_x,
+                    self.text_height),
                     "base",
-                    value=self._anchors_base,
-                    sizeStyle='small')
+                    value=self.anchors_base,
+                    sizeStyle=self.size_style)
         # accent anchors
-        x += (_shift_x * 2) - 3
-        self.w._anchors_accents = CheckBox(
+        x += (shift_x * 2) - 3
+        self.w.anchors_accents = CheckBox(
                     (x, y,
-                    -self._padding,
-                    self._box_height),
+                    -self.padding_x,
+                    self.text_height),
                     "accent",
-                    value=self._anchors_accents,
-                    sizeStyle='small')
+                    value=self.anchors_accents,
+                    sizeStyle=self.size_style)
         # all layers
-        x = self._padding
-        y += self._box_height + (self._padding/2)
-        self.w._anchors_layers = CheckBox(
+        x = self.padding_x
+        y += self.text_height + (self.padding_y / 2)
+        self.w.anchors_layers = CheckBox(
                     (x, y,
-                    -self._padding,
-                    self._box_height),
+                    -self.padding_x,
+                    self.text_height),
                     "all layers",
-                    value=self._anchors_layers,
-                    sizeStyle='small')
+                    value=self.anchors_layers,
+                    sizeStyle=self.size_style)
         # open dialog
         self.w.open()
 
     # spinners
 
-    def _minus_001_callback(self, sender):
-        _value = int(self.w._move_value.get()) - 1
-        if _value >= 0:
-            self.w._move_value.set(_value)
+    def minus_001_callback(self, sender):
+        value = int(self.w.move_value.get()) - 1
+        if value >= 0:
+            self.w.move_value.set(value)
 
-    def _minus_010_callback(self, sender):
-        _value = int(self.w._move_value.get()) - 10
-        if _value >= 0:
-            self.w._move_value.set(_value)
+    def minus_010_callback(self, sender):
+        value = int(self.w.move_value.get()) - 10
+        if value >= 0:
+            self.w.move_value.set(value)
 
-    def _minus_100_callback(self, sender):
-        _value = int(self.w._move_value.get()) - 100
-        if _value >= 0:
-            self.w._move_value.set(_value)
+    def minus_100_callback(self, sender):
+        value = int(self.w.move_value.get()) - 100
+        if value >= 0:
+            self.w.move_value.set(value)
 
-    def _plus_001_callback(self, sender):
-        _value = int(self.w._move_value.get()) + 1
-        self.w._move_value.set(_value)
+    def plus_001_callback(self, sender):
+        value = int(self.w.move_value.get()) + 1
+        self.w.move_value.set(value)
 
-    def _plus_010_callback(self, sender):
-        _value = int(self.w._move_value.get()) + 10
-        self.w._move_value.set(_value)
+    def plus_010_callback(self, sender):
+        value = int(self.w.move_value.get()) + 10
+        self.w.move_value.set(value)
 
-    def _plus_100_callback(self, sender):
-        _value = int(self.w._move_value.get()) + 100
-        self.w._move_value.set(_value)
+    def plus_100_callback(self, sender):
+        value = int(self.w.move_value.get()) + 100
+        self.w.move_value.set(value)
 
     # callbacks
 
-    def _up_left_callback(self, sender):
-        _value = int(self.w._move_value.get())
-        self._move_anchors((-_value, _value))
+    def up_left_callback(self, sender):
+        value = int(self.w.move_value.get())
+        self.move_anchors((-value, value))
 
-    def _up_right_callback(self, sender):
-        _value = int(self.w._move_value.get())
-        self._move_anchors((_value, _value))
+    def up_right_callback(self, sender):
+        value = int(self.w.move_value.get())
+        self.move_anchors((value, value))
 
-    def _down_left_callback(self, sender):
-        _value = int(self.w._move_value.get())
-        self._move_anchors((-_value, -_value))
+    def down_left_callback(self, sender):
+        value = int(self.w.move_value.get())
+        self.move_anchors((-value, -value))
 
-    def _down_right_callback(self, sender):
-        _value = int(self.w._move_value.get())
-        self._move_anchors((_value, -_value))
+    def down_right_callback(self, sender):
+        value = int(self.w.move_value.get())
+        self.move_anchors((value, -value))
 
-    def _left_callback(self, sender):
-        _value = int(self.w._move_value.get())
-        self._move_anchors((-_value, 0))
+    def left_callback(self, sender):
+        value = int(self.w.move_value.get())
+        self.move_anchors((-value, 0))
 
-    def _right_callback(self, sender):
-        _value = int(self.w._move_value.get())
-        self._move_anchors((_value, 0))
+    def right_callback(self, sender):
+        value = int(self.w.move_value.get())
+        self.move_anchors((value, 0))
 
-    def _up_callback(self, sender):
-        _value = int(self.w._move_value.get())
-        self._move_anchors((0, _value))
+    def up_callback(self, sender):
+        value = int(self.w.move_value.get())
+        self.move_anchors((0, value))
 
-    def _down_callback(self, sender):
-        _value = int(self.w._move_value.get())
-        self._move_anchors((0, -_value))
+    def down_callback(self, sender):
+        value = int(self.w.move_value.get())
+        self.move_anchors((0, -value))
 
     # apply
 
-    def _get_parameters(self):
+    def get_parameters(self):
         # get values
-        _anchors_top = self.w._anchors_top.get()
-        _anchors_bottom = self.w._anchors_bottom.get()
-        _anchors_left = self.w._anchors_left.get()
-        _anchors_right = self.w._anchors_right.get()
-        _anchors_base = self.w._anchors_base.get()
-        _anchors_accents = self.w._anchors_accents.get()
-        self._anchors_layers = self.w._anchors_layers.get()
+        anchors_top = self.w.anchors_top.get()
+        anchors_bottom = self.w.anchors_bottom.get()
+        anchors_left = self.w.anchors_left.get()
+        anchors_right = self.w.anchors_right.get()
+        anchors_base = self.w.anchors_base.get()
+        anchors_accents = self.w.anchors_accents.get()
+        self._anchors_layers = self.w.anchors_layers.get()
         # make list with anchor names
-        _anchor_names = []
-        if _anchors_top:
-            if _anchors_base: _anchor_names.append('top')
-            if _anchors_accents: _anchor_names.append('_top')
-        if _anchors_bottom:
-            if _anchors_base: _anchor_names.append('bottom')
-            if _anchors_accents: _anchor_names.append('_bottom')
-        if _anchors_left:
-            if _anchors_base: _anchor_names.append('left')
-            if _anchors_accents: _anchor_names.append('_left')
-        if _anchors_right:
-            if _anchors_base: _anchor_names.append('right')
-            if _anchors_accents: _anchor_names.append('_right')
+        anchor_names = []
+        if anchors_top:
+            if anchors_base:
+                anchor_names.append('top')
+            if anchors_accents:
+                anchor_names.append('_top')
+        if anchors_bottom:
+            if anchors_base:
+                anchor_names.append('bottom')
+            if anchors_accents:
+                anchor_names.append('_bottom')
+        if anchors_left:
+            if anchors_base:
+                anchor_names.append('left')
+            if anchors_accents:
+                anchor_names.append('_left')
+        if anchors_right:
+            if anchors_base:
+                anchor_names.append('right')
+            if anchors_accents:
+                anchor_names.append('_right')
         # save names
-        self._anchor_names = _anchor_names
+        self.anchor_names = anchor_names
 
-    def _move_anchors(self, (x, y)):
+    def move_anchors(self, (x, y)):
         f = CurrentFont()
         if f is not None:
-            self._get_parameters()
-            print 'moving anchors in glyphs...\n'
-            print '\tanchors: %s' % self._anchor_names
-            print '\tmove: %s, %s' % (x, y)
-            print
-            print '\t',
-            for glyph in get_glyphs(f, mode='glyphs'):
-                print glyph.name,
-                if self._anchors_layers:
-                    for layer_name in f.layerOrder:
-                        layer_glyph = f[glyph.name].getLayer(layer_name)
-                        layer_glyph.prepareUndo('move anchors')
-                        move_anchors(layer_glyph, self._anchor_names, (x, y))
-                        layer_glyph.performUndo()
-                        layer_glyph.update()
-                    #f[glyph_name].update()
-                else:
-                    glyph.prepareUndo('move anchors')
-                    move_anchors(glyph, self._anchor_names, (x, y))
-                    glyph.performUndo()
-                # done glyph
-                glyph.update()
-            f.update()
-            print
-            print '\n...done.\n'
+            glyph_names = get_glyphs(f)
+            if len(glyph_names) > 0:
+                self.get_parameters()
+                print 'moving anchors in glyphs...\n'
+                print '\tanchors: %s' % self.anchor_names
+                print '\tmove: %s, %s' % (x, y)
+                print
+                print '\t',
+                for glyph_name in glyph_names:
+                    print glyph_name,
+                    if self.anchors_layers:
+                        for layer_name in f.layerOrder:
+                            layer_glyph = f[glyph_name].getLayer(layer_name)
+                            layer_glyph.prepareUndo('move anchors')
+                            move_anchors(layer_glyph, self.anchor_names, (x, y))
+                            layer_glyph.performUndo()
+                            layer_glyph.update()
+                        # f[glyph_name].update()
+                    else:
+                        f[glyph_name].prepareUndo('move anchors')
+                        move_anchors(f[glyph_name], self.anchor_names, (x, y))
+                        f[glyph_name].performUndo()
+                    # done glyph
+                    f[glyph_name].update()
+                f.update()
+                print
+                print '\n...done.\n'
+            # no glyph selected
+            else:
+                print no_glyph_selected
+        # no font open
         else:
-            print 'please open a font first.\n'
+            print no_font_open

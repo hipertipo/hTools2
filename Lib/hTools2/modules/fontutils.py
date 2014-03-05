@@ -40,21 +40,39 @@ def get_glyphs(font, current_glyph=True, font_selection=True, mode='names'):
     else:
         return glyphs.values()
 
-def print_selected_glyphs(f, mode=1):
+def print_selected_glyphs(f, mode=0, sort=False):
     '''Print the selected glyphs to the output window.'''
-    gNames = f.selection
-    # mode 1 : plain gNames list
-    if mode == 1:
-        for gName in gNames:
-            print gName
+    glyph_names = get_glyphs(f)
+    if sort:
+        glyph_names.sort()
+    # mode 0 : plain glyph names string
+    if mode == 0:
+        for glyph_name in glyph_names:
+            print glyph_name,
         print
-    # mode 0 : Python string
-    elif mode == 0:
-        s = ''
-        for gName in gNames:
-            s = s + '"%s", ' % gName
+    # mode 1 : plain glyph names list
+    elif mode == 1:
+        for glyph_name in glyph_names:
+            print glyph_name
+        print
+    # mode 2 : Python string
+    elif mode == 2:
+        s = '"'
+        for glyph_name in glyph_names:
+            s += '%s ' % glyph_name
+        s = s.strip()
+        s += '"'
         print s
         print
+    # mode 3 : Python list
+    elif mode == 3:
+        s = '['
+        for glyph_name in glyph_names:
+            s += '"%s", ' % glyph_name
+        s += ']'
+        print s
+        print
+    # not
     else:
         print "invalid mode.\n"
 

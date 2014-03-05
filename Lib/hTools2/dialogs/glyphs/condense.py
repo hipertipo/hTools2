@@ -7,13 +7,13 @@ from mojo.events import addObserver, removeObserver
 
 from vanilla import *
 
-from hTools2 import hConstants
+from hTools2 import hDialog
 from hTools2.modules.interpol import condense_glyphs
-from hTools2.modules.fontutils import get_full_name #, get_glyphs
+from hTools2.modules.fontutils import get_full_name, get_glyphs
 
 # object
 
-class condenseGlyphsDialog(hConstants):
+class condenseGlyphsDialog(hDialog):
 
     '''A dialog to generate condensed glyphs from a regular and a bold font.'''
 
@@ -181,15 +181,6 @@ class condenseGlyphsDialog(hConstants):
                     self.progress_bar),
                     isIndeterminate=True,
                     sizeStyle=self.size_style)
-        # update fonts menu
-        # y += (self.progress_bar + self.padding_y)
-        # self.w.button_update = SquareButton(
-        #             (x, y,
-        #             -self.padding_x,
-        #             self.button_height),
-        #             "update",
-        #             callback=self.update_callback,
-        #             sizeStyle=self.size_style)
         # bind
         self.w.bind("became key", self.update_callback)
         self.w.bind("close", self.on_close_window)

@@ -6,13 +6,13 @@ from mojo.roboFont import CurrentFont
 
 from vanilla import *
 
-from hTools2 import hConstants
+from hTools2 import hDialog
 from hTools2.modules.fontutils import get_glyphs
 from hTools2.modules.messages import no_font_open
 
 # objects
 
-class maskDialog(hConstants):
+class maskDialog(hDialog):
 
     '''A dialog to transfer glyphs to and from the mask layer.'''
 

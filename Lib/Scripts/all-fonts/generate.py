@@ -1,11 +1,6 @@
 # [h] genenerate all open fonts
 
-'''Genenerate otfs for all open fonts.'''
+import hTools2.dialogs.allfonts.generate
+reload(hTools2.dialogs.allfonts.generate)
 
-# imports
-
-from hTools2.dialogs.allfonts import generateAllFontsDialog
-
-# run
-
-generateAllFontsDialog()
+hTools2.dialogs.allfonts.generate.generateAllFontsDialog()

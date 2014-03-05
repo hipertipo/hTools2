@@ -6,14 +6,14 @@ from mojo.roboFont import CurrentFont
 
 from vanilla import *
 
-from hTools2 import hConstants
+from hTools2 import hDialog
 from hTools2.modules.fontutils import get_glyphs
 from hTools2.modules.glyphutils import *
 from hTools2.modules.messages import no_font_open, no_glyph_selected
 
 # objects
 
-class shiftPointsDialog(hConstants):
+class shiftPointsDialog(hDialog):
 
     '''A dialog to select and shift points in the selected glyphs in a font.'''
 

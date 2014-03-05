@@ -8,12 +8,13 @@ from mojo.roboFont import CurrentFont, CurrentGlyph
 
 from vanilla import *
 
-from hTools2 import hConstants
+from hTools2 import hDialog
+from hTools2.modules.messages import no_font_open
 from hTools2.modules.fontutils import get_glyphs
 
 # objects
 
-class skewGlyphsDialog(hConstants):
+class skewGlyphsDialog(hDialog):
 
     '''A dialog to skew the selected glyphs in a font.'''
 
@@ -22,7 +23,7 @@ class skewGlyphsDialog(hConstants):
     offset_x = True
     skew_value_default = 7.0
     skew_min = 0
-    skew_max = 61 # max possible : 89
+    skew_max = 61 # max == 89
 
     # methods
 
@@ -31,9 +32,7 @@ class skewGlyphsDialog(hConstants):
         self.width = (self.nudge_button * 6) + (self.padding_x * 2) - 5
         self.square_button = (self.width - (self.padding_x * 2) + 2) / 2
         self.height = self.square_button + (self.padding_y * 5) + (self.nudge_button * 2) + self.text_height - 4
-        self.w = FloatingWindow(
-                    (self.width, self.height),
-                    self.title)
+        self.w = FloatingWindow((self.width, self.height), self.title)
         # skew buttons
         x = self.padding_x
         y = self.padding_y
@@ -131,12 +130,14 @@ class skewGlyphsDialog(hConstants):
 
     def _skew_minus_callback(self, sender):
         _value = float(self.w._skew_value.get())
-        # print 'skew -%s' % _value
+        if self.verbose:
+            print 'skew -%s' % _value
         self.skew_glyphs(-_value)
 
     def _skew_plus_callback(self, sender):
         _value = float(self.w._skew_value.get())
-        # print 'skew +%s' % _value
+        if self.verbose:
+            print 'skew +%s' % _value
         self.skew_glyphs(_value)
 
     def skew_glyphs(self, angle):
@@ -145,10 +146,10 @@ class skewGlyphsDialog(hConstants):
             self.offset_x = math.tan(math.radians(angle)) * (font.info.xHeight / 2)
         else:
             self.offset_x = 0
-        for gName in get_glyphs(font):
-            font[gName].prepareUndo('skew')
-            font[gName].skew(angle, offset=(self.offset_x, 0))
-            font[gName].performUndo()
+        for glyph_name in get_glyphs(font):
+            font[glyph_name].prepareUndo('skew')
+            font[glyph_name].skew(angle, offset=(self.offset_x, 0))
+            font[glyph_name].performUndo()
 
     # buttons
 

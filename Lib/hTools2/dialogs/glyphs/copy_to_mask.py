@@ -7,13 +7,13 @@ from mojo.events import addObserver, removeObserver
 
 from vanilla import *
 
-from hTools2 import hConstants
-from hTools2.modules.messages import no_font_open
+from hTools2 import hDialog
 from hTools2.modules.fontutils import get_full_name, get_glyphs
+from hTools2.modules.messages import no_font_open, no_glyph_selected
 
 # objects
 
-class copyToMaskDialog(hConstants):
+class copyToMaskDialog(hDialog):
 
     '''A dialog to transfer the foreground layer of the selected glyphs in the current font to the mask layer of the same glyphs of another font.'''
 
@@ -100,29 +100,34 @@ class copyToMaskDialog(hConstants):
             # get parameters
             source_font = self.all_fonts[self.w._source_value.get()]
             target_font = self.all_fonts[self.w._target_value.get()]
-            # print info
-            print 'copying glyphs to mask...\n'
-            print '\tsource font: %s (foreground)' % get_full_name(source_font)
-            print '\ttarget font: %s (%s)' % (get_full_name(target_font), self.target_layer_name)
-            print
-            print '\t',
-            # batch copy glyphs to mask
-            for glyph_name in get_glyphs(source_font):
-                print glyph_name,
-                # prepare undo
-                target_font[glyph_name].prepareUndo('copy glyphs to mask')
-                # copy oulines to mask
-                target_glyph_layer = target_font[glyph_name].getLayer(self.target_layer_name)
-                pen = target_glyph_layer.getPointPen()
-                source_font[glyph_name].drawPoints(pen)
-                # update
-                target_font[glyph_name].update()
-                # activate undo
-                target_font[glyph_name].performUndo()
-            # done
-            print
-            target_font.update()
-            print '\n...done.\n'
+            glyph_names = get_glyphs(source_font)
+            if len(glyph_names) > 0:
+                # print info
+                print 'copying glyphs to mask...\n'
+                print '\tsource font: %s (foreground)' % get_full_name(source_font)
+                print '\ttarget font: %s (%s)' % (get_full_name(target_font), self.target_layer_name)
+                print
+                print '\t',
+                # batch copy glyphs to mask
+                for glyph_name in glyph_names:
+                    print glyph_name,
+                    # prepare undo
+                    target_font[glyph_name].prepareUndo('copy glyphs to mask')
+                    # copy oulines to mask
+                    target_glyph_layer = target_font[glyph_name].getLayer(self.target_layer_name)
+                    pen = target_glyph_layer.getPointPen()
+                    source_font[glyph_name].drawPoints(pen)
+                    # update
+                    target_font[glyph_name].update()
+                    # activate undo
+                    target_font[glyph_name].performUndo()
+                # done
+                print
+                target_font.update()
+                print '\n...done.\n'
+            # no glyph selected
+            else:
+                print no_glyph_selected
         # no font open
         else:
             print no_font_open

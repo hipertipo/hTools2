@@ -1,11 +1,6 @@
 # [h] print groups in different formats
 
-'''Print glyph groups as text in different formats.'''
+import hTools2.dialogs.font.print_groups
+reload(hTools2.dialogs.font.print_groups)
 
-# import
-
-from hTools2.dialogs.font import printGroupsDialog
-
-# run
-
-printGroupsDialog()
+hTools2.dialogs.font.print_groups.printGroupsDialog()

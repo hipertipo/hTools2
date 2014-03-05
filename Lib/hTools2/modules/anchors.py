@@ -30,8 +30,10 @@ def clear_anchors(font, glyph_names=None):
         glyph_names = font.keys()
     for glyph_name in glyph_names:
         if len(font[glyph_name].anchors) > 0:
+            font[glyph_name].prepareUndo('clear anchors')
             font[glyph_name].clearAnchors()
             font[glyph_name].update()
+            font[glyph_name].performUndo()
     font.update()
 
 def find_lost_anchors(font):

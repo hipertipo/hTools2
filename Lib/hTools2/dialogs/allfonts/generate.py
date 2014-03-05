@@ -9,96 +9,89 @@ import os
 from vanilla import *
 from vanilla.dialogs import getFolder
 
+from hTools2 import hDialog
 from hTools2.modules.fontutils import get_full_name
 
 # dialog
 
-class generateAllFontsDialog(object):
-
-    _title = "generate"
-    _padding = 10
-    _padding_top = 12
-    _row_height = 20
-    _button_height = 30
-    _width = 123
-    _height = (_row_height * 5) + (_button_height * 3) + (_padding_top * 7) - 4
+class generateAllFontsDialog(hDialog):
 
     _otfs_folder = '/'
 
     def __init__(self):
-        self.w = FloatingWindow(
-                    (self._width, self._height),
-                    self._title,
-                    closable=True)
+        self.title = "generate"
+        self.height = (self.text_height * 5) + (self.button_height * 3) + (self.padding_y * 7)
+        self.w = FloatingWindow((self.width, self.height), self.title)
         # ufos folder
-        x = self._padding
-        y = self._padding_top
+        x = self.padding_x
+        y = self.padding_y
         self.w._test_install = SquareButton(
                     (x, y,
-                    -self._padding,
-                    self._button_height),
+                    -self.padding_x,
+                    self.button_height),
                     "test install",
-                    sizeStyle='small',
+                    sizeStyle=self.size_style,
                     callback=self.test_install_callback)
-        y += self._button_height + self._padding_top
+        y += self.button_height + self.padding_y
         self.w.line_1 = HorizontalLine((0, y, -0, 1))
-        y += self._padding_top
+        y += self.padding_y
         self.w.otfs_get_folder_button = SquareButton(
                     (x, y,
-                    -self._padding,
-                    self._button_height),
+                    -self.padding_x,
+                    self.button_height),
                     "otfs folder...",
                     callback=self.otfs_get_folder_callback,
-                    sizeStyle="small")
-        y += self._button_height + self._padding_top
+                    sizeStyle=self.size_style)
+        y += self.button_height + self.padding_y
         # options
         self.w._decompose = CheckBox(
                     (x, y,
-                    -self._padding,
-                    self._row_height),
+                    -self.padding_x,
+                    self.text_height),
                     "decompose",
                     value=True,
-                    sizeStyle='small')
-        y += self._row_height
+                    sizeStyle=self.size_style)
+        y += self.text_height
         self.w._overlaps = CheckBox(
                     (x, y,
-                    -self._padding,
-                    self._row_height),
+                    -self.padding_x,
+                    self.text_height),
                     "remove overlap",
                     value=True,
-                    sizeStyle='small')
-        y += self._row_height
+                    sizeStyle=self.size_style)
+        y += self.text_height
         self.w._autohint = CheckBox(
                     (x, y,
-                    -self._padding,
-                    self._row_height),
+                    -self.padding_x,
+                    self.text_height),
                     "ps autohint",
                     value=True,
-                    sizeStyle='small')
-        y += self._row_height
+                    sizeStyle=self.size_style)
+        y += self.text_height
         self.w._release_mode = CheckBox(
                     (x, y,
-                    -self._padding,
-                    self._row_height),
+                    -self.padding_x,
+                    self.text_height),
                     "release mode",
                     value=True,
-                    sizeStyle='small')
+                    sizeStyle=self.size_style)
         # progress bar
-        y += self._row_height + self._padding
+        y += self.text_height + self.padding_y
         self.w.bar = ProgressBar(
                     (x, y,
-                    -self._padding,
-                    self._row_height),
-                    isIndeterminate=True)
+                    -self.padding_x,
+                    self.text_height),
+                    isIndeterminate=True,
+                    sizeStyle=self.size_style)
         # apply
-        y += self._row_height + self._padding
+        y += self.text_height + self.padding_y
         self.w.button_apply = SquareButton(
                     (x, y,
-                    -self._padding,
-                    self._button_height),
+                    -self.padding_x,
+                    self.button_height),
                     "generate",
                     callback=self.button_apply_callback,
-                    sizeStyle='small')
+                    sizeStyle=self.size_style)
         # open
         self.w.open()
 
@@ -111,9 +104,9 @@ class generateAllFontsDialog(object):
             print 'no folder selected.\n'
 
     def test_install_callback(self, sender):
-        _all_fonts = AllFonts()
-        if len(_all_fonts) > 0:
-            for font in _all_fonts:
+        all_fonts = AllFonts()
+        if len(all_fonts) > 0:
+            for font in all_fonts:
                 font.testInstall()
 
     def button_apply_callback(self, sender):

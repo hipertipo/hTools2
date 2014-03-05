@@ -1,11 +1,6 @@
 # [h] convert otfs to ufos
 
-'''Convert all otf fonts in a folder into ufos.'''
+import hTools2.dialogs.folder.otfs2ufos
+reload(hTools2.dialogs.folder.otfs2ufos)
 
-# imports
-
-from hTools2.dialogs.folder import OTFsToUFOsDialog
-
-# run
-
-OTFsToUFOsDialog()
+hTools2.dialogs.folder.otfs2ufos.OTFsToUFOsDialog()

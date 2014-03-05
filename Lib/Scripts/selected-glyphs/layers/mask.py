@@ -1,11 +1,6 @@
 # [h] copy glyphs to mask
 
-'''Copy selected glyphs from and to the mask layer.'''
+import hTools2.dialogs.glyphs.mask
+reload(hTools2.dialogs.glyphs.mask)
 
-# import
-
-from hTools2.dialogs.glyphs import maskDialog
-
-# run
-
-maskDialog()
+hTools2.dialogs.glyphs.mask.maskDialog()

@@ -2,17 +2,17 @@
 
 # imports
 
-from vanilla import *
-
 from mojo.roboFont import AllFonts
 from mojo.events import addObserver, removeObserver
 
-from hTools2 import hConstants
+from vanilla import *
+
+from hTools2 import hDialog
 from hTools2.modules.fontutils import get_full_name, get_glyphs
 
 # object
 
-class interpolateGlyphsDialog(hConstants):
+class interpolateGlyphsDialog(hDialog):
 
     '''A dialog to interpolate the selected glyphs in one font with the same glyphs in another font into a third font.'''
 

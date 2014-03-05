@@ -9,14 +9,14 @@ from mojo.roboFont import CurrentFont, CurrentGlyph
 
 from vanilla import *
 
-from hTools2 import hConstants
+from hTools2 import hDialog
 from hTools2.modules.fontutils import get_glyphs
 from hTools2.modules.glyphutils import center_glyph
 from hTools2.modules.messages import no_font_open, no_glyph_selected
 
 # objects
 
-class setWidthDialog(hConstants):
+class setWidthDialog(hDialog):
 
     '''A dialog to set the advance width of the selected glyphs.'''
 
@@ -33,7 +33,6 @@ class setWidthDialog(hConstants):
         self.col_1 = 45
         self.col_2 = 60
         self.col_3 = 70
-        self.width = 123
         self.height = self.button_height + (self.text_height * 5) + self.nudge_button + (self.padding_y * 6) + 1
         self.w = FloatingWindow((self.width, self.height), self.title)
         # left
@@ -233,9 +232,11 @@ class setWidthDialog(hConstants):
         # add value
         if self._mode == 1:
             _width = _old_width + width
+
         # subtract value
         elif self._mode == 2:
             _width = _old_width - width
+
         # equal to value
         else:
             _width = width
@@ -283,34 +284,35 @@ class setWidthDialog(hConstants):
 
         if f is not None:
 
-            # get parameters
-            _width = int(self.w.width_value.get())
-            _center = self.w.center_checkbox.get()
-            _split = self.w.split_checkbox.get()
-            _split_relative = self.w.split_relative_checkbox.get()
-            _gNames = f.selection
-            boolstring = ( False, True )
-
-            # set sidebearings mode
-            if _center:
-                _w_mode = 'center'
-            elif _split:
-                _w_mode = 'split difference'
-            elif _split_relative:
-                _w_mode = 'split relative'
-            else:
-                _w_mode = None
-
-            # print info
-            print 'setting character widths...\n'
-            print '\t%s %s' % (self._modes[self._mode], _width)
-            print '\tmode: %s' % _w_mode
-            print
-            print '\t',
-
             # iterate over glyphs
             glyph_names = get_glyphs(f)
             if len(glyph_names) > 0:
+
+                # get parameters
+                _width = int(self.w.width_value.get())
+                _center = self.w.center_checkbox.get()
+                _split = self.w.split_checkbox.get()
+                _split_relative = self.w.split_relative_checkbox.get()
+
+                boolstring = ( False, True )
+
+                # set sidebearings mode
+                if _center:
+                    _w_mode = 'center'
+                elif _split:
+                    _w_mode = 'split difference'
+                elif _split_relative:
+                    _w_mode = 'split relative'
+                else:
+                    _w_mode = None
+
+                # print info
+                print 'setting character widths...\n'
+                print '\t%s %s' % (self._modes[self._mode], _width)
+                print '\tmode: %s' % _w_mode
+                print
+                print '\t',
+
                 for glyph_name in glyph_names:
                     print glyph_name,
                     self.set_width(f[glyph_name], _width, _w_mode)

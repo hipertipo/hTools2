@@ -15,7 +15,7 @@ VERSION = 1.6
 
 # objects
 
-class hConstants(object):
+class hDialog(object):
 
     '''An object collecting constants and default settings for dialogs.'''
 
@@ -46,10 +46,10 @@ class hConstants(object):
     #: The size style of text and standard dialog elements. Possible options are ``small``, ``regular``, ``mini``.
     size_style = 'small'
 
-    #: The default width of vertical dialogs.
+    #: The default width of vertical dialogs (palettes).
     width = 123
 
-    #: The height of rhe progress bar.
+    #: The height of the progress bar.
     progress_bar = 18
 
     #: Print (or not) messages to the console when running scripts.

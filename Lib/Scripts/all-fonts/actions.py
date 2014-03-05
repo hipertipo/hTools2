@@ -1,11 +1,6 @@
 # [h] transform all open fonts
 
-'''Apply selected actions to all open fonts.'''
+import hTools2.dialogs.allfonts.actions
+reload(hTools2.dialogs.allfonts.actions)
 
-# import
-
-from hTools2.dialogs.allfonts import actionsDialog
-
-# run
-
-actionsDialog()
+hTools2.dialogs.allfonts.actions.actionsDialog()

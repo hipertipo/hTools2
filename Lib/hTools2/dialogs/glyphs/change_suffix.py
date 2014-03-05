@@ -1,24 +1,19 @@
 # [h] change suffix in selected glyphs
 
-# debug
-
-import hTools2.modules.glyphutils
-reload(hTools2.modules.glyphutils)
-
 # imports
 
 from mojo.roboFont import CurrentFont
 
 from vanilla import *
 
-from hTools2 import hConstants
+from hTools2 import hDialog
 from hTools2.modules.fontutils import get_glyphs
 from hTools2.modules.glyphutils import has_suffix, change_suffix
 from hTools2.modules.messages import no_font_open, no_glyph_selected
 
 # objects
 
-class changeSuffixDialog(hConstants):
+class changeSuffixDialog(hDialog):
 
     '''A dialog to change the suffix of the selected glyphs.'''
 

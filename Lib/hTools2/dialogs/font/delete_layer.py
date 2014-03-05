@@ -7,12 +7,12 @@ from vanilla import *
 from mojo.roboFont import CurrentFont
 from mojo.events import addObserver, removeObserver
 
-from hTools2 import hConstants
+from hTools2 import hDialog
 from hTools2.modules.messages import no_font_open
 
 # object
 
-class deleteLayerDialog(hConstants):
+class deleteLayerDialog(hDialog):
 
     '''A dialog to delete a layer in a font.'''
 

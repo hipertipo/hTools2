@@ -6,19 +6,21 @@ from mojo.roboFont import CurrentFont, CurrentGlyph
 
 from vanilla import *
 
-from hTools2 import hConstants
+from hTools2 import hDialog
+from hTools2.modules.fontutils import get_glyphs
 from hTools2.modules.glyphutils import round_anchors, round_bpoints, round_points, round_margins, round_width
-from hTools2.modules.messages import no_font_open
+from hTools2.modules.messages import no_glyph_selected, no_font_open
 
 # objects
 
-class roundToGridDialog(hConstants):
+class roundToGridDialog(hDialog):
 
     '''A dialog to round features of the selected glyphs to a grid.'''
 
     # attributes
 
     gridsize = 125
+
     glyph_names = []
 
     b_points = True
@@ -35,9 +37,7 @@ class roundToGridDialog(hConstants):
         self.column_1 = 40
         self.width = 123
         self.height = self.button_height + self.nudge_button + (self.text_height * 7) + (self.padding_y * 5) - 3
-        self.w = FloatingWindow(
-                    (self.width, self.height),
-                    self.title)
+        self.w = FloatingWindow((self.width, self.height), self.title)
         # grid size
         x = self.padding_x
         y = self.padding_y
@@ -60,52 +60,52 @@ class roundToGridDialog(hConstants):
         # nudge spinners
         y += (self.text_height + self.padding_y)
         self.w._nudge_minus_001 = SquareButton(
-                (x, y,
-                self.nudge_button,
-                self.nudge_button),
-                '-',
-                sizeStyle=self.size_style,
-                callback=self._nudge_minus_001_callback)
+                    (x, y,
+                    self.nudge_button,
+                    self.nudge_button),
+                    '-',
+                    sizeStyle=self.size_style,
+                    callback=self._nudge_minus_001_callback)
         x += (self.nudge_button - 1)
         self.w._nudge_plus_001 = SquareButton(
-                (x, y,
-                self.nudge_button,
-                self.nudge_button),
-                '+',
-                sizeStyle=self.size_style,
-                callback=self._nudge_plus_001_callback)
+                    (x, y,
+                    self.nudge_button,
+                    self.nudge_button),
+                    '+',
+                    sizeStyle=self.size_style,
+                    callback=self._nudge_plus_001_callback)
         x += (self.nudge_button - 1)
         self.w._nudge_minus_010 = SquareButton(
-                (x, y,
-                self.nudge_button,
-                self.nudge_button),
-                '-',
-                sizeStyle=self.size_style,
-                callback=self._nudge_minus_010_callback)
+                    (x, y,
+                    self.nudge_button,
+                    self.nudge_button),
+                    '-',
+                    sizeStyle=self.size_style,
+                    callback=self._nudge_minus_010_callback)
         x += (self.nudge_button - 1)
         self.w._nudge_plus_010 = SquareButton(
-                (x, y,
-                self.nudge_button,
-                self.nudge_button),
-                '+',
-                sizeStyle=self.size_style,
-                callback=self._nudge_plus_010_callback)
+                    (x, y,
+                    self.nudge_button,
+                    self.nudge_button),
+                    '+',
+                    sizeStyle=self.size_style,
+                    callback=self._nudge_plus_010_callback)
         x += (self.nudge_button - 1)
         self.w._nudge_minus_100 = SquareButton(
-                (x, y,
-                self.nudge_button,
-                self.nudge_button),
-                '-',
-                sizeStyle=self.size_style,
-                callback=self._nudge_minus_100_callback)
+                    (x, y,
+                    self.nudge_button,
+                    self.nudge_button),
+                    '-',
+                    sizeStyle=self.size_style,
+                    callback=self._nudge_minus_100_callback)
         x += (self.nudge_button - 1)
         self.w._nudge_plus_100 = SquareButton(
-                (x, y,
-                self.nudge_button,
-                self.nudge_button),
-                '+',
-                sizeStyle=self.size_style,
-                callback=self._nudge_plus_100_callback)
+                    (x, y,
+                    self.nudge_button,
+                    self.nudge_button),
+                    '+',
+                    sizeStyle=self.size_style,
+                    callback=self._nudge_plus_100_callback)
         # apply button
         x = self.padding_x
         y += (self.nudge_button + self.padding_y)
@@ -246,41 +246,40 @@ class roundToGridDialog(hConstants):
     def apply_callback(self, sender):
         self.font = CurrentFont()
         if self.font is not None:
-            print 'gridfitting glyphs...\n'
-            # get options
-            boolstring = [ False, True ]
-            params = {
-                'bpoints' : self.w._b_points_checkBox.get(),
-                'points' : self.w._points_checkBox.get(),
-                'margins' : self.w._margins_checkBox.get(),
-                'width' : self.w._width_checkBox.get(),
-                'anchors' : self.w._anchors_checkBox.get(),
-                'layers' : self.w._layers_checkBox.get(),
-                'gridsize' : int(self.w._gridsize_value.get())
-            }
-            print '\tgrid size: %s' % params['gridsize']
-            print '\tbPoints: %s' % boolstring[params['bpoints']]
-            print '\tpoints: %s' % boolstring[params['points']]
-            print '\tmargins: %s' % boolstring[params['margins']]
-            print '\twidth: %s' % boolstring[params['width']]
-            print '\tanchors: %s' % boolstring[params['anchors']]
-            print '\tlayers: %s' % boolstring[params['layers']]
-            print
-            print '\t',
-            # align current glyph
-            g = CurrentGlyph()
-            if g is not None:
-                print g.name,
-                self.gridfit(g, params)
-            # align selected glyphs
-            else:
-                for glyph_name in self.font.selection:
+            glyph_names = get_glyphs(self.font)
+            if len(glyph_names) > 0:
+                print 'gridfitting glyphs...\n'
+                # get options
+                options = {
+                    'bpoints' : self.w._b_points_checkBox.get(),
+                    'points' : self.w._points_checkBox.get(),
+                    'margins' : self.w._margins_checkBox.get(),
+                    'width' : self.w._width_checkBox.get(),
+                    'anchors' : self.w._anchors_checkBox.get(),
+                    'layers' : self.w._layers_checkBox.get(),
+                    'gridsize' : int(self.w._gridsize_value.get())
+                }
+                # print info
+                boolstring = [ False, True ]
+                print '\tgrid size: %s' % options['gridsize']
+                print '\tbPoints: %s' % boolstring[options['bpoints']]
+                print '\tpoints: %s' % boolstring[options['points']]
+                print '\tmargins: %s' % boolstring[options['margins']]
+                print '\twidth: %s' % boolstring[options['width']]
+                print '\tanchors: %s' % boolstring[options['anchors']]
+                print '\tlayers: %s' % boolstring[options['layers']]
+                print
+                print '\t',
+                for glyph_name in glyph_names:
                     print glyph_name,
-                    self.gridfit(self.font[glyph_name], params)
-            # done
-            self.font.update()
-            print
-            print '\n...done.\n'
+                    self.gridfit(self.font[glyph_name], options)
+                # done
+                self.font.update()
+                print
+                print '\n...done.\n'
+            # no glyph selected
+            else:
+                print no_glyph_selected
+        # no font open
         else:
             print no_font_open
-

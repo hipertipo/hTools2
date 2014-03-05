@@ -6,287 +6,282 @@ from mojo.roboFont import CurrentFont, CurrentGlyph
 
 from vanilla import *
 
+from hTools2 import hDialog
 from hTools2.modules.fontutils import get_full_name
 
 # object
 
-class adjustVerticalMetrics(object):
+class adjustVerticalMetrics(hDialog):
 
     '''A dialog to adjust the vertical metrics in the font with the help of sliders and nudge buttons.'''
 
-    _title = "vertical metrics"
-    _moveX = 0
-    _moveY = 0
-    _row_height = 28
-    _box_height = 18
-    _box_width = 60
-    _button_2 = _box_height
-    _padding = 10
-    _column_1 = 80
-    _column_2 = 200
-    _column_3 = 45
-    _width = _column_1 + _column_2 + _column_3 + (_padding * 3) + (_button_2 * 4) + 2
-    _height = (_row_height * 4) + (_padding * 5)
+    ascender_min = 1
+    capheight_min = 1
+    xheight_min = 1
+    descender_min = 1
 
-    _ascender_min = 1
-    _capheight_min = 1
-    _xheight_min = 1
-    _descender_min = 1
+    column_1 = 80
+    column_2 = 200
+    column_3 = 45
+
+    moveX = 0
+    moveY = 0
 
     def __init__(self):
-        self.w = FloatingWindow((self._width, self._height), self._title)
+        self.title = "vertical metrics"
+        self.box_width = 60
+        self.width = self.column_1 + self.column_2 + self.column_3 + (self.padding_x * 3) + (self.nudge_button * 4) + 2
+        self.height = self.text_height + (self.nudge_button * 4) + (self.padding_y * 6)
+        self.w = FloatingWindow((self.width, self.height), self.title)
         # get font vmetrics
         self.font = CurrentFont()
-        _units_per_em = self.font.info.unitsPerEm
-        _ascender = self.font.info.ascender
-        _capheight = self.font.info.capHeight
-        _xheight = self.font.info.xHeight
-        _descender = abs(self.font.info.descender)
+        units_per_em = self.font.info.unitsPerEm
+        ascender = self.font.info.ascender
+        capheight = self.font.info.capHeight
+        xheight = self.font.info.xHeight
+        descender = abs(self.font.info.descender)
         # set max vmetrics
-        self._ascender_max = _units_per_em
-        self._capheight_max = _units_per_em
-        self._xheight_max = _units_per_em
-        self._descender_max = _units_per_em
+        self.ascender_max = units_per_em
+        self.capheight_max = units_per_em
+        self.xheight_max = units_per_em
+        self.descender_max = units_per_em
         # make button alignments
-        x1 = self._padding
-        x2 = x1 + self._column_1
-        x3 = x2 + self._column_2 + 15
-        x4 = x3 + self._column_3 - 1
-        x5 = x4 + self._button_2 - 1
-        x6 = x5 + self._button_2 - 1
-        x7 = x6 + self._button_2 - 1
-        y = self._padding
+        x1 = self.padding_x
+        x2 = x1 + self.column_1
+        x3 = x2 + self.column_2 + 15
+        x4 = x3 + self.column_3 - 1
+        x5 = x4 + self.nudge_button - 1
+        x6 = x5 + self.nudge_button - 1
+        x7 = x6 + self.nudge_button - 1
+        y = self.padding_y
         self.w.box = Box(
                     (x1, y,
-                    self._column_1 + self._column_2,
-                    23))
+                    self.column_1 + self.column_2,
+                    self.text_height))
         self.w.box.text = TextBox(
                     (5, 0,
-                    -self._padding,
-                    20),
+                    -self.padding_x,
+                    self.text_height),
                     get_full_name(self.font),
-                    sizeStyle='small')
+                    sizeStyle=self.size_style)
         self.w.font_switch = SquareButton(
                     (x3, y,
-                    -self._padding,
-                    23),
+                    -self.padding_x,
+                    self.text_height),
                     'update',
-                    sizeStyle='small',
+                    sizeStyle=self.size_style,
                     callback=self.update_font_callback)
-        y += self._row_height + self._padding
+        y += self.text_height + self.padding_y
         # ascender
         self.w.ascender_label = TextBox(
                     (x1, y,
-                    self._column_1,
-                    self._row_height),
+                    self.column_1,
+                    self.nudge_button),
                     "ascender",
-                    sizeStyle='small')
+                    sizeStyle=self.size_style)
         self.w.ascender_slider = Slider(
                     (x2, y - 5,
-                    self._column_2,
-                    self._row_height),
-                    minValue=self._ascender_min,
-                    maxValue=self._ascender_max,
-                    value=_ascender,
+                    self.column_2,
+                    self.nudge_button),
+                    minValue=self.ascender_min,
+                    maxValue=self.ascender_max,
+                    value=ascender,
                     callback=self.ascender_slider_callback,
-                    sizeStyle='small')
+                    sizeStyle=self.size_style)
         self.w.ascender_value = EditText(
                     (x3, y,
-                    self._column_3,
-                    self._box_height),
-                    _ascender,
+                    self.column_3,
+                    self.nudge_button),
+                    ascender,
                     callback=self.ascender_value_callback,
-                    sizeStyle='small')
+                    sizeStyle=self.size_style,
+                    readOnly=self.read_only)
         self.w.ascender_minus_01 = SquareButton(
                     (x4, y,
-                    self._button_2,
-                    self._button_2),
+                    self.nudge_button,
+                    self.nudge_button),
                     '-',
-                    sizeStyle='small',
+                    sizeStyle=self.size_style,
                     callback=self.ascender_minus_01_callback)
         self.w.ascender_plus_01 = SquareButton(
                     (x5, y,
-                    self._button_2,
-                    self._button_2),
+                    self.nudge_button,
+                    self.nudge_button),
                     '+',
-                    sizeStyle='small',
+                    sizeStyle=self.size_style,
                     callback=self.ascender_plus_01_callback)
         self.w.ascender_minus_10 = SquareButton(
                     (x6, y,
-                    self._button_2,
-                    self._button_2),
+                    self.nudge_button,
+                    self.nudge_button),
                     '-',
-                    sizeStyle='small',
+                    sizeStyle=self.size_style,
                     callback=self.ascender_minus_10_callback)
         self.w.ascender_plus_10 = SquareButton(
                     (x7, y,
-                    self._button_2,
-                    self._button_2),
+                    self.nudge_button,
+                    self.nudge_button),
                     '+',
-                    sizeStyle='small',
+                    sizeStyle=self.size_style,
                     callback=self.ascender_plus_10_callback)
-        y += self._row_height
+        y += self.nudge_button + self.padding_y
         # capheight
         self.w.capheight_label = TextBox(
                     (x1, y,
-                    self._column_1,
-                    self._row_height),
+                    self.column_1,
+                    self.nudge_button),
                     "cap-height",
-                    sizeStyle='small')
+                    sizeStyle=self.size_style)
         self.w.capheight_slider = Slider(
                     (x2, y - 5,
-                    self._column_2,
-                    self._row_height),
-                    minValue=self._capheight_min,
-                    maxValue=self._capheight_max,
-                    value=_capheight,
+                    self.column_2,
+                    self.nudge_button),
+                    minValue=self.capheight_min,
+                    maxValue=self.capheight_max,
+                    value=capheight,
                     callback=self.capheight_slider_callback,
-                    sizeStyle='small')
+                    sizeStyle=self.size_style)
         self.w.capheight_value = EditText(
                     (x3, y,
-                    self._column_3,
-                    self._box_height),
-                    _capheight,
+                    self.column_3,
+                    self.nudge_button),
+                    capheight,
                     callback=self.capheight_value_callback,
-                    sizeStyle='small')
+                    sizeStyle=self.size_style,
+                    readOnly=self.read_only)
         self.w.capheight_minus_01 = SquareButton(
                     (x4, y,
-                    self._button_2,
-                    self._button_2),
+                    self.nudge_button,
+                    self.nudge_button),
                     '-',
-                    sizeStyle='small',
+                    sizeStyle=self.size_style,
                     callback=self.capheight_minus_01_callback)
         self.w.capheight_plus_01 = SquareButton(
                     (x5, y,
-                    self._button_2,
-                    self._button_2),
+                    self.nudge_button,
+                    self.nudge_button),
                     '+',
-                    sizeStyle='small',
+                    sizeStyle=self.size_style,
                     callback=self.capheight_plus_01_callback)
         self.w.capheight_minus_10 = SquareButton(
                     (x6, y,
-                    self._button_2,
-                    self._button_2),
+                    self.nudge_button,
+                    self.nudge_button),
                     '-',
-                    sizeStyle='small',
+                    sizeStyle=self.size_style,
                     callback=self.capheight_minus_10_callback)
         self.w.capheight_plus_10 = SquareButton(
                     (x7, y,
-                    self._button_2,
-                    self._button_2),
+                    self.nudge_button,
+                    self.nudge_button),
                     '+',
-                    sizeStyle='small',
+                    sizeStyle=self.size_style,
                     callback=self.capheight_plus_10_callback)
-        y += self._row_height
+        y += self.nudge_button + self.padding_y
         # xheight
         self.w.xheight_label = TextBox(
                     (x1, y,
-                    self._column_1,
-                    self._row_height),
+                    self.column_1,
+                    self.nudge_button),
                     "x-height",
-                    sizeStyle='small')
+                    sizeStyle=self.size_style)
         self.w.xheight_slider = Slider(
                     (x2, y - 5,
-                    self._column_2,
-                    self._row_height),
-                    minValue=self._xheight_min,
-                    maxValue=self._xheight_max,
-                    value=_xheight,
+                    self.column_2,
+                    self.nudge_button),
+                    minValue=self.xheight_min,
+                    maxValue=self.xheight_max,
+                    value=xheight,
                     callback=self.xheight_slider_callback,
-                    sizeStyle='small')
+                    sizeStyle=self.size_style)
         self.w.xheight_value = EditText(
                     (x3, y,
-                    self._column_3,
-                    self._box_height),
-                    _xheight,
+                    self.column_3,
+                    self.nudge_button),
+                    xheight,
                     callback=self.xheight_value_callback,
-                    sizeStyle='small')
+                    sizeStyle=self.size_style,
+                    readOnly=self.read_only)
         self.w.xheight_minus_01 = SquareButton(
                     (x4, y,
-                    self._button_2,
-                    self._button_2),
+                    self.nudge_button,
+                    self.nudge_button),
                     '-',
-                    sizeStyle='small',
+                    sizeStyle=self.size_style,
                     callback=self.xheight_minus_01_callback)
         self.w.xheight_plus_01 = SquareButton(
                     (x5, y,
-                    self._button_2,
-                    self._button_2),
+                    self.nudge_button,
+                    self.nudge_button),
                     '+',
-                    sizeStyle='small',
+                    sizeStyle=self.size_style,
                     callback=self.xheight_plus_01_callback)
         self.w.xheight_minus_10 = SquareButton(
                     (x6, y,
-                    self._button_2,
-                    self._button_2),
+                    self.nudge_button,
+                    self.nudge_button),
                     '-',
-                    sizeStyle='small',
+                    sizeStyle=self.size_style,
                     callback=self.xheight_minus_10_callback)
         self.w.xheight_plus_10 = SquareButton(
                     (x7, y,
-                    self._button_2,
-                    self._button_2),
+                    self.nudge_button,
+                    self.nudge_button),
                     '+',
-                    sizeStyle='small',
+                    sizeStyle=self.size_style,
                     callback=self.xheight_plus_10_callback)
-        y += self._row_height
+        y += self.nudge_button + self.padding_y
         # descender
         self.w.descender_label = TextBox(
-                    (x1,
-                    y,
-                    self._column_1,
-                    self._row_height),
+                    (x1, y,
+                    self.column_1,
+                    self.nudge_button),
                     "descender",
-                    sizeStyle='small')
+                    sizeStyle=self.size_style)
         self.w.descender_slider = Slider(
-                    (x2,
-                    y - 5,
-                    self._column_2,
-                    self._row_height),
-                    minValue=self._descender_min,
-                    maxValue=self._descender_max,
-                    value=_descender,
+                    (x2, y - 5,
+                    self.column_2,
+                    self.nudge_button),
+                    minValue=self.descender_min,
+                    maxValue=self.descender_max,
+                    value=descender,
                     callback=self.descender_slider_callback,
-                    sizeStyle='small')
+                    sizeStyle=self.size_style)
         self.w.descender_value = EditText(
-                    (x3,
-                    y,
-                    self._column_3,
-                    self._box_height),
-                    _descender,
+                    (x3, y,
+                    self.column_3,
+                    self.nudge_button),
+                    descender,
                     callback=self.descender_value_callback,
-                    sizeStyle='small')
+                    sizeStyle=self.size_style,
+                    readOnly=self.read_only)
         self.w.descender_minus_01 = SquareButton(
-                    (x4,
-                    y,
-                    self._button_2,
-                    self._button_2),
+                    (x4, y,
+                    self.nudge_button,
+                    self.nudge_button),
                     '-',
-                    sizeStyle='small',
+                    sizeStyle=self.size_style,
                     callback=self.descender_minus_01_callback)
         self.w.descender_plus_01 = SquareButton(
-                    (x5,
-                    y,
-                    self._button_2,
-                    self._button_2),
+                    (x5, y,
+                    self.nudge_button,
+                    self.nudge_button),
                     '+',
-                    sizeStyle='small',
+                    sizeStyle=self.size_style,
                     callback=self.descender_plus_01_callback)
         self.w.descender_minus_10 = SquareButton(
-                    (x6,
-                    y,
-                    self._button_2,
-                    self._button_2),
+                    (x6, y,
+                    self.nudge_button,
+                    self.nudge_button),
                     '-',
-                    sizeStyle='small',
+                    sizeStyle=self.size_style,
                     callback=self.descender_minus_10_callback)
         self.w.descender_plus_10 = SquareButton(
-                    (x7,
-                    y,
-                    self._button_2,
-                    self._button_2),
+                    (x7, y,
+                    self.nudge_button,
+                    self.nudge_button),
                     '+',
-                    sizeStyle='small',
+                    sizeStyle=self.size_style,
                     callback=self.descender_plus_10_callback)
         # open window
         self.w.open()

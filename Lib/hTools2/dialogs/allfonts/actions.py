@@ -8,189 +8,183 @@ from mojo.roboFont import AllFonts
 
 from vanilla import *
 
+from hTools2 import hDialog
 from hTools2.modules.fontutils import *
+from hTools2.modules.messages import no_font_open
 
 # dialog
 
-class actionsDialog(object):
+class actionsDialog(hDialog):
 
-    _title = 'actions'
-    _row_height = 20
-    _button_height = 30
-    _padding = 10
-    _padding_top = 8
-    _width = 123
-    _height = (_row_height * 9) + _button_height + (_padding_top * 4) + 2
+    # attributes
 
-    _round = False
-    _decompose = False
-    _order = False
-    _direction = False
-    _overlaps = True
-    _extremes = False
-    _save = False
-    _close = False
+    round = False
+    decompose = False
+    order = False
+    direction = False
+    overlaps = True
+    extremes = False
+    save = False
+    close = False
+
+    # methods
 
     def __init__(self):
-        self.w = FloatingWindow(
-                    (self._width,
-                    self._height),
-                    self._title,
-                    closable=True)
+        self.title = 'actions'
+        self.height = (self.text_height * 9) + self.button_height + (self.padding_y * 4) + 2
+        self.w = FloatingWindow((self.width, self.height), self.title)
         # round to integers
-        x = self._padding
-        y = self._padding_top
+        x = self.padding_x
+        y = self.padding_y
         self.w.round_checkBox = CheckBox(
                     (x, y,
-                    -self._padding,
-                    self._row_height),
+                    -self.padding_x,
+                    self.text_height),
                     "round points",
                     callback=self.round_callback,
-                    value=self._round,
-                    sizeStyle='small')
+                    value=self.round,
+                    sizeStyle=self.size_style)
         # decompose
-        y += self._row_height
+        y += self.text_height
         self.w.decompose_checkBox = CheckBox(
                     (x, y,
-                    -self._padding,
-                    self._row_height),
+                    -self.padding_x,
+                    self.text_height),
                     "decompose",
                     callback=self.decompose_callback,
-                    value=self._decompose,
-                    sizeStyle='small')
-        y += self._row_height
+                    value=self.decompose,
+                    sizeStyle=self.size_style)
+        y += self.text_height
         self.w.order_checkBox = CheckBox(
                     (x, y,
-                    -self._padding,
-                    self._row_height),
+                    -self.padding_x,
+                    self.text_height),
                     "auto order",
                     callback=self.order_callback,
-                    value=self._order,
-                    sizeStyle='small')
-        y += self._row_height
+                    value=self.order,
+                    sizeStyle=self.size_style)
+        y += self.text_height
         self.w.direction_checkBox = CheckBox(
                     (x, y,
-                    -self._padding,
-                    self._row_height),
+                    -self.padding_x,
+                    self.text_height),
                     "auto direction",
                     callback=self.direction_callback,
-                    value=self._direction,
-                    sizeStyle='small')
-        y += self._row_height
+                    value=self.direction,
+                    sizeStyle=self.size_style)
+        y += self.text_height
         self.w.overlaps_checkBox = CheckBox(
                     (x, y,
-                    -self._padding,
-                    self._row_height),
+                    -self.padding_x,
+                    self.text_height),
                     "remove overlap",
                     callback=self.overlaps_callback,
-                    value=self._overlaps,
-                    sizeStyle='small')
-        y += self._row_height
+                    value=self.overlaps,
+                    sizeStyle=self.size_style)
+        y += self.text_height
         self.w.extremes_checkBox = CheckBox(
                     (x, y,
-                    -self._padding,
-                    self._row_height),
+                    -self.padding_x,
+                    self.text_height),
                     "add extremes",
                     callback=self.extremes_callback,
-                    value=self._overlaps,
-                    sizeStyle='small')
-        y += self._row_height
+                    value=self.overlaps,
+                    sizeStyle=self.size_style)
+        y += self.text_height
         self.w.save_checkBox = CheckBox(
                     (x, y,
-                    -self._padding,
-                    self._row_height),
+                    -self.padding_x,
+                    self.text_height),
                     "save .ufo",
                     callback=self.save_callback,
-                    value=self._save,
-                    sizeStyle='small')
-        y += self._row_height
+                    value=self.save,
+                    sizeStyle=self.size_style)
+        y += self.text_height
         self.w.close_checkBox = CheckBox(
                     (x, y,
-                    -self._padding,
-                    self._row_height),
+                    -self.padding_x,
+                    self.text_height),
                     "close font",
                     callback=self.close_font_callback,
-                    value=self._close,
-                    sizeStyle='small')
+                    value=self.close,
+                    sizeStyle=self.size_style)
         # progress bar
-        y += self._row_height + self._padding_top
+        y += self.text_height + self.padding_y
         self.w.bar = ProgressBar(
                     (x, y,
-                    -self._padding,
-                    self._row_height),
-                    isIndeterminate=True)
+                    -self.padding_x,
+                    self.progress_bar),
+                    isIndeterminate=True,
+                    sizeStyle=self.size_style)
         # buttons
-        y += self._row_height + self._padding_top
+        y += self.progress_bar + self.padding_y
         self.w.button_apply = SquareButton(
                     (x, y,
-                    -self._padding,
-                    self._button_height),
+                    -self.padding_x,
+                    self.button_height),
                     "apply",
                     callback = self.apply_callback,
-                    sizeStyle='small')
+                    sizeStyle=self.size_style)
         # open window
         self.w.open()
 
     def clear_callback(self, sender):
-        self._clear = sender.get()
+        self.clear = sender.get()
 
     def close_font_callback(self, sender):
-        self._close = sender.get()
+        self.close = sender.get()
 
     def round_callback(self, sender):
-        self._round = sender.get()
+        self.round = sender.get()
 
     def save_callback(self, sender):
-        self._save = sender.get()
+        self.save = sender.get()
 
     def decompose_callback(self, sender):
-        self._decompose = sender.get()
+        self.decompose = sender.get()
 
     def order_callback(self, sender):
-        self._order = sender.get()
+        self.order = sender.get()
 
     def direction_callback(self, sender):
-        self._direction = sender.get()
+        self.direction = sender.get()
 
     def overlaps_callback(self, sender):
-        self._overlaps = sender.get()
+        self.overlaps = sender.get()
 
     def extremes_callback(self, sender):
-        self._extremes = sender.get()
-
-    def mark_callback(self, sender):
-        self._mark = sender.get()
+        self.extremes = sender.get()
 
     def apply_callback(self, sender):
         # batch perform actions
-        _all_fonts = AllFonts()
-        if len(_all_fonts) > 0:
+        all_fonts = AllFonts()
+        if len(all_fonts) > 0:
             print 'transforming all open fonts...\n'
             self.w.bar.start()
-            for font in _all_fonts:
+            for font in all_fonts:
                 print '\ttransforming %s...' % get_full_name(font)
-                if self._round:
+                if self.round:
                     print '\t\trounding...'
                     font.round()
-                if self._decompose:
+                if self.decompose:
                     print '\t\tdecomposing...'
                     decompose(font)
-                if self._overlaps:
+                if self.overlaps:
                     print '\t\tremoving overlaps...'
                     font.removeOverlap()
-                if self._order:
+                if self.order:
                     print '\t\tauto contour order...'
                     auto_contour_order(font)
-                if self._direction:
+                if self.direction:
                     print '\t\tauto contour direction...'
                     auto_contour_direction(font)
-                if self._extremes:
+                if self.extremes:
                     print '\t\tadding extreme points...'
                     add_extremes(font)
-                if self._save:
+                if self.save:
                     print '\t\tsaving font...'
                     font.save()
-                if self._close:
+                if self.close:
                     print '\t\tclosing font...'
                     font.close()
                     print
@@ -199,4 +193,4 @@ class actionsDialog(object):
             print '...done.\n'
         # no font open
         else:
-            print 'please open a font.\n'
+            print no_font_open

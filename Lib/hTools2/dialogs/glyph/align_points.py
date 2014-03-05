@@ -1,10 +1,14 @@
+# [h] align points
+
+### this dialog is buggy and needs to be deprecated or rewritten ###
+
 # imports
 
 from mojo.roboFont import CurrentGlyph
 
 from vanilla import *
 
-from hTools2 import hConstants
+from hTools2 import hDialog
 from hTools2.modules.messages import no_glyph_open, at_least_two_points
 
 # functions
@@ -20,7 +24,7 @@ def get_min(values):
 
 # object
 
-class alignPointsDialog(hConstants):
+class alignPointsDialog(hDialog):
     
     '''Align selected points vertically or horizontally.'''
     
@@ -134,4 +138,3 @@ class alignPointsDialog(hConstants):
                 # done
                 self.glyph.update()
                 self.glyph.performUndo()
-

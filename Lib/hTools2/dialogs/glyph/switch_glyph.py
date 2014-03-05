@@ -8,9 +8,8 @@ from mojo.roboFont import AllFonts, CurrentFont, CurrentGlyph
 
 from mojo.UI import CurrentGlyphWindow, OpenGlyphWindow
 
-from hTools2 import hConstants
+from hTools2 import hDialog
 from hTools2.modules.fontutils import get_full_name, get_glyphs
-
 from hTools2.modules.messages import no_glyph_selected, no_font_open
 
 # functions
@@ -31,25 +30,22 @@ def previous_glyph(font, index):
 
 # objects
 
-class switchGlyphDialog(hConstants):
+class switchGlyphDialog(hDialog):
 
-    # _padding_top = 8
-    # _padding = 10
-    # _button_1 = 30
-    # _button_2 = 18
-    # _line_height = 18
-    # _box_height = 23
-    # _width = 320
-    # _height = (_button_1 * 3) + (_padding_top * 2)
+    # attributes
 
     _move_default = 70
+
+    # methods
 
     def __init__(self):
         # get fonts
         self.all_fonts = AllFonts()
         if len(self.all_fonts) > 0:
             self.title = "switch"
-            self.height = self.width
+            self.text_height += 3
+            self.square_button -= 4
+            self.height = (self.square_button * 3) + (self.padding_y * 2)
             self.width = 320
             self.w = FloatingWindow((self.width, self.height), self.title)
             # move buttons

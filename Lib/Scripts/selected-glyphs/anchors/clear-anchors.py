@@ -2,28 +2,27 @@
 
 '''Delete all anchors in the selected glyphs.'''
 
-# import
+# imports
 
 try:
     from mojo.roboFont import CurrentFont
 except:
     from robofab.world import CurrentFont
 
+from hTools2.modules.anchors import clear_anchors
 from hTools2.modules.fontutils import get_glyphs
+from hTools2.modules.messages import no_glyph_selected, no_font_open
 
 # run
 
 f = CurrentFont()
-
-print 'deleting anchors in glyphs...\n'
-print '\t',
-for glyph_name in get_glyphs(f):
-    if len(f[glyph_name].anchors) > 0:
-        print glyph_name,
-        f[glyph_name].prepareUndo('clear anchors')
-        f[glyph_name].clearAnchors()
-        f[glyph_name].update()
-        f[glyph_name].performUndo()
-f.update()
-print
-print "\n...done.\n"
+if f is not None:
+    glyph_names = get_glyphs(f)
+    if len(glyph_names) > 0:
+        clear_anchors(f, glyph_names)
+    # no glyph selected
+    else:
+        print no_glyph_selected
+# no font open
+else:
+    print no_font_open

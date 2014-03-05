@@ -1,11 +1,6 @@
 # [h] apply actions
 
-'''Batch apply actions to all fonts in folder.'''
+import hTools2.dialogs.folder.actions
+reload(hTools2.dialogs.folder.actions)
 
-# imports
-
-from hTools2.dialogs.folder import actionsFolderDialog
-
-# run
-
-actionsFolderDialog()
+hTools2.dialogs.folder.actions.actionsFolderDialog()

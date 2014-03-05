@@ -1,11 +1,6 @@
 # [h] adjust vertical metrics
 
-'''Adjust vertical metrics interactvely with sliders.'''
+import hTools2.dialogs.font.adjust_vmetrics
+reload(hTools2.dialogs.font.adjust_vmetrics)
 
-# import
-
-from hTools2.dialogs.font import adjustVerticalMetrics
-
-# run
-
-adjustVerticalMetrics()
+hTools2.dialogs.font.adjust_vmetrics.adjustVerticalMetrics()

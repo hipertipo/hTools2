@@ -1,75 +1,75 @@
 # [h] center layers in selected glyphs
 
+### this dialog is buggy and needs to be deprecated or rewritten ###
+
 # imports
 
+from mojo.roboFont import CurrentFont, CurrentGlyph
+
+from vanilla import *
+
+from hTools2 import hDialog
+from hTools2.modules.fontutils import get_glyphs
 from hTools2.modules.glyphutils import center_glyph_layers
+from hTools2.modules.messages import no_glyph_selected, no_font_open, no_layer_selected
 
 # object
 
-class alignLayersDialog(object):
+class alignLayersDialog(hDialog):
 
     '''A dialog to center all layers in the selected glyphs.'''
 
     # attributes
 
-    _title = 'center'
-    _padding = 10
-    _line_height = 20
-    _column_height = 120
-    _button_height = 30
-    _button_width = 103
-    _width = 123
-    _height = _button_height + (_padding * 5) + _column_height + (_line_height * 2)
-
-    _font = None
-    _layer_names = []
-    _all_layers = False
-    _guides = True
+    font = None
+    layer_names = []
+    all_layers = False
+    guides = True
 
     # methods
 
     def __init__(self):
-        self._get_layers()
-        self.w = FloatingWindow(
-                    (self._width, self._height),
-                    self._title,
-                    closable=True)
-        x = self._padding
-        y = self._padding
+        self.get_layers()
+        self.title = 'center'
+        self.column_height = 120
+        self.height = self.button_height + (self.padding_y * 5) + self.column_height + (self.text_height * 2)
+        self.w = FloatingWindow((self.width, self.height), self.title)
+        x = self.padding_x
+        y = self.padding_y
         # select all layers
         self.w.all_layers = CheckBox(
                     (x, y,
-                    -self._padding,
-                    self._line_height),
+                    -self.padding_x,
+                    self.text_height),
                     "(de)select all",
-                    value=self._all_layers,
+                    value=self.all_layers,
                     callback=self.all_layers_callback,
-                    sizeStyle='small')
-        y += self._line_height + self._padding
+                    sizeStyle=self.size_style)
+        y += self.text_height + self.padding_y
         # layers list
         self.w.layers_list = List(
                     (x, y,
-                    -self._padding,
-                    self._column_height),
-                    self._layer_names,
+                    -self.padding_x,
+                    self.column_height),
+                    self.layer_names,
                     allowsMultipleSelection=True)
         # draw guides
-        y += self._column_height + self._padding
+        y += self.column_height + self.padding_y
         self.w.guides = CheckBox(
                     (x, y,
-                    -self._padding,
-                    self._line_height),
+                    -self.padding_x,
+                    self.text_height),
                     "draw guides",
-                    value=self._guides,
-                    sizeStyle='small')
+                    value=self.guides,
+                    sizeStyle=self.size_style)
         # apply button
-        y += self._line_height + self._padding
+        y += self.text_height + self.padding_y
         self.w.button_apply = SquareButton(
                     (x, y,
-                    -self._padding,
-                    self._button_height),
+                    -self.padding_x,
+                    self.button_height),
                     "apply",
-                    sizeStyle='small',
+                    sizeStyle=self.size_style,
                     callback=self.apply_callback)
         # open window
         self.w.open()
@@ -78,52 +78,43 @@ class alignLayersDialog(object):
 
     def all_layers_callback(self, sender):
         if sender.get() == True:
-            _selection = []
-            for i in range(len(self._layer_names)):
-                _selection.append(i)
-            self.w.layers_list.setSelection(_selection)
+            selection = []
+            for i in range(len(self.layer_names)):
+                selection.append(i)
+            self.w.layers_list.setSelection(selection)
         else:
             self.w.layers_list.setSelection([])
 
-    def _get_layers(self):
+    def get_layers(self):
         f = CurrentFont()
         if f is not None:
-            self._font = f
-            self._layer_names = f.layerOrder
+            self.font = f
+            self.layer_names = f.layerOrder
 
     def layers_selection(self):
-        if self._font is not None:
+        if self.font is not None:
             layer_names = []
             selection = layers_list.getSelection()
             for i in selection:
-                if i < len(self._layer_names):
-                    layer_names.append(self._layer_names[i])
-            self._layer_names = layer_names
+                if i < len(self.layer_names):
+                    layer_names.append(self.layer_names[i])
+            self.layer_names = layer_names
 
     def apply_callback(self, sender):
-        if self._font is not None:
-            _guides = self.w.guides.get()
-            # current glyph
-            glyph = CurrentGlyph()
-            if glyph is not None:
+        if self.font is not None:
+            glyph_names = get_glyphs(self.font)
+            if len(glyph_names) > 0:
+                guides = self.w.guides.get()
                 print 'centering glyphs...\n'
-                print '\t%s' % glyph.name
-                center_glyph_layers(glyph, self._layer_names)
+                print '\t',
+                for glyph_name in glyph_names:
+                    print glyph_name,
+                    center_glyph_layers(self.font[glyph_name], self.layer_names, guides)
+                print
                 print '\n...done.\n'
+            # no glyph selected
             else:
-                glyph_names = self._font.selection
-                # selected glyphs
-                if len(glyph_names) > 0:
-                    print 'centering glyphs...\n'
-                    print '\t',
-                    for glyph_name in glyph_names:
-                        print glyph_name,
-                        center_glyph_layers(self._font[glyph_name], self._layer_names)
-                    print
-                    print '\n...done.\n'
-                # no glyph selected
-                else:
-                    print 'please select one or more glyphs first.\n'
+                print no_glyph_selected
         # no font open
         else:
-            print 'please open a font first.\n'
+            print no_font_open

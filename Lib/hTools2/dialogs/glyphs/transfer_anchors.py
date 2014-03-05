@@ -7,14 +7,14 @@ from mojo.events import addObserver, removeObserver
 
 from vanilla import *
 
-from hTools2 import hConstants
+from hTools2 import hDialog
 from hTools2.modules.fontutils import get_full_name, get_glyphs
 from hTools2.modules.anchors import transfer_anchors
 from hTools2.modules.messages import no_font_open
 
 # objects
 
-class transferAnchorsDialog(hConstants):
+class transferAnchorsDialog(hDialog):
 
     '''A dialog to transfer anchors from selected glyphs in one font to the same glyphs in another font.'''
 

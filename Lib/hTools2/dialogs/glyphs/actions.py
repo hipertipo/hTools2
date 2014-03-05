@@ -6,12 +6,13 @@ from mojo.roboFont import CurrentFont
 
 from vanilla import *
 
-from hTools2 import hConstants
+from hTools2 import hDialog
 from hTools2.modules.fontutils import get_glyphs
+from hTools2.modules.messages import no_glyph_selected, no_font_open
 
 # objects
 
-class glyphActionsDialog(hConstants):
+class glyphActionsDialog(hDialog):
 
     '''A dialog to apply actions to one or more layers in the selected glyphs.'''
 
@@ -28,6 +29,7 @@ class glyphActionsDialog(hConstants):
         'add extremes' : False,
         'all layers' : False,
     }
+
     glyph_names = []
 
     # methods
@@ -35,9 +37,7 @@ class glyphActionsDialog(hConstants):
     def __init__(self):
         self.title = 'actions'
         self.height = (self.padding_y * 4) + (self.text_height * 9) + self.button_height
-        self.w = FloatingWindow(
-                    (self.width, self.height),
-                    self.title)
+        self.w = FloatingWindow((self.width, self.height), self.title)
         # clear outlines
         x = self.padding_x
         y = self.padding_y
@@ -171,7 +171,7 @@ class glyphActionsDialog(hConstants):
     def extremes_callback(self, sender):
         self.actions['add extremes'] = sender.get()
 
-    def _apply_actions(self, glyph):
+    def apply_actions(self, glyph):
         glyph.prepareUndo('apply actions')
         # clear outlines
         if self.actions['clear outlines']:
@@ -204,27 +204,32 @@ class glyphActionsDialog(hConstants):
     def apply_callback(self, sender):
         f = CurrentFont()
         if f is not None:
-            print 'applying actions to selected glyphs...\n'
-            for action in self.actions.keys():
-                if self.actions[action]:
-                    print '\t%s' % action
-            print
-            print '\t',
-            for glyph in get_glyphs(f, mode='glyphs'):
-                print glyph.name,
-                # current layer only
-                if not self.actions['all layers']:
-                    self._apply_actions(glyph)
-                # all layers
-                else:
-                    for layer_name in f.layerOrder:
-                        layer_glyph = f[glyph.name].getLayer(layer_name)
-                        self._apply_actions(layer_glyph)
-                # done glyph
-                glyph.update()
-            # done font
-            print
-            print '\n...done.\n'
+            glyph_names = get_glyphs(f)
+            if len(glyph_names) > 0:
+                print 'applying actions to selected glyphs...\n'
+                for action in self.actions.keys():
+                    if self.actions[action]:
+                        print '\t%s' % action
+                print
+                print '\t',
+                for glyph_name in glyph_names:
+                    print glyph_name,
+                    # current layer only
+                    if not self.actions['all layers']:
+                        self.apply_actions(f[glyph_name])
+                    # all layers
+                    else:
+                        for layer_name in f.layerOrder:
+                            layer_glyph = f[glyph_name].getLayer(layer_name)
+                            self.apply_actions(layer_glyph)
+                    # done glyph
+                    f[glyph_name].update()
+                # done font
+                print
+                print '\n...done.\n'
+            # no glyph selected
+            else:
+                print no_glyph_selected
         # no font open
         else:
-            print 'please open a font first.\n'
+            print no_font_open

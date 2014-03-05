@@ -6,13 +6,13 @@ from mojo.roboFont import CurrentFont, CurrentGlyph
 
 from vanilla import *
 
-from hTools2 import hConstants
+from hTools2 import hDialog
 from hTools2.modules.fontutils import get_glyphs
 from hTools2.modules.messages import no_font_open, no_glyph_selected
 
 # objects
 
-class setMarginsDialog(hConstants):
+class setMarginsDialog(hDialog):
 
     '''A dialog to set the left/right side-bearings of the selected glyphs in the current font.'''
 
@@ -35,7 +35,6 @@ class setMarginsDialog(hConstants):
         self.column_3 = 80
         self.column_4 = 60
         self.title = 'margins'
-        self.width = 123
         self.height = (self.text_height * 5) + (self.padding_y * 9) + (self.nudge_button * 2) + self.button_height
         self.w = FloatingWindow((self.width, self.height), self.title)
         #-------------

@@ -7,13 +7,13 @@ from mojo.events import addObserver, removeObserver
 
 from vanilla import *
 
-from hTools2 import hConstants
+from hTools2 import hDialog
 from hTools2.modules.fontutils import get_full_name, get_glyphs
 from hTools2.modules.messages import no_font_open, no_glyph_selected
 
 # objects
 
-class copyMarginsDialog(hConstants):
+class copyMarginsDialog(hDialog):
 
     '''A dialog to copy margins from selected glyphs in one font to the same glyphs in another font.'''
 
@@ -28,7 +28,6 @@ class copyMarginsDialog(hConstants):
         self._get_fonts()
         # window
         self.title = 'margins'
-        self.width = 123
         self.column_1 = 180
         self.height = (self.button_height) + (self.text_height * 5) + (self.padding_y * 5)
         self.w = FloatingWindow((self.width, self.height), self.title)
@@ -144,7 +143,7 @@ class copyMarginsDialog(hConstants):
                 print '\tcopy right: %s' % boolstring[_right]
                 print
                 # batch copy side-bearings
-                for glyph_name in _source_font.selection:
+                for glyph_name in get_glyphs(_source_font):
                     try:
                         # set undo
                         _dest_font[glyph_name].prepareUndo('copy margins')

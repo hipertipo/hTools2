@@ -6,65 +6,67 @@ from mojo.roboFont import CurrentFont
 
 from vanilla import *
 
+from hTools2 import hDialog
 from hTools2.modules.fontutils import delete_groups, print_groups
+from hTools2.modules.messages import no_font_open
 
 # objects
 
-class printGroupsDialog(object):
+class printGroupsDialog(hDialog):
 
     '''A dialog to print all groups in the font in different formats.'''
 
-    _title = 'groups'
-    _padding = 10
-    _padding_top = 8
-    _row_height = 20
-    _button_height = 30
-    _width = 123
-    _height = (_button_height * 2) + (_row_height * 3) + (_padding_top * 3)
-
     def __init__(self):
-        self.w = FloatingWindow(
-                    (self._width, self._height),
-                    self._title,
-                    closable=True)
+        self.title = 'groups'
+        self.height = (self.button_height * 2) + (self.text_height * 3) + (self.padding_y * 4) - 3
+        self.w = FloatingWindow((self.width, self.height), self.title)
         # checkbox
-        x = self._padding
-        y = self._padding_top
+        x = self.padding_x
+        y = self.padding_y
         self.w._mode = RadioGroup(
                     (x, y,
-                    -self._padding,
-                    self._row_height * 3),
+                    -self.padding_x,
+                    self.text_height * 3),
                     ['plain text', 'OT classes', 'Python lists'],
-                    sizeStyle='small',
+                    sizeStyle=self.size_style,
                     isVertical=True)
-        y += (self._row_height * 3) + self._padding
+        self.w._mode.set(0)
+        y += (self.text_height * 3) + self.padding_y
         # button : print data
         self.w.button_print = SquareButton(
                     (x, y - 4,
-                    -self._padding,
-                    self._button_height),
+                    -self.padding_x,
+                    self.button_height),
                     "print",
                     callback=self.print_callback,
-                    sizeStyle='small')
-        y += self._button_height - 1
+                    sizeStyle=self.size_style)
+        y += self.button_height + self.padding_y
         # button : clear data
         self.w.button_clear = SquareButton(
                     (x, y - 4,
-                    -self._padding,
-                    self._button_height),
+                    -self.padding_x,
+                    self.button_height),
                     "clear",
                     callback=self.clear_callback,
-                    sizeStyle='small')
+                    sizeStyle=self.size_style)
         # open window
         self.w.open()
 
     # callbacks
 
     def clear_callback(self, sender):
-        ufo = CurrentFont()
-        delete_groups(ufo)
+        font = CurrentFont()
+        if font is not None:
+            delete_groups(font)
+        # no font open
+        else:
+            print no_font_open
 
     def print_callback(self, sender):
-        ufo = CurrentFont()
-        _mode = self.w._mode.get()
-        print_groups(ufo, mode=_mode)
+        font = CurrentFont()
+        if font is not None:
+            _mode = self.w._mode.get()
+            print_groups(font, mode=_mode)
+        # no font open
+        else:
+            print no_font_open
