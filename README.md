@@ -4,6 +4,8 @@ hTools2 is a [UFO](http://unifiedfontobject.org/)-based [Python](http://python.o
 
 It is built with [RoboFab](http://robofab.org) & [vanilla](http://code.typesupply.com/wiki/Vanilla) for use with [RoboFont](http://robofont.com/).
 
+**new!** Now also available as a [RoboFont Extension](https://github.com/gferreira/hTools2_extension), install with one click.
+
 ## Credits
 
 hTools2 is developed by Gustavo Ferreira ([Hipertipo](http://hipertipo.com)) with input from users and collaborators.
