@@ -5,188 +5,193 @@
 from vanilla import *
 
 from mojo.roboFont import CurrentFont, CurrentGlyph
+from mojo.events import addObserver, removeObserver
 
+from hTools2 import hDialog
 from hTools2.modules.fontutils import get_full_name
 from hTools2.modules.encoding import unicode_hexstr_to_int
+from hTools2.modules.messages import no_font_open
 
 # objects
 
-class createSpaceGlyphsDialog(object):
+class createSpaceGlyphsDialog(hDialog):
 
     '''A dialog to create space glyphs in a font.'''
 
-    _title = 'spaces'
-    _padding = 10
-    _padding_top = 10
-    _column_1 = 55
-    _field_width = 40
-    _row_height = 18
-    _button_height = 30
-    _box_height = 23
-    _height = (_row_height * 5) + (_button_height * 1) + (_padding * 8) + _box_height + 4
-    _width = 123
-
-    _hairspace_factor = .08
-    _thinspace_factor = .16
-    _thickspace_factor = .333
-    _figurespace_factor = .6
+    hairspace_factor = .08
+    thinspace_factor = .16
+    thickspace_factor = .333
+    figurespace_factor = .6
 
     def __init__(self):
-        if CurrentFont() is not None:
-            self.font = CurrentFont()
-            self.w = FloatingWindow(
-                        (self._width, self._height),
-                        self._title,
-                        closable=True)
-            # current font
-            x = self._padding
-            y = self._padding
-            self.w.box = Box(
-                        (x, y,
-                        -self._padding,
-                        self._box_height))
-            self.w.box.text = TextBox(
-                        (5, 0,
-                        -self._padding,
-                        self._row_height),
-                        text=get_full_name(self.font),
-                        sizeStyle='small')
-            # hair space
-            y += self._row_height + 18
-            self.w._hairspace_label = TextBox(
-                        (x, y,
-                        self._column_1,
-                        self._row_height),
-                        "hair",
-                        sizeStyle='small')
-            x += self._column_1
-            self.w._hairspace_value = EditText(
-                        (x, y,
-                        -self._padding,
-                        self._row_height),
-                        text=int(self.font.info.unitsPerEm * self._hairspace_factor),
-                        sizeStyle='small')
-            # thin space
-            x = self._padding
-            y += self._row_height + self._padding
-            self.w._thinspace_label = TextBox(
-                        (x, y,
-                        self._column_1,
-                        self._row_height),
-                        "thin",
-                        sizeStyle='small')
-            x += self._column_1
-            self.w._thinspace_value = EditText(
-                        (x, y,
-                        -self._padding,
-                        self._row_height),
-                        text=int(self.font.info.unitsPerEm * self._thinspace_factor),
-                        sizeStyle='small')
-            # thick space
-            x = self._padding
-            y += self._row_height + self._padding
-            self.w._thickspace_label = TextBox(
-                        (x, y,
-                        self._column_1,
-                        self._row_height),
-                        "thick",
-                        sizeStyle='small')
-            x += self._column_1
-            self.w._thickspace_value = EditText(
-                        (x, y,
-                        -self._padding,
-                        self._row_height),
-                        text=int(self.font.info.unitsPerEm * self._thickspace_factor),
-                        sizeStyle='small')
-            # figure space
-            x = self._padding
-            y += self._row_height + self._padding
-            self.w._figurespace_label = TextBox(
-                        (x, y,
-                        self._column_1,
-                        self._row_height),
-                        "figure",
-                        sizeStyle='small')
-            x += self._column_1
-            self.w._figurespace_value = EditText(
-                        (x, y,
-                        -self._padding,
-                        self._row_height),
-                        text=int(self.font.info.unitsPerEm * self._figurespace_factor),
-                        sizeStyle='small')
-            # zero width space
-            x = self._padding
-            y += self._row_height + self._padding
-            self.w._zerowidth_label = TextBox(
-                        (x, y,
-                        self._column_1,
-                        self._row_height),
-                        "0 width",
-                        sizeStyle='small')
-            x += self._column_1
-            self.w._zerowidth_value = EditText(
-                        (x, y,
-                        -self._padding,
-                        self._row_height),
-                        text='0',
-                        readOnly=True,
-                        sizeStyle='small')
-            # buttons
-            x = self._padding
-            y += self._row_height + self._padding
-            self.w._button_apply = SquareButton(
-                        (x, y,
-                        -self._padding,
-                        self._button_height),
-                        "create",
-                        sizeStyle='small',
-                        callback = self.apply_callback)
-            # y += self._button_height + self._padding
-            # self.w._button_switch = SquareButton(
-            #             (x, y,
-            #             -self._padding,
-            #             self._button_height),
-            #             "update",
-            #             sizeStyle='small',
-            #             callback=self.update_font_callback)
-            # open window
-            self.w.open()
-        # no font open
+        self.title = 'spaces'
+        self.column_1 = 55
+        self.field_width = 40
+        self.box_height = 23
+        self.height = (self.text_height * 5) + (self.button_height * 1) + (self.padding_y * 8) + self.box_height + 4
+        self.w = FloatingWindow((self.width, self.height), self.title)
+        # current font
+        x = self.padding_x
+        y = self.padding_y
+        self.w.box = Box(
+                    (x, y,
+                    -self.padding_x,
+                    self.box_height))
+        self.w.box.font_name = TextBox(
+                    (5, 0,
+                    -self.padding_x,
+                    self.text_height),
+                    text='(None)',
+                    sizeStyle=self.size_style)
+        # hair space
+        y += self.text_height + 18
+        self.w.hairspace_label = TextBox(
+                    (x, y,
+                    self.column_1,
+                    self.text_height),
+                    "hair",
+                    sizeStyle=self.size_style)
+        x += self.column_1
+        self.w.hairspace_value = EditText(
+                    (x, y,
+                    -self.padding_x,
+                    self.text_height),
+                    text='',
+                    sizeStyle=self.size_style)
+        # thin space
+        x = self.padding_x
+        y += self.text_height + self.padding_y
+        self.w.thinspace_label = TextBox(
+                    (x, y,
+                    self.column_1,
+                    self.text_height),
+                    "thin",
+                    sizeStyle=self.size_style)
+        x += self.column_1
+        self.w.thinspace_value = EditText(
+                    (x, y,
+                    -self.padding_x,
+                    self.text_height),
+                    text='',
+                    sizeStyle=self.size_style)
+        # thick space
+        x = self.padding_x
+        y += self.text_height + self.padding_y
+        self.w.thickspace_label = TextBox(
+                    (x, y,
+                    self.column_1,
+                    self.text_height),
+                    "thick",
+                    sizeStyle=self.size_style)
+        x += self.column_1
+        self.w.thickspace_value = EditText(
+                    (x, y,
+                    -self.padding_x,
+                    self.text_height),
+                    text='',
+                    sizeStyle=self.size_style)
+        # figure space
+        x = self.padding_x
+        y += self.text_height + self.padding_y
+        self.w.figurespace_label = TextBox(
+                    (x, y,
+                    self.column_1,
+                    self.text_height),
+                    "figure",
+                    sizeStyle=self.size_style)
+        x += self.column_1
+        self.w.figurespace_value = EditText(
+                    (x, y,
+                    -self.padding_x,
+                    self.text_height),
+                    text='',
+                    sizeStyle=self.size_style)
+        # zero width space
+        x = self.padding_x
+        y += self.text_height + self.padding_y
+        self.w.zerowidth_label = TextBox(
+                    (x, y,
+                    self.column_1,
+                    self.text_height),
+                    "0 width",
+                    sizeStyle=self.size_style)
+        x += self.column_1
+        self.w.zerowidth_value = EditText(
+                    (x, y,
+                    -self.padding_x,
+                    self.text_height),
+                    text='0',
+                    readOnly=self.read_only,
+                    sizeStyle=self.size_style)
+        # buttons
+        x = self.padding_x
+        y += self.text_height + self.padding_y
+        self.w.button_apply = SquareButton(
+                    (x, y,
+                    -self.padding_x,
+                    self.button_height),
+                    "create",
+                    sizeStyle=self.size_style,
+                    callback=self.apply_callback)
+        # bind
+        self.w.bind("became key", self.update_callback)
+        self.w.bind("close", self.on_close_window)
+        # observers
+        addObserver(self, "update_callback", "fontDidOpen")
+        addObserver(self, "update_callback", "fontDidClose")
+        # open window
+        self.w.open()
+        # get current font
+        self.get_font()
+
+    def get_font(self):
+        self.font = CurrentFont()
+        if self.font is not None:
+            self.w.box.font_name.set(get_full_name(self.font))
+            self.w.hairspace_value.set(int(self.font.info.unitsPerEm * self.hairspace_factor))
+            self.w.thickspace_value.set(int(self.font.info.unitsPerEm * self.thickspace_factor))
+            self.w.thinspace_value.set(int(self.font.info.unitsPerEm * self.thinspace_factor))
+            self.w.figurespace_value.set(int(self.font.info.unitsPerEm * self.figurespace_factor))
         else:
-            print 'please open a font first.\n'
+            self.w.box.font_name.set('(None)')
+            self.w.hairspace_value.set('')
+            self.w.thickspace_value.set('')
+            self.w.thinspace_value.set('')
+            self.w.figurespace_value.set('')
+            print no_font_open
 
     def apply_callback(self, sender):
-        _hairspace = int(self.w._hairspace_value.get())
-        _thinspace = int(self.w._thinspace_value.get())
-        _thickspace = int(self.w._thickspace_value.get())
-        _figurespace = int(self.w._figurespace_value.get())
+        hairspace = int(self.w.hairspace_value.get())
+        thinspace = int(self.w.thinspace_value.get())
+        thickspace = int(self.w.thickspace_value.get())
+        figurespace = int(self.w.figurespace_value.get())
         # boolstring = (False, True)
         if self.font is not None:
             # print info
             print 'creating space glyphs...\n'
-            print '\thair space: %s units' % _hairspace
-            print '\tthin space: %s units' % _thinspace
-            print '\tthick space: %s units' % _thickspace
-            print '\tfigure space: %s units' % _figurespace
+            print '\thair space: %s units' % hairspace
+            print '\tthin space: %s units' % thinspace
+            print '\tthick space: %s units' % thickspace
+            print '\tfigure space: %s units' % figurespace
             print '\tzero-width space: 0'
             # hair space
             self.font.newGlyph('hairspace')
-            self.font['hairspace'].width = _hairspace
+            self.font['hairspace'].width = hairspace
             self.font['hairspace'].unicode = unicode_hexstr_to_int('uni200A')
             self.font['hairspace'].update()
             # thin space
             self.font.newGlyph('thinspace')
-            self.font['thinspace'].width = _thinspace
+            self.font['thinspace'].width = thinspace
             self.font['thinspace'].unicode = unicode_hexstr_to_int('uni2009')
             self.font['thinspace'].update()
             # thick space
             self.font.newGlyph('thickspace')
-            self.font['thickspace'].width = _thickspace
+            self.font['thickspace'].width = thickspace
             self.font['thickspace'].unicode = unicode_hexstr_to_int('uni2004')
             self.font['thickspace'].update()
             # figure space
             self.font.newGlyph('figurespace')
-            self.font['figurespace'].width = _figurespace
+            self.font['figurespace'].width = figurespace
             self.font['figurespace'].unicode = unicode_hexstr_to_int('uni2007')
             self.font['figurespace'].update()
             # zero-width space
@@ -199,11 +204,12 @@ class createSpaceGlyphsDialog(object):
             print
             print '...done.\n'
         else:
-            print 'No font selected, please close the dialog and try again.\n'
+            print no_font_open
 
-    def update_font_callback(self, sender):
-        self.font = CurrentFont()
-        self.w.box.text.set(get_full_name(self.font))
+    def update_callback(self, sender):
+        self.get_font()
 
-    def close_callback(self, sender):
-        self.w.close()
+    def on_close_window(self, sender):
+        '''Remove observers when font window is closed.'''
+        removeObserver(self, "fontDidOpen")
+        removeObserver(self, "fontDidClose")

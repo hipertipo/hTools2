@@ -8,6 +8,7 @@ from vanilla import *
 
 from hTools2 import hDialog
 from hTools2.modules.fontutils import get_glyphs
+from hTools2.modules.messages import no_glyph_selected, no_font_open
 
 # objects
 
@@ -141,10 +142,10 @@ class mirrorGlyphsDialog(hDialog):
                 print '\n...done.\n'
             # no glyph selected
             else:
-                print 'please select one or more glyphs first.\n'
-        # no font
+                print no_glyph_selected
+        # no font open
         else:
-            print 'please open a font first'
+            print no_font_open
 
     def _right_callback(self, sender):
         self._mirror_glyphs((-1, 1))

@@ -1,11 +1,6 @@
 # [h] batch rename glyphs
 
-'''Batch rename glyphs in font based on a list.'''
+import hTools2.dialogs.font.rename_glyphs
+reload(hTools2.dialogs.font.rename_glyphs)
 
-# import
-
-from hTools2.dialogs.font import batchRenameGlyphs
-
-# run
-
-batchRenameGlyphs()
+hTools2.dialogs.font.rename_glyphs.batchRenameGlyphs()

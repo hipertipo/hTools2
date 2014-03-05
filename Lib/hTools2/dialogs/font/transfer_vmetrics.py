@@ -3,100 +3,109 @@
 # imports
 
 from mojo.roboFont import AllFonts
+from mojo.events import addObserver, removeObserver
 
 from vanilla import *
 
+from hTools2 import hDialog
 from hTools2.modules.fontutils import get_full_name
 
 # objects
 
-class transferVMetricsDialog(object):
+class transferVMetricsDialog(hDialog):
 
     '''A dialog to transfer the vertical metrics from one font to another.'''
 
-    _title = 'vmetrics'
-    _padding = 10
-    _padding_top = 8
-    _row_height = 25
-    _line_height = 20
-    _button_height = 30
-    _column_1 = 103
-    _width = _column_1 + (_padding * 2)
-    _height = (_line_height * 2) + (_row_height * 2) + _button_height + (_padding_top * 4)
-
-    _all_fonts_names = []
+    all_fonts_names = []
 
     def __init__(self):
-        if len(AllFonts()) > 0:
-            # collect all fonts
-            self._all_fonts = AllFonts()
-            for f in self._all_fonts:
-                self._all_fonts_names.append(get_full_name(f))
-            self.w = FloatingWindow(
-                        (self._width,
-                        self._height),
-                        self._title,
-                        closable=True)
-            # source font
-            x = self._padding
-            y = self._padding_top
-            self.w._source_label = TextBox(
-                        (x, y,
-                        -self._padding,
-                        self._line_height),
-                        "source",
-                        sizeStyle='small')
-            y += self._line_height
-            self.w._source_value = PopUpButton(
-                        (x, y,
-                        -self._padding,
-                        self._line_height),
-                        self._all_fonts_names,
-                        sizeStyle='small')
-            # target font
-            y += self._line_height + self._padding_top
-            self.w._target_label = TextBox(
-                        (x, y,
-                        -self._padding,
-                        self._line_height),
-                        "target",
-                        sizeStyle='small')
-            y += self._line_height
-            self.w._target_value = PopUpButton(
-                        (x, y,
-                        -self._padding,
-                        self._line_height),
-                        self._all_fonts_names,
-                        sizeStyle='small')
-            # buttons
-            y += self._line_height + self._padding_top + 7
-            self.w.button_apply = SquareButton(
-                        (x, y,
-                        -self._padding,
-                        self._button_height),
-                        "copy",
-                        sizeStyle='small',
-                        callback=self.apply_callback)
-            # open window
-            self.w.open()
-        else:
-            print 'please open one or more fonts to use this dialog.\n'
+        self.title = 'vmetrics'
+        self.column_1 = 103
+        self.width = self.column_1 + (self.padding_x * 2)
+        self.height = (self.text_height * 4) + self.button_height + (self.padding_y * 4)
+        self.w = FloatingWindow((self.width, self.height), self.title)
+        # source font
+        x = self.padding_x
+        y = self.padding_y
+        self.w.source_label = TextBox(
+                    (x, y,
+                    -self.padding_x,
+                    self.text_height),
+                    "source",
+                    sizeStyle=self.size_style)
+        y += self.text_height
+        self.w.source_value = PopUpButton(
+                    (x, y,
+                    -self.padding_x,
+                    self.text_height),
+                    self.all_fonts_names,
+                    sizeStyle=self.size_style)
+        # target font
+        y += self.text_height + self.padding_y
+        self.w.target_label = TextBox(
+                    (x, y,
+                    -self.padding_x,
+                    self.text_height),
+                    "target",
+                    sizeStyle=self.size_style)
+        y += self.text_height
+        self.w.target_value = PopUpButton(
+                    (x, y,
+                    -self.padding_x,
+                    self.text_height),
+                    self.all_fonts_names,
+                    sizeStyle=self.size_style)
+        # buttons
+        y += self.text_height + self.padding_y
+        self.w.button_apply = SquareButton(
+                    (x, y,
+                    -self.padding_x,
+                    self.button_height),
+                    "copy",
+                    sizeStyle=self.size_style,
+                    callback=self.apply_callback)
+        # bind
+        self.w.bind("became key", self.update_callback)
+        self.w.bind("close", self.on_close_window)
+        # observers
+        addObserver(self, "update_callback", "fontDidOpen")
+        addObserver(self, "update_callback", "fontDidClose")
+        # open window
+        self.w.open()
+
+    def get_fonts(self):
+        self.all_fonts = AllFonts()
+        if len(self.all_fonts) > 0:
+            self.all_fonts_names = []
+            for f in self.all_fonts:
+                font_name = get_full_name(f)
+                self.all_fonts_names.append(font_name)
 
     def apply_callback(self, sender):
         # get parameters
-        _source_font = self._all_fonts[self.w._source_value.get()]
-        _target_font = self._all_fonts[self.w._target_value.get()]
+        source_font = self.all_fonts[self.w.source_value.get()]
+        target_font = self.all_fonts[self.w.target_value.get()]
         # print info
         print 'copying vmetrics...\n'
-        print '\tsource font: %s' % get_full_name(_source_font)
-        print '\ttarget font: %s' % get_full_name(_target_font)
+        print '\tsource font: %s' % get_full_name(source_font)
+        print '\ttarget font: %s' % get_full_name(target_font)
         # copy vmetrics
-        _target_font.info.xHeight = _source_font.info.xHeight
-        _target_font.info.capHeight = _source_font.info.capHeight
-        _target_font.info.ascender = _source_font.info.ascender
-        _target_font.info.descender = _source_font.info.descender
-        _target_font.info.unitsPerEm = _source_font.info.unitsPerEm
+        target_font.info.xHeight = source_font.info.xHeight
+        target_font.info.capHeight = source_font.info.capHeight
+        target_font.info.ascender = source_font.info.ascender
+        target_font.info.descender = source_font.info.descender
+        target_font.info.unitsPerEm = source_font.info.unitsPerEm
         # done
         print
-        _target_font.update()
+        target_font.update()
         print '...done.\n'
+
+    def on_close_window(self, sender):
+        '''Remove observers when font window is closed.'''
+        removeObserver(self, "fontDidOpen")
+        removeObserver(self, "fontDidClose")
+
+    def update_callback(self, sender):
+        self.get_fonts()
+        self.w.source_value.setItems(self.all_fonts_names)
+        self.w.target_value.setItems(self.all_fonts_names)

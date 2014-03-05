@@ -1,11 +1,6 @@
 # [h] transfer vmetrics
 
-'''Transfer vertical metrics from one font to another.'''
+import hTools2.dialogs.font.transfer_vmetrics
+reload(hTools2.dialogs.font.transfer_vmetrics)
 
-# imports
-
-from hTools2.dialogs.font import transferVMetricsDialog
-
-# run
-
-transferVMetricsDialog()
+hTools2.dialogs.font.transfer_vmetrics.transferVMetricsDialog()

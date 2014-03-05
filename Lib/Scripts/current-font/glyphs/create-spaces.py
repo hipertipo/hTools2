@@ -1,11 +1,6 @@
 # [h] create space glyphs
 
-'''Create special space glyphs in font. (en-space, thin space etc)'''
+import hTools2.dialogs.font.create_spaces
+reload(hTools2.dialogs.font.create_spaces)
 
-# import
-
-from hTools2.dialogs.font import createSpaceGlyphsDialog
-
-# run
-
-createSpaceGlyphsDialog()
+hTools2.dialogs.font.create_spaces.createSpaceGlyphsDialog()
