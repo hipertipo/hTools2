@@ -4,9 +4,12 @@
 
 from vanilla import *
 
-from mojo.roboFont import AllFonts, CurrentFont, CurrentGlyph
+try:
+    from mojo.roboFont import AllFonts, CurrentFont, CurrentGlyph
+    from mojo.UI import CurrentGlyphWindow, OpenGlyphWindow
 
-from mojo.UI import CurrentGlyphWindow, OpenGlyphWindow
+except ImportError:
+    from robofab.world import AllFonts, CurrentFont, CurrentGlyph
 
 from hTools2 import hDialog
 from hTools2.modules.fontutils import get_full_name, get_glyphs

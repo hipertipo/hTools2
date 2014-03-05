@@ -2,7 +2,10 @@
 
 # import
 
-from mojo.roboFont import AllFonts
+try:
+    from mojo.roboFont import AllFonts
+except ImportError:
+    from robofab.world import AllFonts
 
 import os
 
@@ -15,6 +18,12 @@ from hTools2.modules.fontutils import get_full_name
 # dialog
 
 class generateAllFontsDialog(hDialog):
+
+    '''
+
+    .. image:: imgs/all-fonts/generate.png
+
+    '''
 
     _otfs_folder = '/'
 

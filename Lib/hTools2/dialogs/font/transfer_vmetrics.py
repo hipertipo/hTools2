@@ -2,19 +2,28 @@
 
 # imports
 
-from mojo.roboFont import AllFonts
-from mojo.events import addObserver, removeObserver
+try:
+    from mojo.roboFont import AllFonts
+    from mojo.events import addObserver, removeObserver
+
+except ImportError:
+    from robofab.world import AllFonts
 
 from vanilla import *
 
 from hTools2 import hDialog
 from hTools2.modules.fontutils import get_full_name
+from hTools2.modules.messages import no_font_open
 
 # objects
 
 class transferVMetricsDialog(hDialog):
 
-    '''A dialog to transfer the vertical metrics from one font to another.'''
+    '''A dialog to transfer the vertical metrics from one font to another.
+
+    .. image:: imgs/font/copy-vmetrics.png
+
+    '''
 
     all_fonts_names = []
 
@@ -72,6 +81,7 @@ class transferVMetricsDialog(hDialog):
         addObserver(self, "update_callback", "fontDidClose")
         # open window
         self.w.open()
+        self.get_fonts()
 
     def get_fonts(self):
         self.all_fonts = AllFonts()
@@ -80,6 +90,11 @@ class transferVMetricsDialog(hDialog):
             for f in self.all_fonts:
                 font_name = get_full_name(f)
                 self.all_fonts_names.append(font_name)
+            self.w.source_value.setItems(self.all_fonts_names)
+            self.w.target_value.setItems(self.all_fonts_names)
+        # no font open
+        else:
+            print no_font_open
 
     def apply_callback(self, sender):
         # get parameters
@@ -101,11 +116,8 @@ class transferVMetricsDialog(hDialog):
         print '...done.\n'
 
     def on_close_window(self, sender):
-        '''Remove observers when font window is closed.'''
         removeObserver(self, "fontDidOpen")
         removeObserver(self, "fontDidClose")
 
     def update_callback(self, sender):
         self.get_fonts()
-        self.w.source_value.setItems(self.all_fonts_names)
-        self.w.target_value.setItems(self.all_fonts_names)

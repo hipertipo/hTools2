@@ -2,8 +2,12 @@
 
 # imports
 
-from mojo.roboFont import AllFonts
-from mojo.events import addObserver, removeObserver
+try:
+    from mojo.roboFont import AllFonts
+    from mojo.events import addObserver, removeObserver
+
+except ImportError:
+    from robofab.world import AllFonts
 
 from vanilla import *
 
@@ -14,6 +18,12 @@ from hTools2.modules.fontutils import get_full_name, get_glyphs
 # objects
 
 class checkGlyphsCompatibilityDialog(hDialog):
+
+    '''
+
+    .. image:: imgs/glyphs/check-compatibility.png
+
+    '''
 
     # attributes
 

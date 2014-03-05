@@ -1,6 +1,9 @@
 # [h] remove duplicate anchors
 
-from mojo.roboFont import CurrentFont
+try:
+    from mojo.roboFont import CurrentFont
+except ImportError:
+    from robofab.world import CurrentFont
 
 from hTools2.modules.anchors import remove_duplicate_anchors
 from hTools2.modules.messages import no_font_open

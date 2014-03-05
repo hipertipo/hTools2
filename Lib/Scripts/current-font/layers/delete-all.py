@@ -2,7 +2,10 @@
 
 '''Delete all layers in the current font.'''
 
-# run
+try:
+    from mojo.roboFont import CurrentFont
+except ImportError:
+    from robofab.world import CurrentFont
 
 f = CurrentFont()
 

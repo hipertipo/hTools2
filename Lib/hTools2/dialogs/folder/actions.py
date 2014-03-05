@@ -2,7 +2,10 @@
 
 # imports
 
-from mojo.roboFont import RFont
+try:
+    from mojo.roboFont import RFont
+except ImportError:
+    from robofab.world import RFont
 
 from vanilla import *
 from vanilla.dialogs import getFolder
@@ -16,7 +19,11 @@ from hTools2.modules.messages import no_font_in_folder
 
 class actionsFolderDialog(hDialog):
 
-    '''A dialog to apply a set of actions to all fonts in a folder.'''
+    '''A dialog to apply a set of actions to all fonts in a folder.
+
+    .. image:: imgs/folder/actions.png
+
+    '''
 
     # attributes
 

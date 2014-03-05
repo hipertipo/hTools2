@@ -4,7 +4,10 @@
 
 # import
 
-from mojo.roboFont import AllFonts
+try:
+    from mojo.roboFont import AllFonts
+except ImportError:
+    from robofab.world import AllFonts
 
 from vanilla import *
 
@@ -15,6 +18,12 @@ from hTools2.modules.messages import no_font_open
 # dialog
 
 class actionsDialog(hDialog):
+
+    '''
+
+    .. image:: imgs/all-fonts/actions.png
+
+    '''
 
     # attributes
 

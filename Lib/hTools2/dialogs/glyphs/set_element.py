@@ -2,7 +2,10 @@
 
 # imports
 
-from mojo.roboFont import CurrentFont
+try:
+    from mojo.roboFont import CurrentFont
+except ImportError:
+    from robofab.world import CurrentFont
 
 from vanilla import *
 
@@ -12,6 +15,12 @@ from hTools2.modules.rasterizer import * # set_element
 # object
 
 class setElementDialog(hDialog):
+
+    '''
+
+    .. image:: imgs/glyphs/set-element.png
+
+    '''
 
     # attributes
 

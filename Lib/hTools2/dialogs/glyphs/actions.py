@@ -2,7 +2,10 @@
 
 # imports
 
-from mojo.roboFont import CurrentFont
+try:
+    from mojo.roboFont import CurrentFont
+except ImportError:
+    from robofab.world import CurrentFont
 
 from vanilla import *
 
@@ -14,7 +17,11 @@ from hTools2.modules.messages import no_glyph_selected, no_font_open
 
 class glyphActionsDialog(hDialog):
 
-    '''A dialog to apply actions to one or more layers in the selected glyphs.'''
+    '''A dialog to apply actions to one or more layers in the selected glyphs.
+
+    .. image:: imgs/glyphs/actions.png
+
+    '''
 
     # attributes
 

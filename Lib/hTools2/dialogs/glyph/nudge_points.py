@@ -8,7 +8,10 @@
 
 # imports
 
-from mojo.roboFont import CurrentGlyph
+try:
+    from mojo.roboFont import CurrentGlyph
+except ImportError:
+    from robofab.world import CurrentGlyph
 
 from vanilla import *
 

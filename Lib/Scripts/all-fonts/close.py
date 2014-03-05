@@ -1,6 +1,9 @@
 # [h] close all fonts
 
-from mojo.roboFont import AllFonts
+try:
+    from mojo.roboFont import AllFonts
+except ImportError:
+    from robofab.world import AllFonts
 
 from hTools2.modules.messages import no_font_open
 

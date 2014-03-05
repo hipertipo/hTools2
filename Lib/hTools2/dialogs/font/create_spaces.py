@@ -4,8 +4,12 @@
 
 from vanilla import *
 
-from mojo.roboFont import CurrentFont, CurrentGlyph
-from mojo.events import addObserver, removeObserver
+try:
+    from mojo.roboFont import CurrentFont, CurrentGlyph
+    from mojo.events import addObserver, removeObserver
+
+except ImportError:
+    from robofab.world import CurrentFont, CurrentGlyph
 
 from hTools2 import hDialog
 from hTools2.modules.fontutils import get_full_name
@@ -16,7 +20,11 @@ from hTools2.modules.messages import no_font_open
 
 class createSpaceGlyphsDialog(hDialog):
 
-    '''A dialog to create space glyphs in a font.'''
+    '''A dialog to create space glyphs in a font.
+
+    .. image:: imgs/font/create-spaces.png
+
+    '''
 
     hairspace_factor = .08
     thinspace_factor = .16
@@ -210,6 +218,5 @@ class createSpaceGlyphsDialog(hDialog):
         self.get_font()
 
     def on_close_window(self, sender):
-        '''Remove observers when font window is closed.'''
         removeObserver(self, "fontDidOpen")
         removeObserver(self, "fontDidClose")

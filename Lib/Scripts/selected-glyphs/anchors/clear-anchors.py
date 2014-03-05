@@ -4,7 +4,10 @@
 
 # imports
 
-from mojo.roboFont import CurrentFont
+try:
+    from mojo.roboFont import CurrentFont
+except ImportError:
+    from robofab.world import CurrentFont
 
 from hTools2.modules.anchors import clear_anchors
 from hTools2.modules.fontutils import get_glyphs

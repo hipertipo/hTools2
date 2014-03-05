@@ -2,8 +2,12 @@
 
 # imports
 
-from mojo.roboFont import AllFonts
-from mojo.events import addObserver, removeObserver
+try:
+    from mojo.roboFont import AllFonts
+    from mojo.events import addObserver, removeObserver
+
+except ImportError:
+    from robofab.world import AllFonts
 
 from vanilla import *
 
@@ -14,7 +18,11 @@ from hTools2.modules.fontutils import get_full_name, get_glyphs
 
 class interpolateGlyphsDialog(hDialog):
 
-    '''A dialog to interpolate the selected glyphs in one font with the same glyphs in another font into a third font.'''
+    '''A dialog to interpolate the selected glyphs in one font with the same glyphs in another font into a third font.
+
+    .. image:: imgs/glyphs/interpolate.png
+
+    '''
 
     # attributes
 
@@ -428,6 +436,5 @@ class interpolateGlyphsDialog(hDialog):
         print '\n...done.\n'
 
     def on_close_window(self, sender):
-        '''Remove observers when font window is closed.'''
         removeObserver(self, "fontDidOpen")
         removeObserver(self, "fontDidClose")

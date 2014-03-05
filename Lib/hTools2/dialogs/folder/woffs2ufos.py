@@ -4,7 +4,10 @@
 
 import os
 
-from mojo.roboFont import OpenFont
+try:
+    from mojo.roboFont import OpenFont
+except ImportError:
+    from robofab.world import OpenFont
 
 from vanilla import *
 from vanilla.dialogs import getFolder
@@ -17,7 +20,11 @@ from hTools2.modules.messages import no_font_in_folder
 
 class WOFFsToUFOsDialog(hDialog):
 
-    '''A dialog to generate ``.ufos`` for all ``.woffs`` in a folder.'''
+    '''A dialog to generate ``.ufos`` for all ``.woffs`` in a folder.
+
+    .. image:: imgs/folder/woffs2ufos.png
+
+    '''
 
     # attributes
 

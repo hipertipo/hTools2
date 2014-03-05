@@ -1,6 +1,9 @@
 # [h] mark composed glyphs
 
-from mojo.roboFont import CurrentFont
+try:
+    from mojo.roboFont import CurrentFont
+except ImportError:
+    from robofab.world import CurrentFont
 
 from hTools2.modules.fontutils import clear_colors, mark_composed_glyphs
 from hTools2.modules.messages import no_font_open

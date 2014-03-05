@@ -2,8 +2,12 @@
 
 # imports
 
-from mojo.roboFont import AllFonts
-from mojo.events import addObserver, removeObserver
+try:
+    from mojo.roboFont import AllFonts
+    from mojo.events import addObserver, removeObserver
+
+except ImportError:
+    from robofab.world import AllFonts
 
 from vanilla import *
 
@@ -15,7 +19,11 @@ from hTools2.modules.fontutils import get_full_name, get_glyphs
 
 class condenseGlyphsDialog(hDialog):
 
-    '''A dialog to generate condensed glyphs from a regular and a bold font.'''
+    '''A dialog to generate condensed glyphs from a regular and a bold font.
+
+    .. image:: imgs/glyphs/condense.png
+
+    '''
 
     # attributes
 

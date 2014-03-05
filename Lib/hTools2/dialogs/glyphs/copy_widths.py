@@ -2,8 +2,12 @@
 
 # imports
 
-from mojo.roboFont import AllFonts
-from mojo.events import addObserver, removeObserver
+try:
+    from mojo.roboFont import AllFonts
+    from mojo.events import addObserver, removeObserver
+
+except ImportError:
+    from robofab.world import AllFonts
 
 from vanilla import *
 
@@ -16,7 +20,11 @@ from hTools2.modules.messages import no_font_open, only_one_font
 
 class copyWidthsDialog(hDialog):
 
-    '''A dialog to copy the advance width of selected glyphs in one font to the same glyphs in another font.'''
+    '''A dialog to copy the advance width of selected glyphs in one font to the same glyphs in another font.
+
+    .. image:: imgs/glyphs/copy-widths.png
+
+    '''
 
     # attributes
 

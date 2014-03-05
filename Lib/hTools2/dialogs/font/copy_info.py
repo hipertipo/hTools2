@@ -6,15 +6,26 @@
 
 from vanilla import *
 
-from mojo.roboFont import AllFonts
-from mojo.events import addObserver, removeObserver
+try:
+    from mojo.roboFont import AllFonts
+    from mojo.events import addObserver, removeObserver
+
+except ImportError:
+    from robofab.world import AllFonts
 
 from hTools2 import hDialog
 from hTools2.modules.fontutils import get_full_name
+from hTools2.modules.messages import no_font_open
 
 # objects
 
 class copyFontInfoDialog(hDialog):
+
+    '''
+    .. image:: imgs/font/copy-info.png
+
+    '''
+
 
     # attributes
 
@@ -171,12 +182,10 @@ class copyFontInfoDialog(hDialog):
         addObserver(self, "update_callback", "fontDidClose")
         # open window 
         self.w.open()
+        self.get_fonts()
 
     def update_callback(self, sender):
-        print 'updating fonts'
         self.get_fonts()
-        self.w.source_value.setItems(self.all_fonts_names)
-        self.w.dest_value.setItems(self.all_fonts_names)
 
     def apply_callback(self, sender):
         boolstring = [False, True]
@@ -228,12 +237,19 @@ class copyFontInfoDialog(hDialog):
     def get_fonts(self):
         # get all fonts
         self.all_fonts = AllFonts()
-        # get font names
-        self.all_fonts_names = []
         if len(self.all_fonts) > 0:
-            for font in self.all_fonts:
-                self.all_fonts_names.append(get_full_name(font))
-        self.all_fonts_names.sort()
+            # get font names
+            self.all_fonts_names = []
+            if len(self.all_fonts) > 0:
+                for font in self.all_fonts:
+                    self.all_fonts_names.append(get_full_name(font))
+            self.all_fonts_names.sort()
+            # update UI
+            self.w.source_value.setItems(self.all_fonts_names)
+            self.w.dest_value.setItems(self.all_fonts_names)
+        # no font open
+        else:
+            print no_font_open
 
     def on_close_window(self, sender):
         # remove observers on close window

@@ -4,7 +4,10 @@
 
 # imports
 
-from mojo.roboFont import CurrentFont, CurrentGlyph
+try:
+    from mojo.roboFont import CurrentFont, CurrentGlyph
+except ImportError:
+    from robofab.world import CurrentFont, CurrentGlyph
 
 from vanilla import *
 

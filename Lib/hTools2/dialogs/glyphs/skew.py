@@ -4,7 +4,10 @@
 
 import math
 
-from mojo.roboFont import CurrentFont, CurrentGlyph
+try:
+    from mojo.roboFont import CurrentFont, CurrentGlyph
+except ImportError:
+    from robofab.world import CurrentFont, CurrentGlyph
 
 from vanilla import *
 
@@ -16,7 +19,11 @@ from hTools2.modules.fontutils import get_glyphs
 
 class skewGlyphsDialog(hDialog):
 
-    '''A dialog to skew the selected glyphs in a font.'''
+    '''A dialog to skew the selected glyphs in a font.
+
+    .. image:: imgs/glyphs/skew.png
+
+    '''
 
     # attributes
 

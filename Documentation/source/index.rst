@@ -5,13 +5,9 @@ hTools2 Documentation
 .. py:module:: hTools2
 
 .. toctree::
-   :maxdepth: 2
-
-   about/introduction.rst
-
-.. toctree::
    :maxdepth: 1
 
+   about/introduction.rst
    hTools2.rst
    modules/modules.rst
    dialogs/dialogs.rst

@@ -4,7 +4,10 @@
 
 # import
 
-from mojo.roboFont import CurrentFont
+try:
+    from mojo.roboFont import CurrentFont
+except ImportError:
+    from robofab.world import CurrentFont
 
 from vanilla import *
 
@@ -16,6 +19,13 @@ from hTools2.modules.messages import no_font_open
 # dialog
 
 class clearFontInfoDialog(hDialog):
+
+    '''
+
+    .. image:: imgs/font/print-info.png
+
+    '''
+
 
     # attributes
 

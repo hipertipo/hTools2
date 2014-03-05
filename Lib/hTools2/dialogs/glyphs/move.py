@@ -2,7 +2,10 @@
 
 # imports
 
-from mojo.roboFont import CurrentFont, CurrentGlyph
+try:
+    from mojo.roboFont import CurrentFont, CurrentGlyph
+except ImportError:
+    from robofab.world import CurrentFont, CurrentGlyph
 
 from vanilla import *
 
@@ -14,7 +17,11 @@ from hTools2.modules.messages import no_glyph_selected, no_font_open, no_layer_s
 
 class moveGlyphsDialog(hDialog):
 
-    '''A dialog to move the selected glyphs in a font.'''
+    '''A dialog to move the selected glyphs in a font.
+
+    .. image:: imgs/glyphs/move.png
+
+    '''
 
     # attributes
 

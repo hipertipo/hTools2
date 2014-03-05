@@ -1,47 +1,49 @@
-=====================
-Installing (manually)
-=====================
+===========================
+Installing hTools2 manually
+===========================
 
-.. contents:: Table of Contents
-   :depth: 3
+.. .. contents:: Table of Contents
+..    :depth: 3
 
 --------------------
-0. Choose a location
+0. choose a location
 --------------------
 
 Choose a location on your hard disk to store the code libraries. For example::
 
     /_code/
 
-Avoid using spaces or non-ASCII characters in folder names above the :py:mod:`hTools2` folder, since it may cause a problems.
+Avoid using spaces or non-ASCII characters in folder names above the :py:mod:`hTools2` folder.
 
-----------------------
-1. Get the source-code
-----------------------
+--------------------------
+1. getting the source-code
+--------------------------
 
 ^^^^^^^^^^^^^^^^^^^^
-1a. Download the zip
+1a. download the zip
 ^^^^^^^^^^^^^^^^^^^^
 
 Download the latest version of :py:mod:`hTools2` from the project’s repository on `github <https://github.com/gferreira/hTools2>`_.
 
-Unzip it into the newly created ``_code`` folder.
+Unzip and save it into the newly created code folder::
 
-^^^^^^^^^^^^^^^^^^^^^^
-1b. Check-out with git
-^^^^^^^^^^^^^^^^^^^^^^
+    /_code/hTools2/
 
-If you are used to git, you can grab the code directly from the project's repository on github::
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+1b. check-out the code with git
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+If you are used to git, you can clone the code directly from the project's repository on github::
 
     git clone https://github.com/gferreira/hTools2.git
 
 ------------------------------
-2. Adding the module to Python
+2. adding the module to Python
 ------------------------------
 
-^^^^^^^^^^^^
-2a. manually
-^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2a. manually with a .pth file
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Create a simple text file, containing the path to the ``Lib`` folder inside :py:mod:`hTools2`::
 
@@ -79,7 +81,7 @@ This will prompt you to input your user name and password to allow access to sys
 .. note:: This method will **copy** the ``Lib`` folder to the Python ``site-packages`` folder.
 
 ---------------------------
-3. Testing the installation
+3. testing the installation
 ---------------------------
 
 To check if ``hTools2`` has been installed successfully, try to run this line in the RoboFont scripting window or in Terminal::
@@ -87,55 +89,3 @@ To check if ``hTools2`` has been installed successfully, try to run this line in
     import hTools2
 
 If no error message is returned, the installation was successful.
-
-------------------------------
-4. Configuring hTools2 Scripts
-------------------------------
-
-``hTools2`` comes with many scripts and dialogs which need to me made available to the user via RoboFont’s inteface.
-
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-4a. Scripts under a custom menu
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-To add a ``hTools2`` entry to main menu in RoboFont, go to RoboFont's ``Preferences/Extensions`` Window. In the section ``start-up scripts``, select the file ``hTools2/add-RF-menu.py``.
-
-Use this option if you already have many Scripts under your ``Extensions`` menu.
-
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-4b. Scripts under the Extensions menu
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-Another option is to have the scripts appear under RoboFont’s ``Extensions`` menu. To configure this option, go to RoboFont's ``Preferences/Python`` Window, and select the folder ``hTools2/Scripts`` as the scripts folder.
-
----------------------------------
-5. Configuring keyboard shortcuts
----------------------------------
-
-As an optional last step, it is also possible to configure keyboard shortcuts for ``hTools2`` scripts in RoboFont's ``Preferences/Extensions`` Window. In the section ``start-up scripts``, add the file ``add-RF-shortcuts.py``.
-
-Here is an overview of all current keyboard schortcuts:
-
-======= ==========================================================
-key     dialog
-======= ==========================================================
-``a``   selected glyphs > actions > actions
-``c``   selected glyphs > color > paint select
-``f``   selected glyphs > transform > gridfit
-``h``   selected glyphs > metrics > set width
-``i``   selected glyphs > interpol > interpolate
-``k``   selected glyphs > layers > mask
-``l``   selected glyphs > layers > copy to layer
-``m``   selected glyphs > transform > move
-``o``   selected glyphs > layers > copy to mask
-``p``   selected glyphs > actions > copy paste
-``r``   selected glyphs > transform > mirror
-``s``   selected glyphs > transform > scale
-``t``   selected glyphs > transform > shift
-``w``   selected glyphs > transform  > skew
-``v``   current font > vmetrics > adjust
-======= ==========================================================
-
-.. warning:: These shortcuts might clash with existing ones defined by other extensions or by the user.
-
-.. note:: To customize the shortcuts used by ``hTools2``, simply edit the contents of the file ``add-RF-shortcuts.py``. It is recommended to save your custom shortcuts under a different file name, to avoid them from being overwritten in future ``hTools2`` code updates. Also, in the ``Preferences/Extensions`` Window, make sure that the correct (customized) script is set as a start-up script.

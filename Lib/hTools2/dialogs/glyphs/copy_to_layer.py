@@ -2,9 +2,12 @@
 
 # imports
 
-from mojo.roboFont import CurrentFont
+try:
+    from mojo.roboFont import CurrentFont
+    from mojo.events import addObserver, removeObserver
 
-from mojo.events import addObserver, removeObserver
+except ImportError:
+    from robofab.world import CurrentFont
 
 from vanilla import *
 
@@ -16,7 +19,11 @@ from hTools2.modules.messages import no_font_open
 
 class copyToLayerDialog(hDialog):
 
-    '''A dialog to copy the foreground layer in the selected glyphs to another layer.'''
+    '''A dialog to copy the foreground layer in the selected glyphs to another layer.
+
+    .. image:: imgs/glyphs/copy-to-layer.png
+
+    '''
 
     # attributes
 
@@ -150,5 +157,4 @@ class copyToLayerDialog(hDialog):
             print no_font_open
 
     def on_close_window(self, sender):
-        '''Remove observers when font window is closed.'''
         removeObserver(self, "fontResignCurrent")

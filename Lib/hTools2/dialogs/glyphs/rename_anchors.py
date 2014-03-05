@@ -2,7 +2,10 @@
 
 # imports
 
-from mojo.roboFont import CurrentFont
+try:
+    from mojo.roboFont import CurrentFont
+except ImportError:
+    from robofab.world import CurrentFont
 
 from vanilla import *
 
@@ -15,7 +18,11 @@ from hTools2.modules.messages import no_glyph_selected, no_font_open
 
 class renameAnchorsDialog(hDialog):
 
-    '''A dialog to rename the anchors in the selected glyphs of the current font.'''
+    '''A dialog to rename the anchors in the selected glyphs of the current font.
+
+    .. image:: imgs/glyphs/rename-anchors.png
+
+    '''
 
     # attributes
 

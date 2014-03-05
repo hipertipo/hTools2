@@ -2,7 +2,10 @@
 
 # imports
 
-from mojo.roboFont import CurrentFont, CurrentGlyph
+try:
+    from mojo.roboFont import CurrentFont, CurrentGlyph
+except ImportError:
+    from robofab.world import CurrentFont, CurrentGlyph
 
 from vanilla import *
 
@@ -14,7 +17,11 @@ from hTools2.modules.messages import no_font_open, no_glyph_selected
 
 class slideGlyphsDialog(hDialog):
 
-    '''A dialog to slide the selected glyphs vertically and/or horizontally.'''
+    '''A dialog to slide the selected glyphs vertically and/or horizontally.
+
+    .. image:: imgs/glyphs/slide.png
+
+    '''
 
     # attributes
 

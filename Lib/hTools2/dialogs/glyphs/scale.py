@@ -2,7 +2,10 @@
 
 # imports
 
-from mojo.roboFont import CurrentFont, CurrentGlyph
+try:
+    from mojo.roboFont import CurrentFont, CurrentGlyph
+except ImportError:
+    from robofab.world import CurrentFont, CurrentGlyph
 
 from vanilla import *
 
@@ -13,7 +16,11 @@ from hTools2.modules.fontutils import get_glyphs
 
 class scaleGlyphsDialog(hDialog):
 
-    '''A dialog to scale the selected glyphs in a font.'''
+    '''A dialog to scale the selected glyphs in a font.
+
+    .. image:: imgs/glyphs/scale.png
+
+    '''
 
     # attributes
 

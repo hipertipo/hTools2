@@ -5,7 +5,10 @@
 
 # imports
 
-from mojo.roboFont import CurrentFont, CurrentGlyph
+try:
+    from mojo.roboFont import CurrentFont, CurrentGlyph
+except ImportError:
+    from robofab.world import CurrentFont, CurrentGlyph
 
 from vanilla import *
 
@@ -18,7 +21,11 @@ from hTools2.modules.messages import no_font_open, no_glyph_selected
 
 class setWidthDialog(hDialog):
 
-    '''A dialog to set the advance width of the selected glyphs.'''
+    '''A dialog to set the advance width of the selected glyphs.
+
+    .. image:: imgs/glyphs/set-width.png
+
+    '''
 
     # attributes
 

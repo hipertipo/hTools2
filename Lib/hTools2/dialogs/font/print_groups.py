@@ -2,7 +2,10 @@
 
 # imports
 
-from mojo.roboFont import CurrentFont
+try:
+    from mojo.roboFont import CurrentFont
+except ImportError:
+    from robofab.world import CurrentFont
 
 from vanilla import *
 
@@ -14,7 +17,11 @@ from hTools2.modules.messages import no_font_open
 
 class printGroupsDialog(hDialog):
 
-    '''A dialog to print all groups in the font in different formats.'''
+    '''A dialog to print all groups in the font in different formats.
+
+    .. image:: imgs/font/print-groups.png
+
+    '''
 
     def __init__(self):
         self.title = 'groups'

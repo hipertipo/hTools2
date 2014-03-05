@@ -2,7 +2,10 @@
 
 # imports
 
-from mojo.roboFont import CurrentFont
+try:
+    from mojo.roboFont import CurrentFont
+except ImportError:
+    from robofab.world import CurrentFont
 
 from vanilla import *
 
@@ -15,7 +18,11 @@ from hTools2.modules.messages import no_font_open, no_glyph_selected
 
 class changeSuffixDialog(hDialog):
 
-    '''A dialog to change the suffix of the selected glyphs.'''
+    '''A dialog to change the suffix of the selected glyphs.
+
+    .. image:: imgs/glyphs/add-suffix.png
+
+    '''
 
     # attributes
 
