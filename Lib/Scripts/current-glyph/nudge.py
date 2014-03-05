@@ -1,11 +1,6 @@
 # [h] nudge selected points
 
-'''Nudge selected points by a given amount of units, with differents modes possible.'''
+import hTools2.dialogs.glyph.nudge_points
+reload(hTools2.dialogs.glyph.nudge_points)
 
-# import
-
-from hTools2.dialogs.glyph import nudgePointsDialog
-
-# run
-
-nudgePointsDialog()
+hTools2.dialogs.glyph.nudge_points.nudgePointsDialog()

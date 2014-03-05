@@ -1,12 +1,14 @@
 # [h] paint and arrange groups
 
-'''Paint each group of glyphs in the font with a different color.'''
-
-# import
+from mojo.roboFont import CurrentFont
 
 from hTools2.modules.color import paint_groups
-
-# run
+from hTools2.modules.messages import no_font_open
 
 f = CurrentFont()
-paint_groups(f)
+
+if f is not None:
+    paint_groups(f)
+
+else:
+    print no_font_open

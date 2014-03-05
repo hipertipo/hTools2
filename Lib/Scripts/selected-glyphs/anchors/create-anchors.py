@@ -21,8 +21,10 @@ _bottom_delta = 20
 # run
 
 f = CurrentFont()
+
 if f is not None:
     glyph_names = get_glyphs(f)
+
     if len(glyph_names) > 0:
         print 'creating anchors in glyphs...\n'
         print '\t',
@@ -34,9 +36,9 @@ if f is not None:
         f.update()
         print
         print "\n...done.\n"
-    # no glyph selected
+
     else:
         print no_glyph_selected
-# no font open
+
 else:
     print no_font_open

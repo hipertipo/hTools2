@@ -1,12 +1,14 @@
 # [h] clear colors
 
-'''Clear colors of all glyphs in font.'''
-
-# import
+from mojo.roboFont import CurrentFont
 
 from hTools2.modules.color import clear_colors
-
-# run
+from hTools2.modules.messages import no_font_open
 
 f = CurrentFont()
-clear_colors(f)
+
+if f is not None:
+    clear_colors(f)
+
+else:
+    print no_font_open
