@@ -1,8 +1,5 @@
 # [h] hWorld
 
-import hTools2.modules.sysutils
-reload(hTools2.modules.sysutils)
-
 # imports
 
 import os

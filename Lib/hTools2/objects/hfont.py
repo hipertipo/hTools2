@@ -1,8 +1,5 @@
 # [h] hFont
 
-import hTools2.modules.color
-reload(hTools2.modules.color)
-
 # import
 
 import os
