@@ -25,9 +25,26 @@ from hTools2.modules.fileutils import walk
 
 class SelectFonts(object):
 
-    #------------
+    '''A dialog to select fonts in different ways.
+
+    .. image:: imgs/misc/select-fonts.png
+
+    .. code-block:: python
+
+        from hTools2.dialogs.misc import SelectFonts
+
+        for font in SelectFonts():
+            print font
+
+        >>> <Font Grow D>
+        >>> <Font Grow E>
+        >>> <Font Grow F>
+        >>> <Font Publica 55>
+        >>> <Font Publica 95>
+
+    '''
+
     # attributes
-    #------------
 
     _padding = 15
     _box_height = 25
@@ -58,9 +75,7 @@ class SelectFonts(object):
 
     _list_titles =   [ 'family', 'style', 'glyphs' ]
 
-    #---------
     # methods
-    #---------
 
     def __init__(self, verbose=False):
         self._verbose = verbose

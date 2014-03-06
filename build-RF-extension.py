@@ -9,6 +9,8 @@ lib_path = os.path.join(base_path, 'Lib')
 extension_path = os.path.join(base_path, extension_file)
 html_path = os.path.join(base_path, "Documentation/build/html")
 
+print 'building extension...',
+
 B = ExtensionBundle()
 B.name = "hTools2"
 B.developer = 'Gustavo Ferreira'
@@ -22,3 +24,5 @@ B.requiresVersionMinor = '5'
 B.infoDictionary["repository"] = 'gferreira/hTools2'
 B.infoDictionary["html"] = 1
 B.save(extension_path, libPath=lib_path, htmlPath=html_path, resourcesPath=None, pycOnly=False)
+
+print 'done.'

@@ -6,7 +6,7 @@ hTools2 as a RoboFont Extension
 
 .. _RoboFont Extension : http://doc.robofont.com/extensions/
 
-To install the Extension, simply `download hTools2 from github`_, unzip the archive, and double-click the file ``hTools2.roboFontExt``.
+To install the Extension, simply `download the hTools2 extension from github`_, unzip the archive, and double-click the file ``hTools2.roboFontExt``.
 
 .. _download hTools2 from github : https://github.com/gferreira/hTools2_extension/archive/master.zip
 

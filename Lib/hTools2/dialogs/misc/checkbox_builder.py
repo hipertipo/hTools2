@@ -8,6 +8,30 @@ from dialogKit import ModalDialog, CheckBox, HorizontalLine
 
 class checkBoxBuilder(object):
 
+    '''An object to create a modal dialog for items in a list.
+
+    .. image:: imgs/misc/checkbox-builder.png
+
+    .. code-block:: python
+
+        from hTools2.dialogs.misc import checkBoxBuilder
+
+        L = [
+            ('avocado', True),
+            ('banana', True),
+            ('chocolate', False),
+        ]
+
+        B = checkBoxBuilder(L)
+
+        print B.selected
+
+        >>> ['avocado', 'banana']
+
+    '''
+
+    # attributes
+
     _box_height = 23
     _padding = 10
 
@@ -16,6 +40,8 @@ class checkBoxBuilder(object):
 
     cancelled = False
     selected = []
+
+    # methods
 
     def __init__(self, items_list, title="select options", width=320, sort=False):
         self._title  = title
