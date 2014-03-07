@@ -10,6 +10,7 @@ reload(hTools2.dialogs.misc.spinner)
 
 try:
     from mojo.roboFont import CurrentFont, CurrentGlyph
+
 except ImportError:
     from robofab.world import CurrentFont, CurrentGlyph
 
@@ -42,33 +43,35 @@ class moveGlyphsDialog(hDialog):
         self.height = (self.square_button * 3) + (self.padding_y * 5) + (self.text_height * 4) - 7
         self.w = FloatingWindow((self.width, self.height), self.title)
         # arrows
-        x = self.padding_x
-        y = self.padding_y
+        x = 0
+        y = 0
         self.w.arrows = Arrows(
-            (5, 5),
-            callbacks=dict(
-                left=self.left_callback, 
-                right=self.right_callback, 
-                up=self.up_callback, 
-                down=self.down_callback,
-                leftDown=self.down_left_callback, 
-                rightDown=self.down_right_callback, 
-                leftUp=self.up_left_callback, 
-                rightUp=self.up_right_callback,
-            ),
-            arrows=[
-                'left', 'right', 'up', 'down',
-                'leftUp', 'leftDown', 'rightUp', 'rightDown',
-            ],
-        )
+                    (x, y),
+                    callbacks=dict(
+                        left=self.left_callback, 
+                        right=self.right_callback, 
+                        up=self.up_callback, 
+                        down=self.down_callback,
+                        leftDown=self.down_left_callback, 
+                        rightDown=self.down_right_callback, 
+                        leftUp=self.up_left_callback, 
+                        rightUp=self.up_right_callback,
+                    ),
+                    arrows=[
+                        'left', 'right', 'up', 'down',
+                        'leftUp', 'leftDown', 'rightUp', 'rightDown',
+                    ])
         # spinner
-        print self.w.arrows.getPosSize()[3]
-        y = 65
-        self.w.spinner = Spinner((5, 62))
+        x = 0
+        y += self.w.arrows.getPosSize()[3]
+        self.w.spinner = Spinner(
+                    (x, y),
+                    default='20',
+                    integer=True,
+                    label='delta')
         # checkboxes
-        # x = self.padding_x
-        print self.w.spinner.getPosSize()[3]
-        y += 115
+        x = self.padding_x
+        y += self.w.spinner.getPosSize()[3]
         self.w.foreground = CheckBox(
                     (x, y,
                     -self.padding_x,

@@ -10,6 +10,7 @@ except ImportError:
 from vanilla import *
 
 from hTools2 import hDialog
+from hTools2.dialogs.misc.spinner import Spinner
 from hTools2.modules.fontutils import get_glyphs
 from hTools2.modules.glyphutils import round_anchors, round_bpoints, round_points, round_margins, round_width
 from hTools2.modules.messages import no_glyph_selected, no_font_open
@@ -46,76 +47,16 @@ class roundToGridDialog(hDialog):
         self.height = self.button_height + self.nudge_button + (self.text_height * 7) + (self.padding_y * 5) - 3
         self.w = FloatingWindow((self.width, self.height), self.title)
         # grid size
-        x = self.padding_x
+        x = 0 # self.padding_x
         y = self.padding_y
-        # buttons
-        self.w._gridsize_label = TextBox(
-                    (x, y,
-                    -self.padding_x,
-                    self.text_height),
-                    "grid",
-                    sizeStyle=self.size_style)
-        x += self.column_1
-        self.w._gridsize_value = EditText(
-                    (x, y,
-                    -self.padding_x,
-                    self.text_height),
-                    text=self.gridsize,
-                    readOnly=self.read_only,
-                    sizeStyle=self.size_style)
-        x = self.padding_x
-        # nudge spinners
-        y += (self.text_height + self.padding_y)
-        self.w._nudge_minus_001 = SquareButton(
-                    (x, y,
-                    self.nudge_button,
-                    self.nudge_button),
-                    '-',
-                    sizeStyle=self.size_style,
-                    callback=self._nudge_minus_001_callback)
-        x += (self.nudge_button - 1)
-        self.w._nudge_plus_001 = SquareButton(
-                    (x, y,
-                    self.nudge_button,
-                    self.nudge_button),
-                    '+',
-                    sizeStyle=self.size_style,
-                    callback=self._nudge_plus_001_callback)
-        x += (self.nudge_button - 1)
-        self.w._nudge_minus_010 = SquareButton(
-                    (x, y,
-                    self.nudge_button,
-                    self.nudge_button),
-                    '-',
-                    sizeStyle=self.size_style,
-                    callback=self._nudge_minus_010_callback)
-        x += (self.nudge_button - 1)
-        self.w._nudge_plus_010 = SquareButton(
-                    (x, y,
-                    self.nudge_button,
-                    self.nudge_button),
-                    '+',
-                    sizeStyle=self.size_style,
-                    callback=self._nudge_plus_010_callback)
-        x += (self.nudge_button - 1)
-        self.w._nudge_minus_100 = SquareButton(
-                    (x, y,
-                    self.nudge_button,
-                    self.nudge_button),
-                    '-',
-                    sizeStyle=self.size_style,
-                    callback=self._nudge_minus_100_callback)
-        x += (self.nudge_button - 1)
-        self.w._nudge_plus_100 = SquareButton(
-                    (x, y,
-                    self.nudge_button,
-                    self.nudge_button),
-                    '+',
-                    sizeStyle=self.size_style,
-                    callback=self._nudge_plus_100_callback)
+        self.w.spinner = Spinner(
+                    (x, y),
+                    default='25',
+                    integer=True,
+                    label='grid')
         # apply button
         x = self.padding_x
-        y += (self.nudge_button + self.padding_y)
+        y += self.w.spinner.getPosSize()[3]
         self.w.button_apply = SquareButton(
                     (x, y,
                     -self.padding_x,
@@ -180,38 +121,6 @@ class roundToGridDialog(hDialog):
         # open
         self.w.open()
 
-    # callbacks
-
-    def _nudge_minus_001_callback(self, sender):
-        _gridsize = int(self.w._gridsize_value.get()) - 1
-        if _gridsize >= 0:
-            self.gridsize = _gridsize
-            self.w._gridsize_value.set(self.gridsize)
-
-    def _nudge_minus_010_callback(self, sender):
-        _gridsize = int(self.w._gridsize_value.get()) - 10
-        if _gridsize >= 0:
-            self.gridsize = _gridsize
-            self.w._gridsize_value.set(self.gridsize)
-
-    def _nudge_minus_100_callback(self, sender):
-        _gridsize = int(self.w._gridsize_value.get()) - 100
-        if _gridsize >= 0:
-            self.gridsize = _gridsize
-            self.w._gridsize_value.set(self.gridsize)
-
-    def _nudge_plus_001_callback(self, sender):
-        self.gridsize = int(self.w._gridsize_value.get()) + 1
-        self.w._gridsize_value.set(self.gridsize)
-
-    def _nudge_plus_010_callback(self, sender):
-        self.gridsize = int(self.w._gridsize_value.get()) + 10
-        self.w._gridsize_value.set(self.gridsize)
-
-    def _nudge_plus_100_callback(self, sender):
-        self.gridsize = int(self.w._gridsize_value.get()) + 100
-        self.w._gridsize_value.set(self.gridsize)
-
     # apply callback
 
     def gridfit(self, g, options):
@@ -264,7 +173,7 @@ class roundToGridDialog(hDialog):
                     'width' : self.w._width_checkBox.get(),
                     'anchors' : self.w._anchors_checkBox.get(),
                     'layers' : self.w._layers_checkBox.get(),
-                    'gridsize' : int(self.w._gridsize_value.get())
+                    'gridsize' : int(self.w.spinner.value.get())
                 }
                 # print info
                 boolstring = [ False, True ]

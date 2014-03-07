@@ -1,5 +1,8 @@
 # [h] skew selected glyphs
 
+import hTools2.dialogs.misc.spinner
+reload(hTools2.dialogs.misc.spinner)
+
 # imports
 
 import math
@@ -12,8 +15,9 @@ except ImportError:
 from vanilla import *
 
 from hTools2 import hDialog
-from hTools2.modules.messages import no_font_open
+from hTools2.dialogs.misc.spinner import Spinner
 from hTools2.modules.fontutils import get_glyphs
+from hTools2.modules.messages import no_glyph_selected, no_font_open
 
 # objects
 
@@ -56,69 +60,18 @@ class skewGlyphsDialog(hDialog):
                     self.square_button),
                     unichr(8674),
                     callback=self._skew_plus_callback)
-        # skew angle
-        x = self.padding_x
+        # scale factor
+        x = 0
         y += (self.square_button + self.padding_y)
-        self.w._skew_value = EditText(
-                    (x, y,
-                    -self.padding_x,
-                    self.nudge_button),
-                    self.skew_value_default,
-                    sizeStyle=self.size_style,
-                    readOnly=self.read_only)
-        # angle spinners
+        self.w.spinner = Spinner(
+                    (x, y),
+                    default='1.0',
+                    scale=.01,
+                    integer=False,
+                    label='angle')
         x = self.padding_x
-        y += (self.nudge_button + self.padding_y)
-        self.w._nudge_minus_001 = SquareButton(
-                    (x, y,
-                    self.nudge_button,
-                    self.nudge_button),
-                    '-',
-                    sizeStyle=self.size_style,
-                    callback=self._minus_001_callback)
-        x += (self.nudge_button - 1)
-        self.w._nudge_plus_001 = SquareButton(
-                    (x, y,
-                    self.nudge_button,
-                    self.nudge_button),
-                    '+',
-                    sizeStyle=self.size_style,
-                    callback=self._plus_001_callback)
-        x += (self.nudge_button - 1)
-        self.w._nudge_minus_010 = SquareButton(
-                    (x, y,
-                    self.nudge_button,
-                    self.nudge_button),
-                    '-',
-                    sizeStyle=self.size_style,
-                    callback=self._minus_010_callback)
-        x += (self.nudge_button - 1)
-        self.w._nudge_plus_010 = SquareButton(
-                    (x, y,
-                    self.nudge_button,
-                    self.nudge_button),
-                    '+',
-                    sizeStyle=self.size_style,
-                    callback=self._plus_010_callback)
-        x += (self.nudge_button - 1)
-        self.w._nudge_minus_100 = SquareButton(
-                    (x, y,
-                    self.nudge_button,
-                    self.nudge_button),
-                    '-',
-                    sizeStyle=self.size_style,
-                    callback=self._minus_100_callback)
-        x += (self.nudge_button - 1)
-        self.w._nudge_plus_100 = SquareButton(
-                    (x, y,
-                    self.nudge_button,
-                    self.nudge_button),
-                    '+',
-                    sizeStyle=self.size_style,
-                    callback=self._plus_100_callback)
+        y += self.w.spinner.getPosSize()[3]
         # checkboxes
-        x = self.padding_x
-        y += 28
         self.w.offset_x_checkbox = CheckBox(
                     (x, y,
                     -self.padding_x,
@@ -136,62 +89,33 @@ class skewGlyphsDialog(hDialog):
         self.offset_x = self.w.offset_x_checkbox.get()
 
     def _skew_minus_callback(self, sender):
-        _value = float(self.w._skew_value.get())
+        value = float(self.w.spinner.value.get())
         if self.verbose:
-            print 'skew -%s' % _value
-        self.skew_glyphs(-_value)
+            print 'skew -%s' % value
+        self.skew_glyphs(-value)
 
     def _skew_plus_callback(self, sender):
-        _value = float(self.w._skew_value.get())
+        value = float(self.w.spinner.value.get())
         if self.verbose:
-            print 'skew +%s' % _value
-        self.skew_glyphs(_value)
+            print 'skew +%s' % value
+        self.skew_glyphs(value)
 
     def skew_glyphs(self, angle):
         font = CurrentFont()
-        if self.offset_x:
-            self.offset_x = math.tan(math.radians(angle)) * (font.info.xHeight / 2)
+        if font is not None:
+            glyph_names = get_glyphs(font)
+            if len(glyph_names) > 0:
+                if self.offset_x:
+                    self.offset_x = math.tan(math.radians(angle)) * (font.info.xHeight / 2)
+                else:
+                    self.offset_x = 0
+                for glyph_name in glyph_names:
+                    font[glyph_name].prepareUndo('skew')
+                    font[glyph_name].skew(angle, offset=(self.offset_x, 0))
+                    font[glyph_name].performUndo()
+            # no glyph selected
+            else:
+                print no_glyph_selected
+        # no font open
         else:
-            self.offset_x = 0
-        for glyph_name in get_glyphs(font):
-            font[glyph_name].prepareUndo('skew')
-            font[glyph_name].skew(angle, offset=(self.offset_x, 0))
-            font[glyph_name].performUndo()
-
-    # buttons
-
-    def _minus_001_callback(self, sender):
-        _value = float(self.w._skew_value.get()) - .1
-        if self.skew_min < _value < self.skew_max:
-            _value = '%.1f' % _value
-            self.w._skew_value.set(_value)
-
-    def _plus_001_callback(self, sender):
-        _value = float(self.w._skew_value.get()) + .1
-        if self.skew_min < _value < self.skew_max:
-            _value = '%.1f' % _value
-            self.w._skew_value.set(_value)
-
-    def _minus_010_callback(self, sender):
-        _value = float(self.w._skew_value.get()) - 1
-        if self.skew_min < _value < self.skew_max:
-            _value = '%.1f' % _value
-            self.w._skew_value.set(_value)
-
-    def _plus_010_callback(self, sender):
-        _value = float(self.w._skew_value.get()) + 1
-        if self.skew_min < _value < self.skew_max:
-            _value = '%.1f' % _value
-            self.w._skew_value.set(_value)
-
-    def _minus_100_callback(self, sender):
-        _value = float(self.w._skew_value.get()) - 10
-        if self.skew_min < _value < self.skew_max:
-            _value = '%.1f' % _value
-            self.w._skew_value.set(_value)
-
-    def _plus_100_callback(self, sender):
-        _value = float(self.w._skew_value.get()) + 10
-        if self.skew_min < _value < self.skew_max:
-            _value = '%.1f' % _value
-            self.w._skew_value.set(_value)
+            print no_font_open

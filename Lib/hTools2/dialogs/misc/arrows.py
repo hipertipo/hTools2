@@ -17,22 +17,22 @@ class Arrows(Group):
 
     # methods
 
-    def __init__(self, (l, t), s=35, callbacks=dict(), arrows=None):
+    def __init__(self, (l, t), s=35, p=10, callbacks=dict(), arrows=None):
 
         w = (s * 3) - 2
         h = w
 
-        super(Arrows, self).__init__((l, t, w+l, h+t))
+        super(Arrows, self).__init__((0, 0, w+(p*2), h+(p*2)))
 
         small = s - 9
 
         # draw UI
 
-        x0 = l
+        x0 = p
         x1 = x0 + s - 1
         x2 = x1 + s - 1
 
-        y0 = t
+        y0 = p
         y1 = y0 + s - 1
         y2 = y1 + s - 1
 

@@ -1,5 +1,8 @@
 # [h] scale selected glyphs
 
+import hTools2.dialogs.misc.spinner
+reload(hTools2.dialogs.misc.spinner)
+
 # imports
 
 try:
@@ -11,6 +14,8 @@ from vanilla import *
 
 from hTools2 import hDialog
 from hTools2.modules.fontutils import get_glyphs
+from hTools2.modules.messages import no_glyph_selected, no_font_open
+from hTools2.dialogs.misc.spinner import Spinner
 
 # objects
 
@@ -66,67 +71,17 @@ class scaleGlyphsDialog(hDialog):
                     sizeStyle=self.size_style,
                     callback=self._layers_callback)
         # scale factor
-        x = self.padding_x
-        y += (self.nudge_button + self.padding_y)
-        self.w._scale_value = EditText(
-                    (x, y,
-                    -self.padding_x,
-                    self.text_height),
-                    self.scale_value,
-                    sizeStyle=self.size_style,
-                    readOnly=self.read_only)
-        # scale spinners
-        y += self.nudge_button + self.padding_y
-        self.w._scale_minus_001 = SquareButton(
-                    (x, y,
-                    self.nudge_button,
-                    self.nudge_button),
-                    '-',
-                    sizeStyle=self.size_style,
-                    callback=self._scale_minus_001_callback)
-        x += (self.nudge_button - 1)
-        self.w._scale_plus_001 = SquareButton(
-                    (x, y,
-                    self.nudge_button,
-                    self.nudge_button),
-                    '+',
-                    sizeStyle=self.size_style,
-                    callback=self._scale_plus_001_callback)
-        x += (self.nudge_button - 1)
-        self.w._scale_minus_010 = SquareButton(
-                    (x, y,
-                    self.nudge_button,
-                    self.nudge_button),
-                    '-',
-                    sizeStyle=self.size_style,
-                    callback=self._scale_minus_010_callback)
-        x += (self.nudge_button - 1)
-        self.w._scale_plus_010 = SquareButton(
-                    (x, y,
-                    self.nudge_button,
-                    self.nudge_button),
-                    '+',
-                    sizeStyle=self.size_style,
-                    callback=self._scale_plus_010_callback)
-        x += (self.nudge_button - 1)
-        self.w._scale_minus_100 = SquareButton(
-                    (x, y,
-                    self.nudge_button,
-                    self.nudge_button),
-                    '-',
-                    sizeStyle=self.size_style,
-                    callback=self._scale_minus_100_callback)
-        x += (self.nudge_button - 1)
-        self.w._scale_value_plus_100 = SquareButton(
-                    (x, y,
-                    self.nudge_button,
-                    self.nudge_button),
-                    '+',
-                    sizeStyle=self.size_style,
-                    callback=self._scale_plus_100_callback)
+        x = 0
+        y += (self.text_height + self.padding_y)
+        self.w.spinner = Spinner(
+                    (x, y),
+                    default='1.0',
+                    scale=.01,
+                    integer=False,
+                    label='factor')
         # buttons
         x = self.padding_x
-        y += (self.nudge_button + self.padding_y)
+        y += self.w.spinner.getPosSize()[3]
         button_width = (self.width * 0.5) - self.padding_x
         self.w.button_x = SquareButton(
                     (x, y,
@@ -157,33 +112,7 @@ class scaleGlyphsDialog(hDialog):
         # open window
         self.w.open()
 
-    # spinner callbacks
-
-    def _scale_minus_001_callback(self, sender):
-        _value = float(self.w._scale_value.get()) - 0.01
-        self.w._scale_value.set('%.2f' % _value)
-
-    def _scale_minus_010_callback(self, sender):
-        _value = float(self.w._scale_value.get()) - 0.1
-        self.w._scale_value.set('%.2f' % _value)
-
-    def _scale_minus_100_callback(self, sender):
-        _value = float(self.w._scale_value.get()) - 1.0
-        self.w._scale_value.set('%.2f' % _value)
-
-    def _scale_plus_001_callback(self, sender):
-        _value = float(self.w._scale_value.get()) + 0.01
-        self.w._scale_value.set('%.2f' % _value)
-
-    def _scale_plus_010_callback(self, sender):
-        _value = float(self.w._scale_value.get()) + 0.1
-        self.w._scale_value.set('%.2f' % _value)
-
-    def _scale_plus_100_callback(self, sender):
-        _value = float(self.w._scale_value.get()) + 1.0
-        self.w._scale_value.set('%.2f' % _value)
-
-    # checkboxes
+    # callbacks
 
     def _metrics_x_callback(self, sender):
         self.x_metrics = self.w._metrics_x.get()
@@ -194,7 +123,17 @@ class scaleGlyphsDialog(hDialog):
     def _layers_callback(self, sender):
         self.layers = self.w._layers.get()
 
-    # functions
+    def _apply_callback_x(self, sender):
+        value = float(self.w.spinner.value.get())
+        self.scale_glyphs((value, 1))
+
+    def _apply_callback_y(self, sender):
+        value = float(self.w.spinner.value.get())
+        self.scale_glyphs((1, value))
+
+    def _apply_callback(self, sender):
+        value = float(self.w.spinner.value.get())
+        self.scale_glyphs((value, value))
 
     def scale_glyphs(self, (factor_x, factor_y)):
         boolstring = [ False, True ]
@@ -212,25 +151,25 @@ class scaleGlyphsDialog(hDialog):
                 print
                 for glyph_name in glyph_names:
                     print glyph_name,
-                    g = font[glyph_name]
-                    g.prepareUndo('scale')
-                    _left = g.leftMargin
-                    _right = g.rightMargin
+                    glyph = font[glyph_name]
+                    glyph.prepareUndo('scale')
+                    left = glyph.leftMargin
+                    right = glyph.rightMargin
                     # scale outlines
                     if self.layers:
                         # scale all layers
                         for layer_name in font.layerOrder:
-                            _g = g.getLayer(layer_name)
-                            _g.scale((factor_x, factor_y))
+                            layer_glyph = glyph.getLayer(layer_name)
+                            layer_glyph.scale((factor_x, factor_y))
                     # scale active layer only
                     else:
-                        g.scale((factor_x, factor_y))
+                        glyph.scale((factor_x, factor_y))
                     # scale horizontal metrics
                     if self.x_metrics:
-                        g.leftMargin = _left * factor_x
-                        g.rightMargin = _right * factor_x
+                        glyph.leftMargin = left * factor_x
+                        glyph.rightMargin = right * factor_x
                     # done glyph
-                    g.performUndo()
+                    glyph.performUndo()
                 # scale vertical metrics
                 if self.y_metrics:
                     font.info.xHeight = font.info.xHeight * factor_y
@@ -242,20 +181,7 @@ class scaleGlyphsDialog(hDialog):
                 print '\n...done.\n'
             # no glyph selected
             else:
-                print 'please select one or more glyphs first.\n'
+                print no_glyph_selected
         # no font open
         else:
-            print 'please open a font first.\n'
-
-    def _apply_callback_x(self, sender):
-        _value = float(self.w._scale_value.get())
-        self.scale_glyphs((_value, 1))
-
-    def _apply_callback_y(self, sender):
-        _value = float(self.w._scale_value.get())
-        self.scale_glyphs((1, _value))
-
-    def _apply_callback(self, sender):
-        _value = float(self.w._scale_value.get())
-        self.scale_glyphs((_value, _value))
-
+            print no_font_open
