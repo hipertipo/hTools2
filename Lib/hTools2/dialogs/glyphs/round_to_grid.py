@@ -47,7 +47,7 @@ class roundToGridDialog(hDialog):
         self.height = self.button_height + self.nudge_button + (self.text_height * 7) + (self.padding_y * 5) - 3
         self.w = FloatingWindow((self.width, self.height), self.title)
         # grid size
-        x = 0 # self.padding_x
+        x = 0
         y = self.padding_y
         self.w.spinner = Spinner(
                     (x, y),

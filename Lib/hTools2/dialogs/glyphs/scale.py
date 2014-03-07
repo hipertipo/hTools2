@@ -149,6 +149,7 @@ class scaleGlyphsDialog(hDialog):
                 print '\tside-bearings: %s' % boolstring[self.x_metrics]
                 print '\tvertical metrics: %s' % boolstring[self.y_metrics]
                 print
+                print '\t',
                 for glyph_name in glyph_names:
                     print glyph_name,
                     glyph = font[glyph_name]

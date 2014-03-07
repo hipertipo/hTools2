@@ -12,7 +12,9 @@ except ImportError:
 from vanilla import *
 
 from hTools2 import hDialog
+from hTools2.dialogs.misc.spinner import Spinner
 from hTools2.modules.fontutils import get_full_name, get_glyphs
+from hTools2.modules.messages import no_glyph_selected, no_font_open
 
 # object
 
@@ -90,160 +92,32 @@ class interpolateGlyphsDialog(hDialog):
                     self.text_height),
                     self.all_fonts_names,
                     sizeStyle=self.size_style)
+        #----------
+        # factor x
+        #----------
+        x = 0
         y += (self.text_height + self.padding_y)
-        #-----------
-        # factors x
-        #-----------
-        # x label
-        self.w._factor_x_label = TextBox(
-                    (x, y,
-                    self.nudge_button,
-                    self.nudge_button),
-                    "x",
-                    sizeStyle=self.size_style)
-        x += self.nudge_button
-        # x value
-        self.w._factor_x_value = EditText(
-                    (x, y,
-                    -self.padding_x,
-                    self.nudge_button),
-                    '%0.2f' % self.factor_x,
-                    sizeStyle=self.size_style,
-                    readOnly=self.read_only)
-        # x minus 001
-        x = self.padding_x
-        y += (self.nudge_button + self.padding_y)
-        self.w._factor_x_minus_001 = SquareButton(
-                    (x, y,
-                    self.nudge_button,
-                    self.nudge_button),
-                    '-',
-                    sizeStyle=self.size_style,
-                    callback=self._factor_x_minus_001_callback)
-        x += (self.nudge_button - 1)
-        # x plus 001
-        self.w._factor_x_plus_001 = SquareButton(
-                    (x, y,
-                    self.nudge_button,
-                    self.nudge_button),
-                    '+',
-                    sizeStyle=self.size_style,
-                    callback=self._factor_x_plus_001_callback)
-        x += (self.nudge_button - 1)
-        # x minus 010
-        self.w._factor_x_minus_010 = SquareButton(
-                    (x, y,
-                    self.nudge_button,
-                    self.nudge_button),
-                    '-',
-                    sizeStyle=self.size_style,
-                    callback=self._factor_x_minus_010_callback)
-        x += (self.nudge_button - 1)
-        # x plus 010
-        self.w._factor_x_plus_010 = SquareButton(
-                    (x, y,
-                    self.nudge_button,
-                    self.nudge_button),
-                    '+',
-                    sizeStyle=self.size_style,
-                    callback=self._factor_x_plus_010_callback)
-        x += (self.nudge_button - 1)
-        # x minus 100
-        self.w._factor_x_minus_100 = SquareButton(
-                    (x, y,
-                    self.nudge_button,
-                    self.nudge_button),
-                    '-',
-                    sizeStyle=self.size_style,
-                    callback=self._factor_x_minus_100_callback)
-        x += (self.nudge_button - 1)
-        # x plus 100
-        self.w._factor_x_plus_100 = SquareButton(
-                    (x, y,
-                    self.nudge_button,
-                    self.nudge_button),
-                    '+',
-                    sizeStyle=self.size_style,
-                    callback=self._factor_x_plus_100_callback)
-        #-----------
-        # factors y
-        #-----------
-        x = self.padding_x
-        y += (self.nudge_button + self.padding_y)
-        # y label
-        self.w._factor_y_label = TextBox(
-                    (x, y + 2,
-                    self.nudge_button,
-                    self.nudge_button),
-                    "y",
-                    sizeStyle=self.size_style)
-        x += self.nudge_button
-        # y value
-        self.w._factor_y_value = EditText(
-                    (x, y,
-                    -self.padding_x,
-                    self.nudge_button),
-                    '%0.2f' % self.factor_y,
-                    sizeStyle=self.size_style,
-                    readOnly=self.read_only)
-        # y minus 001
-        x = self.padding_x
-        y += (self.nudge_button + self.padding_y)
-        self.w._factor_y_minus_001 = SquareButton(
-                    (x, y,
-                    self.nudge_button,
-                    self.nudge_button),
-                    '-',
-                    sizeStyle=self.size_style,
-                    callback=self._factor_y_minus_001_callback)
-        x += (self.nudge_button - 1)
-        # y plus 001
-        self.w._factor_y_plus_001 = SquareButton(
-                    (x, y,
-                    self.nudge_button,
-                    self.nudge_button),
-                    '+',
-                    sizeStyle=self.size_style,
-                    callback=self._factor_y_plus_001_callback)
-        x += (self.nudge_button - 1)
-        # y minus 010
-        self.w._factor_y_minus_010 = SquareButton(
-                    (x, y,
-                    self.nudge_button,
-                    self.nudge_button),
-                    '-',
-                    sizeStyle=self.size_style,
-                    callback=self._factor_y_minus_010_callback)
-        x += (self.nudge_button - 1)
-        # y plus 010
-        self.w._factor_y_plus_010 = SquareButton(
-                    (x, y,
-                    self.nudge_button,
-                    self.nudge_button),
-                    '+',
-                    sizeStyle=self.size_style,
-                    callback=self._factor_y_plus_010_callback)
-        x += (self.nudge_button - 1)
-        # y minus 100
-        self.w._factor_y_minus_100 = SquareButton(
-                    (x, y,
-                    self.nudge_button,
-                    self.nudge_button),
-                    '-',
-                    sizeStyle=self.size_style,
-                    callback=self._factor_y_minus_100_callback)
-        x += (self.nudge_button - 1)
-        # y plus 010
-        self.w._factor_y_plus_100 = SquareButton(
-                    (x, y,
-                    self.nudge_button,
-                    self.nudge_button),
-                    '+',
-                    sizeStyle=self.size_style,
-                    callback=self._factor_y_plus_100_callback)
+        self.w._factor_x = Spinner(
+                    (x, y),
+                    default='0.50',
+                    scale=.01,
+                    integer=False,
+                    label='x factor')
+        #----------
+        # factor y
+        #----------
+        y += self.w._factor_x.getPosSize()[3]
+        self.w._factor_y = Spinner(
+                    (x, y),
+                    default='0.50',
+                    scale=.01,
+                    integer=False,
+                    label='y factor')
+        #-------------
         # proporional
+        #-------------
         x = self.padding_x
-        y += (self.nudge_button + self.padding_y)
+        y += self.w._factor_y.getPosSize()[3]
         self.w._proportional_checkbox = CheckBox(
                     (x, y,
                     -self.padding_x,
@@ -256,6 +130,7 @@ class interpolateGlyphsDialog(hDialog):
         # buttons
         #---------
         x = self.padding_x
+        # y += self.w._factor_y.getPosSize()[3]
         y += (self.text_height + self.padding_y) - 3
         self.w.button_apply = SquareButton(
                     (x, y,
@@ -283,96 +158,6 @@ class interpolateGlyphsDialog(hDialog):
         # open window
         self.w.open()
 
-    # nudge callbacks 0.01
-
-    def _factor_x_plus_001_callback(self, sender):
-        self.factor_x = float(self.w._factor_x_value.get()) + 0.01
-        self.w._factor_x_value.set('%0.2f' % self.factor_x)
-        if self.proportional:
-            self.factor_y = self.factor_x
-            self.w._factor_y_value.set('%0.2f' % self.factor_y)
-
-    def _factor_y_plus_001_callback(self, sender):
-        self.factor_y = float(self.w._factor_y_value.get()) + 0.01
-        self.w._factor_y_value.set('%0.2f' % self.factor_y)
-        if self.proportional:
-            self.factor_x = self.factor_y
-            self.w._factor_x_value.set('%0.2f' % self.factor_x)
-
-    def _factor_x_minus_001_callback(self, sender):
-        self.factor_x = float(self.w._factor_x_value.get()) - 0.01
-        self.w._factor_x_value.set('%0.2f' % self.factor_x)
-        if self.proportional:
-            self.factor_y = self.factor_x
-            self.w._factor_y_value.set('%0.2f' % self.factor_y)
-
-    def _factor_y_minus_001_callback(self, sender):
-        self.factor_y = float(self.w._factor_y_value.get()) - 0.01
-        self.w._factor_y_value.set('%0.2f' % self.factor_y)
-        if self.proportional:
-            self.factor_x = self.factor_y
-            self.w._factor_x_value.set('%0.2f' % self.factor_x)
-
-    # nudge callbacks 0.10
-
-    def _factor_x_plus_010_callback(self, sender):
-        self.factor_x = float(self.w._factor_x_value.get()) + 0.1
-        self.w._factor_x_value.set('%0.2f' % self.factor_x)
-        if self.proportional:
-            self.factor_y = self.factor_x
-            self.w._factor_y_value.set('%0.2f' % self.factor_y)
-
-    def _factor_y_plus_010_callback(self, sender):
-        self.factor_y = float(self.w._factor_y_value.get()) + 0.1
-        self.w._factor_y_value.set('%0.2f' % self.factor_y)
-        if self.proportional:
-            self.factor_x = self.factor_y
-            self.w._factor_x_value.set('%0.2f' % self.factor_x)
-
-    def _factor_x_minus_010_callback(self, sender):
-        self.factor_x = float(self.w._factor_x_value.get()) - 0.1
-        self.w._factor_x_value.set('%0.2f' % self.factor_x)
-        if self.proportional:
-            self.factor_y = self.factor_x
-            self.w._factor_y_value.set('%0.2f' % self.factor_y)
-
-    def _factor_y_minus_010_callback(self, sender):
-        self.factor_y = float(self.w._factor_y_value.get()) - 0.1
-        self.w._factor_y_value.set('%0.2f' % self.factor_y)
-        if self.proportional:
-            self.factor_x = self.factor_y
-            self.w._factor_x_value.set('%0.2f' % self.factor_x)
-
-    # nudge callbacks 1.00
-
-    def _factor_x_plus_100_callback(self, sender):
-        self.factor_x = float(self.w._factor_x_value.get()) + 1.0
-        self.w._factor_x_value.set('%0.2f' % self.factor_x)
-        if self.proportional:
-            self.factor_y = self.factor_x
-            self.w._factor_y_value.set('%0.2f' % self.factor_y)
-
-    def _factor_y_plus_100_callback(self, sender):
-        self.factor_y = float(self.w._factor_y_value.get()) + 1.0
-        self.w._factor_y_value.set('%0.2f' % self.factor_y)
-        if self.proportional:
-            self.factor_x = self.factor_y
-            self.w._factor_x_value.set('%0.2f' % self.factor_x)
-
-    def _factor_x_minus_100_callback(self, sender):
-        self.factor_x = float(self.w._factor_x_value.get()) - 1.0
-        self.w._factor_x_value.set('%0.2f' % self.factor_x)
-        if self.proportional:
-            self.factor_y = self.factor_x
-            self.w._factor_y_value.set('%0.2f' % self.factor_y)
-
-    def _factor_y_minus_100_callback(self, sender):
-        self.factor_y = float(self.w._factor_y_value.get()) - 1.0
-        self.w._factor_y_value.set('%0.2f' % self.factor_y)
-        if self.proportional:
-            self.factor_x = self.factor_y
-            self.w._factor_x_value.set('%0.2f' % self.factor_x)
-
     # apply
 
     def _proportional_callback(self, sender):
@@ -395,45 +180,54 @@ class interpolateGlyphsDialog(hDialog):
 
     def apply_callback(self, sender):
         # get fonts
-        f1 = self.all_fonts[self.w._f1_font.get()]
-        f2 = self.all_fonts[self.w._f2_font.get()]
-        f3 = self.all_fonts[self.w._f3_font.get()]
-        # get factors
-        x = self.factor_x
-        y = self.factor_y
-        # print info
-        print 'interpolating glyphs...\n'
-        boolstring = [False, True]
-        print '\tmaster 1: %s' % get_full_name(f1)
-        print '\tmaster 2: %s' % get_full_name(f2)
-        print '\ttarget: %s' % get_full_name(f3)
-        print
-        print '\tfactor x: %s' % x
-        print '\tfactor y: %s' % y
-        print '\tproportional: %s' % boolstring[self.proportional]
-        print
-        print '\t',
-        self.w.bar.start()
-        # interpolate glyphs
-        for glyph_name in get_glyphs(f1):
-            # check glyphs
-            if f2.has_key(glyph_name):
-                f3.newGlyph(glyph_name, clear=True)
-                # prepare undo
-                f3[glyph_name].prepareUndo('interpolate')
-                # interpolate
-                print glyph_name,
-                f3[glyph_name].interpolate((x, y), f1[glyph_name], f2[glyph_name])
-                f3[glyph_name].update()
-                # create undo
-                f3[glyph_name].performUndo()
+        try:
+            f1 = self.all_fonts[self.w._f1_font.get()]
+            f2 = self.all_fonts[self.w._f2_font.get()]
+            f3 = self.all_fonts[self.w._f3_font.get()]
+            glyph_names = get_glyphs(f1)
+            if len(glyph_names) > 0:
+                # get factors
+                x = float(self.w._factor_x.value.get())
+                y = float(self.w._factor_y.value.get())
+                # print info
+                print 'interpolating glyphs...\n'
+                boolstring = [False, True]
+                print '\tmaster 1: %s' % get_full_name(f1)
+                print '\tmaster 2: %s' % get_full_name(f2)
+                print '\ttarget: %s' % get_full_name(f3)
+                print
+                print '\tfactor x: %s' % x
+                print '\tfactor y: %s' % y
+                print '\tproportional: %s' % boolstring[self.proportional]
+                print
+                print '\t',
+                self.w.bar.start()
+                # interpolate glyphs
+                for glyph_name in glyph_names:
+                    # check glyphs
+                    if f2.has_key(glyph_name):
+                        f3.newGlyph(glyph_name, clear=True)
+                        # prepare undo
+                        f3[glyph_name].prepareUndo('interpolate')
+                        # interpolate
+                        print glyph_name,
+                        f3[glyph_name].interpolate((x, y), f1[glyph_name], f2[glyph_name])
+                        f3[glyph_name].update()
+                        # create undo
+                        f3[glyph_name].performUndo()
+                    else:
+                        print '\tfont 2 does not have glyph %s' % glyph_name
+                f3.update()
+                # done
+                self.w.bar.stop()
+                print
+                print '\n...done.\n'
+            # no glyph selected
             else:
-                print '\tfont 2 does not have glyph %s' % glyph_name
-        f3.update()
-        # done
-        self.w.bar.stop()
-        print
-        print '\n...done.\n'
+                print no_glyph_selected
+        # no font open
+        except:
+            print no_font_open
 
     def on_close_window(self, sender):
         removeObserver(self, "fontDidOpen")

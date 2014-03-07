@@ -4,13 +4,15 @@
 
 try:
     from mojo.roboFont import CurrentFont
+
 except ImportError:
     from robofab.world import CurrentFont
 
 from vanilla import *
 
 from hTools2 import hDialog
-from hTools2.modules.rasterizer import * # set_element
+from hTools2.dialogs.misc.spinner import Spinner
+from hTools2.modules.rasterizer import *
 
 # object
 

@@ -10,6 +10,7 @@ except ImportError:
 from vanilla import *
 
 from hTools2 import hDialog
+from hTools2.dialogs.misc.spinner import Spinner
 from hTools2.modules.fontutils import get_glyphs
 from hTools2.modules.messages import no_font_open, no_glyph_selected
 
@@ -36,20 +37,14 @@ class setMarginsDialog(hDialog):
     # methods
 
     def __init__(self):
-        # window
-        self.column_1 = 40
-        self.column_2 = 100
-        self.column_3 = 80
-        self.column_4 = 60
+
         self.title = 'margins'
-        self.height = (self.text_height * 5) + (self.padding_y * 9) + (self.nudge_button * 2) + self.button_height
+        self.height = (self.text_height * 3) + (self.padding_y * 9) + (self.nudge_button * 4) + self.button_height
         self.w = FloatingWindow((self.width, self.height), self.title)
-        #-------------
-        # left margin
-        #-------------
+
+        # left mode
         x = self.padding_x
         y = self.padding_y
-        # mode
         self.w.left_mode = RadioGroup(
                     (x, y,
                     -self.padding_x,
@@ -58,79 +53,19 @@ class setMarginsDialog(hDialog):
                     sizeStyle=self.size_style,
                     isVertical=False)
         self.w.left_mode.set(0)
-        # label
+
+        # left value
+        x = 0
         y += (self.text_height + 10)
-        self.w.left_label = TextBox(
-                    (x, y + 3,
-                    self.column_1,
-                    self.text_height),
-                    "left",
-                    sizeStyle=self.size_style)
-        x += self.column_1
-        # value
-        self.w.left_value = EditText(
-                    (x, y,
-                    -self.padding_x,
-                    self.text_height),
-                    self._left_value,
-                    sizeStyle=self.size_style,
-                    readOnly=self.read_only)
-        # spinners
+        self.w.spinner_left = Spinner(
+                    (x, y),
+                    default=self._left_value,
+                    integer=True,
+                    label='left')
+
+        # right mode
         x = self.padding_x
-        y += (self.text_height + 10)
-        self.w._left_minus_001 = SquareButton(
-                    (x, y,
-                    self.nudge_button,
-                    self.nudge_button),
-                    "-",
-                    sizeStyle=self.size_style,
-                    callback=self._left_minus_001_callback)
-        x += (self.nudge_button - 1)
-        self.w._left_plus_001 = SquareButton(
-                    (x, y,
-                    self.nudge_button,
-                    self.nudge_button),
-                    "+",
-                    sizeStyle=self.size_style,
-                    callback=self._left_plus_001_callback)
-        x += (self.nudge_button - 1)
-        self.w._left_minus_010 = SquareButton(
-                    (x, y,
-                    self.nudge_button,
-                    self.nudge_button),
-                    "-",
-                    sizeStyle=self.size_style,
-                    callback=self._left_minus_010_callback)
-        x += (self.nudge_button - 1)
-        self.w._left_plus_010 = SquareButton(
-                    (x, y,
-                    self.nudge_button,
-                    self.nudge_button),
-                    "+",
-                    sizeStyle=self.size_style,
-                    callback=self._left_plus_010_callback)
-        x += (self.nudge_button - 1)
-        self.w._left_minus_100 = SquareButton(
-                    (x, y,
-                    self.nudge_button,
-                    self.nudge_button),
-                    "-",
-                    sizeStyle=self.size_style,
-                    callback=self._left_minus_100_callback)
-        x += (self.nudge_button - 1)
-        self.w._left_plus_100 = SquareButton(
-                    (x, y,
-                    self.nudge_button,
-                    self.nudge_button),
-                    "+",
-                    sizeStyle=self.size_style,
-                    callback=self._left_plus_100_callback)
-        #--------------
-        # right margin
-        #--------------
-        # mode
-        x = self.padding_x
-        y += (self.text_height + self.padding_y)
+        y += self.w.spinner_left.getPosSize()[3]
         self.w.right_mode = RadioGroup(
                     (x, y,
                     -self.padding_x,
@@ -140,78 +75,19 @@ class setMarginsDialog(hDialog):
                     callback=self.right_mode_callback,
                     isVertical=False)
         self.w.right_mode.set(0)
-        # label
-        y += (self.text_height + 10)
-        self.w.right_label = TextBox(
-                    (x, y + 3,
-                    self.column_1,
-                    self.text_height),
-                    "right",
-                    sizeStyle=self.size_style)
-        x += self.column_1
-        # value
-        self.w.right_value = EditText(
-                    (x, y,
-                    -self.padding_x,
-                    self.text_height),
-                    self._right_value,
-                    sizeStyle=self.size_style,
-                    readOnly=self.read_only)
-        x = self.padding_x
-        y += (self.text_height + 10)
-        # spinners
-        self.w._right_minus_001 = SquareButton(
-                    (x, y,
-                    self.nudge_button,
-                    self.nudge_button),
-                    "-",
-                    sizeStyle=self.size_style,
-                    callback=self._right_minus_001_callback)
-        x += (self.nudge_button - 1)
-        self.w._right_plus_001 = SquareButton(
-                    (x, y,
-                    self.nudge_button,
-                    self.nudge_button),
-                    "+",
-                    sizeStyle=self.size_style,
-                    callback=self._right_plus_001_callback)
-        x += (self.nudge_button - 1)
-        self.w._right_minus_010 = SquareButton(
-                    (x, y,
-                    self.nudge_button,
-                    self.nudge_button),
-                    "-",
-                    sizeStyle=self.size_style,
-                    callback=self._right_minus_010_callback)
-        x += (self.nudge_button - 1)
-        self.w._right_plus_010 = SquareButton(
-                    (x, y,
-                    self.nudge_button,
-                    self.nudge_button),
-                    "+",
-                    sizeStyle=self.size_style,
-                    callback=self._right_plus_010_callback)
-        x += (self.nudge_button - 1)
-        self.w._right_minus_100 = SquareButton(
-                    (x, y,
-                    self.nudge_button,
-                    self.nudge_button),
-                    "-",
-                    sizeStyle=self.size_style,
-                    callback=self._right_minus_100_callback)
-        x += (self.nudge_button - 1)
-        self.w._right_plus_100 = SquareButton(
-                    (x, y,
-                    self.nudge_button,
-                    self.nudge_button),
-                    "+",
-                    sizeStyle=self.size_style,
-                    callback=self._right_plus_100_callback)
-        #--------------
-        # apply button
-        #--------------
-        x = self.padding_x
+
+        # right value
+        x = 0
         y += (self.text_height + self.padding_y)
+        self.w.spinner_right = Spinner(
+                    (x, y),
+                    default=self._right_value,
+                    integer=True,
+                    label='right')
+
+        # apply button
+        x = self.padding_x
+        y += self.w.spinner_right.getPosSize()[3]
         self.w.button_apply = SquareButton(
                     (x, y,
                     -self.padding_x,
@@ -220,6 +96,8 @@ class setMarginsDialog(hDialog):
                     sizeStyle=self.size_style,
                     callback=self.apply_callback)
         y += (self.button_height + self.padding_y)
+
+        # checkboxes
         self.w.left_checkbox = CheckBox(
                     (x, y,
                     (self.width * 0.5) - self.padding_x,
@@ -235,72 +113,9 @@ class setMarginsDialog(hDialog):
                     "right",
                     value=self._right,
                     sizeStyle=self.size_style)
+
         # open window
         self.w.open()
-
-    # spinners left
-
-    def _left_minus_001_callback(self, sender):
-        _value = int(self.w.left_value.get()) - 1
-        self._left_value = _value
-        self.w.left_value.set(_value)
-
-    def _left_plus_001_callback(self, sender):
-        _value = int(self.w.left_value.get()) + 1
-        self._left_value = _value
-        self.w.left_value.set(_value)
-
-    def _left_minus_010_callback(self, sender):
-        _value = int(self.w.left_value.get()) - 10
-        self._left_value = _value
-        self.w.left_value.set(_value)
-
-    def _left_plus_010_callback(self, sender):
-        _value = int(self.w.left_value.get()) + 10
-        self._left_value = _value
-        self.w.left_value.set(_value)
-
-    def _left_minus_100_callback(self, sender):
-        _value = int(self.w.left_value.get()) - 100
-        self._left_value = _value
-        self.w.left_value.set(_value)
-
-    def _left_plus_100_callback(self, sender):
-        _value = int(self.w.left_value.get()) + 100
-        self._left_value = _value
-        self.w.left_value.set(_value)
-
-    # spinners right
-
-    def _right_minus_001_callback(self, sender):
-        _value = int(self.w.right_value.get()) - 1
-        self._right_value = _value
-        self.w.right_value.set(_value)
-
-    def _right_plus_001_callback(self, sender):
-        _value = int(self.w.right_value.get()) + 1
-        self._right_value = _value
-        self.w.right_value.set(_value)
-
-    def _right_minus_010_callback(self, sender):
-        _value = int(self.w.right_value.get()) - 10
-        self._right_value = _value
-        self.w.right_value.set(_value)
-
-    def _right_plus_010_callback(self, sender):
-        _value = int(self.w.right_value.get()) + 10
-        self._right_value = _value
-        self.w.right_value.set(_value)
-
-    def _right_minus_100_callback(self, sender):
-        _value = int(self.w.right_value.get()) - 100
-        self._right_value = _value
-        self.w.right_value.set(_value)
-
-    def _right_plus_100_callback(self, sender):
-        _value = int(self.w.right_value.get()) + 100
-        self._right_value = _value
-        self.w.right_value.set(_value)
 
     # modes
 
@@ -313,6 +128,7 @@ class setMarginsDialog(hDialog):
     # apply
 
     def set_margins(self, glyph, (left, left_value, left_mode), (right, right_value, right_mode)):
+
         glyph.prepareUndo('set margins')
 
         # left margin
@@ -359,10 +175,10 @@ class setMarginsDialog(hDialog):
             # get parameters
             _left = self.w.left_checkbox.get()
             _left_mode = self.w.left_mode.get()
-            _left_value = int(self.w.left_value.get())
+            _left_value = int(self.w.spinner_left.value.get())
             _right = self.w.right_checkbox.get()
             _right_mode = self.w.right_mode.get()
-            _right_value = int(self.w.right_value.get())
+            _right_value = int(self.w.spinner_right.value.get())
 
             # iterate over glyphs
             glyph_names = get_glyphs(f)
