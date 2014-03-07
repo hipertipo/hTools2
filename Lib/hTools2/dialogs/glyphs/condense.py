@@ -12,6 +12,7 @@ except ImportError:
 from vanilla import *
 
 from hTools2 import hDialog
+from hTools2.dialogs.misc.spinner import Spinner
 from hTools2.modules.interpol import condense_glyphs
 from hTools2.modules.fontutils import get_full_name, get_glyphs
 
@@ -40,7 +41,7 @@ class condenseGlyphsDialog(hDialog):
     f2_stem = 170
 
     #: The condensation factor.
-    factor = 0.500
+    factor = '0.50'
 
     # methods
 
@@ -49,8 +50,6 @@ class condenseGlyphsDialog(hDialog):
         # window
         self.title = 'condense'
         self.height = (self.nudge_button * 2) + (self.text_height * 6) + self.progress_bar + (self.padding_y * 5) + (self.button_height * 1)
-        self.value_box = 60
-        self.column_2 = self.value_box + (self.nudge_button * 7) - 6
         self.w = FloatingWindow((self.width, self.height), title=self.title)
         # master 1 (regular)
         x = self.padding_x
@@ -99,81 +98,18 @@ class condenseGlyphsDialog(hDialog):
                     self.all_fonts_names,
                     sizeStyle=self.size_style)
         y += (self.text_height + self.padding_y)
-        # factor label
-        _label_width = self.nudge_button * 3
-        self.w._factor_label = TextBox(
-                    (x, y,
-                    _label_width,
-                    self.nudge_button),
-                    "factor",
-                    sizeStyle=self.size_style)
-        x += _label_width - 2
-        # factor value
-        self.w._factor_value = EditText(
-                    (x, y,
-                    -self.padding_x,
-                    self.nudge_button),
-                    '%0.2f' % self.factor,
-                    sizeStyle=self.size_style,
-                    readOnly=self.read_only)
-        # minus 001
-        x = self.padding_x
-        y += (self.nudge_button + self.padding_y)
-        self.w._factor_minus_001 = SquareButton(
-                    (x, y,
-                    self.nudge_button,
-                    self.nudge_button),
-                    '-',
-                    callback=self._factor_minus_001_callback,
-                    sizeStyle=self.size_style)
-        x += (self.nudge_button - 1)
-        # plus 001
-        self.w._factor_plus_001 = SquareButton(
-                    (x, y,
-                    self.nudge_button,
-                    self.nudge_button),
-                    '+',
-                    callback=self._factor_plus_001_callback,
-                    sizeStyle=self.size_style)
-        x += (self.nudge_button - 1)
-        # minus 010
-        self.w._factor_minus_010 = SquareButton(
-                    (x, y,
-                    self.nudge_button,
-                    self.nudge_button),
-                    '-',
-                    callback=self._factor_minus_010_callback,
-                    sizeStyle=self.size_style)
-        x += (self.nudge_button - 1)
-        # plus 010
-        self.w._factor_plus_010 = SquareButton(
-                    (x, y,
-                    self.nudge_button,
-                    self.nudge_button),
-                    '+',
-                    callback=self._factor_plus_010_callback,
-                    sizeStyle=self.size_style)
-        x += (self.nudge_button - 1)
-        # minus 100
-        self.w._factor_minus_100 = SquareButton(
-                    (x, y,
-                    self.nudge_button,
-                    self.nudge_button),
-                    '-',
-                    callback=self._factor_minus_100_callback,
-                    sizeStyle=self.size_style)
-        x += (self.nudge_button - 1)
-        # plus 100
-        self.w._factor_plus_100 = SquareButton(
-                    (x, y,
-                    self.nudge_button,
-                    self.nudge_button),
-                    '+',
-                    callback=self._factor_plus_100_callback,
-                    sizeStyle=self.size_style)
+        # factor
+        x = 0
+        self.w.spinner = Spinner(
+                    (x, y),
+                    default=self.factor,
+                    scale=.01,
+                    integer=False,
+                    label='factor')
         # apply buttons
         x = self.padding_x
-        y += (self.text_height + self.padding_y) - 3
+        y += self.w.spinner.getPosSize()[3]
+        # y += (self.text_height + self.padding_y) - 3
         self.w.button_apply = SquareButton(
                     (x, y,
                     -self.padding_x,
@@ -193,34 +129,11 @@ class condenseGlyphsDialog(hDialog):
         self.w.bind("became key", self.update_callback)
         self.w.bind("close", self.on_close_window)
         # observers
+        addObserver(self, "update_callback", "newFontDidOpen")
         addObserver(self, "update_callback", "fontDidOpen")
         addObserver(self, "update_callback", "fontDidClose")
         # open window
         self.w.open()
-
-    def _factor_plus_001_callback(self, sender):
-        self.factor = float(self.w._factor_value.get()) + 0.001
-        self.w._factor_value.set('%0.3f' % self.factor)
-
-    def _factor_minus_001_callback(self, sender):
-        self.factor = float(self.w._factor_value.get()) - 0.001
-        self.w._factor_value.set('%0.3f' % self.factor)
-
-    def _factor_plus_010_callback(self, sender):
-        self.factor = float(self.w._factor_value.get()) + 0.01
-        self.w._factor_value.set('%0.3f' % self.factor)
-
-    def _factor_minus_010_callback(self, sender):
-        self.factor = float(self.w._factor_value.get()) - 0.01
-        self.w._factor_value.set('%0.3f' % self.factor)
-
-    def _factor_plus_100_callback(self, sender):
-        self.factor = float(self.w._factor_value.get()) + 0.1
-        self.w._factor_value.set('%0.3f' % self.factor)
-
-    def _factor_minus_100_callback(self, sender):
-        self.factor = float(self.w._factor_value.get()) - 0.1
-        self.w._factor_value.set('%0.3f' % self.factor)
 
     def update_callback(self, sender):
         print 'updating fonts'
@@ -235,7 +148,7 @@ class condenseGlyphsDialog(hDialog):
         f2 = self.all_fonts[self.w._f2_font.get()]
         f3 = self.all_fonts[self.w._f3_font.get()]
         # get factors
-        factor = self.factor
+        factor = float(self.w.spinner.value.get())
         # print info
         print 'condensing glyphs...\n'
         print '\tmaster 1: %s' % get_full_name(f1)
@@ -272,6 +185,6 @@ class condenseGlyphsDialog(hDialog):
         self.all_fonts_names.sort()
 
     def on_close_window(self, sender):
-        # remove observers on close window
+        removeObserver(self, "newFontDidOpen")
         removeObserver(self, "fontDidOpen")
         removeObserver(self, "fontDidClose")

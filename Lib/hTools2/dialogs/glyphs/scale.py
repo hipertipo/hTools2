@@ -7,6 +7,7 @@ reload(hTools2.dialogs.misc.spinner)
 
 try:
     from mojo.roboFont import CurrentFont, CurrentGlyph
+
 except ImportError:
     from robofab.world import CurrentFont, CurrentGlyph
 

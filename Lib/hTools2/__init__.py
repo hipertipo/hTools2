@@ -54,3 +54,6 @@ class hDialog(object):
 
     #: Print (or not) messages to the console when running scripts.
     verbose = True
+
+    #: Height of a spinner element (value and buttons).
+    spinner_height = (nudge_button * 2) + padding_y 

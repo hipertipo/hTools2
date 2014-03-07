@@ -3,10 +3,17 @@
 ### options `split difference` and `relative split`
 ### suggested and funded by Bas Jacobs / Underware
 
+import hTools2
+reload(hTools2)
+
+import hTools2.dialogs.misc.spinner
+reload(hTools2.dialogs.misc.spinner)
+
 # imports
 
 try:
     from mojo.roboFont import CurrentFont, CurrentGlyph
+
 except ImportError:
     from robofab.world import CurrentFont, CurrentGlyph
 

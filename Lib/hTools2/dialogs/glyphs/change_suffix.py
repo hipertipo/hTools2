@@ -4,6 +4,7 @@
 
 try:
     from mojo.roboFont import CurrentFont
+
 except ImportError:
     from robofab.world import CurrentFont
 
@@ -26,10 +27,10 @@ class changeSuffixDialog(hDialog):
 
     # attributes
 
-    #: Old suffix to be substituted.
+    #: The old suffix to be substituted.
     old_suffix = ''
 
-    #: New suffix for glyphs.
+    #: New suffix for glyph names.
     new_suffix = ''
 
     #: Overwrite (or not) if glyph with new name already exists in font.

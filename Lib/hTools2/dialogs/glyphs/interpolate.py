@@ -92,9 +92,7 @@ class interpolateGlyphsDialog(hDialog):
                     self.text_height),
                     self.all_fonts_names,
                     sizeStyle=self.size_style)
-        #----------
         # factor x
-        #----------
         x = 0
         y += (self.text_height + self.padding_y)
         self.w._factor_x = Spinner(
@@ -103,9 +101,7 @@ class interpolateGlyphsDialog(hDialog):
                     scale=.01,
                     integer=False,
                     label='x factor')
-        #----------
         # factor y
-        #----------
         y += self.w._factor_x.getPosSize()[3]
         self.w._factor_y = Spinner(
                     (x, y),
@@ -113,9 +109,7 @@ class interpolateGlyphsDialog(hDialog):
                     scale=.01,
                     integer=False,
                     label='y factor')
-        #-------------
         # proporional
-        #-------------
         x = self.padding_x
         y += self.w._factor_y.getPosSize()[3]
         self.w._proportional_checkbox = CheckBox(
@@ -126,11 +120,8 @@ class interpolateGlyphsDialog(hDialog):
                     value=self.proportional,
                     sizeStyle=self.size_style,
                     callback=self._proportional_callback)
-        #---------
-        # buttons
-        #---------
+        # apply button
         x = self.padding_x
-        # y += self.w._factor_y.getPosSize()[3]
         y += (self.text_height + self.padding_y) - 3
         self.w.button_apply = SquareButton(
                     (x, y,
@@ -150,9 +141,8 @@ class interpolateGlyphsDialog(hDialog):
         # bind
         self.w.bind("became key", self.update_callback)
         self.w.bind("close", self.on_close_window)
-        #-----------
         # observers
-        #-----------
+        addObserver(self, "update_callback", "newFontDidOpen")
         addObserver(self, "update_callback", "fontDidOpen")
         addObserver(self, "update_callback", "fontDidClose")
         # open window
@@ -191,7 +181,7 @@ class interpolateGlyphsDialog(hDialog):
                 y = float(self.w._factor_y.value.get())
                 # print info
                 print 'interpolating glyphs...\n'
-                boolstring = [False, True]
+                boolstring = (False, True)
                 print '\tmaster 1: %s' % get_full_name(f1)
                 print '\tmaster 2: %s' % get_full_name(f2)
                 print '\ttarget: %s' % get_full_name(f3)
@@ -230,5 +220,6 @@ class interpolateGlyphsDialog(hDialog):
             print no_font_open
 
     def on_close_window(self, sender):
+        removeObserver(self, "newFontDidOpen")
         removeObserver(self, "fontDidOpen")
         removeObserver(self, "fontDidClose")

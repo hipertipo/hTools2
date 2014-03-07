@@ -101,6 +101,7 @@ class copyMarginsDialog(hDialog):
         self.w.bind("became key", self.update_callback)
         self.w.bind("close", self.on_close_window)
         # observers
+        addObserver(self, "update_callback", "newFontDidOpen")
         addObserver(self, "update_callback", "fontDidOpen")
         addObserver(self, "update_callback", "fontDidClose")
         # open window
@@ -173,6 +174,6 @@ class copyMarginsDialog(hDialog):
                 print 'Nothing to copy. Please select "left" or "right" side-bearings, and try again.\n'
 
     def on_close_window(self, sender):
-        # remove observers on close window
+        removeObserver(self, "newFontDidOpen")
         removeObserver(self, "fontDidOpen")
         removeObserver(self, "fontDidClose")

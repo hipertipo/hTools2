@@ -15,7 +15,7 @@ class Spinner(Group):
 
     # methods
 
-    def __init__(self, (l, t), default='0', scale=1, integer=True, nudge_button=18, padding=10, label=None):
+    def __init__(self, (l, t), default='0', scale=1, integer=True, nudge_button=18, padding=10, label=None, digits=2):
         _x = padding
         _y = 0
         w = (nudge_button * 6) - 5
@@ -26,6 +26,7 @@ class Spinner(Group):
                     h + (padding * 1)))
         self.scale = scale
         self.integer = integer
+        self.digits = digits
         # text label and value
         if label is not None:
             col2 = w / 2.
@@ -86,55 +87,48 @@ class Spinner(Group):
 
     def cast_value(self, value):
         if self.integer:
-            value = int(self.value.get())
+            return int(value)
         else:
-            value = float(self.value.get())
-        return value
+            return float(value)
+
+    def set_value(self, value):
+        if not self.integer:
+            if self.digits == 4:
+                value = '%.4f' % value
+            elif self.digits == 3:
+                value = '%.3f' % value
+            else:
+                value = '%.2f' % value
+        # set value
+        self.value.set(value)
 
     def minus_001_callback(self, sender):
         value = self.value.get()
         value = self.cast_value(value)
         value -= (1 * self.scale)
-        if not self.integer:
-            value = '%.2f' % value
-        self.value.set(value)
+        self.set_value(value)
 
     def plus_001_callback(self, sender):
-        value = self.value.get()
-        value = self.cast_value(value)
+        value = self.cast_value(self.value.get())
         value += (1 * self.scale)
-        if not self.integer:
-            value = '%.2f' % value
-        self.value.set(value)
+        self.set_value(value)
 
     def minus_010_callback(self, sender):
-        value = self.value.get()
-        value = self.cast_value(value)
+        value = self.cast_value(self.value.get())
         value -= (10 * self.scale)
-        if not self.integer:
-            value = '%.2f' % value
-        self.value.set(value)
+        self.set_value(value)
 
     def plus_010_callback(self, sender):
-        value = self.value.get()
-        value = self.cast_value(value)
+        value = self.cast_value(self.value.get())
         value += (10 * self.scale)
-        if not self.integer:
-            value = '%.2f' % value
-        self.value.set(value)
+        self.set_value(value)
 
     def minus_100_callback(self, sender):
-        value = self.value.get()
-        value = self.cast_value(value)
+        value = self.cast_value(self.value.get())
         value -= (100 * self.scale)
-        if not self.integer:
-            value = '%.2f' % value
-        self.value.set(value)
+        self.set_value(value)
 
     def plus_100_callback(self, sender):
-        value = self.value.get()
-        value = self.cast_value(value)
+        value = self.cast_value(self.value.get())
         value += (100 * self.scale)
-        if not self.integer:
-            value = '%.2f' % value
-        self.value.set(value)
+        self.set_value(value)

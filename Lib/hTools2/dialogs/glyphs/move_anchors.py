@@ -1,15 +1,24 @@
 # [h] move anchors in selected glyphs
 
+import hTools2.dialogs.misc.arrows
+reload(hTools2.dialogs.misc.arrows)
+
+import hTools2.dialogs.misc.spinner
+reload(hTools2.dialogs.misc.spinner)
+
 # imports
 
 try:
     from mojo.roboFont import CurrentFont
+
 except ImportError:
     from robofab.world import CurrentFont
 
 from vanilla import *
 
 from hTools2 import hDialog
+from hTools2.dialogs.misc.arrows import Arrows
+from hTools2.dialogs.misc.spinner import Spinner
 from hTools2.modules.fontutils import get_glyphs
 from hTools2.modules.anchors import move_anchors
 from hTools2.modules.messages import no_glyph_selected, no_font_open
@@ -46,138 +55,40 @@ class moveAnchorsDialog(hDialog):
         #---------------
         # arrow buttons
         #---------------
-        x = self.padding_x
-        y = self.padding_y
-        x1 = x + (self.square_button * 1) - 1
-        x2 = x + (self.square_button * 2) - 2
-        # up
-        self.w.up = SquareButton(
-                    (x1, y,
-                    self.square_button,
-                    self.square_button),
-                    unichr(8673),
-                    callback=self.up_callback)
-        # up left
-        self.w.up_left = SquareButton(
-                    (x, y,
-                    self.square_button - 8,
-                    self.square_button - 8),
-                    unichr(8598),
-                    callback=self.up_left_callback,
-                    sizeStyle=self.size_style)
-        # up right
-        self.w.up_right = SquareButton(
-                    (x2 + 8, y,
-                    self.square_button - 8,
-                    self.square_button - 8),
-                    unichr(8599),
-                    callback=self.up_right_callback,
-                    sizeStyle=self.size_style)
-        y += self.square_button - 1
-        # left
-        self.w.left = SquareButton(
-                    (x, y,
-                    self.square_button,
-                    self.square_button),
-                    unichr(8672),
-                    callback=self.left_callback)
-        # right
-        self.w.right = SquareButton(
-                    (x2, y,
-                    self.square_button,
-                    self.square_button),
-                    unichr(8674),
-                    callback=self.right_callback)
-        y += self.square_button - 1
-        # down left
-        self.w.down_left = SquareButton(
-                    (x, y + 8,
-                    self.square_button - 8,
-                    self.square_button - 8),
-                    unichr(8601),
-                    callback=self.down_left_callback,
-                    sizeStyle=self.size_style)
-        # down
-        self.w.down = SquareButton(
-                    (x1, y,
-                    self.square_button,
-                    self.square_button),
-                    unichr(8675),
-                    callback=self.down_callback)
-        # down right
-        self.w.down_right = SquareButton(
-                    (x2 + 8, y + 8,
-                    self.square_button - 8,
-                    self.square_button - 8),
-                    unichr(8600),
-                    callback=self.down_right_callback,
-                    sizeStyle=self.size_style)
-        # move offset
-        y += self.square_button + self.padding_y
-        self.w.move_value = EditText(
-                    (x, y,
-                    -self.padding_x,
-                    self.text_height),
-                    self.move_default,
-                    sizeStyle=self.size_style,
-                    readOnly=self.read_only)
+        x = 0
+        y = 0
+        self.w.arrows = Arrows(
+                    (x, y),
+                    callbacks=dict(
+                        left=self.left_callback, 
+                        right=self.right_callback, 
+                        up=self.up_callback, 
+                        down=self.down_callback,
+                        leftDown=self.down_left_callback, 
+                        rightDown=self.down_right_callback, 
+                        leftUp=self.up_left_callback, 
+                        rightUp=self.up_right_callback,
+                    ),
+                    arrows=[
+                        'left', 'right', 'up', 'down',
+                        'leftUp', 'leftDown', 'rightUp', 'rightDown',
+                    ])
         #----------
         # spinners
         #----------
-        y += self.text_height + self.padding_y
-        self.w.minus_001 = SquareButton(
-                    (x, y,
-                    self.nudge_button,
-                    self.nudge_button),
-                    '-',
-                    sizeStyle=self.size_style,
-                    callback=self.minus_001_callback)
-        x += self.nudge_button - 1
-        self.w.plus_001 = SquareButton(
-                    (x, y,
-                    self.nudge_button,
-                    self.nudge_button),
-                    '+',
-                    sizeStyle=self.size_style,
-                    callback=self.plus_001_callback)
-        x += self.nudge_button - 1
-        self.w._minus_010 = SquareButton(
-                    (x, y,
-                    self.nudge_button,
-                    self.nudge_button),
-                    '-',
-                    sizeStyle=self.size_style,
-                    callback=self.minus_010_callback)
-        x += self.nudge_button - 1
-        self.w.plus_010 = SquareButton(
-                    (x, y,
-                    self.nudge_button,
-                    self.nudge_button),
-                    '+',
-                    sizeStyle=self.size_style,
-                    callback=self.plus_010_callback)
-        x += self.nudge_button - 1
-        self.w.minus_100 = SquareButton(
-                    (x, y,
-                    self.nudge_button,
-                    self.nudge_button),
-                    '-',
-                    sizeStyle=self.size_style,
-                    callback=self.minus_100_callback)
-        x += self.nudge_button - 1
-        self.w.plus_100 = SquareButton(
-                    (x, y,
-                    self.nudge_button,
-                    self.nudge_button),
-                    '+',
-                    sizeStyle=self.size_style,
-                    callback=self.plus_100_callback)
+        x = 0
+        y += self.w.arrows.getPosSize()[3]
+        self.w.spinner = Spinner(
+                    (x, y),
+                    default=self.move_default,
+                    integer=True,
+                    label='delta')
         #------------
         # checkboxes
         #------------
         # top anchors
         x = self.padding_x
-        y += self.padding_y + self.nudge_button
+        y += self.w.spinner.getPosSize()[3]
         shift_x = ((self.width - (self.padding_x * 2)) / 4) + 1
         self.w.anchors_top = CheckBox(
                     (x, y,
@@ -243,67 +154,38 @@ class moveAnchorsDialog(hDialog):
         # open dialog
         self.w.open()
 
-    # spinners
-
-    def minus_001_callback(self, sender):
-        value = int(self.w.move_value.get()) - 1
-        if value >= 0:
-            self.w.move_value.set(value)
-
-    def minus_010_callback(self, sender):
-        value = int(self.w.move_value.get()) - 10
-        if value >= 0:
-            self.w.move_value.set(value)
-
-    def minus_100_callback(self, sender):
-        value = int(self.w.move_value.get()) - 100
-        if value >= 0:
-            self.w.move_value.set(value)
-
-    def plus_001_callback(self, sender):
-        value = int(self.w.move_value.get()) + 1
-        self.w.move_value.set(value)
-
-    def plus_010_callback(self, sender):
-        value = int(self.w.move_value.get()) + 10
-        self.w.move_value.set(value)
-
-    def plus_100_callback(self, sender):
-        value = int(self.w.move_value.get()) + 100
-        self.w.move_value.set(value)
-
     # callbacks
 
     def up_left_callback(self, sender):
-        value = int(self.w.move_value.get())
+        value = int(self.w.spinner.value.get())
         self.move_anchors((-value, value))
 
     def up_right_callback(self, sender):
-        value = int(self.w.move_value.get())
+        value = int(self.w.spinner.value.get())
         self.move_anchors((value, value))
 
     def down_left_callback(self, sender):
-        value = int(self.w.move_value.get())
+        value = int(self.w.spinner.value.get())
         self.move_anchors((-value, -value))
 
     def down_right_callback(self, sender):
-        value = int(self.w.move_value.get())
+        value = int(self.w.spinner.value.get())
         self.move_anchors((value, -value))
 
     def left_callback(self, sender):
-        value = int(self.w.move_value.get())
+        value = int(self.w.spinner.value.get())
         self.move_anchors((-value, 0))
 
     def right_callback(self, sender):
-        value = int(self.w.move_value.get())
+        value = int(self.w.spinner.value.get())
         self.move_anchors((value, 0))
 
     def up_callback(self, sender):
-        value = int(self.w.move_value.get())
+        value = int(self.w.spinner.value.get())
         self.move_anchors((0, value))
 
     def down_callback(self, sender):
-        value = int(self.w.move_value.get())
+        value = int(self.w.spinner.value.get())
         self.move_anchors((0, -value))
 
     # apply
