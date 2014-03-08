@@ -3,12 +3,6 @@
 ### options `split difference` and `relative split`
 ### suggested and funded by Bas Jacobs / Underware
 
-import hTools2
-reload(hTools2)
-
-import hTools2.dialogs.misc.spinner
-reload(hTools2.dialogs.misc.spinner)
-
 # imports
 
 try:
@@ -20,7 +14,7 @@ except ImportError:
 from vanilla import *
 
 from hTools2 import hDialog
-from hTools2.dialogs.misc.spinner import Spinner
+from hTools2.dialogs.misc import Spinner
 from hTools2.modules.fontutils import get_glyphs
 from hTools2.modules.glyphutils import center_glyph
 from hTools2.modules.messages import no_font_open, no_glyph_selected

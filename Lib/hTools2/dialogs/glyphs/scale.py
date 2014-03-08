@@ -1,8 +1,5 @@
 # [h] scale selected glyphs
 
-import hTools2.dialogs.misc.spinner
-reload(hTools2.dialogs.misc.spinner)
-
 # imports
 
 try:
@@ -14,9 +11,9 @@ except ImportError:
 from vanilla import *
 
 from hTools2 import hDialog
+from hTools2.dialogs.misc import Spinner
 from hTools2.modules.fontutils import get_glyphs
 from hTools2.modules.messages import no_glyph_selected, no_font_open
-from hTools2.dialogs.misc.spinner import Spinner
 
 # objects
 
@@ -32,7 +29,7 @@ class scaleGlyphsDialog(hDialog):
 
     x_metrics = True
     y_metrics = False
-    scale_value = 1.1
+    scale_value = '1.10'
     layers = False
 
     # methods
@@ -76,7 +73,7 @@ class scaleGlyphsDialog(hDialog):
         y += (self.text_height + self.padding_y)
         self.w.spinner = Spinner(
                     (x, y),
-                    default='1.0',
+                    default=self.scale_value,
                     scale=.01,
                     integer=False,
                     label='factor')

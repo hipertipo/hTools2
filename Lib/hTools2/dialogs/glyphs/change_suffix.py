@@ -22,6 +22,9 @@ class changeSuffixDialog(hDialog):
     '''A dialog to change the suffix of the selected glyphs.
 
     .. image:: imgs/glyphs/add-suffix.png
+    .. image:: imgs/glyphs/add-suffix-1.png
+    .. image:: imgs/glyphs/add-suffix-2.png
+    .. image:: imgs/glyphs/add-suffix-3.png
 
     '''
 
@@ -59,6 +62,7 @@ class changeSuffixDialog(hDialog):
                     self.column_2,
                     self.text_height),
                     text=self.old_suffix,
+                    placeholder='old suffix',
                     sizeStyle=self.size_style)
         # new suffix
         x = self.padding_x
@@ -75,6 +79,7 @@ class changeSuffixDialog(hDialog):
                     self.column_2,
                     self.text_height),
                     text=self.new_suffix,
+                    placeholder='new suffix',
                     sizeStyle=self.size_style)
         y += (self.text_height + self.padding_y)
         # checkbox overwrite

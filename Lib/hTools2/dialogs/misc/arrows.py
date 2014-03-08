@@ -8,6 +8,8 @@ from vanilla import *
 
 class Arrows(Group):
 
+    '''An object to add directional arrow buttons to vanilla dialogs.'''
+
     # attributes
 
     all_arrows = [

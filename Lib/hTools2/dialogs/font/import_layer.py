@@ -1,7 +1,6 @@
 # [h] import layer from ufo
 
-### suggested & sponsored
-### by Bas Jacobs (Underware)
+### suggested & sponsored by Bas Jacobs (Underware)
 ### http://underware.nl/
 
 # import
@@ -10,6 +9,7 @@ import os
 
 try:
     from mojo.roboFont import CurrentFont, RFont
+
 except ImportError:
     from robofab.world import CurrentFont, RFont
     

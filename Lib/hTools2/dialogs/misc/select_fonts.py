@@ -11,6 +11,7 @@
 
 try:
     from mojo.roboFont import CurrentFont, AllFonts, RFont
+
 except:
     from robofab.world import CurrentFont, AllFonts, RFont
 
@@ -328,15 +329,12 @@ class SelectFonts(object):
         self.w._fonts_list.set(_list)
 
     def selection_callback(self, sender):
-        '''triggered every time that items in the list are selected/deselected'''
         self._selection = sender.getSelection()
 
     def apply_callback(self, sender):
-        '''triggered when the `OK` button is clicked'''
         return self.__iter__()
 
     def cancel_callback(self, sender):
-        '''triggered when the `cancel` button is clicked'''
         if self._verbose:
             print 'dialog cancelled.'
         yield None

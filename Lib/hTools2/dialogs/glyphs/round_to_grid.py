@@ -11,7 +11,7 @@ except ImportError:
 from vanilla import *
 
 from hTools2 import hDialog
-from hTools2.dialogs.misc.spinner import Spinner
+from hTools2.dialogs.misc import Spinner
 from hTools2.modules.fontutils import get_glyphs
 from hTools2.modules.glyphutils import round_anchors, round_bpoints, round_points, round_margins, round_width
 from hTools2.modules.messages import no_glyph_selected, no_font_open

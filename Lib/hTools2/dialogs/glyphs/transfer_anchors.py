@@ -48,7 +48,7 @@ class transferAnchorsDialog(hDialog):
                     (x, y,
                     -self.padding_x,
                     self.text_height),
-                    "source font",
+                    "source",
                     sizeStyle=self.size_style)
         y += self.text_height
         # source font value
@@ -64,7 +64,7 @@ class transferAnchorsDialog(hDialog):
                     (x, y,
                     -self.padding_x,
                     self.text_height),
-                    "target font",
+                    "target",
                     sizeStyle=self.size_style)
         y += self.text_height
         # target font value
@@ -87,6 +87,7 @@ class transferAnchorsDialog(hDialog):
         self.w.bind("became key", self.update_callback)
         self.w.bind("close", self.on_close_window)
         # observers
+        addObserver(self, "update_callback", "newFontDidOpen")
         addObserver(self, "update_callback", "fontDidOpen")
         addObserver(self, "update_callback", "fontDidClose")
         # open window
@@ -145,6 +146,6 @@ class transferAnchorsDialog(hDialog):
             print no_font_open # 'please open at least one font.\n'
 
     def on_close_window(self, sender):
-        # remove observers on close window
+        removeObserver(self, "newFontDidOpen")
         removeObserver(self, "fontDidOpen")
         removeObserver(self, "fontDidClose")

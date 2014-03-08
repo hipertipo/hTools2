@@ -10,5 +10,5 @@ Dialogs
    glyphs.rst
    font.rst
    folder.rst
-   allfonts.rst
+   all_fonts.rst
    misc.rst

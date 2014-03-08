@@ -9,10 +9,12 @@
 
 from actions import glyphActionsDialog
 from change_suffix import changeSuffixDialog
+from check_compatibility import checkGlyphsCompatibilityDialog
+from condense import condenseGlyphsDialog
 from copy_margins import copyMarginsDialog
+from copy_paste import copyPasteGlyphDialog
 from copy_to_layer import copyToLayerDialog
 from copy_to_mask import copyToMaskDialog
-from copy_paste import copyPasteGlyphDialog
 from copy_widths import copyWidthsDialog
 from interpolate import interpolateGlyphsDialog
 from mask import maskDialog
@@ -20,6 +22,7 @@ from mirror import mirrorGlyphsDialog
 from move import moveGlyphsDialog
 from move_anchors import moveAnchorsDialog
 from paint import paintGlyphsDialog
+from print_names import printGlyphsDialog
 from rasterize import rasterizeGlyphDialog
 from rename_anchors import renameAnchorsDialog
 from round_to_grid import roundToGridDialog
@@ -34,27 +37,30 @@ from transfer_anchors import transferAnchorsDialog
 # export
 
 __all__ = [
-    'copyMarginsDialog',
-    'copyWidthsDialog',
-    'copyToMaskDialog',
-    'changeSuffixDialog',
-    'moveAnchorsDialog',
-    'moveGlyphsDialog',
-    'maskDialog',
-    'copyToLayerDialog',
-    'copyPasteGlyphDialog',
-    'mirrorGlyphsDialog',
     'glyphActionsDialog',
+    'changeSuffixDialog',
+    'checkGlyphsCompatibilityDialog',
+    'condenseGlyphsDialog',
+    'copyMarginsDialog',
+    'copyPasteGlyphDialog',
+    'copyToLayerDialog',
+    'copyToMaskDialog',
+    'copyWidthsDialog',
     'interpolateGlyphsDialog',
+    'maskDialog',
+    'mirrorGlyphsDialog',
+    'moveGlyphsDialog',
+    'moveAnchorsDialog',
     'paintGlyphsDialog',
+    'printGlyphsDialog',
     'rasterizeGlyphDialog',
     'renameAnchorsDialog',
     'roundToGridDialog',
-    'shiftPointsDialog',
     'scaleGlyphsDialog',
+    'setMarginsDialog',
+    'setWidthDialog',
+    'shiftPointsDialog',
     'skewGlyphsDialog',
     'slideGlyphsDialog',
-    'setWidthDialog',
-    'setMarginsDialog',
     'transferAnchorsDialog',
 ]

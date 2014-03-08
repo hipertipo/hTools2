@@ -11,7 +11,7 @@ except ImportError:
 from vanilla import *
 
 from hTools2 import hDialog
-from hTools2.dialogs.misc.spinner import Spinner
+from hTools2.dialogs.misc import Spinner
 from hTools2.modules.rasterizer import *
 from hTools2.modules.messages import no_font_open
 
@@ -21,7 +21,7 @@ class setElementDialog(hDialog):
 
     '''
 
-    .. image:: imgs/glyphs/set-element.png
+    .. image:: imgs/font/set-element.png
 
     '''
 

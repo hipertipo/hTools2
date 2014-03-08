@@ -8,6 +8,8 @@ from vanilla import *
 
 class Spinner(Group):
 
+    '''An object to add number spinners to vanilla dialogs.'''
+
     # attributes
 
     min_value = None

@@ -4,6 +4,7 @@
 
 try:
     from mojo.roboFont import AllFonts
+
 except ImportError:
     from robofab.world import AllFonts
 
@@ -14,12 +15,13 @@ from vanilla.dialogs import getFolder
 
 from hTools2 import hDialog
 from hTools2.modules.fontutils import get_full_name
+from hTools2.modules.messages import no_font_open
 
 # dialog
 
 class generateAllFontsDialog(hDialog):
 
-    '''
+    '''A dialog to test install and/or generate .otf fonts for all open .ufo fonts.
 
     .. image:: imgs/all-fonts/generate.png
 
@@ -119,8 +121,8 @@ class generateAllFontsDialog(hDialog):
                 font.testInstall()
 
     def button_apply_callback(self, sender):
-        _all_fonts = AllFonts()
-        if len(_all_fonts) > 0:
+        all_fonts = AllFonts()
+        if len(all_fonts) > 0:
             # get settings
             _decompose = self.w._decompose.get()
             _overlaps = self.w._overlaps.get()
@@ -138,7 +140,7 @@ class generateAllFontsDialog(hDialog):
             # batch generate
             self.w.bar.start()
             _undo_name = 'generate all open fonts'
-            for font in _all_fonts:
+            for font in all_fonts:
                 if font.path is not None:
                     _font_path = font.path
                     print '\tgenerating .otf for %s...' % os.path.split(get_full_name(font))[1]
@@ -157,4 +159,4 @@ class generateAllFontsDialog(hDialog):
             print '...done.\n'
         # no font open
         else:
-            print 'please open at least one font before running this script.\n'
+            print no_font_open

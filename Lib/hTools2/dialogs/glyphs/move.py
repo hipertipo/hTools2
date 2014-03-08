@@ -1,10 +1,7 @@
 # [h] move selected glyphs
 
-import hTools2.dialogs.misc.arrows
-reload(hTools2.dialogs.misc.arrows)
-
-import hTools2.dialogs.misc.spinner
-reload(hTools2.dialogs.misc.spinner)
+import hTools2.dialogs.misc
+reload(hTools2.dialogs.misc)
 
 # imports
 
@@ -17,8 +14,7 @@ except ImportError:
 from vanilla import *
 
 from hTools2 import hDialog
-from hTools2.dialogs.misc.arrows import Arrows
-from hTools2.dialogs.misc.spinner import Spinner
+from hTools2.dialogs.misc import Arrows, Spinner
 from hTools2.modules.fontutils import get_glyphs
 from hTools2.modules.messages import no_glyph_selected, no_font_open, no_layer_selected
 

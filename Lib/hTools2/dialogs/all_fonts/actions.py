@@ -1,11 +1,10 @@
 # [h] apply actions
 
-'''Apply actions to all open fonts.'''
-
 # import
 
 try:
     from mojo.roboFont import AllFonts
+
 except ImportError:
     from robofab.world import AllFonts
 
@@ -19,7 +18,8 @@ from hTools2.modules.messages import no_font_open
 
 class actionsDialog(hDialog):
 
-    '''
+    '''A dialog to selectively apply several actions to all open fonts.
+
 
     .. image:: imgs/all-fonts/actions.png
 

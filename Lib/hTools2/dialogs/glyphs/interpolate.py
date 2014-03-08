@@ -1,5 +1,8 @@
 # [h] interpolate glyphs
 
+import hTools2.dialogs.misc
+reload(hTools2.dialogs.misc)
+
 # imports
 
 try:
@@ -12,7 +15,7 @@ except ImportError:
 from vanilla import *
 
 from hTools2 import hDialog
-from hTools2.dialogs.misc.spinner import Spinner
+from hTools2.dialogs.misc import Spinner
 from hTools2.modules.fontutils import get_full_name, get_glyphs
 from hTools2.modules.messages import no_glyph_selected, no_font_open
 

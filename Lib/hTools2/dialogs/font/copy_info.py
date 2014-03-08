@@ -1,7 +1,5 @@
 # [h] copy font info
 
-'''Copy font info from one font to another.'''
-
 # imports
 
 from vanilla import *
@@ -21,11 +19,11 @@ from hTools2.modules.messages import no_font_open
 
 class copyFontInfoDialog(hDialog):
 
-    '''
+    '''Copy font info from one font to another.
+
     .. image:: imgs/font/copy-info.png
 
     '''
-
 
     # attributes
 
@@ -96,7 +94,7 @@ class copyFontInfoDialog(hDialog):
     # methods
 
     def __init__(self):
-        self.get_fonts()
+        # self.get_fonts()
         # window
         self.title = 'fontinfo'
         self.height = (self.text_height * 8) + (self.padding_y * 4) + self.button_height - 6

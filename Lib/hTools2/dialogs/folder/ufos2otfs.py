@@ -6,6 +6,7 @@ import os
 
 try:
     from mojo.roboFont import RFont
+
 except ImportError:
     from robofab.world import RFont
 
