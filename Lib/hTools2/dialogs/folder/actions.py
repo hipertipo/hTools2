@@ -179,7 +179,7 @@ class actionsFolderDialog(hDialog):
     # apply callback
 
     def apply_callback(self, sender):
-        ufo_paths = walk(self._ufos_folder, 'ufo')
+        ufo_paths = walk(self.ufos_folder, 'ufo')
         if len(ufo_paths) > 0:
             print 'transforming all fonts in folder...\n'
             self.w.bar.start()

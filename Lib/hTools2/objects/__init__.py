@@ -29,7 +29,7 @@ from hspace import hSpace
 from hfont import hFont
 from hglyph import hGlyph
 
-# export object names
+# names
 
 __all__ = [
     'hSettings',

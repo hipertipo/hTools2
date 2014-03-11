@@ -8,6 +8,7 @@ base_path = os.path.dirname(__file__)
 lib_path = os.path.join(base_path, 'Lib')
 extension_path = os.path.join(base_path, extension_file)
 html_path = os.path.join(base_path, "Documentation/build/html")
+os.makedirs(html_path)
 
 print 'building extension...',
 
