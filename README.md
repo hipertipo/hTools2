@@ -4,7 +4,7 @@ hTools2 is a [UFO](http://unifiedfontobject.org/)-based [Python](http://python.o
 
 It is built with [RoboFab](http://robofab.org) & [vanilla](http://code.typesupply.com/wiki/Vanilla) for use with [RoboFont](http://robofont.com/).
 
-**new!** Now also available as a [RoboFont Extension](https://github.com/gferreira/hTools2_extension), install with one click.
+**new!** Now also available as a [RoboFont Extension](https://github.com/gferreira/hTools2_extension) — install with one click.
 
 ## Credits
 
@@ -39,12 +39,13 @@ If you use hTools2 on a regular basis, please consider contributing back to the 
 
 ## Thanks
 
-Thanks to everyone else who contributed with ideas, comments, suggestions and pull requests: [Miguel Sousa](http://adhesiontext.com/), [Mathieu Christe](http://grafix.bulbfactory.ch/), [Marcos Ojeda](http://generic.cx/), [Joancarles Casasín](http://casasin.com/), [Frank Grießhammer](http://frgr.de/), …
+Thanks to everyone else who contributed with ideas, comments, suggestions, bugs reports, pull requests: [Miguel Sousa](http://adhesiontext.com/), [Mathieu Christe](http://grafix.bulbfactory.ch/), [Marcos Ojeda](http://generic.cx/), [Joancarles Casasín](http://casasin.com/), [Frank Grießhammer](http://frgr.de/), [Lucas Schneider](http://snider-inc.de/), …
 
 ## Download
 
-- [download from GitHub (zip)](https://github.com/gferreira/hTools2/archive/master.zip)
-- [download from BitBucket (zip)](https://bitbucket.org/hipertipo/htools2/get/master.zip)
+- [RoboFont extension on GitHub (zip)](https://github.com/gferreira/hTools2_extension/master.zip)
+- [source on GitHub (zip)](https://github.com/gferreira/hTools2/archive/master.zip)
+- [source on BitBucket (zip)](https://bitbucket.org/hipertipo/htools2/get/master.zip)
 
 ## License
 
