@@ -117,24 +117,28 @@ class hFont:
         self.ufo.update()
 
     def paint_groups(self, crop=False):
-        '''Paints and orders the glyphs in the font based on the project's ``groups`` lib.'''
+        '''Paints and orders the glyphs in the font based on the project's ``groups`` lib.
+
+        :param bool crop: If ``True``, remove from the font all glyphs which don't belong to any group.
+
+        '''
         paint_groups(self.ufo, crop)
 
     def import_spacing_groups(self, mode=0):
         '''Import left/right spacing classes from lib into groups.'''
         _spacing_dict = self.project.libs['spacing']
-        # old hTools1 format
-        if mode == 1:
-            for side in _spacing_dict.keys():
-                for group in _spacing_dict[side].keys():
-                    _class_name = '_%s_%s' % (side, group)
-                    _glyphs = [ group ] + _spacing_dict[side][group]
-                    self.ufo.groups[_class_name] = _glyphs
+        # # old hTools1 format
+        # if mode == 1:
+        #     for side in _spacing_dict.keys():
+        #         for group in _spacing_dict[side].keys():
+        #             _class_name = '_%s_%s' % (side, group)
+        #             _glyphs = [ group ] + _spacing_dict[side][group]
+        #             self.ufo.groups[_class_name] = _glyphs
         # new hTools2 format
-        else:
-            for side in _spacing_dict.keys():
-                for group in _spacing_dict[side].keys():
-                    self.ufo.groups[group] = _spacing_dict[side][group]
+        # else:
+        for side in _spacing_dict.keys():
+            for group in _spacing_dict[side].keys():
+                self.ufo.groups[group] = _spacing_dict[side][group]
         # update font
         self.ufo.update()
 
@@ -227,7 +231,7 @@ class hFont:
         auto_order_direction(self.ufo)
 
     def add_extremes(self):
-        '''Auto add extreme points in all glyphs in font.'''
+        '''Auto add extreme points to all glyphs in font.'''
         add_extremes(self.ufo)
 
     def align_to_grid(self, (sizeX, sizeY)):
