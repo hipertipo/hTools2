@@ -39,7 +39,7 @@ If you use hTools2 on a regular basis, please consider contributing back to the 
 
 ## Thanks
 
-Thanks to everyone else who contributed with ideas, comments, suggestions, bugs reports, pull requests: [Miguel Sousa](http://adhesiontext.com/), [Mathieu Christe](http://grafix.bulbfactory.ch/), [Marcos Ojeda](http://generic.cx/), [Joancarles Casasín](http://casasin.com/), [Frank Grießhammer](http://frgr.de/), [Lukas Schneider](http://snider-inc.de/), …
+Thanks to everyone else who contributed with ideas, comments, suggestions, bug reports, pull requests: [Miguel Sousa](http://adhesiontext.com/), [Mathieu Christe](http://grafix.bulbfactory.ch/), [Marcos Ojeda](http://generic.cx/), [Joancarles Casasín](http://casasin.com/), [Frank Grießhammer](http://frgr.de/), [Lukas Schneider](http://snider-inc.de/), …
 
 ## Download
 
