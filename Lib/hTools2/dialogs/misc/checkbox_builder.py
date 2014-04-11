@@ -1,4 +1,6 @@
-# [h] classic checkbox builder (hTools1)
+# [h] checkbox builder (hTools1 classic)
+
+### thanks to Tal Leming for valuable tips many years ago in the RoboFab list
 
 # imports
 
@@ -8,7 +10,7 @@ from dialogKit import ModalDialog, CheckBox, HorizontalLine
 
 class checkBoxBuilder(object):
 
-    '''An object to create a modal dialog for items in a list.
+    '''An object to create a modal dialog for selecting items in a list.
 
     .. image:: imgs/misc/checkbox-builder.png
 
@@ -17,16 +19,16 @@ class checkBoxBuilder(object):
         from hTools2.dialogs.misc import checkBoxBuilder
 
         L = [
-            ('avocado', True),
-            ('banana', True),
-            ('chocolate', False),
+            ('apples', True),
+            ('bananas', True),
+            ('tomatos', False),
         ]
 
         B = checkBoxBuilder(L)
 
         print B.selected
 
-        >>> ['avocado', 'banana']
+        >>> ['apples', 'bananas']
 
     '''
 

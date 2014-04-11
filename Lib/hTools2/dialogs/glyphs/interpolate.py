@@ -36,7 +36,7 @@ class interpolateGlyphsDialog(hDialog):
 
     factor_x = 0.50
     factor_y = 0.50
-    proportional = True
+    # proportional = True
 
     # methods
 
@@ -45,7 +45,7 @@ class interpolateGlyphsDialog(hDialog):
         # window
         self.title = 'interpol'
         self.width = 123
-        self.height = (self.nudge_button * 4) + (self.text_height * 7) + self.progress_bar + (self.padding_y * 9) + (self.button_height) - 12
+        self.height = (self.nudge_button * 4) + (self.text_height * 6) + self.progress_bar + (self.padding_y * 8) + (self.button_height) - 10
         self.value_box = 60
         self.column_2 = self.value_box + (self.nudge_button * 7) - 6
         self.w = FloatingWindow((self.width, self.height), self.title)
@@ -113,19 +113,19 @@ class interpolateGlyphsDialog(hDialog):
                     integer=False,
                     label='y factor')
         # proporional
-        x = self.padding_x
+        # x = self.padding_x
         y += self.w._factor_y.getPosSize()[3]
-        self.w._proportional_checkbox = CheckBox(
-                    (x, y,
-                    -self.padding_x,
-                    self.text_height),
-                    "proportional",
-                    value=self.proportional,
-                    sizeStyle=self.size_style,
-                    callback=self._proportional_callback)
+        # self.w._proportional_checkbox = CheckBox(
+        #             (x, y,
+        #             -self.padding_x,
+        #             self.text_height),
+        #             "proportional",
+        #             value=self.proportional,
+        #             sizeStyle=self.size_style,
+        #             callback=self._proportional_callback)
         # apply button
         x = self.padding_x
-        y += (self.text_height + self.padding_y) - 3
+        # y += (self.text_height + self.padding_y) - 3
         self.w.button_apply = SquareButton(
                     (x, y,
                     -self.padding_x,
@@ -153,8 +153,8 @@ class interpolateGlyphsDialog(hDialog):
 
     # apply
 
-    def _proportional_callback(self, sender):
-        self.proportional = self.w._proportional_checkbox.get()
+    # def _proportional_callback(self, sender):
+    #     self.proportional = self.w._proportional_checkbox.get()
 
     def _get_fonts(self):
         # get all fonts
@@ -191,7 +191,7 @@ class interpolateGlyphsDialog(hDialog):
                 print
                 print '\tfactor x: %s' % x
                 print '\tfactor y: %s' % y
-                print '\tproportional: %s' % boolstring[self.proportional]
+                # print '\tproportional: %s' % boolstring[self.proportional]
                 print
                 print '\t',
                 self.w.bar.start()

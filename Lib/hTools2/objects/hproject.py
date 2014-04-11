@@ -46,6 +46,7 @@ class hProject:
     #: An object to control the project's git repository.
     git = None
 
+    #: A list of path items in the hProject file structure.
     _path_names = [
         'root',
         'libs',
@@ -66,6 +67,7 @@ class hProject:
         'otfs_test',
     ]
 
+    #: A list with names of data libs.
     _lib_names = [
         'project',
         'info',
@@ -77,6 +79,7 @@ class hProject:
         'groups'
     ]
 
+    #: Extension for data lib files.
     _lib_extension = 'plist'
 
     # methods
@@ -94,6 +97,18 @@ class hProject:
 
     def __repr__(self):
         return '<hProject %s>' % self.name
+
+    # dynamic attributes
+
+    @property
+    def groups_order(self):
+        return self.libs['groups']['order']
+
+    @property
+    def groups(self):
+        return self.libs['groups']['glyphs']
+
+    # functions
 
     def get_ufo(self, parameters, verbose=False):
         '''Get the ufo path for the given parameters dict.'''
@@ -144,11 +159,19 @@ class hProject:
         print
 
     def print_woffs(self):
-        '''Print all ``.woffs`` in project.'''
+        '''Print all ``.woff`` files in project.'''
         _woffs = self.woffs()
         print 'woffs (%s):\n' % len(_woffs)
         for woff in _woffs:
             print '\t%s' % woff
+        print
+
+    def print_ttxs(self):
+        '''Print all ``.ttx`` files in project.'''
+        _ttxs = self.ttxs()
+        print 'ttxs (%s):\n' % len(_ttxs)
+        for ttx in _ttxs:
+            print '\t%s' % ttx
         print
 
     def print_scripts(self):
@@ -163,7 +186,7 @@ class hProject:
             print '\t%s' % script
         print
 
-    def print_info(self, masters=True, instances=True, otfs=True, woffs=True, libs=True, scripts=True):
+    def print_info(self, masters=True, instances=True, otfs=True, woffs=True, libs=True, scripts=True, ttxs=True):
         '''Print different kinds of information about the project.'''
         line_length = 40
         print 'project info for %s...' % self.name
@@ -179,6 +202,8 @@ class hProject:
             self.print_otfs()
         if woffs:
             self.print_woffs()
+        if ttxs:
+            self.print_ttxs()
         if scripts:
             self.print_scripts()
         # done
@@ -209,9 +234,9 @@ class hProject:
         Group and glyph names are stored in a dictionary in ``hProject.libs['groups']['glyphs']``, while the glyph order is stored in ``hProject.libs['groups']['order']``.
 
         '''
-        _groups, _order = import_encoding(self.paths['encoding'])
-        self.libs['groups']['glyphs'] = _groups
-        self.libs['groups']['order'] = _order
+        groups, order = import_encoding(self.paths['encoding'])
+        self.libs['groups']['glyphs'] = groups
+        self.libs['groups']['order'] = order
 
     def write_lib(self, lib_name):
         '''Write the lib with the given ``lib_name`` to its ``.plist`` file.
@@ -243,8 +268,8 @@ class hProject:
 
     def make_paths(self):
         '''Make all project paths and collect them into a dictionary.'''
-        _paths = {}
         _project_root = os.path.join(self.world.settings.root, '_%s') % self.name
+        _paths = {}
         _paths['root'] = _project_root
         _paths['ufos'] = os.path.join(_project_root, '_ufos')
         _paths['otfs'] = os.path.join(_project_root, '_otfs')
@@ -578,7 +603,7 @@ class hProject:
             if verbose:
                 print 'done.\n'
 
-    # basic git management
+    # git
 
     def get_repository(self):
         try:
@@ -586,3 +611,74 @@ class hProject:
         except:
             print 'project has no git repository.'
 
+    # datavis
+
+    def collect_font_data(self):
+        font_attributes = [
+            'xHeight',
+            'descender',
+            'ascender',
+            'capHeight',
+            'postscriptStemSnapH'
+        ]
+        font_data = {}
+        # collect data
+        for font_name in self.fonts:
+            ufo = RFont(self.fonts[font_name], showUI=False)
+            font_data[font_name] = {}
+            for attr in font_attributes:
+                value = getattr(ufo.info, attr)
+                if value is None:
+                    value = 0
+                if type(value) == list:
+                    if len(value) > 0:
+                         value = value[0]
+                    else:
+                        value = 0
+                value = int(value)
+                font_data[font_name][attr] = value
+        # save data to plist
+        plist_path = os.path.join(self.paths['data'], 'fonts.plist')
+        plistlib.writePlist(font_data, plist_path)
+
+    def collect_glyph_data(self, glyph_names):
+        glyph_attributes = [
+            'width',
+            'leftMargin',
+            'rightMargin'
+        ]
+        # make glyphs folder
+        data_folder = os.path.join(self.paths['data'], 'glyphs')
+        if not os.path.exists(data_folder):
+            os.mkdir(data_folder)
+        # collect data
+        for glyph_name in glyph_names:
+            glyph_data = {}
+            for font_name in self.fonts:
+                try:
+                    ufo = RFont(self.fonts[font_name], showUI=False)
+                except TypeError:
+                    ufo = RFont(self.fonts[font_name])
+                glyph_data[font_name] = {}
+                for attr in glyph_attributes:
+                    glyph_data[font_name][attr] = float(getattr(ufo[glyph_name], attr))
+            plist_path = os.path.join(data_folder, '%s.plist' % glyph_name)
+            plistlib.writePlist(glyph_data, plist_path)
+
+    def get_glyph_data(self, glyph_name):
+        data_folder = os.path.join(self.paths['data'], 'glyphs')
+        plist_path = os.path.join(data_folder, '%s.plist' % glyph_name)
+        return plistlib.readPlist(plist_path)
+
+    def clear_glyph_data(self):
+        data_folder = os.path.join(self.paths['data'], 'glyphs')
+        plist_paths = walk(data_folder, 'plist')
+        if len(plist_paths) > 0:
+            delete_files(plist_paths)
+
+# tests
+
+if __name__ == "__main__":
+    # import doctest
+    # doctest.testmod(verbose=True)
+    pass

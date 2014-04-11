@@ -4,7 +4,7 @@
 
 import os
 
-from hproject import hProject
+from hTools2.objects.hproject import hProject
 
 from hTools2.modules.anchors import clear_anchors, get_anchors_dict
 from hTools2.modules.color import clear_colors, hls_to_rgb, x11_colors, convert_to_1
@@ -53,7 +53,7 @@ class hFont:
         '''Return textual representation of ``hFont``.'''
         return '<hFont %s>' % self.full_name()
 
-    def init_from_filename(self, set_names=True):
+    def init_from_filename(self, set_names=True, verbose=False):
         '''Initiate ``hFont`` object from ``RFont``, get parent project, parse name parts.'''
         ufo_file = os.path.basename(self.ufo.path)
         self.file_name = os.path.splitext(ufo_file)[0]
@@ -72,8 +72,8 @@ class hFont:
                 self.parameters = dict(zip(parameters_order, name_parameters))
             # keep parameters dict empty
             except:
-                # print 'Error: no parameters lib for this font.\n'
-                pass
+                if verbose:
+                    print 'Error: no parameters lib for this font.\n'
         except:
             print 'Error: font name is not in the format family_style'
 
@@ -127,19 +127,9 @@ class hFont:
     def import_spacing_groups(self, mode=0):
         '''Import left/right spacing classes from lib into groups.'''
         _spacing_dict = self.project.libs['spacing']
-        # # old hTools1 format
-        # if mode == 1:
-        #     for side in _spacing_dict.keys():
-        #         for group in _spacing_dict[side].keys():
-        #             _class_name = '_%s_%s' % (side, group)
-        #             _glyphs = [ group ] + _spacing_dict[side][group]
-        #             self.ufo.groups[_class_name] = _glyphs
-        # new hTools2 format
-        # else:
         for side in _spacing_dict.keys():
             for group in _spacing_dict[side].keys():
                 self.ufo.groups[group] = _spacing_dict[side][group]
-        # update font
         self.ufo.update()
 
     def paint_spacing_groups(self, side, verbose=False):
@@ -192,6 +182,9 @@ class hFont:
         '''Delete all glyphs which are not in the font's glyphset.'''
         glyph_set = self.glyphset()
         crop_glyphset(self.ufo, glyph_set)
+
+    def get_glyphs(self):
+        return get_glyphs(self.ufo)
 
     # actions
 
@@ -521,8 +514,9 @@ class hFont:
         guides_names = {
             'anchors' : [ g for g in guides if 'anchors' in g.split('_') ],
             'overshoots' : [ g for g in guides if 'overshoot' in g.split('_') ],
-            'lc' : [ g for g in guides if 'lc' in g.split('_') ],
-            'uc' : [ g for g in guides if 'uc' in g.split('_') ] + [ g for g in guides if 'capheight' in g.split('_') ],
+            'lowercase' : [ g for g in guides if 'lc' in g.split('_') ],
+            'numbers' : [ g for g in guides if g[:6] == 'number' ],
+            'uppercase' : [ g for g in guides if 'uc' in g.split('_') ] + [ g for g in guides if 'capheight' in g.split('_') ],
         }
         # compile guides dict from offsets
         guides_dict = {}
@@ -548,11 +542,19 @@ class hFont:
         # create the guides
         for guide_name, guide_pos in self.guides_dict[guides_group].items():
             if case == 'lowercase':
-                if guide_name not in self.guides_dict['uc'].keys():
+                if guide_name not in self.guides_dict['uppercase'].keys() and guide_name not in self.guides_dict['numbers'].keys():
+                    self.ufo.addGuide((0, guide_pos), 0, name=guide_name)
+            elif case == 'numbers':
+                if guide_name in self.guides_dict['numbers'].keys():
                     self.ufo.addGuide((0, guide_pos), 0, name=guide_name)
             else:
-                if guide_name in self.guides_dict['uc'].keys():
+                if guide_name in self.guides_dict['uppercase'].keys():
                     self.ufo.addGuide((0, guide_pos), 0, name=guide_name)
+        # special guides
+        if case == 'numbers':
+            self.ufo.addGuide((0, self.guides_dict['numbers']['numberdesc']), 0, name='numbers_descenders')
+            self.ufo.addGuide((0, self.guides_dict['overshoots']['xheight_overshoot']), 0, name='xheight_overshoot')
+            self.ufo.addGuide((0, self.guides_dict['overshoots']['baseline_lc_overshoot']), 0, name='baseline_overshoot')
         # done
         self.ufo.update()
         if verbose:

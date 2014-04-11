@@ -28,6 +28,6 @@ def add_menu(name, path):
     # set the menu as submenu
     newItem.setSubmenu_(menu)
 
-menu_name = "Tools"
+menu_name = "hTools2"
 scripts_path = os.path.join(os.getcwd(), 'Scripts')
 add_menu(menu_name, scripts_path)
