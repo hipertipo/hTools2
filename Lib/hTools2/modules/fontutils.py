@@ -10,6 +10,8 @@ from random import randint
 
 try:
     from mojo.roboFont import CurrentGlyph, CurrentFont, NewFont
+    from lib.tools.defaults import getDefault
+
 except:
     from robofab.world import CurrentGlyph, CurrentFont, NewFont
 
@@ -20,25 +22,29 @@ from hTools2.modules.color import *
 # glyphs
 #--------
 
-def get_glyphs(font, current_glyph=True, font_selection=True, mode='names'):
+def get_glyphs(font): # current_glyph=True, font_selection=True, 
     '''Return current glyph selection in the font as glyph names or ``RGlyph`` objects.'''
-    glyphs = {}
-    # get current glyph
-    if current_glyph:
-        glyph = CurrentGlyph()
-        if glyph is not None:
-            glyphs[glyph.name] = glyph
-    # get font selection
-    if font_selection:
-        for glyph_name in font.selection:
-            if glyphs.has_key(glyph_name) is not True:
-                glyphs[glyph_name] = font[glyph_name]
-    # mode 0: glyph names
-    if mode == 'names':
-        return glyphs.keys()
-    # mode 1: RGlyphs
+    # get glyphs
+    current_glyph = CurrentGlyph()
+    font_selection = font.selection
+    # get RoboFont's window mode
+    single_window = [ False, True ][getDefault("singleWindowMode")]
+    # handle multi-window mode
+    glyphs = []
+    if not single_window:
+        if current_glyph is not None:
+            glyphs += [current_glyph.name]
+        else:
+            glyphs += font_selection
+    # multi-window: return
     else:
-        return glyphs.values()
+        if current_glyph is not None:
+            glyphs += [current_glyph.name]
+            glyphs += font_selection
+        else:
+            glyphs += font_selection
+    # done
+    return list(set(glyphs))
 
 def print_selected_glyphs(f, mode=0, sort=False):
     '''Print the selected glyphs to the output window.'''
