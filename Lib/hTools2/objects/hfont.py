@@ -7,7 +7,7 @@ import os
 from hTools2.objects.hproject import hProject
 
 from hTools2.modules.anchors import clear_anchors, get_anchors_dict
-from hTools2.modules.color import clear_colors, hls_to_rgb, x11_colors, convert_to_1
+from hTools2.modules.color import clear_colors, hls_to_rgb, x11_colors, convert_to_1, random_color
 from hTools2.modules.encoding import paint_groups, auto_unicodes, crop_glyphset
 from hTools2.modules.fontinfo import set_names_from_path, set_vmetrics, get_stems, set_stems
 from hTools2.modules.fontutils import *
@@ -282,7 +282,7 @@ class hFont:
             if verbose: print '%s is not composed.' % glyph_name
             return False
 
-    def build_accents(self, gstring=None, ignore=[], composed=False):
+    def build_accents(self, gstring=None, ignore=[]):
         '''Build all accented glyphs in the font based on the project's ``accents`` libs.'''
         glyph_names = self.get_glyph_names(gstring)
         # build glyphs
@@ -290,7 +290,7 @@ class hFont:
             if self.ufo.has_key(glyph_name):
                 # skip glyphs in ignore list
                 if glyph_name not in ignore:
-                    self.build_glyph(glyph_name, composed=composed, verbose=False)
+                    self.build_glyph(glyph_name, composed=False, verbose=False)
 
     def build_composed(self):
         '''Build all composed glyphs in the font based on the project's ``composed`` libs.'''
@@ -345,9 +345,7 @@ class hFont:
         # get glyphs
         glyph_names = get_glyphs(self.ufo)
         # get color
-        R, G, B = x11_colors['Orange']
-        mark_color = convert_to_1(R, G, B)
-        mark_color += (.35,)
+        mark_color = random_color(alpha=.5)
         # build glyphs
         if len(glyph_names) > 0:
             for glyph_name in glyph_names:

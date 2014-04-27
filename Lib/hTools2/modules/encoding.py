@@ -253,9 +253,19 @@ unicodes_extra = {
 # unicode-to-psnames conversion
 #-------------------------------
 
-# a dictionary mapping unicode values to psNames
 # thanks to Frederik Berlaen (2007)
 
+def char2glyphname(char):
+    '''Get the PostScript glyph name for a given unicode character.'''
+    glyphname = unicode2psnames[ord(char)]
+    return glyphname
+
+def chars2glyphnames(char_list):
+    '''Get a list of PostScript glyph names for a list of unicode characters.'''
+    glyph_names = [ char2glyphname(char) for char in char_list ]
+    return glyph_names
+
+#: A dictionary mapping unicode values to psNames.
 unicode2psnames = {
     None : '.notdef',
     32 : 'space',
