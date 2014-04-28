@@ -38,4 +38,33 @@ from width_set import setWidthDialog
 
 # export
 
-__all__ = locals().values()
+__all__ = [
+    'glyphActionsDialog',
+    'moveAnchorsDialog',
+    'renameAnchorsDialog',
+    'transferAnchorsDialog',
+    'copyPasteGlyphDialog',
+    'roundToGridDialog',
+    'interpolateGlyphsDialog',
+    'checkGlyphsCompatibilityDialog',
+    'condenseGlyphsDialog',
+    # 'alignLayersDialog',
+    'copyToLayerDialog',
+    'copyMarginsDialog',
+    'setMarginsDialog',
+    'maskDialog',
+    'copyToMaskDialog',
+    'mirrorGlyphsDialog',
+    'moveGlyphsDialog',
+    'printGlyphsDialog',
+    'changeSuffixDialog',
+    # 'outlineGlyphsDialog',
+    'paintGlyphsDialog',
+    'shiftPointsDialog',
+    'rasterizeGlyphDialog',
+    'scaleGlyphsDialog',
+    'skewGlyphsDialog',
+    'slideGlyphsDialog',
+    'copyWidthsDialog',
+    'setWidthDialog',
+]
