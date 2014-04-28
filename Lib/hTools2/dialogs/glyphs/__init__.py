@@ -8,59 +8,34 @@
 # import
 
 from actions import glyphActionsDialog
-from change_suffix import changeSuffixDialog
-from check_compatibility import checkGlyphsCompatibilityDialog
-from condense import condenseGlyphsDialog
-from copy_margins import copyMarginsDialog
+from anchors_move import moveAnchorsDialog
+from anchors_rename import renameAnchorsDialog
+from anchors_transfer import transferAnchorsDialog
 from copy_paste import copyPasteGlyphDialog
-from copy_to_layer import copyToLayerDialog
-from copy_to_mask import copyToMaskDialog
-from copy_widths import copyWidthsDialog
+from gridfit import roundToGridDialog
 from interpolate import interpolateGlyphsDialog
+from interpolate_check import checkGlyphsCompatibilityDialog
+from interpolate_condense import condenseGlyphsDialog
+# from layers_align import alignLayersDialog
+from layers_copy import copyToLayerDialog
+from margins_copy import copyMarginsDialog
+from margins_set import setMarginsDialog
 from mask import maskDialog
+from mask_copy import copyToMaskDialog
 from mirror import mirrorGlyphsDialog
 from move import moveGlyphsDialog
-from move_anchors import moveAnchorsDialog
-from paint import paintGlyphsDialog
-from print_names import printGlyphsDialog
+from names_print import printGlyphsDialog
+from names_suffix import changeSuffixDialog
+# from outliner import outlineGlyphsDialog
+from paint_select import paintGlyphsDialog
+from points_shift import shiftPointsDialog
 from rasterize import rasterizeGlyphDialog
-from rename_anchors import renameAnchorsDialog
-from round_to_grid import roundToGridDialog
 from scale import scaleGlyphsDialog
-from set_margins import setMarginsDialog
-from set_width import setWidthDialog
-from shift_points import shiftPointsDialog
 from skew import skewGlyphsDialog
 from slide import slideGlyphsDialog
-from transfer_anchors import transferAnchorsDialog
+from width_copy import copyWidthsDialog
+from width_set import setWidthDialog
 
 # export
 
-__all__ = [
-    'glyphActionsDialog',
-    'changeSuffixDialog',
-    'checkGlyphsCompatibilityDialog',
-    'condenseGlyphsDialog',
-    'copyMarginsDialog',
-    'copyPasteGlyphDialog',
-    'copyToLayerDialog',
-    'copyToMaskDialog',
-    'copyWidthsDialog',
-    'interpolateGlyphsDialog',
-    'maskDialog',
-    'mirrorGlyphsDialog',
-    'moveGlyphsDialog',
-    'moveAnchorsDialog',
-    'paintGlyphsDialog',
-    'printGlyphsDialog',
-    'rasterizeGlyphDialog',
-    'renameAnchorsDialog',
-    'roundToGridDialog',
-    'scaleGlyphsDialog',
-    'setMarginsDialog',
-    'setWidthDialog',
-    'shiftPointsDialog',
-    'skewGlyphsDialog',
-    'slideGlyphsDialog',
-    'transferAnchorsDialog',
-]
+__all__ = locals().values()

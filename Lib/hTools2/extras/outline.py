@@ -8,7 +8,10 @@ from AppKit import *
 
 from fontTools.pens.cocoaPen import CocoaPen
 
-from lib.tools.bezierTools import curveConverter
+try:
+    from lib.tools.bezierTools import curveConverter
+except:
+    print 'running outside of RoboFont'
 
 from fontTools.pens.basePen import BasePen
 from robofab.pens.pointPen import AbstractPointPen

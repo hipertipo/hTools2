@@ -12,15 +12,15 @@ from hTools2.modules.fontutils import get_glyphs
 def calculate(glyph, distance, join, cap):
     options = [ 'Square', 'Round', 'Butt' ]
     pen = OutlinePen(glyph.getParent(),
-                     distance,
-                     connection=options[join],
-                     cap=options[cap],
-                     miterLimit=None,
-                     closeOpenPaths=True)
+        distance,
+        connection=options[join],
+        cap=options[cap],
+        miterLimit=None,
+        closeOpenPaths=True)
     glyph.draw(pen)
     pen.drawSettings(drawOriginal=False,
-                     drawInner=True,
-                     drawOuter=True)
+        drawInner=True,
+        drawOuter=True)
     return pen
 
 def expand(glyph, distance, join, cap):
@@ -50,11 +50,7 @@ class outlineGlyphsDialog(object):
     stroke_parameters = [ 'Square', 'Round', 'Butt' ]
 
     def __init__(self, ):
-        self.w = FloatingWindow(
-                    (self._width,
-                    self._height),
-                    self._title,
-                    closable=True)
+        self.w = FloatingWindow((self._width, self._height), self._title)
         # delta label
         x = self._padding
         y = self._padding
