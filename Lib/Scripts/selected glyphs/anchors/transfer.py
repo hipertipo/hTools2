@@ -1,6 +1,6 @@
 # [h] transfer anchors dialog
 
-import hTools2.dialogs.glyphs.transfer_anchors 
-reload(hTools2.dialogs.glyphs.transfer_anchors)
+import hTools2.dialogs.glyphs.anchors_transfer
+reload(hTools2.dialogs.glyphs.anchors_transfer)
 
-hTools2.dialogs.glyphs.transfer_anchors.transferAnchorsDialog()
+hTools2.dialogs.glyphs.anchors_transfer.transferAnchorsDialog()

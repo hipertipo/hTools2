@@ -1,6 +1,6 @@
 # [h] simple prepolate for selected glyphs
 
-import hTools2.dialogs.glyphs.check_compatibility
-reload(hTools2.dialogs.glyphs.check_compatibility)
+import hTools2.dialogs.glyphs.interpolate_check
+reload(hTools2.dialogs.glyphs.interpolate_check)
 
-hTools2.dialogs.glyphs.check_compatibility.checkGlyphsCompatibilityDialog()
+hTools2.dialogs.glyphs.interpolate_check.checkGlyphsCompatibilityDialog()

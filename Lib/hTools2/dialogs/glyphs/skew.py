@@ -2,14 +2,13 @@
 
 # imports
 
-import math
-
 try:
     from mojo.roboFont import CurrentFont, CurrentGlyph
 
 except ImportError:
     from robofab.world import CurrentFont, CurrentGlyph
 
+import math
 from vanilla import *
 
 from hTools2 import hDialog

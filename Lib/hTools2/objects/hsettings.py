@@ -84,9 +84,14 @@ class hSettings:
     def __repr__(self):
         return '<hSettings>'
 
-    def read(self, trim=False):
+    @property
+    def exists(self):
+        '''Check if the settings file exists. Returns a boolean.'''
+        return os.path.exists(self.path)
+
+    def read(self):
         '''Read settings from ``.plist`` file into :py:attr:`hSettings.hDict`.'''
-        if os.path.exists(self.path):
+        if self.exists:
             self.hDict = plistlib.readPlist(self.path)
         else:
             self.hDict = {}
@@ -100,6 +105,10 @@ class hSettings:
 
     def report(self):
         '''Print all settings data to the console.'''
-        for k in self.hDict.keys():
-            print k, self.hDict[k]
-
+        if self.exists:
+            print 'Saving seetings to %s...' % self.path
+            for k in self.hDict.keys():
+                print k, self.hDict[k]
+            print '...done.\n'
+        else:
+            print 'The settings file `%s` does not exist.' % self.path

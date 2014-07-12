@@ -12,6 +12,7 @@ from hTools2.modules.encoding import paint_groups, auto_unicodes, crop_glyphset
 from hTools2.modules.fontinfo import set_names_from_path, set_vmetrics, get_stems, set_stems
 from hTools2.modules.fontutils import *
 from hTools2.modules.ftp import *
+from hTools2.modules.languages import diacritics_glyphnames
 from hTools2.modules.opentype import import_features, export_features, clear_features, import_kern_feature
 from hTools2.modules.messages import no_glyph_selected
 from hTools2.modules.ttx import *
@@ -257,7 +258,7 @@ class hFont:
         glyph_names = self.get_glyph_names(gstring)
         clear_anchors(self.ufo, glyph_names=glyph_names)
 
-    def build_glyph(self, glyph_name, composed=True, verbose=True):
+    def build_glyph(self, glyph_name, composed=False, verbose=True):
         '''Build glyph with the given ``glyph_name`` from components based on the project's ``accents`` or ``composed`` libs.'''
         # accents
         if self.project.libs['accents'].has_key(glyph_name):
@@ -282,21 +283,36 @@ class hFont:
             if verbose: print '%s is not composed.' % glyph_name
             return False
 
-    def build_accents(self, gstring=None, ignore=[]):
-        '''Build all accented glyphs in the font based on the project's ``accents`` libs.'''
-        glyph_names = self.get_glyph_names(gstring)
-        # build glyphs
-        for glyph_name in glyph_names:
-            if self.ufo.has_key(glyph_name):
-                # skip glyphs in ignore list
-                if glyph_name not in ignore:
-                    self.build_glyph(glyph_name, composed=False, verbose=False)
+    # def build_accents_old(self, gstring=None, ignore=[]):
+    #     '''Build all accented glyphs in the font based on the project's ``accents`` libs.'''
+    #     glyph_names = self.get_glyph_names(gstring)
+    #     # build glyphs
+    #     for glyph_name in glyph_names:
+    #         if self.ufo.has_key(glyph_name):
+    #             # skip glyphs in ignore list
+    #             if glyph_name not in ignore:
+    #                 self.build_glyph(glyph_name, composed=False, verbose=False)
 
-    def build_composed(self):
-        '''Build all composed glyphs in the font based on the project's ``composed`` libs.'''
-        for glyph_name in self.project.libs['composed'].keys():
-            if self.ufo.has_key(glyph_name):
-                self.build_glyph(glyph_name)
+    def build_accents(self):
+        '''Build accented glyphs for all supported languages.'''
+        lang_file = self.project.paths['languages']
+        languages = [ lang.strip() for lang in open(lang_file).readlines() ]
+        for lang in languages:
+            if diacritics_glyphnames.has_key(lang):
+                lc, uc = diacritics_glyphnames[lang]
+                lang_glyphs = lc + uc
+                for glyph_name in sorted(lang_glyphs):
+                    if self.project.libs['accents'].has_key(glyph_name):
+                        base_glyph, accents = self.project.libs['accents'][glyph_name]
+                        # self.ufo.removeGlyph(glyph_name)
+                        self.ufo.compileGlyph(glyph_name, base_glyph, accents)
+                        self.ufo[glyph_name].update()
+
+    # def build_composed(self):
+    #     '''Build all composed glyphs in the font based on the project's ``composed`` libs.'''
+    #     for glyph_name in self.project.libs['composed'].keys():
+    #         if self.ufo.has_key(glyph_name):
+    #             self.build_glyph(glyph_name)
 
     def build_anchors(self, clear=True):
         # get anchors

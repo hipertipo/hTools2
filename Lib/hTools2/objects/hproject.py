@@ -11,7 +11,7 @@ except:
     from robofab.world import RFont, NewFont
 
 from hTools2.objects.hworld import hWorld
-from hTools2.modules.encoding import import_encoding
+from hTools2.modules.encoding import import_groups_from_encoding
 from hTools2.modules.fileutils import walk, get_names_from_path, delete_files
 from hTools2.modules.fontutils import parse_glyphs_groups
 from hTools2.modules.ftp import connect_to_server, upload_file
@@ -69,14 +69,14 @@ class hProject:
 
     #: A list with names of data libs.
     _lib_names = [
-        'project',
-        'info',
-        'vmetrics',
         'accents',
         'composed',
-        'spacing',
+        'groups',
+        'info',
         'interpol',
-        'groups'
+        'project',
+        'spacing',
+        'vmetrics',
     ]
 
     #: Extension for data lib files.
@@ -234,7 +234,7 @@ class hProject:
         Group and glyph names are stored in a dictionary in ``hProject.libs['groups']['glyphs']``, while the glyph order is stored in ``hProject.libs['groups']['order']``.
 
         '''
-        groups, order = import_encoding(self.paths['encoding'])
+        groups, order = import_groups_from_encoding(self.paths['encoding'])
         self.libs['groups']['glyphs'] = groups
         self.libs['groups']['order'] = order
 
@@ -298,6 +298,10 @@ class hProject:
         _fea_filename = '%s.fea' % self.name
         _fea_path = os.path.join(_paths['libs'], _fea_filename)
         _paths['features'] = _fea_path
+        # languages path
+        _langs_filename = 'languages.txt'
+        _langs_path = os.path.join(_paths['libs'], _langs_filename)
+        _paths['languages'] = _langs_path
         # save to project
         self.paths = _paths
 

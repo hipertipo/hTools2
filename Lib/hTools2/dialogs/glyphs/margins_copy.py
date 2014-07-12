@@ -5,6 +5,7 @@
 try:
     from mojo.roboFont import AllFonts
     from mojo.events import addObserver, removeObserver
+
 except ImportError:
     from robofab.world import AllFonts
 

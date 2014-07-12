@@ -16,26 +16,40 @@ from hTools2.modules.color import clear_colors, hls_to_rgb
 # functions
 
 def import_encoding(file_path):
-    '''Import group and glyphs names from an ``.enc`` file.'''
+    '''Import glyph names from an encoding file.'''
+    if os.path.exists(file_path):
+        lines = open(file_path, 'r').readlines()
+        glyph_names = []
+        for line in lines:
+            if not line[:1] == '%':
+                glyph_names.append(line.strip())
+        return glyph_names
+    else:
+        print 'Error, this file does not exist.'
+
+def import_groups_from_encoding(file_path):
+    '''Import group and glyphs names from an encoding file.'''
     if os.path.exists(file_path):
         lines = open(file_path, 'r').readlines()
         groups = {}
         order = []
         count = 0
-    for line in lines:
-        if count == 0:
-            pass
-        elif line[:1] == '%':
-            if line[1:2] != '_':
-                group_name = line[18:-1]
-                if len(group_name) > 0:
-                    groups[group_name] = []
-                    order.append(group_name)
-        else:
-            glyph_name = line[:-1]
-            groups[group_name].append(glyph_name)
-        count = count + 1
-    return groups, order
+        for line in lines:
+            if count == 0:
+                pass
+            elif line[:1] == '%':
+                if line[1:2] != '_':
+                    group_name = line[18:-1]
+                    if len(group_name) > 0:
+                        groups[group_name] = []
+                        order.append(group_name)
+            else:
+                glyph_name = line[:-1]
+                groups[group_name].append(glyph_name)
+            count = count + 1
+        return groups, order
+    else:
+        print 'Error, this file does not exist.'
 
 #------------------
 # font-level tools
