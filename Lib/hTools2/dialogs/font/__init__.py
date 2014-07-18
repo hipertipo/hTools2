@@ -24,7 +24,7 @@ __all__ = [
     'deleteLayerDialog',
     'importUFOIntoLayerDialog',
     'printGroupsDialog',
-	'clearFontInfoDialog',
+    'clearFontInfoDialog',
     'batchRenameGlyphs',
     'setElementDialog',
     'transferVMetricsDialog',

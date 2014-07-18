@@ -1,6 +1,6 @@
 # [h] change suffix in glyph names
 
-import hTools2.dialogs.glyphs.change_suffix
-reload(hTools2.dialogs.glyphs.change_suffix)
+import hTools2.dialogs.glyphs.names_suffix
+reload(hTools2.dialogs.glyphs.names_suffix)
 
-hTools2.dialogs.glyphs.change_suffix.changeSuffixDialog()
+hTools2.dialogs.glyphs.names_suffix.changeSuffixDialog()
