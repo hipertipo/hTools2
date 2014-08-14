@@ -1,6 +1,6 @@
 # [h] copy widths dialog
 
-import hTools2.dialogs.glyphs.copy_widths
-reload(hTools2.dialogs.glyphs.copy_widths)
+import hTools2.dialogs.glyphs.width_copy
+reload(hTools2.dialogs.glyphs.width_copy)
 
-hTools2.dialogs.glyphs.copy_widths.copyWidthsDialog()
+hTools2.dialogs.glyphs.width_copy.copyWidthsDialog()

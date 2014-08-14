@@ -1,6 +1,6 @@
 # [h] set margins dialog
 
-import hTools2.dialogs.glyphs.set_margins
-reload(hTools2.dialogs.glyphs.set_margins)
+import hTools2.dialogs.glyphs.margins_set
+reload(hTools2.dialogs.glyphs.margins_set)
 
-hTools2.dialogs.glyphs.set_margins.setMarginsDialog()
+hTools2.dialogs.glyphs.margins_set.setMarginsDialog()

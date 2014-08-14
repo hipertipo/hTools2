@@ -190,13 +190,14 @@ class setMarginsDialog(hDialog):
                 print '\tleft: %s %s [%s]' % (self._modes[_left_mode], _left_value, boolstring[_left])
                 print '\tright: %s %s [%s]' % (self._modes[_right_mode], _right_value, boolstring[_right])
                 print
-                print '\t\t',
+                print '\t',
 
                 # set margins
                 for glyph_name in glyph_names:
                     print glyph_name,
                     self.set_margins(f[glyph_name], (_left, _left_value, _left_mode), (_right, _right_value, _right_mode))
                 f.update()
+                print
                 print '\n...done.\n'
 
             # no glyph selected

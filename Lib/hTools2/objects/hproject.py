@@ -64,7 +64,7 @@ class hProject:
         'python_robofont',
         'python_nodebox',
         'python_drawbot',
-        'otfs_test',
+        # 'otfs_test',
     ]
 
     #: A list with names of data libs.

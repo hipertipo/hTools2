@@ -1,11 +1,8 @@
 # [h] import ufo into layer
 
-'''Import font from ufo into layer.'''
+import hTools2.dialogs.font.import_layer
+reload(hTools2.dialogs.font.import_layer)
 
-# import
-
-from hTools2.dialogs.font import importUFOIntoLayerDialog
-
-# run
+from hTools2.dialogs.font.import_layer import importUFOIntoLayerDialog
 
 importUFOIntoLayerDialog()

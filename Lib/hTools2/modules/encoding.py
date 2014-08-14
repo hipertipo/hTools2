@@ -49,7 +49,7 @@ def import_groups_from_encoding(file_path):
             count = count + 1
         return groups, order
     else:
-        print 'Error, this file does not exist.'
+        print 'Error, the file %s does not exist.' % file_path
 
 #------------------
 # font-level tools
@@ -92,7 +92,7 @@ def paint_groups(f, crop=False):
                 if f.has_key(glyph_name) is not True:
                     f.newGlyph(glyph_name)
                 _order.append(glyph_name)
-                f[glyph_name].mark = (R, G, B, .5)
+                f[glyph_name].mark = (R, G, B, 0.3)
                 f[glyph_name].update()
             count += 1
         f.glyphOrder = _order
