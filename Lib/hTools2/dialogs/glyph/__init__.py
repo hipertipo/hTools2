@@ -1,6 +1,6 @@
 # [h] dialogs.glyph
 
-'''A collection of dialogs to do things to the current glyph.'''
+"""A collection of dialogs to do things to the current glyph."""
 
 # import
 

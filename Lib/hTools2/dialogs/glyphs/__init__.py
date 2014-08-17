@@ -3,7 +3,7 @@
 
 # [h] dialogs.glyphs
 
-'''A collection of dialogs to do things to the selected glyphs of one or more fonts.'''
+"""A collection of dialogs to do things to the selected glyphs of one or more fonts."""
 
 # import
 

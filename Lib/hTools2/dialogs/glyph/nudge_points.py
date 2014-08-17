@@ -38,7 +38,7 @@ def nudgeSelected(x):
 
 class nudgePointsDialog(object):
 
-    '''A simple RoboFont dialog for the famous 'interpolated nudge' script.'''
+    """A simple RoboFont dialog for the famous 'interpolated nudge' script."""
 
     _title = "nudge"
     _padding = 10

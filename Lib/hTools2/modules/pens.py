@@ -1,6 +1,6 @@
 # [h] hTools2.modules.pens
 
-'''Pens for drawing glifs in various environments.'''
+"""Pens for drawing glifs in various environments."""
 
 from fontTools.pens.basePen import BasePen
 
@@ -11,7 +11,7 @@ except:
 
 class RoboFontPen(BasePen):
 
-    '''A pen to draw a glyph on a RoboFont canvas.'''
+    """A pen to draw a glyph on a RoboFont canvas."""
 
     def __init__(self, glyphset):
         BasePen.__init__(self, glyphset)
@@ -35,7 +35,7 @@ class RoboFontPen(BasePen):
 
 class NodeBoxPen(BasePen):
 
-    '''A pen to draw a glyph on a NodeBox canvas.'''
+    """A pen to draw a glyph on a NodeBox canvas."""
 
     def __init__(self, glyphSet, ctx, strokefont=False):
         self.ctx = ctx

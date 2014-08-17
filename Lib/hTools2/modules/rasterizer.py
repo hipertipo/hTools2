@@ -15,7 +15,7 @@ from hTools2.modules.primitives import *
 
 class RasterGlyph:
 
-    '''An object to scan glyphs and rasterize them into elements/components.'''
+    """An object to scan glyphs and rasterize them into elements/components."""
 
     def __init__(self, sourceGlyph):
         self.g = sourceGlyph
@@ -147,7 +147,7 @@ class RasterGlyph:
             pass
 
 def set_element(f, size, type='rect', magic=None, element_='_element'):
-    '''Set the shape of the element glyph in the font.'''
+    """Set the shape of the element glyph in the font."""
     if f.has_key(element_) != True:
         f.newGlyph(element_)
     g = f[element_]

@@ -20,11 +20,11 @@ from hTools2.modules.messages import no_glyph_selected, no_font_open
 
 class roundToGridDialog(hDialog):
 
-    '''A dialog to round features of the selected glyphs to a grid.
+    """A dialog to round features of the selected glyphs to a grid.
 
     .. image:: imgs/glyphs/gridfit.png
 
-    '''
+    """
 
     # attributes
 

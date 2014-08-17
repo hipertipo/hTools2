@@ -8,7 +8,7 @@ from hTools2.objects import hSpace
 
 class hSpace_test(object):
 
-    '''An interactive tests session for the :py:class:`hSpace` object.
+    """An interactive tests session for the :py:class:`hSpace` object.
 
     >>> from hTools2.object import hSpace
     >>> s = hSpace('QuanticaBitmap')
@@ -37,7 +37,7 @@ class hSpace_test(object):
     # s.set_parameters(parameters)
     # s.transfer_glyphs(gstring, var, verbose=False)
 
-    '''
+    """
 
 # test
 

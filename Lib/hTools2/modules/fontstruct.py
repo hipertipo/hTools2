@@ -14,7 +14,7 @@ from hTools2.modules.encoding import unicode2psnames
 
 class FontStructionHandler(ContentHandler):
 
-    '''FSML parser'''
+    """FSML parser"""
 
     def __init__ (self):
         print 'FSML parser'
@@ -146,7 +146,7 @@ class FontStructionHandler(ContentHandler):
         print "missing bricks: %s" % missingBricks
 
 def openFontStruction(fsmlPath, verbose=False):
-    '''import fsml from path'''
+    """import fsml from path"""
     parser = make_parser()
     handler = FontStructionHandler()
     parser.setContentHandler(handler)

@@ -11,7 +11,7 @@ from hTools2.modules.sysutils import _ctx
 
 class hWorld:
 
-    '''An object representing the local fonts folder where all project folders live.'''
+    """An object representing the local fonts folder where all project folders live."""
 
     # attributes
 
@@ -24,7 +24,7 @@ class hWorld:
     # methods
 
     def __init__(self):
-        '''Initiate the ``hWorld`` object.'''
+        """Initiate the ``hWorld`` object."""
         self.settings = hSettings()
         self.context = _ctx
 
@@ -32,7 +32,7 @@ class hWorld:
         return '<hWorld>'
 
     def projects(self):
-        '''Returns a list of all projects contained in the root fonts folder.'''
+        """Returns a list of all projects contained in the root fonts folder."""
         allFiles = os.listdir(self.settings.root)
         projects = []
         for n in allFiles:

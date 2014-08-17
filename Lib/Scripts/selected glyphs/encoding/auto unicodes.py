@@ -1,6 +1,6 @@
 # [h] auto unicodes
 
-'''Automatically set unicode values for selected glyphs.'''
+"""Automatically set unicode values for selected glyphs."""
 
 # imports
 

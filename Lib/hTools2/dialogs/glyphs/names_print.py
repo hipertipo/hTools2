@@ -18,11 +18,11 @@ from hTools2.modules.messages import no_font_open, no_glyph_selected
 
 class printGlyphsDialog(hDialog):
 
-    '''A dialog to print the names of the selected glyphs as plain text or Python list.
+    """A dialog to print the names of the selected glyphs as plain text or Python list.
 
     .. image:: imgs/glyphs/print-names.png
 
-    '''
+    """
 
     sort_names = True
 

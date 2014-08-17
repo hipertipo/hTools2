@@ -1,6 +1,6 @@
 # http://opensource.apple.com/source/python/python-3/python/Lib/colorsys.py
 
-'''Conversion functions between RGB and other color systems.
+"""Conversion functions between RGB and other color systems.
 
 This modules provides two functions for each color system ABC:
 
@@ -15,7 +15,7 @@ RGB: Red, Green, Blue components
 YIQ: used by composite video signals
 HLS: Hue, Luminance, Saturation
 HSV: Hue, Saturation, Value
-'''
+"""
 # References:
 # XXX Where's the literature?
 

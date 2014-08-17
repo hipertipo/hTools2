@@ -1,6 +1,6 @@
 # [h] clear guides
 
-'''Remove all guides in selected glyphs.'''
+"""Remove all guides in selected glyphs."""
 
 # imports
 

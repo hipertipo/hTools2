@@ -1,1 +1,1 @@
-'''dialogs'''
+"""dialogs"""

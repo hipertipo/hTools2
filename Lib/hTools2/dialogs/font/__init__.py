@@ -1,6 +1,6 @@
 # dialogs.font
 
-'''A collection of dialogs to do things to the current font.'''
+"""A collection of dialogs to do things to the current font."""
 
 # import
 

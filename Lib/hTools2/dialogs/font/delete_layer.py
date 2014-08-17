@@ -18,11 +18,11 @@ from hTools2.modules.messages import no_font_open
 
 class deleteLayerDialog(hDialog):
 
-    '''A dialog to delete a layer in a font.
+    """A dialog to delete a layer in a font.
 
     .. image:: imgs/font/delete-layer.png
 
-    '''
+    """
 
     # attributes
 

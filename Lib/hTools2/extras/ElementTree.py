@@ -1620,7 +1620,7 @@ class XMLParser(object):
     # @param system System identifier.
 
     def doctype(self, name, pubid, system):
-        '''This method of XMLParser is deprecated.'''
+        """This method of XMLParser is deprecated."""
         warnings.warn(
             "This method of XMLParser is deprecated.  Define doctype() "
             "method on the TreeBuilder target.",

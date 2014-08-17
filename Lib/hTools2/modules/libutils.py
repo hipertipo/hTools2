@@ -1,6 +1,6 @@
 # [h] libutils
 
-'''A collection of functions to check the integrity of libs.'''
+"""A collection of functions to check the integrity of libs."""
 
 ### thanks to Frederik Berlaen ###
 

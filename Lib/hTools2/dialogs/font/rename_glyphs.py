@@ -20,11 +20,11 @@ from hTools2.modules.messages import no_glyph_selected, no_font_open
 
 class batchRenameGlyphs(hDialog):
 
-    '''A dialog to batch rename glyphs in a font, based on a list of old- and new names.
+    """A dialog to batch rename glyphs in a font, based on a list of old- and new names.
 
     .. image:: imgs/font/rename-glyphs.png
 
-    '''
+    """
 
     def __init__(self):
             self.title = 'rename'

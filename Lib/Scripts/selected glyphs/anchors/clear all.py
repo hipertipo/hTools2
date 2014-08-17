@@ -1,6 +1,6 @@
 # [h] clear anchors
 
-'''Delete all anchors in the selected glyphs.'''
+"""Delete all anchors in the selected glyphs."""
 
 # imports
 

@@ -1,6 +1,6 @@
 # [h] clear unicodes
 
-'''Clear unicode values from selected glyphs.'''
+"""Clear unicode values from selected glyphs."""
 
 try:
     from mojo.roboFont import CurrentFont

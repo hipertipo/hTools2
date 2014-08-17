@@ -18,11 +18,11 @@ from hTools2.modules.messages import no_font_open
 
 class adjustVerticalMetrics(hDialog):
 
-    '''A dialog to adjust the vertical metrics in the font with the help of sliders and nudge buttons.
+    """A dialog to adjust the vertical metrics in the font with the help of sliders and nudge buttons.
 
     .. image:: imgs/font/adjust-vmetrics.png
 
-    '''
+    """
 
     ascender_min = 1
     capheight_min = 1

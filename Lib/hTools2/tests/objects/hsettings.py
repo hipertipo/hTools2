@@ -8,7 +8,7 @@ from hTools2.objects import hSettings
 
 class hSettings_test(object):
 
-    '''An interactive tests session for the :py:class:`hSettings` object.
+    """An interactive tests session for the :py:class:`hSettings` object.
 
     >>> from hTools2.objects import hSettings
     >>> s = hSettings()
@@ -35,7 +35,7 @@ class hSettings_test(object):
     >>> print s.filename
     hSettings.plist
 
-    '''
+    """
 
 # test
 

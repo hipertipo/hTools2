@@ -19,11 +19,11 @@ from hTools2.modules.messages import no_glyph_selected, no_font_open
 
 class scaleGlyphsDialog(hDialog):
 
-    '''A dialog to scale the selected glyphs in a font.
+    """A dialog to scale the selected glyphs in a font.
 
     .. image:: imgs/glyphs/scale.png
 
-    '''
+    """
 
     # attributes
 

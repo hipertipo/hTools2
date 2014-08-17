@@ -8,7 +8,7 @@ from hTools2.objects import hProject
 
 class hProject_test(object):
 
-    '''An interactive tests session for the :py:class:`hProject` object.
+    """An interactive tests session for the :py:class:`hProject` object.
 
     >>> from hTools2.objects import hProject
     >>> p = hProject('Publica')
@@ -155,7 +155,7 @@ class hProject_test(object):
     >>> p = hProject('Publica')
     >>> p.generate_instance('55')
 
-    '''
+    """
 
 # test
 

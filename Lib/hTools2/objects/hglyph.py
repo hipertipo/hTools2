@@ -8,7 +8,7 @@ from hfont import hFont
 
 class hGlyph:
 
-    '''An object to wrap single glyphs, making it easier to access their parent :py:class:`hFont` and :py:class:`hProject` objects.'''
+    """An object to wrap single glyphs, making it easier to access their parent :py:class:`hFont` and :py:class:`hProject` objects."""
 
     # attributes
 

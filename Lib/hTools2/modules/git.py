@@ -9,7 +9,7 @@ import subprocess
 
 class GitHandler(object):
 
-    '''A simple object to call commands on a git repository.'''
+    """A simple object to call commands on a git repository."""
 
     # attributes
 
@@ -25,7 +25,7 @@ class GitHandler(object):
         self.folder = repo_dir
 
     def command(self, command):
-        '''A generic function to call git commands on a repo.'''
+        """A generic function to call git commands on a repo."""
         # build command
         if type(command) is str:
             command = command.split(' ')

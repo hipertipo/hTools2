@@ -10,7 +10,7 @@ from dialogKit import ModalDialog, CheckBox, HorizontalLine
 
 class checkBoxBuilder(object):
 
-    '''An object to create a modal dialog for selecting items in a list.
+    """An object to create a modal dialog for selecting items in a list.
 
     .. image:: imgs/misc/checkbox-builder.png
 
@@ -30,7 +30,7 @@ class checkBoxBuilder(object):
 
         >>> ['apples', 'bananas']
 
-    '''
+    """
 
     # attributes
 

@@ -1,6 +1,6 @@
 # [h] remove components
 
-'''Remove components in selected glyphs.'''
+"""Remove components in selected glyphs."""
 
 # import
 

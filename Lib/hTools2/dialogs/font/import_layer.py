@@ -23,11 +23,11 @@ from hTools2.modules.messages import no_font_open
 
 class importUFOIntoLayerDialog(hDialog):
 
-    '''A dialog to import a font from an external file into a background layer of the current font.
+    """A dialog to import a font from an external file into a background layer of the current font.
 
     .. image:: imgs/font/import-layer.png
 
-    '''
+    """
 
     # attributes
 

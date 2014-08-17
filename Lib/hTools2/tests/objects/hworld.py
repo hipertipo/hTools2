@@ -8,7 +8,7 @@ from hTools2.objects import hWorld
 
 class hWorld_test(object):
 
-    '''An interactive tests session for the :py:class:`hWorld` object.
+    """An interactive tests session for the :py:class:`hWorld` object.
 
     >>> from hTools2.objects import hWorld
     >>> w = hWorld()
@@ -21,7 +21,7 @@ class hWorld_test(object):
     >>> print w.projects()
     ['Calligraphica', 'Elementar', 'Geometrica', 'Gothica', 'Grow', 'Guarana', 'Imperial', 'Jornalistica', 'Magnetica', 'Mechanica', 'Modular', 'Publica', 'Quantica', 'QuanticaBitmap', 'Segments', 'Synthetica']
 
-    '''
+    """
 
 # test
 

@@ -1,6 +1,6 @@
 # [h] hTools2.modules.color
 
-'''Simple tools for working with colors.'''
+"""Simple tools for working with colors."""
 
 # import
 
@@ -14,7 +14,7 @@ from hTools2.extras.colorsys import *
 #-----------
 
 def random_color(alpha=1.0):
-    '''Return a random color.'''
+    """Return a random color."""
     # FontLab
     if _ctx == 'FontLab':
         c = int(255 * random.random())
@@ -25,13 +25,13 @@ def random_color(alpha=1.0):
     return c
 
 def clear_colors(font):
-    '''Clear the color from all glyph cells in the font.'''
+    """Clear the color from all glyph cells in the font."""
     for gName in font.keys():
         clear_color(font[gName])
     font.update()
 
 def clear_color(glyph):
-    '''Clear the color of a glyph cell.'''
+    """Clear the color of a glyph cell."""
     # FontLab
     if _ctx == 'FontLab':
         g.mark = 0
@@ -66,7 +66,7 @@ def cubic(t, a, b):
 #------------------------
 
 def hex_to_rgb(value):
-    '''Convert hex color to RGB (range 1.0).'''
+    """Convert hex color to RGB (range 1.0)."""
     value = value.lstrip('#')
     lv = len(value)
     rgb = tuple()
@@ -75,11 +75,11 @@ def hex_to_rgb(value):
     return rgb
 
 def rgb_to_hex(rgb):
-    '''Convert RGB color (range 1.0) to hex.'''
+    """Convert RGB color (range 1.0) to hex."""
     return '%02x%02x%02x' % rgb
 
 def ryb_to_rgb(r, y, b):
-    '''Convert RYB color to RGB (range 1.0).'''
+    """Convert RYB color to RGB (range 1.0)."""
     # http://stackoverflow.com/a/14116553
     # red
     x0, x1 = cubic(b, 1.0, 0.163), cubic(b, 1.0, 0.0)
@@ -100,7 +100,7 @@ def ryb_to_rgb(r, y, b):
     return (red, green, blue)
 
 def RGB_to_nodebox_color((R, G, B), ctx, alpha=1.0):
-    '''Convert RGB color to a NodeBox ``Color`` object.'''
+    """Convert RGB color to a NodeBox ``Color`` object."""
     colors = ctx.ximport("colors")
     _alpha = 255 * alpha
     _color = colors.rgb(R, G, B, _alpha, range=255)
@@ -127,7 +127,7 @@ named_colors = {
 #------------------
 
 def solarized_color(name):
-    '''Return an ``RGB`` color for a solarized color name.'''
+    """Return an ``RGB`` color for a solarized color name."""
     # name is color group
     if name in solarized_groups.keys():
         _colors = []
@@ -178,7 +178,7 @@ solarized_groups = {
 #-----------------
 
 def x11_color(name):
-    '''Return an ``RGB`` color for an x11 color name.'''
+    """Return an ``RGB`` color for an x11 color name."""
     # name is color
     _color_names = x11_colors.keys()
     if name in _color_names:

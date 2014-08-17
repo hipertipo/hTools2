@@ -21,7 +21,7 @@ from hTools2.modules.git import GitHandler
 
 class hProject:
 
-    '''A project represents a font-family and related meta-data.'''
+    """A project represents a font-family and related meta-data."""
 
     # attributes
 
@@ -85,7 +85,7 @@ class hProject:
     # methods
 
     def __init__(self, name=None):
-        '''Initiate the ``hProject`` object.'''
+        """Initiate the ``hProject`` object."""
         self.name = name
         self.world = hWorld()
         if self.name is not None:
@@ -111,7 +111,7 @@ class hProject:
     # functions
 
     def get_ufo(self, parameters, verbose=False):
-        '''Get the ufo path for the given parameters dict.'''
+        """Get the ufo path for the given parameters dict."""
         font_name = ''
         for i, parameter_name in enumerate(self.libs['project']['parameters_order']):
             font_name += str(parameters[parameter_name])
@@ -126,7 +126,7 @@ class hProject:
         return ufo_path
 
     def print_masters(self):
-        '''Print all ``.ufo`` masters in project.'''
+        """Print all ``.ufo`` masters in project."""
         _masters = self.masters()
         print 'masters (%s):\n' % len(_masters)
         for ufo in _masters:
@@ -134,7 +134,7 @@ class hProject:
         print
 
     def print_instances(self):
-        '''Print all ``.ufo`` instances in project.'''
+        """Print all ``.ufo`` instances in project."""
         _instances = self.instances()
         print 'instances (%s):\n' % len(_instances)
         for ufo in _instances:
@@ -142,7 +142,7 @@ class hProject:
         print
 
     def print_otfs(self):
-        '''Print all ``.otfs`` in project.'''
+        """Print all ``.otfs`` in project."""
         _otfs = self.otfs()
         print 'otfs (%s):\n' % len(_otfs)
         for otf in _otfs:
@@ -150,7 +150,7 @@ class hProject:
         print
 
     def print_libs(self):
-        '''Print all libs in project.'''
+        """Print all libs in project."""
         _libs = os.listdir(self.paths['libs'])
         print 'libs (%s):\n' % len(_libs)
         for lib in _libs:
@@ -159,7 +159,7 @@ class hProject:
         print
 
     def print_woffs(self):
-        '''Print all ``.woff`` files in project.'''
+        """Print all ``.woff`` files in project."""
         _woffs = self.woffs()
         print 'woffs (%s):\n' % len(_woffs)
         for woff in _woffs:
@@ -167,7 +167,7 @@ class hProject:
         print
 
     def print_ttxs(self):
-        '''Print all ``.ttx`` files in project.'''
+        """Print all ``.ttx`` files in project."""
         _ttxs = self.ttxs()
         print 'ttxs (%s):\n' % len(_ttxs)
         for ttx in _ttxs:
@@ -175,7 +175,7 @@ class hProject:
         print
 
     def print_scripts(self):
-        '''Print all RoboFont and NodeBox scripts in project.'''
+        """Print all RoboFont and NodeBox scripts in project."""
         _scripts = self.scripts()
         print 'RoboFont scripts (%s):\n' % len(_scripts['RoboFont'])
         for script in _scripts['RoboFont']:
@@ -187,7 +187,7 @@ class hProject:
         print
 
     def print_info(self, masters=True, instances=True, otfs=True, woffs=True, libs=True, scripts=True, ttxs=True):
-        '''Print different kinds of information about the project.'''
+        """Print different kinds of information about the project."""
         line_length = 40
         print 'project info for %s...' % self.name
         print '-' * line_length
@@ -213,7 +213,7 @@ class hProject:
     # libs
 
     def read_libs(self):
-        '''Read all project libs into one dictionary.'''
+        """Read all project libs into one dictionary."""
         # import libs
         self.libs = {}
         for lib_name in self.lib_paths.keys():
@@ -229,24 +229,24 @@ class hProject:
             print 'no encoding file available.\n'
 
     def import_encoding(self):
-        '''Import groups, glyph names and glyph order from the project's encoding file, and temporarily saves them into a 'groups lib'.
+        """Import groups, glyph names and glyph order from the project's encoding file, and temporarily saves them into a 'groups lib'.
 
         Group and glyph names are stored in a dictionary in ``hProject.libs['groups']['glyphs']``, while the glyph order is stored in ``hProject.libs['groups']['order']``.
 
-        '''
+        """
         groups, order = import_groups_from_encoding(self.paths['encoding'])
         self.libs['groups']['glyphs'] = groups
         self.libs['groups']['order'] = order
 
     def write_lib(self, lib_name):
-        '''Write the lib with the given ``lib_name`` to its ``.plist`` file.
+        """Write the lib with the given ``lib_name`` to its ``.plist`` file.
 
         >>> from hTools2.objects import hProject
         >>> p = hProject('Publica')
         >>> p.write_lib('interpol')
         saving interpol lib to file /_fonts/_Publica/_libs/interpol.plist... done.
 
-        '''
+        """
         _filename = '%s.%s' % (lib_name, self._lib_extension)
         _lib_path = os.path.join(self.paths['libs'], _filename)
         print 'saving %s lib to file %s...' % (lib_name, _lib_path),
@@ -254,7 +254,7 @@ class hProject:
         print 'done.'
 
     def write_libs(self):
-        '''Write all libs in project to their corresponding ``.plist`` files.'''
+        """Write all libs in project to their corresponding ``.plist`` files."""
         print 'saving project libs...\n'
         for lib_name in self.libs.keys():
             _filename = '%s.%s' % (lib_name, self._lib_extension)
@@ -267,7 +267,7 @@ class hProject:
     # paths
 
     def make_paths(self):
-        '''Make all project paths and collect them into a dictionary.'''
+        """Make all project paths and collect them into a dictionary."""
         _project_root = os.path.join(self.world.settings.root, '_%s') % self.name
         _paths = {}
         _paths['root'] = _project_root
@@ -306,7 +306,7 @@ class hProject:
         self.paths = _paths
 
     def make_lib_paths(self):
-        '''Make the paths to all project libs.'''
+        """Make the paths to all project libs."""
         _lib_paths = {}
         for _lib_name in self._lib_names:
             _filename = '%s.%s' % (_lib_name, self._lib_extension)
@@ -315,11 +315,11 @@ class hProject:
         self.lib_paths = _lib_paths
 
     def ftp_path(self):
-        '''Return the project's path on the FTP server.'''
+        """Return the project's path on the FTP server."""
         return os.path.join(self.world.settings.hDict['ftp']['folder'], self.name.lower())
 
     def print_paths(self):
-        '''Print all standard paths is in project.'''
+        """Print all standard paths is in project."""
         print 'printing paths in project %s...' % self.name
         for k in self.paths.keys():
             print '\t%s : %s' % ( k, self.paths[k] )
@@ -331,7 +331,7 @@ class hProject:
         pass
 
     def make_folders(self):
-        '''Check if all the necessary project sub-folders exist, and create them if they don't.'''
+        """Check if all the necessary project sub-folders exist, and create them if they don't."""
         print 'creating folders and files in %s...\n' % self.name
         for path in self._path_names:
             if self.paths[path] is not None:
@@ -350,14 +350,14 @@ class hProject:
     # file lists
 
     def masters(self):
-        '''Return a list of all masters in project.'''
+        """Return a list of all masters in project."""
         try:
             return walk(self.paths['ufos'], 'ufo')
         except:
             return []
 
     def masters_interpol(self):
-        '''Return a list of all 'super masters' in project.
+        """Return a list of all 'super masters' in project.
 
         >>> from hTools2.objects import hProject
         >>> p = hProject('Publica')
@@ -369,21 +369,21 @@ class hProject:
         /_fonts/_Publica/_ufos/_interpol/Publica_UltraLight-Compressed.ufo
         /_fonts/_Publica/_ufos/_interpol/Publica_UltraLight.ufo
 
-        '''
+        """
         try:
             return walk(self.paths['interpol'], 'ufo')
         except:
             return []
 
     def instances(self):
-        '''Return a list of all instances in project.'''
+        """Return a list of all instances in project."""
         try:
             return walk(self.paths['instances'], 'ufo')
         except:
             return []
 
     def ufos(self, masters_interpol=False):
-        '''Return all ``.ufos`` in project (masters, istances and meta-masters).'''
+        """Return all ``.ufos`` in project (masters, istances and meta-masters)."""
         ufos = []
         ufos += self.masters()
         ufos += self.instances()
@@ -392,11 +392,11 @@ class hProject:
         return ufos
 
     def collect_fonts(self):
-        '''Update the font names and file paths at :py:attr:`hProject.fonts`.
+        """Update the font names and file paths at :py:attr:`hProject.fonts`.
 
         This method is called automatically when the :py:class:`hProject` object is initialized.
 
-        '''
+        """
         _ufos = self.ufos()
         self.fonts = {}
         if len(_ufos) > 0:
@@ -405,27 +405,27 @@ class hProject:
                 self.fonts[_style_name] = ufo_path
 
     def otfs(self):
-        '''Return a list of all ``.otf`` files in project.'''
+        """Return a list of all ``.otf`` files in project."""
         return walk(self.paths['otfs'], 'otf')
 
     def ttxs(self):
-        '''Return a list of all ``.ttx`` files in project.'''
+        """Return a list of all ``.ttx`` files in project."""
         return walk(self.paths['ttx'], 'ttx')
 
     def otfs_test(self):
-        '''Return a list of all ``.otfs`` in the project's ``Adobe/fonts/`` folder.'''
+        """Return a list of all ``.otfs`` in the project's ``Adobe/fonts/`` folder."""
         return walk(self.paths['otfs_test'], 'otf')
 
     def woffs(self):
-        '''Return a list of all ``.woff`` files in project.'''
+        """Return a list of all ``.woff`` files in project."""
         return walk(self.paths['woffs'], 'woff')
 
     def vfbs(self):
-        '''Return a list of all ``.vfb`` files in project.'''
+        """Return a list of all ``.vfb`` files in project."""
         return walk(self.paths['vfbs'], 'vfb')
 
     def scripts(self):
-        '''Return a list of all ``.py`` files in project.'''
+        """Return a list of all ``.py`` files in project."""
         scripts = {}
         # collect RoboFont scripts
         RF_folder = self.paths['python_robofont']
@@ -454,22 +454,22 @@ class hProject:
     # delete files
 
     def delete_otfs(self):
-        '''Delete all ``.otfs`` in project.'''
+        """Delete all ``.otfs`` in project."""
         otf_paths = self.otfs()
         delete_files(otf_paths)
 
     def delete_instances(self):
-        '''Delete all ``.ufo`` instances in project.'''
+        """Delete all ``.ufo`` instances in project."""
         instances_paths = self.instances()
         delete_files(instances_paths)
 
     def delete_otfs_test(self):
-        '''Delete all ``.otfs`` in the ``Adobe/fonts`` folder.'''
+        """Delete all ``.otfs`` in the ``Adobe/fonts`` folder."""
         otf_paths = self.otfs_test()
         delete_files(otf_paths)
 
     def delete_woffs(self):
-        '''Delete all ``.woffs`` in project.'''
+        """Delete all ``.woffs`` in project."""
         woff_paths = self.woffs()
         delete_files(woff_paths)
         # delete temporary otf webfonts
@@ -477,14 +477,14 @@ class hProject:
         delete_files(temp_otfs)
 
     def delete_ttxs(self):
-        '''Delete all ``.ttxs`` in project.'''
+        """Delete all ``.ttxs`` in project."""
         ttx_paths = self.ttxs()
         delete_files(ttx_paths)
 
     # groups and glyph names
 
     def all_glyphs(self, ignore=['invisible']):
-        '''Return the full list of glyphs for all fonts in project.'''
+        """Return the full list of glyphs for all fonts in project."""
         _all_glyphs = []
         self.import_encoding()
         for group in self.libs['groups']['order']:
@@ -500,7 +500,7 @@ class hProject:
     # generation
 
     def generate_instance(self, instance_name, verbose=False, folder=None):
-        '''Generate a ``.ufo`` instance with name ``instance_name``, using data from the project's interpol lib.'''
+        """Generate a ``.ufo`` instance with name ``instance_name``, using data from the project's interpol lib."""
         _masters = self.masters()
         if self.libs['interpol'].has_key(instance_name):
             # get instance info
@@ -544,7 +544,7 @@ class hProject:
                 print '%s is not an instance.\n' % instance_name
 
     def generate_vfbs(self, masters=True, instances=False, interpol=False):
-        '''Batch convert ufos in project to vfb format.'''
+        """Batch convert ufos in project to vfb format."""
         # collect files
         _ufos = []
         if masters:
@@ -588,7 +588,7 @@ class hProject:
         print 'done.\n'
 
     def upload_css(self, verbose=True):
-        '''Upload the project's ``.css`` files to the project's fonts folder in the FTP server.'''
+        """Upload the project's ``.css`` files to the project's fonts folder in the FTP server."""
         woffs_folder = self.paths['woffs']
         css_files = walk(woffs_folder, 'css')
         for css_file in css_files:

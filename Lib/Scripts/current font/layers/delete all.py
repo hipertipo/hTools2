@@ -1,6 +1,6 @@
 # [h] delete all layers
 
-'''Delete all layers in the current font.'''
+"""Delete all layers in the current font."""
 
 try:
     from mojo.roboFont import CurrentFont

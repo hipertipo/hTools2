@@ -8,7 +8,7 @@ from hTools2.objects import hFont
 
 class hFont_test(object):
 
-    '''An interactive tests session for the :py:class:`hFont` object.
+    """An interactive tests session for the :py:class:`hFont` object.
 
     >>> from robofab.world import RFont
     >>> from hTools2.objects import hFont
@@ -40,7 +40,7 @@ class hFont_test(object):
     >>> print font.woff_path()
     /_fonts/_Publica/_woffs/Publica_55.woff
 
-'''
+"""
 
 # test
 

@@ -19,11 +19,11 @@ from hTools2.modules.messages import no_font_open
 
 class transferVMetricsDialog(hDialog):
 
-    '''A dialog to transfer the vertical metrics from one font to another.
+    """A dialog to transfer the vertical metrics from one font to another.
 
     .. image:: imgs/font/copy-vmetrics.png
 
-    '''
+    """
 
     all_fonts_names = []
 

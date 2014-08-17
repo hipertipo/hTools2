@@ -5,7 +5,7 @@ import os
 # functions
 
 def clean_pyc(directory, path):
-    '''Remove all .pyc files recursively in path.'''
+    """Remove all .pyc files recursively in path."""
     for file_name in directory:
         file_path = os.path.join(path, file_name)
         if file_name[-3:] == 'pyc':
@@ -47,7 +47,7 @@ def in_NodeBox():
     return in_NB
 
 def get_context():
-    '''Get the current environment in which hTools2 is running.'''
+    """Get the current environment in which hTools2 is running."""
     _FL = in_FontLab()
     _RF = in_RoboFont()
     if _FL:
@@ -79,15 +79,15 @@ if _ctx == 'RoboFont':
     from mojo.UI import getScriptingMenuNamingShortKey, setScriptingMenuNamingShortKey, createModifier, setScriptingMenuNamingShortKeyForPath
 
     def clear_shortcuts():
-        '''Remove all current shorcuts.'''
+        """Remove all current shorcuts."""
         setScriptingMenuNamingShortKey({})
 
     def get_shortcuts():
-        '''Get RoboFont shortcuts as a dictionary.'''
+        """Get RoboFont shortcuts as a dictionary."""
         return getScriptingMenuNamingShortKey()
 
     def print_shortcuts(verbose=False):
-        '''Print all current shorcuts.'''
+        """Print all current shorcuts."""
         _dict = getScriptingMenuNamingShortKey()
         for k in _dict:
             name, key = _dict[k]
@@ -97,7 +97,7 @@ if _ctx == 'RoboFont':
         print
 
     def set_shortcuts(shortcuts_dict):
-        '''Set RoboFont shortcuts from a dictionary.'''
+        """Set RoboFont shortcuts from a dictionary."""
         # setScriptingMenuNamingShortKey(shortcuts_dict)
         for path in shortcuts_dict.keys():
             preferredName = shortcuts_dict[path]['preferredName']
@@ -106,7 +106,7 @@ if _ctx == 'RoboFont':
             setScriptingMenuNamingShortKeyForPath(path, preferredName, shortKey, modifier)
 
     def toggle_panels():
-        '''Show/hide all floating windows in the current workspace.'''
+        """Show/hide all floating windows in the current workspace."""
         # get panels
         windows = NSApp.windows()
         panels = [ window for window in windows if isinstance(window, NSPanel) ]
@@ -125,7 +125,7 @@ if _ctx == 'RoboFont':
             setExtensionDefault('com.hipertipo.showHidePanels', True)
 
 def build_shortcuts_dict(path, shortcuts):
-    '''Build a shortcuts dictionary with script paths, names and shortcut keys.'''
+    """Build a shortcuts dictionary with script paths, names and shortcut keys."""
     #   shortcuts_dict = {
     #       u'/path/to/script.py': {
     #           'preferredName' : 'my script',
@@ -147,7 +147,7 @@ def build_shortcuts_dict(path, shortcuts):
     return _shortcuts_dict
 
 def merge_shortcuts_dicts(dicts_list):
-    '''Merge all shortcut dictionaries in a given list.'''
+    """Merge all shortcut dictionaries in a given list."""
     _super_dict = {}
     for _dict in dicts_list:
         for k in _dict.keys():

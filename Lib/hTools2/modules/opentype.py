@@ -1,15 +1,15 @@
 # [h] hTools2.modules.opentype
 
-'''basic functions to import, export and delete OpenType features in fonts'''
+"""basic functions to import, export and delete OpenType features in fonts"""
 
 import os
 
 def clear_features(font):
-    '''Deletes the content of the OpenType feature file in the font.'''
+    """Deletes the content of the OpenType feature file in the font."""
     font.features.text = ''
 
 def import_features(font, fea_path):
-    '''Imports the content of the .fea file in `fea_path` into `font.features`.'''
+    """Imports the content of the .fea file in `fea_path` into `font.features`."""
     # make features file
     features_text = ''
     if os.path.exists(fea_path):
@@ -31,7 +31,7 @@ def import_kern_feature(font, fea_path):
     font.features.text += features_text
 
 def export_features(font, fea_path):
-    '''Exports the content of `font.features` to the given .fea file in `fea_path`.'''
+    """Exports the content of `font.features` to the given .fea file in `fea_path`."""
     if os.path.exists(fea_path):
         fea = open(fea_path, "w")
         fea.write(font.features.text)

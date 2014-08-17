@@ -1,6 +1,6 @@
 # dialogs.folder
 
-'''A collection of dialogs to do things to all fonts in a given folder.'''
+"""A collection of dialogs to do things to all fonts in a given folder."""
 
 # import
 

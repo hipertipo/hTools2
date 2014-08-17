@@ -1,6 +1,6 @@
 # [h] hTools2.modules.anchors
 
-'''Tools to create, move, delete and transfer anchors.'''
+"""Tools to create, move, delete and transfer anchors."""
 
 # imports
 

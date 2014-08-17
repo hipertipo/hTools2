@@ -19,11 +19,11 @@ from hTools2.modules.messages import no_font_open
 
 class copyToLayerDialog(hDialog):
 
-    '''A dialog to copy the foreground layer in the selected glyphs to another layer.
+    """A dialog to copy the foreground layer in the selected glyphs to another layer.
 
     .. image:: imgs/glyphs/copy-to-layer.png
 
-    '''
+    """
 
     # attributes
 

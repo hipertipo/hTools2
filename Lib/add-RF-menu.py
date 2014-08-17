@@ -1,6 +1,6 @@
 # [h] add hTools2 menu to RoboFont
 
-'''Add hTools2 as a menu item in RoboFont's application menu.'''
+"""Add hTools2 as a menu item in RoboFont's application menu."""
 
 ### thanks Frederik ###
 

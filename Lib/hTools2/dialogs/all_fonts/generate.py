@@ -21,11 +21,11 @@ from hTools2.modules.messages import no_font_open
 
 class generateAllFontsDialog(hDialog):
 
-    '''A dialog to test install and/or generate .otf fonts for all open .ufo fonts.
+    """A dialog to test install and/or generate .otf fonts for all open .ufo fonts.
 
     .. image:: imgs/all-fonts/generate.png
 
-    '''
+    """
 
     _otfs_folder = '/'
 

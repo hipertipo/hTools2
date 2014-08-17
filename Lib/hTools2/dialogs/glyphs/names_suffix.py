@@ -19,14 +19,14 @@ from hTools2.modules.messages import no_font_open, no_glyph_selected
 
 class changeSuffixDialog(hDialog):
 
-    '''A dialog to change the suffix of the selected glyphs.
+    """A dialog to change the suffix of the selected glyphs.
 
     .. image:: imgs/glyphs/add-suffix.png
     .. image:: imgs/glyphs/add-suffix-1.png
     .. image:: imgs/glyphs/add-suffix-2.png
     .. image:: imgs/glyphs/add-suffix-3.png
 
-    '''
+    """
 
     # attributes
 

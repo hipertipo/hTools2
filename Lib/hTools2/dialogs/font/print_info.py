@@ -1,6 +1,6 @@
 # [h] clear font info
 
-'''Print different kinds of font info selectively.'''
+"""Print different kinds of font info selectively."""
 
 # import
 
@@ -21,11 +21,11 @@ from hTools2.modules.messages import no_font_open
 
 class clearFontInfoDialog(hDialog):
 
-    '''
+    """
 
     .. image:: imgs/font/print-info.png
 
-    '''
+    """
 
 
     # attributes

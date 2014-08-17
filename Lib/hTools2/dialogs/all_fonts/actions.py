@@ -18,12 +18,12 @@ from hTools2.modules.messages import no_font_open
 
 class actionsDialog(hDialog):
 
-    '''A dialog to selectively apply several actions to all open fonts.
+    """A dialog to selectively apply several actions to all open fonts.
 
 
     .. image:: imgs/all-fonts/actions.png
 
-    '''
+    """
 
     # attributes
 

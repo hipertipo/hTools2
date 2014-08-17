@@ -19,11 +19,11 @@ from hTools2.modules.messages import no_font_open
 
 class setElementDialog(hDialog):
 
-    '''
+    """
 
     .. image:: imgs/font/set-element.png
 
-    '''
+    """
 
     # attributes
 

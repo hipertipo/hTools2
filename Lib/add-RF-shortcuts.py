@@ -1,6 +1,6 @@
 # [h] create shortcuts
 
-'''Create RoboFont keyboard shortcuts for scripts in hTools2.'''
+"""Create RoboFont keyboard shortcuts for scripts in hTools2."""
 
 import os
 from mojo.UI import setScriptingMenuNamingShortKeyForPath, createModifier

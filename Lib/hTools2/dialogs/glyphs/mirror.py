@@ -18,11 +18,11 @@ from hTools2.modules.messages import no_glyph_selected, no_font_open
 
 class mirrorGlyphsDialog(hDialog):
 
-    '''A dialog to mirror the selected glyphs in the current font.
+    """A dialog to mirror the selected glyphs in the current font.
 
     .. image:: imgs/glyphs/mirror.png
 
-    '''
+    """
 
     # attributes
 

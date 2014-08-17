@@ -19,11 +19,11 @@ from hTools2.modules.messages import no_font_open, no_glyph_selected
 
 class copyToMaskDialog(hDialog):
 
-    '''A dialog to transfer the foreground layer of the selected glyphs in the current font to the mask layer of the same glyphs of another font.
+    """A dialog to transfer the foreground layer of the selected glyphs in the current font to the mask layer of the same glyphs of another font.
 
     .. image:: imgs/glyphs/copy-to-mask.png
 
-    '''
+    """
 
     # attributes
 

@@ -1,6 +1,6 @@
 # dialogs.allfonts
 
-'''A collection of dialogs to do things to all open fonts.'''
+"""A collection of dialogs to do things to all open fonts."""
 
 # import
 

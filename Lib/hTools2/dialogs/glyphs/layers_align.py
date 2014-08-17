@@ -21,7 +21,7 @@ from hTools2.modules.messages import no_glyph_selected, no_font_open, no_layer_s
 
 class alignLayersDialog(hDialog):
 
-    '''A dialog to center all layers in the selected glyphs.'''
+    """A dialog to center all layers in the selected glyphs."""
 
     # attributes
 

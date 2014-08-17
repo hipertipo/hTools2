@@ -20,11 +20,11 @@ from hTools2.modules.messages import no_glyph_selected, no_font_open
 
 class skewGlyphsDialog(hDialog):
 
-    '''A dialog to skew the selected glyphs in a font.
+    """A dialog to skew the selected glyphs in a font.
 
     .. image:: imgs/glyphs/skew.png
 
-    '''
+    """
 
     # attributes
 

@@ -1,6 +1,6 @@
 # [h] hTools2.modules.messages
 
-'''A collection of standard messages used in multiple dialogs.'''
+"""A collection of standard messages used in multiple dialogs."""
 
 #-----------
 # functions

@@ -20,11 +20,11 @@ from hTools2.modules.messages import no_glyph_selected, no_font_open
 
 class copyPasteGlyphDialog(hDialog):
 
-    '''A dialog to copy and paste glyphs, with a few special options.
+    """A dialog to copy and paste glyphs, with a few special options.
 
     .. image:: imgs/glyphs/copy-paste.png
 
-    '''
+    """
 
     # attributes
 

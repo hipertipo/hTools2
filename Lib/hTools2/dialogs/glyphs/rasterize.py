@@ -20,11 +20,11 @@ from hTools2.modules.messages import no_glyph_selected, no_font_open
 
 class rasterizeGlyphDialog(hDialog):
 
-    '''A dialog to rasterize the selected glyphs with element components.
+    """A dialog to rasterize the selected glyphs with element components.
 
     .. image:: imgs/glyphs/rasterizer.png
 
-    '''
+    """
 
     # attributes
 

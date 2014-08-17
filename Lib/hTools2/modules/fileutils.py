@@ -1,6 +1,6 @@
 # [h] hTools2.modules.fileutils
 
-'''Simple tools to work with files, paths etc.'''
+"""Simple tools to work with files, paths etc."""
 
 # imports
 
@@ -11,13 +11,13 @@ import shutil
 # functions
 
 def walk(folder, extension):
-    '''A simple non-recursive ``walk`` function to collect files with a given extension.'''
+    """A simple non-recursive ``walk`` function to collect files with a given extension."""
     if folder.endswith("/"):
         folder = folder[:-1]
     return glob.glob("%s/*.%s" % (folder, extension))
 
 def get_names_from_path(fontpath):
-    '''Parse underscore(or hyphen)-separated font file names into ``family`` and ``style`` names.'''
+    """Parse underscore(or hyphen)-separated font file names into ``family`` and ``style`` names."""
     _file = os.path.basename(fontpath)
     _file_name = os.path.splitext(_file)[0]
     try:
@@ -29,18 +29,18 @@ def get_names_from_path(fontpath):
     return family_name, style_name
 
 def get_parameters_from_style(style_name):
-    '''Get individual parameters from the style name of a font.'''
+    """Get individual parameters from the style name of a font."""
     parameters = style_name.split('-')
     return parameters
 
 def get_parameters_from_path(fontpath):
-    '''Get individual parameters from the path of a font file.'''
+    """Get individual parameters from the path of a font file."""
     family_name, style_name = get_names_from_path(fontpath)
     parameters = style_name.split('-')
     return parameters
 
 def read_names_list_from_file(filepath):
-    '''Read pairs of glyph names from a simple text file.'''
+    """Read pairs of glyph names from a simple text file."""
     lines_raw = open(filepath, 'r').readlines()
     names_list = []
     for line in lines_raw:
@@ -52,7 +52,7 @@ def read_names_list_from_file(filepath):
     return names_list
 
 def delete_files(files_list):
-    '''Delete the files at the file paths in the list.'''
+    """Delete the files at the file paths in the list."""
     for file_path in files_list:
         if os.path.isdir(file_path):
             shutil.rmtree(file_path)
@@ -60,7 +60,7 @@ def delete_files(files_list):
             os.remove(file_path)
 
 def rename_file(filepath, new_name, overwrite=True, delete=True):
-    '''Rename a file or folder, and save it with the new name.'''
+    """Rename a file or folder, and save it with the new name."""
     _dir, _file = os.path.split(filepath)
     _ext = os.path.splitext(_file)[1]
     _new_file_name = new_name + _ext
@@ -86,13 +86,13 @@ def rename_file(filepath, new_name, overwrite=True, delete=True):
     print '...done.\n'
 
 # def prepend_zeros(number, length):
-#     '''Add padding with zeros before number for sorting.'''
+#     """Add padding with zeros before number for sorting."""
 #     _number = str(number)
 #     _padding = length - len(_number)
 #     return '%s%s' % ('0' * _padding, _number)
 
 def copy_files(source_path, dest_path, verbose=False):
-    '''"Copy all files from one folder to another.'''
+    """"Copy all files from one folder to another."""
     for root, dirs, files in os.walk(source_path):
         dest = dest_path + root.replace(source_path, '')
         if not os.path.isdir(dest):

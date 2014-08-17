@@ -21,11 +21,11 @@ from hTools2.modules.messages import no_font_in_folder
 
 class UFOsToOTFsDialog(hDialog):
 
-    '''A dialog to generate ``.otf`` fonts for all ``.ufos`` in a folder.
+    """A dialog to generate ``.otf`` fonts for all ``.ufos`` in a folder.
 
     .. image:: imgs/folder/ufos2otfs.png
 
-    '''
+    """
 
     # attributes
 

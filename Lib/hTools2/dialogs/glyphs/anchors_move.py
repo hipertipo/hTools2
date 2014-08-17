@@ -20,11 +20,12 @@ from hTools2.modules.messages import no_glyph_selected, no_font_open
 
 class moveAnchorsDialog(hDialog):
 
-    '''A dialog to move the anchors in the selected glyphs of the current font.
+    """
+    A dialog to move anchors in the selected glyphs of the current font.
 
     .. image:: imgs/glyphs/move-anchors.png
 
-    '''
+    """
 
     # attributes
 
