@@ -1,6 +1,6 @@
 # [h] adjust vertical metrics
 
-import hTools2.dialogs.font.adjust_vmetrics
-reload(hTools2.dialogs.font.adjust_vmetrics)
+import hTools2.dialogs.font.vmetrics_adjust
+reload(hTools2.dialogs.font.vmetrics_adjust)
 
-hTools2.dialogs.font.adjust_vmetrics.adjustVerticalMetrics()
+hTools2.dialogs.font.vmetrics_adjust.adjustVerticalMetrics()

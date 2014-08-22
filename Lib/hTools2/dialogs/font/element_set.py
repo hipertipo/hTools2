@@ -22,7 +22,7 @@ from hTools2.modules.messages import no_font_open
 
 class setElementDialog(hDialog):
 
-    """Create an `_element` glyph in the current font.
+    """
 
     .. image:: imgs/font/set-element.png
 

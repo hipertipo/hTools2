@@ -4,16 +4,16 @@
 
 # import
 
-from adjust_vmetrics import adjustVerticalMetrics
-from copy_info import copyFontInfoDialog
-from create_spaces import createSpaceGlyphsDialog
-from delete_layer import deleteLayerDialog
-from import_layer import importUFOIntoLayerDialog
-from print_groups import printGroupsDialog
-from print_info import clearFontInfoDialog
-from rename_glyphs import batchRenameGlyphs
-from set_element import setElementDialog
-from transfer_vmetrics import transferVMetricsDialog
+from element_set import setElementDialog
+from groups_print import printGroupsDialog
+from glyphs_rename import batchRenameGlyphs
+from info_copy import copyFontInfoDialog
+from info_print import clearFontInfoDialog
+from layer_delete import deleteLayerDialog
+from layer_import import importUFOIntoLayerDialog
+from spaces_create import createSpaceGlyphsDialog
+from vmetrics_adjust import adjustVerticalMetrics
+from vmetrics_transfer import transferVMetricsDialog
 
 # export
 

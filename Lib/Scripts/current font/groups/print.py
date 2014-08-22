@@ -1,6 +1,6 @@
 # [h] print groups in different formats
 
-import hTools2.dialogs.font.print_groups
-reload(hTools2.dialogs.font.print_groups)
+import hTools2.dialogs.font.groups_print
+reload(hTools2.dialogs.font.groups_print)
 
-hTools2.dialogs.font.print_groups.printGroupsDialog()
+hTools2.dialogs.font.groups_print.printGroupsDialog()

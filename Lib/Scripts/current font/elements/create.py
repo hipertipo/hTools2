@@ -1,6 +1,6 @@
 # [h] set element
 
-import hTools2.dialogs.font.set_element
-reload(hTools2.dialogs.font.set_element)
+import hTools2.dialogs.font.element_set
+reload(hTools2.dialogs.font.element_set)
 
-hTools2.dialogs.font.set_element.setElementDialog()
+hTools2.dialogs.font.element_set.setElementDialog()

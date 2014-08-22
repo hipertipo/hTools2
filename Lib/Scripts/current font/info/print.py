@@ -1,6 +1,6 @@
 # [h] print font info
 
-import hTools2.dialogs.font.print_info
-reload(hTools2.dialogs.font.print_info)
+import hTools2.dialogs.font.info_print
+reload(hTools2.dialogs.font.info_print)
 
-hTools2.dialogs.font.print_info.clearFontInfoDialog()
+hTools2.dialogs.font.info_print.clearFontInfoDialog()

@@ -1,6 +1,6 @@
 # [h] create space glyphs
 
-import hTools2.dialogs.font.create_spaces
-reload(hTools2.dialogs.font.create_spaces)
+import hTools2.dialogs.font.spaces_create
+reload(hTools2.dialogs.font.spaces_create)
 
-hTools2.dialogs.font.create_spaces.createSpaceGlyphsDialog()
+hTools2.dialogs.font.spaces_create.createSpaceGlyphsDialog()
