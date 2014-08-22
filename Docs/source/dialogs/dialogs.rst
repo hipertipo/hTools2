@@ -7,8 +7,9 @@ Dialogs
 .. toctree::
    :maxdepth: 1
 
-   glyphs.rst
-   font.rst
-   folder.rst
    all_fonts.rst
+   folder.rst
+   font.rst
+   glyph.rst
+   glyphs.rst
    misc.rst

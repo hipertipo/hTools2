@@ -141,13 +141,32 @@ def deselect_points(glyph):
 # shift points
 #--------------
 
-def shift_selected_points_x(glyph, delta, anchors=False):
+def shift_selected_points_x(glyph, delta, anchors=False, bPoints=True):
     """Shift the selected points in ``glyph`` horizontally by ``delta`` units."""
-    for c in glyph.contours:
-        for p in c.points:
-            if p.selected is True:
-                p.x = p.x + delta
-    if anchors is True:
+    # shift bPoints
+    if bPoints:
+        for c in glyph.contours:
+            for p in c.bPoints:
+                if p.selected:
+                    # shift anchor point
+                    px, py = p.anchor
+                    px += delta
+                    p.anchor = px, py
+                    # shift handles
+                    bcpIn_x, bcpIn_y = p.bcpIn
+                    bcpOut_x, bcpOut_y = p.bcpOut
+                    bcpIn_x += delta
+                    bcpOut_x += delta
+                    p.bcpIn = bcpIn_x, bcpIn_y
+                    p.bcpOut = bcpOut_x, bcpOut_y
+    # shift points
+    else:
+        for c in glyph.contours:
+            for p in c.points:
+                if p.selected is True:
+                    p.x = p.x + delta
+    # shift anchors
+    if anchors:
         if len(glyph.anchors) > 0:
             for a in glyph.anchors:
                 if mode == 1:
@@ -156,15 +175,35 @@ def shift_selected_points_x(glyph, delta, anchors=False):
                 else:
                     if a.x <= linePos:
                         a.x = a.x + delta
+    # done
     glyph.update()
 
-def shift_selected_points_y(glyph, delta, anchors=False):
+def shift_selected_points_y(glyph, delta, anchors=False, bPoints=True):
     """Shift the selected points in ``glyph`` vertically by ``delta`` units."""
-    for c in glyph.contours:
-        for p in c.points:
-            if p.selected is True:
-                p.y = p.y + delta
-    if anchors is True:
+    # shift bPoints
+    if bPoints:
+        for c in glyph.contours:
+            for p in c.bPoints:
+                if p.selected:
+                    # shift anchor point
+                    px, py = p.anchor
+                    py += delta
+                    p.anchor = px, py
+                    # shift handles
+                    bcpIn_x, bcpIn_y = p.bcpIn
+                    bcpOut_x, bcpOut_y = p.bcpOut
+                    bcpIn_y += delta
+                    bcpOut_y += delta
+                    p.bcpIn = bcpIn_x, bcpIn_y
+                    p.bcpOut = bcpOut_x, bcpOut_y
+    # shift points
+    else:
+        for c in glyph.contours:
+            for p in c.points:
+                if p.selected:
+                    p.y = p.y + delta
+    # shift anchors
+    if anchors:
         if len(glyph.anchors) > 0:
             for a in glyph.anchors:
                 if mode is 1:
@@ -173,6 +212,7 @@ def shift_selected_points_y(glyph, delta, anchors=False):
                 else:
                     if a.y <= linePos:
                         a.y = a.y + delta
+    # done
     glyph.update()
 
 #---------------

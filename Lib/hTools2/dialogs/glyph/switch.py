@@ -7,6 +7,7 @@ from vanilla import *
 try:
     from mojo.roboFont import AllFonts, CurrentFont, CurrentGlyph
     from mojo.UI import CurrentGlyphWindow, OpenGlyphWindow
+    from mojo.events import addObserver, removeObserver
 
 except ImportError:
     from robofab.world import AllFonts, CurrentFont, CurrentGlyph
@@ -35,15 +36,17 @@ def previous_glyph(font, index):
 
 class switchGlyphDialog(hDialog):
 
-    # attributes
+    """A dialog to navigate through glyphs, fonts and layers of all open fonts.
 
-    _move_default = 70
+    .. image:: imgs/glyph/switch.png
+
+    """
 
     # methods
 
     def __init__(self):
         # get fonts
-        self.all_fonts = AllFonts()
+        self.get_fonts()
         if len(self.all_fonts) > 0:
             self.title = "switch"
             self.text_height += 3
@@ -133,11 +136,22 @@ class switchGlyphDialog(hDialog):
                         sizeStyle=self.size_style)
             # open
             if self.update():
+                # bind
+                # self.w.bind("became key", self.update_callback)
+                self.w.bind("close", self.on_close_window)
+                # observers
+                addObserver(self, "update_callback", "newFontDidOpen")
+                addObserver(self, "update_callback", "fontDidOpen")
+                addObserver(self, "update_callback", "fontDidClose")
+                # open window
                 self.w.open()
         else:
             print no_font_open
 
     # methods
+
+    def get_fonts(self):
+        self.all_fonts = AllFonts()
 
     def next_glyph(self):
         next = next_glyph(self.font, self.glyph_index)
@@ -265,3 +279,12 @@ class switchGlyphDialog(hDialog):
                 G = OpenGlyphWindow(prev_glyph, newWindow=False)
                 # update UI
                 self.update()
+
+    def update_callback(self, sender):
+        self.get_fonts()
+        self.update()
+
+    def on_close_window(self, sender):
+            removeObserver(self, "newFontDidOpen")
+            removeObserver(self, "fontDidOpen")
+            removeObserver(self, "fontDidClose")

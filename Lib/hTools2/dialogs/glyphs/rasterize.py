@@ -1,5 +1,8 @@
 # [h] rasterize selected glyphs into elements
 
+import hTools2.modules.rasterizer
+reload(hTools2.modules.rasterizer)
+
 # imports
 
 try:

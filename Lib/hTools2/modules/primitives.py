@@ -13,8 +13,8 @@ def rect(pen, x, y, w, h):
 
 def ellipse(pen, (x, y, rx, ry)):
     """Draw an ellipse with a pen object."""
-    bcpx = BEZIER_ARC_MAGIC * rx
-    bcpy = BEZIER_ARC_MAGIC * ry
+    bcpx = BEZIER_ARC_CIRCLE * rx
+    bcpy = BEZIER_ARC_CIRCLE * ry
     pen.moveTo( (x, y + rx) )
     pen.curveTo( (x + bcpx, y + ry), (x + rx, y + bcpy), (x + rx, y) )
     pen.curveTo( (x + rx, y - bcpy), (x + bcpx, y - ry), (x, y - ry) )
@@ -26,8 +26,8 @@ def oval(pen, x, y, w, h):
     """Draw an oval with a pen object."""
     radius_w = w / 2.0
     radius_h = h / 2.0
-    bcp_w = BEZIER_ARC_MAGIC * radius_w
-    bcp_h = BEZIER_ARC_MAGIC * radius_h
+    bcp_w = BEZIER_ARC_CIRCLE * radius_w
+    bcp_h = BEZIER_ARC_CIRCLE * radius_h
     x += radius_w
     y += radius_h
     pen.moveTo((x, y+radius_h))

@@ -1,5 +1,8 @@
 # [h] set element glyph in a font
 
+import hTools2.modules.rasterizer
+reload(hTools2.modules.rasterizer)
+
 # imports
 
 try:

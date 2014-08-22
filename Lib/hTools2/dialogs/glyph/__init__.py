@@ -2,11 +2,22 @@
 
 """A collection of dialogs to do things to the current glyph."""
 
+# debug
+
+import align
+reload(align)
+
+import nudge
+reload(nudge)
+
+import switch
+reload(switch)
+
 # import
 
-from align_points import alignPointsDialog
-from nudge_points import nudgePointsDialog
-from switch_glyph import switchGlyphDialog
+from align import alignPointsDialog
+from nudge import nudgePointsDialog
+from switch import switchGlyphDialog
 
 # export
 

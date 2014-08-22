@@ -314,18 +314,23 @@ class hFont:
     #         if self.ufo.has_key(glyph_name):
     #             self.build_glyph(glyph_name)
 
-    def build_anchors(self, clear=True):
+    def build_anchors(self, glyph_names=None, clear=True, verbose=True):
+        """Build anchors in selected glyphs based on accents dict."""
         # get anchors
         anchors_lib = get_anchors_dict(self.project.libs['accents'])
         vmetrics_lib = self.get_vmetrics()
         groups_lib = self.project.libs['groups']['glyphs']
-        # clear anchors
-        if clear:
-            self.clear_anchors()
-        # create base anchors
-        for glyph_name in anchors_lib.keys():
-            if self.ufo.has_key(glyph_name):
+        # get glyph names
+        if glyph_names is None:
+            glyph_names = self.ufo.keys()
+        # build base anchors
+        print 'building anchors in glyphs...\n'
+        for glyph_name in glyph_names:
+            if anchors_lib.has_key(glyph_name) and self.ufo.has_key(glyph_name):
                 glyph = self.ufo[glyph_name]
+                # clear anchors
+                if clear:
+                    glyph.clearAnchors()
                 # get horizontal center
                 try:
                     l, b, r, t = glyph.box
@@ -333,19 +338,26 @@ class hFont:
                 except TypeError:
                     x_center = glyph.width * 0.5
                 # lc top base
-                if 'top' in anchors_lib[glyph_name]:
+                anchor_name = 'top'
+                if anchor_name in anchors_lib[glyph_name]:
                     y = vmetrics_lib['xheight'] + vmetrics_lib['xheight_anchors']
-                    glyph.appendAnchor('top', (x_center, y))
+                    glyph.appendAnchor(anchor_name, (x_center, y))
+                    print '\t building %s in %s...' % (anchor_name, glyph_name)
                 # lc bottom base
-                if 'bottom' in anchors_lib[glyph_name]:
+                anchor_name = 'bottom'
+                if anchor_name in anchors_lib[glyph_name]:
                     y = vmetrics_lib['baseline_lc_anchors']
-                    glyph.appendAnchor('bottom', (x_center, y))
+                    glyph.appendAnchor(anchor_name, (x_center, y))
+                    print '\t building %s in %s...' % (anchor_name, glyph_name)
                 # done glyph
                 glyph.update()
-        # create accents anchors
-        for glyph_name in groups_lib['accents_lc']:
-            if self.ufo.has_key(glyph_name):
+        # build accents anchors
+        for glyph_name in glyph_names:
+            if glyph_name in groups_lib['accents_lc'] and self.ufo.has_key(glyph_name):
                 glyph = self.ufo[glyph_name]
+                # clear anchors
+                if clear:
+                    glyph.clearAnchors()
                 # get horizontal center
                 try:
                     l, b, r, t = glyph.box
@@ -353,8 +365,10 @@ class hFont:
                 except TypeError:
                     x_center = glyph.width * 0.5
                 y = vmetrics_lib['xheight'] + vmetrics_lib['xheight_anchors']
+                print '\t building %s in %s...' % ('_top', glyph_name)
                 glyph.appendAnchor('_top', (x_center, y))
         # done font
+        print '\n...done.\n'
         self.ufo.update()
 
     def build_selected_glyphs(self):

@@ -64,7 +64,7 @@ class hProject:
         'python_robofont',
         'python_nodebox',
         'python_drawbot',
-        # 'otfs_test',
+        'otfs_test',
     ]
 
     #: A list with names of data libs.
@@ -287,7 +287,7 @@ class hProject:
         _paths['python_robofont'] = os.path.join(_project_root, '_py/RoboFont')
         _paths['python_nodebox'] = os.path.join(_project_root, '_py/NodeBox')
         _paths['python_drawbot'] = os.path.join(_project_root, '_py/DrawBot')
-        # Adobe fonts folder
+        # test fonts folder
         if self.world.settings.hDict.has_key('test'):
             _paths['otfs_test'] = os.path.join(self.world.settings.hDict['test'], '_%s') % self.name
         # encoding path
@@ -413,7 +413,7 @@ class hProject:
         return walk(self.paths['ttx'], 'ttx')
 
     def otfs_test(self):
-        """Return a list of all ``.otfs`` in the project's ``Adobe/fonts/`` folder."""
+        """Return a list of all ``.otfs`` in the project's test folder."""
         return walk(self.paths['otfs_test'], 'otf')
 
     def woffs(self):

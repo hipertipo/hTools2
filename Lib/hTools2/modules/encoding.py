@@ -286,6 +286,16 @@ def chars2glyphnames(char_list):
             glyph_names.append(glyph_name)
     return glyph_names
 
+def glyphname2char(glyph_name):
+    """Get the unicode character for a given glyph name."""
+    if psnames2unicodes.has_key(glyph_name):
+        uni = psnames2unicodes[glyph_name]
+    elif unicodes_extra.has_key(glyph_name):
+        uni = '###%s' % unicodes_extra[glyph_name]
+    else:
+        uni = None
+    return glyph_name, uni
+
 #: A dictionary mapping unicode values to psNames.
 unicode2psnames = {
     None : '.notdef',
@@ -984,3 +994,6 @@ unicode2psnames = {
     64259 : 'ffi',
     64260 : 'ffl',
 }
+
+#: A dictionary mapping psNames to unicode values.
+psnames2unicodes = dict([[v, k] for k, v in unicode2psnames.items()])
