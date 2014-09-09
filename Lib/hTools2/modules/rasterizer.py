@@ -16,30 +16,45 @@ from hTools2.modules.primitives import oval, rect, element
 
 # functions
 
-def set_element(f, size, type='rect', magic=None, element_src='_element'):
-    """Set the shape of the element glyph in the font."""
+def set_element(font, size, type='rect', magic=None, element_src='_element'):
+    """Set the shape of the element glyph in the font.
+
+    :param RFont font: A font in which to create the element glyph.
+    :param int size: The size of the element shape.
+    :param str type: The type of the element shape: ``rect``, ``oval`` or ``element``.
+    :param float magic: A number indicating the roundness of shapes of type ``element``.
+    :param str element_src: The glyph in which the element shape will be drawn.
+
+    """
     # get destination glyph
-    if f.has_key(element_src) != True:
-        f.newGlyph(element_src)
-    g = f[element_src]
-    # clear dst glyph contents
-    g.clear()
-    # get pen to draw in glyph
-    p = g.getPen()
-    # draw element shape in glyph
+    if font.has_key(element_src) != True:
+        font.newGlyph(element_src)
+    glyph = font[element_src]
+    # clear current glyph contents 
+    glyph.clear()
+    # get a pen to draw in the glyph
+    pen = glyph.getPen()
+    # draw element in glyph
     if type == 'oval':
-        oval(p, 0, 0, size, size)
+        oval(pen, 0, 0, size, size)
     elif type == 'super':
-        element(p, 0, 0, size, size, magic)
+        element(pen, 0, 0, size, size, magic)
     else:
-        rect(p, 0, 0, size, size)
+        rect(pen, 0, 0, size, size)
     # set glyph width
-    g.width = size
+    glyph.width = size
     # done
-    g.update()
-    f.update()
+    glyph.update()
+    font.update()
 
 def randomize_elements(glyph, esize, rand_size):
+    """Randomize the size of element shapes in the current glyph.
+
+    :param RGlyph glyph: The glyph in which the element shapes will be transformed.
+    :param int esize: The current base size of the element shape.
+    :param tuple rand_size: The scale factors for minimum and maximum random element sizes.
+
+    """
     glyph.prepareUndo('randomize elements')
     # print glyph.name, len(glyph.components)
     for e in glyph.components:
@@ -59,41 +74,61 @@ def randomize_elements(glyph, esize, rand_size):
     glyph.update()
     glyph.performUndo()
 
-def get_esize(font):
-    xmin, ymin, xmax, ymax = font['_element'].box
-    w, h = xmax - xmin, ymax - ymin
+def get_esize(font, element_src='_element'):
+    """Get a font's element size from its bounding box.
+
+    :param RFont font: The font to which the element glyph belongs.
+    :param str element_src: The name of the element glyph.
+
+    """
+    xmin, ymin, xmax, ymax = font[element_src].box
+    w = xmax - xmin
+    h = ymax - ymin
     return w, h
 
 # objects
 
 class RasterGlyph:
 
-    """An object to scan glyphs and rasterize them into elements/components."""
+    """An object to scan glyphs and rasterize them into element components."""
+
+    # attributes
+
+    lib_key_coordenates = 'coordenates.rasterizer.com.hipertipo'
+    lib_key_margins =  'margins.rasterizer.com.hipertipo'
+
+    # methods
 
     def __init__(self, sourceGlyph):
         self.g = sourceGlyph
 
     def scan(self, res):
-        """Scan glyph at the given resolution and store bits into libs."""
+        """Scan glyph and store bits into glyph lib.
+
+        :param int res: The grid resolution to use when scanning the glyph, as a tuple of values for x and y.
+        :returns: A boolean indicating sucess or failure of the scan operation.
+
+        """
         success = False
+        res_x, res_y = res
         # get margins
-        self.leftMargin = self.g.leftMargin / res
-        self.rightMargin = self.g.rightMargin / res
+        self.leftMargin = self.g.leftMargin / res_x
+        self.rightMargin = self.g.rightMargin / res_x
         # scan glyph
         if len(self.g.contours) > 0:
             # get bounding box
             xMin, yMin, xMax, yMax = self.g.box
             xMin, yMin, xMax, yMax = int(xMin), int(yMin), int(xMax), int(yMax)
-            yValues = range(yMin, yMax, res)
+            xValues = range(xMin, xMax, res_x)
+            yValues = range(yMin, yMax, res_y)
             yValues.reverse()
-            xValues = range(xMin, xMax, res)
             # scan lines
             lines = {}
             for y in yValues:
-                lineNumber = y / res
+                lineNumber = y / res_y
                 bits = []
                 for x in xValues:
-                    if self.g.pointInside((x+(res/2), y+(res/2))):
+                    if self.g.pointInside((x+(res_x/2), y+(res_y/2))):
                         bits.append(1,)
                     else:
                         bits.append(0,)
@@ -106,16 +141,16 @@ class RasterGlyph:
         return success
 
     def save_bits_to_lib(self):
-        """Save bit coordenates and margins fmor attribuets into the glyph lib."""
-        self.g.lib["rasterizer.coordenates"] = self.coordenates
-        self.g.lib["rasterizer.margins"] = self.leftMargin, self.rightMargin
+        """Save bit coordenates and margins from attributes into the glyph lib."""
+        self.g.lib[self.lib_key_coordenates] = self.coordenates
+        self.g.lib[self.lib_key_margins] = self.leftMargin, self.rightMargin
 
     def read_bits_from_lib(self):
         """Read bit coordenates and margins from the glyph lib into attributes."""
-        self.coordenates = self.g.lib["rasterizer.coordenates"]
-        self.leftMargin, self.rightMargin = self.g.lib["rasterizer.margins"]
+        self.coordenates = self.g.lib[self.lib_key_coordenates]
+        self.leftMargin, self.rightMargin = self.g.lib[self.lib_key_margins]
 
-    def print_bits(self, black="#", white="-", res=125):
+    def print_bits(self, black="#", white="-", res=(125, 125)):
         """Print glyph bits as ASCII text."""
         # see if glyph has been scanned already
         if hasattr(self, 'coordenates') is not True:
@@ -173,37 +208,38 @@ class RasterGlyph:
         print
         print "-" * line_length, "\n"
 
-    def rasterize(self, destGlyph=None, res=125):
+    def rasterize(self, destGlyph=None, res=(125, 125)):
         """Render scanned bits into destination glyph using components."""
+        res_x, res_y = res
         # define destination glyph
         if destGlyph == None:
             destGlyph = self.g
         # see if glyph has been scanned already
         lib_exists = True
-        if self.g.lib.has_key("rasterizer.coordenates") is not True:
+        if self.g.lib.has_key(self.lib_key_coordenates) is not True:
             lib_exists = self.scan(res)
         if lib_exists:
             # prepare glyphs
             element = "_element"
             destGlyph.clear()
             # prepare lines
-            lineNumbers = self.g.lib["rasterizer.coordenates"].keys()
+            lineNumbers = self.g.lib[self.lib_key_coordenates].keys()
             lineNumbers.sort()
             lineNumbers.reverse()
             # place components from matrix
             for line in lineNumbers:
                 bitCount = 0
-                for bit in self.g.lib["rasterizer.coordenates"][line]:
+                for bit in self.g.lib[self.lib_key_coordenates][line]:
                     if bit == 1:
-                        x = bitCount * res
-                        y = int(line) * res
+                        x = bitCount * res_x
+                        y = int(line) * res_y
                         destGlyph.appendComponent(element, (x, y), (1, 1))
                     else:
                         pass
                     bitCount = bitCount + 1
             # set glyph data & update
-            destGlyph.leftMargin = self.g.lib["rasterizer.margins"][0] * res
-            destGlyph.rightMargin = self.g.lib["rasterizer.margins"][1] * res
+            destGlyph.leftMargin = self.g.lib[self.lib_key_margins][0] * res_x
+            destGlyph.rightMargin = self.g.lib[self.lib_key_margins][1] * res_x
             destGlyph.autoUnicodes()
             destGlyph.update()
         else:

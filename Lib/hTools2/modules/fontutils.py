@@ -99,7 +99,16 @@ def parse_glyphs_groups(names, groups):
     return glyph_names
 
 def rename_glyph(font, old_name, new_name, overwrite=True, mark=True, verbose=True):
-    """Rename a glyph in a font from ``old_name`` to ``new_name``."""
+    """Rename a glyph in a given font.
+ 
+     :param RFont font: The font which contains the glyph to be renamed.
+     :param str old_name: The old glyph name to be replaced.
+     :param str new_name: The new glyph name to be used in place of the old one.
+     :param bool overwrite: Overwrite existing glyph with the new name.
+     :param bool mark: Mark the glyph after renaming.
+     :param bool verbose: Output informative messages to the console.
+
+    """
     if font.has_key(old_name):
         g = font[old_name]
         # if new name already exists in font
@@ -184,9 +193,7 @@ def print_groups(font, mode=0):
     if len(groups) > 0:
         print 'printing groups in font %s...' % get_full_name(font)
         print
-        #----------------------------------
-        # print groups as OpenType classes
-        #----------------------------------
+        # 1. print groups as OpenType classes
         if mode == 1:
             _groups = groups.keys()
             _groups.sort()
@@ -201,9 +208,7 @@ def print_groups(font, mode=0):
               otGlyphs = otGlyphs + " ]"
               # print class in OpenType syntax
               print "%s = %s;" % (otClassName, otGlyphs)
-        #------------------------------
-        # print groups as Python lists
-        #------------------------------
+        # 2. print groups as Python lists
         elif mode == 2:
             # print groups order (if available)
             if font.lib.has_key('groups_order'):
@@ -212,9 +217,7 @@ def print_groups(font, mode=0):
             # print groups
             for group in groups.keys():
                 print '%s = %s\n' % (group, font.groups[group])
-        #----------------------
-        # print groups as text
-        #----------------------
+        # 0. print groups as text
         else:
             # print groups order (if available)
             if font.lib.has_key('groups_order'):
@@ -352,6 +355,11 @@ def auto_order_direction(font):
         glyph.autoContourOrder()
         glyph.correctDirection()
 
+def auto_point_start(font):
+    for glyph in font:
+        for contour in glyph:
+            contour.autoStartSegment()
+
 def add_extremes(font):
     """Add extreme points to all glyphs in the font, if they are missing."""
     for glyph in font:
@@ -406,4 +414,3 @@ def temp_font():
     else:
         t = CurrentFont()
     return t
-

@@ -33,6 +33,7 @@ class glyphActionsDialog(hDialog):
         'delete components' : False,
         'order contours' : False,
         'auto direction' : False,
+        'auto start point' : False,
         'remove overlaps' : False,
         'add extremes' : False,
         'all layers' : False,
@@ -44,7 +45,7 @@ class glyphActionsDialog(hDialog):
 
     def __init__(self):
         self.title = 'actions'
-        self.height = (self.padding_y * 4) + (self.text_height * 9) + self.button_height
+        self.height = (self.padding_y * 4) + (self.text_height * len(self.actions)) + self.button_height
         self.w = FloatingWindow((self.width, self.height), self.title)
         # clear outlines
         x = self.padding_x
@@ -106,6 +107,16 @@ class glyphActionsDialog(hDialog):
                     "auto direction",
                     callback=self.direction_callback,
                     value=self.actions['auto direction'],
+                    sizeStyle=self.size_style)
+        # auto starting points
+        y += self.text_height
+        self.w.start_point_checkBox = CheckBox(
+                    (x, y,
+                    -self.padding_x,
+                    self.text_height),
+                    "auto start point",
+                    callback=self.start_point_callback,
+                    value=self.actions['auto start point'],
                     sizeStyle=self.size_style)
         # remove overlaps
         y += self.text_height
@@ -179,6 +190,9 @@ class glyphActionsDialog(hDialog):
     def extremes_callback(self, sender):
         self.actions['add extremes'] = sender.get()
 
+    def start_point_callback(self, sender):
+        self.actions['auto start point'] = sender.get()
+
     def apply_actions(self, glyph):
         glyph.prepareUndo('apply actions')
         # clear outlines
@@ -206,6 +220,10 @@ class glyphActionsDialog(hDialog):
         # auto contour direction
         if self.actions['auto direction']:
             glyph.correctDirection()
+        # auto starting points
+        if self.actions['auto start point']:
+            for contour in glyph:
+                contour.autoStartSegment()
         # done glyph
         glyph.performUndo()
 

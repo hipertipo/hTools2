@@ -81,21 +81,21 @@ class randomizeElementsDialog(hDialog):
 
     def apply_callback(self, sender):
         # get font
-        f = CurrentFont()
-        if f is not None:
+        font = CurrentFont()
+        if font is not None:
             # get glyphs
-            glyph_names = f.selection
+            glyph_names = font.selection
             if len(glyph_names) > 0:
                 # get values
-                esize = get_esize(f)
+                esize = get_esize(font)
                 self.rand_min = self.w.spinner_min.value.get()
                 self.rand_max = self.w.spinner_max.value.get()
                 # randomize elements
                 for glyph_name in glyph_names:
-                    g = RasterGlyph(f[glyph_name])
-                    g.rasterize(res=125)
-                    randomize_elements(f[glyph_name], esize, (self.rand_min, self.rand_max))
-                f.update()
+                    g = RasterGlyph(font[glyph_name])
+                    g.rasterize()
+                    randomize_elements(font[glyph_name], esize, (self.rand_min, self.rand_max))
+                font.update()
             # no glyph selected
             else:
                 print no_glyph_selected
