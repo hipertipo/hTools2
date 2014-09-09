@@ -21,10 +21,10 @@ class changeSuffixDialog(hDialog):
 
     """A dialog to change the suffix of the selected glyphs.
 
-    .. image:: imgs/glyphs/add-suffix.png
-    .. image:: imgs/glyphs/add-suffix-1.png
-    .. image:: imgs/glyphs/add-suffix-2.png
-    .. image:: imgs/glyphs/add-suffix-3.png
+    .. image:: imgs/glyphs/names-suffix-0.png
+    .. image:: imgs/glyphs/names-suffix-1.png
+    .. image:: imgs/glyphs/names-suffix-2.png
+    .. image:: imgs/glyphs/names-suffix-3.png
 
     """
 

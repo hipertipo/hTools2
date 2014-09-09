@@ -22,7 +22,7 @@ class copyWidthsDialog(hDialog):
 
     """A dialog to copy the advance width of selected glyphs in one font to the same glyphs in another font.
 
-    .. image:: imgs/glyphs/copy-widths.png
+    .. image:: imgs/glyphs/width-copy.png
 
     """
 

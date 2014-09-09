@@ -9,8 +9,7 @@ from hTools2.modules.color import clear_colors, random_color
 # font-level tools
 
 def get_anchors(font, glyph_names=None):
-    """
-    Get anchors from a font as a dictionary.
+    """Get anchors from a font as a dictionary.
 
     :param list glyph_names: A list of glyphs to restrict selection.
     :returns: A dictionary with anchor names and positions for each glyph.
@@ -31,8 +30,7 @@ def get_anchors(font, glyph_names=None):
     return anchors_dict
 
 def clear_anchors(font, glyph_names=None):
-    """
-    Delete all anchors in the font.
+    """Delete all anchors in the font.
 
     :param list glyph_names: A list of glyphs to restrict selection.
 
@@ -98,8 +96,7 @@ def remove_duplicate_anchors(font):
     # done
 
 def get_anchors_dict(accents_dict):
-    """
-    Get an anchors dict from a dict of glyph building recipes.
+    """Get an anchors dict from a dict of glyph building recipes.
 
     :returns: A dictionary with anchor names and positions for each glyph.
 
@@ -123,8 +120,7 @@ def get_anchors_dict(accents_dict):
 # glyph-level tools
 
 def rename_anchor(glyph, old_name, new_name):
-    """
-    Rename named anchor in the given glyph.
+    """Rename named anchor in the given glyph.
 
     :param str old_name: Old anchor name to be replace.
     :param str new_name: New anchor name.
@@ -141,8 +137,7 @@ def rename_anchor(glyph, old_name, new_name):
     return has_name
 
 def transfer_anchors(source_glyph, dest_glyph):
-    """
-    Transfer all anchors from one glyph to another.
+    """Transfer all anchors from one glyph to another.
 
     :param RGlyph source_glyph: The source glyph for the anchors.
     :param RGlyph dest_glyph: The destination glyph.
@@ -166,8 +161,7 @@ def transfer_anchors(source_glyph, dest_glyph):
     return has_anchor
 
 def move_anchors(glyph, anchor_names, (delta_x, delta_y)):
-    """
-    Move named anchors in the given glyph.
+    """Move named anchors in the given glyph.
 
     :param list anchor_names: A list of anchor names to move.
     :param int delta_x: The horizontal move distance.
@@ -180,8 +174,7 @@ def move_anchors(glyph, anchor_names, (delta_x, delta_y)):
             glyph.update()
 
 def create_anchors(glyph, top=True, bottom=True, accent=False, top_delta=20, bottom_delta=20):
-    """
-    Create anchors in glyph.
+    """Create anchors in glyph.
 
     :param bool top: Create or not *top* anchors.
     :param bool bottom: Create or not *bottom* anchors.

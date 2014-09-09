@@ -6,9 +6,6 @@
 ### Interpolated Nudge by Christian Robertson
 ### http://betatype.com/node/18
 
-import hTools2.modules.glyphutils
-reload(hTools2.modules.glyphutils)
-
 # imports
 
 try:

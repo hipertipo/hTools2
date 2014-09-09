@@ -38,11 +38,11 @@ def oval(pen, x, y, w, h):
     pen.closePath()
 
 def circle(pen, x, y, size):
-    """Draw an circle with a pen object."""
+    """Draw a circle with a pen object."""
     oval(pen, x, y, size, size)
 
 def square(pen, x, y, size):
-    """Draw an square with a pen object."""
+    """Draw a square with a pen object."""
     rect(pen, x, y, size, size)
 
 def element(pen, x, y, w, h, magic=BEZIER_ARC_CIRCLE):

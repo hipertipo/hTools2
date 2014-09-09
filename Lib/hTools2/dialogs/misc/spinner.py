@@ -3,6 +3,11 @@
 # imports
 
 from vanilla import *
+from hTools2 import hDialog
+
+# constants
+
+D = hDialog()
 
 # objects
 
@@ -17,72 +22,74 @@ class Spinner(Group):
 
     # methods
 
-    def __init__(self, (l, t), default='0', scale=1, integer=True, nudge_button=18, padding=10, label=None, digits=2):
-        _x = padding
-        _y = 0
-        w = (nudge_button * 6) - 5
-        h = (nudge_button * 2) + padding
-        super(Spinner, self).__init__(
-                    (l, t,
-                    w + (padding * 2),
-                    h + (padding * 1)))
+    def __init__(self, (left, top), default='0', scale=1, integer=True, label=None, digits=2):
+        x = D.padding_x
+        y = 0
+        w = (D.nudge_button * 6) - 5
+        h = (D.nudge_button * 2) + D.padding_y
+        super(Spinner, self).__init__((
+                    left,
+                    top,
+                    w + (D.padding_x * 2),
+                    h + (D.padding_y * 1)
+                ))
         self.scale = scale
         self.integer = integer
         self.digits = digits
         # text label and value
         if label is not None:
-            col2 = w / 2.
+            col2 = w * 0.5
             self.label = TextBox(
-                        (_x, _y, col2, nudge_button),
+                        (x, y, col2, D.nudge_button),
                         label,
-                        sizeStyle='small')
-            _x += col2
+                        sizeStyle=D.size_style)
+            x += col2
             self.value = EditText(
-                        (_x, _y, col2, nudge_button),
+                        (x, y, col2, D.nudge_button),
                         default,
-                        sizeStyle='small')
+                        sizeStyle=D.size_style)
         else:
             self.value = EditText(
-                        (_x, _y, w, nudge_button),
+                        (x, y, w, D.nudge_button),
                         default,
-                        sizeStyle='small')
+                        sizeStyle=D.size_style)
         # nudge buttons
-        _x = padding
-        _y += nudge_button + padding
+        x = D.padding_x
+        y += D.nudge_button + D.padding_y
         self.minus_001 = SquareButton(
-                    (_x, _y, nudge_button, nudge_button),
+                    (x, y, D.nudge_button, D.nudge_button),
                     '-',
-                    sizeStyle='small',
+                    sizeStyle=D.size_style,
                     callback=self.minus_001_callback)
-        _x += nudge_button - 1
+        x += D.nudge_button - 1
         self.plus_001 = SquareButton(
-                    (_x, _y, nudge_button, nudge_button),
+                    (x, y, D.nudge_button, D.nudge_button),
                     '+',
-                    sizeStyle='small',
+                    sizeStyle=D.size_style,
                     callback=self.plus_001_callback)
-        _x += nudge_button - 1
+        x += D.nudge_button - 1
         self.minus_010 = SquareButton(
-                    (_x, _y, nudge_button, nudge_button),
+                    (x, y, D.nudge_button, D.nudge_button),
                     '-',
-                    sizeStyle='small',
+                    sizeStyle=D.size_style,
                     callback=self.minus_010_callback)
-        _x += nudge_button - 1
+        x += D.nudge_button - 1
         self.plus_010 = SquareButton(
-                    (_x, _y, nudge_button, nudge_button),
+                    (x, y, D.nudge_button, D.nudge_button),
                     '+',
-                    sizeStyle='small',
+                    sizeStyle=D.size_style,
                     callback=self.plus_010_callback)
-        _x += nudge_button - 1
+        x += D.nudge_button - 1
         self.minus_100 = SquareButton(
-                    (_x, _y, nudge_button, nudge_button),
+                    (x, y, D.nudge_button, D.nudge_button),
                     '-',
-                    sizeStyle='small',
+                    sizeStyle=D.size_style,
                     callback=self.minus_100_callback)
-        _x += nudge_button - 1
+        x += D.nudge_button - 1
         self.plus_100 = SquareButton(
-                    (_x, _y, nudge_button, nudge_button),
+                    (x, y, D.nudge_button, D.nudge_button),
                     '+',
-                    sizeStyle='small',
+                    sizeStyle=D.size_style,
                     callback=self.plus_100_callback)
 
     # callbacks

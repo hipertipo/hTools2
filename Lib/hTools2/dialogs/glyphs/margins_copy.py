@@ -21,7 +21,7 @@ class copyMarginsDialog(hDialog):
 
     """A dialog to copy margins from selected glyphs in one font to the same glyphs in another font.
 
-    .. image:: imgs/glyphs/copy-margins.png
+    .. image:: imgs/glyphs/margins-copy.png
 
     """
 

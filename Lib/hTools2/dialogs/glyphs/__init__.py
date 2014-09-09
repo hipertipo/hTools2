@@ -12,6 +12,8 @@ from anchors_move import moveAnchorsDialog
 from anchors_rename import renameAnchorsDialog
 from anchors_transfer import transferAnchorsDialog
 from copy_paste import copyPasteGlyphDialog
+from elements_rasterize import rasterizeGlyphDialog
+from elements_randomize import randomizeElementsDialog
 from gridfit import roundToGridDialog
 from interpolate import interpolateGlyphsDialog
 from interpolate_check import checkGlyphsCompatibilityDialog
@@ -26,10 +28,9 @@ from mirror import mirrorGlyphsDialog
 from move import moveGlyphsDialog
 from names_print import printGlyphsDialog
 from names_suffix import changeSuffixDialog
-# from outliner import outlineGlyphsDialog
+from outline import outlineGlyphsDialog
 from paint_select import paintGlyphsDialog
 from points_shift import shiftPointsDialog
-from rasterize import rasterizeGlyphDialog
 from scale import scaleGlyphsDialog
 from skew import skewGlyphsDialog
 from slide import slideGlyphsDialog
@@ -58,10 +59,11 @@ __all__ = [
     'moveGlyphsDialog',
     'printGlyphsDialog',
     'changeSuffixDialog',
-    # 'outlineGlyphsDialog',
+    'outlineGlyphsDialog',
     'paintGlyphsDialog',
     'shiftPointsDialog',
     'rasterizeGlyphDialog',
+    'randomizeElementsDialog',
     'scaleGlyphsDialog',
     'skewGlyphsDialog',
     'slideGlyphsDialog',

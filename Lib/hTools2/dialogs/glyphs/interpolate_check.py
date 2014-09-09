@@ -21,7 +21,7 @@ class checkGlyphsCompatibilityDialog(hDialog):
 
     """A dialog to run a simple compatibility check between selected glyphs in two open fonts.
 
-    .. image:: imgs/glyphs/check-compatibility.png
+    .. image:: imgs/glyphs/interpolate-check.png
 
     """
 

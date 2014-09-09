@@ -20,7 +20,7 @@ class printGlyphsDialog(hDialog):
 
     """A dialog to print the names of the selected glyphs as plain text or Python list.
 
-    .. image:: imgs/glyphs/print-names.png
+    .. image:: imgs/glyphs/names-print.png
 
     """
 

@@ -23,7 +23,7 @@ class paintGlyphsDialog(hDialog):
 
     """A dialog to apply a color to the selected glyph boxes, and to select glyphs by color.
 
-    .. image:: imgs/glyphs/paint.png
+    .. image:: imgs/glyphs/paint-select.png
 
     """
 

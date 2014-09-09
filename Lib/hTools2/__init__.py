@@ -4,7 +4,7 @@
 
 # constants
 
-#: The root folder for all project folders. By default, ``/_fonts``.
+#: The root folder for all font projects.
 ROOT = '/Volumes/gf_extra/_fonts'
 
 #: Debug mode. Set to ``True`` during development to always reload modules.

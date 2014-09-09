@@ -21,7 +21,7 @@ class copyToLayerDialog(hDialog):
 
     """A dialog to copy the foreground layer in the selected glyphs to another layer.
 
-    .. image:: imgs/glyphs/copy-to-layer.png
+    .. image:: imgs/glyphs/layers-copy.png
 
     """
 

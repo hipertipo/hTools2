@@ -21,7 +21,7 @@ class renameAnchorsDialog(hDialog):
 
     """A dialog to rename the anchors in the selected glyphs of the current font.
 
-    .. image:: imgs/glyphs/rename-anchors.png
+    .. image:: imgs/glyphs/anchors-rename.png
 
     """
 

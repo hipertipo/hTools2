@@ -23,7 +23,7 @@ class moveAnchorsDialog(hDialog):
     """
     A dialog to move anchors in the selected glyphs of the current font.
 
-    .. image:: imgs/glyphs/move-anchors.png
+    .. image:: imgs/glyphs/anchors-move.png
 
     """
 

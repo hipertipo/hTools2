@@ -22,7 +22,7 @@ class shiftPointsDialog(hDialog):
 
     """A dialog to select and shift points in the selected glyphs in a font.
 
-    .. image:: imgs/glyphs/shift.png
+    .. image:: imgs/glyphs/points-shift.png
 
     """
 

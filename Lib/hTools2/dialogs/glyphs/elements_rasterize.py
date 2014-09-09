@@ -25,14 +25,14 @@ class rasterizeGlyphDialog(hDialog):
 
     """A dialog to rasterize the selected glyphs with element components.
 
-    .. image:: imgs/glyphs/rasterizer.png
+    .. image:: imgs/glyphs/elements-rasterize.png
 
     """
 
     # attributes
 
     gridsize = 125
-    _element_scale = 1.00
+    element_scale = 1.00
 
     # functions
 
@@ -120,7 +120,7 @@ class rasterizeGlyphDialog(hDialog):
                 print "printing glyphs...\n"
                 for glyph_name in glyph_names:
                     g = RasterGlyph(f[glyph_name])
-                    g._print(res=gridsize)
+                    g.print_bits(res=gridsize)
                 f.update()
                 print "...done.\n"
             # no glyph selected

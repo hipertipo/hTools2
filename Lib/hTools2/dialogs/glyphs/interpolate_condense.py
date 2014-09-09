@@ -22,7 +22,7 @@ class condenseGlyphsDialog(hDialog):
 
     """A dialog to generate condensed glyphs from a regular and a bold font.
 
-    .. image:: imgs/glyphs/condense.png
+    .. image:: imgs/glyphs/interpolate-condense.png
 
     """
 

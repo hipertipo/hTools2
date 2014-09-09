@@ -21,7 +21,7 @@ class copyToMaskDialog(hDialog):
 
     """A dialog to transfer the foreground layer of the selected glyphs in the current font to the mask layer of the same glyphs of another font.
 
-    .. image:: imgs/glyphs/copy-to-mask.png
+    .. image:: imgs/glyphs/mask-copy.png
 
     """
 

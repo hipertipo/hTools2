@@ -101,7 +101,7 @@ class setElementDialog(hDialog):
                 font.newGlyph(self.element_glyph)
             # draw element shape
             font[self.element_glyph].prepareUndo('set element')
-            set_element(font, scale, type=shape, magic=magic, element_=self.element_glyph)
+            set_element(font, scale, type=shape, magic=magic, element_src=self.element_glyph)
             font[self.element_glyph].performUndo()
         # no font open
         else:

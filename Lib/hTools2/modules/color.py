@@ -110,7 +110,7 @@ def RGB_to_nodebox_color((R, G, B), ctx, alpha=1.0):
 # named colors
 #--------------
 
-#: A dictionary with color names and RGBa values.
+# A dictionary with color names and RGBa values.
 named_colors = {
     'red' : hsv_to_rgb(.0, 1, 1) + (1,),
     'orange' : hsv_to_rgb(.11, 1, 1) + (1,),
@@ -141,7 +141,7 @@ def solarized_color(name):
     else:
         print 'name %s is not a solarized group or color.\n' % name
 
-#: Solarized colors by name and RGB values.
+# Solarized colors by name and RGB values.
 solarized_colors = {
     # dark
     'base03' : (0, 43, 54),
@@ -165,7 +165,7 @@ solarized_colors = {
     'green' : (133, 152, 0),
 }
 
-#: Solarized colors by name, divided in groups.
+# Solarized colors by name, divided in groups.
 solarized_groups = {
     'colors' : [ 'yellow', 'orange', 'red', 'magenta', 'violet', 'blue', 'cyan', 'green' ],
     'dark' : [ 'base03', 'base02' ],
@@ -196,7 +196,7 @@ def x11_color(name):
         else:
             print 'name %s is not a x11 group or color.\n' % name
 
-#: X11 colors by name and `(R,G,B)` values.
+# X11 colors by name and `(R,G,B)` values.
 x11_colors = {
     # red colors
     'IndianRed' : (205, 92, 92),
@@ -351,7 +351,7 @@ x11_colors = {
     'Black' : (0, 0, 0),
 }
 
-#: X11 colors by name, divided in groups.
+# X11 colors by name, divided in groups.
 x11_groups = {
     'red' : [ 'IndianRed', 'LightCoral', 'Salmon', 'DarkSalmon', 'LightSalmon', 'Red', 'Crimson', 'FireBrick', 'DarkRed' ],
     'pink' : [ 'Pink', 'LightPink', 'HotPink', 'DeepPink', 'MediumVioletRed', 'PaleVioletRed' ],

@@ -22,7 +22,7 @@ class transferAnchorsDialog(hDialog):
 
     """A dialog to transfer anchors from selected glyphs in one font to the same glyphs in another font.
 
-    .. image:: imgs/glyphs/transfer-anchors.png
+    .. image:: imgs/glyphs/anchors-transfer.png
 
     """
 

@@ -14,7 +14,7 @@ import vanilla
 
 from hTools2 import hDialog
 from hTools2.modules.fontutils import get_glyphs
-# from hTools2.modules.anchors import create_anchors
+from hTools2.modules.anchors import create_anchors
 from hTools2.modules.messages import no_glyph_selected, no_font_open
 
 # settings

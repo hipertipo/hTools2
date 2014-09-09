@@ -25,7 +25,7 @@ class setWidthDialog(hDialog):
 
     """A dialog to set the advance width of the selected glyphs.
 
-    .. image:: imgs/glyphs/set-width.png
+    .. image:: imgs/glyphs/width-set.png
 
     """
 

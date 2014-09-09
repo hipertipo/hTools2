@@ -1,8 +1,5 @@
 # [h] move selected glyphs
 
-import hTools2.dialogs.misc
-reload(hTools2.dialogs.misc)
-
 # imports
 
 try:
