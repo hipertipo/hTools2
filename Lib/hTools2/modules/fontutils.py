@@ -1,6 +1,6 @@
 # [h] hTools2.modules.fontutils
 
-"""A collection of handy functions for working with fonts."""
+"""A collection of useful functions for working with fonts."""
 
 # imports
 

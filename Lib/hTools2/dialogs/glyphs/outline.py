@@ -3,6 +3,9 @@
 import hTools2.modules.outline
 reload(hTools2.modules.outline)
 
+import hTools2.dialogs.misc
+reload(hTools2.dialogs.misc)
+
 # imports
 
 try:
@@ -125,8 +128,9 @@ class outlineGlyphsDialog(hDialog):
                 print '\t',
                 # apply outline
                 for glyph_name in glyph_names:
+                    src_glyph = dst_glyph = font[glyph_name]
                     print glyph_name,
-                    expand(font[glyph_name], delta, join, cap)
+                    expand(src_glyph, dst_glyph, delta, join, cap)
                 print
                 print '\n...done.\n'
             # no glyph selected

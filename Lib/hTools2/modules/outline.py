@@ -25,22 +25,20 @@ def make_outline(glyph, distance, join, cap):
         drawOuter=True)
     return pen
 
-def expand(glyph, distance, join=1, cap=1, src_layer='background', round=False):
+def expand(src_glyph, dst_glyph, distance, join=1, cap=1, round=False):
     """Expand a glyph's outlines by a given amount of units.
 
     """
-    # get skeleton stroke
-    skeleton = glyph.getLayer(src_layer)
     # set undo
-    glyph.prepareUndo("expand strokes")
+    dst_glyph.prepareUndo("expand strokes")
     # calculate outline shape
-    outline = make_outline(skeleton, distance, join, cap)
+    outline_pen = make_outline(src_glyph, distance, join, cap)
     # clear glyph
-    glyph.clear()
+    dst_glyph.clear()
     # copy outline to glyph
-    outline.drawPoints(glyph.getPointPen())
+    outline_pen.drawPoints(dst_glyph.getPointPen())
     # round point positions to integers
     if round:
-        glyph.round()
+        dst_glyph.round()
     # done
-    glyph.performUndo()
+    dst_glyph.performUndo()
