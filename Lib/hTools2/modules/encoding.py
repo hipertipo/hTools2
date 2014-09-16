@@ -308,15 +308,16 @@ def chars2glyphnames(char_list):
             glyph_names.append(glyph_name)
     return glyph_names
 
-def glyphname2char(glyph_name):
-    """Get the unicode character for a given glyph name."""
-    if psnames2unicodes.has_key(glyph_name):
-        uni = psnames2unicodes[glyph_name]
-    elif unicodes_extra.has_key(glyph_name):
-        uni = '###%s' % unicodes_extra[glyph_name]
-    else:
-        uni = None
-    return glyph_name, uni
+# def glyphname2char(glyph_name):
+#     """Get the unicode character for a given glyph name."""
+#     if psnames2unicodes.has_key(glyph_name):
+#         uni = psnames2unicodes[glyph_name]
+#     elif unicodes_extra.has_key(glyph_name):
+#         uni = '###%s' % unicodes_extra[glyph_name]
+#     else:
+#         return
+#     uni_hex = '\\u%s' % unicode_int_to_hexstr(uni, _0x=False)
+#     return unicode(uni_hex)
 
 # A dictionary mapping unicode values to psNames.
 unicode2psnames = {

@@ -147,19 +147,19 @@ class rasterizeGlyphDialog(hDialog):
                 gridsize = int(self.w.spinner.value.get())
                 res = (gridsize, gridsize)
                 self.w.bar.start()
-                print "rasterizing glyphs..."
+                print "rasterizing glyphs...\n"
                 for glyph_name in glyph_names:
                     glyph = font[glyph_name]
                     print '\tscanning %s...' % glyph_name
                     glyph.prepareUndo('rasterize glyph')
                     R = RasterGlyph(glyph)
-                    R.rasterize(res)
+                    R.rasterize(res=res)
                     glyph.update()
                     glyph.performUndo()
                 # done
                 font.update()
                 self.w.bar.stop()
-                print "...done.\n"
+                print "\n...done.\n"
             # no glyph selected
             else:
                 print no_glyph_selected
