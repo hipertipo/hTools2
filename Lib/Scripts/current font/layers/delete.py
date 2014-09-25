@@ -1,6 +1,6 @@
 # [h] delete layer
 
-import hTools2.dialogs.font.delete_layer
-reload(hTools2.dialogs.font.delete_layer)
+import hTools2.dialogs.font.layer_delete
+reload(hTools2.dialogs.font.layer_delete)
 
-hTools2.dialogs.font.delete_layer.deleteLayerDialog()
+hTools2.dialogs.font.layer_delete.deleteLayerDialog()

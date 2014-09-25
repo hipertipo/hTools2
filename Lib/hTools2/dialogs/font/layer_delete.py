@@ -37,20 +37,20 @@ class deleteLayerDialog(hDialog):
     def __init__(self):
         self.get_font()
         # window
-        self.title = 'layer'
+        self.title = 'layers'
         self.column_1 = 50
         self.column_2 = 140
-        self.height = self.button_height + (self.padding_y * 3) + (self.text_height * 2) + 2
+        self.height = self.button_height + (self.padding_y * 3) + (self.text_height * 1) #+ 2
         self.w = FloatingWindow((self.width, self.height), self.title)
         x = self.padding_x
         y = self.padding_y
-        self.w.layer_name_label = TextBox(
-                    (x, y - 2,
-                    -self.padding_x,
-                    self.text_height),
-                    "name",
-                    sizeStyle=self.size_style)
-        y += self.text_height
+        # self.w.layer_name_label = TextBox(
+        #             (x, y - 2,
+        #             -self.padding_x,
+        #             self.text_height),
+        #             "name",
+        #             sizeStyle=self.size_style)
+        # y += self.text_height
         self.w.layers = PopUpButton(
                     (x, y,
                     -self.padding_x,
