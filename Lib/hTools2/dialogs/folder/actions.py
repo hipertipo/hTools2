@@ -14,6 +14,7 @@ from vanilla.dialogs import getFolder
 from hTools2 import hDialog
 from hTools2.modules.fileutils import walk
 from hTools2.modules.fontutils import get_full_name, decompose, auto_contour_order, auto_contour_direction, add_extremes
+from hTools2.modules.opentype import clear_features
 from hTools2.modules.messages import no_font_in_folder
 
 # objects
@@ -34,6 +35,7 @@ class actionsFolderDialog(hDialog):
     direction = False
     overlaps = True
     extremes = False
+    remove_features = False
     save = False
     close = False
     ufos_folder = None
@@ -43,7 +45,7 @@ class actionsFolderDialog(hDialog):
     def __init__(self):
         self.title = 'actions'
         self.width = 123
-        self.height = (self.text_height * 7) + (self.button_height * 2) + (self.padding_y * 5) + self.progress_bar
+        self.height = (self.text_height * 8) + (self.button_height * 2) + (self.padding_y * 5) + self.progress_bar
         self.w = FloatingWindow((self.width, self.height), self.title)
         # ufos folder
         x = self.padding_x
@@ -112,6 +114,15 @@ class actionsFolderDialog(hDialog):
                     value=self.overlaps,
                     sizeStyle=self.size_style)
         y += self.text_height
+        self.w.remove_features_checkBox = CheckBox(
+                    (x, y,
+                    -self.padding_x,
+                    self.text_height),
+                    "remove features",
+                    callback=self.remove_features_callback,
+                    value=self.remove_features,
+                    sizeStyle=self.size_style)
+        y += self.text_height
         self.w.save_checkBox = CheckBox(
                     (x, y,
                     -self.padding_x,
@@ -173,6 +184,9 @@ class actionsFolderDialog(hDialog):
     def extremes_callback(self, sender):
         self.extremes = sender.get()
 
+    def remove_features_callback(self, sender):
+        self.remove_features = sender.get()
+
     def mark_callback(self, sender):
         self.mark = sender.get()
 
@@ -204,6 +218,9 @@ class actionsFolderDialog(hDialog):
                 if self.extremes:
                     print '\t\tadding extreme points...'
                     add_extremes(font)
+                if self.remove_features:
+                    print '\t\tremoving all OpenType features...'
+                    clear_features(font)
                 if self.save:
                     print '\t\tsaving font...'
                     font.save()

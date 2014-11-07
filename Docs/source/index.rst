@@ -11,7 +11,6 @@ hTools2 Documentation
    hTools2.rst
    modules/modules.rst
    dialogs/dialogs.rst
-   objects/objects.rst
 
 ------------------
 Indices and tables

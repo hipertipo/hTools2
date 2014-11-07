@@ -125,7 +125,8 @@ class maskDialog(hDialog):
                 font[glyph_name].prepareUndo('copy to mask')
                 font[glyph_name].copyToLayer(self.mask_layer, clear=False)
                 font[glyph_name].performUndo()
-            font.update()
+                font[glyph_name].update()
+            # font.update()
         else:
             print no_font_open
 
