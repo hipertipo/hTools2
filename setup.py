@@ -13,7 +13,6 @@ setup(name='hTools2',
     license='BSD3',
     packages=[
         'hTools2',
-        'hTools2.objects',
         'hTools2.modules',
         'hTools2.dialogs',
         'hTools2.extras',
