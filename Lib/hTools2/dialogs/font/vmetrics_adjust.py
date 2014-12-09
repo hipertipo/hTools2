@@ -4,7 +4,6 @@
 
 try:
     from mojo.roboFont import CurrentFont, CurrentGlyph
-
 except ImportError:
     from robofab.world import CurrentFont, CurrentGlyph
 

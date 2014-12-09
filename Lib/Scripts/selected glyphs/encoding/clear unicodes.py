@@ -12,7 +12,7 @@ from hTools2.modules.messages import no_glyph_selected, no_font_open
 
 f = CurrentFont()
 
-if f is None:
+if f is not None:
     glyph_names = get_glyphs(f)
     if len(glyph_names) > 0:
         for glyph_name in glyph_names:

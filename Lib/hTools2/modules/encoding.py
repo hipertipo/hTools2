@@ -214,12 +214,9 @@ unicodes_extra = {
     'f_f_i' : 'FB03',
     'f_f_l' : 'FB04',
     # greek exceptions
-    'Delta' : '2206',
-    'Deltagreek' : '0394',
-    'mu' : '03BC',
-    'mugreek' : '00B5',
+    'Delta' : '0394',
     'Omega' : '03A9',
-    'Omegagreek' : '2126',
+    'mu' : '03BC',
     # superiors
     'zerosuperior' : '2070',
     'onesuperior' : '00B9',
@@ -243,6 +240,8 @@ unicodes_extra = {
     'eightinferior' : '2088',
     'nineinferior' : '2089',
     # spaces
+    'enspace' : '2002',
+    'emspace' : '2003',
     'nbspace' : '00A0',
     'hairspace' : '200A',
     'thinspace' : '2009',

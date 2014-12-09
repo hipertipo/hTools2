@@ -44,7 +44,6 @@ class interpolateGlyphsDialog(hDialog):
         self._get_fonts()
         # window
         self.title = 'interpol'
-        self.width = 123
         self.height = (self.nudge_button * 4) + (self.text_height * 6) + self.progress_bar + (self.padding_y * 8) + (self.button_height) - 10
         self.value_box = 60
         self.column_2 = self.value_box + (self.nudge_button * 7) - 6

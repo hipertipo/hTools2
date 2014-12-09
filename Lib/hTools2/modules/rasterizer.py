@@ -211,16 +211,19 @@ class RasterGlyph:
     def rasterize(self, destGlyph=None, res=(125, 125)):
         """Render scanned bits into destination glyph using components."""
         res_x, res_y = res
+        element = "_element"
         # define destination glyph
         if destGlyph == None:
             destGlyph = self.g
+        # destination cannot be element itself
+        if destGlyph.name == element:
+            return
         # see if glyph has been scanned already
         lib_exists = True
         if self.g.lib.has_key(self.lib_key_coordenates) is not True:
             lib_exists = self.scan(res)
         if lib_exists:
             # prepare glyphs
-            element = "_element"
             destGlyph.clear()
             # prepare lines
             lineNumbers = self.g.lib[self.lib_key_coordenates].keys()

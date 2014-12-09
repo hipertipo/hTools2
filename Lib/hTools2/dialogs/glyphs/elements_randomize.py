@@ -92,9 +92,11 @@ class randomizeElementsDialog(hDialog):
                 self.rand_max = self.w.spinner_max.value.get()
                 # randomize elements
                 for glyph_name in glyph_names:
+                    w = font[glyph_name].width
                     g = RasterGlyph(font[glyph_name])
                     g.rasterize()
                     randomize_elements(font[glyph_name], esize, (self.rand_min, self.rand_max))
+                    font[glyph_name].width = w
                 font.update()
             # no glyph selected
             else:

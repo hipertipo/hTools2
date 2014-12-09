@@ -40,7 +40,7 @@ class Spinner(Group):
 
     # methods
 
-    def __init__(self, pos, default='0', scale=1, integer=True, label=None, digits=2, isHorizontal=False, button_pairs=2, col2=None, value_width=None):
+    def __init__(self, pos, default='0', scale=1, integer=True, label=None, digits=2, isHorizontal=False, button_pairs=2, col2=None):
         """Initiate the Spinner object.
 
         :param tuple pos: A tuple with left, top (x,y) position in parent window.
@@ -179,3 +179,4 @@ class Spinner(Group):
         value = self.cast_value(self.value.get())
         value += (100 * self.scale)
         self.set_value(value)
+
