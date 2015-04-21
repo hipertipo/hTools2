@@ -9,9 +9,7 @@ from hTools2.extras.outline import *
 # functions
 
 def make_outline(glyph, distance, join, cap):
-    """Calculate expanded outlines for a given glyph.
-
-    """
+    """Calculate expanded outlines for a given glyph."""
     options = [ 'Square', 'Round', 'Butt' ]
     pen = OutlinePen(glyph.getParent(),
         distance,
@@ -26,9 +24,7 @@ def make_outline(glyph, distance, join, cap):
     return pen
 
 def expand(src_glyph, dst_glyph, distance, join=1, cap=1, round=False):
-    """Expand a glyph's outlines by a given amount of units.
-
-    """
+    """Expand a glyph's outlines by a given amount of units."""
     # set undo
     dst_glyph.prepareUndo("expand strokes")
     # calculate outline shape

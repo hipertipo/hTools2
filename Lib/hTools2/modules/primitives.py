@@ -3,6 +3,10 @@
 #: constant for drawing circular arcs with beziers (thanks EvB)
 BEZIER_ARC_CIRCLE = 0.5522847498
 
+def round_int(n, d):
+    """Round a number (float/int) to the closest multiple of a divisor (int)."""
+    return round(n / float(d)) * d
+
 def rect(pen, x, y, w, h):
     """Draw a rectangle with a pen object."""
     pen.moveTo( (x, y) )

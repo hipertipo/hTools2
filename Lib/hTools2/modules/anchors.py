@@ -136,7 +136,7 @@ def rename_anchor(glyph, old_name, new_name):
                 glyph.update()
     return has_name
 
-def transfer_anchors(source_glyph, dest_glyph):
+def transfer_anchors(source_glyph, dest_glyph, clear=True, proportional=False):
     """Transfer all anchors from one glyph to another.
 
     :param RGlyph source_glyph: The source glyph for the anchors.
@@ -152,10 +152,15 @@ def transfer_anchors(source_glyph, dest_glyph):
         for a in source_glyph.anchors:
             anchorsDict[a.name] = a.position
         # clear anchors in dest glyph
-        dest_glyph.clearAnchors()
+        if clear:
+            dest_glyph.clearAnchors()
         # place anchors in dest glyph
         for anchor in anchorsDict:
-            dest_glyph.appendAnchor(anchor, anchorsDict[anchor])
+            x, y = anchorsDict[anchor]
+            if proportional:
+                factor = dest_glyph.width / float(source_glyph.width)
+                x *= factor
+            dest_glyph.appendAnchor(anchor, (x, y))
             dest_glyph.update()
     # done
     return has_anchor

@@ -37,7 +37,7 @@ def clear_color(glyph):
         g.mark = 0
     # RoboFont & NoneLab
     else:
-        glyph.mark = (1, 1, 1, 0)
+        glyph.mark = None # (1, 1, 1, 0)
     glyph.update()
 
 def convert_to_1(R, G, B, A=None):
@@ -54,8 +54,11 @@ def convert_to_255(r, g, b, a=None):
     R = r * 255.0
     G = g * 255.0
     B = b * 255.0
-    A = a * 255.0
-    return (R, G, B, A)
+    if a:
+        A = a * 255.0
+        return (R, G, B, A)
+    else:
+        return (R, G, B)
 
 def cubic(t, a, b):
     weight = t * t * (3 - 2*t)

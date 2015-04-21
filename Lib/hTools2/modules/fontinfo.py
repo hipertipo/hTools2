@@ -42,7 +42,7 @@ def set_names_from_path(font, prefix=None):
     """Set the font naming fields using parts of the name of the font file."""
     family_name, style_name = get_names_from_path(font.path)
     if prefix:
-        family_name = prefix + ' ' + family_name
+        family_name = '%s %s' % (prefix, family_name)
     set_font_names(font, family_name, style_name)
 
 # vertical metrics
@@ -60,7 +60,7 @@ from robofab.pens.marginPen import MarginPen
 
 def get_stems(font):
     ref_glyph = 'i'
-    ref_y = font.info.xHeight / 2
+    ref_y = font.info.xHeight / 2.0
     g = font[ref_glyph]
     pen = MarginPen(g, ref_y, isHorizontal=True)
     g.draw(pen)

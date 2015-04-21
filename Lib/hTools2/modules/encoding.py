@@ -87,7 +87,7 @@ def auto_unicodes(font):
             auto_unicode(g)
     font.update()
 
-def paint_groups(font, crop=False):
+def paint_groups(font, crop=False, order=None):
     """Paint the glyphs in the font according to their groups.
 
     If a ``groups_order`` lib is available, it is used to set the order of the glyphs in the font.
@@ -99,7 +99,9 @@ def paint_groups(font, crop=False):
         clear_colors(font)
         count = 0
         _order = []
-        if font.lib.has_key('groups_order'):
+        if order is not None:
+            groups = order
+        elif font.lib.has_key('groups_order'):
             groups = font.lib['groups_order']
         else:
             groups = font.groups.keys()
@@ -138,7 +140,7 @@ def all_glyphs(groups_dict):
 # glyph-level tools
 #-------------------
 
-def auto_unicode(g):
+def auto_unicode(g, custom_unicodes={}):
     """Automatically set unicode value(s) for the specified glyph.
 
     The method uses RoboFab's ``glyph.autoUnicodes()`` function for common glyphs, and complements it with additional values from ``unicodes_extra``.
@@ -154,6 +156,9 @@ def auto_unicode(g):
             uString = 'uni%s' % unicodes_extra[g.name]
             g.unicode = unicode_hexstr_to_int(uString)
         # use auto unicode for everything else
+        elif custom_unicodes.get(g.name) is not None:
+            uString = 'uni%s' % custom_unicodes[g.name]
+            g.unicode = unicode_hexstr_to_int(uString)
         else:
             g.autoUnicodes()
         g.update()
@@ -292,9 +297,9 @@ unicodes_extra = {
 
 def char2glyphname(char):
     """Get the PostScript glyph name for a given unicode character."""
-    if unicode2psnames.has_key(ord(char)):
+    try:
         glyphname = unicode2psnames[ord(char)]
-    else:
+    except:
         glyphname = None
     return glyphname
 
@@ -307,16 +312,16 @@ def chars2glyphnames(char_list):
             glyph_names.append(glyph_name)
     return glyph_names
 
-# def glyphname2char(glyph_name):
-#     """Get the unicode character for a given glyph name."""
-#     if psnames2unicodes.has_key(glyph_name):
-#         uni = psnames2unicodes[glyph_name]
-#     elif unicodes_extra.has_key(glyph_name):
-#         uni = '###%s' % unicodes_extra[glyph_name]
-#     else:
-#         return
-#     uni_hex = '\\u%s' % unicode_int_to_hexstr(uni, _0x=False)
-#     return unicode(uni_hex)
+def glyphname2char(glyph_name):
+    """Get the unicode character for a given glyph name."""
+    if psnames2unicodes.has_key(glyph_name):
+        uni = psnames2unicodes[glyph_name]
+    elif unicodes_extra.has_key(glyph_name):
+        uni = '###%s' % unicodes_extra[glyph_name]
+    else:
+        return
+    uni_hex = u'\\u%s' % unicode_int_to_hexstr(uni, _0x=False)
+    return uni_hex # unicode(uni_hex)
 
 # A dictionary mapping unicode values to psNames.
 unicode2psnames = {

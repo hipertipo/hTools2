@@ -14,7 +14,7 @@ def connect_to_server(url, login, password, folder, verbose=False):
     Use the given ``url``, ``login`` and ``password`` information to make a connection. Move to the given ``folder`` (if it exists), and return a ``FTP`` object.
 
     To get to the lower level details about the FTP connection, use the optional parameter ``verbose=True``.
-    
+
     """
     # create FTP connection
     ftp = FTP(url, login, password)

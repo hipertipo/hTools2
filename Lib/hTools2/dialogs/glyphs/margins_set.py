@@ -39,7 +39,7 @@ class setMarginsDialog(hDialog):
 
     def __init__(self):
         self.title = 'margins'
-        self.height = (self.text_height * 3) + (self.padding_y * 9) + (self.nudge_button * 4) + self.button_height
+        self.height = (self.text_height * 4) + (self.padding_y * 10) + (self.nudge_button * 4) + self.button_height
         self.w = FloatingWindow((self.width, self.height), self.title)
         # left mode
         x = self.padding_x
@@ -106,6 +106,23 @@ class setMarginsDialog(hDialog):
                     self.text_height),
                     "right",
                     value=self.right,
+                    sizeStyle=self.size_style)
+        # use beam
+        x = self.padding_x
+        y += (self.text_height + self.padding_y)
+        self.w.use_beam = CheckBox(
+                    (x, y,
+                    (self.width * 0.5) - self.padding_x,
+                    self.text_height),
+                    "beam",
+                    value=False,
+                    sizeStyle=self.size_style)
+        x += (self.width * 0.5) - self.padding_x
+        self.w.beam_y = EditText(
+                    (x, y,
+                    (self.width * 0.5) - self.padding_x,
+                    self.text_height),
+                    "400",
                     sizeStyle=self.size_style)
         # open window
         self.w.open()

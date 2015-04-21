@@ -154,3 +154,29 @@ def merge_shortcuts_dicts(dicts_list):
             _super_dict[k] = _dict[k]
     return _super_dict
 
+# https://code.activestate.com/recipes/208993-compute-relative-path-from-one-directory-to-anothe/
+
+def path_split(p, rest=[]):
+    h, t = os.path.split(p)
+    if len(h) < 1:
+        return [t] + rest
+    if len(t) < 1:
+        return [h] + rest
+    return path_split(h, [t] + rest)
+
+def common_path(l1, l2, common=[]):
+    if len(l1) < 1:
+        return (common, l1, l2)
+    if len(l2) < 1:
+        return (common, l1, l2)
+    if l1[0] != l2[0]:
+        return (common, l1, l2)
+    return common_path(l1[1:], l2[1:], common + [l1[0]])
+
+def rel_path(p1, p2):
+    common, l1, l2 = common_path(path_split(p1), path_split(p2))
+    p = []
+    if len(l1) > 0:
+        p = [ '../' * len(l1) ]
+    p = p + l2
+    return os.path.join( *p )

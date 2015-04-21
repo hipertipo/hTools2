@@ -29,10 +29,10 @@ class condenseGlyphsDialog(hDialog):
     # attributes
 
     #: A list of all open fonts.
-    all_fonts = []
+    # all_fonts = []
 
     #: A list with names of all open fonts.
-    all_fonts_names = []
+    all_fonts = []
 
     #: The stem width of the Regular master.
     f1_stem = 70
@@ -65,7 +65,7 @@ class condenseGlyphsDialog(hDialog):
                     (x, y,
                     -self.padding_x,
                     self.text_height),
-                    self.all_fonts_names,
+                    sorted(self.all_fonts.keys()),
                     sizeStyle=self.size_style)
         y += self.text_height
         # master 2 (bold)
@@ -80,7 +80,7 @@ class condenseGlyphsDialog(hDialog):
                     (x, y,
                     -self.padding_x,
                     self.text_height),
-                    self.all_fonts_names,
+                    sorted(self.all_fonts.keys()),
                     sizeStyle=self.size_style)
         y += self.text_height
         # target
@@ -95,7 +95,7 @@ class condenseGlyphsDialog(hDialog):
                     (x, y,
                     -self.padding_x,
                     self.text_height),
-                    self.all_fonts_names,
+                    sorted(self.all_fonts.keys()),
                     sizeStyle=self.size_style)
         y += (self.text_height + self.padding_y)
         # factor
@@ -138,15 +138,18 @@ class condenseGlyphsDialog(hDialog):
     def update_callback(self, sender):
         print 'updating fonts'
         self.get_fonts()
-        self.w._f1_font.setItems(self.all_fonts_names)
-        self.w._f2_font.setItems(self.all_fonts_names)
-        self.w._f3_font.setItems(self.all_fonts_names)
+        self.w._f1_font.setItems(sorted(self.all_fonts.keys()))
+        self.w._f2_font.setItems(sorted(self.all_fonts.keys()))
+        self.w._f3_font.setItems(sorted(self.all_fonts.keys()))
 
     def apply_callback(self, sender):
         # get fonts
-        f1 = self.all_fonts[self.w._f1_font.get()]
-        f2 = self.all_fonts[self.w._f2_font.get()]
-        f3 = self.all_fonts[self.w._f3_font.get()]
+        f1_name = sorted(self.all_fonts.keys())[self.w._f1_font.get()]
+        f2_name = sorted(self.all_fonts.keys())[self.w._f2_font.get()]
+        f3_name = sorted(self.all_fonts.keys())[self.w._f3_font.get()]
+        f1 = self.all_fonts[f1_name]
+        f2 = self.all_fonts[f2_name]
+        f3 = self.all_fonts[f3_name]
         # get factors
         factor = float(self.w.spinner.value.get())
         # print info
@@ -175,14 +178,11 @@ class condenseGlyphsDialog(hDialog):
         print '\n...done.\n'
 
     def get_fonts(self):
-        # get all fonts
-        self.all_fonts = AllFonts()
-        # get font names
-        self.all_fonts_names = []
-        if len(self.all_fonts) > 0:
-            for font in self.all_fonts:
-                self.all_fonts_names.append(get_full_name(font))
-        self.all_fonts_names.sort()
+        self.all_fonts = {}
+        all_fonts = AllFonts()
+        if len(all_fonts) > 0:
+            for font in all_fonts:
+                self.all_fonts[(get_full_name(font))] = font
 
     def on_close_window(self, sender):
         removeObserver(self, "newFontDidOpen")
