@@ -34,6 +34,7 @@ Special thanks to the following designers/companies who have contributed funds t
 - Bas Jacobs ([Underware](http://underware.nl/))
 - Johannes Breyer & Fabian Harb ([Dinamo](http://dinamo.us/))
 - Kris Sowersby ([KLIM](http://klim.co.nz/))
+- Daniel Sabino ([Blackletra](http://blackletra.com/))
 
 If you use hTools2 on a regular basis, please consider contributing back to the project.
 
