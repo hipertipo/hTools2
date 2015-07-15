@@ -50,10 +50,10 @@ def set_vmetrics(font, ratio=None, line_space=None):
     # calculate basic values
     units_per_em = font.info.unitsPerEm
     ascender = units_per_em * ratio
-    descender = units_per_em * (1.0-ratio)
+    descender = units_per_em * (1.0 - ratio)
     # calculate min/max values
     if line_auto:
-        ymin, ymax = get_min_max_y(f, r=5)
+        ymin, ymax = get_min_max_y(font, r=5)
     else:
         ymin = -(descender * line_space)
         ymax = ascender * line_space

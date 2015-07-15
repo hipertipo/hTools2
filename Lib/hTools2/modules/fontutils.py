@@ -22,8 +22,11 @@ from hTools2.modules.color import *
 # glyphs
 #--------
 
-def get_glyphs(font): # current_glyph=True, font_selection=True, 
-    """Return current glyph selection in the font as glyph names or ``RGlyph`` objects."""
+def get_glyphs(font): # current_glyph=True, font_selection=True,
+    """
+    Return current glyph selection in the font as glyph names or ``RGlyph`` objects.
+
+    """
     # get glyphs
     current_glyph = CurrentGlyph()
     font_selection = font.selection
@@ -47,7 +50,10 @@ def get_glyphs(font): # current_glyph=True, font_selection=True,
     return list(set(glyphs))
 
 def print_selected_glyphs(f, mode=0, sort=False):
-    """Print the selected glyphs to the output window."""
+    """
+    Print the selected glyphs to the output window.
+
+    """
     glyph_names = get_glyphs(f)
     if sort:
         glyph_names.sort()
@@ -83,7 +89,10 @@ def print_selected_glyphs(f, mode=0, sort=False):
         print "invalid mode.\n"
 
 def parse_glyphs_groups(names, groups):
-    """Parse a ``gstring`` and a groups dict into a list of glyph names."""
+    """
+    Parse a ``gstring`` and a groups dict into a list of glyph names.
+
+    """
     glyph_names = []
     for name in names:
         # group names
@@ -99,8 +108,9 @@ def parse_glyphs_groups(names, groups):
     return glyph_names
 
 def rename_glyph(font, old_name, new_name, overwrite=True, mark=True, verbose=True):
-    """Rename a glyph in a given font.
- 
+    """
+    Rename a glyph in a given font.
+
      :param RFont font: The font which contains the glyph to be renamed.
      :param str old_name: The old glyph name to be replaced.
      :param str new_name: The new glyph name to be used in place of the old one.
@@ -151,7 +161,10 @@ def rename_glyphs_from_list(font, names_list, overwrite=True, mark=True, verbose
         print '...done.\n'
 
 def mark_composed_glyphs(font, color='Orange', alpha=.35):
-    """Mark all composed glyphs in the font."""
+    """
+    Mark all composed glyphs in the font.
+
+    """
     R, G, B = x11_colors[color]
     mark_color = convert_to_1(R, G, B)
     mark_color += (alpha,)
@@ -166,13 +179,19 @@ def mark_composed_glyphs(font, color='Orange', alpha=.35):
 #--------
 
 def delete_groups(font):
-    """Delete all groups in the font."""
+    """
+    Delete all groups in the font.
+
+    """
     for group in font.groups.keys():
         del font.groups[group]
     font.update()
 
 def get_spacing_groups(font):
-    """Return a dictionary containing the ``left`` and ``right`` spacing groups in the font."""
+    """
+    Return a dictionary containing the ``left`` and ``right`` spacing groups in the font.
+
+    """
     _groups = {}
     _groups['left'] = {}
     _groups['right'] = {}
@@ -185,7 +204,10 @@ def get_spacing_groups(font):
     return _groups
 
 def print_groups(font, mode=0):
-    """Print all groups and glyphs in the font."""
+    """
+    Print all groups and glyphs in the font.
+
+    """
     # 0 : formatted text
     # 1 : OpenType classes format
     # 2 : Python lists
@@ -244,12 +266,16 @@ def print_groups(font, mode=0):
 #-----------
 
 def get_full_name(font):
-    """Return the full name of the font, usually family name + style name."""
+    """
+    Return the full name of the font, usually family name + style name.
+
+    """
     full_name = '%s %s' % (font.info.familyName, font.info.styleName)
     return full_name
 
 def full_name(family, style):
-    """Build the full name of the font from ``family`` and ``style`` names.
+    """
+    Build the full name of the font from ``family`` and ``style`` names.
 
     Names are separated by a space. If the ``style`` is Regular, use only the ``family`` name.
 
@@ -261,7 +287,10 @@ def full_name(family, style):
     return full_name
 
 def font_name(family, style):
-    """Same as ``full_name()``, but ``family`` and ``style`` names are separated by a hyphen instead of space."""
+    """
+    Same as ``full_name()``, but ``family`` and ``style`` names are separated by a hyphen instead of space.
+
+    """
     if style == 'Regular':
         font_name = family
     else:
@@ -269,13 +298,19 @@ def font_name(family, style):
     return font_name
 
 def set_unique_ps_id(font):
-    """Set random unique PostScript ID."""
+    """
+    Set random unique PostScript ID.
+
+    """
     a, b, c, d, e, f = randint(0,9), randint(0,9), randint(0,9), randint(0,9), randint(0,9), randint(0,9)
     _psID = "%s%s%s%s%s%s" % ( a, b, c, d, e, f )
     font.info.postscriptUniqueID = int(_psID)
 
 def set_foundry_info(font, fontInfoDict):
-    """Set foundry info from data in dict."""
+    """
+    Set foundry info from data in dict.
+
+    """
     font.info.year = fontInfoDict['year']
     font.info.openTypeNameDesigner = fontInfoDict['designer']
     font.info.openTypeNameDesignerURL = fontInfoDict['designerURL']
@@ -294,7 +329,10 @@ def set_foundry_info(font, fontInfoDict):
     f.update()
 
 def set_font_names(f, family_name, style_name):
-    """Set font names from ``family_name`` and ``style_name``."""
+    """
+    Set font names from ``family_name`` and ``style_name``.
+
+    """
     # family name
     f.info.familyName = family_name
     f.info.openTypeNamePreferredFamilyName = family_name
@@ -335,22 +373,34 @@ def print_guides(font):
 #-----------
 
 def decompose(font):
-    """Decompose all composed glyph in the font."""
+    """
+    Decompose all composed glyph in the font.
+
+    """
     for glyph in font:
         glyph.decompose()
 
 def auto_contour_order(font):
-    """Automatically set contour order for all glyphs in the font."""
+    """
+    Automatically set contour order for all glyphs in the font.
+
+    """
     for glyph in font:
         glyph.correctDirection()
 
 def auto_contour_direction(font):
-    """Automatically set contour directions for all glyphs in the font."""
+    """
+    Automatically set contour directions for all glyphs in the font.
+
+    """
     for glyph in font:
         glyph.correctDirection()
 
 def auto_order_direction(font):
-    """Automatically set contour order and direction for all glyphs in the font, in one go."""
+    """
+    Automatically set contour order and direction for all glyphs in the font, in one go.
+
+    """
     for glyph in font:
         glyph.autoContourOrder()
         glyph.correctDirection()
@@ -361,7 +411,10 @@ def auto_point_start(font):
             contour.autoStartSegment()
 
 def add_extremes(font):
-    """Add extreme points to all glyphs in the font, if they are missing."""
+    """
+    Add extreme points to all glyphs in the font, if they are missing.
+
+    """
     for glyph in font:
         glyph.extremePoints()
 
@@ -371,14 +424,20 @@ def remove_overlap(font):
         glyph.removeOverlap()
 
 def align_to_grid(font, (sizeX, sizeY)):
-    """Align all points of all glyphs in the font to a grid with size ``(sizeX,sizeY)``."""
+    """
+    Align all points of all glyphs in the font to a grid with size ``(sizeX,sizeY)``.
+
+    """
     for glyph in font:
         round_points(glyph, (sizeX, sizeY))
         glyph.update()
     font.update()
 
 def scale_glyphs(f, (factor_x, factor_y)):
-    """Scale all glyphs in the font by the given ``(x,y)`` factor."""
+    """
+    Scale all glyphs in the font by the given ``(x,y)`` factor.
+
+    """
     for g in f:
         if len(g.components) == 0:
             leftMargin, rightMargin = g.leftMargin, g.rightMargin
@@ -389,7 +448,10 @@ def scale_glyphs(f, (factor_x, factor_y)):
     f.update()
 
 def move_glyphs(f, (delta_x, delta_y)):
-    """Move all glyphs in the font by the given ``(x,y)`` distance."""
+    """
+    Move all glyphs in the font by the given ``(x,y)`` distance.
+
+    """
     for g in f:
         g.move((delta_x, delta_y))
         g.update()
@@ -408,7 +470,10 @@ def round_to_grid(font, gridsize, glyphs=None):
 #------
 
 def temp_font():
-    """Return a temporary font for importing single ``.glyfs``."""
+    """
+    Return a temporary font for importing single ``.glyfs``.
+
+    """
     if CurrentFont() is None:
         t = NewFont()
     else:

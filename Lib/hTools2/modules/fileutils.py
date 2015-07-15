@@ -52,7 +52,7 @@ def read_names_list_from_file(filepath):
     return names_list
 
 def delete_files(files_list):
-    """Delete the files at the file paths in the list."""
+    """Delete the files at the file paths in the list. Also works with folders (ufo files)."""
     for file_path in files_list:
         if os.path.isdir(file_path):
             shutil.rmtree(file_path)

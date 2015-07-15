@@ -329,69 +329,93 @@ class adjustVerticalMetrics(hDialog):
         self.font = CurrentFont()
         self.w.box.text.set(get_full_name(self.font))
 
+    # xheight
+
     def xheight_minus_01_callback(self, sender):
-        _xheight_value = int(self.w.xheight_value.get()) - 1
-        self.xheight_update(_xheight_value)
+        value = float(self.w.xheight_value.get())
+        value = int(value) - 1
+        self.xheight_update(value)
 
     def xheight_plus_01_callback(self, sender):
-        _xheight_value = int(self.w.xheight_value.get()) + 1
-        self.xheight_update(_xheight_value)
+        value = float(self.w.xheight_value.get())
+        value = int(value) + 1
+        self.xheight_update(value)
 
     def xheight_minus_10_callback(self, sender):
-        _xheight_value = int(self.w.xheight_value.get()) - 10
-        self.xheight_update(_xheight_value)
+        value = float(self.w.xheight_value.get())
+        value = int(value) - 10
+        self.xheight_update(value)
 
     def xheight_plus_10_callback(self, sender):
-        _xheight_value = int(self.w.xheight_value.get()) + 10
-        self.xheight_update(_xheight_value)
+        value = float(self.w.xheight_value.get())
+        value = int(value) + 10
+        self.xheight_update(value)
+
+    # capheight
 
     def capheight_minus_01_callback(self, sender):
-        _capheight_value = int(self.w.capheight_value.get()) - 1
-        self.capheight_update(_capheight_value)
+        value = float(self.w.capheight_value.get())
+        value = int(value) - 1
+        self.capheight_update(value)
 
     def capheight_plus_01_callback(self, sender):
-        _capheight_value = int(self.w.capheight_value.get()) + 1
-        self.capheight_update(_capheight_value)
+        value = float(self.w.capheight_value.get())
+        value = int(value) + 1
+        self.capheight_update(value)
 
     def capheight_minus_10_callback(self, sender):
-        _capheight_value = int(self.w.capheight_value.get()) - 10
-        self.capheight_update(_capheight_value)
+        value = float(self.w.capheight_value.get())
+        value = int(value) - 10
+        self.capheight_update(value)
 
     def capheight_plus_10_callback(self, sender):
-        _capheight_value = int(self.w.capheight_value.get()) + 10
-        self.capheight_update(_capheight_value)
+        value = float(self.w.capheight_value.get())
+        value = int(value) + 10
+        self.capheight_update(value)
+
+    # ascender
 
     def ascender_minus_01_callback(self, sender):
-        _ascender_value = int(self.w.ascender_value.get()) - 1
-        self.ascender_update(_ascender_value)
+        value = float(self.w.ascender_value.get())
+        value = int(value) - 1
+        self.ascender_update(value)
 
     def ascender_plus_01_callback(self, sender):
-        _ascender_value = int(self.w.ascender_value.get()) + 1
-        self.ascender_update(_ascender_value)
+        value = float(self.w.ascender_value.get())
+        value = int(value) + 1
+        self.ascender_update(value)
 
     def ascender_minus_10_callback(self, sender):
-        _ascender_value = int(self.w.ascender_value.get()) - 10
-        self.ascender_update(_ascender_value)
+        value = float(self.w.ascender_value.get())
+        value = int(value) - 10
+        self.ascender_update(value)
 
     def ascender_plus_10_callback(self, sender):
-        _ascender_value = int(self.w.ascender_value.get()) + 10
-        self.ascender_update(_ascender_value)
+        value = float(self.w.ascender_value.get())
+        value = int(value) + 10
+        self.ascender_update(value)
+
+    # descender
 
     def descender_minus_01_callback(self, sender):
-        _descender_value = abs(int(self.w.descender_value.get())) - 1
-        self.descender_update(-_descender_value)
+        value = float(self.w.descender_value.get())
+        value = abs(int(value)) - 1
+        self.descender_update(-value)
 
     def descender_plus_01_callback(self, sender):
-        _descender_value = int(self.w.descender_value.get()) + 1
-        self.descender_update(_descender_value)
+        value = float(self.w.descender_value.get())
+        value = abs(int(value)) + 1
+        self.descender_update(-value)
 
     def descender_minus_10_callback(self, sender):
-        _descender_value = abs(int(self.w.descender_value.get())) - 10
-        self.descender_update(-_descender_value)
+        value = float(self.w.descender_value.get())
+        value = abs(int(value)) - 10
+        self.descender_update(-value)
 
     def descender_plus_10_callback(self, sender):
-        _descender_value = int(self.w.descender_value.get()) + 10
-        self.descender_update(_descender_value)
+        value = float(self.w.descender_value.get())
+        value = abs(int(value)) + 10
+        self.descender_update(-value)
 
     # sliders
 

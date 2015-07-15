@@ -1,5 +1,7 @@
 # [h] find open contours
 
+from hTools2.modules.color import clear_colors
+
 f = CurrentFont()
 
 for glyph_name in f.keys():

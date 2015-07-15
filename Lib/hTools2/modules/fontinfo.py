@@ -11,12 +11,17 @@ See the `UFO documentation <http://unifiedfontobject.org/versions/ufo2/fontinfo.
 
 import os
 
-from fileutils import get_names_from_path
+from robofab.pens.marginPen import MarginPen
+
+from hTools2.modules.fileutils import get_names_from_path
 
 # set info
 
 def set_font_names(font, family_name, style_name):
-    """Set several font naming fields from ``family`` and ``style`` names."""
+    """
+    Set several font naming fields from ``family`` and ``style`` names.
+
+    """
     full_name = '%s_%s' % (family_name, style_name)
     # main family/style names
     font.info.familyName = family_name
@@ -39,7 +44,10 @@ def set_font_names(font, family_name, style_name):
     font.info.macintoshFONDName = None
 
 def set_names_from_path(font, prefix=None):
-    """Set the font naming fields using parts of the name of the font file."""
+    """
+    Set the font naming fields using parts of the name of the font file.
+
+    """
     family_name, style_name = get_names_from_path(font.path)
     if prefix:
         family_name = '%s %s' % (prefix, family_name)
@@ -55,8 +63,6 @@ def set_vmetrics(font, xheight, capheight, ascender, descender, emsquare, gridsi
     font.info.unitsPerEm = emsquare * gridsize
 
 # ps hinting
-
-from robofab.pens.marginPen import MarginPen
 
 def get_stems(font):
     ref_glyph = 'i'
@@ -74,7 +80,8 @@ def set_stems(font, stems):
 # print info
 
 def print_font_info(font, options=None):
-    """Print several kinds of font information, using a special method for each section.
+    """
+    Print several kinds of font information, using a special method for each section.
 
     The data and related functions are organized according to the UFO 2 spec.
 
