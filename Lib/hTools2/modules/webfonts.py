@@ -10,9 +10,12 @@ from hTools2.modules.ttx import otf2ttx, ttx2otf
 from hTools2.modules.ttx import strip_names as ttx_strip_names
 from hTools2_plus.extras.KLTF_WOFF import compressFont
 
-from mojo.roboFont import OpenFont
-from mojo.compile import executeCommand, hasTTFAutoHint
-from lib.tools.bezierTools import curveConverter
+try:
+    from mojo.roboFont import OpenFont
+    from mojo.compile import executeCommand, hasTTFAutoHint
+    from lib.tools.bezierTools import curveConverter
+except:
+    from robofab.world import OpenFont
 
 def generate_webfont(otf_path, woff_path=None, strip_names=False):
     file_name, extension = os.path.splitext(otf_path)
@@ -22,12 +25,14 @@ def generate_webfont(otf_path, woff_path=None, strip_names=False):
         ttx_path = '%s.ttx' % file_name
         otf2ttx(otf_path, ttx_path)
         ttx_strip_names(ttx_path)
-        ttx2otf(ttx_path, otf_path)
+        otf_path_tmp = '%s_tmp.otf' % file_name
+        ttx2otf(ttx_path, otf_path_tmp)
         os.remove(ttx_path)
     # generate woff
     if woff_path is None:
         woff_path = '%s.woff' % file_name
-    compressFont(otf_path, woff_path)
+    compressFont(otf_path_tmp, woff_path)
+    os.remove(otf_path_tmp)
 
 def encode_base64(font_path):
     """
@@ -46,7 +51,6 @@ def make_base64_fontface_woff(font_name, base64_font):
     font_face = '''@font-face { font-family: '%s'; src:url(data:application/x-font-woff;charset=utf-8;base64,%s) format('woff') }''' % (font_name, base64_font)
     return font_face
 
-
 #-----------
 # TTF tools
 #-----------
@@ -64,7 +68,7 @@ def autohint_ttf(ttf_path, ttfautohinted_path):
     """
     Autohint a .ttf font.
 
-    Needs ttfautohint installed on your system.
+    Needs ``ttfautohint`` installed on your system.
 
     """
     if hasTTFAutoHint() is False:
@@ -77,18 +81,17 @@ def autohint_ttf(ttf_path, ttfautohinted_path):
     return os.path.exists(ttfautohinted_path)
 
 
-def autohint_ttfs(folder_ttfs, folder_autohintedttfs):
+def autohint_ttfs(folder_ttfs, folder_ttfs_autohint):
     """
-    Autohint all .ttf fonts in a given folder, and save them in another folder.
+    Run ``ttfautohint`` on all .ttf fonts in a given folder, and save them in another folder.
 
     """
     for file_ in os.listdir(folder_ttfs):
         file_name, extension = os.path.splitext(file_)
         if extension == '.ttf':
             ttf_path = os.path.join(folder_ttfs, file_)
-            autohintedttf_path = os.path.join(
-                folder_autohintedttfs, '%s.ttf' % file_name)
-            autohint_ttf(ttf_path, autohintedttf_path)
+            ttf_path_autohint = os.path.join(folder_ttfs_autohint, '%s.ttf' % file_name)
+            autohint_ttf(ttf_path, ttf_path_autohint)
 
 #-----------
 # EOT tools

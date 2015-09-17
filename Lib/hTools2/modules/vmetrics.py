@@ -22,7 +22,7 @@ def auto_set_vmetrics(font, ascender, descender, ymax, ymin):
     hhea_descender = ymin
     hhea_linegap = 0
     os2_win_ascent = ymax
-    os2_win_descent = ymin
+    os2_win_descent = abs(ymin)
     os2_typo_ascender = ascender
     os2_typo_descender = descender
     os2_typo_linegap = (os2_win_ascent + abs(os2_win_descent)) - (os2_typo_ascender + abs(os2_typo_descender))
@@ -38,11 +38,31 @@ def auto_set_vmetrics(font, ascender, descender, ymax, ymin):
     font.info.openTypeOS2TypoLineGap = os2_typo_linegap
     font.info.openTypeOS2WinAscent = os2_win_ascent
     font.info.openTypeOS2WinDescent = os2_win_descent
+    # round vmetrics to integer
+    round_vmetrics(font)
+
+def round_vmetrics(font):
+    vmetrics_attributes = [
+        "ascender",
+        "descender",
+        "unitsPerEm",
+        "openTypeHheaAscender",
+        "openTypeHheaDescender",
+        "openTypeHheaLineGap",
+        "openTypeOS2TypoAscender",
+        "openTypeOS2TypoDescender",
+        "openTypeOS2TypoLineGap",
+        "openTypeOS2WinAscent",
+        "openTypeOS2WinDescent",
+    ]
+    for attribute in vmetrics_attributes:
+        value = getattr(font.info, attribute)
+        setattr(font.info, attribute, int(value))
 
 def set_vmetrics(font, ratio=None, line_space=None):
     # get parameters
     if ratio is None:
-        asc_desc_ratio = 0.75
+        ratio = 0.75
     if line_space is None:
         line_auto = True
     else:

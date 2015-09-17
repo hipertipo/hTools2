@@ -42,7 +42,7 @@ class GitHandler(object):
             return output
         else:
             return error
-    
+
     def status(self):
         # output = self.command(['status', '--%s' % mode])
         output = self.command(['status'])

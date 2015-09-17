@@ -479,3 +479,4 @@ def temp_font():
     else:
         t = CurrentFont()
     return t
+
