@@ -17,7 +17,7 @@ try:
 except:
     from robofab.world import OpenFont
 
-def generate_webfont(otf_path, woff_path=None, strip_names=False):
+def generate_webfont(otf_path, woff_path=None, strip_names=False, clear_ttx=True, clear_otf_tmp=True):
     file_name, extension = os.path.splitext(otf_path)
     # strip font info (webfont obfuscation)
     if strip_names:
@@ -27,12 +27,14 @@ def generate_webfont(otf_path, woff_path=None, strip_names=False):
         ttx_strip_names(ttx_path)
         otf_path_tmp = '%s_tmp.otf' % file_name
         ttx2otf(ttx_path, otf_path_tmp)
-        os.remove(ttx_path)
+        if clear_ttx:
+            os.remove(ttx_path)
     # generate woff
     if woff_path is None:
         woff_path = '%s.woff' % file_name
     compressFont(otf_path_tmp, woff_path)
-    os.remove(otf_path_tmp)
+    if clear_otf_tmp:
+        os.remove(otf_path_tmp)
 
 def encode_base64(font_path):
     """

@@ -5,10 +5,10 @@
 # constants
 
 #: The root folder for all font projects.
-# ROOT = '/Volumes/gf_extra/_fonts'
+ROOT = '/Volumes/gf_extra/_fonts'
 
 #: Debug mode. Set to ``True`` during development to always reload modules.
-# DEBUG = True
+DEBUG = True
 
 #: The current version number of ``hTools2``.
 VERSION = 1.6

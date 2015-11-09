@@ -71,7 +71,6 @@ def set_unique_name(ttx_path, unique_name):
             child.text = unique_name
     tree.write(ttx_path)
 
-
 def makeDSIG(tt_font):
     '''Add a dummy DSIG table to an OpenType-TTF font, so positioning features work in Office applications on Windows.'''
     # by Ben Kiel on TypeDrawers
