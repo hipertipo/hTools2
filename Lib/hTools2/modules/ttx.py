@@ -3,6 +3,7 @@
 # imports
 
 import os
+import time
 
 from fontTools.ttLib import TTFont
 from hTools2.extras.ElementTree import parse
@@ -10,10 +11,10 @@ from hTools2.extras.ElementTree import parse
 # functions
 
 def ttx2otf(ttx_path, otf_path=None):
-    """Generate an ``.otf`` font from a ``.ttx`` file.
+    """Generate an .otf font from a .ttx file.
 
-    :param str ttx_path: Path of the .ttx font source.
-    :param str otf_path: Path of the target .otf font.
+    ttx_path: Path of the .ttx font source.
+    otf_path: Path of the target .otf font.
 
     """
     # make otf path
@@ -26,10 +27,10 @@ def ttx2otf(ttx_path, otf_path=None):
     tt.save(otf_path)
 
 def otf2ttx(otf_path, ttx_path=None):
-    """Generate a ``.ttx`` font from an ``.otf`` file.
+    """Generate a .ttx font from an .otf file.
 
-    :param str otf_path: Path of the .otf font source.
-    :param str ttx_path: Path of the target .ttx font.
+    otf_path: Path of the .otf font source.
+    ttx_path: Path of the target .ttx font.
 
     """
     # make ttx path
@@ -43,7 +44,7 @@ def otf2ttx(otf_path, ttx_path=None):
 def strip_names(ttx_path):
     """Clear several nameIDs to prevent the font from being installable on desktop OSs.
 
-    :param str ttx_path: Path of the .ttx font to be modified.
+    ttx_path: Path of the .ttx font to be modified.
 
     """
     # nameIDs which will be erased
@@ -71,10 +72,27 @@ def set_unique_name(ttx_path, unique_name):
             child.text = unique_name
     tree.write(ttx_path)
 
+def fix_font_info(otf_path, family_name, style_name, version_major, version_minor, clear_ttx=True):
+    ttx_path = '%s.ttx' % os.path.splitext(otf_path)[0]
+    timestamp = time.strftime("%Y%m%d.%H%M%S", time.localtime())
+    version_string = 'Version %s.%s' % (version_major, version_minor)
+    unique_name = '%s %s: %s' % (family_name, style_name, timestamp)
+    otf2ttx(otf_path, ttx_path)
+    set_version_string(ttx_path, version_string)
+    set_unique_name(ttx_path, unique_name)
+    ttx2otf(ttx_path, otf_path)
+    if clear_ttx:
+        os.remove(ttx_path)
+
 def makeDSIG(tt_font):
-    '''Add a dummy DSIG table to an OpenType-TTF font, so positioning features work in Office applications on Windows.'''
-    # by Ben Kiel on TypeDrawers
-    # http://typedrawers.com/discussion/192/making-ot-ttf-layout-features-work-in-ms-word-2010
+    '''
+    Add a dummy DSIG table to an OpenType-TTF font, so positioning features work in Office applications on Windows.
+
+    thanks to Ben Kiel on TypeDrawers:
+    http://typedrawers.com/discussion/192/making-ot-ttf-layout-features-work-in-ms-word-2010
+
+    '''
+    from fontTools import ttLib
     from fontTools.ttLib.tables.D_S_I_G_ import SignatureRecord
     newDSIG = ttLib.newTable("DSIG")
     newDSIG.ulVersion = 1
@@ -89,7 +107,10 @@ def makeDSIG(tt_font):
     sig.ulFormat = 1
     sig.ulOffset = 20
     newDSIG.signatureRecords = [sig]
-    tt_font.tables["DSIG"] = newDSIG
+    tt_font["DSIG"] = newDSIG
+    # ugly, this hack was necessary to have all tables added to ttfont
+    for key in tt_font.keys():
+        print tt_font[key]
 
 def add_DSIG_table(otf_path):
     tt_font = TTFont(otf_path)

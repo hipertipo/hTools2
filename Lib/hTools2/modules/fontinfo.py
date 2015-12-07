@@ -64,8 +64,8 @@ def set_vmetrics(font, xheight, capheight, ascender, descender, emsquare, gridsi
 
 # ps hinting
 
-def get_stems(font):
-    ref_glyph = 'i'
+def get_vstems(font):
+    ref_glyph = 'l'
     ref_y = font.info.xHeight / 2.0
     g = font[ref_glyph]
     pen = MarginPen(g, ref_y, isHorizontal=True)
@@ -74,7 +74,26 @@ def get_stems(font):
     stem = right_edge - left_edge
     return [ stem ]
 
-def set_stems(font, stems):
+def get_hstems(font):
+    ref_glyph = 'H'
+    g = font[ref_glyph]
+    ref_x = g.width / 2.0
+    pen = MarginPen(g, ref_x, isHorizontal=False)
+    g.draw(pen)
+    bottom_edge, top_edge = pen.getMargins()
+    stem = top_edge - bottom_edge
+    return [ stem ]
+
+def set_stems(font):
+    vstems = get_vstems(font)
+    hstems = get_hstems(font)
+    set_vstems(font, vstems)
+    set_hstems(font, hstems)
+
+def set_vstems(font, stems):
+    font.info.postscriptStemSnapV = stems
+
+def set_hstems(font, stems):
     font.info.postscriptStemSnapH = stems
 
 # print info

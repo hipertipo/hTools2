@@ -8,12 +8,12 @@ def clear_unicodes(font):
         g.unicodes = []
     font.update()
 
-def auto_unicodes(font):
+def auto_unicodes(font, custom_unicodes={}):
     """Automatically set unicode values for all glyphs in the font."""
     clear_unicodes(font)
     for g in font:
         if g is not None:
-            auto_unicode(g)
+            auto_unicode(g, custom_unicodes)
     font.update()
 
 def auto_unicode(g, custom_unicodes={}):
@@ -112,9 +112,9 @@ unicodes_extra = {
     'f_f_l'                 : 'FB04',
 
     # greek exceptions
-    'Delta'                 : '0394',
-    'Omega'                 : '03A9',
-    'mu'                    : '03BC',
+    'Delta'                 : '2206', # 0394
+    'Omega'                 : '2126', # 03A9
+    'mu'                    : '00B5', # 03BC
 
     # superiors
     'zerosuperior'          : '2070',
