@@ -1,6 +1,6 @@
 # [h] shift points
 
-import hTools2.dialogs.glyphs.shift_points
-reload(hTools2.dialogs.glyphs.shift_points)
+import hTools2.dialogs.glyphs.points_shift
+reload(hTools2.dialogs.glyphs.points_shift)
 
-hTools2.dialogs.glyphs.shift_points.shiftPointsDialog()
+hTools2.dialogs.glyphs.points_shift.shiftPointsDialog()
