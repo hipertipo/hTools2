@@ -1,14 +1,22 @@
 # [h] hTools2.modules.webfonts
 
-"""A collection of tools for working with webfonts."""
+"""A collection of tools for working with webfonts.
+
+Some functions in this module require the following C libraries:
+
+- [ttfautohint](http://freetype.org/ttfautohint/)
+- [sfnt2woff](https://people.mozilla.org/~jkew/woff/)
+- [ttf2eot](https://code.google.com/p/ttf2eot/)
+
+"""
 
 import os
+import shutil
 
 from base64 import b64encode
 
 from hTools2.modules.ttx import otf2ttx, ttx2otf
 from hTools2.modules.ttx import strip_names as ttx_strip_names
-from hTools2_plus.extras.KLTF_WOFF import compressFont
 
 try:
     from mojo.roboFont import OpenFont
@@ -32,26 +40,38 @@ def generate_webfont(otf_path, woff_path=None, strip_names=False, clear_ttx=True
     # generate woff
     if woff_path is None:
         woff_path = '%s.woff' % file_name
-    compressFont(otf_path_tmp, woff_path)
+    sfnt2woff(otf_path_tmp, woff_path)
     if clear_otf_tmp:
         os.remove(otf_path_tmp)
 
 def encode_base64(font_path):
-    """
-    Convert a font at a given path to base64 encoding.
-
-    """
+    """Convert a font at a given path to base64 encoding."""
     font_file = open(font_path,'rb').read()
     font_base64 = b64encode(font_file)
     return font_base64
 
 def make_base64_fontface_woff(font_name, base64_font):
-    """
-    Generate a CSS ``@font-face`` declaration for a base64-encoded font with a given name.
-
-    """
+    """Generate a CSS ``@font-face`` declaration for a base64-encoded font with a given name."""
     font_face = '''@font-face { font-family: '%s'; src:url(data:application/x-font-woff;charset=utf-8;base64,%s) format('woff') }''' % (font_name, base64_font)
     return font_face
+
+
+#------------
+# WOFF tools
+#------------
+
+def sfnt2woff(otf_path, woff_path=None):
+    """
+    Generate a .woff file from an .otf or .ttf font.
+
+    Needs ``sfnt2woff`` installed on your system.
+
+    """
+    command = ['sfnt2woff', "%s" % otf_path]
+    executeCommand(command, shell=True)
+    woff_path_temp = '%s.woff' % os.path.splitext(otf_path)[0]
+    if woff_path is not None and os.path.exists(woff_path_temp):
+        shutil.move(woff_path_temp, woff_path)
 
 #-----------
 # TTF tools

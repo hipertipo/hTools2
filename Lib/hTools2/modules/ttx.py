@@ -48,7 +48,7 @@ def strip_names(ttx_path):
 
     """
     # nameIDs which will be erased
-    nameIDs = [ 1, 2, 4, 16, 17, 18 ]
+    nameIDs = [1, 2, 4, 16, 17, 18]
     tree = parse(ttx_path)
     root = tree.getroot()
     for child in root.find('name'):
@@ -108,7 +108,7 @@ def makeDSIG(tt_font):
     sig.ulOffset = 20
     newDSIG.signatureRecords = [sig]
     tt_font["DSIG"] = newDSIG
-    # ugly, this hack was necessary to have all tables added to ttfont
+    # ugly but necessary -> so all tables are added to ttfont
     for key in tt_font.keys():
         print tt_font[key]
 
