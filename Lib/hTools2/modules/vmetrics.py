@@ -17,6 +17,13 @@ def get_min_max_y(font, r=None):
         ymax = int((ymax // r) * r)
     return ymin, ymax
 
+def set_vmetrics(font, xheight, capheight, ascender, descender, emsquare, gridsize=1):
+    font.info.xHeight = xheight * gridsize
+    font.info.capHeight = capheight * gridsize
+    font.info.descender = -abs(descender * gridsize)
+    font.info.ascender = ascender * gridsize
+    font.info.unitsPerEm = emsquare * gridsize
+
 def auto_set_vmetrics(font, ascender, descender, ymax, ymin):
     hhea_ascender = ymax
     hhea_descender = ymin
@@ -59,7 +66,7 @@ def round_vmetrics(font):
         value = getattr(font.info, attribute)
         setattr(font.info, attribute, int(value))
 
-def set_vmetrics(font, ratio=None, line_space=None):
+def set_vmetrics_lineheight(font, ratio=None, line_space=None):
     # get parameters
     if ratio is None:
         ratio = 0.75

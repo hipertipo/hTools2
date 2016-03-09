@@ -7,11 +7,7 @@ See the `UFO documentation <http://unifiedfontobject.org/versions/ufo2/fontinfo.
 
 """
 
-# imports
-
 import os
-
-from robofab.pens.marginPen import MarginPen
 
 from hTools2.modules.fileutils import get_names_from_path
 
@@ -52,49 +48,6 @@ def set_names_from_path(font, prefix=None):
     if prefix:
         family_name = '%s %s' % (prefix, family_name)
     set_font_names(font, family_name, style_name)
-
-# vertical metrics
-
-def set_vmetrics(font, xheight, capheight, ascender, descender, emsquare, gridsize=1):
-    font.info.xHeight = xheight * gridsize
-    font.info.capHeight = capheight * gridsize
-    font.info.descender = -abs(descender * gridsize)
-    font.info.ascender = ascender * gridsize
-    font.info.unitsPerEm = emsquare * gridsize
-
-# ps hinting
-
-def get_vstems(font):
-    ref_glyph = 'l'
-    ref_y = font.info.xHeight / 2.0
-    g = font[ref_glyph]
-    pen = MarginPen(g, ref_y, isHorizontal=True)
-    g.draw(pen)
-    left_edge, right_edge = pen.getMargins()
-    stem = right_edge - left_edge
-    return [ stem ]
-
-def get_hstems(font):
-    ref_glyph = 'H'
-    g = font[ref_glyph]
-    ref_x = g.width / 2.0
-    pen = MarginPen(g, ref_x, isHorizontal=False)
-    g.draw(pen)
-    bottom_edge, top_edge = pen.getMargins()
-    stem = top_edge - bottom_edge
-    return [ stem ]
-
-def set_stems(font):
-    vstems = get_vstems(font)
-    hstems = get_hstems(font)
-    set_vstems(font, vstems)
-    set_hstems(font, hstems)
-
-def set_vstems(font, stems):
-    font.info.postscriptStemSnapV = stems
-
-def set_hstems(font, stems):
-    font.info.postscriptStemSnapH = stems
 
 # print info
 
@@ -406,3 +359,4 @@ def clear_postscript_data(font):
     font.info.postscriptWeightName = None
     font.info.postscriptDefaultCharacter = None
     font.info.postscriptWindowsCharacterSet = None
+

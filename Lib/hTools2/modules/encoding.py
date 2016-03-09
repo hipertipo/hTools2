@@ -8,10 +8,10 @@ reload(hTools2.modules.unicode)
 import os
 
 try:
-    from mojo.roboFont import CurrentFont
+    from mojo.roboFont import CurrentFont, OpenFont
 
 except ImportError:
-    from robofab.world import CurrentFont
+    from robofab.world import CurrentFont, OpenFont
 
 from hTools2.modules.unicode import *
 from hTools2.modules.color import clear_colors, hls_to_rgb
@@ -34,6 +34,28 @@ def import_encoding(file_path):
         return glyph_names
     else:
         print 'Error, this file does not exist.'
+
+def extract_encoding(ufo_path, enc_path=None):
+    """
+    Extract encoding data from an ufo's glyphOrder attribute.
+
+    """
+    # get glyph names from ufo
+    try:
+        ufo = OpenFont(ufo_path, showUI=False)
+    except:
+        ufo = OpenFont(ufo_path)
+    enc = ''
+    for glyph_name in ufo.glyphOrder:
+        enc += '%s\n' % glyph_name
+    ufo.close()
+    # save to .enc file
+    if enc_path is not None:
+        enc_file = open(enc_path, 'w')
+        enc_file.write(enc)
+        enc_file.close()
+    # done
+    return enc
 
 def import_groups_from_encoding(file_path):
     """
@@ -167,9 +189,12 @@ def glyphname2char(glyph_name):
     if psnames2unicodes.has_key(glyph_name):
         uni = psnames2unicodes[glyph_name]
     elif unicodes_extra.has_key(glyph_name):
-        uni = '###%s' % unicodes_extra[glyph_name]
+        uni = unicodes_extra[glyph_name]
     else:
         return
-    uni_hex = u'\\u%s' % unicode_int_to_hexstr(uni, _0x=False)
+        uni_hex = u'\\u%s' % unicode_int_to_hexstr(int(uni, 16), _0x=False)
+        #### big pile of $#!@, this is still not working
+        print uni, type(uni), unichr(uni), chr(uni)
+        uni_hex = u'\\u%s' % unicode_int_to_hexstr(uni, _0x=False)
     return uni_hex # unicode(uni_hex)
 
