@@ -6,6 +6,11 @@ import os
 import time
 
 from fontTools.ttLib import TTFont
+
+import hTools2.modules.sysutils
+reload(hTools2.modules.sysutils)
+
+from hTools2.modules.sysutils import SuppressPrint
 from hTools2.extras.ElementTree import parse
 
 # functions
@@ -21,10 +26,11 @@ def ttx2otf(ttx_path, otf_path=None):
     if not otf_path:
         otf_path = '%s.otf' % os.path.splitext(ttx_path)[0]
     # save otf font
-    tt = TTFont()
-    tt.verbose = False
-    tt.importXML(ttx_path)
-    tt.save(otf_path)
+    with SuppressPrint():
+        tt = TTFont()
+        tt.verbose = False
+        tt.importXML(ttx_path)
+        tt.save(otf_path)
 
 def otf2ttx(otf_path, ttx_path=None):
     """Generate a .ttx font from an .otf file.
@@ -37,9 +43,10 @@ def otf2ttx(otf_path, ttx_path=None):
     if not ttx_path:
         ttx_path = '%s.ttx' % os.path.splitext(otf_path)[0]
     # save ttx font
-    tt = TTFont(otf_path)
-    tt.verbose = False
-    tt.saveXML(ttx_path)
+    with SuppressPrint():
+        tt = TTFont(otf_path)
+        tt.verbose = False
+        tt.saveXML(ttx_path)
 
 def strip_names(ttx_path):
     """Clear several nameIDs to prevent the font from being installable on desktop OSs.
@@ -113,6 +120,7 @@ def makeDSIG(tt_font):
         print tt_font[key]
 
 def add_DSIG_table(otf_path):
-    tt_font = TTFont(otf_path)
-    makeDSIG(tt_font)
-    tt_font.save(otf_path)
+    with SuppressPrint():
+        tt_font = TTFont(otf_path)
+        makeDSIG(tt_font)
+        tt_font.save(otf_path)

@@ -6,7 +6,7 @@
 import encoding
 reload(encoding)
 
-from encoding import chars2glyphnames
+from encoding import chars2psnames
 
 # diacritics per language
 # source: Diacritics Project
@@ -147,8 +147,8 @@ def convert_chars_to_glyphnames(chars_dict):
         lc_chars = lc.split()
         uc_chars = uc.split()
         # get glyph names from characters
-        lc_glyph_names = chars2glyphnames(lc_chars)
-        uc_glyph_names = chars2glyphnames(uc_chars)
+        lc_glyph_names = chars2psnames(lc_chars)
+        uc_glyph_names = chars2psnames(uc_chars)
         # append lists of glyph names to dict
         glyphnames[lang].append(lc_glyph_names)
         glyphnames[lang].append(uc_glyph_names)

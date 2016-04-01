@@ -2,8 +2,8 @@
 
 """Tools to work with encoding files, character sets etc."""
 
-import hTools2.modules.unicode
-reload(hTools2.modules.unicode)
+# import hTools2.modules.unicode
+# reload(hTools2.modules.unicode)
 
 import os
 
@@ -49,11 +49,13 @@ def extract_encoding(ufo_path, enc_path=None):
     for glyph_name in ufo.glyphOrder:
         enc += '%s\n' % glyph_name
     ufo.close()
+
     # save to .enc file
     if enc_path is not None:
         enc_file = open(enc_path, 'w')
         enc_file.write(enc)
         enc_file.close()
+
     # done
     return enc
 
@@ -158,7 +160,7 @@ def all_glyphs(groups_dict):
         glyphs += groups_dict[group_name]
     return glyphs
 
-def char2glyphname(char):
+def char2psname(char):
     """
     Get the PostScript glyph name for a given unicode character.
 
@@ -169,19 +171,19 @@ def char2glyphname(char):
         glyphname = None
     return glyphname
 
-def chars2glyphnames(char_list):
+def chars2psnames(char_list):
     """
     Get a list of PostScript glyph names for a list of unicode characters.
 
     """
     glyph_names = []
     for char in char_list:
-        glyph_name = char2glyphname(char)
+        glyph_name = char2psname(char)
         if glyph_name is not None:
             glyph_names.append(glyph_name)
     return glyph_names
 
-def glyphname2char(glyph_name):
+def psname2char(glyph_name):
     """
     Get the unicode character for a given glyph name.
 
@@ -190,11 +192,51 @@ def glyphname2char(glyph_name):
         uni = psnames2unicodes[glyph_name]
     elif unicodes_extra.has_key(glyph_name):
         uni = unicodes_extra[glyph_name]
+    elif glyph_name.startswith('uni'):
+        uni = glyph_name[3:]
     else:
-        return
-        uni_hex = u'\\u%s' % unicode_int_to_hexstr(int(uni, 16), _0x=False)
-        #### big pile of $#!@, this is still not working
-        print uni, type(uni), unichr(uni), chr(uni)
-        uni_hex = u'\\u%s' % unicode_int_to_hexstr(uni, _0x=False)
-    return uni_hex # unicode(uni_hex)
+        uni = None
 
+    if uni:
+        try:
+            char = unichr(uni)
+        except:
+            uni_int = unicode_hexstr_to_int(str(uni))
+            char = unichr(uni_int)
+    else:
+        char = None
+
+    return char
+
+def psname2unicode(glyph_name):
+    """
+    Get the unicode value for a given glyph name.
+
+    """
+    if psnames2unicodes.has_key(glyph_name):
+        uni = psnames2unicodes[glyph_name]
+    elif unicodes_extra.has_key(glyph_name):
+        uni = unicodes_extra[glyph_name]
+    elif glyph_name.startswith('uni'):
+        uni = glyph_name[3:]
+    else:
+        uni = None
+
+    if uni:
+        try:
+            char = unichr(uni)
+            uni = unicode_int_to_hexstr(uni)
+        except:
+            # uni_int = 
+            # char = unichr(uni_int)
+            # uni = unicode_hexstr_to_int(str(uni))
+            pass
+
+    return str(uni)
+
+def char2unicode(char):
+    """
+    Get the unicode value for a given unicode character.
+
+    """
+    pass

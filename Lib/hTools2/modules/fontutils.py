@@ -107,6 +107,24 @@ def parse_glyphs_groups(names, groups):
             glyph_names.append(name)
     return glyph_names
 
+def mark_composed_glyphs(font, color='Orange', alpha=.35):
+    """
+    Mark all composed glyphs in the font.
+
+    """
+    R, G, B = x11_colors[color]
+    mark_color = convert_to_1(R, G, B)
+    mark_color += (alpha,)
+    for glyph in font:
+        if len(glyph.components) > 0:
+            glyph.mark = mark_color
+            glyph.update()
+    font.update()
+
+#-----------------
+# renaming glyphs
+#-----------------
+
 def rename_glyph(font, old_name, new_name, overwrite=True, mark=True, verbose=True):
     """
     Rename a glyph in a given font.
@@ -160,19 +178,76 @@ def rename_glyphs_from_list(font, names_list, overwrite=True, mark=True, verbose
         print
         print '...done.\n'
 
-def mark_composed_glyphs(font, color='Orange', alpha=.35):
-    """
-    Mark all composed glyphs in the font.
+def rename_glyphs_in_font(ufo, names_list, glyphs=True, features=True, components=True):
+    if glyphs:
+        rename_glyphs(f, names_list)
+    if features:
+        rename_features(f, names_list)
+    if components:
+        rename_components(f, names_list)
 
-    """
-    R, G, B = x11_colors[color]
-    mark_color = convert_to_1(R, G, B)
-    mark_color += (alpha,)
-    for glyph in font:
-        if len(glyph.components) > 0:
-            glyph.mark = mark_color
-            glyph.update()
-    font.update()
+def rename_glyphs(font, names_list):
+    rename_glyphs_from_list(font, names_list, overwrite=False, mark=True, verbose=True)
+
+def rename_features(font, names_list):
+    features_old = font.features.text.split('\n')
+    features_new = ''
+    print 'renaming glyph names in OpenType features...\n'
+    for line in features_old:
+        for old_name, new_name in names_list:
+            if old_name in line:
+                print '\trenaming "%s" to "%s"...' % (old_name, new_name)
+                line = line.replace(old_name, new_name)
+        features_new += '%s\n' % line
+    font.features.text = features_new
+    print
+    print '...done.\n'
+
+def rename_components(font, names_list, mark=True):
+    for glyph_name in font.keys():
+        if len(font[glyph_name].components):
+            for component in font[glyph_name].components:
+                for old_name, new_name in names_list:
+                    if component.baseGlyph == old_name:
+                        component.baseGlyph = new_name
+                        if mark:
+                            font[glyph_name].mark = 0, 1, 1, 0.4
+
+def rename_features_file(fea_path, names_list):
+    features_old = open(fea_path, 'r').readlines()
+    features_new = []
+    print 'renaming glyph names in features file...\n'
+    for line in features_old:
+        for old_name, new_name in names_list:
+            if old_name in line:
+                print '\trenaming "%s" to "%s"...' % (old_name, new_name)
+                line = line.replace(old_name, new_name)
+        features_new += line
+    fea_txt = ''.join(features_new)
+    fea_dest = open(fea_path, 'w')
+    fea_dest.write(fea_txt)
+    fea_dest.close()
+    print
+    print '...done.\n'
+
+def rename_encoding(enc_path, names_list):
+    enc_src = open(enc_path, 'r').readlines()
+    lines = []
+    print 'renaming glyph names in encoding file...\n'
+    for line in enc_src:
+        for old_name, new_name in names_list:
+            if old_name in line:
+                print '\trenaming "%s" to "%s"...' % (old_name, new_name)
+                line = line.replace(old_name, new_name)
+        # check to avoid duplicates
+        if not line in lines:
+            lines.append(line)
+    enc = ''.join(lines)
+    enc_dest = open(enc_path, 'w')
+    enc_dest.write(enc)
+    enc_dest.close()
+    print
+    print '...done.\n'
 
 #--------
 # groups

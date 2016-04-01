@@ -10,7 +10,8 @@ from hTools2.modules.color import clear_color, clear_colors, named_colors
 # functions
 
 def interpolate_glyph(gName, f1, f2, f3, factor, clear=True):
-    """Interpolates the glyphs with name ``glyph_name`` from masters ``f1`` and ``f2``, with interpolation factor ``(factor_x, factor_y)``, into the destination font ``f3``.
+    """
+    Interpolates the glyphs with name ``glyph_name`` from masters ``f1`` and ``f2``, with interpolation factor ``(factor_x, factor_y)``, into the destination font ``f3``.
 
     The optional parameter ``clear`` controls if existing glyphs in ``f3`` should be overwritten.
 
@@ -34,10 +35,11 @@ def interpolate_kerning(f1, f2, f3, factor):
     f3.update()
 
 def check_compatibility(f1, f2, names=None, report=True):
-    """Checks if glyphs in ``f1`` and ``f2`` are compatible for interpolation.
+    """
+    Checks if glyphs in ``f1`` and ``f2`` are compatible for interpolation.
 
     If ``names=None``, all glyphs in ``f1`` will be checked - otherwise, only the ones in the list ``names``.
-    
+
     Glyph compatibility is indicated by colors in ``f1``: glyphs marked with ``green`` are compatible, glyphs marked with ``red`` are not compatible (because contours and/or amount of points do not match), and glyphs marked with ``blue`` do not exist in ``f2``.
 
     If ``report=True``, the check results will be printed to the output window.

@@ -11,7 +11,9 @@ import os
 
 from hTools2.modules.fileutils import get_names_from_path
 
+#----------
 # set info
+#----------
 
 def set_font_names(font, family_name, style_name):
     """
@@ -19,22 +21,27 @@ def set_font_names(font, family_name, style_name):
 
     """
     full_name = '%s_%s' % (family_name, style_name)
+
     # main family/style names
     font.info.familyName = family_name
     font.info.styleName = style_name
+
     # style map names
     font.info.styleMapFamilyName = None # full_name
     font.info.styleMapStyleName = None # 'regular'
+
     # opentype names
     font.info.openTypeNamePreferredFamilyName = None # family_name
     font.info.openTypeNamePreferredSubfamilyName = None # style_name
     font.info.openTypeNameCompatibleFullName = None # full_name
     font.info.openTypeNameUniqueID = None
+
     # postscript names
     font.info.postscriptFontName = None # full_name
     font.info.postscriptFullName = None # full_name
     font.info.postscriptUniqueID = None
     font.info.postscriptWeightName = None
+
     # FOND names
     font.info.macintoshFONDFamilyID = None
     font.info.macintoshFONDName = None
@@ -49,7 +56,9 @@ def set_names_from_path(font, prefix=None):
         family_name = '%s %s' % (prefix, family_name)
     set_font_names(font, family_name, style_name)
 
+#------------
 # print info
+#------------
 
 def print_font_info(font, options=None):
     """
@@ -74,13 +83,9 @@ def print_generic_identification(font):
     print '-' * 60
     print 'Generic Identification Information'
     print '-' * 60
-    print 'familyName:', font.info.familyName
-    print 'styleName:', font.info.styleName
-    print 'styleMapFamilyName:', font.info.styleMapFamilyName
-    print 'styleMapStyleName:', font.info.styleMapStyleName
-    print 'versionMajor:', font.info.versionMajor
-    print 'versionMinor:', font.info.versionMinor
-    print 'year:', font.info.year
+    attrs = ['familyName', 'styleName', 'styleMapFamilyName', 'styleMapStyleName', 'versionMajor', 'versionMinor', 'year']
+    for attr in attrs:
+        print '%s: %s' % (attr, getattr(font.info, attr))
     print
 
 def print_generic_legal(font):
@@ -123,109 +128,56 @@ def print_opentype_hhea(font):
     print '-' * 60
     print 'OpenType hhea Table Fields'
     print '-' * 60
-    print 'openTypeHheaAscender: %s' % font.info.openTypeHheaAscender
-    print 'openTypeHheaDescender: %s' % font.info.openTypeHheaDescender
-    print 'openTypeHheaLineGap: %s' % font.info.openTypeHheaLineGap
-    print 'openTypeHheaCaretSlopeRise: %s' % font.info.openTypeHheaCaretSlopeRise
-    print 'openTypeHheaCaretSlopeRun: %s' % font.info.openTypeHheaCaretSlopeRun
-    print 'openTypeHheaCaretOffset: %s' % font.info.openTypeHheaCaretOffset
+    attrs = ['openTypeHheaAscender', 'openTypeHheaDescender', 'openTypeHheaLineGap', 'openTypeHheaCaretSlopeRise', 'openTypeHheaCaretSlopeRun', 'openTypeHheaCaretOffset']
+    for attr in attrs:
+        print '%s: %s' % (attr, getattr(font.info, attr))
     print
 
 def print_opentype_name(font):
     print '-' * 60
     print 'OpenType Name Table Fields'
     print '-' * 60
-    print 'openTypeNameDesigner: %s' % font.info.openTypeNameDesigner
-    print 'openTypeNameDesignerURL: %s' % font.info.openTypeNameDesignerURL
-    print 'openTypeNameManufacturer: %s' % font.info.openTypeNameManufacturer
-    print 'openTypeNameManufacturerURL: %s' % font.info.openTypeNameManufacturerURL
-    print 'openTypeNameLicense: %s' % font.info.openTypeNameLicense
-    print 'openTypeNameLicenseURL: %s' % font.info.openTypeNameLicenseURL
-    print 'openTypeNameVersion: %s' % font.info.openTypeNameVersion
-    print 'openTypeNameUniqueID: %s' % font.info.openTypeNameUniqueID
-    print 'openTypeNameDescription: %s' % font.info.openTypeNameDescription
-    print 'openTypeNamePreferredFamilyName: %s' % font.info.openTypeNamePreferredFamilyName
-    print 'openTypeNamePreferredSubfamilyName: %s' % font.info.openTypeNamePreferredSubfamilyName
-    print 'openTypeNameCompatibleFullName: %s' % font.info.openTypeNameCompatibleFullName
-    print 'openTypeNameSampleText: %s' % font.info.openTypeNameSampleText
-    print 'openTypeNameWWSFamilyName: %s' % font.info.openTypeNameWWSFamilyName
-    print 'openTypeNameWWSSubfamilyName: %s' % font.info.openTypeNameWWSSubfamilyName
+    attrs = ['openTypeNameDesigner', 'openTypeNameDesignerURL', 'openTypeNameManufacturer', 'openTypeNameManufacturerURL', 'openTypeNameLicense', 'openTypeNameLicenseURL', 'openTypeNameVersion', 'openTypeNameUniqueID', 'openTypeNameDescription', 'openTypeNamePreferredFamilyName', 'openTypeNamePreferredSubfamilyName', 'openTypeNameCompatibleFullName', 'openTypeNameSampleText', 'openTypeNameWWSFamilyName', 'openTypeNameWWSSubfamilyName']
+    for attr in attrs:
+        print '%s: %s' % (attr, getattr(font.info, attr))
     print
 
 def print_opentype_os2(font):
     print '-' * 60
     print 'OpenType OS/2 Table Fields'
     print '-' * 60
-    print 'openTypeOS2WidthClass: %s' % font.info.openTypeOS2WidthClass
-    print 'openTypeOS2WeightClass: %s' % font.info.openTypeOS2WeightClass
-    print 'openTypeOS2Selection: %s' % font.info.openTypeOS2Selection
-    print 'openTypeOS2VendorID: %s' % font.info.openTypeOS2VendorID
-    print 'openTypeOS2Panose: %s' % font.info.openTypeOS2Panose
-    print 'openTypeOS2FamilyClass: %s' % font.info.openTypeOS2FamilyClass
-    print 'openTypeOS2UnicodeRanges: %s' % font.info.openTypeOS2UnicodeRanges
-    print 'openTypeOS2CodePageRanges: %s' % font.info.openTypeOS2CodePageRanges
-    print 'openTypeOS2TypoAscender: %s' % font.info.openTypeOS2TypoAscender
-    print 'openTypeOS2TypoDescender: %s' % font.info.openTypeOS2TypoDescender
-    print 'openTypeOS2TypoLineGap: %s' % font.info.openTypeOS2TypoLineGap
-    print 'openTypeOS2WinAscent: %s' % font.info.openTypeOS2WinAscent
-    print 'openTypeOS2WinDescent: %s' % font.info.openTypeOS2WinDescent
-    print 'openTypeOS2Type: %s' % font.info.openTypeOS2Type
-    print 'openTypeOS2SubscriptXSize: %s' % font.info.openTypeOS2SubscriptXSize
-    print 'openTypeOS2SubscriptYSize: %s' % font.info.openTypeOS2SubscriptYSize
-    print 'openTypeOS2SubscriptXOffset: %s' % font.info.openTypeOS2SubscriptXOffset
-    print 'openTypeOS2SubscriptYOffset: %s' % font.info.openTypeOS2SubscriptYOffset
-    print 'openTypeOS2SuperscriptXSize: %s' % font.info.openTypeOS2SuperscriptXSize
-    print 'openTypeOS2SuperscriptYSize: %s' % font.info.openTypeOS2SuperscriptYSize
-    print 'openTypeOS2SuperscriptXOffset: %s' % font.info.openTypeOS2SuperscriptXOffset
-    print 'openTypeOS2SuperscriptYOffset: %s' % font.info.openTypeOS2SuperscriptYOffset
-    print 'openTypeOS2StrikeoutSize: %s' % font.info.openTypeOS2StrikeoutSize
-    print 'openTypeOS2StrikeoutPosition: %s' % font.info.openTypeOS2StrikeoutPosition
+    attrs = ['openTypeOS2WidthClass', 'openTypeOS2WeightClass', 'openTypeOS2Selection', 'openTypeOS2VendorID', 'openTypeOS2Panose', 'openTypeOS2FamilyClass', 'openTypeOS2UnicodeRanges', 'openTypeOS2CodePageRanges', 'openTypeOS2TypoAscender', 'openTypeOS2TypoDescender', 'openTypeOS2TypoLineGap', 'openTypeOS2WinAscent', 'openTypeOS2WinDescent', 'openTypeOS2Type', 'openTypeOS2SubscriptXSize', 'openTypeOS2SubscriptYSize', 'openTypeOS2SubscriptXOffset', 'openTypeOS2SubscriptYOffset', 'openTypeOS2SuperscriptXSize', 'openTypeOS2SuperscriptYSize', 'openTypeOS2SuperscriptXOffset', 'openTypeOS2SuperscriptYOffset', 'openTypeOS2StrikeoutSize', 'openTypeOS2StrikeoutPosition']
+    for attr in attrs:
+        print '%s: %s' % (attr, getattr(font.info, attr))
     print
 
 def print_opentype_vhea(font):
     print '-' * 60
     print 'OpenType vhea Table Fields'
     print '-' * 60
-    print 'openTypeVheaVertTypoAscender: %s' % font.info.openTypeVheaVertTypoAscender
-    print 'openTypeVheaVertTypoDescender: %s' % font.info.openTypeVheaVertTypoDescender
-    print 'openTypeVheaVertTypoLineGap: %s' % font.info.openTypeVheaVertTypoLineGap
-    print 'openTypeVheaCaretSlopeRise: %s' % font.info.openTypeVheaCaretSlopeRise
-    print 'openTypeVheaCaretSlopeRun: %s' % font.info.openTypeVheaCaretSlopeRun
-    print 'openTypeVheaCaretOffset: %s' % font.info.openTypeVheaCaretOffset
+    attrs = ['openTypeVheaVertTypoAscender', 'openTypeVheaVertTypoDescender', 'openTypeVheaVertTypoLineGap', 'openTypeVheaCaretSlopeRise', 'openTypeVheaCaretSlopeRun', 'openTypeVheaCaretOffset']
+    for attr in attrs:
+        print '%s: %s' % (attr, getattr(font.info, attr))
     print
 
 def print_postscript_data(font):
     print '-' * 60
     print 'PostScript Specific Data'
     print '-' * 60
-    print 'postscriptFontName: %s' % font.info.postscriptFontName
-    print 'postscriptFullName: %s' % font.info.postscriptFullName
-    print 'postscriptSlantAngle: %s' % font.info.postscriptSlantAngle
-    print 'postscriptUniqueID: %s' % font.info.postscriptUniqueID
-    print 'postscriptUnderlineThickness: %s' % font.info.postscriptUnderlineThickness
-    print 'postscriptUnderlinePosition: %s' % font.info.postscriptUnderlinePosition
-    print 'postscriptIsFixedPitch: %s' % font.info.postscriptIsFixedPitch
-    print 'postscriptBlueValues: %s' % font.info.postscriptBlueValues
-    print 'postscriptOtherBlues: %s' % font.info.postscriptOtherBlues
-    print 'postscriptFamilyBlues: %s' % font.info.postscriptFamilyBlues
-    print 'postscriptFamilyOtherBlues: %s' % font.info.postscriptFamilyOtherBlues
-    print 'postscriptStemSnapH: %s' % font.info.postscriptStemSnapH
-    print 'postscriptStemSnapV: %s' % font.info.postscriptStemSnapV
-    print 'postscriptBlueFuzz: %s' % font.info.postscriptBlueFuzz
-    print 'postscriptBlueShift: %s' % font.info.postscriptBlueShift
-    print 'postscriptBlueScale: %s' % font.info.postscriptBlueScale
-    print 'postscriptForceBold: %s' % font.info.postscriptForceBold
-    print 'postscriptDefaultWidthX: %s' % font.info.postscriptDefaultWidthX
-    print 'postscriptNominalWidthX: %s' % font.info.postscriptNominalWidthX
-    print 'postscriptWeightName: %s' % font.info.postscriptWeightName
-    print 'postscriptDefaultCharacter: %s' % font.info.postscriptDefaultCharacter
-    print 'postscriptWindowsCharacterSet: %s' % font.info.postscriptWindowsCharacterSet
+    attrs = ['postscriptFontName', 'postscriptFullName', 'postscriptSlantAngle', 'postscriptUniqueID', 'postscriptUnderlineThickness', 'postscriptUnderlinePosition', 'postscriptIsFixedPitch', 'postscriptBlueValues', 'postscriptOtherBlues', 'postscriptFamilyBlues', 'postscriptFamilyOtherBlues', 'postscriptStemSnapH', 'postscriptStemSnapV', 'postscriptBlueFuzz', 'postscriptBlueShift', 'postscriptBlueScale', 'postscriptForceBold', 'postscriptDefaultWidthX', 'postscriptNominalWidthX', 'postscriptWeightName', 'postscriptDefaultCharacter', 'postscriptWindowsCharacterSet']
+    for attr in attrs:
+        print '%s: %s' % (attr, getattr(font.info, attr))
     print
 
+#------------
 # clear info
+#------------
 
 def clear_font_info(font):
-    """Clears all font information fields in the font."""
+    """
+    Clears all font information fields in the font.
+
+    """
     # print 'deleting font info'
     clear_generic_identification(font)
     clear_generic_legal(font)
@@ -238,125 +190,70 @@ def clear_font_info(font):
     clear_opentype_vhea(font)
     clear_postscript_data(font)
 
-def clear_generic_identification(font):
-    # print 'deleting Generic Identification Information'
-    font.info.familyName = None
-    font.info.styleName = None
-    font.info.styleMapFamilyName = None
-    font.info.styleMapStyleName = None
-    font.info.versionMajor = None
-    font.info.versionMinor = None
-    font.info.year = None
+def clear_generic_identification(font, verbose=False):
+    if verbose:
+        print 'deleting Generic Identification Information'
+    attrs = ['familyName', 'styleName', 'styleMapFamilyName', 'styleMapStyleName', 'versionMajor', 'versionMinor', 'year']
+    for attr in attrs:
+        setattr(font.info, attr, None)
 
-def clear_generic_legal(font):
-    # print 'deleting Generic Legal Information'
+def clear_generic_legal(font, verbose=False):
+    if verbose:
+        print 'deleting Generic Legal Information'
     font.info.copyright = None
     font.info.trademark = None
 
-def clear_generic_dimension(font):
-    # print 'deleting Generic Dimension Information'
-    font.info.unitsPerEm = None
-    font.info.descender = None
-    font.info.xHeight = None
-    font.info.capHeight = None
-    font.info.ascender = None
-    font.info.italicAngle = None
+def clear_generic_dimension(font, verbose=False):
+    if verbose:
+        print 'deleting Generic Dimension Information'
+    attrs = ['unitsPerEm', 'descender', 'xHeight', 'capHeight', 'ascender', 'italicAngle']
+    for attr in attrs:
+        setattr(font.info, attr, None)
 
-def clear_generic_miscellaneous(font):
-    # print 'deleting Generic Miscellaneous Information'
+def clear_generic_miscellaneous(font, verbose=False):
+    if verbose:
+        print 'deleting Generic Miscellaneous Information'
     font.info.note = None
 
-def clear_opentype_head(font):
-    # print 'deleting OpenType head Table Fields'
-    font.info.openTypeHeadCreated = None
-    font.info.openTypeHeadLowestRecPPEM = None
-    font.info.openTypeHeadFlags = None
+def clear_opentype_head(font, verbose=False):
+    if verbose:
+        print 'deleting OpenType head Table Fields'
+    attrs = ['openTypeHeadCreated', 'openTypeHeadLowestRecPPEM', 'openTypeHeadFlags']
+    for attr in attrs:
+        setattr(font.info, attr, None)
 
-def clear_opentype_hhea(font):
-    # print 'deleting OpenType hhea Table Fields'
-    font.info.openTypeHheaAscender = None
-    font.info.openTypeHheaDescender = None
-    font.info.openTypeHheaLineGap = None
-    font.info.openTypeHheaCaretSlopeRise = None
-    font.info.openTypeHheaCaretSlopeRun = None
-    font.info.openTypeHheaCaretOffset = None
+def clear_opentype_hhea(font, verbose=False):
+    if verbose:
+        print 'deleting OpenType hhea Table Fields'
+    attrs = ['openTypeHheaAscender', 'openTypeHheaDescender', 'openTypeHheaLineGap', 'openTypeHheaCaretSlopeRise', 'openTypeHheaCaretSlopeRun', 'openTypeHheaCaretOffset']
+    for attr in attrs:
+        setattr(font.info, attr, None)
 
-def clear_opentype_name(font):
-    # print 'deleting OpenType Name Table Fields'
-    font.info.openTypeNameDesigner = None
-    font.info.openTypeNameDesignerURL = None
-    font.info.openTypeNameManufacturer = None
-    font.info.openTypeNameManufacturerURL = None
-    font.info.openTypeNameLicense = None
-    font.info.openTypeNameLicenseURL = None
-    font.info.openTypeNameVersion = None
-    font.info.openTypeNameUniqueID = None
-    font.info.openTypeNameDescription = None
-    font.info.openTypeNamePreferredFamilyName = None
-    font.info.openTypeNamePreferredSubfamilyName = None
-    font.info.openTypeNameCompatibleFullName = None
-    font.info.openTypeNameSampleText = None
-    font.info.openTypeNameWWSFamilyName = None
-    font.info.openTypeNameWWSSubfamilyName = None
+def clear_opentype_name(font, verbose=False):
+    if verbose:
+        print 'deleting OpenType Name Table Fields'
+    attrs = ['openTypeNameDesigner', 'openTypeNameDesignerURL', 'openTypeNameManufacturer', 'openTypeNameManufacturerURL', 'openTypeNameLicense', 'openTypeNameLicenseURL', 'openTypeNameVersion', 'openTypeNameUniqueID', 'openTypeNameDescription', 'openTypeNamePreferredFamilyName', 'openTypeNamePreferredSubfamilyName', 'openTypeNameCompatibleFullName', 'openTypeNameSampleText', 'openTypeNameWWSFamilyName', 'openTypeNameWWSSubfamilyName']
+    for attr in attrs:
+        setattr(font.info, attr, None)
 
-def clear_opentype_os2(font):
-    # print 'deleting OpenType OS/2 Table Fields'
-    font.info.openTypeOS2WidthClass = None
-    font.info.openTypeOS2WeightClass = None
-    font.info.openTypeOS2Selection = None
-    font.info.openTypeOS2VendorID = None
-    font.info.openTypeOS2Panose = None
-    font.info.openTypeOS2FamilyClass = None
-    font.info.openTypeOS2UnicodeRanges = None
-    font.info.openTypeOS2CodePageRanges = None
-    font.info.openTypeOS2TypoAscender = None
-    font.info.openTypeOS2TypoDescender = None
-    font.info.openTypeOS2TypoLineGap = None
-    font.info.openTypeOS2WinAscent = None
-    font.info.openTypeOS2WinDescent = None
-    font.info.openTypeOS2Type = None
-    font.info.openTypeOS2SubscriptXSize = None
-    font.info.openTypeOS2SubscriptYSize = None
-    font.info.openTypeOS2SubscriptXOffset = None
-    font.info.openTypeOS2SubscriptYOffset = None
-    font.info.openTypeOS2SuperscriptXSize = None
-    font.info.openTypeOS2SuperscriptYSize = None
-    font.info.openTypeOS2SuperscriptXOffset = None
-    font.info.openTypeOS2SuperscriptYOffset = None
-    font.info.openTypeOS2StrikeoutSize = None
-    font.info.openTypeOS2StrikeoutPosition = None
+def clear_opentype_os2(font, verbose=False):
+    if verbose:
+        print 'deleting OpenType OS/2 Table Fields'
+    attrs = ['openTypeOS2WidthClass', 'openTypeOS2WeightClass', 'openTypeOS2Selection', 'openTypeOS2VendorID', 'openTypeOS2Panose', 'openTypeOS2FamilyClass', 'openTypeOS2UnicodeRanges', 'openTypeOS2CodePageRanges', 'openTypeOS2TypoAscender', 'openTypeOS2TypoDescender', 'openTypeOS2TypoLineGap', 'openTypeOS2WinAscent', 'openTypeOS2WinDescent', 'openTypeOS2Type', 'openTypeOS2SubscriptXSize', 'openTypeOS2SubscriptYSize', 'openTypeOS2SubscriptXOffset', 'openTypeOS2SubscriptYOffset', 'openTypeOS2SuperscriptXSize', 'openTypeOS2SuperscriptYSize', 'openTypeOS2SuperscriptXOffset', 'openTypeOS2SuperscriptYOffset', 'openTypeOS2StrikeoutSize', 'openTypeOS2StrikeoutPosition']
+    for attr in attrs:
+        setattr(font.info, attr, None)
 
-def clear_opentype_vhea(font):
-    # print 'deleting OpenType vhea Table Fields'
-    font.info.openTypeVheaVertTypoAscender = None
-    font.info.openTypeVheaVertTypoDescender = None
-    font.info.openTypeVheaVertTypoLineGap = None
-    font.info.openTypeVheaCaretSlopeRise = None
-    font.info.openTypeVheaCaretSlopeRun = None
-    font.info.openTypeVheaCaretOffset = None
+def clear_opentype_vhea(font, verbose=False):
+    if verbose:
+        print 'deleting OpenType vhea Table Fields'
+    attrs = ['openTypeVheaVertTypoAscender','openTypeVheaVertTypoDescender','openTypeVheaVertTypoLineGap','openTypeVheaCaretSlopeRise','openTypeVheaCaretSlopeRun','openTypeVheaCaretOffset']
+    for attr in attrs:
+        setattr(font.info, attr, None)
 
-def clear_postscript_data(font):
-    # print 'deleting PostScript Specific Data'
-    font.info.postscriptFontName = None
-    font.info.postscriptFullName = None
-    font.info.postscriptSlantAngle = None
-    font.info.postscriptUniqueID = None
-    font.info.postscriptUnderlineThickness = None
-    font.info.postscriptUnderlinePosition = None
-    font.info.postscriptIsFixedPitch = None
-    font.info.postscriptBlueValues = None
-    font.info.postscriptOtherBlues = None
-    font.info.postscriptFamilyBlues = None
-    font.info.postscriptFamilyOtherBlues = None
-    font.info.postscriptStemSnapH = None
-    font.info.postscriptStemSnapV = None
-    font.info.postscriptBlueFuzz = None
-    font.info.postscriptBlueShift = None
-    font.info.postscriptBlueScale = None
-    font.info.postscriptForceBold = None
-    font.info.postscriptDefaultWidthX = None
-    font.info.postscriptNominalWidthX = None
-    font.info.postscriptWeightName = None
-    font.info.postscriptDefaultCharacter = None
-    font.info.postscriptWindowsCharacterSet = None
+def clear_postscript_data(font, verbose=False):
+    if verbose:
+        print 'deleting PostScript Specific Data'
+    attrs = ['postscriptFontName', 'postscriptFullName', 'postscriptSlantAngle', 'postscriptUniqueID', 'postscriptUnderlineThickness', 'postscriptUnderlinePosition', 'postscriptIsFixedPitch', 'postscriptBlueValues', 'postscriptOtherBlues', 'postscriptFamilyBlues', 'postscriptFamilyOtherBlues', 'postscriptStemSnapH', 'postscriptStemSnapV', 'postscriptBlueFuzz', 'postscriptBlueShift', 'postscriptBlueScale', 'postscriptForceBold', 'postscriptDefaultWidthX', 'postscriptNominalWidthX', 'postscriptWeightName', 'postscriptDefaultCharacter', 'postscriptWindowsCharacterSet']
+    for attr in attrs:
+        setattr(font.info, attr, None)
 

@@ -16,10 +16,9 @@ import shutil
 
 from base64 import b64encode
 
-from ufo2svg import convertUFOToSVGFont
-
 from hTools2.modules.ttx import otf2ttx, ttx2otf
 from hTools2.modules.ttx import strip_names as ttx_strip_names
+from hTools2.modules.sysutils import SuppressPrint
 
 try:
     from mojo.roboFont import OpenFont
@@ -28,15 +27,14 @@ try:
 except:
     from robofab.world import OpenFont
 
+from fontTools import subset
+
 #--------------------
 # higher-level tools
 #--------------------
 
 def generate_webfont(otf_path, strip_names=False, woff=True, woff_path=None, woff2=False, woff2_path=None, clear_ttx=True, clear_otf_tmp=True):
-    """
-    Generate obfuscated webfont in woff and/or woff2 formats from an otf/ttf input file.
-
-    """
+    """Generate woff/woff2 webfont(s) from an otf/ttf input file."""
     file_name, extension = os.path.splitext(otf_path)
 
     # strip font infos (webfont obfuscation)
@@ -64,6 +62,37 @@ def generate_webfont(otf_path, strip_names=False, woff=True, woff_path=None, wof
     # clear temporary ttx file
     if clear_otf_tmp:
         os.remove(otf_path_tmp)
+
+
+def subset_font(src_path, dst_path, enc_path, remove_features=True, remove_kerning=False, remove_hinting=False, strip_names=False, verbose=False):
+    """
+    Generate a subsetted copy of an .otf or .ttf font.
+
+    Requires the new fontTools.
+
+    """
+    command =  [src_path]
+    command += ["--output-file=%s" % dst_path]
+    command += ["--glyphs-file=%s" % enc_path]
+
+    if remove_features:
+        if not remove_kerning:
+            command += ["--layout-features='kern'",]
+        else:
+            command += ["--layout-features=''",]
+
+    if not remove_hinting:
+        command += ["--hinting"]
+
+    if strip_names:
+        command += ["--obfuscate-names"]
+
+    if verbose:
+        command += ["--verbose"]
+
+    subset.main(command)
+
+    return os.path.exists(dst_path)
 
 #------------
 # WOFF tools
@@ -112,7 +141,7 @@ def otf2ttf(otf_path, ttf_path):
     """
     otf_font = OpenFont(otf_path, showUI=False)
     ### is this curve conversion really necessary?
-    ### some scripts simply use `font.generate('myfont.ttf', 'ttf')`
+    ### some scripts do just `font.generate('myfont.ttf', 'ttf')`
     coreFont = otf_font.naked()
     for glyph in coreFont:
         curveConverter.bezier2quadratic(glyph)
@@ -212,3 +241,4 @@ def make_base64_fontface_woff(font_name, base64_font):
     """
     font_face = '''@font-face { font-family: '%s'; src:url(data:application/x-font-woff;charset=utf-8;base64,%s) format('woff') }''' % (font_name, base64_font)
     return font_face
+

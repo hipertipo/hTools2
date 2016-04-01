@@ -2,6 +2,24 @@
 
 import os
 
+# objects
+
+import sys, StringIO
+
+class SuppressPrint(object):
+
+    '''An object to silence console output.'''
+
+    def __init__(self):
+        pass
+
+    def __enter__(self):
+        self.stdout = sys.stdout
+        sys.stdout = StringIO.StringIO()
+
+    def __exit__(self, *args):
+        sys.stdout = self.stdout
+
 # functions
 
 def clean_pyc(directory, path):
