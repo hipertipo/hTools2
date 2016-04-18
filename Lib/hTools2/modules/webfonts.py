@@ -63,35 +63,42 @@ def generate_webfont(otf_path, strip_names=False, woff=True, woff_path=None, wof
     if clear_otf_tmp:
         os.remove(otf_path_tmp)
 
-
 def subset_font(src_path, dst_path, enc_path, remove_features=True, remove_kerning=False, remove_hinting=False, strip_names=False, verbose=False):
     """
     Generate a subsetted copy of an .otf or .ttf font.
 
-    Requires the new fontTools.
-
     """
+    # build subsetting command
     command =  [src_path]
     command += ["--output-file=%s" % dst_path]
     command += ["--glyphs-file=%s" % enc_path]
 
-    if remove_features:
-        if not remove_kerning:
-            command += ["--layout-features='kern'",]
-        else:
-            command += ["--layout-features=''",]
-
-    if not remove_hinting:
-        command += ["--hinting"]
-
+    # name options
     if strip_names:
         command += ["--obfuscate-names"]
+    else:
+        command += ["--name-IDs=*"]
+        command += ["--name-languages=0,1033"]
+        command += ["--name-legacy"]
 
+    # kerning & features
+    if remove_features:
+        if not remove_kerning:
+            command += ["--legacy-kern"]
+            command += ["--layout-features='kern'"]
+        else:
+            command += ["--layout-features=''"]
+
+    # hinting
+    if remove_hinting:
+        command += ["--no-hinting"]
+
+    # run subsetting
     if verbose:
         command += ["--verbose"]
-
     subset.main(command)
 
+    # done
     return os.path.exists(dst_path)
 
 #------------
