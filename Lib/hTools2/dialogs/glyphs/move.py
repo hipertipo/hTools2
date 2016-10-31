@@ -31,8 +31,9 @@ class moveGlyphsDialog(hDialog):
 
     # methods
 
-    def __init__(self):
+    def __init__(self, verbose=True):
         self.title = "move"
+        self.verbose = verbose
         self.height = (self.square_button * 3) + (self.padding_y * 5) + (self.text_height * 4) - 7
         self.w = FloatingWindow((self.width, self.height), self.title)
         # arrows
@@ -41,13 +42,13 @@ class moveGlyphsDialog(hDialog):
         self.w.arrows = Arrows(
                     (x, y),
                     callbacks=dict(
-                        left=self.left_callback, 
-                        right=self.right_callback, 
-                        up=self.up_callback, 
+                        left=self.left_callback,
+                        right=self.right_callback,
+                        up=self.up_callback,
                         down=self.down_callback,
-                        leftDown=self.down_left_callback, 
-                        rightDown=self.down_right_callback, 
-                        leftUp=self.up_left_callback, 
+                        leftDown=self.down_left_callback,
+                        rightDown=self.down_right_callback,
+                        leftUp=self.up_left_callback,
                         rightUp=self.up_right_callback,
                     ),
                     arrows=[
@@ -131,15 +132,17 @@ class moveGlyphsDialog(hDialog):
                 if (layers and foreground) is not False:
                     boolstring = [ False, True ]
                     # print info
-                    print 'moving selected glyphs...\n'
-                    print '\tx: %s' % x
-                    print '\ty: %s' % y
-                    print '\tlayers: %s' % boolstring[layers]
-                    print
-                    print '\t',
+                    if self.verbose:
+                        print 'moving selected glyphs...\n'
+                        print '\tx: %s' % x
+                        print '\ty: %s' % y
+                        print '\tlayers: %s' % boolstring[layers]
+                        print
+                        print '\t',
                     # move glyphs
                     for glyph_name in glyph_names:
-                        print glyph_name,
+                        if self.verbose:
+                            print glyph_name,
                         f[glyph_name].prepareUndo('move')
                         # all layers
                         if layers:
@@ -154,8 +157,9 @@ class moveGlyphsDialog(hDialog):
                         f[glyph_name].update()
                     # done font
                     f.update()
-                    print
-                    print '\n...done.\n'
+                    if self.verbose:
+                        print
+                        print '\n...done.\n'
                 # no layer selected
                 else:
                     print no_layer_selected

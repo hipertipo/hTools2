@@ -66,10 +66,8 @@ def round_vmetrics(font):
         value = getattr(font.info, attribute)
         setattr(font.info, attribute, int(value))
 
-def set_vmetrics_lineheight(font, ratio=None, line_space=None):
+def set_vmetrics_lineheight(font, ratio=0.75, line_space=None):
     # get parameters
-    if ratio is None:
-        ratio = 0.75
     if line_space is None:
         line_auto = True
     else:

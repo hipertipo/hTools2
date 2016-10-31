@@ -3,8 +3,8 @@
 # by Frederik Berlaen/TypeMyType
 # https://github.com/typemytype/RoboFontExtensions/blob/master/outliner/Outliner.roboFontExt/lib/outline.py
 
-from vanilla import *
-from AppKit import *
+# from vanilla import *
+# from AppKit import *
 
 from fontTools.pens.cocoaPen import CocoaPen
 
@@ -585,3 +585,4 @@ class OutlinePen(BasePen):
         pointPen = glyph.getPointPen()
         self.drawPoints(pointPen)
         return glyph
+

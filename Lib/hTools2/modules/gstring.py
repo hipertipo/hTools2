@@ -35,17 +35,17 @@ def make_string_names(names_list, spacer=None):
         _glyph_names = _glyph_names + '/' + glyph_name + _spacer
     return _glyph_names
 
-def all_glyphs(groups, spacer=None):
-    """
-    Returns a string with all glyphs in the given groups dict.
+# def all_glyphs(groups, spacer=None):
+#     """
+#     Returns a string with all glyphs in the given groups dict.
 
-    """
-    all_glyphs = ""
-    skip = ['invisible']
-    for group_name in groups.keys():
-        if group_name in skip:
-            pass
-        else:
-            glyph_names_list = groups[group_name]
-            all_glyphs += make_string(glyph_names_list, spacer)
-    return all_glyphs
+#     """
+#     all_glyphs = ""
+#     skip = ['invisible']
+#     for group_name in groups.keys():
+#         if group_name in skip:
+#             pass
+#         else:
+#             glyph_names_list = groups[group_name]
+#             all_glyphs += make_string(glyph_names_list, spacer)
+#     return all_glyphs

@@ -31,7 +31,7 @@ def get_glyphs(font): # current_glyph=True, font_selection=True,
     current_glyph = CurrentGlyph()
     font_selection = font.selection
     # get RoboFont's window mode
-    single_window = [ False, True ][getDefault("singleWindowMode")]
+    single_window = [False, True][getDefault("singleWindowMode")]
     # handle multi-window mode
     glyphs = []
     if not single_window:
@@ -143,7 +143,8 @@ def rename_glyph(font, old_name, new_name, overwrite=True, mark=True, verbose=Tr
         if font.has_key(new_name):
             # option [1] (default): overwrite
             if overwrite is True:
-                if verbose: print '\trenaming "%s" to "%s" (overwriting existing glyph)...' % (old_name, new_name)
+                if verbose:
+                    print '\trenaming "%s" to "%s" (overwriting existing glyph)...' % (old_name, new_name)
                 font.removeGlyph(new_name)
                 g.name = new_name
                 if mark:
@@ -151,13 +152,15 @@ def rename_glyph(font, old_name, new_name, overwrite=True, mark=True, verbose=Tr
                 g.update()
             # option [2]: skip, do not overwrite
             else:
-                if verbose: print '\tskipping "%s", "%s" already exists in font.' % (old_name, new_name)
+                if verbose:
+                    print '\tskipping "%s", "%s" already exists in font.' % (old_name, new_name)
                 if mark:
                     g.mark = named_colors['red']
                 g.update()
         # if new name not already in font, simply rename glyph
         else:
-            if verbose: print '\trenaming "%s" to "%s"...' % (old_name, new_name)
+            if verbose:
+                print '\trenaming "%s" to "%s"...' % (old_name, new_name)
             g.name = new_name
             if mark:
                 g.mark = named_colors['green']
@@ -290,6 +293,7 @@ def print_groups(font, mode=0):
     if len(groups) > 0:
         print 'printing groups in font %s...' % get_full_name(font)
         print
+
         # 1. print groups as OpenType classes
         if mode == 1:
             _groups = groups.keys()
@@ -305,6 +309,7 @@ def print_groups(font, mode=0):
               otGlyphs = otGlyphs + " ]"
               # print class in OpenType syntax
               print "%s = %s;" % (otClassName, otGlyphs)
+
         # 2. print groups as Python lists
         elif mode == 2:
             # print groups order (if available)
@@ -314,6 +319,7 @@ def print_groups(font, mode=0):
             # print groups
             for group in groups.keys():
                 print '%s = %s\n' % (group, font.groups[group])
+
         # 0. print groups as text
         else:
             # print groups order (if available)
@@ -332,9 +338,39 @@ def print_groups(font, mode=0):
                 print
         print
         print '...done.\n'
+
     # font has no groups
     else:
         print 'font %s has no groups.\n' % font
+
+def convert_groups_to_classes(src_ufo):
+    f = OpenFont(src_ufo, showUI=False)
+    left_classes = {}
+    right_classes = {}
+    for group in sorted(f.groups.keys()):
+        side, name = group.split('_')[1:]
+        glyphs = f.groups[group]
+        if side == 'L':
+            left_classes[name] = glyphs
+        else:
+            right_classes[name] = glyphs
+    classes = {}
+    for class_ in right_classes.keys():
+        if class_ in left_classes.keys():
+            if not right_classes[class_] == left_classes[class_]:
+                class_name = '_%s1' % class_.split('_')[-1]
+                classes[class_name] = right_classes[class_]
+        else:
+            class_name = '_%s' % class_.split('_')[-1]
+            classes[class_name] = right_classes[class_]
+    for class_ in left_classes.keys():
+        class_name = '_%s' % class_.split('_')[-1]
+        classes[class_name] = left_classes[class_]
+    classes_txt = ''
+    for class_ in sorted(classes.keys()):
+        classes_txt += '@%s = [%s];\n' % (class_, ' '.join(classes[class_]))
+    return classes_txt
+
 
 #-----------
 # font info
