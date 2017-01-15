@@ -29,7 +29,7 @@ def auto_unicode(g, custom_unicodes={}):
     if g.name is not None:
 
         # handle 'uni' names
-        if g.name[:3] == "uni" and len(g.name) == 7:
+        if g.name[:3] == "uni" and len(g.name) in [7, 8]:
             c = g.name
             g.unicode = int(c.split('uni')[1], 16)
 
@@ -206,6 +206,7 @@ unicodes_extra = {
 
     # symbols etc
     'bulletoperator'        : '2219',
+    'florin'                : '0192',
 
 }
 
@@ -562,7 +563,7 @@ unicode2psnames = {
     913 : 'Alpha',
     914 : 'Beta',
     915 : 'Gamma',
-    916 : 'Delta',
+    # 916 : 'Delta',
     917 : 'Epsilon',
     918 : 'Zeta',
     919 : 'Eta',

@@ -45,22 +45,24 @@ def generate_webfont(otf_path, strip_names=False, woff=True, woff_path=None, wof
         ttx2otf(ttx_path, otf_path_tmp)
         if clear_ttx:
             os.remove(ttx_path)
+        otf_path = otf_path_tmp
 
     # generate woff
     if woff:
         if woff_path is None:
             woff_path = '%s.woff' % file_name
-        sfnt2woff(otf_path_tmp, woff_path)
+        sfnt2woff(otf_path, woff_path)
 
     # generate woff2
     if woff2:
         if woff_path is None:
             woff2_path = '%s.woff2' % file_name
-        woff2_compress(otf_path_tmp, woff2_path)
+        woff2_compress(otf_path, woff2_path)
 
-    # clear temporary ttx file
-    if clear_otf_tmp:
-        os.remove(otf_path_tmp)
+    # clear temporary otf file
+    if clear_otf_tmp and strip_names:
+        print otf_path
+        # os.remove(otf_path_tmp)
 
 def subset_font(src_path, dst_path, enc_path, remove_features=True, remove_kerning=False, remove_hinting=False, strip_names=False, verbose=False):
     '''

@@ -196,15 +196,3 @@ def check_languages_coverage(glyph_names, n=50):
 # constants
 
 diacritics_glyphnames = convert_chars_to_glyphnames(diacritics_chars)
-
-# test
-
-if __name__ == '__main__':
-
-    from robofab.world import RFont
-    f1 = u"/_fonts/_Calligraphica/_ufos/Calligraphica_08.ufo"
-    f2 = u"/_fonts/_Gothica/_ufos/Gothica_Sans-15-2.ufo"
-    f3 = u"/_fonts/_Imperial/_ufos/Imperial_Sans-18-2-3.ufo"
-    font = RFont(f3)
-    # check_language_coverage('portuguese', font.keys())
-    check_languages_coverage(font.keys())

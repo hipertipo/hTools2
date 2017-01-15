@@ -2,8 +2,8 @@
 
 '''Tools to work with encoding files, character sets etc.'''
 
-# import hTools2.modules.unicode
-# reload(hTools2.modules.unicode)
+import hTools2.modules.unicode
+reload(hTools2.modules.unicode)
 
 import os
 
@@ -241,10 +241,13 @@ def psname2char(glyph_name):
     '''
     if psnames2unicodes.has_key(glyph_name):
         uni = psnames2unicodes[glyph_name]
+
     elif unicodes_extra.has_key(glyph_name):
         uni = unicodes_extra[glyph_name]
+
     elif glyph_name.startswith('uni'):
         uni = glyph_name[3:]
+
     else:
         uni = None
 
