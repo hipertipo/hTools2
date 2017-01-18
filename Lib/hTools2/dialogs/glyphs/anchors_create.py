@@ -4,12 +4,7 @@
 
 # import
 
-try:
-    from mojo.roboFont import CurrentFont
-
-except ImportError:
-    from robofab.world import CurrentFont
-
+from mojo.roboFont import CurrentFont
 import vanilla
 
 from hTools2 import hDialog

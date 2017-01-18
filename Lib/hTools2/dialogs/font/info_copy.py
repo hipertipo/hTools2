@@ -2,14 +2,9 @@
 
 # imports
 
+from mojo.roboFont import AllFonts
+from mojo.events import addObserver, removeObserver
 from vanilla import *
-
-try:
-    from mojo.roboFont import AllFonts
-    from mojo.events import addObserver, removeObserver
-
-except ImportError:
-    from robofab.world import AllFonts
 
 from hTools2 import hDialog
 from hTools2.modules.fontutils import get_full_name
@@ -35,7 +30,7 @@ class copyFontInfoDialog(hDialog):
 
     #: Copy (or not) the general identification attributes.
     general_identification = True
-    
+
     #: A list of general identification attribute names.
     general_identification_attrs = [
         'familyName',
@@ -62,7 +57,7 @@ class copyFontInfoDialog(hDialog):
 
     #: Copy (or not) the general legal attributes.
     general_legal = True
-    
+
     #: A list of general legal attribute names.
     general_legal_attrs = [
         'copyright',
@@ -178,7 +173,7 @@ class copyFontInfoDialog(hDialog):
         # observers
         addObserver(self, "update_callback", "fontDidOpen")
         addObserver(self, "update_callback", "fontDidClose")
-        # open window 
+        # open window
         self.w.open()
         self.get_fonts()
 
@@ -192,7 +187,7 @@ class copyFontInfoDialog(hDialog):
         source_font = self.all_fonts[source_font_index]
         source_font_name = self.all_fonts_names[source_font_index]
         # dest font
-        dest_font_index = self.w.dest_value.get()            
+        dest_font_index = self.w.dest_value.get()
         dest_font = self.all_fonts[dest_font_index]
         dest_font_name = self.all_fonts_names[dest_font_index]
         # options

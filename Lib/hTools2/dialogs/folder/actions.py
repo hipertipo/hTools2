@@ -2,12 +2,7 @@
 
 # imports
 
-try:
-    from mojo.roboFont import RFont
-
-except ImportError:
-    from robofab.world import RFont
-
+from mojo.roboFont import RFont
 from vanilla import *
 from vanilla.dialogs import getFolder
 

@@ -2,15 +2,10 @@
 
 # imports
 
+from mojo.roboFont import AllFonts, CurrentFont, CurrentGlyph
+from mojo.UI import CurrentGlyphWindow, OpenGlyphWindow
+from mojo.events import addObserver, removeObserver
 from vanilla import *
-
-try:
-    from mojo.roboFont import AllFonts, CurrentFont, CurrentGlyph
-    from mojo.UI import CurrentGlyphWindow, OpenGlyphWindow
-    from mojo.events import addObserver, removeObserver
-
-except ImportError:
-    from robofab.world import AllFonts, CurrentFont, CurrentGlyph
 
 from hTools2 import hDialog
 from hTools2.modules.fontutils import get_full_name, get_glyphs

@@ -2,14 +2,9 @@
 
 # import
 
-try:
-    from mojo.roboFont import AllFonts
-
-except ImportError:
-    from robofab.world import AllFonts
-
 import os
 
+from mojo.roboFont import AllFonts
 from vanilla import *
 from vanilla.dialogs import getFolder
 

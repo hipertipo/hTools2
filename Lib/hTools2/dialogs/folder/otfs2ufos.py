@@ -4,12 +4,7 @@
 
 import os
 
-try:
-    from mojo.roboFont import OpenFont
-
-except ImportError:
-    from robofab.world import OpenFont
-
+from mojo.roboFont import OpenFont
 from vanilla import *
 from vanilla.dialogs import getFolder
 

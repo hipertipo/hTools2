@@ -2,12 +2,7 @@
 
 # import
 
-try:
-    from mojo.roboFont import AllFonts
-
-except ImportError:
-    from robofab.world import AllFonts
-
+from mojo.roboFont import AllFonts
 from vanilla import *
 
 from hTools2 import hDialog

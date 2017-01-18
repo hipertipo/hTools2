@@ -3,13 +3,8 @@
 # import
 
 from vanilla import *
-
-try:
-    from mojo.roboFont import CurrentFont
-    from mojo.events import addObserver, removeObserver
-
-except ImportError:
-    from robofab.world import CurrentFont
+from mojo.roboFont import CurrentFont
+from mojo.events import addObserver, removeObserver
 
 from hTools2 import hDialog
 from hTools2.modules.messages import no_font_open

@@ -2,13 +2,8 @@
 
 # imports
 
-try:
-    from mojo.roboFont import AllFonts
-    from mojo.events import addObserver, removeObserver
-
-except ImportError:
-    from robofab.world import AllFonts
-
+from mojo.roboFont import AllFonts
+from mojo.events import addObserver, removeObserver
 from vanilla import *
 
 from hTools2 import hDialog

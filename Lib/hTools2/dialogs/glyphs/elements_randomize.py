@@ -11,11 +11,7 @@ reload(hTools2.dialogs.misc)
 # imports
 
 from vanilla import *
-
-try:
-    from mojo.roboFont import CurrentFont
-except:
-    from robofab.world import CurrentFont
+from mojo.roboFont import CurrentFont
 
 from hTools2 import hDialog
 from hTools2.dialogs.misc import Spinner

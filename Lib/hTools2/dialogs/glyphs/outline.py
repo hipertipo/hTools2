@@ -8,12 +8,7 @@ reload(hTools2.dialogs.misc)
 
 # imports
 
-try:
-    from mojo.roboFont import CurrentFont
-
-except ImportError:
-    from robofab.world import CurrentFont
-
+from mojo.roboFont import CurrentFont
 from vanilla import *
 
 from hTools2 import hDialog

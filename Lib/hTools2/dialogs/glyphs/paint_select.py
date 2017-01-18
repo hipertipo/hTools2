@@ -2,15 +2,9 @@
 
 # imports
 
-try:
-    from mojo.roboFont import CurrentFont, CurrentGlyph
-
-except ImportError:
-    from robofab.world import CurrentFont, CurrentGlyph
-
-from AppKit import NSColor
-
+from mojo.roboFont import CurrentFont, CurrentGlyph
 from vanilla import *
+from AppKit import NSColor
 
 from hTools2 import hDialog
 from hTools2.modules.color import random_color, clear_color
