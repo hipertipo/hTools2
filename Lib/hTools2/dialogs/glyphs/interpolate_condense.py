@@ -1,11 +1,8 @@
 # [h] condense glyphs by interpolating Regular and Bold
 
-# imports
-
 from mojo.roboFont import AllFonts
 from mojo.events import addObserver, removeObserver
 from vanilla import *
-
 from hTools2 import hDialog
 from hTools2.dialogs.misc import Spinner
 from hTools2.modules.interpol import condense_glyphs
@@ -22,9 +19,6 @@ class condenseGlyphsDialog(hDialog):
     """
 
     # attributes
-
-    #: A list of all open fonts.
-    # all_fonts = []
 
     #: A list with names of all open fonts.
     all_fonts = []

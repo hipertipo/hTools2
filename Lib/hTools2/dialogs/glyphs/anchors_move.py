@@ -1,7 +1,5 @@
 # [h] move anchors in selected glyphs
 
-# imports
-
 from mojo.roboFont import CurrentFont
 from vanilla import *
 

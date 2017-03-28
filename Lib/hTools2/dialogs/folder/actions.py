@@ -122,7 +122,7 @@ class actionsFolderDialog(hDialog):
                     (x, y,
                     -self.padding_x,
                     self.text_height),
-                    "save .ufo",
+                    "save ufo",
                     callback=self.save_callback,
                     value=self.save,
                     sizeStyle=self.size_style)

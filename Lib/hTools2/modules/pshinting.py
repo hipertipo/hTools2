@@ -10,34 +10,36 @@ def get_vstems(font, glyphs=['l', 'I']):
     ref_y = font.info.xHeight / 2.0
     stems = []
     for glyph_name in glyphs:
-        g = font[glyph_name]
-        # get margins
-        pen = MarginPen(g, ref_y, isHorizontal=True)
-        g.draw(pen)
-        # calculate stem from margins
-        try:
-            left_edge, right_edge = pen.getMargins()
-            stem = int(right_edge - left_edge)
-            stems.append(stem)
-        except:
-            pass # glyph is empty
+        if font.has_key(glyph_name):
+            g = font[glyph_name]
+            # get margins
+            pen = MarginPen(g, ref_y, isHorizontal=True)
+            g.draw(pen)
+            # calculate stem from margins
+            try:
+                left_edge, right_edge = pen.getMargins()
+                stem = int(right_edge - left_edge)
+                stems.append(stem)
+            except:
+                pass # glyph is empty
     return stems
 
 def get_hstems(font, glyphs=['H']):
     stems = []
     for glyph_name in glyphs:
-        g = font[glyph_name]
-        ref_x = g.width / 2.0
-        # get margins
-        pen = MarginPen(g, ref_x, isHorizontal=False)
-        g.draw(pen)
-        # calculate stem from margins
-        try:
-            bottom_edge, top_edge = pen.getMargins()
-            stem = int(top_edge - bottom_edge)
-            stems.append(stem)
-        except:
-            pass # glyph is empty
+        if font.has_key(glyph_name):
+            g = font[glyph_name]
+            ref_x = g.width / 2.0
+            # get margins
+            pen = MarginPen(g, ref_x, isHorizontal=False)
+            g.draw(pen)
+            # calculate stem from margins
+            try:
+                bottom_edge, top_edge = pen.getMargins()
+                stem = int(top_edge - bottom_edge)
+                stems.append(stem)
+            except:
+                pass # glyph is empty
     return stems
 
 def set_vstems(font, stems):

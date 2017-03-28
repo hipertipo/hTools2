@@ -371,7 +371,6 @@ def convert_groups_to_classes(src_ufo):
         classes_txt += '@%s = [%s];\n' % (class_, ' '.join(classes[class_]))
     return classes_txt
 
-
 #-----------
 # font info
 #-----------
@@ -479,9 +478,18 @@ def print_guides(font):
         print '%s x:%s y:%s' % (guide.name, guide.x, guide.y)
     print
 
-#-----------
-# transform
-#-----------
+#--------
+# layers
+#--------
+
+def clear_layers(font):
+    while len(font.layerOrder) > 0:
+        font.removeLayer(font.layerOrder[0])
+        font.update()
+
+#-----------------
+# transformations
+#-----------------
 
 def decompose(font):
     """
