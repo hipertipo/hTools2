@@ -1,13 +1,9 @@
 # [h] woffs -> ufos
 
-# imports
-
 import os
-
 from mojo.roboFont import OpenFont
 from vanilla import *
 from vanilla.dialogs import getFolder
-
 from hTools2 import hDialog
 from hTools2.modules.fileutils import walk
 from hTools2.modules.messages import no_font_in_folder
@@ -16,11 +12,11 @@ from hTools2.modules.messages import no_font_in_folder
 
 class WOFFsToUFOsDialog(hDialog):
 
-    """A dialog to generate ``.ufos`` for all ``.woffs`` in a folder.
+    '''A dialog to generate ``.ufos`` for all ``.woffs`` in a folder.
 
     .. image:: imgs/folder/woffs2ufos.png
 
-    """
+    '''
 
     # attributes
 
@@ -100,7 +96,7 @@ class WOFFsToUFOsDialog(hDialog):
                 self.w.bar.start()
                 for woff_path in _woffs_paths:
                     print '\tcreating ufo from %s...' % os.path.split(woff_path)[1]
-                    woff = OpenFont(woff_path, showUI=True) # does not work without UI
+                    woff = OpenFont(woff_path, showInterface=True) # does not work without UI
                     ufo_file = os.path.splitext(os.path.split(woff_path)[1])[0] + '.ufo'
                     ufo_path = os.path.join(self.ufos_folder, ufo_file)
                     woff.save(ufo_path)

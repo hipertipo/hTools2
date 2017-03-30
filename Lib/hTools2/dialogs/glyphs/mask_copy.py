@@ -1,11 +1,8 @@
 # [h] copy foreground to background layer
 
-# imports
-
 from mojo.roboFont import AllFonts
 from mojo.events import addObserver, removeObserver
 from vanilla import *
-
 from hTools2 import hDialog
 from hTools2.modules.fontutils import get_full_name, get_glyphs
 from hTools2.modules.messages import no_font_open, no_glyph_selected
@@ -14,11 +11,11 @@ from hTools2.modules.messages import no_font_open, no_glyph_selected
 
 class copyToMaskDialog(hDialog):
 
-    """A dialog to transfer the foreground layer of the selected glyphs in the current font to the mask layer of the same glyphs of another font.
+    '''A dialog to transfer the foreground layer of the selected glyphs in the current font to the mask layer of the same glyphs of another font.
 
     .. image:: imgs/glyphs/mask-copy.png
 
-    """
+    '''
 
     # attributes
 
@@ -32,7 +29,7 @@ class copyToMaskDialog(hDialog):
         # window
         self.title = 'layers'
         self.width = 123
-        self.height = (self.text_height * 4) + (self.button_height * 1) + (self.padding_y * 4) #- 2
+        self.height = (self.text_height * 4) + (self.button_height * 1) + (self.padding_y * 4)
         self.w = FloatingWindow((self.width, self.height), self.title)
         # source label
         x = self.padding_x

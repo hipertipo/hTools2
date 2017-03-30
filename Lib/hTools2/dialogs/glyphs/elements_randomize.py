@@ -1,18 +1,7 @@
 # [h] randomize elements in selected glyphs
 
-# debug
-
-import hTools2.modules.rasterizer
-reload(hTools2.modules.rasterizer)
-
-import hTools2.dialogs.misc
-reload(hTools2.dialogs.misc)
-
-# imports
-
 from vanilla import *
 from mojo.roboFont import CurrentFont
-
 from hTools2 import hDialog
 from hTools2.dialogs.misc import Spinner
 from hTools2.modules.rasterizer import RasterGlyph, get_esize, randomize_elements
@@ -22,12 +11,11 @@ from hTools2.modules.messages import no_glyph_selected, no_font_open
 
 class randomizeElementsDialog(hDialog):
 
-    """A dialog to randomize the size of element components in selected glyphs.
+    '''A dialog to randomize the size of element components in selected glyphs.
 
     .. image:: imgs/glyphs/elements-randomize.png
 
-    """
-
+    '''
 
     # attributes
 

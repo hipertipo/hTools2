@@ -3,9 +3,7 @@
 
 # [h] dialogs.glyphs
 
-"""A collection of dialogs to do things to the selected glyphs of one or more fonts."""
-
-# import
+'''A collection of dialogs to do things to the selected glyphs of one or more fonts.'''
 
 from actions import glyphActionsDialog
 from anchors_move import moveAnchorsDialog
@@ -36,8 +34,6 @@ from skew import skewGlyphsDialog
 from slide import slideGlyphsDialog
 from width_copy import copyWidthsDialog
 from width_set import setWidthDialog
-
-# export
 
 __all__ = [
     'glyphActionsDialog',

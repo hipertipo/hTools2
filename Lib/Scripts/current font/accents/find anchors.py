@@ -1,16 +1,10 @@
 # [h] mark glyphs with anchors
 
-# imports
-
 from hTools2.modules.color import random_color
 from hTools2.modules.fontutils import clear_colors
 from hTools2.modules.messages import no_font_open
 
-# options
-
 clear = False
-
-# run!
 
 f = CurrentFont()
 

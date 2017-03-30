@@ -1,12 +1,9 @@
 # [h] center layers in selected glyphs
 
-### this dialog is buggy and needs to be deprecated or rewritten ###
-
-# imports
+### DEPRECATED ###
 
 from mojo.roboFont import CurrentFont, CurrentGlyph
 from vanilla import *
-
 from hTools2 import hDialog
 from hTools2.modules.fontutils import get_glyphs
 from hTools2.modules.glyphutils import center_glyph_layers
@@ -16,7 +13,7 @@ from hTools2.modules.messages import no_glyph_selected, no_font_open, no_layer_s
 
 class alignLayersDialog(hDialog):
 
-    """A dialog to center all layers in the selected glyphs."""
+    '''A dialog to center all layers in the selected glyphs.'''
 
     # attributes
 

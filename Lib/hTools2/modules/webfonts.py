@@ -14,19 +14,13 @@ Some functions in this module require external C libraries:
 
 import os
 import shutil
-
 from base64 import b64encode
-
+from mojo.roboFont import OpenFont
+from mojo.compile import executeCommand, hasTTFAutoHint
+from lib.tools.bezierTools import curveConverter
 from hTools2.modules.ttx import otf2ttx, ttx2otf
 from hTools2.modules.ttx import strip_names as ttx_strip_names
 from hTools2.modules.sysutils import SuppressPrint
-
-try:
-    from mojo.roboFont import OpenFont
-    from mojo.compile import executeCommand, hasTTFAutoHint
-    from lib.tools.bezierTools import curveConverter
-except:
-    from robofab.world import OpenFont
 
 #--------------------
 # higher-level tools
@@ -65,10 +59,7 @@ def generate_webfont(otf_path, strip_names=False, woff=True, woff_path=None, wof
         # os.remove(otf_path_tmp)
 
 def subset_font(src_path, dst_path, enc_path, remove_features=True, remove_kerning=False, remove_hinting=False, strip_names=False, verbose=False):
-    '''
-    Generate a subsetted copy of an .otf or .ttf font.
-
-    '''
+    '''Generate a subsetted copy of an .otf or .ttf font.'''
     from fontTools import subset
 
     # build subsetting command
@@ -149,7 +140,7 @@ def otf2ttf(otf_path, ttf_path):
     Requires RoboFont.
 
     '''
-    otf_font = OpenFont(otf_path, showUI=False)
+    otf_font = OpenFont(otf_path, showInterface=False)
     ### is this curve conversion really necessary?
     ### some scripts do just `font.generate('myfont.ttf', 'ttf')`
     coreFont = otf_font.naked()
@@ -204,10 +195,7 @@ def ttf2eot(ttf_path, eot_path):
     return os.path.exists(eot_path)
 
 def generate_eots(folder_ttfs, folder_eots):
-    '''
-    Make .eot font files from all .ttf fonts in a given folder. Save the generated fonts in another folder.
-
-    '''
+    '''Make .eot font files from all .ttf fonts in a given folder. Save the generated fonts in another folder.'''
     for file_ in os.listdir(folder_ttfs):
         file_name, extension = os.path.splitext(file_)
         if extension == '.ttf':
@@ -219,11 +207,10 @@ def generate_eots(folder_ttfs, folder_eots):
 # SVG tools
 #-----------
 
-from ufo2svg import convertUFOToSVGFont
-from defcon import Font
-from extractor import extractUFO
-
 def generate_svg(src_path, svg_path):
+    from ufo2svg import convertUFOToSVGFont
+    from defcon import Font
+    from extractor import extractUFO
     font = Font()
     try:
         extractUFO(src_path, font)
@@ -236,19 +223,13 @@ def generate_svg(src_path, svg_path):
 #--------------
 
 def encode_base64(font_path):
-    '''
-    Convert a font at a given path to base64 encoding.
-
-    '''
+    '''Convert a font at a given path to base64 encoding.'''
     font_file = open(font_path,'rb').read()
     font_base64 = b64encode(font_file)
     return font_base64
 
 def make_base64_fontface_woff(font_name, base64_font):
-    '''
-    Generate a CSS ``@font-face`` declaration for a base64-encoded font with a given name.
-
-    '''
+    '''Generate a CSS ``@font-face`` declaration for a base64-encoded font with a given name.'''
     font_face = '''@font-face { font-family: '%s'; src:url(data:application/x-font-woff;charset=utf-8;base64,%s) format('woff') }''' % (font_name, base64_font)
     return font_face
 

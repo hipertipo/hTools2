@@ -1,15 +1,9 @@
 # [h] create anchors
 
-"""Create `top` and `bottom` anchors in selected glyphs."""
-
-import hTools2.modules.anchors
-reload(hTools2.modules.anchors)
-
-# import
+'''Create `top` and `bottom` anchors in selected glyphs.'''
 
 from mojo.roboFont import CurrentFont
 from vanilla import *
-
 from hTools2 import hDialog
 from hTools2.dialogs.misc import Spinner
 from hTools2.modules.fontutils import get_glyphs
@@ -28,7 +22,6 @@ class createAnchorsDialog(hDialog):
 
     def __init__(self):
         self.title = "anchors"
-        # self.height = 300
         self.height = self.nudge_button*2 + self.text_height*9 + self.padding*6 + self.button_height
         # create window
         self.w = FloatingWindow((self.width, self.height), self.title)
@@ -98,12 +91,12 @@ class createAnchorsDialog(hDialog):
 
         if f is not None:
 
-            _top          = self.w.top.get()
-            _bottom       = self.w.bottom.get()
-            _top_pos      = int(self.w.spinner_top.value.get())
-            _bottom_pos   = int(self.w.spinner_bottom.value.get())
-            _accent       = self.w.accent.get()
-            _clear        = self.w.clear.get()
+            _top        = self.w.top.get()
+            _bottom     = self.w.bottom.get()
+            _top_pos    = int(self.w.spinner_top.value.get())
+            _bottom_pos = int(self.w.spinner_bottom.value.get())
+            _accent     = self.w.accent.get()
+            _clear      = self.w.clear.get()
 
             print _top_delta, type(_top_delta)
             print _bottom_delta, type(_bottom_delta)

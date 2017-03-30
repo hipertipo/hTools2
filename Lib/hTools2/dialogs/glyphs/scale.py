@@ -1,10 +1,7 @@
 # [h] scale selected glyphs
 
-# imports
-
 from mojo.roboFont import CurrentFont, CurrentGlyph
 from vanilla import *
-
 from hTools2 import hDialog
 from hTools2.dialogs.misc import Spinner
 from hTools2.modules.fontutils import get_glyphs
@@ -14,11 +11,11 @@ from hTools2.modules.messages import no_glyph_selected, no_font_open
 
 class scaleGlyphsDialog(hDialog):
 
-    """A dialog to scale the selected glyphs in a font.
+    '''A dialog to scale the selected glyphs in a font.
 
     .. image:: imgs/glyphs/scale.png
 
-    """
+    '''
 
     # attributes
 

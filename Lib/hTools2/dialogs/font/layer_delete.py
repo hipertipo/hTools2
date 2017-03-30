@@ -1,11 +1,8 @@
 # [h] dialog to delete layers in font
 
-# import
-
 from vanilla import *
 from mojo.roboFont import CurrentFont
 from mojo.events import addObserver, removeObserver
-
 from hTools2 import hDialog
 from hTools2.modules.messages import no_font_open
 
@@ -13,11 +10,11 @@ from hTools2.modules.messages import no_font_open
 
 class deleteLayerDialog(hDialog):
 
-    """A dialog to delete a layer in a font.
+    '''A dialog to delete a layer in a font.
 
     .. image:: imgs/font/delete-layer.png
 
-    """
+    '''
 
     # attributes
 

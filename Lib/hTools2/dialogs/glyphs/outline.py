@@ -1,16 +1,7 @@
 # [h] glyph outliner
 
-import hTools2.modules.outline
-reload(hTools2.modules.outline)
-
-import hTools2.dialogs.misc
-reload(hTools2.dialogs.misc)
-
-# imports
-
 from mojo.roboFont import CurrentFont
 from vanilla import *
-
 from hTools2 import hDialog
 from hTools2.modules.fontutils import get_glyphs
 from hTools2.modules.outline import expand
@@ -21,11 +12,11 @@ from hTools2.modules.messages import no_glyph_selected, no_font_open, no_layer_s
 
 class outlineGlyphsDialog(hDialog):
 
-    """A dialog to apply a contour offset to selected glyphs.
+    '''A dialog to apply a contour offset to selected glyphs.
 
     .. image:: imgs/glyphs/outline.png
 
-    """
+    '''
 
     # attributes
 

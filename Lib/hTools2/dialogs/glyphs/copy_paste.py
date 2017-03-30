@@ -1,11 +1,8 @@
 # [h] selectively copy-and-paste data from one glyph to others
 
-# imports
-
 from mojo.roboFont import CurrentFont, CurrentGlyph
 from mojo.events import addObserver, removeObserver
 from vanilla import *
-
 from hTools2 import hDialog
 from hTools2.modules.fontutils import get_glyphs
 from hTools2.modules.anchors import transfer_anchors
@@ -15,15 +12,15 @@ from hTools2.modules.messages import no_glyph_selected, no_font_open
 
 class copyPasteGlyphDialog(hDialog):
 
-    """A dialog to copy and paste glyphs, with a few special options.
+    '''A dialog to copy and paste glyphs, with a few special options.
 
     .. image:: imgs/glyphs/copy-paste.png
 
-    """
+    '''
 
     # attributes
 
-    source_font = None
+    source_font  = None
     source_glyph = None
 
     # methods

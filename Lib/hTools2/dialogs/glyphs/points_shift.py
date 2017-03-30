@@ -1,10 +1,7 @@
 # [h] shift points in selected glyphs
 
-# imports
-
 from mojo.roboFont import CurrentFont
 from vanilla import *
-
 from hTools2 import hDialog
 from hTools2.dialogs.misc import Spinner
 from hTools2.modules.fontutils import get_glyphs
@@ -15,11 +12,11 @@ from hTools2.modules.messages import no_font_open, no_glyph_selected
 
 class shiftPointsDialog(hDialog):
 
-    """A dialog to select and shift points in the selected glyphs in a font.
+    '''A dialog to select and shift points in the selected glyphs in a font.
 
     .. image:: imgs/glyphs/points-shift.png
 
-    """
+    '''
 
     # attributes
 

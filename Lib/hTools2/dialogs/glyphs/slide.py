@@ -1,10 +1,7 @@
 # [h] slide selected glyphs
 
-# imports
-
 from mojo.roboFont import CurrentFont, CurrentGlyph
 from vanilla import *
-
 from hTools2 import hDialog
 from hTools2.modules.fontutils import get_full_name, get_glyphs
 from hTools2.modules.messages import no_font_open, no_glyph_selected
@@ -13,11 +10,11 @@ from hTools2.modules.messages import no_font_open, no_glyph_selected
 
 class slideGlyphsDialog(hDialog):
 
-    """A dialog to slide the selected glyphs vertically and/or horizontally.
+    '''A dialog to slide the selected glyphs vertically and/or horizontally.
 
     .. image:: imgs/glyphs/slide.png
 
-    """
+    '''
 
     # attributes
 

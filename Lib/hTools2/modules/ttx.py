@@ -1,27 +1,20 @@
 # [h] hTools2.modules.ttx
 
-# imports
-
 import os
 import time
-
 from fontTools.ttLib import TTFont
-
-import hTools2.modules.sysutils
-reload(hTools2.modules.sysutils)
-
 from hTools2.modules.sysutils import SuppressPrint
 from hTools2.extras.ElementTree import parse
 
 # functions
 
 def ttx2otf(ttx_path, otf_path=None):
-    """Generate an .otf font from a .ttx file.
+    '''Generate an .otf font from a .ttx file.
 
-    ttx_path: Path of the .ttx font source.
-    otf_path: Path of the target .otf font.
+    **ttx_path** Path of the .ttx font source.
+    **otf_path** Path of the target .otf font.
 
-    """
+    '''
     # make otf path
     if not otf_path:
         otf_path = '%s.otf' % os.path.splitext(ttx_path)[0]
@@ -33,12 +26,12 @@ def ttx2otf(ttx_path, otf_path=None):
         tt.save(otf_path)
 
 def otf2ttx(otf_path, ttx_path=None):
-    """Generate a .ttx font from an .otf file.
+    '''Generate a .ttx font from an .otf file.
 
-    otf_path: Path of the .otf font source.
-    ttx_path: Path of the target .ttx font.
+    **otf_path** Path of the .otf font source.
+    **ttx_path** Path of the target .ttx font.
 
-    """
+    '''
     # make ttx path
     if not ttx_path:
         ttx_path = '%s.ttx' % os.path.splitext(otf_path)[0]
@@ -49,11 +42,11 @@ def otf2ttx(otf_path, ttx_path=None):
         tt.saveXML(ttx_path)
 
 def strip_names(ttx_path):
-    """Clear several nameIDs to prevent the font from being installable on desktop OSs.
+    '''Clear several nameIDs to prevent the font from being installable on desktop OSs.
 
-    ttx_path: Path of the .ttx font to be modified.
+    **ttx_path** Path of the .ttx font to be modified.
 
-    """
+    '''
     # nameIDs which will be erased
     nameIDs = [1, 2, 4, 16, 17, 18]
     tree = parse(ttx_path)
@@ -127,7 +120,7 @@ def add_DSIG_table(otf_path):
         tt_font.save(otf_path)
 
 def extract_tables(otf_path, dest_folder, table_names=['name'], split=True):
-    """Extract font tables from an OpenType font as .ttx."""
+    '''Extract font tables from an OpenType font as .ttx.'''
     ttfont = TTFont(otf_path)
     info_file = os.path.splitext(os.path.split(otf_path)[1])[0]
     info_path = os.path.join(dest_folder, '%s.ttx' % info_file)
@@ -142,7 +135,6 @@ def find_and_replace_otf(otf_path, dest_path, find_string, replace_string, table
 
 def find_and_replace_ttx(ttx_path, find_string, replace_string, tables=['name']):
     count = 0
-
     # 1. modify 'name' table
     if 'name' in tables:
         tree  = parse(ttx_path)
@@ -153,7 +145,6 @@ def find_and_replace_ttx(ttx_path, find_string, replace_string, tables=['name'])
                 child.text = new_text
                 count += 1
         tree.write(ttx_path)
-
     # 2. modify 'CFF ' table
     if 'CFF ' in tables:
         CFF_elements = ['version', 'Notice', 'Copyright', 'FullName', 'FamilyName', 'Weight']
@@ -167,6 +158,5 @@ def find_and_replace_ttx(ttx_path, find_string, replace_string, tables=['name'])
                 setattr(font_dict, element, new_text)
                 count += 1
         tt_font.saveXML(ttx_path)
-
     # done
     return count

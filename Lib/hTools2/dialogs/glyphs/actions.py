@@ -1,10 +1,7 @@
 # [h] apply actions to selected glyphs
 
-# imports
-
 from mojo.roboFont import CurrentFont
 from vanilla import *
-
 from hTools2 import hDialog
 from hTools2.modules.fontutils import get_glyphs
 from hTools2.modules.messages import no_glyph_selected, no_font_open
@@ -13,25 +10,25 @@ from hTools2.modules.messages import no_glyph_selected, no_font_open
 
 class glyphActionsDialog(hDialog):
 
-    """A dialog to apply actions to one or more layers in the selected glyphs.
+    '''A dialog to apply actions to one or more layers in the selected glyphs.
 
     .. image:: imgs/glyphs/actions.png
 
-    """
+    '''
 
     # attributes
 
     actions = {
-        'clear outlines' : False,
-        'round points' : False,
-        'decompose' : False,
+        'clear outlines'    : False,
+        'round points'      : False,
+        'decompose'         : False,
         'delete components' : False,
-        'order contours' : False,
-        'auto direction' : False,
-        'auto start point' : False,
-        'remove overlaps' : False,
-        'add extremes' : False,
-        'all layers' : False,
+        'order contours'    : False,
+        'auto direction'    : False,
+        'auto start point'  : False,
+        'remove overlaps'   : False,
+        'add extremes'      : False,
+        'all layers'        : False,
     }
 
     glyph_names = []

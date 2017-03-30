@@ -1,6 +1,6 @@
 # [h] hTools2.modules.outline
 
-"""A simple wrapper for Frederik Berlaen's outliner code."""
+'''A simple wrapper for Frederik Berlaen's outliner code.'''
 
 from hTools2.extras.outline import *
 from mojo.roboFont import NewFont
@@ -18,10 +18,7 @@ def make_outline(glyph, distance, join, cap, inner=True, outer=True, miter=None)
     return pen
 
 def expand_glyph(src_glyph, dst_glyph, distance, join=1, cap=1, inner=True, outer=True, miter=None, round=False, clear_dest=True):
-    '''
-    Expand a glyph's outlines by a given amount of units.
-
-    '''
+    '''Expand a glyph's outlines by a given amount of units.'''
     # set undo
     dst_glyph.prepareUndo("expand strokes")
     # calculate outline shape
@@ -42,7 +39,7 @@ expand = expand_glyph
 def expand_font(src_font, distance, join=1, cap=1):
     '''Expand outlines for all glyphs in font.'''
     # create a new empty font
-    dst_font = NewFont(showUI=False)
+    dst_font = NewFont(showInterface=False)
     # expand all glyph
     for glyph_name in src_font.keys():
         # get source glyph

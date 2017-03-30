@@ -2,24 +2,14 @@
 
 '''Tools to work with encoding files, character sets etc.'''
 
-import hTools2.modules.unicode
-reload(hTools2.modules.unicode)
-
 import os
-
-try:
-    from mojo.roboFont import CurrentFont, OpenFont
-except ImportError:
-    from robofab.world import CurrentFont, OpenFont
-
+from fontParts.nonelab import RFont
 from hTools2.modules.unicode import *
 from hTools2.modules.color import clear_colors, hls_to_rgb
 
 def import_encoding(file_path):
     '''
     Import glyph names from an encoding file.
-
-    file_path: The path to the encoding file.
 
     Returns a list of glyph names, or ``None`` if the file does not exist.
 
@@ -39,61 +29,24 @@ def extract_encoding(ufo_path, enc_path=None):
     Extract encoding data from an ufo's glyphOrder attribute.
 
     '''
-    # get glyph names from ufo
-    try:
-        ufo = OpenFont(ufo_path, showUI=False)
-    except:
-        ufo = OpenFont(ufo_path)
+    ufo = RFont(ufo_path)
     enc = ''
     for glyph_name in ufo.glyphOrder:
         enc += '%s\n' % glyph_name
     ufo.close()
-
     # save to .enc file
     if enc_path is not None:
         enc_file = open(enc_path, 'w')
         enc_file.write(enc)
         enc_file.close()
-
     # done
     return enc
-
-# def import_groups_from_encoding_OLD(file_path):
-#     '''
-#     Import group and glyphs names from an encoding file.
-
-#     file_path: The path to the encoding file.
-
-#     Returns a dictionary of groups (keys) and glyph names (values), and a list with the order of the groups; or ``None`` if the file does not exist.
-
-#     '''
-#     if os.path.exists(file_path):
-#         lines = open(file_path, 'r').readlines()
-#         groups = {}
-#         order = []
-#         count = 0
-#         for line in lines:
-#             if count == 0:
-#                 pass
-#             elif line[:1] == '%':
-#                 if line[1:2] != '_':
-#                     group_name = line[18:-1]
-#                     if len(group_name) > 0:
-#                         groups[group_name] = []
-#                         order.append(group_name)
-#             else:
-#                 glyph_name = line[:-1]
-#                 groups[group_name].append(glyph_name)
-#             count = count + 1
-#         return groups, order
-#     else:
-#         print 'Error, the file %s does not exist.' % file_path
 
 def import_groups_from_encoding(enc_path):
     '''
     Import groups and glyph names from a structured encoding file.
 
-    Returns an OrderedDict with group names (keys) and glyph names (values).
+    Returns an ``OrderedDict`` with group names (keys) and glyph names (values).
 
     '''
     if os.path.exists(enc_path):
@@ -113,18 +66,6 @@ def import_groups_from_encoding(enc_path):
                 groups[group_name].append(glyph_name)
             count = count + 1
         return groups
-
-# def set_glyph_order_OLD(font, encoding_path, verbose=False):
-#     glyph_names = import_encoding(encoding_path)
-#     glyph_order = []
-#     for glyph_name in glyph_names:
-#         if glyph_name in font.keys():
-#             glyph_order.append(glyph_name)
-#         else:
-#             if verbose:
-#                 print '%s not in font' % glyph_name
-#     font.glyphOrder = glyph_order
-#     font.update()
 
 def set_glyph_order(font, enc_path, verbose=False, create_templates=True, create_glyphs=False):
     if verbose:
@@ -212,10 +153,7 @@ def all_glyphs(groups_dict):
     return glyphs
 
 def char2psname(char):
-    '''
-    Get the PostScript glyph name for a given unicode character.
-
-    '''
+    '''Get the PostScript name for a given unicode character.'''
     try:
         glyphname = unicode2psnames[ord(char)]
     except:
@@ -223,10 +161,7 @@ def char2psname(char):
     return glyphname
 
 def chars2psnames(char_list):
-    '''
-    Get a list of PostScript glyph names for a list of unicode characters.
-
-    '''
+    '''Get a list of PostScript names for a list of unicode characters.'''
     glyph_names = []
     for char in char_list:
         glyph_name = char2psname(char)
@@ -235,57 +170,45 @@ def chars2psnames(char_list):
     return glyph_names
 
 def psname2char(glyph_name):
-    '''
-    Get the unicode character for a given glyph name.
-
-    '''
+    '''Get the unicode character for a given glyph name.'''
+    # check the psnames list
     if psnames2unicodes.has_key(glyph_name):
         uni = psnames2unicodes[glyph_name]
-
+    # check the unicode extras list
     elif unicodes_extra.has_key(glyph_name):
         uni = unicodes_extra[glyph_name]
-
+    # check for uni_ names
     elif glyph_name.startswith('uni'):
         uni = glyph_name[3:]
-
+    # cannot find unicode for glyph
     else:
-        uni = None
-
+        uni = char = None
+    # find character from unicode
     if uni:
         try:
             char = unichr(uni)
         except:
             uni_int = unicode_hexstr_to_int(str(uni))
             char = unichr(uni_int)
-    else:
-        char = None
-
+    # done
     return char
 
 def psname2unicode(glyph_name):
-    '''
-    Get the unicode value for a given glyph name.
-
-    '''
+    '''Get the unicode value for a given glyph name.'''
+    # check the psnames list
     if psnames2unicodes.has_key(glyph_name):
         uni = psnames2unicodes[glyph_name]
+    # check the unicode extras list
     elif unicodes_extra.has_key(glyph_name):
         uni = unicodes_extra[glyph_name]
+    # check for uni_ names
     elif glyph_name.startswith('uni'):
         uni = glyph_name[3:]
+    # cannot find unicode for glyph
     else:
-        uni = None
-
-    if uni:
-        try:
-            char = unichr(uni)
-            uni = unicode_int_to_hexstr(uni)
-        except:
-            # uni_int =
-            # char = unichr(uni_int)
-            # uni = unicode_hexstr_to_int(str(uni))
-            pass
-
+        return
+    # convert hex to integer
+    uni = unicode_int_to_hexstr(uni)
     return str(uni)
 
 def char2unicode(char):
@@ -386,4 +309,13 @@ def auto_OS2_unicode_ranges(ufo):
     blocks = get_unicode_blocks_from_file(blocks_file_path)
     ranges = get_OS2_unicode_ranges_from_file(OS2_unicode_ranges_file_path)
     set_OS2_unicode_ranges(ufo, blocks, ranges)
+
+
+if __name__ == '__main__':
+
+    # ufo_path = u"/_fonts/superfonts/Literaria_Roman/_ufo/555.ufo"
+    # print extract_encoding(ufo_path, enc_path=None)
+
+    print psname2char('zero')
+    print psname2unicode('zero')
 

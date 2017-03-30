@@ -1,8 +1,6 @@
 # [h] hTools2.modules.color
 
-"""Simple tools for working with colors."""
-
-# import
+'''Simple tools for working with colors.'''
 
 import random
 
@@ -14,7 +12,7 @@ from hTools2.extras.colorsys import *
 #-----------
 
 def random_color(alpha=1.0):
-    """Return a random color."""
+    '''Return a random color.'''
     # FontLab
     if _ctx == 'FontLab':
         c = int(255 * random.random())
@@ -25,13 +23,13 @@ def random_color(alpha=1.0):
     return c
 
 def clear_colors(font):
-    """Clear the color from all glyph cells in the font."""
+    '''Clear the color from all glyph cells in the font.'''
     for gName in font.keys():
         clear_color(font[gName])
     font.update()
 
 def clear_color(glyph):
-    """Clear the color of a glyph cell."""
+    '''Clear the color of a glyph cell.'''
     # FontLab
     if _ctx == 'FontLab':
         g.mark = 0
@@ -69,7 +67,7 @@ def cubic(t, a, b):
 #------------------------
 
 def hex_to_rgb(value):
-    """Convert hex color to RGB (range 1.0)."""
+    '''Convert hex color to RGB (range 1.0).'''
     value = value.lstrip('#')
     lv = len(value)
     rgb = tuple()
@@ -78,32 +76,32 @@ def hex_to_rgb(value):
     return rgb
 
 def rgb_to_hex(rgb):
-    """Convert RGB color (range 1.0) to hex."""
+    '''Convert RGB color (range 1.0) to hex.'''
     return '%02x%02x%02x' % rgb
 
 def ryb_to_rgb(r, y, b):
-    """Convert RYB color to RGB (range 1.0)."""
+    '''Convert RYB color to RGB (range 1.0).'''
     # http://stackoverflow.com/a/14116553
     # red
     x0, x1 = cubic(b, 1.0, 0.163), cubic(b, 1.0, 0.0)
     x2, x3 = cubic(b, 1.0, 0.5), cubic(b, 1.0, 0.2)
     y0, y1 = cubic(y, x0, x1), cubic(y, x2, x3)
-    red = cubic(r, y0, y1)
+    red    = cubic(r, y0, y1)
     # green
     x0, x1 = cubic(b, 1.0, 0.373), cubic(b, 1.0, 0.66)
     x2, x3 = cubic(b, 0., 0.), cubic(b, 0.5, 0.094)
     y0, y1 = cubic(y, x0, x1), cubic(y, x2, x3)
-    green = cubic(r, y0, y1)
+    green  = cubic(r, y0, y1)
     # blue
     x0, x1 = cubic(b, 1.0, 0.6), cubic(b, 0.0, 0.2)
     x2, x3 = cubic(b, 0.0, 0.5), cubic(b, 0.0, 0.0)
     y0, y1 = cubic(y, x0, x1), cubic(y, x2, x3)
-    blue = cubic(r, y0, y1)
+    blue   = cubic(r, y0, y1)
     # done
     return (red, green, blue)
 
 def RGB_to_nodebox_color((R, G, B), ctx, alpha=1.0):
-    """Convert RGB color to a NodeBox ``Color`` object."""
+    '''Convert RGB color to a NodeBox ``Color`` object.'''
     colors = ctx.ximport("colors")
     _alpha = 255 * alpha
     _color = colors.rgb(R, G, B, _alpha, range=255)
@@ -113,24 +111,24 @@ def RGB_to_nodebox_color((R, G, B), ctx, alpha=1.0):
 # named colors
 #--------------
 
-# A dictionary with color names and RGBa values.
+#: A dictionary with color names and RGBa values.
 named_colors = {
-    'red' : hsv_to_rgb(.0, 1, 1) + (1,),
+    'red'    : hsv_to_rgb( .0, 1, 1) + (1,),
     'orange' : hsv_to_rgb(.11, 1, 1) + (1,),
     'yellow' : hsv_to_rgb(.15, 1, 1) + (1,),
-    'green' : hsv_to_rgb(.35, 1, 1) + (1,),
-    'cyan' : hsv_to_rgb(.5, 1, 1) + (1,),
-    'blue' : hsv_to_rgb(.7, 1, 1) + (1,),
-    'purple' : hsv_to_rgb(.8, 1, 1) + (1,),
-    'pink' : hsv_to_rgb(.9, 1, 1) + (1,),
+    'green'  : hsv_to_rgb(.35, 1, 1) + (1,),
+    'cyan'   : hsv_to_rgb( .5, 1, 1) + (1,),
+    'blue'   : hsv_to_rgb( .7, 1, 1) + (1,),
+    'purple' : hsv_to_rgb( .8, 1, 1) + (1,),
+    'pink'   : hsv_to_rgb( .9, 1, 1) + (1,),
 }
 
-#------------------
-# solarized colors
-#------------------
+#-----------
+# solarized
+#-----------
 
 def solarized_color(name):
-    """Return an ``RGB`` color for a solarized color name."""
+    '''Return an ``RGB`` color for a solarized color name.'''
     # name is color group
     if name in solarized_groups.keys():
         _colors = []
@@ -144,44 +142,44 @@ def solarized_color(name):
     else:
         print 'name %s is not a solarized group or color.\n' % name
 
-# Solarized colors by name and RGB values.
+#: Solarized colors by name and RGB values.
 solarized_colors = {
     # dark
-    'base03' : (0, 43, 54),
-    'base02' : (7, 54, 66),
+    'base03'  : (0, 43, 54),
+    'base02'  : (7, 54, 66),
     # bright
-    'base2' : (238, 232, 213),
-    'base3' : (253, 246, 227),
+    'base2'   : (238, 232, 213),
+    'base3'   : (253, 246, 227),
     # content
-    'base01' : (88, 110, 117),
-    'base00' : (101, 123, 131),
-    'base0' : (131, 148, 150),
-    'base1' : (147, 161, 161),
+    'base01'  : (88, 110, 117),
+    'base00'  : (101, 123, 131),
+    'base0'   : (131, 148, 150),
+    'base1'   : (147, 161, 161),
     # accent
-    'yellow' : (181, 137, 0),
-    'orange' : (203, 75, 22),
-    'red' : (220, 50, 47),
+    'yellow'  : (181, 137, 0),
+    'orange'  : (203, 75, 22),
+    'red'     : (220, 50, 47),
     'magenta' : (211, 54, 130),
-    'violet' : (108, 113, 196),
-    'blue' : (38, 139, 210),
-    'cyan' : (42, 161, 152),
-    'green' : (133, 152, 0),
+    'violet'  : (108, 113, 196),
+    'blue'    : (38, 139, 210),
+    'cyan'    : (42, 161, 152),
+    'green'   : (133, 152, 0),
 }
 
-# Solarized colors by name, divided in groups.
+#: Solarized colors by name, divided in groups.
 solarized_groups = {
-    'colors' : [ 'yellow', 'orange', 'red', 'magenta', 'violet', 'blue', 'cyan', 'green' ],
-    'dark' : [ 'base03', 'base02' ],
-    'bright' : [ 'base3', 'base2' ],
+    'colors'  : [ 'yellow', 'orange', 'red', 'magenta', 'violet', 'blue', 'cyan', 'green' ],
+    'dark'    : [ 'base03', 'base02' ],
+    'bright'  : [ 'base3', 'base2' ],
     'content' : [ 'base01', 'base00', 'base0', 'base1' ],
 }
 
-#-----------------
-# X11 color names
-#-----------------
+#------------
+# X11 colors
+#------------
 
 def x11_color(name):
-    """Return an ``RGB`` color for an x11 color name."""
+    '''Return an ``RGB`` color for an x11 color name.'''
     # name is color
     _color_names = x11_colors.keys()
     if name in _color_names:
@@ -199,7 +197,7 @@ def x11_color(name):
         else:
             print 'name %s is not a x11 group or color.\n' % name
 
-# X11 colors by name and `(R,G,B)` values.
+#: X11 colors by name and `(R,G,B)` values.
 x11_colors = {
     # red colors
     'IndianRed' : (205, 92, 92),
@@ -354,16 +352,16 @@ x11_colors = {
     'Black' : (0, 0, 0),
 }
 
-# X11 colors by name, divided in groups.
+#: X11 colors by name, divided in groups.
 x11_groups = {
-    'red' : [ 'IndianRed', 'LightCoral', 'Salmon', 'DarkSalmon', 'LightSalmon', 'Red', 'Crimson', 'FireBrick', 'DarkRed' ],
-    'pink' : [ 'Pink', 'LightPink', 'HotPink', 'DeepPink', 'MediumVioletRed', 'PaleVioletRed' ],
+    'red'    : [ 'IndianRed', 'LightCoral', 'Salmon', 'DarkSalmon', 'LightSalmon', 'Red', 'Crimson', 'FireBrick', 'DarkRed' ],
+    'pink'   : [ 'Pink', 'LightPink', 'HotPink', 'DeepPink', 'MediumVioletRed', 'PaleVioletRed' ],
     'orange' : [ 'LightSalmon', 'Coral', 'Tomato', 'OrangeRed', 'DarkOrange', 'Orange' ],
     'yellow' : [ 'Gold', 'Yellow', 'LightYellow', 'LemonChiffon', 'LightGoldenrodYellow', 'PapayaWhip', 'Moccasin', 'PeachPuff', 'PaleGoldenrod', 'Khaki', 'DarkKhaki' ],
     'purple' : [ 'Lavender', 'Thistle', 'Plum', 'Violet', 'Orchid', 'Fuchsia', 'Magenta', 'MediumOrchid', 'MediumPurple', 'BlueViolet', 'DarkViolet', 'DarkOrchid', 'DarkMagenta', 'Purple', 'Indigo', 'DarkSlateBlue', 'SlateBlue', 'MediumSlateBlue' ],
-    'green' : [ 'GreenYellow', 'Chartreuse', 'LawnGreen', 'Lime', 'LimeGreen', 'PaleGreen', 'LightGreen', 'MediumSpringGreen', 'SpringGreen', 'MediumSeaGreen', 'SeaGreen', 'ForestGreen', 'Green', 'DarkGreen', 'YellowGreen', 'OliveDrab', 'Olive', 'DarkOliveGreen', 'MediumAquamarine', 'DarkSeaGreen', 'LightSeaGreen', 'DarkCyan', 'Teal' ],
-    'blue' : [ 'Aqua', 'Cyan', 'LightCyan', 'PaleTurquoise', 'Aquamarine', 'Turquoise', 'MediumTurquoise', 'DarkTurquoise', 'CadetBlue', 'SteelBlue', 'LightSteelBlue', 'PowderBlue', 'LightBlue', 'SkyBlue', 'LightSkyBlue', 'DeepSkyBlue', 'DodgerBlue', 'CornflowerBlue', 'RoyalBlue', 'Blue', 'MediumBlue', 'DarkBlue', 'Navy', 'MidnightBlue' ],
-    'brown' : [ 'Cornsilk', 'BlanchedAlmond', 'Bisque', 'NavajoWhite', 'Wheat', 'BurlyWood', 'Tan', 'RosyBrown', 'SandyBrown', 'Goldenrod', 'DarkGoldenrod', 'Peru', 'Chocolate', 'SaddleBrown', 'Sienna', 'Brown', 'Maroon' ],
-    'white' : [ 'White', 'Snow', 'Honeydew', 'MintCream', 'Azure', 'AliceBlue', 'GhostWhite', 'WhiteSmoke', 'Seashell', 'Beige', 'OldLace', 'FloralWhite', 'Ivory', 'AntiqueWhite', 'Linen', 'LavenderBlush', 'MistyRose' ],
-    'gray' : [ 'Gainsboro', 'LightGrey', 'Silver', 'DarkGray', 'Gray', 'DimGray', 'LightSlateGray', 'SlateGray', 'DarkSlateGray', 'Black', ]
+    'green'  : [ 'GreenYellow', 'Chartreuse', 'LawnGreen', 'Lime', 'LimeGreen', 'PaleGreen', 'LightGreen', 'MediumSpringGreen', 'SpringGreen', 'MediumSeaGreen', 'SeaGreen', 'ForestGreen', 'Green', 'DarkGreen', 'YellowGreen', 'OliveDrab', 'Olive', 'DarkOliveGreen', 'MediumAquamarine', 'DarkSeaGreen', 'LightSeaGreen', 'DarkCyan', 'Teal' ],
+    'blue'   : [ 'Aqua', 'Cyan', 'LightCyan', 'PaleTurquoise', 'Aquamarine', 'Turquoise', 'MediumTurquoise', 'DarkTurquoise', 'CadetBlue', 'SteelBlue', 'LightSteelBlue', 'PowderBlue', 'LightBlue', 'SkyBlue', 'LightSkyBlue', 'DeepSkyBlue', 'DodgerBlue', 'CornflowerBlue', 'RoyalBlue', 'Blue', 'MediumBlue', 'DarkBlue', 'Navy', 'MidnightBlue' ],
+    'brown'  : [ 'Cornsilk', 'BlanchedAlmond', 'Bisque', 'NavajoWhite', 'Wheat', 'BurlyWood', 'Tan', 'RosyBrown', 'SandyBrown', 'Goldenrod', 'DarkGoldenrod', 'Peru', 'Chocolate', 'SaddleBrown', 'Sienna', 'Brown', 'Maroon' ],
+    'white'  : [ 'White', 'Snow', 'Honeydew', 'MintCream', 'Azure', 'AliceBlue', 'GhostWhite', 'WhiteSmoke', 'Seashell', 'Beige', 'OldLace', 'FloralWhite', 'Ivory', 'AntiqueWhite', 'Linen', 'LavenderBlush', 'MistyRose' ],
+    'gray'   : [ 'Gainsboro', 'LightGrey', 'Silver', 'DarkGray', 'Gray', 'DimGray', 'LightSlateGray', 'SlateGray', 'DarkSlateGray', 'Black', ]
 }

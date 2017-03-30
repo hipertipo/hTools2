@@ -1,16 +1,7 @@
 # [h] set element glyph in a font
 
-import hTools2.modules.rasterizer
-reload(hTools2.modules.rasterizer)
-
-import hTools2.dialogs.misc
-reload(hTools2.dialogs.misc)
-
-# imports
-
 from mojo.roboFont import CurrentFont
 from vanilla import *
-
 from hTools2 import hDialog
 from hTools2.dialogs.misc import Spinner
 from hTools2.modules.rasterizer import *
@@ -20,11 +11,11 @@ from hTools2.modules.messages import no_font_open
 
 class setElementDialog(hDialog):
 
-    """
+    '''
 
     .. image:: imgs/font/set-element.png
 
-    """
+    '''
 
     # attributes
 

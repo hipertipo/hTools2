@@ -4,14 +4,11 @@
 BEZIER_ARC_CIRCLE = 0.5522847498
 
 def round_int(n, d):
-    """Round a number (float/int) to the closest multiple of a divisor (int)."""
+    '''Round a number (float/int) to the closest multiple of a divisor (int).'''
     return round(n / float(d)) * d
 
 def rect(pen, x, y, w, h):
-    """
-    Draw a rectangle with a pen object.
-
-    """
+    '''Draw a rectangle with a pen object.'''
     pen.moveTo( (x, y) )
     pen.lineTo( (x, y+h) )
     pen.lineTo( (x+w, y+h) )
@@ -19,10 +16,7 @@ def rect(pen, x, y, w, h):
     pen.closePath()
 
 def ellipse(pen, (x, y, rx, ry)):
-    """
-    Draw an ellipse with a pen object.
-
-    """
+    '''Draw an ellipse with a pen object.'''
     bcpx = BEZIER_ARC_CIRCLE * rx
     bcpy = BEZIER_ARC_CIRCLE * ry
     pen.moveTo( (x, y + rx) )
@@ -33,10 +27,7 @@ def ellipse(pen, (x, y, rx, ry)):
     pen.closePath()
 
 def oval(pen, x, y, w, h):
-    """
-    Draw an oval with a pen object.
-
-    """
+    '''Draw an oval with a pen object.'''
     radius_w = w / 2.0
     radius_h = h / 2.0
     bcp_w = BEZIER_ARC_CIRCLE * radius_w
@@ -51,18 +42,15 @@ def oval(pen, x, y, w, h):
     pen.closePath()
 
 def circle(pen, x, y, size):
-    """Draw a circle with a pen object."""
+    '''Draw a circle with a pen object.'''
     oval(pen, x, y, size, size)
 
 def square(pen, x, y, size):
-    """Draw a square with a pen object."""
+    '''Draw a square with a pen object.'''
     rect(pen, x, y, size, size)
 
 def element(pen, x, y, w, h, magic=BEZIER_ARC_CIRCLE):
-    """
-    Draw an element with a pen object.
-
-    """
+    '''Draw an element with a pen object.'''
     radius_w = w * 0.5
     radius_h = h * 0.5
     bcp_w = magic * radius_w
@@ -79,35 +67,32 @@ def element(pen, x, y, w, h, magic=BEZIER_ARC_CIRCLE):
 # RGlyph drawing tools
 
 def draw_rect_in_glyph(self, x, y, w, h):
-    """Draw a rectangle in a glyph object."""
+    '''Draw a rectangle in a glyph object.'''
     pen = self.getPen()
     rect(pen, x, y, w, h)
 
 def draw_oval_in_glyph(self, x, y, w, h):
-    """Draw an oval in a glyph object."""
+    '''Draw an oval in a glyph object.'''
     pen = self.getPen()
     oval(pen, x, y, w, h)
 
 def draw_element_in_glyph(self, x, y, w, h, magic=BEZIER_ARC_CIRCLE):
-    """Draw an element in a glyph object."""
+    '''Draw an element in a glyph object.'''
     pen = self.getPen()
     element(pen, x, y, w, h, magic)
 
 def draw_circle_in_glyph(self, x, y, s):
-    """Draw a circle in a glyph object."""
+    '''Draw a circle in a glyph object.'''
     pen = self.getPen()
     circle(pen, x, y, s)
 
 def draw_square_in_glyph(self, x, y, s):
-    """Draw a square in a glyph object."""
+    '''Draw a square in a glyph object.'''
     pen = self.getPen()
     square(pen, x, y, s)
 
 def addGlyphDrawingTools(RGlyph):
-    """
-    Add primitive drawing methods to a glyph object.
-
-    """
+    '''Add primitive drawing methods to a glyph object.'''
     RGlyph.rect = draw_rect_in_glyph
     RGlyph.oval = draw_oval_in_glyph
     RGlyph.circle = draw_circle_in_glyph

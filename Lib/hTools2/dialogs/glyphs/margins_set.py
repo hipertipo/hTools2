@@ -1,10 +1,7 @@
 # [h] set side-bearings in selected glyphs
 
-# imports
-
 from mojo.roboFont import CurrentFont, CurrentGlyph
 from vanilla import *
-
 from hTools2 import hDialog
 from hTools2.dialogs.misc import Spinner
 from hTools2.modules.fontutils import get_glyphs
@@ -14,11 +11,11 @@ from hTools2.modules.messages import no_font_open, no_glyph_selected
 
 class setMarginsDialog(hDialog):
 
-    """A dialog to set the left/right side-bearings of the selected glyphs in the current font.
+    '''A dialog to set the left/right side-bearings of the selected glyphs in the current font.
 
     .. image:: imgs/glyphs/margins-set.png
 
-    """
+    '''
 
     # attributes
 

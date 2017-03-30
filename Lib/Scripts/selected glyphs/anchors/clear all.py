@@ -1,19 +1,11 @@
 # [h] clear anchors
 
-"""Delete all anchors in the selected glyphs."""
+'''Delete all anchors in the selected glyphs.'''
 
-# imports
-
-try:
-    from mojo.roboFont import CurrentFont
-except ImportError:
-    from robofab.world import CurrentFont
-
+from mojo.roboFont import CurrentFont
 from hTools2.modules.anchors import clear_anchors
 from hTools2.modules.fontutils import get_glyphs
 from hTools2.modules.messages import no_glyph_selected, no_font_open
-
-# run
 
 f = CurrentFont()
 

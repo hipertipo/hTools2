@@ -1,10 +1,7 @@
 # [h] selectively gridfit attributes in selected glyphs
 
-# imports
-
 from mojo.roboFont import CurrentFont, CurrentGlyph
 from vanilla import *
-
 from hTools2 import hDialog
 from hTools2.dialogs.misc import Spinner
 from hTools2.modules.fontutils import get_glyphs
@@ -15,24 +12,22 @@ from hTools2.modules.messages import no_glyph_selected, no_font_open
 
 class roundToGridDialog(hDialog):
 
-    """A dialog to round features of the selected glyphs to a grid.
+    '''A dialog to round features of the selected glyphs to a grid.
 
     .. image:: imgs/glyphs/gridfit.png
 
-    """
+    '''
 
     # attributes
 
-    gridsize = 125
-
     glyph_names = []
-
-    b_points = True
-    points = False
-    margins = False
+    gridsize    = 125
+    b_points    = True
+    points      =  False
+    margins     = False
     glyph_width = True
-    anchors = False
-    layers = False
+    anchors     = False
+    layers      = False
 
     # methods
 
@@ -163,12 +158,12 @@ class roundToGridDialog(hDialog):
                 print 'gridfitting glyphs...\n'
                 # get options
                 options = {
-                    'bpoints' : self.w._b_points_checkBox.get(),
-                    'points' : self.w._points_checkBox.get(),
-                    'margins' : self.w._margins_checkBox.get(),
-                    'width' : self.w._width_checkBox.get(),
-                    'anchors' : self.w._anchors_checkBox.get(),
-                    'layers' : self.w._layers_checkBox.get(),
+                    'bpoints'  : self.w._b_points_checkBox.get(),
+                    'points'   : self.w._points_checkBox.get(),
+                    'margins'  : self.w._margins_checkBox.get(),
+                    'width'    : self.w._width_checkBox.get(),
+                    'anchors'  : self.w._anchors_checkBox.get(),
+                    'layers'   : self.w._layers_checkBox.get(),
                     'gridsize' : int(self.w.spinner.value.get())
                 }
                 # print info

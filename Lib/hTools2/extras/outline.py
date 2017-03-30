@@ -7,17 +7,11 @@
 # from AppKit import *
 
 from fontTools.pens.cocoaPen import CocoaPen
-
-try:
-    from lib.tools.bezierTools import curveConverter
-except:
-    print 'running outside of RoboFont'
-
+from lib.tools.bezierTools import curveConverter
 from fontTools.pens.basePen import BasePen
 from robofab.pens.pointPen import AbstractPointPen
 from robofab.pens.reverseContourPointPen import ReverseContourPointPen
 from robofab.pens.adapterPens import PointToSegmentPen
-
 from defcon import Glyph
 from math import sqrt, cos, sin, acos, asin, degrees, radians, tan, pi
 

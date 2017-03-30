@@ -1,11 +1,8 @@
 # [h] copy side-bearings of selected glyphs in one font to another
 
-# imports
-
 from mojo.roboFont import AllFonts
 from mojo.events import addObserver, removeObserver
 from vanilla import *
-
 from hTools2 import hDialog
 from hTools2.modules.fontutils import get_full_name, get_glyphs
 from hTools2.modules.messages import no_font_open, no_glyph_selected
@@ -14,11 +11,11 @@ from hTools2.modules.messages import no_font_open, no_glyph_selected
 
 class copyMarginsDialog(hDialog):
 
-    """A dialog to copy margins from selected glyphs in one font to the same glyphs in another font.
+    '''A dialog to copy margins from selected glyphs in one font to the same glyphs in another font.
 
     .. image:: imgs/glyphs/margins-copy.png
 
-    """
+    '''
 
     # attributes
 

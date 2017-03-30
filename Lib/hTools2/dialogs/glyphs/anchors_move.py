@@ -2,7 +2,6 @@
 
 from mojo.roboFont import CurrentFont
 from vanilla import *
-
 from hTools2 import hDialog
 from hTools2.dialogs.misc import Arrows, Spinner
 from hTools2.modules.fontutils import get_glyphs
@@ -13,12 +12,12 @@ from hTools2.modules.messages import no_glyph_selected, no_font_open
 
 class moveAnchorsDialog(hDialog):
 
-    """
+    '''
     A dialog to move anchors in the selected glyphs of the current font.
 
     .. image:: imgs/glyphs/anchors-move.png
 
-    """
+    '''
 
     # attributes
 

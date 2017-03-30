@@ -1,8 +1,6 @@
 # [h] hTools2.modules.interpol
 
-"""A collection of tools for working with interpolation."""
-
-# imports
+'''A collection of tools for working with interpolation.'''
 
 from hTools2.modules.fontutils import get_full_name
 from hTools2.modules.color import clear_color, clear_colors, named_colors
@@ -10,12 +8,12 @@ from hTools2.modules.color import clear_color, clear_colors, named_colors
 # functions
 
 def interpolate_glyph(gName, f1, f2, f3, factor, clear=True):
-    """
+    '''
     Interpolates the glyphs with name ``glyph_name`` from masters ``f1`` and ``f2``, with interpolation factor ``(factor_x, factor_y)``, into the destination font ``f3``.
 
     The optional parameter ``clear`` controls if existing glyphs in ``f3`` should be overwritten.
 
-    """
+    '''
     if f2.has_key(gName):
         if clear:
             g = f3.newGlyph(gName, clear=True)
@@ -35,7 +33,7 @@ def interpolate_kerning(f1, f2, f3, factor):
     f3.update()
 
 def check_compatibility(f1, f2, names=None, report=True):
-    """
+    '''
     Checks if glyphs in ``f1`` and ``f2`` are compatible for interpolation.
 
     If ``names=None``, all glyphs in ``f1`` will be checked - otherwise, only the ones in the list ``names``.
@@ -44,7 +42,7 @@ def check_compatibility(f1, f2, names=None, report=True):
 
     If ``report=True``, the check results will be printed to the output window.
 
-    """
+    '''
     # glyph names
     if names != None:
         gNames = names
@@ -53,8 +51,8 @@ def check_compatibility(f1, f2, names=None, report=True):
     # colors
     clear_colors(f1)
     green = named_colors['green']
-    red = named_colors['red']
-    blue = named_colors['blue']
+    red   = named_colors['red']
+    blue  = named_colors['blue']
     # check glyphs
     if report == True:
         print 'checking compatibility between %s and %s...\n' % (get_full_name(f1), get_full_name(f2))
@@ -83,7 +81,7 @@ def check_compatibility(f1, f2, names=None, report=True):
         print '\n...done.\n'
 
 def condense_glyphs(f3, f1, f2, f1_stem, f2_stem, factor, glyph_names):
-    """Generate condensed glyphs from a 'Regular' font ``f1`` and a 'Bold' font ``f2``."""
+    '''Generate condensed glyphs from a 'Regular' font ``f1`` and a 'Bold' font ``f2``.'''
     scale_x = float(f1_stem) / ( f1_stem + factor * (f2_stem - f1_stem ) )
     for glyph_name in glyph_names:
         if not f3.has_key(glyph_name):

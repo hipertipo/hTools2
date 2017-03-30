@@ -1,10 +1,7 @@
 # [h] change suffix in selected glyphs
 
-# imports
-
 from mojo.roboFont import CurrentFont
 from vanilla import *
-
 from hTools2 import hDialog
 from hTools2.modules.fontutils import get_glyphs
 from hTools2.modules.glyphutils import has_suffix, change_suffix
@@ -14,14 +11,14 @@ from hTools2.modules.messages import no_font_open, no_glyph_selected
 
 class changeSuffixDialog(hDialog):
 
-    """A dialog to change the suffix of the selected glyphs.
+    '''A dialog to change the suffix of the selected glyphs.
 
     .. image:: imgs/glyphs/names-suffix-0.png
     .. image:: imgs/glyphs/names-suffix-1.png
     .. image:: imgs/glyphs/names-suffix-2.png
     .. image:: imgs/glyphs/names-suffix-3.png
 
-    """
+    '''
 
     # attributes
 

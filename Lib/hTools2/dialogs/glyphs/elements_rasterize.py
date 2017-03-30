@@ -1,13 +1,7 @@
 # [h] rasterize selected glyphs into elements
 
-import hTools2.modules.rasterizer
-reload(hTools2.modules.rasterizer)
-
-# imports
-
 from mojo.roboFont import CurrentFont
 from vanilla import *
-
 from hTools2 import hDialog
 from hTools2.dialogs.misc import Spinner
 from hTools2.modules.fontutils import get_glyphs
@@ -18,11 +12,11 @@ from hTools2.modules.messages import no_glyph_selected, no_font_open
 
 class rasterizeGlyphDialog(hDialog):
 
-    """A dialog to rasterize the selected glyphs with element components.
+    '''A dialog to rasterize the selected glyphs with element components.
 
     .. image:: imgs/glyphs/elements-rasterize.png
 
-    """
+    '''
 
     # attributes
 

@@ -1,11 +1,8 @@
 # [h] copy widths from selected glyphs in one font to the same glyphs in another font
 
-# imports
-
 from mojo.roboFont import AllFonts
 from mojo.events import addObserver, removeObserver
 from vanilla import *
-
 from hTools2 import hDialog
 from hTools2.modules.fontutils import get_full_name, get_glyphs
 from hTools2.modules.glyphutils import center_glyph
@@ -15,11 +12,11 @@ from hTools2.modules.messages import no_font_open, only_one_font
 
 class copyWidthsDialog(hDialog):
 
-    """A dialog to copy the advance width of selected glyphs in one font to the same glyphs in another font.
+    '''A dialog to copy the advance width of selected glyphs in one font to the same glyphs in another font.
 
     .. image:: imgs/glyphs/width-copy.png
 
-    """
+    '''
 
     # attributes
 

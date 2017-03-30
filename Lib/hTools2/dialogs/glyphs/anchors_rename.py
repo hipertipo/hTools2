@@ -1,10 +1,7 @@
 # [h] rename anchors in selected glyphs
 
-# imports
-
 from mojo.roboFont import CurrentFont
 from vanilla import *
-
 from hTools2 import hDialog
 from hTools2.modules.anchors import rename_anchor
 from hTools2.modules.fontutils import get_glyphs
@@ -14,11 +11,11 @@ from hTools2.modules.messages import no_glyph_selected, no_font_open
 
 class renameAnchorsDialog(hDialog):
 
-    """A dialog to rename the anchors in the selected glyphs of the current font.
+    '''A dialog to rename the anchors in the selected glyphs of the current font.
 
     .. image:: imgs/glyphs/anchors-rename.png
 
-    """
+    '''
 
     # attributes
 

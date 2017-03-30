@@ -1,11 +1,8 @@
 # [h] copy glyph contents of one layer to other layers
 
-# imports
-
 from mojo.roboFont import CurrentFont
 from mojo.events import addObserver, removeObserver
 from vanilla import *
-
 from hTools2 import hDialog
 from hTools2.modules.fontutils import get_glyphs
 from hTools2.modules.messages import no_font_open
@@ -14,11 +11,11 @@ from hTools2.modules.messages import no_font_open
 
 class copyToLayerDialog(hDialog):
 
-    """A dialog to copy the foreground layer in the selected glyphs to another layer.
+    '''A dialog to copy the foreground layer in the selected glyphs to another layer.
 
     .. image:: imgs/glyphs/layers-copy.png
 
-    """
+    '''
 
     # attributes
 

@@ -1,10 +1,7 @@
 # [h] adjust vertical metrics
 
-# import
-
 from mojo.roboFont import CurrentFont, CurrentGlyph
 from vanilla import *
-
 from hTools2 import hDialog
 from hTools2.dialogs.misc import Spinner
 from hTools2.modules.fontutils import get_full_name
@@ -14,11 +11,11 @@ from hTools2.modules.messages import no_font_open
 
 class adjustVerticalMetrics(hDialog):
 
-    """A dialog to adjust the vertical metrics of the font.
+    '''A dialog to adjust the vertical metrics of the font.
 
     .. image:: imgs/font/adjust-vmetrics.png
 
-    """
+    '''
 
     ascender_min = 1
     capheight_min = 1

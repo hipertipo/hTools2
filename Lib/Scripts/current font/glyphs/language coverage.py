@@ -1,19 +1,13 @@
 # [h] diacritics coverage dialog
 
-import hTools2.modules.languages
-reload(hTools2.modules.languages)
-
-# imports
-
 from vanilla import *
-
 from hTools2 import hDialog
 from hTools2.modules.languages import diacritics_chars, diacritics_glyphnames, check_languages_coverage
 from hTools2.modules.messages import no_font_open
 
 # objects
 
-class diacriticsCoverageDialog(hDialog):    
+class diacriticsCoverageDialog(hDialog):
 
     list_height = 180
 
@@ -108,12 +102,12 @@ class diacriticsCoverageDialog(hDialog):
             callback=self.select_all_callback)
         # open window
         self.w.open()
-    
+
     def get_languages(self):
         languages_i = self.w.languages.getSelection()
         languages = [ self.languages_order[i] for i in languages_i ]
         self.languages_selected = languages
-    
+
     def select_all_callback(self, sender):
         # print dir(List)
         if sender.get():
@@ -146,7 +140,7 @@ class diacriticsCoverageDialog(hDialog):
         glyph_names.sort()
         # done
         return chars, glyph_names
-    
+
     def print_callback(self, sender):
         chars, glyph_names = self.build_glyphs()
         # print info
@@ -200,7 +194,7 @@ class diacriticsCoverageDialog(hDialog):
             if f is not None:
                 glyph_names = f.keys()
                 glyph_names.sort()
-            else:                
+            else:
                 print no_font_open
                 return
         # print info

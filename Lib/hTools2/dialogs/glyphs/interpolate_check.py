@@ -1,11 +1,8 @@
 # [h] simple prepolate for selected glyphs
 
-# imports
-
 from mojo.roboFont import AllFonts
 from mojo.events import addObserver, removeObserver
 from vanilla import *
-
 from hTools2 import hDialog
 from hTools2.modules.interpol import check_compatibility
 from hTools2.modules.fontutils import get_full_name, get_glyphs
@@ -14,11 +11,11 @@ from hTools2.modules.fontutils import get_full_name, get_glyphs
 
 class checkGlyphsCompatibilityDialog(hDialog):
 
-    """A dialog to run a simple compatibility check between selected glyphs in two open fonts.
+    '''A dialog to run a simple compatibility check between selected glyphs in two open fonts.
 
     .. image:: imgs/glyphs/interpolate-check.png
 
-    """
+    '''
 
     # attributes
 

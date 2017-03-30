@@ -1,4 +1,4 @@
-# [h] export RF preferences
+# [h] export RoboFont preferences
 
 import os
 from mojo.UI import exportPreferences

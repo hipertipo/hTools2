@@ -1,10 +1,8 @@
 # [h] libutils
 
-"""A collection of functions to check the integrity of libs."""
+'''Some functions to check the integrity of libs.'''
 
 ### thanks to Frederik Berlaen ###
-
-# functions
 
 def check_value(value):
     if isinstance(value, list):

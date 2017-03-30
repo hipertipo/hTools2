@@ -1,13 +1,9 @@
 # [h] ufos -> otfs
 
-# imports
-
 import os
-
 from mojo.roboFont import RFont
 from vanilla import *
 from vanilla.dialogs import getFolder
-
 from hTools2 import hDialog
 from hTools2.modules.fileutils import walk
 from hTools2.modules.messages import no_font_in_folder
@@ -16,11 +12,11 @@ from hTools2.modules.messages import no_font_in_folder
 
 class UFOsToOTFsDialog(hDialog):
 
-    """A dialog to generate ``.otf`` fonts for all ``.ufos`` in a folder.
+    '''A dialog to generate ``.otf`` fonts for all ``.ufos`` in a folder.
 
     .. image:: imgs/folder/ufos2otfs.png
 
-    """
+    '''
 
     # attributes
 
@@ -145,7 +141,7 @@ class UFOsToOTFsDialog(hDialog):
                 self.w.bar.start()
                 for ufo_path in _ufo_paths:
                     print '\tgenerating .otf for %s...' % os.path.split(ufo_path)[1]
-                    ufo = RFont(ufo_path, showUI=False)
+                    ufo = RFont(ufo_path, showInterface=False)
                     # generate otf
                     otf_file = os.path.splitext(os.path.split(ufo_path)[1])[0] + '.otf'
                     otf_path = os.path.join(self.otfs_folder, otf_file)

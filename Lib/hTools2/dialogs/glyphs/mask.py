@@ -1,10 +1,7 @@
 # [h] mask actions for selected glyphs
 
-# imports
-
 from mojo.roboFont import CurrentFont
 from vanilla import *
-
 from hTools2 import hDialog
 from hTools2.modules.anchors import get_anchors
 from hTools2.modules.fontutils import get_glyphs
@@ -14,11 +11,11 @@ from hTools2.modules.messages import no_font_open
 
 class maskDialog(hDialog):
 
-    """A dialog to transfer glyphs to and from the mask layer.
+    '''A dialog to transfer glyphs to and from the mask layer.
 
     .. image:: imgs/glyphs/mask.png
 
-    """
+    '''
 
     # attributes
 

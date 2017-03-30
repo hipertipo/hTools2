@@ -3,14 +3,10 @@
 ### suggested & sponsored by Bas Jacobs (Underware)
 ### http://underware.nl/
 
-# import
-
 import os
-
 from mojo.roboFont import CurrentFont, RFont
 from vanilla import *
 from vanilla.dialogs import getFile
-
 from hTools2 import hDialog
 from hTools2.modules.messages import no_font_open
 
@@ -18,11 +14,11 @@ from hTools2.modules.messages import no_font_open
 
 class importUFOIntoLayerDialog(hDialog):
 
-    """A dialog to import a font from an external file into a background layer of the current font.
+    '''A dialog to import a font from an external file into a background layer of the current font.
 
     .. image:: imgs/font/import-layer.png
 
-    """
+    '''
 
     # attributes
 
@@ -96,7 +92,7 @@ class importUFOIntoLayerDialog(hDialog):
             # import layer
             print 'importing .ufo...\n'
             print '\ttarget layer: %s\n' % layer_name
-            ufo = RFont(self.ufo_path, showUI=False)
+            ufo = RFont(self.ufo_path, showInterface=False)
             for glyph_name in f.keys():
                 if ufo.has_key(glyph_name):
                     layer_glyph = f[glyph_name].getLayer(layer_name)

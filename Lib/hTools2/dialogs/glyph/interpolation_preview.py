@@ -15,11 +15,11 @@ from hTools2.extras.grapefruit import Color
 
 class interpolationPreviewDialog(hDialog, BaseWindowController):
 
-    """A dialog to preview glyph interpolation with another font.
+    '''A dialog to preview glyph interpolation with another font.
 
     .. image:: imgs/glyphs/interpolation-preview.png
 
-    """
+    '''
 
     # attributes
 

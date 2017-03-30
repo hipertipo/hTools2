@@ -1,32 +1,23 @@
 # [h] SelectFonts()
 
-"""a simple `AllFonts()`-compatible `SelectFonts()` dialog for RoboScripts"""
+'''a simple `AllFonts()`-compatible `SelectFonts()` dialog for RoboScripts'''
 
 #---------------------------------------------------
 # based on idea by David Jonathan Ross (FontBureau)
 # thanks to Andy Clymer for vanilla-dialogKit hack
 #---------------------------------------------------
 
-# imports
-
-try:
-    from mojo.roboFont import CurrentFont, AllFonts, RFont
-
-except:
-    from robofab.world import CurrentFont, AllFonts, RFont
-
+from mojo.roboFont import CurrentFont, AllFonts, RFont
 from dialogKit import *
-
 from vanilla import *
 from vanilla.dialogs import getFolder
-
 from hTools2.modules.fileutils import walk
 
 # objects
 
 class SelectFonts(object):
 
-    """A dialog to select fonts in different ways.
+    '''A dialog to select fonts in different ways.
 
     .. image:: imgs/misc/select-fonts.png
 
@@ -43,7 +34,7 @@ class SelectFonts(object):
         >>> <Font Publica 55>
         >>> <Font Publica 95>
 
-    """
+    '''
 
     # attributes
 
@@ -146,19 +137,19 @@ class SelectFonts(object):
         self.w.open()
 
     def __iter__(self):
-        """return the selected fonts"""
+        '''return the selected fonts'''
         for selection in self._selection:
             yield self._fonts[selection]
 
     # functions
 
     def _get_fonts(self):
-        """get open fonts -- CurrentFont() and AllFonts()"""
+        '''get open fonts -- CurrentFont() and AllFonts()'''
         self._current_font = CurrentFont()
         self._open_fonts = AllFonts()
 
     def _get_folder(self):
-        """select a folder with .ufo fonts"""
+        '''select a folder with .ufo fonts'''
         try:
             self._folder = getFolder()[0]
         # no folder selected
@@ -166,7 +157,7 @@ class SelectFonts(object):
             self._folder = None
 
     def _add_folder_fonts(self):
-        """add all folder fonts to list"""
+        '''add all folder fonts to list'''
         # add folder fonts
         if len(self._folder_fonts) > 0:
             for font in self._folder_fonts:
@@ -187,19 +178,19 @@ class SelectFonts(object):
         self._update_list()
 
     def _get_folder_fonts(self):
-        """collect all .ufo fonts in the selected folder"""
+        '''collect all .ufo fonts in the selected folder'''
         # get font paths
         self._folder_font_paths = walk(self._folder, 'ufo')
         # open fonts
         for font_path in self._folder_font_paths:
-            font = RFont(font_path, showUI=False)
+            font = RFont(font_path, showInterface=False)
             if font not in self._folder_fonts:
                 self._folder_fonts.append(font)
 
     # callbacks
 
     def _current_font_callback(self, sender):
-        """triggered every time the `current font` checkbox is clicked"""
+        '''triggered every time the `current font` checkbox is clicked'''
         if self._current_font is not None:
             _value = sender.get()
             # add current font to list
@@ -226,7 +217,7 @@ class SelectFonts(object):
         self._update_list()
 
     def _open_fonts_callback(self, sender):
-        """triggered every time the `all open fonts` checkbox is clicked"""
+        '''triggered every time the `all open fonts` checkbox is clicked'''
         _value = sender.get()
         # add open fonts to list
         if _value:
@@ -259,7 +250,7 @@ class SelectFonts(object):
         self._update_list()
 
     def _folder_fonts_callback(self, sender):
-        """triggered every time the `from folder` checkbox is clicked"""
+        '''triggered every time the `from folder` checkbox is clicked'''
         _value = sender.get()
         # add folder fonts to list
         if _value:
@@ -292,7 +283,7 @@ class SelectFonts(object):
             self._update_list()
 
     def _get_fonts_folder_callback(self, sender):
-        """triggered every time the `get folder` button is clicked"""
+        '''triggered every time the `get folder` button is clicked'''
         # get folder
         if self._verbose:
             print 'getting fonts from folder...'

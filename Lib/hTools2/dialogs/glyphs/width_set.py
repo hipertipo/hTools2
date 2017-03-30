@@ -3,11 +3,8 @@
 ### options `split difference` and `relative split`
 ### suggested and funded by Bas Jacobs / Underware
 
-# imports
-
 from mojo.roboFont import CurrentFont, CurrentGlyph
 from vanilla import *
-
 from hTools2 import hDialog
 from hTools2.dialogs.misc import Spinner
 from hTools2.modules.fontutils import get_glyphs
@@ -18,16 +15,16 @@ from hTools2.modules.messages import no_font_open, no_glyph_selected
 
 class setWidthDialog(hDialog):
 
-    """A dialog to set the advance width of the selected glyphs.
+    '''A dialog to set the advance width of the selected glyphs.
 
     .. image:: imgs/glyphs/width-set.png
 
-    """
+    '''
 
     # attributes
 
     _width_ = 400
-    _modes = [ 'set equal to', 'increase by', 'decrease by' ]
+    _modes = ['set equal to', 'increase by', 'decrease by']
     _mode = 0
 
     # methods

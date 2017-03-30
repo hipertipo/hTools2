@@ -1,14 +1,12 @@
 # [h] arrows ui
 
-# imports
-
 from vanilla import *
 
 # objects
 
 class Arrows(Group):
 
-    """An object to add directional arrow buttons to vanilla dialogs."""
+    '''An object to add directional arrow buttons to vanilla dialogs.'''
 
     # attributes
 

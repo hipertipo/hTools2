@@ -1,11 +1,8 @@
 # [h] apply actions to all fonts in folder
 
-# imports
-
 from mojo.roboFont import RFont
 from vanilla import *
 from vanilla.dialogs import getFolder
-
 from hTools2 import hDialog
 from hTools2.modules.fileutils import walk
 from hTools2.modules.fontutils import get_full_name, decompose, auto_contour_order, auto_contour_direction, add_extremes
@@ -16,15 +13,15 @@ from hTools2.modules.messages import no_font_in_folder
 
 class actionsFolderDialog(hDialog):
 
-    """A dialog to apply a set of actions to all fonts in a folder.
+    '''A dialog to apply a set of actions to all fonts in a folder.
 
     .. image:: imgs/folder/actions.png
 
-    """
+    '''
 
     # attributes
 
-    round = False
+    round_points = False
     decompose = False
     order = False
     direction = False
@@ -60,7 +57,7 @@ class actionsFolderDialog(hDialog):
                     self.text_height),
                     "round points",
                     callback=self.round_callback,
-                    value=self.round,
+                    value=self.round_points,
                     sizeStyle=self.size_style)
         # decompose
         y += self.text_height
@@ -159,7 +156,7 @@ class actionsFolderDialog(hDialog):
         self.close = sender.get()
 
     def round_callback(self, sender):
-        self.round = sender.get()
+        self.round_points = sender.get()
 
     def save_callback(self, sender):
         self.save = sender.get()
@@ -193,9 +190,9 @@ class actionsFolderDialog(hDialog):
             print 'transforming all fonts in folder...\n'
             self.w.bar.start()
             for ufo_path in ufo_paths:
-                font = RFont(ufo_path, showUI=False)
+                font = RFont(ufo_path, showInterface=False)
                 print '\ttransforming %s...' % get_full_name(font)
-                if self.round:
+                if self.round_points:
                     print '\t\trounding points...'
                     font.round()
                 if self.decompose:

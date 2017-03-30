@@ -1,27 +1,27 @@
 # [h] hTools2.modules.pshinting
 
-from robofab.pens.marginPen import MarginPen
-
 #----------
 # ps stems
 #----------
 
 def get_vstems(font, glyphs=['l', 'I']):
+    from mojo.tools import IntersectGlyphWithLine
     ref_y = font.info.xHeight / 2.0
     stems = []
     for glyph_name in glyphs:
         if font.has_key(glyph_name):
             g = font[glyph_name]
-            # get margins
-            pen = MarginPen(g, ref_y, isHorizontal=True)
-            g.draw(pen)
-            # calculate stem from margins
             try:
-                left_edge, right_edge = pen.getMargins()
+                # get margins
+                left_edge, right_edge = IntersectGlyphWithLine(glyph,
+                        ((0, ref_y), (700, ref_y)),
+                        canHaveComponent=False, addSideBearings=False)
+                # calculate stem from margins
                 stem = int(right_edge - left_edge)
                 stems.append(stem)
             except:
-                pass # glyph is empty
+                # glyph is empty
+                pass
     return stems
 
 def get_hstems(font, glyphs=['H']):
@@ -30,16 +30,17 @@ def get_hstems(font, glyphs=['H']):
         if font.has_key(glyph_name):
             g = font[glyph_name]
             ref_x = g.width / 2.0
-            # get margins
-            pen = MarginPen(g, ref_x, isHorizontal=False)
-            g.draw(pen)
-            # calculate stem from margins
             try:
-                bottom_edge, top_edge = pen.getMargins()
+                # get margins
+                bottom_edge, top_edge = IntersectGlyphWithLine(glyph,
+                        ((ref_x, 0), (ref_x, 700)),
+                        canHaveComponent=False, addSideBearings=False)
+                # calculate stem from margins
                 stem = int(top_edge - bottom_edge)
                 stems.append(stem)
             except:
-                pass # glyph is empty
+                # glyph is empty
+                pass
     return stems
 
 def set_vstems(font, stems):

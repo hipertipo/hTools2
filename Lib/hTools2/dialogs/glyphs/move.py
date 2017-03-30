@@ -1,10 +1,7 @@
 # [h] move selected glyphs
 
-# imports
-
 from mojo.roboFont import CurrentFont, CurrentGlyph
 from vanilla import *
-
 from hTools2 import hDialog
 from hTools2.dialogs.misc import Arrows, Spinner
 from hTools2.modules.fontutils import get_glyphs
@@ -14,11 +11,11 @@ from hTools2.modules.messages import no_glyph_selected, no_font_open, no_layer_s
 
 class moveGlyphsDialog(hDialog):
 
-    """A dialog to move the selected glyphs in a font.
+    '''A dialog to move the selected glyphs in a font.
 
     .. image:: imgs/glyphs/move.png
 
-    """
+    '''
 
     # attributes
 
