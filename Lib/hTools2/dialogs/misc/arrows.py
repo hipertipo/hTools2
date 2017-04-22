@@ -1,23 +1,15 @@
 # [h] arrows ui
 
-# imports
-
 from vanilla import *
-
-# objects
 
 class Arrows(Group):
 
-    """An object to add directional arrow buttons to vanilla dialogs."""
-
-    # attributes
+    '''An object to add directional arrow buttons to vanilla dialogs.'''
 
     all_arrows = [
         'top', 'down', 'left', 'right',
         'leftUp', 'leftDown', 'rightUp', 'rightDown',
     ]
-
-    # methods
 
     def __init__(self, (l, t), s=35, p=10, callbacks=dict(), arrows=None):
 

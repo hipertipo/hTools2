@@ -13,7 +13,7 @@ D = hDialog()
 
 class Spinner(Group):
 
-    """An object to add number fields with plus/minus-1/10/100 buttons to vanilla dialogs.
+    '''An object to add number fields with plus/minus-1/10/100 buttons to vanilla dialogs.
 
         from vanilla import FloatingWindow
         from hTools2.dialogs.misc import Spinner
@@ -31,7 +31,7 @@ class Spinner(Group):
 
         SpinnerExample()
 
-    """
+    '''
 
     # attributes
 
@@ -41,16 +41,16 @@ class Spinner(Group):
     # methods
 
     def __init__(self, pos, default='0', scale=1, integer=True, label=None, digits=2, isHorizontal=False, button_pairs=2, col2=None):
-        """Initiate the Spinner object.
+        '''Initiate the Spinner object.
 
-        :param tuple pos: A tuple with left, top (x,y) position in parent window.
-        :param str default: The default value to display in the text box.
-        :param int scale: A multiplier for button increment values.
-        :param bool integer: Round values to integers.
-        :param str label: The label text for the spinner. Use ``None`` for no label.
-        :param int digits: Amount of digits after comma in decimal numbers.
+        **pos** A tuple with left, top (x,y) position in parent window.
+        **default** The default value to display in the text box.
+        **scale** A multiplier for button increment values.
+        **integer** Round values to integers.
+        **label** The label text for the spinner. Use ``None`` for no label.
+        **digits** Amount of digits after comma in decimal numbers.
 
-        """
+        '''
         left, top = pos
         x = D.padding_x
         y = 0

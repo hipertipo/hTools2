@@ -65,10 +65,7 @@ def generate_webfont(otf_path, strip_names=False, woff=True, woff_path=None, wof
         # os.remove(otf_path_tmp)
 
 def subset_font(src_path, dst_path, enc_path, remove_features=True, remove_kerning=False, remove_hinting=False, strip_names=False, verbose=False):
-    '''
-    Generate a subsetted copy of an .otf or .ttf font.
-
-    '''
+    '''Generate a subsetted copy of an .otf or .ttf font.'''
     from fontTools import subset
 
     # build subsetting command

@@ -99,7 +99,7 @@ class interpolationPreviewDialog(hDialog, BaseWindowController):
         g.update()
 
     def update_callback(self, sender):
-        print 'updating fonts'
+        # print 'updating fonts'
         self.get_fonts()
         self.w.f2.setItems(sorted(self.all_fonts.keys()))
 

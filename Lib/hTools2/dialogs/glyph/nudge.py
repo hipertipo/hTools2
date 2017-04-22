@@ -6,8 +6,6 @@
 ### Interpolated Nudge by Christian Robertson
 ### http://betatype.com/node/18
 
-# imports
-
 from mojo.roboFont import CurrentGlyph
 from vanilla import *
 
@@ -16,30 +14,25 @@ from hTools2.dialogs.misc import Arrows, Spinner
 from hTools2.extras.nudge import *
 from hTools2.modules.glyphutils import *
 
-# functions
-
-def nudgeSelected(x):
+def nudgeSelected(offset):
     g = CurrentGlyph()
     for c in g.contours:
-        i = 0
-        for p in c.bPoints:
+        for i, p in enumerate(c.bPoints):
             n = c.bPoints[i]
             if n.selected:
                 g.prepareUndo(undoTitle='InterpolatedNudge')
-                interpolateNode(i, g, c, x)
+                interpolateNode(i, g, c, offset)
                 g.performUndo()
                 g.update()
-            i = i + 1
-
-# objects
 
 class nudgePointsDialog(hDialog):
 
-    """A simple RoboFont dialog for the famous and useful 'interpolated nudge' script.
+    '''
+    A simple RoboFont dialog for the famous and useful 'interpolated nudge' script.
 
     .. image:: imgs/glyph/nudge.png
 
-    """
+    '''
 
     nudge = 10
     interpolated = True
