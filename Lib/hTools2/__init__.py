@@ -2,28 +2,20 @@
 
 """hTools2, a UFO-based Python-powered font production toolkit."""
 
-# constants
-
-#: The root folder for all font projects.
-ROOT = '/Volumes/gf_extra/_fonts'
-
-#: Debug mode. Set to ``True`` during development to always reload modules.
-DEBUG = True
-
-#: The current version number of ``hTools2``.
-VERSION = 1.6
-
 # objects
 
 class hDialog(object):
 
     """An object collecting constants and default settings for dialogs."""
 
-    #: Horizontal padding in dialogs.
-    padding_x = 10
+    #: Padding in dialogs.
+    padding = 10
 
-    #: Vertical padding in dialogs.
-    padding_y = 10
+    #: Horizontal padding in dialogs (deprecated).
+    padding_x = padding
+
+    #: Vertical padding in dialogs (deprecated).
+    padding_y = padding
 
     #: Height of text elements in dialogs.
     text_height = 20

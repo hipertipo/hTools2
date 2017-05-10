@@ -3,13 +3,8 @@
 # import
 
 from vanilla import *
-
-try:
-    from mojo.roboFont import CurrentFont
-    from mojo.events import addObserver, removeObserver
-
-except ImportError:
-    from robofab.world import CurrentFont
+from mojo.roboFont import CurrentFont
+from mojo.events import addObserver, removeObserver
 
 from hTools2 import hDialog
 from hTools2.modules.messages import no_font_open
@@ -37,28 +32,17 @@ class deleteLayerDialog(hDialog):
     def __init__(self):
         self.get_font()
         # window
-        self.title = 'layers'
-        self.column_1 = 50
-        self.column_2 = 140
-        self.height = self.button_height + (self.padding_y * 3) + (self.text_height * 1) #+ 2
-        self.w = FloatingWindow((self.width, self.height), self.title)
+        self.title = 'delete layers'
+        self.height = self.button_height + (self.padding_y*3) + (self.text_height*8)
+        self.w = FloatingWindow((self.width*1.5, self.height), self.title)
         x = self.padding_x
         y = self.padding_y
-        # self.w.layer_name_label = TextBox(
-        #             (x, y - 2,
-        #             -self.padding_x,
-        #             self.text_height),
-        #             "name",
-        #             sizeStyle=self.size_style)
-        # y += self.text_height
-        self.w.layers = PopUpButton(
+        self.w.layers = List(
                     (x, y,
                     -self.padding_x,
-                    self.text_height),
-                    self.layers,
-                    sizeStyle=self.size_style)
-        x = self.padding_x
-        y += self.padding_y + self.text_height
+                    self.text_height*8),
+                    self.layers)
+        y += self.padding_y + self.text_height*8
         self.w.button_apply = SquareButton(
                     (x, y,
                     -self.padding_x,
@@ -84,7 +68,8 @@ class deleteLayerDialog(hDialog):
             self.layers = []
 
     def update_ui(self):
-        self.w.layers.setItems(self.layers)
+        self.layers = self.font.layerOrder
+        self.w.layers.set(self.layers)
 
     def update_callback(self, sender):
         self.get_font()
@@ -96,19 +81,22 @@ class deleteLayerDialog(hDialog):
             print no_font_open
         # delete layer
         else:
-            layer_index = self.w.layers.get()
-            layer_name = self.layers[layer_index]
-            if layer_name in self.font.layerOrder:
-                print 'deleting layer...\n'
-                print '\t%s' % layer_name
-                self.font.removeLayer(layer_name)
+            layers_index = self.w.layers.getSelection()
+            layers = [self.layers[i] for i in layers_index]
+            if len(layers):
+                print 'deleting layers...\n'
+                for layer in layers:
+                    if layer in self.font.layerOrder:
+                        print '\tdeleting %s...' % layer
+                        self.font.removeLayer(layer)
+                self.font.update()
                 print
                 print '...done.\n'
-                self.font.update()
+                # update UI
                 self.get_font()
                 self.update_ui()
             else:
-                print 'Font does not have layer %s.' % layer_name
+                print 'no layer selected.'
 
     def on_close_window(self, sender):
         removeObserver(self, "fontBecameCurrent")

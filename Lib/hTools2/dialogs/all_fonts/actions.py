@@ -2,12 +2,7 @@
 
 # import
 
-try:
-    from mojo.roboFont import AllFonts
-
-except ImportError:
-    from robofab.world import AllFonts
-
+from mojo.roboFont import AllFonts
 from vanilla import *
 
 from hTools2 import hDialog
@@ -104,7 +99,7 @@ class actionsDialog(hDialog):
                     (x, y,
                     -self.padding_x,
                     self.text_height),
-                    "save .ufo",
+                    "save ufo",
                     callback=self.save_callback,
                     value=self.save,
                     sizeStyle=self.size_style)

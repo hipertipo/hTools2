@@ -8,12 +8,7 @@
 
 # imports
 
-try:
-    from mojo.roboFont import CurrentGlyph
-
-except ImportError:
-    from robofab.world import CurrentGlyph
-
+from mojo.roboFont import CurrentGlyph
 from vanilla import *
 
 from hTools2 import hDialog
@@ -59,13 +54,13 @@ class nudgePointsDialog(hDialog):
         self.w.arrows = Arrows(
                     (x, y),
                     callbacks=dict(
-                        left=self.left_callback, 
-                        right=self.right_callback, 
-                        up=self.up_callback, 
+                        left=self.left_callback,
+                        right=self.right_callback,
+                        up=self.up_callback,
                         down=self.down_callback,
-                        leftDown=self.down_left_callback, 
-                        rightDown=self.down_right_callback, 
-                        leftUp=self.up_left_callback, 
+                        leftDown=self.down_left_callback,
+                        rightDown=self.down_right_callback,
+                        leftUp=self.up_left_callback,
                         rightUp=self.up_right_callback,
                     ),
                     arrows=[

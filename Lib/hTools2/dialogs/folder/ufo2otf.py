@@ -4,12 +4,7 @@
 
 import os
 
-try:
-    from mojo.roboFont import RFont
-
-except ImportError:
-    from robofab.world import RFont
-
+from mojo.roboFont import RFont
 from vanilla import *
 from vanilla.dialogs import getFolder
 
@@ -39,7 +34,7 @@ class UFOsToOTFsDialog(hDialog):
 
     def __init__(self):
         # window
-        self.title = "ufos2otfs"
+        self.title = "ufo2otf"
         self.height = (self.button_height * 3) + (self.padding_y * 6) + (self.text_height * 4) + self.progress_bar
         self.w = FloatingWindow((self.width, self.height), self.title)
         x = self.padding_x

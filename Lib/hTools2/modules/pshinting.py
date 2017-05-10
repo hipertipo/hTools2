@@ -6,35 +6,41 @@ from robofab.pens.marginPen import MarginPen
 # ps stems
 #----------
 
-def get_vstems(font):
-    ref_glyph = 'l'
+def get_vstems(font, glyphs=['l', 'I']):
     ref_y = font.info.xHeight / 2.0
-    g = font[ref_glyph]
-    pen = MarginPen(g, ref_y, isHorizontal=True)
-    g.draw(pen)
-    # try:
-    print len(g)
-    print ref_y
-    print pen.getMargins.__doc__ #, pen.getMargins()
-    print pen.getMargins()
-    left_edge, right_edge = pen.getMargins()
-    stem = right_edge - left_edge
-    return [stem]
-    # except:
-    #     return []
+    stems = []
+    for glyph_name in glyphs:
+        if font.has_key(glyph_name):
+            g = font[glyph_name]
+            # get margins
+            pen = MarginPen(g, ref_y, isHorizontal=True)
+            g.draw(pen)
+            # calculate stem from margins
+            try:
+                left_edge, right_edge = pen.getMargins()
+                stem = int(right_edge - left_edge)
+                stems.append(stem)
+            except:
+                pass # glyph is empty
+    return stems
 
-def get_hstems(font):
-    ref_glyph = 'H'
-    g = font[ref_glyph]
-    ref_x = g.width / 2.0
-    pen = MarginPen(g, ref_x, isHorizontal=False)
-    g.draw(pen)
-    # try:
-    bottom_edge, top_edge = pen.getMargins()
-    stem = top_edge - bottom_edge
-    return [stem]
-    # except:
-    #     return []
+def get_hstems(font, glyphs=['H']):
+    stems = []
+    for glyph_name in glyphs:
+        if font.has_key(glyph_name):
+            g = font[glyph_name]
+            ref_x = g.width / 2.0
+            # get margins
+            pen = MarginPen(g, ref_x, isHorizontal=False)
+            g.draw(pen)
+            # calculate stem from margins
+            try:
+                bottom_edge, top_edge = pen.getMargins()
+                stem = int(top_edge - bottom_edge)
+                stems.append(stem)
+            except:
+                pass # glyph is empty
+    return stems
 
 def set_vstems(font, stems):
     font.info.postscriptStemSnapV = stems
@@ -56,14 +62,22 @@ def set_stems(font, vstems=None, hstems=None):
 
 def get_bluezones(font):
     zones = []
-    zones.append(font['o'].box[1]) # baseline_bottom
-    zones.append(0) # baseline_top
-    zones.append(font['x'].box[3]) # xheight_bottom
-    zones.append(font['o'].box[3]) # xheight_top
-    zones.append(font['g'].box[1]) # descender_bottom
-    zones.append(font['p'].box[1]) # descender_top
-    zones.append(font['d'].box[3]) # ascender_bottom
-    zones.append(font['germandbls'].box[3]) # ascender_top
+    # baseline
+    zones.append(font['o'].box[1])
+    zones.append(0)
+    # xheight
+    zones.append(font['x'].box[3])
+    zones.append(font['o'].box[3])
+    # descender
+    zones.append(font['g'].box[1])
+    zones.append(font['p'].box[1])
+    # asscender
+    zones.append(font['d'].box[3])
+    zones.append(font['f'].box[3])
+    # capheight
+    # zones.append(font['H'].box[3])
+    # zones.append(font['O'].box[3])
+    # done
     zones.sort()
     return zones
 
@@ -71,4 +85,3 @@ def set_bluezones(font, bluezones=None):
     if not bluezones:
         bluezones = get_bluezones(font)
     font.info.postscriptBlueValues = bluezones
-

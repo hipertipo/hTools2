@@ -4,12 +4,7 @@
 
 # imports
 
-try:
-    from mojo.roboFont import CurrentGlyph
-
-except ImportError:
-    from robofab.world import CurrentGlyph
-
+from mojo.roboFont import CurrentGlyph
 from vanilla import *
 
 from hTools2 import hDialog
@@ -29,16 +24,16 @@ def get_min(values):
 # object
 
 class alignPointsDialog(hDialog):
-    
+
     """Align selected points vertically or horizontally."""
-    
+
     glyph = None
     points = []
     x_pos_list = []
     y_pos_list = []
     axis = 1
-    mode = 1    
-    
+    mode = 1
+
     def __init__(self):
         # window parameters
         self.title = 'align'

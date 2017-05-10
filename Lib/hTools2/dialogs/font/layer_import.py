@@ -7,12 +7,7 @@
 
 import os
 
-try:
-    from mojo.roboFont import CurrentFont, RFont
-
-except ImportError:
-    from robofab.world import CurrentFont, RFont
-    
+from mojo.roboFont import CurrentFont, RFont
 from vanilla import *
 from vanilla.dialogs import getFile
 

@@ -1,13 +1,6 @@
 # [h] move anchors in selected glyphs
 
-# imports
-
-try:
-    from mojo.roboFont import CurrentFont
-
-except ImportError:
-    from robofab.world import CurrentFont
-
+from mojo.roboFont import CurrentFont
 from vanilla import *
 
 from hTools2 import hDialog
@@ -54,13 +47,13 @@ class moveAnchorsDialog(hDialog):
         self.w.arrows = Arrows(
                     (x, y),
                     callbacks=dict(
-                        left=self.left_callback, 
-                        right=self.right_callback, 
-                        up=self.up_callback, 
+                        left=self.left_callback,
+                        right=self.right_callback,
+                        up=self.up_callback,
                         down=self.down_callback,
-                        leftDown=self.down_left_callback, 
-                        rightDown=self.down_right_callback, 
-                        leftUp=self.up_left_callback, 
+                        leftDown=self.down_left_callback,
+                        rightDown=self.down_right_callback,
+                        leftUp=self.up_left_callback,
                         rightUp=self.up_right_callback,
                     ),
                     arrows=[

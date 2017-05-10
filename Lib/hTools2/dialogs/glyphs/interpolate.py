@@ -5,14 +5,10 @@ reload(hTools2.dialogs.misc)
 
 # imports
 
-try:
-    from mojo.roboFont import AllFonts
-    from mojo.events import addObserver, removeObserver
-
-except ImportError:
-    from robofab.world import AllFonts
-
+import os
 from vanilla import *
+from mojo.roboFont import AllFonts
+from mojo.events import addObserver, removeObserver
 
 from hTools2 import hDialog
 from hTools2.dialogs.misc import Spinner
@@ -31,20 +27,18 @@ class interpolateGlyphsDialog(hDialog):
 
     # attributes
 
-    all_fonts = []
-    all_fonts_names = []
-
-    factor_x = 0.50
-    factor_y = 0.50
-    # proportional = True
+    all_fonts    = {}
+    factor_x     = 0.50
+    factor_y     = 0.50
+    proportional = True
 
     # methods
 
     def __init__(self):
         self._get_fonts()
         # window
-        self.title = 'interpol'
-        self.height = (self.nudge_button * 4) + (self.text_height * 6) + self.progress_bar + (self.padding_y * 8) + (self.button_height) - 10
+        self.title = 'insterpol'
+        self.height = (self.nudge_button*4) + (self.text_height*7) + self.progress_bar + (self.padding_y*9) + (self.button_height) - 10
         self.value_box = 60
         self.column_2 = self.value_box + (self.nudge_button * 7) - 6
         self.w = FloatingWindow((self.width, self.height), self.title)
@@ -62,7 +56,7 @@ class interpolateGlyphsDialog(hDialog):
                     (x, y,
                     -self.padding_x,
                     self.text_height),
-                    self.all_fonts_names,
+                    sorted(self.all_fonts.keys()),
                     sizeStyle=self.size_style)
         y += self.text_height
         # master 2
@@ -77,7 +71,7 @@ class interpolateGlyphsDialog(hDialog):
                     (x, y,
                     -self.padding_x,
                     self.text_height),
-                    self.all_fonts_names,
+                    sorted(self.all_fonts.keys()),
                     sizeStyle=self.size_style)
         y += self.text_height
         # target
@@ -92,7 +86,7 @@ class interpolateGlyphsDialog(hDialog):
                     (x, y,
                     -self.padding_x,
                     self.text_height),
-                    self.all_fonts_names,
+                    sorted(self.all_fonts.keys()),
                     sizeStyle=self.size_style)
         # factor x
         x = 0
@@ -112,19 +106,19 @@ class interpolateGlyphsDialog(hDialog):
                     integer=False,
                     label='y factor')
         # proporional
-        # x = self.padding_x
+        x = self.padding_x
         y += self.w._factor_y.getPosSize()[3]
-        # self.w._proportional_checkbox = CheckBox(
-        #             (x, y,
-        #             -self.padding_x,
-        #             self.text_height),
-        #             "proportional",
-        #             value=self.proportional,
-        #             sizeStyle=self.size_style,
-        #             callback=self._proportional_callback)
+        self.w._proportional_checkbox = CheckBox(
+                    (x, y,
+                    -self.padding_x,
+                    self.text_height),
+                    "proportional",
+                    value=self.proportional,
+                    sizeStyle=self.size_style,
+                    callback=self._proportional_callback)
         # apply button
         x = self.padding_x
-        # y += (self.text_height + self.padding_y) - 3
+        y += (self.text_height + self.padding_y) - 3
         self.w.button_apply = SquareButton(
                     (x, y,
                     -self.padding_x,
@@ -152,31 +146,35 @@ class interpolateGlyphsDialog(hDialog):
 
     # apply
 
-    # def _proportional_callback(self, sender):
-    #     self.proportional = self.w._proportional_checkbox.get()
+    def _proportional_callback(self, sender):
+        self.proportional = self.w._proportional_checkbox.get()
 
     def _get_fonts(self):
-        # get all fonts
-        self.all_fonts = AllFonts()
-        # get font names
-        self.all_fonts_names = []
-        if len(self.all_fonts) > 0:
-            for font in self.all_fonts:
-                self.all_fonts_names.append(get_full_name(font))
+        self.all_fonts = {}
+        for font in AllFonts():
+            font_name = get_full_name(font) # os.path.splitext(os.path.split(font.path)[-1])[0] #
+            self.all_fonts[font_name] = font
 
     def update_callback(self, sender):
         self._get_fonts()
-        self.w._f1_font.setItems(self.all_fonts_names)
-        self.w._f2_font.setItems(self.all_fonts_names)
-        self.w._f3_font.setItems(self.all_fonts_names)
+        self.w._f1_font.setItems(sorted(self.all_fonts.keys()))
+        self.w._f2_font.setItems(sorted(self.all_fonts.keys()))
+        self.w._f3_font.setItems(sorted(self.all_fonts.keys()))
 
     def apply_callback(self, sender):
         # get fonts
-        try:
-            f1 = self.all_fonts[self.w._f1_font.get()]
-            f2 = self.all_fonts[self.w._f2_font.get()]
-            f3 = self.all_fonts[self.w._f3_font.get()]
+        if len(self.all_fonts):
+
+            f1_name = sorted(self.all_fonts.keys())[self.w._f1_font.get()]
+            f2_name = sorted(self.all_fonts.keys())[self.w._f2_font.get()]
+            f3_name = sorted(self.all_fonts.keys())[self.w._f3_font.get()]
+
+            f1 = self.all_fonts[f1_name]
+            f2 = self.all_fonts[f2_name]
+            f3 = self.all_fonts[f3_name]
+
             glyph_names = get_glyphs(f1)
+
             if len(glyph_names) > 0:
                 # get factors
                 x = float(self.w._factor_x.value.get())
@@ -184,13 +182,13 @@ class interpolateGlyphsDialog(hDialog):
                 # print info
                 print 'interpolating glyphs...\n'
                 boolstring = (False, True)
-                print '\tmaster 1: %s' % get_full_name(f1)
-                print '\tmaster 2: %s' % get_full_name(f2)
-                print '\ttarget: %s' % get_full_name(f3)
+                print '\tmaster 1: %s' % f1_name
+                print '\tmaster 2: %s' % f2_name
+                print '\ttarget: %s'   % f3_name
                 print
                 print '\tfactor x: %s' % x
                 print '\tfactor y: %s' % y
-                # print '\tproportional: %s' % boolstring[self.proportional]
+                print '\tproportional: %s' % boolstring[self.proportional]
                 print
                 print '\t',
                 self.w.bar.start()
@@ -199,26 +197,31 @@ class interpolateGlyphsDialog(hDialog):
                     # check glyphs
                     if f2.has_key(glyph_name):
                         f3.newGlyph(glyph_name, clear=True)
-                        # prepare undo
-                        f3[glyph_name].prepareUndo('interpolate')
-                        # interpolate
                         print glyph_name,
-                        f3[glyph_name].interpolate((x, y), f1[glyph_name], f2[glyph_name])
-                        f3[glyph_name].update()
-                        # create undo
-                        f3[glyph_name].performUndo()
+                        # get glyphs
+                        g1 = f1[glyph_name]
+                        g2 = f2[glyph_name]
+                        g3 = f3[glyph_name]
+                        # interpolate
+                        g3.prepareUndo('interpolate')
+                        g3.interpolate((x, y), g1, g2)
+                        g3.mark = 1.0, 0, 0, 0.5
+                        g3.update()
+                        g3.performUndo()
                     else:
                         print '\tfont 2 does not have glyph %s' % glyph_name
-                f3.update()
                 # done
+                # if len(glyph_names):
+                #     f3.update()
                 self.w.bar.stop()
                 print
                 print '\n...done.\n'
             # no glyph selected
             else:
                 print no_glyph_selected
+
         # no font open
-        except:
+        else:
             print no_font_open
 
     def on_close_window(self, sender):

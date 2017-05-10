@@ -2,12 +2,7 @@
 
 # imports
 
-try:
-    from mojo.roboFont import RFont
-
-except ImportError:
-    from robofab.world import RFont
-
+from mojo.roboFont import RFont
 from vanilla import *
 from vanilla.dialogs import getFolder
 
@@ -127,7 +122,7 @@ class actionsFolderDialog(hDialog):
                     (x, y,
                     -self.padding_x,
                     self.text_height),
-                    "save .ufo",
+                    "save ufo",
                     callback=self.save_callback,
                     value=self.save,
                     sizeStyle=self.size_style)

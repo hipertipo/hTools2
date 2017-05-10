@@ -3,8 +3,8 @@
 # by Frederik Berlaen/TypeMyType
 # https://github.com/typemytype/RoboFontExtensions/blob/master/outliner/Outliner.roboFontExt/lib/outline.py
 
-from vanilla import *
-from AppKit import *
+# from vanilla import *
+# from AppKit import *
 
 from fontTools.pens.cocoaPen import CocoaPen
 
@@ -17,8 +17,6 @@ from fontTools.pens.basePen import BasePen
 from robofab.pens.pointPen import AbstractPointPen
 from robofab.pens.reverseContourPointPen import ReverseContourPointPen
 from robofab.pens.adapterPens import PointToSegmentPen
-
-from robofab.world import CurrentGlyph
 
 from defcon import Glyph
 from math import sqrt, cos, sin, acos, asin, degrees, radians, tan, pi
@@ -585,3 +583,4 @@ class OutlinePen(BasePen):
         pointPen = glyph.getPointPen()
         self.drawPoints(pointPen)
         return glyph
+

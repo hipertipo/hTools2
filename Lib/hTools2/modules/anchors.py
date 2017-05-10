@@ -38,7 +38,7 @@ def clear_anchors(font, glyph_names=None):
     if glyph_names is None:
         glyph_names = font.keys()
     for glyph_name in glyph_names:
-        if len(font[glyph_name].anchors) > 0:
+        if font.has_key(glyph_name) and len(font[glyph_name].anchors) > 0:
             font[glyph_name].prepareUndo('clear anchors')
             font[glyph_name].clearAnchors()
             font[glyph_name].update()
@@ -117,6 +117,20 @@ def get_anchors_dict(accents_dict):
     # done
     return anchors_dict
 
+def get_accents_anchors_dict(accents_dict):
+    # get anchors
+    anchors_dict = {}
+    for accented_glyph in accents_dict.keys():
+        # get base glyph and accents
+        base, accents = accents_dict[accented_glyph]
+        for accent_name, accent_anchor in accents:
+            if not anchors_dict.has_key(accent_name):
+                anchors_dict[accent_name] = []
+            if accent_anchor not in anchors_dict[accent_name]:
+                anchors_dict[accent_name].append(accent_anchor)
+    # done
+    return anchors_dict
+
 # glyph-level tools
 
 def rename_anchor(glyph, old_name, new_name):
@@ -178,14 +192,14 @@ def move_anchors(glyph, anchor_names, (delta_x, delta_y)):
             anchor.move((delta_x, delta_y))
             glyph.update()
 
-def create_anchors(glyph, top=True, bottom=True, accent=False, top_delta=20, bottom_delta=20):
+def create_anchors(glyph, top=True, bottom=True, accent=False, top_pos=20, bottom_pos=20):
     """Create anchors in glyph.
 
     :param bool top: Create or not *top* anchors.
     :param bool bottom: Create or not *bottom* anchors.
     :param bool accent: Create ot not accent anchors with underscore prefix.
-    :param int top_delta: Distance from *top* anchors to the font's x-height.
-    :param int bottom_delta: Distance from *bottom* anchors to the font's baseline.
+    :param int top_pos: Position of the *top* anchors.
+    :param int bottom_pos: Position of the *bottom* anchors.
 
     """
     # make anchors list
@@ -212,9 +226,11 @@ def create_anchors(glyph, top=True, bottom=True, accent=False, top_delta=20, bot
         if anchor_name not in anchors:
             # make anchor y-position
             if anchor_name in [ 'top', '_top' ]:
-                y = font.info.xHeight + top_delta
+                # y = font.info.xHeight + top_delta
+                y = top_pos
             else:
-                y = 0 - bottom_delta
+                # y = 0 - bottom_delta
+                y = bottom_pos
             # place anchor
             glyph.appendAnchor(anchor_name, (x, y))
     # done glyph

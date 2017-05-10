@@ -2,43 +2,33 @@
 
 """A simple wrapper for Frederik Berlaen's outliner code."""
 
-# imports
-
 from hTools2.extras.outline import *
-
 from mojo.roboFont import NewFont
 
 # functions
 
-def make_outline(glyph, distance, join, cap):
-    """
-    Calculate expanded outlines for a given glyph.
-
-    """
+def make_outline(glyph, distance, join, cap, inner=True, outer=True, miter=None):
+    '''Calculate expanded outlines for a given glyph.'''
     options = ['Square', 'Round', 'Butt']
     pen = OutlinePen(glyph.getParent(),
-        distance,
-        connection=options[join],
-        cap=options[cap],
-        miterLimit=None,
-        closeOpenPaths=True)
+                distance, connection=options[join], cap=options[cap],
+                miterLimit=miter, closeOpenPaths=True)
     glyph.draw(pen)
-    pen.drawSettings(drawOriginal=False,
-        drawInner=True,
-        drawOuter=True)
+    pen.drawSettings(drawOriginal=False, drawInner=inner, drawOuter=outer)
     return pen
 
-def expand_glyph(src_glyph, dst_glyph, distance, join=1, cap=1, round=False):
-    """
+def expand_glyph(src_glyph, dst_glyph, distance, join=1, cap=1, inner=True, outer=True, miter=None, round=False, clear_dest=True):
+    '''
     Expand a glyph's outlines by a given amount of units.
 
-    """
+    '''
     # set undo
     dst_glyph.prepareUndo("expand strokes")
     # calculate outline shape
-    outline_pen = make_outline(src_glyph, distance, join, cap)
-    # clear glyph
-    dst_glyph.clear()
+    outline_pen = make_outline(src_glyph, distance, join, cap, inner=inner, outer=outer, miter=miter)
+    # clear destination glyph
+    if clear_dest:
+        dst_glyph.clear()
     # copy outline to glyph
     outline_pen.drawPoints(dst_glyph.getPointPen())
     # round point positions to integers
@@ -50,6 +40,7 @@ def expand_glyph(src_glyph, dst_glyph, distance, join=1, cap=1, round=False):
 expand = expand_glyph
 
 def expand_font(src_font, distance, join=1, cap=1):
+    '''Expand outlines for all glyphs in font.'''
     # create a new empty font
     dst_font = NewFont(showUI=False)
     # expand all glyph
@@ -70,3 +61,4 @@ def expand_font(src_font, distance, join=1, cap=1):
                 dst_glyph.appendComponent(component.baseGlyph, component.offset, component.scale)
     # done
     return dst_font
+

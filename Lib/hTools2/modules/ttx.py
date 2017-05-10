@@ -6,6 +6,11 @@ import os
 import time
 
 from fontTools.ttLib import TTFont
+
+import hTools2.modules.sysutils
+reload(hTools2.modules.sysutils)
+
+from hTools2.modules.sysutils import SuppressPrint
 from hTools2.extras.ElementTree import parse
 
 # functions
@@ -21,10 +26,11 @@ def ttx2otf(ttx_path, otf_path=None):
     if not otf_path:
         otf_path = '%s.otf' % os.path.splitext(ttx_path)[0]
     # save otf font
-    tt = TTFont()
-    tt.verbose = False
-    tt.importXML(ttx_path)
-    tt.save(otf_path)
+    with SuppressPrint():
+        tt = TTFont()
+        tt.verbose = False
+        tt.importXML(ttx_path)
+        tt.save(otf_path)
 
 def otf2ttx(otf_path, ttx_path=None):
     """Generate a .ttx font from an .otf file.
@@ -37,9 +43,10 @@ def otf2ttx(otf_path, ttx_path=None):
     if not ttx_path:
         ttx_path = '%s.ttx' % os.path.splitext(otf_path)[0]
     # save ttx font
-    tt = TTFont(otf_path)
-    tt.verbose = False
-    tt.saveXML(ttx_path)
+    with SuppressPrint():
+        tt = TTFont(otf_path)
+        tt.verbose = False
+        tt.saveXML(ttx_path)
 
 def strip_names(ttx_path):
     """Clear several nameIDs to prevent the font from being installable on desktop OSs.
@@ -109,10 +116,57 @@ def makeDSIG(tt_font):
     newDSIG.signatureRecords = [sig]
     tt_font["DSIG"] = newDSIG
     # ugly but necessary -> so all tables are added to ttfont
+    # tt_font.lazy = False
     for key in tt_font.keys():
         print tt_font[key]
 
 def add_DSIG_table(otf_path):
-    tt_font = TTFont(otf_path)
-    makeDSIG(tt_font)
-    tt_font.save(otf_path)
+    with SuppressPrint():
+        tt_font = TTFont(otf_path)
+        makeDSIG(tt_font)
+        tt_font.save(otf_path)
+
+def extract_tables(otf_path, dest_folder, table_names=['name'], split=True):
+    """Extract font tables from an OpenType font as .ttx."""
+    ttfont = TTFont(otf_path)
+    info_file = os.path.splitext(os.path.split(otf_path)[1])[0]
+    info_path = os.path.join(dest_folder, '%s.ttx' % info_file)
+    ttfont.saveXML(info_path, tables=table_names, splitTables=split)
+
+def find_and_replace_otf(otf_path, dest_path, find_string, replace_string, tables=['name']):
+    ttx_path = '%s.ttx' % os.path.splitext(otf_path)[0]
+    otf2ttx(otf_path, ttx_path)
+    find_and_replace_ttx(ttx_path, find_string, replace_string, tables)
+    ttx2otf(ttx_path, dest_path)
+    os.remove(ttx_path)
+
+def find_and_replace_ttx(ttx_path, find_string, replace_string, tables=['name']):
+    count = 0
+
+    # 1. modify 'name' table
+    if 'name' in tables:
+        tree  = parse(ttx_path)
+        root  = tree.getroot()
+        for child in root.find('name'):
+            if child.text.find(find_string) != -1:
+                new_text = child.text.replace(find_string, replace_string)
+                child.text = new_text
+                count += 1
+        tree.write(ttx_path)
+
+    # 2. modify 'CFF ' table
+    if 'CFF ' in tables:
+        CFF_elements = ['version', 'Notice', 'Copyright', 'FullName', 'FamilyName', 'Weight']
+        tt_font = TTFont()
+        tt_font.importXML(ttx_path)
+        font_dict = tt_font['CFF '].cff.topDictIndex.items[0]
+        for element in CFF_elements:
+            text = getattr(font_dict, element)
+            if text.find(find_string) != -1:
+                new_text = text.replace(find_string, replace_string)
+                setattr(font_dict, element, new_text)
+                count += 1
+        tt_font.saveXML(ttx_path)
+
+    # done
+    return count

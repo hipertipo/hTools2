@@ -6,7 +6,7 @@
 import encoding
 reload(encoding)
 
-from encoding import chars2glyphnames
+from encoding import chars2psnames
 
 # diacritics per language
 # source: Diacritics Project
@@ -60,6 +60,10 @@ diacritics_chars = {
     'german' : [
         u'ä ö ü ß',
         u'Ä Ö Ü',
+    ],
+    'hungarian' : [
+        u'á é í ó ö ő ú ü ű',
+        u'Á É Í Ó Ö Ő Ú Ü Ű',
     ],
     'icelandic' : [
         u'á æ ð é í ó ö þ ú ý',
@@ -147,8 +151,8 @@ def convert_chars_to_glyphnames(chars_dict):
         lc_chars = lc.split()
         uc_chars = uc.split()
         # get glyph names from characters
-        lc_glyph_names = chars2glyphnames(lc_chars)
-        uc_glyph_names = chars2glyphnames(uc_chars)
+        lc_glyph_names = chars2psnames(lc_chars)
+        uc_glyph_names = chars2psnames(uc_chars)
         # append lists of glyph names to dict
         glyphnames[lang].append(lc_glyph_names)
         glyphnames[lang].append(uc_glyph_names)
@@ -192,15 +196,3 @@ def check_languages_coverage(glyph_names, n=50):
 # constants
 
 diacritics_glyphnames = convert_chars_to_glyphnames(diacritics_chars)
-
-# test
-
-if __name__ == '__main__':
-
-    from robofab.world import RFont
-    f1 = u"/_fonts/_Calligraphica/_ufos/Calligraphica_08.ufo"
-    f2 = u"/_fonts/_Gothica/_ufos/Gothica_Sans-15-2.ufo"
-    f3 = u"/_fonts/_Imperial/_ufos/Imperial_Sans-18-2-3.ufo"
-    font = RFont(f3)
-    # check_language_coverage('portuguese', font.keys())
-    check_languages_coverage(font.keys())

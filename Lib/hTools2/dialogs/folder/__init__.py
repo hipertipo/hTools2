@@ -5,9 +5,9 @@
 # import
 
 from actions import actionsFolderDialog
-from ufos2otfs import UFOsToOTFsDialog
-from otfs2ufos import OTFsToUFOsDialog
-from woffs2ufos import WOFFsToUFOsDialog
+from ufo2otf import UFOsToOTFsDialog
+from otf2ufo import OTFsToUFOsDialog
+from woff2ufo import WOFFsToUFOsDialog
 
 # export
 

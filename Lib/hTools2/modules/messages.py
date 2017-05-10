@@ -18,7 +18,7 @@ def no_x_open(x):
 # messages
 #----------
 
-# points 
+# points
 no_point_selected = no_x_selected('point')
 only_one_point = 'There is only one point selected. Please select at least two points before using this dialog.'
 at_least_two_points = 'Please select at least two points before using this dialog.'

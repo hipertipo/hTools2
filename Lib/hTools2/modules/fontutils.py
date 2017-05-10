@@ -31,7 +31,7 @@ def get_glyphs(font): # current_glyph=True, font_selection=True,
     current_glyph = CurrentGlyph()
     font_selection = font.selection
     # get RoboFont's window mode
-    single_window = [ False, True ][getDefault("singleWindowMode")]
+    single_window = [False, True][getDefault("singleWindowMode")]
     # handle multi-window mode
     glyphs = []
     if not single_window:
@@ -107,6 +107,24 @@ def parse_glyphs_groups(names, groups):
             glyph_names.append(name)
     return glyph_names
 
+def mark_composed_glyphs(font, color='Orange', alpha=.35):
+    """
+    Mark all composed glyphs in the font.
+
+    """
+    R, G, B = x11_colors[color]
+    mark_color = convert_to_1(R, G, B)
+    mark_color += (alpha,)
+    for glyph in font:
+        if len(glyph.components) > 0:
+            glyph.mark = mark_color
+            glyph.update()
+    font.update()
+
+#-----------------
+# renaming glyphs
+#-----------------
+
 def rename_glyph(font, old_name, new_name, overwrite=True, mark=True, verbose=True):
     """
     Rename a glyph in a given font.
@@ -125,7 +143,8 @@ def rename_glyph(font, old_name, new_name, overwrite=True, mark=True, verbose=Tr
         if font.has_key(new_name):
             # option [1] (default): overwrite
             if overwrite is True:
-                if verbose: print '\trenaming "%s" to "%s" (overwriting existing glyph)...' % (old_name, new_name)
+                if verbose:
+                    print '\trenaming "%s" to "%s" (overwriting existing glyph)...' % (old_name, new_name)
                 font.removeGlyph(new_name)
                 g.name = new_name
                 if mark:
@@ -133,13 +152,15 @@ def rename_glyph(font, old_name, new_name, overwrite=True, mark=True, verbose=Tr
                 g.update()
             # option [2]: skip, do not overwrite
             else:
-                if verbose: print '\tskipping "%s", "%s" already exists in font.' % (old_name, new_name)
+                if verbose:
+                    print '\tskipping "%s", "%s" already exists in font.' % (old_name, new_name)
                 if mark:
                     g.mark = named_colors['red']
                 g.update()
         # if new name not already in font, simply rename glyph
         else:
-            if verbose: print '\trenaming "%s" to "%s"...' % (old_name, new_name)
+            if verbose:
+                print '\trenaming "%s" to "%s"...' % (old_name, new_name)
             g.name = new_name
             if mark:
                 g.mark = named_colors['green']
@@ -160,19 +181,76 @@ def rename_glyphs_from_list(font, names_list, overwrite=True, mark=True, verbose
         print
         print '...done.\n'
 
-def mark_composed_glyphs(font, color='Orange', alpha=.35):
-    """
-    Mark all composed glyphs in the font.
+def rename_glyphs_in_font(ufo, names_list, glyphs=True, features=True, components=True):
+    if glyphs:
+        rename_glyphs(f, names_list)
+    if features:
+        rename_features(f, names_list)
+    if components:
+        rename_components(f, names_list)
 
-    """
-    R, G, B = x11_colors[color]
-    mark_color = convert_to_1(R, G, B)
-    mark_color += (alpha,)
-    for glyph in font:
-        if len(glyph.components) > 0:
-            glyph.mark = mark_color
-            glyph.update()
-    font.update()
+def rename_glyphs(font, names_list):
+    rename_glyphs_from_list(font, names_list, overwrite=False, mark=True, verbose=True)
+
+def rename_features(font, names_list):
+    features_old = font.features.text.split('\n')
+    features_new = ''
+    print 'renaming glyph names in OpenType features...\n'
+    for line in features_old:
+        for old_name, new_name in names_list:
+            if old_name in line:
+                print '\trenaming "%s" to "%s"...' % (old_name, new_name)
+                line = line.replace(old_name, new_name)
+        features_new += '%s\n' % line
+    font.features.text = features_new
+    print
+    print '...done.\n'
+
+def rename_components(font, names_list, mark=True):
+    for glyph_name in font.keys():
+        if len(font[glyph_name].components):
+            for component in font[glyph_name].components:
+                for old_name, new_name in names_list:
+                    if component.baseGlyph == old_name:
+                        component.baseGlyph = new_name
+                        if mark:
+                            font[glyph_name].mark = 0, 1, 1, 0.4
+
+def rename_features_file(fea_path, names_list):
+    features_old = open(fea_path, 'r').readlines()
+    features_new = []
+    print 'renaming glyph names in features file...\n'
+    for line in features_old:
+        for old_name, new_name in names_list:
+            if old_name in line:
+                print '\trenaming "%s" to "%s"...' % (old_name, new_name)
+                line = line.replace(old_name, new_name)
+        features_new += line
+    fea_txt = ''.join(features_new)
+    fea_dest = open(fea_path, 'w')
+    fea_dest.write(fea_txt)
+    fea_dest.close()
+    print
+    print '...done.\n'
+
+def rename_encoding(enc_path, names_list):
+    enc_src = open(enc_path, 'r').readlines()
+    lines = []
+    print 'renaming glyph names in encoding file...\n'
+    for line in enc_src:
+        for old_name, new_name in names_list:
+            if old_name in line:
+                print '\trenaming "%s" to "%s"...' % (old_name, new_name)
+                line = line.replace(old_name, new_name)
+        # check to avoid duplicates
+        if not line in lines:
+            lines.append(line)
+    enc = ''.join(lines)
+    enc_dest = open(enc_path, 'w')
+    enc_dest.write(enc)
+    enc_dest.close()
+    print
+    print '...done.\n'
 
 #--------
 # groups
@@ -215,6 +293,7 @@ def print_groups(font, mode=0):
     if len(groups) > 0:
         print 'printing groups in font %s...' % get_full_name(font)
         print
+
         # 1. print groups as OpenType classes
         if mode == 1:
             _groups = groups.keys()
@@ -230,6 +309,7 @@ def print_groups(font, mode=0):
               otGlyphs = otGlyphs + " ]"
               # print class in OpenType syntax
               print "%s = %s;" % (otClassName, otGlyphs)
+
         # 2. print groups as Python lists
         elif mode == 2:
             # print groups order (if available)
@@ -239,6 +319,7 @@ def print_groups(font, mode=0):
             # print groups
             for group in groups.keys():
                 print '%s = %s\n' % (group, font.groups[group])
+
         # 0. print groups as text
         else:
             # print groups order (if available)
@@ -257,9 +338,38 @@ def print_groups(font, mode=0):
                 print
         print
         print '...done.\n'
+
     # font has no groups
     else:
         print 'font %s has no groups.\n' % font
+
+def convert_groups_to_classes(src_ufo):
+    f = OpenFont(src_ufo, showUI=False)
+    left_classes = {}
+    right_classes = {}
+    for group in sorted(f.groups.keys()):
+        side, name = group.split('_')[1:]
+        glyphs = f.groups[group]
+        if side == 'L':
+            left_classes[name] = glyphs
+        else:
+            right_classes[name] = glyphs
+    classes = {}
+    for class_ in right_classes.keys():
+        if class_ in left_classes.keys():
+            if not right_classes[class_] == left_classes[class_]:
+                class_name = '_%s1' % class_.split('_')[-1]
+                classes[class_name] = right_classes[class_]
+        else:
+            class_name = '_%s' % class_.split('_')[-1]
+            classes[class_name] = right_classes[class_]
+    for class_ in left_classes.keys():
+        class_name = '_%s' % class_.split('_')[-1]
+        classes[class_name] = left_classes[class_]
+    classes_txt = ''
+    for class_ in sorted(classes.keys()):
+        classes_txt += '@%s = [%s];\n' % (class_, ' '.join(classes[class_]))
+    return classes_txt
 
 #-----------
 # font info
@@ -368,9 +478,18 @@ def print_guides(font):
         print '%s x:%s y:%s' % (guide.name, guide.x, guide.y)
     print
 
-#-----------
-# transform
-#-----------
+#--------
+# layers
+#--------
+
+def clear_layers(font):
+    while len(font.layerOrder) > 0:
+        font.removeLayer(font.layerOrder[0])
+        font.update()
+
+#-----------------
+# transformations
+#-----------------
 
 def decompose(font):
     """
