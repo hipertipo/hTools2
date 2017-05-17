@@ -92,7 +92,7 @@ class actionsDialog(hDialog):
                     self.text_height),
                     "add extremes",
                     callback=self.extremes_callback,
-                    value=self.overlaps,
+                    value=self.extremes,
                     sizeStyle=self.size_style)
         y += self.text_height
         self.w.save_checkBox = CheckBox(
