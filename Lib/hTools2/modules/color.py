@@ -4,7 +4,7 @@
 
 import random
 
-from hTools2.modules.sysutils import _ctx
+# from hTools2.modules.sysutils import _ctx
 from hTools2.extras.colorsys import *
 
 #-----------
@@ -13,30 +13,20 @@ from hTools2.extras.colorsys import *
 
 def random_color(alpha=1.0):
     '''Return a random color.'''
-    # FontLab
-    if _ctx == 'FontLab':
-        c = int(255 * random.random())
-    # RoboFont & NoneLab
-    else:
-        R, G, B = hsv_to_rgb(random.random(), 1.0, 1.0)
-        c = (R, G, B, alpha)
+    R, G, B = hsv_to_rgb(random.random(), 1.0, 1.0)
+    c = (R, G, B, alpha)
     return c
 
 def clear_colors(font):
     '''Clear the color from all glyph cells in the font.'''
     for gName in font.keys():
         clear_color(font[gName])
-    font.update()
+    font.changed()
 
 def clear_color(glyph):
     '''Clear the color of a glyph cell.'''
-    # FontLab
-    if _ctx == 'FontLab':
-        g.mark = 0
-    # RoboFont & NoneLab
-    else:
-        glyph.mark = None # (1, 1, 1, 0)
-    glyph.update()
+    glyph.markColor = None
+    glyph.changed()
 
 def convert_to_1(R, G, B, A=None):
     r = R / 255.0
@@ -100,12 +90,12 @@ def ryb_to_rgb(r, y, b):
     # done
     return (red, green, blue)
 
-def RGB_to_nodebox_color((R, G, B), ctx, alpha=1.0):
-    '''Convert RGB color to a NodeBox ``Color`` object.'''
-    colors = ctx.ximport("colors")
-    _alpha = 255 * alpha
-    _color = colors.rgb(R, G, B, _alpha, range=255)
-    return _color
+# def RGB_to_nodebox_color((R, G, B), ctx, alpha=1.0):
+#     '''Convert RGB color to a NodeBox ``Color`` object.'''
+#     colors = ctx.ximport("colors")
+#     _alpha = 255 * alpha
+#     _color = colors.rgb(R, G, B, _alpha, range=255)
+#     return _color
 
 #--------------
 # named colors

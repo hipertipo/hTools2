@@ -16,7 +16,6 @@ if f is not None:
     if len(glyph_names) > 0:
         for glyph_name in glyph_names:
             clear_guides(f[glyph_name])
-            f[glyph_name].update()
 
     # no glyph selected
     else:

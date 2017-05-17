@@ -7,8 +7,6 @@ from hTools2 import hDialog
 from hTools2.modules.fontutils import get_glyphs
 from hTools2.modules.messages import no_font_open
 
-# object
-
 class copyToLayerDialog(hDialog):
 
     '''A dialog to copy the foreground layer in the selected glyphs to another layer.
@@ -16,8 +14,6 @@ class copyToLayerDialog(hDialog):
     .. image:: imgs/glyphs/layers-copy.png
 
     '''
-
-    # attributes
 
     #: The font which is currently selected.
     font = None
@@ -27,8 +23,6 @@ class copyToLayerDialog(hDialog):
 
     #: Overwrite (or now) the contents of the target layer, if it already exists.
     overwrite = False
-
-    # methods
 
     def __init__(self):
         self.get_font()

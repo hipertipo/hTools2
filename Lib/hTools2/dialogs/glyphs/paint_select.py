@@ -8,8 +8,6 @@ from hTools2.modules.color import random_color, clear_color
 from hTools2.modules.fontutils import get_glyphs
 from hTools2.modules.messages import no_font_open, no_glyph_selected
 
-# objects
-
 class paintGlyphsDialog(hDialog):
 
     '''A dialog to apply a color to the selected glyph boxes, and to select glyphs by color.
@@ -18,11 +16,7 @@ class paintGlyphsDialog(hDialog):
 
     '''
 
-    # attributes
-
     mark_color = random_color()
-
-    # methods
 
     def __init__(self):
         self.title = 'color'
@@ -87,7 +81,7 @@ class paintGlyphsDialog(hDialog):
                 for glyph_name in glyph_names:
                     print glyph_name,
                     f[glyph_name].prepareUndo('paint glyph')
-                    f[glyph_name].mark = _mark_color
+                    f[glyph_name].markColor = _mark_color
                     f[glyph_name].performUndo()
                 print
                 print '\n...done.\n'
@@ -104,12 +98,12 @@ class paintGlyphsDialog(hDialog):
             glyph_names = get_glyphs(f)
             if len(glyph_names) > 0:
                 glyph_name = get_glyphs(f)[0]
-                color = f[glyph_name].mark
+                color = f[glyph_name].markColor
                 print 'selecting glyphs:\n'
                 print '\t',
                 glyph_names = []
                 for glyph in f:
-                    if glyph.mark == color:
+                    if glyph.markColor == color:
                         print glyph.name,
                         glyph_names.append(glyph.name)
                 f.selection = glyph_names

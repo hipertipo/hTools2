@@ -1,13 +1,14 @@
 # [h] simple prepolate for selected glyphs
 
+import hTools2.modules.interpol
+reload(hTools2.modules.interpol)
+
 from mojo.roboFont import AllFonts
 from mojo.events import addObserver, removeObserver
 from vanilla import *
 from hTools2 import hDialog
 from hTools2.modules.interpol import check_compatibility
 from hTools2.modules.fontutils import get_full_name, get_glyphs
-
-# objects
 
 class checkGlyphsCompatibilityDialog(hDialog):
 
@@ -16,8 +17,6 @@ class checkGlyphsCompatibilityDialog(hDialog):
     .. image:: imgs/glyphs/interpolate-check.png
 
     '''
-
-    # attributes
 
     #: A list of all open fonts.
     all_fonts = []
@@ -30,7 +29,7 @@ class checkGlyphsCompatibilityDialog(hDialog):
     def __init__(self):
         self.get_fonts()
         self.title = 'prepolate'
-        self.height = (self.text_height * 4) + (self.padding_y * 3) + self.button_height
+        self.height = self.text_height*4 + self.padding_y*3 + self.button_height
         self.w = FloatingWindow((self.width, self.height), self.title)
         # font 1
         x = self.padding_x
@@ -104,10 +103,16 @@ class checkGlyphsCompatibilityDialog(hDialog):
         f2 = self.all_fonts[f2_index]
         # get glyphs
         glyph_names = get_glyphs(f1)
-        if len(glyph_names) == 0:
+
+        print f1
+        print f2
+        print glyph_names
+
+
+        if not len(glyph_names):
             glyph_names = f1.keys()
         # run!
-        check_compatibility(f2, f1, names=glyph_names, report=False)
+        check_compatibility(f1, f2, names=glyph_names, report=False)
 
     def on_close_window(self, sender):
         # remove observers on close window

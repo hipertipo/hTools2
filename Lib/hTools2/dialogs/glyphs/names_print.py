@@ -6,8 +6,6 @@ from hTools2 import hDialog
 from hTools2.modules.fontutils import print_selected_glyphs, get_glyphs
 from hTools2.modules.messages import no_font_open, no_glyph_selected
 
-# objects
-
 class printGlyphsDialog(hDialog):
 
     '''A dialog to print the names of the selected glyphs as plain text or Python list.
@@ -17,8 +15,6 @@ class printGlyphsDialog(hDialog):
     '''
 
     sort_names = True
-
-    # methods
 
     def __init__(self):
         self.title = 'gnames'

@@ -7,8 +7,6 @@ from hTools2.dialogs.misc import Spinner
 from hTools2.modules.rasterizer import RasterGlyph, get_esize, randomize_elements
 from hTools2.modules.messages import no_glyph_selected, no_font_open
 
-# objects
-
 class randomizeElementsDialog(hDialog):
 
     '''A dialog to randomize the size of element components in selected glyphs.
@@ -17,17 +15,12 @@ class randomizeElementsDialog(hDialog):
 
     '''
 
-    # attributes
-
     rand_min = 0.80
     rand_max = 1.20
 
-    # methods
-
     def __init__(self):
         self.title = 'randomize'
-        self.height = (self.spinner_height * 2) + (self.padding_y * 4) + self.button_height
-        # self.column_1 = 40
+        self.height = self.spinner_height*2 + self.padding_y*4 + self.button_height
         self.w = FloatingWindow((self.width, self.height), self.title)
         # minimum random value
         x = 0
@@ -35,26 +28,20 @@ class randomizeElementsDialog(hDialog):
         self.w.spinner_min = Spinner(
                     (x, y),
                     default=self.rand_min,
-                    integer=False,
-                    scale=0.01,
-                    digits=2,
+                    integer=False, scale=0.01, digits=2,
                     label='min')
         # maximum random value
         y += self.w.spinner_min.getPosSize()[3]
         self.w.spinner_max = Spinner(
                     (x, y),
                     default=self.rand_max,
-                    integer=False,
-                    scale=0.01,
-                    digits=2,
+                    integer=False, scale=0.01, digits=2,
                     label='max')
         # apply button
         x = self.padding_x
         y += self.w.spinner_max.getPosSize()[3]
         self.w.apply_button = SquareButton(
-                    (x, y,
-                    -self.padding_x,
-                    self.button_height),
+                    (x, y, -self.padding_x, self.button_height),
                     'apply',
                     sizeStyle=self.size_style,
                     callback=self.apply_callback)

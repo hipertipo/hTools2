@@ -96,7 +96,7 @@ class interpolationPreviewDialog(hDialog, BaseWindowController):
             self.off()
         # update glyph view
         g = CurrentGlyph()
-        g.update()
+        g.changed()
 
     def update_callback(self, sender):
         print 'updating fonts'

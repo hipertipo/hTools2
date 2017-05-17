@@ -3,7 +3,7 @@
 from hTools2.modules.fontutils import get_glyphs
 from hTools2.modules.messages import no_font_open
 
-anchor_names = [ 'top', 'bottom' ]
+anchor_names = ['top', 'bottom']
 
 f = CurrentFont()
 
@@ -13,10 +13,11 @@ if f is not None:
         glyph = f[glyph_name]
         anchors = glyph.anchors
         if len(anchors) > 0:
+            glyph.prepareUndo('center anchors')
             for anchor in anchors:
                 if anchor.name in anchor_names:
-                    anchor.x = glyph.box[2] * 0.5
-            glyph.update()
-
+                    anchor.x = glyph.bounds[2] * 0.5
+            glyph.changed()
+            glyph.performUndo()
 else:
     print no_font_open

@@ -1,12 +1,10 @@
 # [h] mirror selected glyphs
 
-from mojo.roboFont import CurrentFont, CurrentGlyph
 from vanilla import *
+from mojo.roboFont import CurrentFont, CurrentGlyph
 from hTools2 import hDialog
 from hTools2.modules.fontutils import get_glyphs
 from hTools2.modules.messages import no_glyph_selected, no_font_open
-
-# objects
 
 class mirrorGlyphsDialog(hDialog):
 
@@ -16,11 +14,7 @@ class mirrorGlyphsDialog(hDialog):
 
     '''
 
-    # attributes
-
     layers = False
-
-    # methods
 
     def __init__(self):
         # window
@@ -73,16 +67,12 @@ class mirrorGlyphsDialog(hDialog):
         center_y = yMin + (h / 2.0)
         return center_x, center_y
 
-    # def _mirror_contour(self, contour, (scale_x, scale_y)):
-    #     center = self._get_center(contour.box)
-    #     contour.scale((scale_x, scale_y), center)
-
     def _mirror_contours(self, contours, (scale_x, scale_y)):
         _xMin = _yMin = 9999
         _xMax = _yMax = 0
         # get global box
         for contour in contours:
-            xMin, yMin, xMax, yMax = contour.box
+            xMin, yMin, xMax, yMax = contour.bounds
             if xMin < _xMin:
                 _xMin = xMin
             if yMin < _yMin:
@@ -95,7 +85,8 @@ class mirrorGlyphsDialog(hDialog):
         center = self._get_center(box)
         # mirror contours
         for contour in contours:
-            contour.scale((scale_x, scale_y), center)
+            contour.scaleBy((scale_x, scale_y), center)
+            contour.changed()
 
     def _mirror_glyph(self, glyph, (scale_x, scale_y)):
         if len(glyph.contours) > 0:
@@ -111,11 +102,11 @@ class mirrorGlyphsDialog(hDialog):
                 self._mirror_contours(contours, (scale_x, scale_y))
             # mirror all
             else:
-                center = self._get_center(glyph.box)
-                glyph.scale((scale_x, scale_y), center)
+                center = self._get_center(glyph.bounds)
+                glyph.scaleBy((scale_x, scale_y), center)
             # done
             glyph.performUndo()
-            glyph.update()
+            glyph.changed()
 
     def _mirror_glyphs(self, (scale_x, scale_y)):
         f = CurrentFont()
@@ -129,15 +120,15 @@ class mirrorGlyphsDialog(hDialog):
                     # mirror all layers
                     if self.layers:
                         for layer_name in f.layerOrder:
-                            _g = f[glyph_name].getLayer(layer_name)
-                            self._mirror_glyph(_g, (scale_x, scale_y))
+                            g = f[glyph_name].getLayer(layer_name)
+                            self._mirror_glyph(g, (scale_x, scale_y))
                     # mirror active layer only
                     else:
                         self._mirror_glyph(f[glyph_name], (scale_x, scale_y))
                     # done with glyph
-                    f[glyph_name].update()
+                    f[glyph_name].changed()
                 # done with font
-                f.update()
+                f.changed()
                 print
                 print '\n...done.\n'
             # no glyph selected

@@ -7,8 +7,6 @@ from hTools2.dialogs.misc import Arrows, Spinner
 from hTools2.modules.fontutils import get_glyphs
 from hTools2.modules.messages import no_glyph_selected, no_font_open, no_layer_selected
 
-# objects
-
 class moveGlyphsDialog(hDialog):
 
     '''A dialog to move the selected glyphs in a font.
@@ -17,11 +15,7 @@ class moveGlyphsDialog(hDialog):
 
     '''
 
-    # attributes
-
     move_value = 70
-
-    # methods
 
     def __init__(self, verbose=True):
         self.title = "move"
@@ -29,8 +23,7 @@ class moveGlyphsDialog(hDialog):
         self.height = (self.square_button * 3) + (self.padding_y * 5) + (self.text_height * 4) - 7
         self.w = FloatingWindow((self.width, self.height), self.title)
         # arrows
-        x = 0
-        y = 0
+        x = y = 0
         self.w.arrows = Arrows(
                     (x, y),
                     callbacks=dict(
@@ -140,15 +133,15 @@ class moveGlyphsDialog(hDialog):
                         if layers:
                             for layer_name in f.layerOrder:
                                 glyph = f[glyph_name].getLayer(layer_name)
-                                glyph.move((x, y))
+                                glyph.moveBy((x, y))
                         # active layer
                         if foreground:
-                            f[glyph_name].move((x, y))
+                            f[glyph_name].moveBy((x, y))
                         # done glyph
                         f[glyph_name].performUndo()
-                        f[glyph_name].update()
+                        f[glyph_name].changed()
                     # done font
-                    f.update()
+                    f.changed()
                     if self.verbose:
                         print
                         print '\n...done.\n'

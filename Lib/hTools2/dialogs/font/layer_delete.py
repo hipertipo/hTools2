@@ -6,8 +6,6 @@ from mojo.events import addObserver, removeObserver
 from hTools2 import hDialog
 from hTools2.modules.messages import no_font_open
 
-# object
-
 class deleteLayerDialog(hDialog):
 
     '''A dialog to delete a layer in a font.
@@ -16,22 +14,18 @@ class deleteLayerDialog(hDialog):
 
     '''
 
-    # attributes
-
     #: The font which is currently selected.
     font = None
 
     #: A list of all layers in the current font.
     layers = []
 
-    # methods
-
     def __init__(self):
         self.get_font()
         # window
-        self.title = 'delete layers'
+        self.title = 'layers'
         self.height = self.button_height + (self.padding_y*3) + (self.text_height*8)
-        self.w = FloatingWindow((self.width*1.5, self.height), self.title)
+        self.w = FloatingWindow((self.width, self.height), self.title)
         x = self.padding_x
         y = self.padding_y
         self.w.layers = List(
@@ -86,7 +80,7 @@ class deleteLayerDialog(hDialog):
                     if layer in self.font.layerOrder:
                         print '\tdeleting %s...' % layer
                         self.font.removeLayer(layer)
-                self.font.update()
+                self.font.changed()
                 print
                 print '...done.\n'
                 # update UI

@@ -72,8 +72,8 @@ def mark_composed_glyphs(font, color='Orange', alpha=.35):
     for glyph in font:
         if len(glyph.components) > 0:
             glyph.mark = mark_color
-            glyph.update()
-    font.update()
+            glyph.changed()
+    font.changed()
 
 #-----------------
 # renaming glyphs
@@ -93,14 +93,14 @@ def rename_glyph(font, old_name, new_name, overwrite=True, mark=True, verbose=Tr
                 g.name = new_name
                 if mark:
                     g.mark = named_colors['orange']
-                g.update()
+                g.changed()
             # option [2]: skip, do not overwrite
             else:
                 if verbose:
                     print '\tskipping "%s", "%s" already exists in font.' % (old_name, new_name)
                 if mark:
                     g.mark = named_colors['red']
-                g.update()
+                g.changed()
         # if new name not already in font, simply rename glyph
         else:
             if verbose:
@@ -108,12 +108,12 @@ def rename_glyph(font, old_name, new_name, overwrite=True, mark=True, verbose=Tr
             g.name = new_name
             if mark:
                 g.mark = named_colors['green']
-            g.update()
+            g.changed()
         # done glyph
     else:
         if verbose: print '\tskipping "%s", glyph does not exist in font.' % old_name
     # done font
-    font.update()
+    font.changed()
 
 def rename_glyphs_from_list(font, names_list, overwrite=True, mark=True, verbose=True):
     if verbose:
@@ -204,7 +204,7 @@ def delete_groups(font):
     '''Delete all groups in the font.'''
     for group in font.groups.keys():
         del font.groups[group]
-    font.update()
+    font.changed()
 
 def get_spacing_groups(font):
     '''Return a dictionary containing the ``left`` and ``right`` spacing groups in the font.'''
@@ -360,7 +360,7 @@ def set_foundry_info(font, fontInfoDict):
     font.info.versionMinor = fontInfoDict['versionMinor']
     font.info.openTypeNameUniqueID = "%s : %s : %s" % (fontInfoDict['foundry'], font.info.postscriptFullName, font.info.year)
     set_unique_ps_id(font)
-    f.update()
+    f.changed()
 
 def set_font_names(f, family_name, style_name):
     '''Set font names from ``family`` and ``style`` names.'''
@@ -379,24 +379,24 @@ def set_font_names(f, family_name, style_name):
     f.info.macintoshFONDName = '%s-%s' % (family_name, style_name)
     set_unique_ps_id(f)
     # done
-    f.update()
+    f.changed()
 
 #------------
 # guidelines
 #------------
 
 def clear_guides(font):
-    for guide in font.guides:
-        font.removeGuide(guide)
+    for guideline in font.guidelines:
+        font.removeGuideline(guideline)
 
 def create_guides(font, guides_dict):
     for guide_name in guides_list:
-        font.addGuide((0, 0), 0, name=guide_name)
-    font.update()
+        font.appendGuideline((0, 0), 0, name=guide_name)
+    font.changed()
 
 def print_guides(font):
-    for guide in font.guides:
-        print '%s x:%s y:%s' % (guide.name, guide.x, guide.y)
+    for guideline in font.guidelines:
+        print '%s x:%s y:%s' % (guideline.name, guideline.x, guideline.y)
     print
 
 #--------
@@ -406,7 +406,7 @@ def print_guides(font):
 def clear_layers(font):
     while len(font.layerOrder) > 0:
         font.removeLayer(font.layerOrder[0])
-        font.update()
+        font.changed()
 
 #-----------------
 # transformations
@@ -453,26 +453,26 @@ def align_to_grid(font, (sizeX, sizeY)):
     '''Align all points of all glyphs in the font to a ``(x,y)`` grid.'''
     for glyph in font:
         round_points(glyph, (sizeX, sizeY))
-        glyph.update()
-    font.update()
+        glyph.changed()
+    font.changed()
 
 def scale_glyphs(f, (factor_x, factor_y)):
     '''Scale all glyphs in the font by the given ``(x,y)`` factor.'''
     for g in f:
         if len(g.components) == 0:
             leftMargin, rightMargin = g.leftMargin, g.rightMargin
-            g.scale((factor_x, factor_y))
+            g.scaleBy((factor_x, factor_y))
             g.leftMargin = leftMargin * factor_x
             g.rightMargin = rightMargin * factor_x
-            g.update()
-    f.update()
+            g.changed()
+    f.changed()
 
 def move_glyphs(f, (delta_x, delta_y)):
     '''Move all glyphs in the font by the given ``(x,y)`` distance.'''
     for g in f:
-        g.move((delta_x, delta_y))
-        g.update()
-    f.update()
+        g.moveBy((delta_x, delta_y))
+        g.changed()
+    f.changed()
 
 def round_to_grid(font, gridsize, glyphs=None):
     if glyphs is None:
@@ -480,7 +480,7 @@ def round_to_grid(font, gridsize, glyphs=None):
     for glyph_name in glyphs:
         round_points(font[glyph_name], (gridsize, gridsize))
         round_width(font[glyph_name], gridsize)
-    font.update()
+    font.changed()
 
 #----------
 # RF tools

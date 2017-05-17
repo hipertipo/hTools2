@@ -18,18 +18,18 @@ def round_width(glyph, gridsize):
     '''Round ``glyph.width`` to a multiple of ``gridsize``.'''
     _width = float(glyph.width) / gridsize
     glyph.width = round(_width) * gridsize
-    glyph.update()
+    glyph.changed()
 
 def round_margins(glyph, gridsize, left=True, right=True):
     '''Round left and/or right margins to multiples of ``gridsize``.'''
     if left:
         _left = float(glyph.leftMargin) / gridsize
         glyph.leftMargin = round(_left) * gridsize
-        glyph.update()
+        glyph.changed()
     if right:
         _right = float(glyph.rightMargin) / gridsize
         glyph.rightMargin = round(_right) * gridsize
-        glyph.update()
+        glyph.changed()
 
 #-------------
 # glyph names
@@ -72,7 +72,7 @@ def round_points(glyph, (sizeX, sizeY)):
             _y_round = round(_y / sizeY) * sizeY
             point.x = _x_round
             point.y = _y_round
-    glyph.update()
+    glyph.changed()
 
 def round_bpoints(glyph, (sizeX, sizeY)):
     '''Round the position of all ``bPoints`` in ``glyph`` to the gridsize ``(sizeX,sizeY)``.'''
@@ -83,7 +83,7 @@ def round_bpoints(glyph, (sizeX, sizeY)):
             _x_round = round(_x / sizeX) * sizeX
             _y_round = round(_y / sizeY) * sizeY
             b_point.anchor = (_x_round, _y_round)
-    glyph.update()
+    glyph.changed()
 
 def round_anchors(glyph, (sizeX, sizeY)):
     '''Round the position of all ``anchors`` in ``glyph`` to the gridsize ``(sizeX,sizeY)``.'''
@@ -95,8 +95,8 @@ def round_anchors(glyph, (sizeX, sizeY)):
             y_new = int(_y_round * sizeY)
             x_delta = x_new - anchor.x
             y_delta = y_new - anchor.y
-            anchor.move((x_delta, y_delta))
-        glyph.update()
+            anchor.moveBy((x_delta, y_delta))
+        glyph.changed()
 
 #---------------
 # select points
@@ -114,7 +114,7 @@ def select_points_x(glyph, linePos, side='left'):
             else:
                 if p.x >= linePos:
                     p.selected = True
-    glyph.update()
+    glyph.changed()
 
 def select_points_y(glyph, linePos, side='top'):
     '''Select all points in ``glyph`` above/below the ``linePos(y)``.'''
@@ -128,14 +128,14 @@ def select_points_y(glyph, linePos, side='top'):
             else:
                 if p.y <= linePos:
                     p.selected = True
-    glyph.update()
+    glyph.changed()
 
 def deselect_points(glyph):
-    '''Deselect any selected ``point`` in ``glyph``.'''
+    '''Deselect any selected point in glyph.'''
     for c in glyph.contours:
         for p in c.points:
             p.selected = False
-    glyph.update()
+    glyph.changed()
 
 #--------------
 # shift points
@@ -176,7 +176,7 @@ def shift_selected_points_x(glyph, delta, anchors=False, bPoints=True):
                     if a.x <= linePos:
                         a.x = a.x + delta
     # done
-    glyph.update()
+    glyph.changed()
 
 def shift_selected_points_y(glyph, delta, anchors=False, bPoints=True):
     '''Shift the selected points in ``glyph`` vertically by ``delta`` units.'''
@@ -213,7 +213,7 @@ def shift_selected_points_y(glyph, delta, anchors=False, bPoints=True):
                     if a.y <= linePos:
                         a.y = a.y + delta
     # done
-    glyph.update()
+    glyph.changed()
 
 #---------------
 # center glyphs
@@ -229,7 +229,7 @@ def draw_bounds(g, (x1, y1, x2, y2), (x3, y3)):
     g.addGuide((0, y2), 0, name="y_max")
     g.addGuide((0, y3), 0, name="y_mid")
     # done
-    g.update()
+    g.changed()
 
 def get_bounds(g, layer_names):
     lowest_x = False
@@ -285,8 +285,8 @@ def center_layers(g, layer_names, (middle_x, middle_y)):
             center_y = yMin + (h * .5)
             shift_x  = middle_x - center_x
             shift_y  = middle_y - center_y
-            glyph.move((shift_x, shift_y))
-        g.update()
+            glyph.moveBy((shift_x, shift_y))
+        g.changed()
 
 def center_glyph_layers(g, layers, guides=True):
     _bounds = get_bounds(g, layers)
@@ -315,16 +315,16 @@ def clear_glyph_libs(glyph):
     if check_lib(glyph) is True:
         for k in glyph.lib.keys():
             del glyph.lib[k]
-        glyph.update()
+        glyph.changed()
 
 #------------
 # guidelines
 #------------
 
 def clear_guides(glyph):
-    for guide in glyph.guides:
-        glyph.removeGuide(guide)
-    glyph.update()
+    for guide in glyph.guidelines:
+        glyph.removeGuideline(guide)
+    glyph.changed()
 
 #------
 # bcps

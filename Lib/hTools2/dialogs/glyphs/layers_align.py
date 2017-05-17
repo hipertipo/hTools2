@@ -9,20 +9,14 @@ from hTools2.modules.fontutils import get_glyphs
 from hTools2.modules.glyphutils import center_glyph_layers
 from hTools2.modules.messages import no_glyph_selected, no_font_open, no_layer_selected
 
-# object
-
 class alignLayersDialog(hDialog):
 
     '''A dialog to center all layers in the selected glyphs.'''
 
-    # attributes
-
-    font = None
+    font        = None
     layer_names = []
-    all_layers = False
-    guides = True
-
-    # methods
+    all_layers  = False
+    guides      = True
 
     def __init__(self):
         self.get_layers()

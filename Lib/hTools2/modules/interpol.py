@@ -2,6 +2,9 @@
 
 '''A collection of tools for working with interpolation.'''
 
+import hTools2.modules.color
+reload(hTools2.modules.color)
+
 from hTools2.modules.fontutils import get_full_name
 from hTools2.modules.color import clear_color, clear_colors, named_colors
 
@@ -20,8 +23,8 @@ def interpolate_glyph(gName, f1, f2, f3, factor, clear=True):
         else:
             g = f3[gName]
         g.interpolate(factor, f1[gName], f2[gName])
-        g.update()
-        f3.update()
+        g.changed()
+        f3.changed()
     else:
         print 'glyph %s not contained in font 2' % gName
 
@@ -30,7 +33,7 @@ def interpolate_kerning(f1, f2, f3, factor):
     k2 = f2.kerning
     k3 = f3.kerning
     k3.interpolate(k1, k2, factor, True)
-    f3.update()
+    f3.changed()
 
 def check_compatibility(f1, f2, names=None, report=True):
     '''
@@ -38,7 +41,11 @@ def check_compatibility(f1, f2, names=None, report=True):
 
     If ``names=None``, all glyphs in ``f1`` will be checked - otherwise, only the ones in the list ``names``.
 
-    Glyph compatibility is indicated by colors in ``f1``: glyphs marked with ``green`` are compatible, glyphs marked with ``red`` are not compatible (because contours and/or amount of points do not match), and glyphs marked with ``blue`` do not exist in ``f2``.
+    Glyph compatibility is indicated by colors in ``f1``:
+
+    - ``green`` -> glyphs are compatible
+    - ``red``   -> glyphs are not compatible
+    - ``blue``  -> glyph does not exist in ``f2``
 
     If ``report=True``, the check results will be printed to the output window.
 
@@ -60,23 +67,23 @@ def check_compatibility(f1, f2, names=None, report=True):
         if f2.has_key(name):
             clear_color(f2[name])
             # if not compatible
-            if f1[name].isCompatible(f2[name], False) is not True:
-                f2[name].mark = red
+            if not f1[name].isCompatible(f2[name]):
+                f2[name].markColor = red
                 if report == True:
                     print "\t### %s is not compatible" % name
             # if compatible
             else:
-                f2[name].mark = green
+                f2[name].markColor = green
                 if report == True:
                     print "\t%s is compatible" % name
         # if glyphs not in f2
         else:
-            f1[name].mark = blue
+            f1[name].markColor = blue
             if report == True:
                 print "\t### %s is not in font 2" % name
     # update fonts
-    f2.update()
-    f1.update()
+    f2.changed()
+    f1.changed()
     if report == True:
         print '\n...done.\n'
 
@@ -88,9 +95,9 @@ def condense_glyphs(f3, f1, f2, f1_stem, f2_stem, factor, glyph_names):
             f3.newGlyph(glyph_name)
         f3[glyph_name].prepareUndo('condensomatic')
         f3[glyph_name].interpolate((factor, 0), f1[glyph_name], f2[glyph_name])
-        f3[glyph_name].scale((scale_x, 1))
+        f3[glyph_name].scaleBy((scale_x, 1))
         f3[glyph_name].leftMargin = (f1[glyph_name].leftMargin + f2[glyph_name].leftMargin) * 0.5 * (1.0 - factor)
         f3[glyph_name].rightMargin = (f1[glyph_name].rightMargin + f2[glyph_name].rightMargin) * 0.5 * (1.0 - factor)
-        f3[glyph_name].update()
+        f3[glyph_name].changed()
         f3[glyph_name].performUndo()
-    f3.update()
+    f3.changed()

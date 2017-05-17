@@ -7,8 +7,6 @@ from hTools2.dialogs.misc import Spinner
 from hTools2.modules.fontutils import get_glyphs
 from hTools2.modules.messages import no_glyph_selected, no_font_open
 
-# objects
-
 class scaleGlyphsDialog(hDialog):
 
     '''A dialog to scale the selected glyphs in a font.
@@ -17,14 +15,10 @@ class scaleGlyphsDialog(hDialog):
 
     '''
 
-    # attributes
-
-    x_metrics = True
-    y_metrics = False
+    x_metrics   = True
+    y_metrics   = False
+    layers      = False
     scale_value = '1.10'
-    layers = False
-
-    # methods
 
     def __init__(self):
         self.title = "scale"
@@ -151,10 +145,10 @@ class scaleGlyphsDialog(hDialog):
                         # scale all layers
                         for layer_name in font.layerOrder:
                             layer_glyph = glyph.getLayer(layer_name)
-                            layer_glyph.scale((factor_x, factor_y))
+                            layer_glyph.scaleBy((factor_x, factor_y))
                     # scale active layer only
                     else:
-                        glyph.scale((factor_x, factor_y))
+                        glyph.scaleBy((factor_x, factor_y))
                     # scale horizontal metrics
                     if self.x_metrics:
                         glyph.leftMargin = left * factor_x

@@ -1,13 +1,14 @@
 # [h] mask actions for selected glyphs
 
+import hTools2.modules.anchors
+reload(hTools2.modules.anchors)
+
 from mojo.roboFont import CurrentFont
 from vanilla import *
 from hTools2 import hDialog
 from hTools2.modules.anchors import get_anchors
 from hTools2.modules.fontutils import get_glyphs
 from hTools2.modules.messages import no_font_open
-
-# objects
 
 class maskDialog(hDialog):
 
@@ -17,11 +18,8 @@ class maskDialog(hDialog):
 
     '''
 
-    # attributes
-
-    mask_layer = 'background'
-
-    # methods
+    foreground_layer = 'public.default'
+    background_layer = 'background'
 
     def __init__(self):
         # window
@@ -80,21 +78,21 @@ class maskDialog(hDialog):
             for glyph_name in glyph_names:
                 # flip layers (including anchors)
                 font[glyph_name].prepareUndo('flip mask')
-                font[glyph_name].flipLayers('foreground', self.mask_layer)
+                font[glyph_name].flipLayers(self.foreground_layer, self.background_layer)
                 # keep anchors from source layer in foreground
                 if not self.w.flip_anchors.get():
                     if anchors_dict.has_key(glyph_name):
                         for anchor in anchors_dict[glyph_name]:
                             anchor_name, anchor_pos = anchor
                             font[glyph_name].appendAnchor(anchor_name, anchor_pos)
-                            font[glyph_name].update()
+                            font[glyph_name].changed()
                     # remove anchors from dest layer
-                    dest_glyph = font[glyph_name].getLayer(self.mask_layer)
+                    dest_glyph = font[glyph_name].getLayer(self.background_layer)
                     dest_glyph.clearAnchors()
                 # done with glyph
                 font[glyph_name].performUndo()
             # done with font
-            font.update()
+            font.changed()
         else:
             print no_font_open
 
@@ -103,10 +101,11 @@ class maskDialog(hDialog):
         if font is not None:
             for glyph_name in get_glyphs(font):
                 font[glyph_name].prepareUndo('clear mask')
-                clear_mask = font[glyph_name].getLayer(self.mask_layer, clear=True)
-                font[glyph_name].update()
+                mask_layer = font[glyph_name].getLayer(self.background_layer)
+                mask_layer.clear()
+                font[glyph_name].changed()
                 font[glyph_name].performUndo()
-            font.update()
+            font.changed()
         else:
             print no_font_open
 
@@ -115,10 +114,13 @@ class maskDialog(hDialog):
         if font is not None:
             for glyph_name in get_glyphs(font):
                 font[glyph_name].prepareUndo('copy to mask')
-                font[glyph_name].copyToLayer(self.mask_layer, clear=False)
+                # font[glyph_name].copyToLayer(self.background_layer, clear=False)
+                dst_layer = font[glyph_name].getLayer(self.background_layer)
+                pen = dst_layer.getPen()
+                font[glyph_name].draw(pen)
                 font[glyph_name].performUndo()
-                font[glyph_name].update()
-            # font.update()
+                font[glyph_name].changed()
+            # font.changed()
         else:
             print no_font_open
 

@@ -1,7 +1,9 @@
 # [h] set advance width of selected glyphs
 
-### options `split difference` and `relative split`
-### suggested and funded by Bas Jacobs / Underware
+#-------------------------------------------------
+# options `split difference` and `relative split`
+# suggested and funded by Bas Jacobs / Underware
+#-------------------------------------------------
 
 from mojo.roboFont import CurrentFont, CurrentGlyph
 from vanilla import *
@@ -11,8 +13,6 @@ from hTools2.modules.fontutils import get_glyphs
 from hTools2.modules.glyphutils import center_glyph
 from hTools2.modules.messages import no_font_open, no_glyph_selected
 
-# objects
-
 class setWidthDialog(hDialog):
 
     '''A dialog to set the advance width of the selected glyphs.
@@ -21,13 +21,9 @@ class setWidthDialog(hDialog):
 
     '''
 
-    # attributes
-
     _width_ = 400
-    _modes = ['set equal to', 'increase by', 'decrease by']
-    _mode = 0
-
-    # methods
+    _modes  = ['set equal to', 'increase by', 'decrease by']
+    _mode   = 0
 
     def __init__(self):
         self.title = 'width'
@@ -38,9 +34,7 @@ class setWidthDialog(hDialog):
         y = self.padding_y
         # mode
         self.w.width_mode = RadioGroup(
-                    (x, y,
-                    -self.padding_x,
-                    self.text_height),
+                    (x, y, -self.padding_x, self.text_height),
                     ['=', '+', '-'],
                     sizeStyle=self.size_style,
                     callback=self.mode_callback,
@@ -58,9 +52,7 @@ class setWidthDialog(hDialog):
         x = self.padding_x
         y += self.w.spinner.getPosSize()[3]
         self.w.center_checkbox = CheckBox(
-                    (x, y,
-                    -self.padding_x,
-                    self.text_height),
+                    (x, y, -self.padding_x, self.text_height),
                     "center glyphs",
                     value=False,
                     sizeStyle=self.size_style,
@@ -68,9 +60,7 @@ class setWidthDialog(hDialog):
         # split difference
         y += self.text_height
         self.w.split_checkbox = CheckBox(
-                    (x, y,
-                    -self.padding_x,
-                    self.text_height),
+                    (x, y, -self.padding_x, self.text_height),
                     "split difference",
                     value=False,
                     sizeStyle=self.size_style,
@@ -78,9 +68,7 @@ class setWidthDialog(hDialog):
         # split relative
         y += self.text_height
         self.w.split_relative_checkbox = CheckBox(
-                    (x, y,
-                    -self.padding_x,
-                    self.text_height),
+                    (x, y, -self.padding_x, self.text_height),
                     "relative split",
                     value=False,
                     sizeStyle=self.size_style,
@@ -89,9 +77,7 @@ class setWidthDialog(hDialog):
         x = self.padding_x
         y += (self.text_height + self.padding_y)
         self.w.button_apply = SquareButton(
-                    (x, y,
-                    -self.padding_x,
-                    self.button_height),
+                    (x, y, -self.padding_x, self.button_height),
                     "apply",
                     callback=self.apply_callback,
                     sizeStyle=self.size_style)
@@ -129,9 +115,9 @@ class setWidthDialog(hDialog):
     def set_width(self, glyph, width, mode=None):
 
         # store old values
-        old_left = glyph.leftMargin
-        old_right = glyph.rightMargin
-        old_width = glyph.width
+        old_left    = glyph.leftMargin
+        old_right   = glyph.rightMargin
+        old_width   = glyph.width
         glyph_width = old_width - (old_left + old_right)
 
         # save undo state
@@ -183,7 +169,7 @@ class setWidthDialog(hDialog):
             glyph.width = new_width
 
         # done!
-        glyph.update()
+        glyph.changed()
         glyph.performUndo()
 
     def apply_callback(self, sender):
@@ -197,9 +183,9 @@ class setWidthDialog(hDialog):
             if len(glyph_names) > 0:
 
                 # get parameters
-                width = int(self.w.spinner.value.get())
+                width  = int(self.w.spinner.value.get())
                 center = self.w.center_checkbox.get()
-                split = self.w.split_checkbox.get()
+                split  = self.w.split_checkbox.get()
                 split_relative = self.w.split_relative_checkbox.get()
 
                 boolstring = ( False, True )
@@ -212,7 +198,7 @@ class setWidthDialog(hDialog):
                 elif split_relative:
                     w_mode = 'split relative'
                 else:
-                    w_mode = None
+                    w_mode = 'default'
 
                 # print info
                 print 'setting character widths...\n'
@@ -224,7 +210,7 @@ class setWidthDialog(hDialog):
                 for glyph_name in glyph_names:
                     print glyph_name,
                     self.set_width(f[glyph_name], width, w_mode)
-                f.update()
+                f.changed()
                 print
                 print '\n...done.\n'
 

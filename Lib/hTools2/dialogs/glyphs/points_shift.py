@@ -8,8 +8,6 @@ from hTools2.modules.fontutils import get_glyphs
 from hTools2.modules.glyphutils import *
 from hTools2.modules.messages import no_font_open, no_glyph_selected
 
-# objects
-
 class shiftPointsDialog(hDialog):
 
     '''A dialog to select and shift points in the selected glyphs in a font.
@@ -18,18 +16,14 @@ class shiftPointsDialog(hDialog):
 
     '''
 
-    # attributes
-
-    pos = 250
-    delta = 125
-    side = 1
-    axis = 0
+    pos    = 250
+    delta  = 125
+    side   = 1
+    axis   = 0
     layers = False
+    font   = None
 
-    font = None
     glyph_names = []
-
-    # methods
 
     def __init__(self):
         self.title = 'shift'

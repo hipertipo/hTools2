@@ -6,8 +6,6 @@ from hTools2 import hDialog
 from hTools2.modules.fontutils import get_full_name, get_glyphs
 from hTools2.modules.messages import no_font_open, no_glyph_selected
 
-# objects
-
 class slideGlyphsDialog(hDialog):
 
     '''A dialog to slide the selected glyphs vertically and/or horizontally.
@@ -16,19 +14,15 @@ class slideGlyphsDialog(hDialog):
 
     '''
 
-    # attributes
-
     _moveX = 0
     _moveY = 0
-    _xMax = 1000
-    _xMin = -1000
-    _yMax = 500
-    _yMin = -500
+    _xMax  = 1000
+    _xMin  = -1000
+    _yMax  = 500
+    _yMin  = -500
 
     font = None
     font_name = '(no font selected)'
-
-    # methods
 
     def __init__(self):
         # window
@@ -164,7 +158,7 @@ class slideGlyphsDialog(hDialog):
         if len(glyph_names) > 0:
             for glyph_name in glyph_names:
                 try:
-                    self.font[glyph_name].move((-x, -y))
+                    self.font[glyph_name].moveBy((-x, -y))
                 except:
                     print 'cannot transform %s' % glyph_name
         else:
