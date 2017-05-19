@@ -26,12 +26,12 @@ class shiftPointsDialog(hDialog):
     glyph_names = []
 
     def __init__(self):
-        self.title = 'shift'
+        self.title = 'shift points'
         self.column1 = 51
         self.width = (self.nudge_button * 6) + (self.padding_x * 2) - 5
         self.small_button = (self.width - (self.padding_x * 2)) / 2
         self.height = (self.text_height * 4) + (self.padding_y * 9) + (self.nudge_button * 2) + (self.button_height * 1) + 5
-        self.w = FloatingWindow((self.width, self.height), self.title)
+        self.w = HUDFloatingWindow((self.width, self.height), self.title)
         # position
         x = 0
         y = self.padding_y

@@ -16,7 +16,7 @@ class createAnchorsDialog(hDialog):
         self.title = "anchors"
         self.height = self.nudge_button*2 + self.text_height*9 + self.padding*6 + self.button_height
         # create window
-        self.w = FloatingWindow((self.width, self.height), self.title)
+        self.w = HUDFloatingWindow((self.width, self.height), self.title)
         # anchors top
         x = y = p = self.padding
         self.w.top = CheckBox(

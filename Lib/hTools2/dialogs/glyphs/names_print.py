@@ -17,38 +17,34 @@ class printGlyphsDialog(hDialog):
     sort_names = True
 
     def __init__(self):
-        self.title = 'gnames'
-        self.height = (self.padding_y * 4) + (self.text_height * 5) + self.button_height
-        self.w = FloatingWindow((self.width, self.height), self.title)
-        x = self.padding_x
-        y = self.padding_y
+        self.title = 'print names'
+        self.height = self.padding_y*4 + self.text_height*5 + self.button_height
+        self.w = HUDFloatingWindow((self.width, self.height), self.title)
+        x = y = p = self.padding
         # printing mode
         self.w.print_mode = RadioGroup(
-                    (x, y,
-                    -self.padding_x,
-                    self.text_height * 4),
-                    [ 'plain string', 'plain list', 'Python string', 'Python list' ],
-                    sizeStyle=self.size_style,
-                    isVertical=True)
+                (x, y, -p, self.text_height*4),
+                ['plain string', 'plain list', 'Python string', 'Python list'],
+                sizeStyle=self.size_style,
+                isVertical=True
+            )
         self.w.print_mode.set(0)
         # apply button
-        y += (self.text_height * 4) + self.padding_y
+        y += self.text_height*4 + p
         self.w.apply_button = SquareButton(
-                    (x, y,
-                    -self.padding_x,
-                    self.button_height),
-                    "print",
-                    callback=self.apply_callback,
-                    sizeStyle=self.size_style)
+                (x, y, -p, self.button_height),
+                "print",
+                callback=self.apply_callback,
+                sizeStyle=self.size_style
+            )
         # checkbox
         y += self.button_height + self.padding_y
         self.w.sort_names = CheckBox(
-                    (x, y,
-                    -self.padding_x,
-                    self.text_height),
-                    "sort names",
-                    value=self.sort_names,
-                    sizeStyle=self.size_style)
+                (x, y, -p, self.text_height),
+                "sort names",
+                value=self.sort_names,
+                sizeStyle=self.size_style
+            )
         # open window
         self.w.open()
 

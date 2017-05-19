@@ -24,7 +24,7 @@ class scaleGlyphsDialog(hDialog):
         self.title = "scale"
         self.width = (self.nudge_button * 6) + (self.padding_x * 2) - 5
         self.height = (self.nudge_button * 2) + (self.padding_y * 6) + (self.text_height * 3) + (self.button_height * 2)
-        self.w = FloatingWindow((self.width, self.height), self.title)
+        self.w = HUDFloatingWindow((self.width, self.height), self.title)
         # checkboxes
         x = self.padding_x
         y = self.padding_y

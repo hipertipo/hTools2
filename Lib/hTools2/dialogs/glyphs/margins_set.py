@@ -24,9 +24,9 @@ class setMarginsDialog(hDialog):
     right_value = 100
 
     def __init__(self):
-        self.title = 'margins'
-        self.height = (self.text_height*4) + (self.padding_y*10) + (self.nudge_button*4) + self.button_height
-        self.w = FloatingWindow((self.width, self.height), self.title)
+        self.title = 'set margins'
+        self.height = self.text_height*4 + self.padding_y*10 + self.nudge_button*4 + self.button_height
+        self.w = HUDFloatingWindow((self.width, self.height), self.title)
         # left mode
         x = self.padding_x
         y = self.padding_y

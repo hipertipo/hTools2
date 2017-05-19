@@ -33,7 +33,7 @@ class condenseGlyphsDialog(hDialog):
         # window
         self.title = 'condense'
         self.height = (self.nudge_button * 2) + (self.text_height * 6) + self.progress_bar + (self.padding_y * 5) + (self.button_height * 1)
-        self.w = FloatingWindow((self.width, self.height), title=self.title)
+        self.w = HUDFloatingWindow((self.width, self.height), title=self.title)
         # master 1 (regular)
         x = self.padding_x
         y = self.padding_y - 8

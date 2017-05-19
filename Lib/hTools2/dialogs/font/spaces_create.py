@@ -29,7 +29,7 @@ class createSpaceGlyphsDialog(hDialog):
         self.field_width = 40
         self.box_height = 23
         self.height = (self.text_height * 5) + (self.button_height * 1) + (self.padding_y * 8) + self.box_height + 4
-        self.w = FloatingWindow((self.width, self.height), self.title)
+        self.w = HUDFloatingWindow((self.width, self.height), self.title)
         # current font
         x = self.padding_x
         y = self.padding_y

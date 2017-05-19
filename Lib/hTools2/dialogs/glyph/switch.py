@@ -45,7 +45,7 @@ class switchGlyphDialog(hDialog):
             self.square_button -= 4
             self.height = (self.square_button * 3) + (self.padding_y * 2)
             self.width = 320
-            self.w = FloatingWindow((self.width, self.height), self.title)
+            self.w = HUDFloatingWindow((self.width, self.height), self.title)
             # move buttons
             x = self.padding_x
             y = self.padding_y

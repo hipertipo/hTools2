@@ -32,7 +32,7 @@ class adjustVerticalMetrics(hDialog):
     def __init__(self):
         self.title = "vmetrics"
         self.height = (self.spinner_height*5) + (self.padding_y*6) + 1
-        self.w = FloatingWindow((self.width, self.height), self.title)
+        self.w = HUDFloatingWindow((self.width, self.height), self.title)
         x = 0
         y = self.padding_y
         self.w.emsquare = Spinner(

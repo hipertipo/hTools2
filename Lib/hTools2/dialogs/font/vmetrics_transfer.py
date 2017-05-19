@@ -24,7 +24,7 @@ class transferVMetricsDialog(hDialog):
         self.column_1 = 103
         self.width = self.column_1 + (self.padding_x * 2)
         self.height = (self.text_height * 4) + self.button_height + (self.padding_y * 4)
-        self.w = FloatingWindow((self.width, self.height), self.title)
+        self.w = HUDFloatingWindow((self.width, self.height), self.title)
         # source font
         x = self.padding_x
         y = self.padding_y

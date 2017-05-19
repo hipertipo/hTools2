@@ -22,9 +22,13 @@ class copyWidthsDialog(hDialog):
     def __init__(self):
         self._get_fonts()
         # window
-        self.title = 'widths'
+        self.title = 'copy widths'
         self.height = (self.button_height) + (self.text_height*2) + (self.padding_y*6) + (self.button_height*2)
-        self.w = FloatingWindow((self.width, self.height), self.title)
+        self.w = HUDFloatingWindow(
+                    (self.width, self.height),
+                    self.title,
+                    autosaveName='com.hipertipo.hTools2.dialogs.glyphs.width_set',
+            )
         # source font
         x = self.padding_x
         y = self.padding_y - 1

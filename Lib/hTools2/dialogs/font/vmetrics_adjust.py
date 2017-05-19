@@ -35,7 +35,7 @@ class adjustVerticalMetrics(hDialog):
         self.height = self.text_height + (self.nudge_button * 4) + (self.padding_y * 6)
         self.font = CurrentFont()
         if self.font is not None:
-            self.w = FloatingWindow((self.width, self.height), self.title)
+            self.w = HUDFloatingWindow((self.width, self.height), self.title)
             # get font vmetrics
             units_per_em = self.font.info.unitsPerEm
             ascender = self.font.info.ascender

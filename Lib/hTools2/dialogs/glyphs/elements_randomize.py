@@ -19,9 +19,9 @@ class randomizeElementsDialog(hDialog):
     rand_max = 1.20
 
     def __init__(self):
-        self.title = 'randomize'
+        self.title = 'E Randomizer'
         self.height = self.spinner_height*2 + self.padding_y*4 + self.button_height
-        self.w = FloatingWindow((self.width, self.height), self.title)
+        self.w = HUDFloatingWindow((self.width, self.height), self.title)
         # minimum random value
         x = 0
         y = self.padding_y

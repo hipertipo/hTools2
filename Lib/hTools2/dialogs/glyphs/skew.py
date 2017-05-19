@@ -26,7 +26,7 @@ class skewGlyphsDialog(hDialog):
         self.width = self.nudge_button*6 + self.padding_x*2 - 5
         self.square_button = (self.width - self.padding_x*2 + 2) * 0.5
         self.height = self.square_button + self.padding_y*5 + self.nudge_button*2 + self.text_height - 4
-        self.w = FloatingWindow((self.width, self.height), self.title)
+        self.w = HUDFloatingWindow((self.width, self.height), self.title)
         # skew buttons
         x = self.padding_x
         y = self.padding_y

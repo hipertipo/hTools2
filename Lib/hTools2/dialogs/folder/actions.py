@@ -38,7 +38,7 @@ class actionsFolderDialog(hDialog):
         self.title = 'actions'
         self.width = 123
         self.height = (self.text_height * 8) + (self.button_height * 2) + (self.padding_y * 5) + self.progress_bar
-        self.w = FloatingWindow((self.width, self.height), self.title)
+        self.w = HUDFloatingWindow((self.width, self.height), self.title)
         # ufos folder
         x = self.padding_x
         y = self.padding_y

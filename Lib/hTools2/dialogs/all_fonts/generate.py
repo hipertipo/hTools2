@@ -23,7 +23,7 @@ class generateAllFontsDialog(hDialog):
     def __init__(self):
         self.title = "generate"
         self.height = (self.text_height * 5) + (self.button_height * 3) + (self.padding_y * 7)
-        self.w = FloatingWindow((self.width, self.height), self.title)
+        self.w = HUDFloatingWindow((self.width, self.height), self.title)
         # ufos folder
         x = self.padding_x
         y = self.padding_y

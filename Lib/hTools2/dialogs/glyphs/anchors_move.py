@@ -29,7 +29,7 @@ class moveAnchorsDialog(hDialog):
         self.title = "anchors"
         # self.width = (self.square_button * 3) + (self.padding_x * 2) - 2
         self.height = self.square_button*3 + self.padding_y*7 + self.text_height*3 + self.nudge_button + 3
-        self.w = FloatingWindow((self.width, self.height), self.title)
+        self.w = HUDFloatingWindow((self.width, self.height), self.title)
         #---------------
         # arrow buttons
         #---------------

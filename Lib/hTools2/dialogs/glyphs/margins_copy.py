@@ -21,10 +21,10 @@ class copyMarginsDialog(hDialog):
     def __init__(self, ):
         self._get_fonts()
         # window
-        self.title = 'margins'
+        self.title = 'copy margins'
         self.column_1 = 180
         self.height = (self.button_height) + (self.text_height * 5) + (self.padding_y * 5)
-        self.w = FloatingWindow((self.width, self.height), self.title)
+        self.w = HUDFloatingWindow((self.width, self.height), self.title)
         # source font
         x = self.padding_x
         y = self.padding_y - 1

@@ -26,9 +26,13 @@ class setWidthDialog(hDialog):
     _mode   = 0
 
     def __init__(self):
-        self.title = 'width'
+        self.title = 'set width'
         self.height = self.button_height + (self.text_height * 5) + self.nudge_button + (self.padding_y * 6)
-        self.w = FloatingWindow((self.width, self.height), self.title)
+        self.w = HUDFloatingWindow(
+                (self.width, self.height),
+                self.title,
+                autosaveName='com.hipertipo.hTools2.dialogs.glyphs.width_set'
+            )
         # left
         x = self.padding_x
         y = self.padding_y

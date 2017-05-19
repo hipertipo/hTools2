@@ -20,40 +20,31 @@ class paintGlyphsDialog(hDialog):
 
     def __init__(self):
         self.title = 'color'
-        self.height = (self.button_height * 4) + (self.padding_y * 4)
-        self.w = FloatingWindow((self.width, self.height), self.title)
+        self.height = self.button_height*4 + self.padding_y * 5
+        self.w = HUDFloatingWindow((self.width, self.height), self.title)
         # mark color
-        x = self.padding_x
-        y = self.padding_y
+        x = y = p =self.padding_x
         self.w.mark_color = ColorWell(
-                (x, y,
-                -self.padding_x,
-                self.button_height),
+                (x, y, -p, self.button_height),
                 color=NSColor.colorWithCalibratedRed_green_blue_alpha_(*self.mark_color))
         # paint button
-        y += (self.button_height - 1)
+        y += self.button_height + p
         self.w.button_paint = SquareButton(
-                (x, y,
-                -self.padding_x,
-                self.button_height),
+                (x, y, -p, self.button_height),
                 "paint",
                 callback=self.paint_callback,
                 sizeStyle=self.size_style)
         # select button
-        y += (self.button_height + self.padding_y)
+        y += self.button_height + p
         self.w.button_select = SquareButton(
-                (x, y,
-                -self.padding_x,
-                self.button_height),
+                (x, y, -p, self.button_height),
                 "select",
                 callback=self.select_callback,
                 sizeStyle=self.size_style)
         # clear button
-        y += (self.button_height + self.padding_y)
+        y += self.button_height + p
         self.w.button_clear = SquareButton(
-                (x, y,
-                -self.padding_x,
-                self.button_height),
+                (x, y, -p, self.button_height),
                 "clear",
                 callback=self.clear_callback,
                 sizeStyle=self.size_style)

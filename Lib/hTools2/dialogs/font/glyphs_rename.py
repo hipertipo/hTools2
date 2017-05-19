@@ -22,7 +22,7 @@ class batchRenameGlyphs(hDialog):
             self.title = 'rename'
             self.column_1 = 110
             self.height = (self.button_height * 2) + (self.text_height * 2) + (self.padding_y * 4)
-            self.w = FloatingWindow((self.width, self.height), self.title)
+            self.w = HUDFloatingWindow((self.width, self.height), self.title)
             x = self.padding_x
             y = self.padding_y
             # get names file

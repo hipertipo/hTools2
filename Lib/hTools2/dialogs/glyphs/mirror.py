@@ -21,7 +21,7 @@ class mirrorGlyphsDialog(hDialog):
         self.title = "mirror"
         self.button_size = (self.width - (self.padding_x * 2)) / 2
         self.height = (self.padding_y * 3) + self.button_size + self.text_height - 3
-        self.w = FloatingWindow(
+        self.w = HUDFloatingWindow(
                     (self.width, self.height),
                     self.title)
         x = self.padding_x

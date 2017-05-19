@@ -41,6 +41,8 @@ __all__ = [
     'renameAnchorsDialog',
     'transferAnchorsDialog',
     'copyPasteGlyphDialog',
+    'rasterizeGlyphDialog',
+    'randomizeElementsDialog',
     'roundToGridDialog',
     'interpolateGlyphsDialog',
     'checkGlyphsCompatibilityDialog',

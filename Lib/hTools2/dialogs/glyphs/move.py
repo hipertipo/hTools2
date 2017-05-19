@@ -21,7 +21,7 @@ class moveGlyphsDialog(hDialog):
         self.title = "move"
         self.verbose = verbose
         self.height = (self.square_button * 3) + (self.padding_y * 5) + (self.text_height * 4) - 7
-        self.w = FloatingWindow((self.width, self.height), self.title)
+        self.w = HUDFloatingWindow((self.width, self.height), self.title)
         # arrows
         x = y = 0
         self.w.arrows = Arrows(

@@ -30,7 +30,7 @@ class copyToLayerDialog(hDialog):
         self.title = 'layers'
         self.list_height = 80
         self.height = (self.padding_y * 5) + (self.text_height * 4) + (self.button_height) + self.list_height
-        self.w = FloatingWindow((self.width, self.height), self.title)
+        self.w = HUDFloatingWindow((self.width, self.height), self.title)
         x = self.padding_x
         y = self.padding_y - 2
         # source label

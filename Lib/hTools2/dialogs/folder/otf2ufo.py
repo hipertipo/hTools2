@@ -30,7 +30,7 @@ class OTFsToUFOsDialog(hDialog):
         self.title = "otf2ufo"
         self.width = 123
         self.height = (self.button_height * 3) + (self.padding_y * 5) + self.progress_bar
-        self.w = FloatingWindow((self.width, self.height), self.title)
+        self.w = HUDFloatingWindow((self.width, self.height), self.title)
         # otfs folder
         x = self.padding_x
         y = self.padding_y

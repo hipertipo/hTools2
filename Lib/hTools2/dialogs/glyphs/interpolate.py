@@ -29,7 +29,7 @@ class interpolateGlyphsDialog(hDialog):
         self.height = self.nudge_button*4 + self.text_height*7 + self.progress_bar + self.padding_y*9 + self.button_height - 10
         self.value_box = 60
         self.column_2 = self.value_box + self.nudge_button*7 - 6
-        self.w = FloatingWindow((self.width, self.height), self.title)
+        self.w = HUDFloatingWindow((self.width, self.height), self.title)
         # master 1
         x = self.padding_x
         y = self.padding_y - 8

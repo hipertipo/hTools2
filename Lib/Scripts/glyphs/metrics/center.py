@@ -1,3 +1,5 @@
+# [h] center selected glyphs
+
 f = CurrentFont()
 
 if f is not None:

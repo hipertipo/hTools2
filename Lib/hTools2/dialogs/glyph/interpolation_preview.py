@@ -44,7 +44,7 @@ class interpolationPreviewDialog(hDialog, BaseWindowController):
         # make window
         self.width *= 2
         self.height = self.text_height + self.button_height*3 + self.padding*4
-        self.w = FloatingWindow((self.width, self.height), "interpol")
+        self.w = HUDFloatingWindow((self.width, self.height), "interpol preview")
         # get colors
         x = y = p = self.padding
         self.w.mark_color = ColorWell(

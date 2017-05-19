@@ -20,11 +20,11 @@ class rasterizeGlyphDialog(hDialog):
     element_scale = 1.00
 
     def __init__(self):
-        self.title = 'rasterizer'
+        self.title = 'E Rasterizer'
         self.column_1 = 40
         self.box = 20
         self.height = self.progress_bar + self.padding_y*7 + self.square_button*3
-        self.w = FloatingWindow((self.width, self.height), self.title)
+        self.w = HUDFloatingWindow((self.width, self.height), self.title)
         # grid size
         x = 0
         y = self.padding_y

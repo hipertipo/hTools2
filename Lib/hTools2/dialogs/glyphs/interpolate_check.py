@@ -28,9 +28,9 @@ class checkGlyphsCompatibilityDialog(hDialog):
 
     def __init__(self):
         self.get_fonts()
-        self.title = 'prepolate'
+        self.title = 'interpol check'
         self.height = self.text_height*4 + self.padding_y*3 + self.button_height
-        self.w = FloatingWindow((self.width, self.height), self.title)
+        self.w = HUDFloatingWindow((self.width, self.height), self.title)
         # font 1
         x = self.padding_x
         y = self.padding_y - 6

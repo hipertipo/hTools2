@@ -26,7 +26,7 @@ class outlineGlyphsDialog(hDialog):
         self.title = 'outliner'
         self.column_1 = 40
         self.height = self.button_height + (self.padding_y * 5) + (self.text_height * 4) - 2
-        self.w = FloatingWindow((self.width, self.height), self.title)
+        self.w = HUDFloatingWindow((self.width, self.height), self.title)
         # delta spinner
         x = 0
         y = self.padding_y

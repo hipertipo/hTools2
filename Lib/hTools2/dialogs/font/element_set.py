@@ -33,7 +33,7 @@ class setElementDialog(hDialog):
         self.title = 'element'
         self.column_1 = 40
         self.height = (self.text_height) + (self.spinner_height * 2) + (self.padding_y * 5) + self.button_height
-        self.w = FloatingWindow((self.width, self.height), self.title)
+        self.w = HUDFloatingWindow((self.width, self.height), self.title)
         # element size
         x = 0
         y = self.padding_y

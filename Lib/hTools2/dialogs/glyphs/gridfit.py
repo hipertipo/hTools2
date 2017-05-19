@@ -29,7 +29,7 @@ class roundToGridDialog(hDialog):
         self.title = 'gridfit'
         self.column_1 = 40
         self.height = self.button_height + self.nudge_button + self.text_height*7 + self.padding_y*5 - 3
-        self.w = FloatingWindow((self.width, self.height), self.title)
+        self.w = HUDFloatingWindow((self.width, self.height), self.title)
         # grid size
         x = 0
         y = self.padding_y
