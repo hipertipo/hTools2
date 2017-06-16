@@ -2,16 +2,16 @@
 
 from collections import OrderedDict
 
-"""Tools to work with Unicode, convert glyph names to hex/unicode etc."""
+'''Tools to work with Unicode, convert glyph names to hex/unicode etc.'''
 
 def clear_unicodes(font):
-    """Remove unicodes from all glyphs in the font."""
+    '''Remove unicodes from all glyphs in the font.'''
     for g in font:
         g.unicodes = []
     font.update()
 
 def auto_unicodes(font, custom_unicodes={}):
-    """Automatically set unicode values for all glyphs in the font."""
+    '''Automatically set unicode values for all glyphs in the font.'''
     clear_unicodes(font)
     for g in font:
         if g is not None:
@@ -19,12 +19,12 @@ def auto_unicodes(font, custom_unicodes={}):
     font.update()
 
 def auto_unicode(g, custom_unicodes={}):
-    """
+    '''
     Automatically set unicode value(s) for the specified glyph.
 
     The method uses RoboFab's ``glyph.autoUnicodes()`` function for common glyphs, and complements it with additional values from ``unicodes_extra``.
 
-    """
+    '''
 
     if g.name is not None:
 
@@ -52,7 +52,7 @@ def auto_unicode(g, custom_unicodes={}):
 #------------------------------
 
 def unicode_int_to_hexstr(intUnicode, _0x=False, uni=False):
-    """
+    '''
     Converts unicode integers to hexadecimal.
 
     See also the reverse function ``unicode_hexstr_to_int``.
@@ -61,7 +61,7 @@ def unicode_int_to_hexstr(intUnicode, _0x=False, uni=False):
 
     The optional parameters ``uni`` and ``_0x`` add the respective prefixes.
 
-    """
+    '''
 
     hexUnicode = "%X".lstrip("0x") % intUnicode
     hexUnicode = "0" * (4 - len(hexUnicode)) + hexUnicode
@@ -74,12 +74,12 @@ def unicode_int_to_hexstr(intUnicode, _0x=False, uni=False):
     return hexUnicode
 
 def unicode_hexstr_to_int(hexUnicode, replaceUni=True):
-    """
+    '''
     Converts a unicode hexadecimal value into an integer.
 
     It does exactly the reverse of ``unicode_int_to_hexstr``.
 
-    """
+    '''
 
     if replaceUni:
         return int(hexUnicode.replace("uni",""), 16)

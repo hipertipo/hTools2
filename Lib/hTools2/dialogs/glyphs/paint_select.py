@@ -1,13 +1,13 @@
 # [h] paint and select glyphs by color
 
-# imports
+import hTools2.modules.color
+reload(hTools2.modules.color)
 
 from mojo.roboFont import CurrentFont, CurrentGlyph
 from vanilla import *
 from AppKit import NSColor
-
 from hTools2 import hDialog
-from hTools2.modules.color import random_color, clear_color
+from hTools2.modules.color import random_color, clear_color, convert_to_nscolor
 from hTools2.modules.fontutils import get_glyphs
 from hTools2.modules.messages import no_font_open, no_glyph_selected
 
@@ -15,11 +15,11 @@ from hTools2.modules.messages import no_font_open, no_glyph_selected
 
 class paintGlyphsDialog(hDialog):
 
-    """A dialog to apply a color to the selected glyph boxes, and to select glyphs by color.
+    '''A dialog to apply a color to the selected glyph boxes, and to select glyphs by color.
 
     .. image:: imgs/glyphs/paint-select.png
 
-    """
+    '''
 
     # attributes
 
@@ -29,40 +29,38 @@ class paintGlyphsDialog(hDialog):
 
     def __init__(self):
         self.title = 'color'
-        self.height = (self.button_height * 4) + (self.padding_y * 4)
+        self.height = self.button_height*5 + self.padding*5 - 1
         self.w = FloatingWindow((self.width, self.height), self.title)
-        # mark color
-        x = self.padding_x
-        y = self.padding_y
+        x = y = p = self.padding
+        # get color
+        self.w.button_get = SquareButton(
+                (x, y, -p, self.button_height),
+                "get",
+                callback=self.get_color_callback,
+                sizeStyle=self.size_style)
+        # color swatch
+        y += self.button_height + p
         self.w.mark_color = ColorWell(
-                (x, y,
-                -self.padding_x,
-                self.button_height),
+                (x, y, -p, self.button_height),
                 color=NSColor.colorWithCalibratedRed_green_blue_alpha_(*self.mark_color))
         # paint button
-        y += (self.button_height - 1)
+        y += self.button_height - 1
         self.w.button_paint = SquareButton(
-                (x, y,
-                -self.padding_x,
-                self.button_height),
+                (x, y, -p, self.button_height),
                 "paint",
                 callback=self.paint_callback,
                 sizeStyle=self.size_style)
         # select button
-        y += (self.button_height + self.padding_y)
+        y += self.button_height - 1 + p
         self.w.button_select = SquareButton(
-                (x, y,
-                -self.padding_x,
-                self.button_height),
+                (x, y, -p, self.button_height),
                 "select",
                 callback=self.select_callback,
                 sizeStyle=self.size_style)
         # clear button
-        y += (self.button_height + self.padding_y)
+        y += self.button_height + p
         self.w.button_clear = SquareButton(
-                (x, y,
-                -self.padding_x,
-                self.button_height),
+                (x, y, -p, self.button_height),
                 "clear",
                 callback=self.clear_callback,
                 sizeStyle=self.size_style)
@@ -70,6 +68,26 @@ class paintGlyphsDialog(hDialog):
         self.w.open()
 
     # callbacks
+
+    def get_color_callback(self, sender):
+        f = CurrentFont()
+        if f is not None:
+            glyph_names = get_glyphs(f)
+            if len(glyph_names) > 0:
+                g = f[glyph_names[0]]
+                # get glyph color
+                color = g.mark
+                print '%s: %s\n' % (g.name, color)
+                # convert rgba to NSColor
+                nscolor = convert_to_nscolor(*color)
+                # set swatch color
+                self.w.mark_color.set(nscolor)
+            # no glyph selected
+            else:
+                print no_glyph_selected
+        # no font open
+        else:
+            print no_font_open
 
     def paint_callback(self, sender):
         f = CurrentFont()

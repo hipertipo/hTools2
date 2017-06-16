@@ -57,42 +57,10 @@ def find_lost_anchors(font):
                     g.mark = c
     return lost_anchors
 
-def remove_duplicate_anchors(font):
-    '''Delete duplicate anchors with same name and position.'''
-    # save existing anchors
-    old_anchors = get_anchors(font)
-    # collect clean anchors
-    new_anchors = {}
-    for glyph_name in old_anchors.keys():
-        # glyphs with more than 1 anchor
-        if len(old_anchors[glyph_name]) > 1:
-            clean_anchors = []
-            for i, a in enumerate(old_anchors[glyph_name]):
-                if i == 0:
-                    clean_anchors.append(a)
-                    previous = a
-                else:
-                    # same name and pos: skip
-                    if a[0] == previous[0]:
-                        if a[1][0] == previous[1][0] and a[1][1] == previous[1][1]:
-                            pass
-                        else:
-                            clean_anchors.append(a)
-                previous = a
-            # done glyph
-            new_anchors[glyph_name] = clean_anchors
-        # glyphs with only 1 anchor
-        else:
-            new_anchors[glyph_name] = old_anchors[glyph_name]
-    # remove all anchors
-    clear_anchors(font)
-    # place new anchors
-    for glyph_name in new_anchors.keys():
-        for anchor in new_anchors[glyph_name]:
-            name, pos = anchor
-            font[glyph_name].appendAnchor(name, pos)
-            font[glyph_name].update()
-    # done
+# def remove_duplicate_anchors(font):
+#     '''Delete duplicate anchors with same name and position.'''
+#     pass
+
 
 def get_anchors_dict(accents_dict):
     '''Get an anchors dict from a dict of glyph building recipes.
@@ -236,3 +204,15 @@ def create_anchors(glyph, top=True, bottom=True, accent=False, top_pos=20, botto
             glyph.appendAnchor(anchor_name, (x, y))
     # done glyph
     glyph.update()
+
+def clear_duplicate_anchors(glyph):
+    '''Delete duplicate anchors with same name and position.'''
+    anchors = []
+    glyph.prepareUndo('delete duplicate anchors')
+    for anchor in glyph.anchors:
+        a = anchor.name, anchor.position
+        if a in anchors:
+            glyph.removeAnchor(anchor)
+        else:
+            anchors.append(a)
+    glyph.performUndo()

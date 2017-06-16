@@ -407,3 +407,12 @@ def retract_bcps(glyph):
                 point.bcpOut = (0, 0)
     glyph.performUndo()
 
+#------------
+# components
+#------------
+
+def remove_components(glyph):
+    if len(glyph.components) > 0:
+        for component in glyph.components:
+            glyph.removeComponent(component)
+        glyph.update()

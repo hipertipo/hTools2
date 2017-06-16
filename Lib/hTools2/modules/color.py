@@ -5,7 +5,6 @@
 # import
 
 import random
-
 from hTools2.modules.sysutils import _ctx
 from hTools2.extras.colorsys import *
 
@@ -26,8 +25,8 @@ def random_color(alpha=1.0):
 
 def clear_colors(font):
     """Clear the color from all glyph cells in the font."""
-    for gName in font.keys():
-        clear_color(font[gName])
+    for glyph_name in font.keys():
+        clear_color(font[glyph_name])
     font.update()
 
 def clear_color(glyph):
@@ -59,6 +58,11 @@ def convert_to_255(r, g, b, a=None):
         return (R, G, B, A)
     else:
         return (R, G, B)
+
+def convert_to_nscolor(r, g, b, a=1.0):
+    from AppKit import NSColor
+    nscolor = NSColor.colorWithCalibratedRed_green_blue_alpha_(r, g, b, a)
+    return nscolor
 
 def cubic(t, a, b):
     weight = t * t * (3 - 2*t)
