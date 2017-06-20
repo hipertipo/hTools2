@@ -505,7 +505,7 @@ def auto_contour_order(font):
 
     """
     for glyph in font:
-        glyph.correctDirection()
+        glyph.autoContourOrder()
 
 def auto_contour_direction(font):
     """
