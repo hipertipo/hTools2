@@ -1,39 +1,30 @@
 # [h] copy side-bearings of selected glyphs in one font to another
 
-# imports
-
 from mojo.roboFont import AllFonts
 from mojo.events import addObserver, removeObserver
 from vanilla import *
-
 from hTools2 import hDialog
 from hTools2.modules.fontutils import get_full_name, get_glyphs
 from hTools2.modules.messages import no_font_open, no_glyph_selected
 
-# objects
-
 class copyMarginsDialog(hDialog):
 
-    """A dialog to copy margins from selected glyphs in one font to the same glyphs in another font.
+    '''A dialog to copy margins from selected glyphs in one font to the same glyphs in another font.
 
     .. image:: imgs/glyphs/margins-copy.png
 
-    """
-
-    # attributes
+    '''
 
     all_fonts_names = []
     all_fonts = []
 
-    # methods
-
     def __init__(self, ):
         self._get_fonts()
         # window
-        self.title = 'margins'
+        self.title = 'copy margins'
         self.column_1 = 180
         self.height = (self.button_height) + (self.text_height * 5) + (self.padding_y * 5)
-        self.w = FloatingWindow((self.width, self.height), self.title)
+        self.w = HUDFloatingWindow((self.width, self.height), self.title)
         # source font
         x = self.padding_x
         y = self.padding_y - 1
@@ -127,14 +118,14 @@ class copyMarginsDialog(hDialog):
             boolstring = [False, True]
             # source font
             _source_font_index = self.w._source_value.get()
-            _source_font = self.all_fonts[_source_font_index]
-            _source_font_name = self.all_fonts_names[_source_font_index]
+            _source_font       = self.all_fonts[_source_font_index]
+            _source_font_name  = self.all_fonts_names[_source_font_index]
             # dest font
-            _dest_font_index = self.w._dest_value.get()
-            _dest_font = self.all_fonts[_dest_font_index]
-            _dest_font_name = self.all_fonts_names[_dest_font_index]
+            _dest_font_index   = self.w._dest_value.get()
+            _dest_font         = self.all_fonts[_dest_font_index]
+            _dest_font_name    = self.all_fonts_names[_dest_font_index]
             # left / right
-            _left = self.w.left_checkbox.get()
+            _left  = self.w.left_checkbox.get()
             _right = self.w.right_checkbox.get()
             # batch process glyphs
             if _left or _right:
@@ -143,25 +134,25 @@ class copyMarginsDialog(hDialog):
                 print '\tsource font: %s' % _source_font_name
                 print '\ttarget font: %s' % _dest_font_name
                 print
-                print '\tcopy left: %s' % boolstring[_left]
+                print '\tcopy left: %s'  % boolstring[_left]
                 print '\tcopy right: %s' % boolstring[_right]
                 print
                 # batch copy side-bearings
                 for glyph_name in get_glyphs(_source_font):
-                    try:
-                        # set undo
-                        _dest_font[glyph_name].prepareUndo('copy margins')
-                        print '\t%s' % glyph_name,
-                        # copy
-                        if _left:
-                            _dest_font[glyph_name].leftMargin = _source_font[glyph_name].leftMargin
-                        if _right:
-                            _dest_font[glyph_name].rightMargin = _source_font[glyph_name].rightMargin
-                        # call undo
-                        _dest_font.performUndo()
-                        _dest_font.update()
-                    except:
-                        print '\tcannot process %s' % glyph_name
+                    # try:
+                    # set undo
+                    _dest_font[glyph_name].prepareUndo('copy margins')
+                    print '\t%s' % glyph_name,
+                    # copy
+                    if _left:
+                        _dest_font[glyph_name].leftMargin = _source_font[glyph_name].leftMargin
+                    if _right:
+                        _dest_font[glyph_name].rightMargin = _source_font[glyph_name].rightMargin
+                    # call undo
+                    _dest_font.performUndo()
+                    _dest_font.changed()
+                    # except:
+                    #     print '\tcannot process %s' % glyph_name
                 print
                 print '\n...done.\n'
             # nothing selected

@@ -1,12 +1,9 @@
 # [h] align points
 
-### this dialog is buggy and needs to be deprecated or rewritten ###
-
-# imports
+### DEPRECATED ###
 
 from mojo.roboFont import CurrentGlyph
 from vanilla import *
-
 from hTools2 import hDialog
 from hTools2.modules.messages import no_glyph_open, at_least_two_points
 
@@ -25,7 +22,7 @@ def get_min(values):
 
 class alignPointsDialog(hDialog):
 
-    """Align selected points vertically or horizontally."""
+    '''Align selected points vertically or horizontally.'''
 
     glyph = None
     points = []
@@ -37,13 +34,11 @@ class alignPointsDialog(hDialog):
     def __init__(self):
         # window parameters
         self.title = 'align'
-        self.width = 123
+        # self.width = 123
         self.column1 = 45
-        self.height = (self.padding_y * 4) + self.button_height + (self.text_height * 2)
+        self.height = self.padding_y*4 + self.button_height + self.text_height*2
         # window
-        self.w = FloatingWindow(
-            (self.width, self.height),
-            self.title)
+        self.w = HUDFloatingWindow((self.width, self.height), self.title)
         x = self.padding_x
         y = self.padding_y
         # options

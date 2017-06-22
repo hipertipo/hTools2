@@ -1,10 +1,7 @@
 # [h] apply actions
 
-# import
-
 from mojo.roboFont import AllFonts
 from vanilla import *
-
 from hTools2 import hDialog
 from hTools2.modules.fontutils import *
 from hTools2.modules.messages import no_font_open
@@ -13,12 +10,12 @@ from hTools2.modules.messages import no_font_open
 
 class actionsDialog(hDialog):
 
-    """A dialog to selectively apply several actions to all open fonts.
+    '''A dialog to selectively apply several actions to all open fonts.
 
 
     .. image:: imgs/all-fonts/actions.png
 
-    """
+    '''
 
     # attributes
 
@@ -36,7 +33,7 @@ class actionsDialog(hDialog):
     def __init__(self):
         self.title = 'actions'
         self.height = (self.text_height * 9) + self.button_height + (self.padding_y * 4) + 2
-        self.w = FloatingWindow((self.width, self.height), self.title)
+        self.w = HUDFloatingWindow((self.width, self.height), self.title)
         # round to integers
         x = self.padding_x
         y = self.padding_y

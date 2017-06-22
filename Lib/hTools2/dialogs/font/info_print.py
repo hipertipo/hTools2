@@ -1,12 +1,11 @@
 # [h] clear font info
 
-"""Print different kinds of font info selectively."""
+'''Print different kinds of font info selectively.'''
 
 # import
 
 from mojo.roboFont import CurrentFont
 from vanilla import *
-
 from hTools2 import hDialog
 from hTools2.modules.fontinfo import *
 from hTools2.modules.color import random_color
@@ -16,11 +15,11 @@ from hTools2.modules.messages import no_font_open
 
 class clearFontInfoDialog(hDialog):
 
-    """
+    '''
 
     .. image:: imgs/font/print-info.png
 
-    """
+    '''
 
 
     # attributes
@@ -41,7 +40,7 @@ class clearFontInfoDialog(hDialog):
     def __init__(self):
         self.title = 'font info'
         self.height = (self.button_height * 2) + (self.text_height * 11) + (self.padding_y * 5) - 6
-        self.w = FloatingWindow((self.width, self.height), self.title)
+        self.w = HUDFloatingWindow((self.width, self.height), self.title)
         # buttons
         x = self.padding_x
         y = self.padding_y - 3

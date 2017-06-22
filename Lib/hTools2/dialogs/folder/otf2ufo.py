@@ -1,13 +1,9 @@
 # [h] otfs -> ufos
 
-# imports
-
 import os
-
 from mojo.roboFont import OpenFont
 from vanilla import *
 from vanilla.dialogs import getFolder
-
 from hTools2 import hDialog
 from hTools2.modules.fileutils import walk
 from hTools2.modules.messages import no_font_in_folder
@@ -16,11 +12,11 @@ from hTools2.modules.messages import no_font_in_folder
 
 class OTFsToUFOsDialog(hDialog):
 
-    """A dialog to generate ``.ufos`` for all ``.otfs`` in a folder.
+    '''A dialog to generate ``.ufos`` for all ``.otfs`` in a folder.
 
     .. image:: imgs/folder/otfs2ufos.png
 
-    """
+    '''
 
     # attributes
 
@@ -34,7 +30,7 @@ class OTFsToUFOsDialog(hDialog):
         self.title = "otf2ufo"
         self.width = 123
         self.height = (self.button_height * 3) + (self.padding_y * 5) + self.progress_bar
-        self.w = FloatingWindow((self.width, self.height), self.title)
+        self.w = HUDFloatingWindow((self.width, self.height), self.title)
         # otfs folder
         x = self.padding_x
         y = self.padding_y
@@ -101,7 +97,7 @@ class OTFsToUFOsDialog(hDialog):
                 self.w.bar.start()
                 for otf_path in _otfs_paths:
                     print '\tcreating ufo from %s...' % os.path.split(otf_path)[1]
-                    otf = OpenFont(otf_path, showUI=True) # does not work without UI
+                    otf = OpenFont(otf_path, showInterface=True) # does not work without UI
                     ufo_file = os.path.splitext(os.path.split(otf_path)[1])[0] + '.ufo'
                     ufo_path = os.path.join(self.ufos_folder, ufo_file)
                     otf.save(ufo_path)

@@ -1,11 +1,8 @@
 # [h] a dialog to create space glyphs
 
-# imports
-
 from mojo.roboFont import CurrentFont, CurrentGlyph
 from mojo.events import addObserver, removeObserver
 from vanilla import *
-
 from hTools2 import hDialog
 from hTools2.modules.fontutils import get_full_name
 from hTools2.modules.encoding import unicode_hexstr_to_int
@@ -15,11 +12,11 @@ from hTools2.modules.messages import no_font_open
 
 class createSpaceGlyphsDialog(hDialog):
 
-    """A dialog to create space glyphs in a font.
+    '''A dialog to create space glyphs in a font.
 
     .. image:: imgs/font/create-spaces.png
 
-    """
+    '''
 
     hairspace_factor = .08
     thinspace_factor = .16
@@ -32,7 +29,7 @@ class createSpaceGlyphsDialog(hDialog):
         self.field_width = 40
         self.box_height = 23
         self.height = (self.text_height * 5) + (self.button_height * 1) + (self.padding_y * 8) + self.box_height + 4
-        self.w = FloatingWindow((self.width, self.height), self.title)
+        self.w = HUDFloatingWindow((self.width, self.height), self.title)
         # current font
         x = self.padding_x
         y = self.padding_y

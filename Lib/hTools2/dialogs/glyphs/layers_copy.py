@@ -1,26 +1,19 @@
 # [h] copy glyph contents of one layer to other layers
 
-# imports
-
 from mojo.roboFont import CurrentFont
 from mojo.events import addObserver, removeObserver
 from vanilla import *
-
 from hTools2 import hDialog
 from hTools2.modules.fontutils import get_glyphs
 from hTools2.modules.messages import no_font_open
 
-# object
-
 class copyToLayerDialog(hDialog):
 
-    """A dialog to copy the foreground layer in the selected glyphs to another layer.
+    '''A dialog to copy the foreground layer in the selected glyphs to another layer.
 
     .. image:: imgs/glyphs/layers-copy.png
 
-    """
-
-    # attributes
+    '''
 
     #: The font which is currently selected.
     font = None
@@ -31,15 +24,13 @@ class copyToLayerDialog(hDialog):
     #: Overwrite (or now) the contents of the target layer, if it already exists.
     overwrite = False
 
-    # methods
-
     def __init__(self):
         self.get_font()
         # open window
         self.title = 'layers'
         self.list_height = 80
         self.height = (self.padding_y * 5) + (self.text_height * 4) + (self.button_height) + self.list_height
-        self.w = FloatingWindow((self.width, self.height), self.title)
+        self.w = HUDFloatingWindow((self.width, self.height), self.title)
         x = self.padding_x
         y = self.padding_y - 2
         # source label

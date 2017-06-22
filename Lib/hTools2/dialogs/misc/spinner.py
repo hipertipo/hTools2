@@ -1,11 +1,7 @@
 # [h] spinner ui
 
-# imports
-
 from vanilla import *
 from hTools2 import hDialog
-
-# constants
 
 D = hDialog()
 

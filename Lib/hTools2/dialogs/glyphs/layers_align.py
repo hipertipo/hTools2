@@ -1,38 +1,29 @@
 # [h] center layers in selected glyphs
 
-### this dialog is buggy and needs to be deprecated or rewritten ###
-
-# imports
+### DEPRECATED ###
 
 from mojo.roboFont import CurrentFont, CurrentGlyph
 from vanilla import *
-
 from hTools2 import hDialog
 from hTools2.modules.fontutils import get_glyphs
 from hTools2.modules.glyphutils import center_glyph_layers
 from hTools2.modules.messages import no_glyph_selected, no_font_open, no_layer_selected
 
-# object
-
 class alignLayersDialog(hDialog):
 
-    """A dialog to center all layers in the selected glyphs."""
+    '''A dialog to center all layers in the selected glyphs.'''
 
-    # attributes
-
-    font = None
+    font        = None
     layer_names = []
-    all_layers = False
-    guides = True
-
-    # methods
+    all_layers  = False
+    guides      = True
 
     def __init__(self):
         self.get_layers()
         self.title = 'center'
         self.column_height = 120
         self.height = self.button_height + (self.padding_y * 5) + self.column_height + (self.text_height * 2)
-        self.w = FloatingWindow((self.width, self.height), self.title)
+        self.w = HUDFloatingWindow((self.width, self.height), self.title)
         x = self.padding_x
         y = self.padding_y
         # select all layers

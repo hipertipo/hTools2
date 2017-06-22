@@ -1,37 +1,22 @@
 # [h] create anchors
 
-"""Create `top` and `bottom` anchors in selected glyphs."""
-
-import hTools2.modules.anchors
-reload(hTools2.modules.anchors)
-
-# import
-
 from mojo.roboFont import CurrentFont
 from vanilla import *
-
 from hTools2 import hDialog
 from hTools2.dialogs.misc import Spinner
 from hTools2.modules.fontutils import get_glyphs
 from hTools2.modules.anchors import create_anchors, clear_anchors
 from hTools2.modules.messages import no_glyph_selected, no_font_open
 
-# objects
-
 class createAnchorsDialog(hDialog):
 
-    # _top          = True
-    # _bottom       = True
-    # _accent       = False
-    # _top_delta    = 20
-    # _bottom_delta = 20
+    '''Create `top` and `bottom` anchors in selected glyphs.'''
 
     def __init__(self):
         self.title = "anchors"
-        # self.height = 300
         self.height = self.nudge_button*2 + self.text_height*9 + self.padding*6 + self.button_height
         # create window
-        self.w = FloatingWindow((self.width, self.height), self.title)
+        self.w = HUDFloatingWindow((self.width, self.height), self.title)
         # anchors top
         x = y = p = self.padding
         self.w.top = CheckBox(
@@ -43,7 +28,7 @@ class createAnchorsDialog(hDialog):
         y += self.text_height + p
         self.w.spinner_top = Spinner(
                     (x, y),
-                    default=20,
+                    default=500,
                     scale=1,
                     integer=True,
                     label='position')
@@ -59,16 +44,16 @@ class createAnchorsDialog(hDialog):
         y += self.text_height + p
         self.w.spinner_bottom = Spinner(
                     (x, y),
-                    default=20,
+                    default=0,
                     scale=1,
                     integer=True,
                     label='position')
         # base or accent
         x = p
-        y += self.w.spinner_bottom.getPosSize()[3] # + p
+        y += self.w.spinner_bottom.getPosSize()[3]
         self.w.accent = RadioGroup(
                     (x, y, -p, self.text_height*2),
-                    [ 'base', 'accent'],
+                    ['base', 'accent'],
                     sizeStyle=self.size_style,
                     isVertical=True)
         self.w.accent.set(0)
@@ -98,15 +83,12 @@ class createAnchorsDialog(hDialog):
 
         if f is not None:
 
-            _top          = self.w.top.get()
-            _bottom       = self.w.bottom.get()
-            _top_pos      = int(self.w.spinner_top.value.get())
-            _bottom_pos   = int(self.w.spinner_bottom.value.get())
-            _accent       = self.w.accent.get()
-            _clear        = self.w.clear.get()
-
-            print _top_delta, type(_top_delta)
-            print _bottom_delta, type(_bottom_delta)
+            _top        = self.w.top.get()
+            _bottom     = self.w.bottom.get()
+            _top_pos    = int(self.w.spinner_top.value.get())
+            _bottom_pos = int(self.w.spinner_bottom.value.get())
+            _accent     = self.w.accent.get()
+            _clear      = self.w.clear.get()
 
             glyph_names = get_glyphs(f)
             if len(glyph_names) > 0:
@@ -128,7 +110,7 @@ class createAnchorsDialog(hDialog):
                         top_pos=_top_pos,
                         bottom_pos=_bottom_pos)
                     f[glyph_name].performUndo()
-                f.update()
+                f.changed()
                 print
                 print "\n...done.\n"
 
@@ -137,5 +119,4 @@ class createAnchorsDialog(hDialog):
 
         else:
             print no_font_open
-
 

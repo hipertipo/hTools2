@@ -1,11 +1,8 @@
 # [h] transfer vertical metrics
 
-# imports
-
 from mojo.roboFont import AllFonts
 from mojo.events import addObserver, removeObserver
 from vanilla import *
-
 from hTools2 import hDialog
 from hTools2.modules.fontutils import get_full_name
 from hTools2.modules.messages import no_font_open
@@ -14,11 +11,11 @@ from hTools2.modules.messages import no_font_open
 
 class transferVMetricsDialog(hDialog):
 
-    """A dialog to transfer the vertical metrics from one font to another.
+    '''A dialog to transfer the vertical metrics from one font to another.
 
     .. image:: imgs/font/copy-vmetrics.png
 
-    """
+    '''
 
     all_fonts_names = []
 
@@ -27,7 +24,7 @@ class transferVMetricsDialog(hDialog):
         self.column_1 = 103
         self.width = self.column_1 + (self.padding_x * 2)
         self.height = (self.text_height * 4) + self.button_height + (self.padding_y * 4)
-        self.w = FloatingWindow((self.width, self.height), self.title)
+        self.w = HUDFloatingWindow((self.width, self.height), self.title)
         # source font
         x = self.padding_x
         y = self.padding_y

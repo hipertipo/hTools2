@@ -24,7 +24,7 @@ def get_anchors(font, glyph_names=None):
         if len(g.anchors) > 0:
             anchors = []
             for a in g.anchors:
-                anchors.append((a.name, a.position))
+                anchors.append((a.name, (a.x, a.y)))
             anchors_dict[g.name] = anchors
     return anchors_dict
 
@@ -40,30 +40,30 @@ def clear_anchors(font, glyph_names=None):
         if font.has_key(glyph_name) and len(font[glyph_name].anchors) > 0:
             font[glyph_name].prepareUndo('clear anchors')
             font[glyph_name].clearAnchors()
-            font[glyph_name].update()
+            font[glyph_name].changed()
             font[glyph_name].performUndo()
-    font.update()
+    font.changed()
 
 def find_lost_anchors(font):
-    '''Find anchors which are lost outside of the bounding box.'''
+    '''Find anchors which are lost outside of the glyph box.'''
     clear_colors(font)
     c = random_color()
     lost_anchors = []
     for g in font:
         if len(g.anchors) > 0:
             for a in g.anchors:
-                if a.position[1] > f.info.unitsPerEm:
-                    lost_anchors.append((g.name, a.name, a.position))
+                if a.y > f.info.unitsPerEm:
+                    lost_anchors.append((g.name, a.name, (a.x, a.y) ))
                     g.mark = c
     return lost_anchors
 
-# def remove_duplicate_anchors(font):
-#     '''Delete duplicate anchors with same name and position.'''
-#     pass
 
+def remove_duplicate_anchors(font):
+    '''Delete duplicate anchors with same name and position.'''
+    pass
 
 def get_anchors_dict(accents_dict):
-    '''Get an anchors dict from a dict of glyph building recipes.
+    '''Get an anchors dict from a glyph construction dict (accents).
 
     Returns a dictionary with anchor names and positions for each glyph.
 
@@ -115,7 +115,7 @@ def rename_anchor(glyph, old_name, new_name):
             if a.name == old_name:
                 has_name = True
                 a.name = new_name
-                glyph.update()
+                glyph.changed()
     return has_name
 
 def transfer_anchors(source_glyph, dest_glyph, clear=True, proportional=False):
@@ -133,7 +133,7 @@ def transfer_anchors(source_glyph, dest_glyph, clear=True, proportional=False):
         has_anchor = True
         anchorsDict = {}
         for a in source_glyph.anchors:
-            anchorsDict[a.name] = a.position
+            anchorsDict[a.name] = a.x, a.y
         # clear anchors in dest glyph
         if clear:
             dest_glyph.clearAnchors()
@@ -144,7 +144,7 @@ def transfer_anchors(source_glyph, dest_glyph, clear=True, proportional=False):
                 factor = dest_glyph.width / float(source_glyph.width)
                 x *= factor
             dest_glyph.appendAnchor(anchor, (x, y))
-            dest_glyph.update()
+            dest_glyph.changed()
     # done
     return has_anchor
 
@@ -158,8 +158,8 @@ def move_anchors(glyph, anchor_names, (delta_x, delta_y)):
     '''
     for anchor in glyph.anchors:
         if anchor.name in anchor_names:
-            anchor.move((delta_x, delta_y))
-            glyph.update()
+            anchor.moveBy((delta_x, delta_y))
+            glyph.changed()
 
 def create_anchors(glyph, top=True, bottom=True, accent=False, top_pos=20, bottom_pos=20):
     '''Create anchors in glyph.
@@ -195,10 +195,8 @@ def create_anchors(glyph, top=True, bottom=True, accent=False, top_pos=20, botto
         if anchor_name not in anchors:
             # make anchor y-position
             if anchor_name in [ 'top', '_top' ]:
-                # y = font.info.xHeight + top_delta
                 y = top_pos
             else:
-                # y = 0 - bottom_delta
                 y = bottom_pos
             # place anchor
             glyph.appendAnchor(anchor_name, (x, y))

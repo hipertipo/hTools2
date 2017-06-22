@@ -1,10 +1,7 @@
 # [h] a dialog to print glyph groups in font
 
-# imports
-
 from mojo.roboFont import CurrentFont
 from vanilla import *
-
 from hTools2 import hDialog
 from hTools2.modules.fontutils import delete_groups, print_groups
 from hTools2.modules.messages import no_font_open
@@ -13,16 +10,16 @@ from hTools2.modules.messages import no_font_open
 
 class printGroupsDialog(hDialog):
 
-    """A dialog to print all groups in the font in different formats.
+    '''A dialog to print all groups in the font in different formats.
 
     .. image:: imgs/font/print-groups.png
 
-    """
+    '''
 
     def __init__(self):
         self.title = 'groups'
         self.height = (self.button_height * 2) + (self.text_height * 3) + (self.padding_y * 4) - 3
-        self.w = FloatingWindow((self.width, self.height), self.title)
+        self.w = HUDFloatingWindow((self.width, self.height), self.title)
         # checkbox
         x = self.padding_x
         y = self.padding_y

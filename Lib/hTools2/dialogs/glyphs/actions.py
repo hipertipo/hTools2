@@ -1,54 +1,43 @@
 # [h] apply actions to selected glyphs
 
-# imports
-
 from mojo.roboFont import CurrentFont
 from vanilla import *
-
 from hTools2 import hDialog
 from hTools2.modules.fontutils import get_glyphs
 from hTools2.modules.messages import no_glyph_selected, no_font_open
 
-# objects
-
 class glyphActionsDialog(hDialog):
 
-    """A dialog to apply actions to one or more layers in the selected glyphs.
+    '''A dialog to apply actions to one or more layers in the selected glyphs.
 
     .. image:: imgs/glyphs/actions.png
 
-    """
-
-    # attributes
+    '''
 
     actions = {
-        'clear outlines' : False,
-        'round points' : False,
-        'decompose' : False,
+        'clear outlines'    : False,
+        'round points'      : False,
+        'decompose'         : False,
         'delete components' : False,
-        'order contours' : False,
-        'auto direction' : False,
-        'auto start point' : False,
-        'remove overlaps' : False,
-        'add extremes' : False,
-        'all layers' : False,
+        'order contours'    : False,
+        'auto direction'    : False,
+        'auto start point'  : False,
+        'remove overlaps'   : False,
+        'add extremes'      : False,
+        'all layers'        : False,
     }
 
     glyph_names = []
 
-    # methods
-
     def __init__(self):
         self.title = 'actions'
-        self.height = (self.padding_y * 4) + (self.text_height * len(self.actions)) + self.button_height
-        self.w = FloatingWindow((self.width, self.height), self.title)
+        self.height = self.padding_y*4 + self.text_height*len(self.actions) + self.button_height
+        self.w = HUDFloatingWindow((self.width, self.height), self.title)
         # clear outlines
         x = self.padding_x
         y = self.padding_y
         self.w.clear_checkBox = CheckBox(
-                    (x, y,
-                    -self.padding_x,
-                    self.text_height),
+                    (x, y, -self.padding_x, self.text_height),
                     "clear outlines",
                     callback=self.clear_callback,
                     value=self.actions['clear outlines'],
@@ -56,9 +45,7 @@ class glyphActionsDialog(hDialog):
         # round point positions
         y += self.text_height
         self.w.round_checkBox = CheckBox(
-                    (x, y,
-                    -self.padding_x,
-                    self.text_height),
+                    (x, y, -self.padding_x, self.text_height),
                     "round points",
                     callback=self.round_callback,
                     value=self.actions['round points'],
@@ -66,9 +53,7 @@ class glyphActionsDialog(hDialog):
         # decompose
         y += self.text_height
         self.w.decompose_checkBox = CheckBox(
-                    (x, y,
-                    -self.padding_x,
-                    self.text_height),
+                    (x, y, -self.padding_x, self.text_height),
                     "decompose",
                     callback=self.decompose_callback,
                     value=self.actions['decompose'],
@@ -76,9 +61,7 @@ class glyphActionsDialog(hDialog):
         # delete components
         y += self.text_height
         self.w.delete_components_checkBox = CheckBox(
-                    (x, y,
-                    -self.padding_x,
-                    self.text_height),
+                    (x, y, -self.padding_x, self.text_height),
                     "del components",
                     callback=self.delete_components_callback,
                     value=self.actions['delete components'],
@@ -86,9 +69,7 @@ class glyphActionsDialog(hDialog):
         # auto contour order
         y += self.text_height
         self.w.order_checkBox = CheckBox(
-                    (x, y,
-                    -self.padding_x,
-                    self.text_height),
+                    (x, y, -self.padding_x, self.text_height),
                     "auto order",
                     callback=self.order_callback,
                     value=self.actions['order contours'],
@@ -96,9 +77,7 @@ class glyphActionsDialog(hDialog):
         # auto contour direction
         y += self.text_height
         self.w.direction_checkBox = CheckBox(
-                    (x, y,
-                    -self.padding_x,
-                    self.text_height),
+                    (x, y, -self.padding_x, self.text_height),
                     "auto direction",
                     callback=self.direction_callback,
                     value=self.actions['auto direction'],
@@ -106,9 +85,7 @@ class glyphActionsDialog(hDialog):
         # auto starting points
         y += self.text_height
         self.w.start_point_checkBox = CheckBox(
-                    (x, y,
-                    -self.padding_x,
-                    self.text_height),
+                    (x, y, -self.padding_x, self.text_height),
                     "auto start point",
                     callback=self.start_point_callback,
                     value=self.actions['auto start point'],
@@ -116,9 +93,7 @@ class glyphActionsDialog(hDialog):
         # remove overlaps
         y += self.text_height
         self.w.overlaps_checkBox = CheckBox(
-                    (x, y,
-                    -self.padding_x,
-                    self.text_height),
+                    (x, y, -self.padding_x, self.text_height),
                     "remove overlap",
                     callback=self.overlaps_callback,
                     value=self.actions['remove overlaps'],
@@ -126,9 +101,7 @@ class glyphActionsDialog(hDialog):
         # add extreme points
         y += self.text_height
         self.w.extremes_checkBox = CheckBox(
-                    (x, y,
-                    -self.padding_x,
-                    self.text_height),
+                    (x, y, -self.padding_x, self.text_height),
                     "add extremes",
                     callback=self.extremes_callback,
                     value=self.actions['add extremes'],
@@ -137,18 +110,14 @@ class glyphActionsDialog(hDialog):
         x = self.padding_x
         y += (self.text_height + self.padding_y)
         self.w.button_apply = SquareButton(
-                    (x, y,
-                    -self.padding_x,
-                    self.button_height),
+                    (x, y, -self.padding_x, self.button_height),
                     "apply",
                     callback=self.apply_callback,
                     sizeStyle=self.size_style)
         # all layers
         y += (self.button_height + self.padding_y)
         self.w.all_layers_checkBox = CheckBox(
-                    (x, y,
-                    -self.padding_x,
-                    self.text_height),
+                    (x, y, -self.padding_x, self.text_height),
                     "all layers",
                     callback=self.all_layers_callback,
                     value=self.actions['all layers'],

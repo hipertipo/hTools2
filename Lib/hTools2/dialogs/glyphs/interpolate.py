@@ -1,91 +1,67 @@
 # [h] interpolate glyphs
 
-import hTools2.dialogs.misc
-reload(hTools2.dialogs.misc)
-
-# imports
-
 import os
 from vanilla import *
 from mojo.roboFont import AllFonts
 from mojo.events import addObserver, removeObserver
-
 from hTools2 import hDialog
 from hTools2.dialogs.misc import Spinner
 from hTools2.modules.fontutils import get_full_name, get_glyphs
 from hTools2.modules.messages import no_glyph_selected, no_font_open
 
-# object
-
 class interpolateGlyphsDialog(hDialog):
 
-    """A dialog to interpolate the selected glyphs in one font with the same glyphs in another font into a third font.
+    '''A dialog to interpolate the selected glyphs in one font with the same glyphs in another font into a third font.
 
     .. image:: imgs/glyphs/interpolate.png
 
-    """
-
-    # attributes
+    '''
 
     all_fonts    = {}
     factor_x     = 0.50
     factor_y     = 0.50
     proportional = True
 
-    # methods
-
     def __init__(self):
         self._get_fonts()
         # window
-        self.title = 'insterpol'
-        self.height = (self.nudge_button*4) + (self.text_height*7) + self.progress_bar + (self.padding_y*9) + (self.button_height) - 10
+        self.title = 'interpol'
+        self.height = self.nudge_button*4 + self.text_height*7 + self.progress_bar + self.padding_y*9 + self.button_height - 10
         self.value_box = 60
-        self.column_2 = self.value_box + (self.nudge_button * 7) - 6
-        self.w = FloatingWindow((self.width, self.height), self.title)
+        self.column_2 = self.value_box + self.nudge_button*7 - 6
+        self.w = HUDFloatingWindow((self.width, self.height), self.title)
         # master 1
         x = self.padding_x
         y = self.padding_y - 8
         self.w._f1_label = TextBox(
-                    (x, y + 3,
-                    -self.padding_x,
-                    self.text_height),
+                    (x, y+3, -self.padding_x, self.text_height),
                     "master 1",
                     sizeStyle=self.size_style)
         y += self.text_height
         self.w._f1_font = PopUpButton(
-                    (x, y,
-                    -self.padding_x,
-                    self.text_height),
+                    (x, y, -self.padding_x, self.text_height),
                     sorted(self.all_fonts.keys()),
                     sizeStyle=self.size_style)
         y += self.text_height
         # master 2
         self.w._f2_label = TextBox(
-                    (x, y + 3,
-                    -self.padding_x,
-                    self.text_height),
+                    (x, y+3, -self.padding_x, self.text_height),
                     "master 2",
                     sizeStyle=self.size_style)
         y += self.text_height
         self.w._f2_font = PopUpButton(
-                    (x, y,
-                    -self.padding_x,
-                    self.text_height),
+                    (x, y, -self.padding_x, self.text_height),
                     sorted(self.all_fonts.keys()),
                     sizeStyle=self.size_style)
         y += self.text_height
         # target
         self.w._f3_label = TextBox(
-                    (x, y + 3,
-                    -self.padding_x,
-                    self.text_height),
+                    (x, y+3, -self.padding_x, self.text_height),
                     "target font",
                     sizeStyle=self.size_style)
         y += self.text_height
         self.w._f3_font = PopUpButton(
-                    (x, y,
-                    -self.padding_x,
-                    self.text_height),
+                    (x, y, -self.padding_x, self.text_height),
                     sorted(self.all_fonts.keys()),
                     sizeStyle=self.size_style)
         # factor x
@@ -93,25 +69,19 @@ class interpolateGlyphsDialog(hDialog):
         y += (self.text_height + self.padding_y)
         self.w._factor_x = Spinner(
                     (x, y),
-                    default='0.50',
-                    scale=.01,
-                    integer=False,
-                    label='x factor')
+                    default='0.50', scale=.01,
+                    integer=False, label='x factor')
         # factor y
         y += self.w._factor_x.getPosSize()[3]
         self.w._factor_y = Spinner(
                     (x, y),
-                    default='0.50',
-                    scale=.01,
-                    integer=False,
-                    label='y factor')
+                    default='0.50', scale=.01,
+                    integer=False, label='y factor')
         # proporional
         x = self.padding_x
         y += self.w._factor_y.getPosSize()[3]
         self.w._proportional_checkbox = CheckBox(
-                    (x, y,
-                    -self.padding_x,
-                    self.text_height),
+                    (x, y, -self.padding_x, self.text_height),
                     "proportional",
                     value=self.proportional,
                     sizeStyle=self.size_style,
@@ -120,18 +90,14 @@ class interpolateGlyphsDialog(hDialog):
         x = self.padding_x
         y += (self.text_height + self.padding_y) - 3
         self.w.button_apply = SquareButton(
-                    (x, y,
-                    -self.padding_x,
-                    self.button_height),
+                    (x, y, -self.padding_x, self.button_height),
                     "interpolate",
                     callback=self.apply_callback,
                     sizeStyle=self.size_style)
         # progress bar
         y += (self.button_height + self.padding_y)
         self.w.bar = ProgressBar(
-                    (x, y,
-                    -self.padding_x,
-                    self.progress_bar),
+                    (x, y, -self.padding_x, self.progress_bar),
                     isIndeterminate=True,
                     sizeStyle=self.size_style)
         # bind
@@ -152,7 +118,7 @@ class interpolateGlyphsDialog(hDialog):
     def _get_fonts(self):
         self.all_fonts = {}
         for font in AllFonts():
-            font_name = get_full_name(font) # os.path.splitext(os.path.split(font.path)[-1])[0] #
+            font_name = get_full_name(font)
             self.all_fonts[font_name] = font
 
     def update_callback(self, sender):

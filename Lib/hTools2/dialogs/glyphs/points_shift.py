@@ -1,46 +1,37 @@
 # [h] shift points in selected glyphs
 
-# imports
-
 from mojo.roboFont import CurrentFont
 from vanilla import *
-
 from hTools2 import hDialog
 from hTools2.dialogs.misc import Spinner
 from hTools2.modules.fontutils import get_glyphs
 from hTools2.modules.glyphutils import *
 from hTools2.modules.messages import no_font_open, no_glyph_selected
 
-# objects
-
 class shiftPointsDialog(hDialog):
 
-    """A dialog to select and shift points in the selected glyphs in a font.
+    '''A dialog to select and shift points in the selected glyphs in a font.
 
     .. image:: imgs/glyphs/points-shift.png
 
-    """
+    '''
 
-    # attributes
-
-    pos = 250
-    delta = 125
-    side = 1
-    axis = 0
+    pos    = 250
+    delta  = 125
+    side   = 1
+    axis   = 0
     layers = False
+    font   = None
 
-    font = None
     glyph_names = []
 
-    # methods
-
     def __init__(self):
-        self.title = 'shift'
+        self.title = 'shift points'
         self.column1 = 51
         self.width = (self.nudge_button * 6) + (self.padding_x * 2) - 5
         self.small_button = (self.width - (self.padding_x * 2)) / 2
         self.height = (self.text_height * 4) + (self.padding_y * 9) + (self.nudge_button * 2) + (self.button_height * 1) + 5
-        self.w = FloatingWindow((self.width, self.height), self.title)
+        self.w = HUDFloatingWindow((self.width, self.height), self.title)
         # position
         x = 0
         y = self.padding_y

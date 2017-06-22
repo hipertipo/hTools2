@@ -8,17 +8,13 @@ from hTools2.dialogs.misc import Spinner
 from hTools2.modules.interpol import condense_glyphs
 from hTools2.modules.fontutils import get_full_name, get_glyphs
 
-# object
-
 class condenseGlyphsDialog(hDialog):
 
-    """A dialog to generate condensed glyphs from a regular and a bold font.
+    '''A dialog to generate condensed glyphs from a regular and a bold font.
 
     .. image:: imgs/glyphs/interpolate-condense.png
 
-    """
-
-    # attributes
+    '''
 
     #: A list with names of all open fonts.
     all_fonts = []
@@ -32,14 +28,12 @@ class condenseGlyphsDialog(hDialog):
     #: The condensation factor.
     factor = '0.50'
 
-    # methods
-
     def __init__(self):
         self.get_fonts()
         # window
         self.title = 'condense'
         self.height = (self.nudge_button * 2) + (self.text_height * 6) + self.progress_bar + (self.padding_y * 5) + (self.button_height * 1)
-        self.w = FloatingWindow((self.width, self.height), title=self.title)
+        self.w = HUDFloatingWindow((self.width, self.height), title=self.title)
         # master 1 (regular)
         x = self.padding_x
         y = self.padding_y - 8

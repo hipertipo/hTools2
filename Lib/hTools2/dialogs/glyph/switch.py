@@ -1,12 +1,9 @@
 # [h] switch glyph dialog
 
-# imports
-
 from mojo.roboFont import AllFonts, CurrentFont, CurrentGlyph
 from mojo.UI import CurrentGlyphWindow, OpenGlyphWindow
 from mojo.events import addObserver, removeObserver
 from vanilla import *
-
 from hTools2 import hDialog
 from hTools2.modules.fontutils import get_full_name, get_glyphs
 from hTools2.modules.messages import no_glyph_selected, no_font_open
@@ -48,7 +45,7 @@ class switchGlyphDialog(hDialog):
             self.square_button -= 4
             self.height = (self.square_button * 3) + (self.padding_y * 2)
             self.width = 320
-            self.w = FloatingWindow((self.width, self.height), self.title)
+            self.w = HUDFloatingWindow((self.width, self.height), self.title)
             # move buttons
             x = self.padding_x
             y = self.padding_y

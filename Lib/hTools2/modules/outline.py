@@ -5,14 +5,15 @@
 from hTools2.extras.outline import *
 from mojo.roboFont import NewFont
 
-# functions
-
 def make_outline(glyph, distance, join, cap, inner=True, outer=True, miter=None):
     '''Calculate expanded outlines for a given glyph.'''
     options = ['Square', 'Round', 'Butt']
     pen = OutlinePen(glyph.getParent(),
-                distance, connection=options[join], cap=options[cap],
-                miterLimit=miter, closeOpenPaths=True)
+                distance,
+                connection=options[join],
+                cap=options[cap],
+                miterLimit=miter,
+                closeOpenPaths=True)
     glyph.draw(pen)
     pen.drawSettings(drawOriginal=False, drawInner=inner, drawOuter=outer)
     return pen
@@ -39,7 +40,7 @@ expand = expand_glyph
 def expand_font(src_font, distance, join=1, cap=1):
     '''Expand outlines for all glyphs in font.'''
     # create a new empty font
-    dst_font = NewFont(showUI=False)
+    dst_font = NewFont(showInterface=False)
     # expand all glyph
     for glyph_name in src_font.keys():
         # get source glyph

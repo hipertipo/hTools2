@@ -8,7 +8,6 @@
 
 from mojo.roboFont import CurrentGlyph
 from vanilla import *
-
 from hTools2 import hDialog
 from hTools2.dialogs.misc import Arrows, Spinner
 from hTools2.extras.nudge import *
@@ -27,8 +26,7 @@ def nudgeSelected(offset):
 
 class nudgePointsDialog(hDialog):
 
-    '''
-    A simple RoboFont dialog for the famous and useful 'interpolated nudge' script.
+    '''A simple RoboFont dialog for the famous and useful 'interpolated nudge' script.
 
     .. image:: imgs/glyph/nudge.png
 
@@ -40,7 +38,7 @@ class nudgePointsDialog(hDialog):
     def __init__(self):
         self.title = "nudge"
         self.height = (self.square_button * 3) + (self.text_height * 3) + (self.padding_y * 4)
-        self.w = FloatingWindow((self.width, self.height), self.title)
+        self.w = HUDFloatingWindow((self.width, self.height), self.title)
         # nudge buttons
         x = self.padding_x
         y = self.padding_y

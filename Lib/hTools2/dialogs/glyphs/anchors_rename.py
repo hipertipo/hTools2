@@ -1,51 +1,38 @@
 # [h] rename anchors in selected glyphs
 
-# imports
-
 from mojo.roboFont import CurrentFont
 from vanilla import *
-
 from hTools2 import hDialog
 from hTools2.modules.anchors import rename_anchor
 from hTools2.modules.fontutils import get_glyphs
 from hTools2.modules.messages import no_glyph_selected, no_font_open
 
-# objects
-
 class renameAnchorsDialog(hDialog):
 
-    """A dialog to rename the anchors in the selected glyphs of the current font.
+    '''A dialog to rename the anchors in the selected glyphs of the current font.
 
     .. image:: imgs/glyphs/anchors-rename.png
 
-    """
-
-    # attributes
+    '''
 
     column_1 = 33
     column_2 = 70
 
-    # methods
-
     def __init__(self):
         self.title = 'anchors'
-        self.height = (self.text_height * 2) + (self.padding_y * 4) + self.button_height
-        self.w = FloatingWindow((self.width, self.height), self.title)
+        self.height = self.text_height*2 + self.padding_y*4 + self.button_height
+        self.w = HUDFloatingWindow((self.width, self.height), self.title)
         x = self.padding_x
         y = self.padding_y
         # old name label
         self.w._old_name_label = TextBox(
-                    (x, y,
-                    self.column_1,
-                    self.text_height),
+                    (x, y, self.column_1, self.text_height),
                     "old",
                     sizeStyle=self.size_style)
         x += self.column_1
         # old name
         self.w._old_name_value = EditText(
-                    (x, y,
-                    self.column_2,
-                    self.text_height),
+                    (x, y, self.column_2, self.text_height),
                     placeholder='old name',
                     text='',
                     sizeStyle=self.size_style)
@@ -53,17 +40,13 @@ class renameAnchorsDialog(hDialog):
         y += self.text_height + self.padding_y
         # new name label
         self.w._new_name_label = TextBox(
-                    (x, y,
-                    self.column_1,
-                    self.text_height),
+                    (x, y, self.column_1, self.text_height),
                     "new",
                     sizeStyle=self.size_style)
         x += self.column_1
         # new name
         self.w._new_name_value = EditText(
-                    (x, y,
-                    self.column_2,
-                    self.text_height),
+                    (x, y, self.column_2, self.text_height),
                     placeholder='new name',
                     text='',
                     sizeStyle=self.size_style)
@@ -71,9 +54,7 @@ class renameAnchorsDialog(hDialog):
         x = self.padding_x
         y += self.text_height + self.padding_y
         self.w.button_apply = SquareButton(
-                    (x, y,
-                    -self.padding_x,
-                    self.button_height),
+                    (x, y, -self.padding_x, self.button_height),
                     "rename",
                     callback=self.apply_callback,
                     sizeStyle=self.size_style)
@@ -102,9 +83,9 @@ class renameAnchorsDialog(hDialog):
                     f[glyph_name].prepareUndo('rename anchor')
                     has_name = rename_anchor(f[glyph_name], old, new)
                     f[glyph_name].performUndo()
-                    f[glyph_name].update()
+                    f[glyph_name].changed()
                 # done
-                f.update()
+                f.changed()
                 print
                 print '\n...done.\n'
             # no glyph selected

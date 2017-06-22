@@ -1,39 +1,29 @@
 # [h] copy foreground to background layer
 
-# imports
-
 from mojo.roboFont import AllFonts
 from mojo.events import addObserver, removeObserver
 from vanilla import *
-
 from hTools2 import hDialog
 from hTools2.modules.fontutils import get_full_name, get_glyphs
 from hTools2.modules.messages import no_font_open, no_glyph_selected
 
-# objects
-
 class copyToMaskDialog(hDialog):
 
-    """A dialog to transfer the foreground layer of the selected glyphs in the current font to the mask layer of the same glyphs of another font.
+    '''A dialog to transfer the foreground layer of the selected glyphs in the current font to the mask layer of the same glyphs of another font.
 
     .. image:: imgs/glyphs/mask-copy.png
 
-    """
+    '''
 
-    # attributes
-
-    source_layer_name = 'foreground'
+    source_layer_name = 'public.default'
     target_layer_name = 'background'
-
-    # methods
 
     def __init__(self):
         self._get_fonts()
         # window
         self.title = 'layers'
-        self.width = 123
-        self.height = (self.text_height * 4) + (self.button_height * 1) + (self.padding_y * 4) #- 2
-        self.w = FloatingWindow((self.width, self.height), self.title)
+        self.height = (self.text_height*4) + (self.button_height*1) + (self.padding_y*4)
+        self.w = HUDFloatingWindow((self.width, self.height), self.title)
         # source label
         x = self.padding_x
         y = self.padding_y - 1
@@ -107,26 +97,27 @@ class copyToMaskDialog(hDialog):
             if len(glyph_names) > 0:
                 # print info
                 print 'copying glyphs to mask...\n'
-                print '\tsource font: %s (foreground)' % get_full_name(source_font)
+                print '\tsource font: %s (%s)' % (get_full_name(source_font), self.source_layer_name)
                 print '\ttarget font: %s (%s)' % (get_full_name(target_font), self.target_layer_name)
                 print
                 print '\t',
                 # batch copy glyphs to mask
                 for glyph_name in glyph_names:
                     print glyph_name,
+                    # get source/target glyphs/layers
+                    source_glyph = source_font[glyph_name].getLayer(self.source_layer_name)
+                    target_glyph = target_font[glyph_name].getLayer(self.target_layer_name)
                     # prepare undo
-                    target_font[glyph_name].prepareUndo('copy glyphs to mask')
-                    # copy oulines to mask
-                    target_glyph_layer = target_font[glyph_name].getLayer(self.target_layer_name)
-                    pen = target_glyph_layer.getPointPen()
-                    source_font[glyph_name].drawPoints(pen)
-                    # update
-                    target_font[glyph_name].update()
-                    # activate undo
-                    target_font[glyph_name].performUndo()
+                    target_glyph.prepareUndo('copy glyphs to mask')
+                    # copy source to target
+                    pen = target_glyph.getPen()
+                    source_glyph.draw(pen)
+                    # done
+                    target_glyph.changed()
+                    target_glyph.performUndo()
                 # done
                 print
-                target_font.update()
+                target_font.changed()
                 print '\n...done.\n'
             # no glyph selected
             else:

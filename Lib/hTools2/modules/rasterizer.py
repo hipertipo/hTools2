@@ -1,33 +1,21 @@
 # [h] hTools2.modules.rasterizer
 
-import hTools2.modules.primitives
-reload(hTools2.modules.primitives)
-
-# imports
-
 import random
-
-try:
-    from mojo.roboFont import NewFont
-
-except:
-    from robofab.world import NewFont
-
 from hTools2.modules.primitives import oval, rect, element
 
 # functions
 
 def set_element(font, size, type='rect', magic=None, element_src='_element'):
-    """
+    '''
     Set the shape of the element glyph in the font.
 
-    :param RFont font: A font in which to create the element glyph.
-    :param int size: The size of the element shape.
-    :param str type: The type of the element shape: ``rect``, ``oval`` or ``element``.
-    :param float magic: A number indicating the roundness of shapes of type ``element``.
-    :param str element_src: The glyph in which the element shape will be drawn.
+    **font** A font in which to create the element glyph.
+    **size** The size of the element shape.
+    **type** The type of the element shape: ``rect``, ``oval`` or ``element``.
+    **magic** A number indicating the roundness of shapes of type ``element``.
+    **element_src** The glyph in which the element shape will be drawn.
 
-    """
+    '''
 
     # get destination glyph
     if font.has_key(element_src) != True:
@@ -56,14 +44,14 @@ def set_element(font, size, type='rect', magic=None, element_src='_element'):
     font.update()
 
 def randomize_elements(glyph, esize, rand_size):
-    """
+    '''
     Randomize the size of element shapes in the current glyph.
 
-    :param RGlyph glyph: The glyph in which the element shapes will be transformed.
-    :param int esize: The current base size of the element shape.
-    :param tuple rand_size: The scale factors for minimum and maximum random element sizes.
+    **glyph** The glyph in which the element shapes will be transformed.
+    **esize** The current base size of the element shape.
+    **rand_size** The scale factors for minimum and maximum random element sizes.
 
-    """
+    '''
 
     glyph.prepareUndo('randomize elements')
 
@@ -91,13 +79,13 @@ def randomize_elements(glyph, esize, rand_size):
     glyph.performUndo()
 
 def get_esize(font, element_src='_element'):
-    """
+    '''
     Get a font's element size from its bounding box.
 
-    :param RFont font: The font to which the element glyph belongs.
-    :param str element_src: The name of the element glyph.
+    **font** The font to which the element glyph belongs.
+    **element_src** The name of the element glyph.
 
-    """
+    '''
     xmin, ymin, xmax, ymax = font[element_src].box
     w = xmax - xmin
     h = ymax - ymin
@@ -108,7 +96,7 @@ def get_esize(font, element_src='_element'):
 
 class RasterGlyph:
 
-    """An object to scan glyphs and rasterize them into element components."""
+    '''An object to scan glyphs and rasterize them into element components.'''
 
     # attributes
 
@@ -121,13 +109,14 @@ class RasterGlyph:
         self.g = sourceGlyph
 
     def scan(self, res):
-        """
+        '''
         Scan glyph and store bits into glyph lib.
 
-        :param int res: The grid resolution to use when scanning the glyph, as a tuple of values for x and y.
-        :returns: A boolean indicating sucess or failure of the scan operation.
+        **res** The grid resolution to use when scanning the glyph, as a tuple of values for x and y.
 
-        """
+        Returns a boolean indicating sucess or failure of the scan operation.
+
+        '''
 
         success = False
         res_x, res_y = res
@@ -167,26 +156,17 @@ class RasterGlyph:
         return success
 
     def save_bits_to_lib(self):
-        """
-        Save bit coordenates and margins from attributes into the glyph lib.
-
-        """
+        '''Save bit coordenates and margins from attributes into the glyph lib.'''
         self.g.lib[self.lib_key_coordenates] = self.coordenates
         self.g.lib[self.lib_key_margins] = self.leftMargin, self.rightMargin
 
     def read_bits_from_lib(self):
-        """
-        Read bit coordenates and margins from the glyph lib into attributes.
-
-        """
+        '''Read bit coordenates and margins from the glyph lib into attributes.'''
         self.coordenates = self.g.lib[self.lib_key_coordenates]
         self.leftMargin, self.rightMargin = self.g.lib[self.lib_key_margins]
 
     def print_bits(self, black="#", white="-", res=(125, 125)):
-        """
-        Print glyph bits as ASCII text.
-
-        """
+        '''Print glyph bits as ASCII text.'''
 
         # see if glyph has been scanned already
         if hasattr(self, 'coordenates') is not True:
@@ -251,10 +231,7 @@ class RasterGlyph:
         print "-" * line_length, "\n"
 
     def rasterize(self, destGlyph=None, res=(125, 125), color=None):
-        """
-        Render scanned bits into destination glyph using components.
-
-        """
+        '''Render scanned bits into destination glyph using components.'''
 
         res_x, res_y = res
         element = "_element"

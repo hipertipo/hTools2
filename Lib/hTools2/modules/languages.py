@@ -1,11 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-# imports
-
-import encoding
-reload(encoding)
-
 from encoding import chars2psnames
 
 # diacritics per language
@@ -139,8 +134,6 @@ diacritics_chars = {
     ],
 }
 
-# functions
-
 def convert_chars_to_glyphnames(chars_dict):
     glyphnames = {}
     for lang in chars_dict.keys():
@@ -192,7 +185,5 @@ def check_languages_coverage(glyph_names, n=50):
     for lang in sorted(not_supported_langs.keys()):
         print '%s (%s):' % (lang, len(not_supported_langs[lang]))
         print '%s\n' % ' '.join(not_supported_langs[lang])
-
-# constants
 
 diacritics_glyphnames = convert_chars_to_glyphnames(diacritics_chars)

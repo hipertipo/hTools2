@@ -1,13 +1,9 @@
 # [h] generate all fonts dialog
 
-# import
-
 import os
-
 from mojo.roboFont import AllFonts
 from vanilla import *
 from vanilla.dialogs import getFolder
-
 from hTools2 import hDialog
 from hTools2.modules.fontutils import get_full_name
 from hTools2.modules.messages import no_font_open
@@ -16,18 +12,18 @@ from hTools2.modules.messages import no_font_open
 
 class generateAllFontsDialog(hDialog):
 
-    """A dialog to test install and/or generate .otf fonts for all open .ufo fonts.
+    '''A dialog to test install and/or generate .otf fonts for all open .ufo fonts.
 
     .. image:: imgs/all-fonts/generate.png
 
-    """
+    '''
 
     _otfs_folder = '/'
 
     def __init__(self):
         self.title = "generate"
         self.height = (self.text_height * 5) + (self.button_height * 3) + (self.padding_y * 7)
-        self.w = FloatingWindow((self.width, self.height), self.title)
+        self.w = HUDFloatingWindow((self.width, self.height), self.title)
         # ufos folder
         x = self.padding_x
         y = self.padding_y

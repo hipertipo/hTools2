@@ -1,7 +1,5 @@
 # [h] hTools2.modules.vmetrics
 
-# functions
-
 def get_min_max_y(font, r=None):
     ymax_ = []
     ymin_ = []

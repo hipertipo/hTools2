@@ -1,12 +1,12 @@
 # [h] hTools2
 
-"""hTools2, a UFO-based Python-powered font production toolkit."""
+'''hTools2, a UFO-based Python-powered font production toolkit.'''
 
 # objects
 
 class hDialog(object):
 
-    """An object collecting constants and default settings for dialogs."""
+    '''An object collecting constants and default settings for dialogs.'''
 
     #: Padding in dialogs.
     padding = 10

@@ -1,10 +1,7 @@
 # [h] adjust vertical metrics
 
-# import
-
 from mojo.roboFont import CurrentFont, CurrentGlyph
 from vanilla import *
-
 from hTools2 import hDialog
 from hTools2.modules.fontutils import get_full_name
 from hTools2.modules.messages import no_font_open
@@ -13,15 +10,15 @@ from hTools2.modules.messages import no_font_open
 
 class adjustVerticalMetrics(hDialog):
 
-    """A dialog to adjust the vertical metrics in the font with the help of sliders and nudge buttons.
+    '''A dialog to adjust the vertical metrics in the font with the help of sliders and nudge buttons.
 
     .. image:: imgs/font/adjust-vmetrics.png
 
-    """
+    '''
 
-    ascender_min = 1
+    ascender_min  = 1
     capheight_min = 1
-    xheight_min = 1
+    xheight_min   = 1
     descender_min = 1
 
     column_1 = 80
@@ -38,7 +35,7 @@ class adjustVerticalMetrics(hDialog):
         self.height = self.text_height + (self.nudge_button * 4) + (self.padding_y * 6)
         self.font = CurrentFont()
         if self.font is not None:
-            self.w = FloatingWindow((self.width, self.height), self.title)
+            self.w = HUDFloatingWindow((self.width, self.height), self.title)
             # get font vmetrics
             units_per_em = self.font.info.unitsPerEm
             ascender = self.font.info.ascender

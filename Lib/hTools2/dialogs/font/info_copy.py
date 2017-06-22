@@ -1,11 +1,8 @@
 # [h] copy font info
 
-# imports
-
 from mojo.roboFont import AllFonts
 from mojo.events import addObserver, removeObserver
 from vanilla import *
-
 from hTools2 import hDialog
 from hTools2.modules.fontutils import get_full_name
 from hTools2.modules.messages import no_font_open
@@ -14,11 +11,11 @@ from hTools2.modules.messages import no_font_open
 
 class copyFontInfoDialog(hDialog):
 
-    """Copy font info from one font to another.
+    '''Copy font info from one font to another.
 
     .. image:: imgs/font/copy-info.png
 
-    """
+    '''
 
     # attributes
 
@@ -93,7 +90,7 @@ class copyFontInfoDialog(hDialog):
         # window
         self.title = 'fontinfo'
         self.height = (self.text_height * 8) + (self.padding_y * 4) + self.button_height - 6
-        self.w = FloatingWindow((self.width, self.height), self.title)
+        self.w = HUDFloatingWindow((self.width, self.height), self.title)
         # source font
         x = self.padding_x
         y = self.padding_y - 8

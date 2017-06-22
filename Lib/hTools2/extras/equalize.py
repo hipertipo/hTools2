@@ -146,5 +146,5 @@ def equalize_curves(reference_glyph):
                     p1.round()
                     p2.round()
 
-    reference_glyph.update()
+    reference_glyph.changed()
     reference_glyph.performUndo()

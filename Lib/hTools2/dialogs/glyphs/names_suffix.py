@@ -1,29 +1,22 @@
 # [h] change suffix in selected glyphs
 
-# imports
-
 from mojo.roboFont import CurrentFont
 from vanilla import *
-
 from hTools2 import hDialog
 from hTools2.modules.fontutils import get_glyphs
 from hTools2.modules.glyphutils import has_suffix, change_suffix
 from hTools2.modules.messages import no_font_open, no_glyph_selected
 
-# objects
-
 class changeSuffixDialog(hDialog):
 
-    """A dialog to change the suffix of the selected glyphs.
+    '''A dialog to change the suffix of the selected glyphs.
 
     .. image:: imgs/glyphs/names-suffix-0.png
     .. image:: imgs/glyphs/names-suffix-1.png
     .. image:: imgs/glyphs/names-suffix-2.png
     .. image:: imgs/glyphs/names-suffix-3.png
 
-    """
-
-    # attributes
+    '''
 
     #: The old suffix to be substituted.
     old_suffix = ''
@@ -34,14 +27,12 @@ class changeSuffixDialog(hDialog):
     #: Overwrite (or not) if glyph with new name already exists in font.
     overwrite = True
 
-    # methods
-
     def __init__(self):
         self.title = 'suffix'
         self.height = (self.text_height * 3) + (self.padding_y * 5) + self.button_height
         self.column_1 = 33
         self.column_2 = 70
-        self.w = FloatingWindow((self.width, self.height), self.title,)
+        self.w = HUDFloatingWindow((self.width, self.height), self.title)
         # old suffix
         x = self.padding_x
         y = self.padding_y
@@ -104,11 +95,11 @@ class changeSuffixDialog(hDialog):
         if f is not None:
             glyph_names = get_glyphs(f)
             if len(glyph_names) > 0:
-                boolstring = [ False, True ]
+                boolstring = [False, True]
                 # get parameters
                 self.old_suffix = self.w.old_suffix_value.get()
                 self.new_suffix = self.w.new_suffix_value.get()
-                self.overwrite = self.w.overwrite_checkbox.get()
+                self.overwrite  = self.w.overwrite_checkbox.get()
                 # print info
                 print 'changing glyph name suffixes...\n'
                 print '\told suffix: %s' % (self.old_suffix)
@@ -142,9 +133,9 @@ class changeSuffixDialog(hDialog):
                                 if self._overwrite:
                                     print "\toverwriting '%s' with '%s'" % (new_name, glyph_name)
                                     f.removeGlyph(_new_name)
-                                    f.update()
+                                    f.changed()
                                     g.name = new_name
-                                    g.update()
+                                    g.changed()
                                 # do not overwrite
                                 else:
                                     print "\t'%s' already exists in font, skipping '%s'" % (new_name, glyph_name)
@@ -153,7 +144,7 @@ class changeSuffixDialog(hDialog):
                         pass
                     # done glyph
                 # done font
-                f.update()
+                f.changed()
                 print
                 print '...done.\n'
             # no glyph selected
@@ -162,4 +153,3 @@ class changeSuffixDialog(hDialog):
         # no font open
         else:
             print no_font_open
-        pass

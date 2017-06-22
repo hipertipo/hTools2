@@ -1,46 +1,32 @@
 # [h] glyph outliner
 
-import hTools2.modules.outline
-reload(hTools2.modules.outline)
-
-import hTools2.dialogs.misc
-reload(hTools2.dialogs.misc)
-
-# imports
-
 from mojo.roboFont import CurrentFont
 from vanilla import *
-
 from hTools2 import hDialog
 from hTools2.modules.fontutils import get_glyphs
 from hTools2.modules.outline import expand
 from hTools2.dialogs.misc import Arrows, Spinner
 from hTools2.modules.messages import no_glyph_selected, no_font_open, no_layer_selected
 
-# objects
-
 class outlineGlyphsDialog(hDialog):
 
-    """A dialog to apply a contour offset to selected glyphs.
+    '''A dialog to apply a contour offset to selected glyphs.
 
     .. image:: imgs/glyphs/outline.png
 
-    """
-
-    # attributes
+    '''
 
     delta = 60
-    join = 1
-    cap = 1
-    stroke_parameters = [ 'Square', 'Round', 'Butt' ]
+    join  = 1
+    cap   = 1
 
-    # functions
+    stroke_parameters = [ 'Square', 'Round', 'Butt' ]
 
     def __init__(self, ):
         self.title = 'outliner'
         self.column_1 = 40
         self.height = self.button_height + (self.padding_y * 5) + (self.text_height * 4) - 2
-        self.w = FloatingWindow((self.width, self.height), self.title)
+        self.w = HUDFloatingWindow((self.width, self.height), self.title)
         # delta spinner
         x = 0
         y = self.padding_y

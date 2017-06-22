@@ -15,11 +15,11 @@ from hTools2.extras.grapefruit import Color
 
 class interpolationPreviewDialog(hDialog, BaseWindowController):
 
-    """A dialog to preview glyph interpolation with another font.
+    '''A dialog to preview glyph interpolation with another font.
 
     .. image:: imgs/glyphs/interpolation-preview.png
 
-    """
+    '''
 
     # attributes
 
@@ -44,7 +44,7 @@ class interpolationPreviewDialog(hDialog, BaseWindowController):
         # make window
         self.width *= 2
         self.height = self.text_height + self.button_height*3 + self.padding*4
-        self.w = FloatingWindow((self.width, self.height), "interpol")
+        self.w = HUDFloatingWindow((self.width, self.height), "interpol preview")
         # get colors
         x = y = p = self.padding
         self.w.mark_color = ColorWell(
@@ -96,7 +96,7 @@ class interpolationPreviewDialog(hDialog, BaseWindowController):
             self.off()
         # update glyph view
         g = CurrentGlyph()
-        g.update()
+        g.changed()
 
     def update_callback(self, sender):
         # print 'updating fonts'

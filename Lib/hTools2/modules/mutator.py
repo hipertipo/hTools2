@@ -1,6 +1,5 @@
 import os
 from collections import OrderedDict
-
 from mutatorMath.ufo.document import DesignSpaceDocumentWriter # DesignSpaceDocumentReader
 
 class DesignSpaceMaker(object):

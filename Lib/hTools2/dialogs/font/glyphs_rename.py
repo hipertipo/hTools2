@@ -1,11 +1,8 @@
 # [h] rename glyphs in font
 
-# imports
-
 from mojo.roboFont import CurrentFont
 from vanilla import *
 from vanilla.dialogs import getFile
-
 from hTools2 import hDialog
 from hTools2.modules.fileutils import read_names_list_from_file
 from hTools2.modules.fontutils import rename_glyphs_from_list
@@ -15,17 +12,17 @@ from hTools2.modules.messages import no_glyph_selected, no_font_open
 
 class batchRenameGlyphs(hDialog):
 
-    """A dialog to batch rename glyphs in a font, based on a list of old- and new names.
+    '''A dialog to batch rename glyphs in a font, based on a list of old- and new names.
 
     .. image:: imgs/font/rename-glyphs.png
 
-    """
+    '''
 
     def __init__(self):
             self.title = 'rename'
             self.column_1 = 110
             self.height = (self.button_height * 2) + (self.text_height * 2) + (self.padding_y * 4)
-            self.w = FloatingWindow((self.width, self.height), self.title)
+            self.w = HUDFloatingWindow((self.width, self.height), self.title)
             x = self.padding_x
             y = self.padding_y
             # get names file

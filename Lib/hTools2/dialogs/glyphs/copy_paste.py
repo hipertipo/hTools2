@@ -1,95 +1,71 @@
 # [h] selectively copy-and-paste data from one glyph to others
 
-# imports
-
 from mojo.roboFont import CurrentFont, CurrentGlyph
 from mojo.events import addObserver, removeObserver
 from vanilla import *
-
 from hTools2 import hDialog
 from hTools2.modules.fontutils import get_glyphs
 from hTools2.modules.anchors import transfer_anchors
 from hTools2.modules.messages import no_glyph_selected, no_font_open
 
-# object
-
 class copyPasteGlyphDialog(hDialog):
 
-    """A dialog to copy and paste glyphs, with a few special options.
+    '''A dialog to copy and paste glyphs, with a few special options.
 
     .. image:: imgs/glyphs/copy-paste.png
 
-    """
+    '''
 
-    # attributes
-
-    source_font = None
+    source_font  = None
     source_glyph = None
-
-    # methods
 
     def __init__(self):
         self.title = "paste+"
-        self.width = 123
-        self.height = (self.button_height * 2) + (self.text_height * 5) + (self.padding_y * 4)
-        self.w = FloatingWindow((self.width, self.height), self.title)
+        self.height = self.button_height*2 + self.text_height*5 + self.padding_y*4
+        self.w = HUDFloatingWindow((self.width, self.height), self.title)
         x = self.padding_x
         y = self.padding_y
         # paste
         self.w.button_copy = SquareButton(
-                    (x, y,
-                    -self.padding_x,
-                    self.button_height),
+                    (x, y, -self.padding_x, self.button_height),
                     "copy",
                     callback=self.copy_callback,
                     sizeStyle=self.size_style)
         # options
         y += (self.button_height + self.padding_y)
         self.w.foreground = CheckBox(
-                    (x, y,
-                    -self.padding_x,
-                    self.text_height),
+                    (x, y, -self.padding_x, self.text_height),
                     "foreground",
                     value=True,
                     sizeStyle=self.size_style)
         y += self.text_height
         self.w.layers = CheckBox(
-                    (x, y,
-                    -self.padding_x,
-                    self.text_height),
+                    (x, y, -self.padding_x, self.text_height),
                     "layers",
                     value=True,
                     sizeStyle=self.size_style)
         y += self.text_height
         self.w.metrics = CheckBox(
-                    (x, y,
-                    -self.padding_x,
-                    self.text_height),
+                    (x, y, -self.padding_x, self.text_height),
                     "width",
                     value=True,
                     sizeStyle=self.size_style)
         y += self.text_height
         self.w.anchors = CheckBox(
-                    (x, y,
-                    -self.padding_x,
-                    self.text_height),
+                    (x, y, -self.padding_x, self.text_height),
                     "anchors",
                     value=True,
                     sizeStyle=self.size_style)
         y += self.text_height
         self.w.color = CheckBox(
-                    (x, y,
-                    -self.padding_x,
-                    self.text_height),
+                    (x, y, -self.padding_x, self.text_height),
                     "color",
                     value=True,
                     sizeStyle=self.size_style)
         # paste
         y += (self.text_height + self.padding_y)
         self.w.button_paste = SquareButton(
-                    (x, y,
-                    -self.padding_x,
-                    self.button_height),
+                    (x, y, -self.padding_x, self.button_height),
                     "paste",
                     callback=self.paste_callback,
                     sizeStyle=self.size_style)
@@ -113,10 +89,10 @@ class copyPasteGlyphDialog(hDialog):
             if len(glyph_names) > 0:
                 # get data
                 foreground = self.w.foreground.get()
-                layers = self.w.layers.get()
-                metrics = self.w.metrics.get()
-                anchors = self.w.anchors.get()
-                color = self.w.color.get()
+                layers     = self.w.layers.get()
+                metrics    = self.w.metrics.get()
+                anchors    = self.w.anchors.get()
+                color      = self.w.color.get()
                 # print info
                 bool_string = [ False, True ]
                 print 'pasting data from glyph %s:\n' % self.source_glyph.name

@@ -94,71 +94,71 @@ def unicode_hexstr_to_int(hexUnicode, replaceUni=True):
 unicodes_extra = {
 
     # extended latin lc
-    'aemacron'              : '01E3',
-    'dotlessj'              : '0237',
-    'schwa'                 : '0259',
-    'ymacron'               : '0233',
-    'eszett'                : '00DF',
+    'aemacron'        : '01E3',
+    'dotlessj'        : '0237',
+    'schwa'           : '0259',
+    'ymacron'         : '0233',
+    'eszett'          : '00DF',
 
     # extended latin uc
-    'AEmacron'              : '01E2',
-    'Schwa'                 : '018F',
-    'Uppercaseeszett'       : '1E9E',
+    'AEmacron'        : '01E2',
+    'Schwa'           : '018F',
+    'Uppercaseeszett' : '1E9E',
 
     # ligatures
-    'fi'                    : 'FB01',
-    'fl'                    : 'FB02',
-    'f_f'                   : 'FB00',
-    'f_f_i'                 : 'FB03',
-    'f_f_l'                 : 'FB04',
+    'fi'              : 'FB01',
+    'fl'              : 'FB02',
+    'f_f'             : 'FB00',
+    'f_f_i'           : 'FB03',
+    'f_f_l'           : 'FB04',
 
     # greek exceptions
-    'Delta'                 : '2206', # 0394
-    'Omega'                 : '2126', # 03A9
-    'mu'                    : '00B5', # 03BC
+    'Delta'           : '2206', # 0394
+    'Omega'           : '2126', # 03A9
+    'mu'              : '00B5', # 03BC
 
     # superiors
-    'zerosuperior'          : '2070',
-    'onesuperior'           : '00B9',
-    'twosuperior'           : '00B2',
-    'threesuperior'         : '00B3',
-    'foursuperior'          : '2074',
-    'fivesuperior'          : '2075',
-    'sixsuperior'           : '2076',
-    'sevensuperior'         : '2077',
-    'eightsuperior'         : '2078',
-    'ninesuperior'          : '2079',
+    'zerosuperior'    : '2070',
+    'onesuperior'     : '00B9',
+    'twosuperior'     : '00B2',
+    'threesuperior'   : '00B3',
+    'foursuperior'    : '2074',
+    'fivesuperior'    : '2075',
+    'sixsuperior'     : '2076',
+    'sevensuperior'   : '2077',
+    'eightsuperior'   : '2078',
+    'ninesuperior'    : '2079',
 
     # inferiors
-    'zeroinferior'          : '2080',
-    'oneinferior'           : '2081',
-    'twoinferior'           : '2082',
-    'threeinferior'         : '2083',
-    'fourinferior'          : '2084',
-    'fiveinferior'          : '2085',
-    'sixinferior'           : '2086',
-    'seveninferior'         : '2087',
-    'eightinferior'         : '2088',
-    'nineinferior'          : '2089',
+    'zeroinferior'    : '2080',
+    'oneinferior'     : '2081',
+    'twoinferior'     : '2082',
+    'threeinferior'   : '2083',
+    'fourinferior'    : '2084',
+    'fiveinferior'    : '2085',
+    'sixinferior'     : '2086',
+    'seveninferior'   : '2087',
+    'eightinferior'   : '2088',
+    'nineinferior'    : '2089',
 
     # spaces
-    'enspace'               : '2002',
-    'emspace'               : '2003',
-    'nbspace'               : '00A0',
-    'hairspace'             : '200A',
-    'thinspace'             : '2009',
-    'thickspace'            : '2004',
-    'figurespace'           : '2007',
-    'zerowidthspace'        : '200B',
+    'enspace'         : '2002',
+    'emspace'         : '2003',
+    'nbspace'         : '00A0',
+    'hairspace'       : '200A',
+    'thinspace'       : '2009',
+    'thickspace'      : '2004',
+    'figurespace'     : '2007',
+    'zerowidthspace'  : '200B',
 
     # combining accents
-    'gravecomb'             : '0300',
-    'acutecomb'             : '0301',
-    'circumflexcomb'        : '0302',
-    'tildecomb'             : '0303',
-    'dieresiscomb'          : '0308',
-    'dotbelowcomb'          : '0323',
-    'cedillacomb'           : '0327',
+    'gravecomb'       : '0300',
+    'acutecomb'       : '0301',
+    'circumflexcomb'  : '0302',
+    'tildecomb'       : '0303',
+    'dieresiscomb'    : '0308',
+    'dotbelowcomb'    : '0323',
+    'cedillacomb'     : '0327',
 
     # arrows
     'arrowleft'             : '2190',

@@ -1,84 +1,63 @@
 # [h] rasterize selected glyphs into elements
 
-import hTools2.modules.rasterizer
-reload(hTools2.modules.rasterizer)
-
-# imports
-
 from mojo.roboFont import CurrentFont
 from vanilla import *
-
 from hTools2 import hDialog
 from hTools2.dialogs.misc import Spinner
 from hTools2.modules.fontutils import get_glyphs
 from hTools2.modules.rasterizer import *
 from hTools2.modules.messages import no_glyph_selected, no_font_open
 
-# objects
-
 class rasterizeGlyphDialog(hDialog):
 
-    """A dialog to rasterize the selected glyphs with element components.
+    '''A dialog to rasterize the selected glyphs with element components.
 
     .. image:: imgs/glyphs/elements-rasterize.png
 
-    """
-
-    # attributes
+    '''
 
     gridsize = 125
     element_scale = 1.00
 
-    # functions
-
     def __init__(self):
-        self.title = 'rasterizer'
+        self.title = 'E Rasterizer'
         self.column_1 = 40
         self.box = 20
-        self.height = self.progress_bar + (self.padding_y * 7) + (self.square_button * 3)
-        self.w = FloatingWindow((self.width, self.height), self.title)
+        self.height = self.progress_bar + self.padding_y*7 + self.square_button*3
+        self.w = HUDFloatingWindow((self.width, self.height), self.title)
         # grid size
         x = 0
         y = self.padding_y
         self.w.spinner = Spinner(
                     (x, y),
-                    default='120',
-                    integer=True,
+                    default='120', integer=True,
                     label='grid')
         # rasterize button
         x = self.padding_x
         y += self.w.spinner.getPosSize()[3]
         # y += self.nudge_button + self.padding_y
         self.w.button_rasterize = SquareButton(
-                    (x, y,
-                    -self.padding_x,
-                    self.button_height),
+                    (x, y, -self.padding_x, self.button_height),
                     "rasterize",
                     sizeStyle=self.size_style,
                     callback=self._rasterize_callback)
         # progress bar
         y += self.progress_bar + self.padding_y
         self.w.bar = ProgressBar(
-                    (x, y + 2,
-                    -self.padding_x,
-                    self.progress_bar),
+                    (x, y+2, -self.padding_x, self.progress_bar),
                     isIndeterminate=True,
                     sizeStyle=self.size_style)
         # print button
         y += self.progress_bar + self.padding_y - 1
         self.w.button_print = SquareButton(
-                    (x, y,
-                    -self.padding_x,
-                    self.button_height),
+                    (x, y, -self.padding_x, self.button_height),
                     "print",
                     sizeStyle=self.size_style,
                     callback=self._print_callback)
         # scan button
         y += self.button_height + self.padding_y
         self.w.button_scan = SquareButton(
-                    (x, y,
-                    -self.padding_x,
-                    self.button_height),
+                    (x, y, -self.padding_x, self.button_height),
                     "scan",
                     callback=self._scan_callback,
                     sizeStyle=self.size_style)

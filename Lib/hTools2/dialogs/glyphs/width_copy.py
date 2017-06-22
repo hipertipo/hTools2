@@ -1,39 +1,34 @@
 # [h] copy widths from selected glyphs in one font to the same glyphs in another font
 
-# imports
-
 from mojo.roboFont import AllFonts
 from mojo.events import addObserver, removeObserver
 from vanilla import *
-
 from hTools2 import hDialog
 from hTools2.modules.fontutils import get_full_name, get_glyphs
 from hTools2.modules.glyphutils import center_glyph
 from hTools2.modules.messages import no_font_open, only_one_font
 
-# objects
-
 class copyWidthsDialog(hDialog):
 
-    """A dialog to copy the advance width of selected glyphs in one font to the same glyphs in another font.
+    '''A dialog to copy the advance width of selected glyphs in one font to the same glyphs in another font.
 
     .. image:: imgs/glyphs/width-copy.png
 
-    """
-
-    # attributes
+    '''
 
     all_fonts = []
     all_fonts_names = []
 
-    # methods
-
     def __init__(self):
         self._get_fonts()
         # window
-        self.title = 'widths'
-        self.height = (self.button_height) + (self.text_height * 2) + (self.padding_y * 6) + (self.button_height * 2)
-        self.w = FloatingWindow((self.width, self.height), self.title)
+        self.title = 'copy widths'
+        self.height = (self.button_height) + (self.text_height*2) + (self.padding_y*6) + (self.button_height*2)
+        self.w = HUDFloatingWindow(
+                    (self.width, self.height),
+                    self.title,
+                    autosaveName='com.hipertipo.hTools2.dialogs.glyphs.width_set',
+            )
         # source font
         x = self.padding_x
         y = self.padding_y - 1
@@ -117,19 +112,19 @@ class copyWidthsDialog(hDialog):
             boolstring = [False, True]
             # source font
             _source_font_index = self.w._source_value.get()
-            _source_font = self.all_fonts[_source_font_index]
-            _source_font_name = self.all_fonts_names[_source_font_index]
+            _source_font       = self.all_fonts[_source_font_index]
+            _source_font_name  = self.all_fonts_names[_source_font_index]
             # dest font
-            _dest_font_index = self.w._dest_value.get()
-            _dest_font = self.all_fonts[_dest_font_index]
-            _dest_font_name = self.all_fonts_names[_dest_font_index]
+            _dest_font_index   = self.w._dest_value.get()
+            _dest_font         = self.all_fonts[_dest_font_index]
+            _dest_font_name    = self.all_fonts_names[_dest_font_index]
             # center
             _center = self.w.center_checkbox.get()
             # print info
             print 'copying widths...\n'
             print '\tsource font: %s' % _source_font_name
             print '\ttarget font: %s' % _dest_font_name
-            print '\tcenter: %s' % boolstring[_center]
+            print '\tcenter: %s'      % boolstring[_center]
             print
             print '\t',
             # batch copy side-bearings
@@ -145,8 +140,8 @@ class copyWidthsDialog(hDialog):
                         center_glyph(_dest_font[glyph_name])
                     # call undo
                     _dest_font[glyph_name].performUndo()
-                    _dest_font[glyph_name].update()
-            _dest_font.update()
+                    _dest_font[glyph_name].changed()
+            _dest_font.changed()
             print
             print '\n...done.\n'
 
