@@ -23,26 +23,26 @@ def set_vmetrics(font, xheight, capheight, ascender, descender, emsquare, gridsi
     font.info.unitsPerEm = emsquare * gridsize
 
 def auto_set_vmetrics(font, ascender, descender, ymax, ymin):
-    hhea_ascender = ymax
-    hhea_descender = ymin
-    hhea_linegap = 0
-    os2_win_ascent = ymax
-    os2_win_descent = abs(ymin)
-    os2_typo_ascender = ascender
-    os2_typo_descender = descender
-    os2_typo_linegap = (os2_win_ascent + abs(os2_win_descent)) - (os2_typo_ascender + abs(os2_typo_descender))
+    hhea_ascender       = ymax
+    hhea_descender      = ymin
+    hhea_linegap        = 0
+    os2_win_ascent      = ymax
+    os2_win_descent     = abs(ymin)
+    os2_typo_ascender   = ascender
+    os2_typo_descender  = descender
+    os2_typo_linegap    = (os2_win_ascent + abs(os2_win_descent)) - (os2_typo_ascender + abs(os2_typo_descender))
     # set data
-    font.info.ascender = ascender
-    font.info.descender = -descender
-    font.info.unitsPerEm = ascender + descender
-    font.info.openTypeHheaAscender = hhea_ascender
-    font.info.openTypeHheaDescender = hhea_descender
-    font.info.openTypeHheaLineGap = hhea_linegap
-    font.info.openTypeOS2TypoAscender = os2_typo_ascender
-    font.info.openTypeOS2TypoDescender = os2_typo_descender
-    font.info.openTypeOS2TypoLineGap = os2_typo_linegap
-    font.info.openTypeOS2WinAscent = os2_win_ascent
-    font.info.openTypeOS2WinDescent = os2_win_descent
+    font.info.ascender                 = ascender
+    font.info.descender                = -descender
+    font.info.unitsPerEm               = ascender + descender
+    font.info.openTypeHheaAscender     = hhea_ascender
+    font.info.openTypeHheaDescender    = hhea_descender
+    font.info.openTypeHheaLineGap      = hhea_linegap
+    font.info.openTypeOS2TypoAscender  = os2_typo_ascender
+    font.info.openTypeOS2TypoDescender = -os2_typo_descender
+    font.info.openTypeOS2TypoLineGap   = os2_typo_linegap
+    font.info.openTypeOS2WinAscent     = os2_win_ascent
+    font.info.openTypeOS2WinDescent    = os2_win_descent
     # round vmetrics to integer
     round_vmetrics(font)
 

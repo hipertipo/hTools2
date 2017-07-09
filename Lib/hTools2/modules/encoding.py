@@ -3,7 +3,10 @@
 '''Tools to work with encoding files, character sets etc.'''
 
 import os
-from fontParts.nonelab import RFont
+try:
+    from mojo.roboFont import RFont
+except:
+    from fontParts.nonelab import RFont
 from hTools2.modules.unicode import *
 from hTools2.modules.color import clear_colors, hls_to_rgb
 

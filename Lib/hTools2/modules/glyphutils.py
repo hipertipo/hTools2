@@ -18,18 +18,18 @@ def round_width(glyph, gridsize):
     '''Round ``glyph.width`` to a multiple of ``gridsize``.'''
     _width = float(glyph.width) / gridsize
     glyph.width = round(_width) * gridsize
-    glyph.changed()
+    # glyph.changed()
 
 def round_margins(glyph, gridsize, left=True, right=True):
     '''Round left and/or right margins to multiples of ``gridsize``.'''
     if left:
         _left = float(glyph.leftMargin) / gridsize
         glyph.leftMargin = round(_left) * gridsize
-        glyph.changed()
+        # glyph.changed()
     if right:
         _right = float(glyph.rightMargin) / gridsize
         glyph.rightMargin = round(_right) * gridsize
-        glyph.changed()
+        # glyph.changed()
 
 #-------------
 # glyph names
@@ -38,14 +38,14 @@ def round_margins(glyph, gridsize, left=True, right=True):
 def has_suffix(glyph, suffix):
     '''Check if the name of ``glyph`` has the extension ``suffix``, and returns ``True`` or ``False``.'''
     has_suffix = False
-    nameParts = glyph.name.split(".")
+    name_parts = glyph.name.split(".")
     # check for suffix
-    if len(nameParts) == 2:
-        if nameParts[1] == suffix:
+    if len(name_parts) == 2:
+        if name_parts[1] == suffix:
             has_suffix = True
     # check for no suffix
     else:
-        if len(nameParts) == 1 and len(suffix) == 0:
+        if len(name_parts) == 1 and len(suffix) == 0:
             has_suffix = True
     return has_suffix
 
@@ -72,7 +72,7 @@ def round_points(glyph, (sizeX, sizeY)):
             _y_round = round(_y / sizeY) * sizeY
             point.x = _x_round
             point.y = _y_round
-    glyph.changed()
+    # glyph.changed()
 
 def round_bpoints(glyph, (sizeX, sizeY)):
     '''Round the position of all ``bPoints`` in ``glyph`` to the gridsize ``(sizeX,sizeY)``.'''
@@ -83,7 +83,7 @@ def round_bpoints(glyph, (sizeX, sizeY)):
             _x_round = round(_x / sizeX) * sizeX
             _y_round = round(_y / sizeY) * sizeY
             b_point.anchor = (_x_round, _y_round)
-    glyph.changed()
+    # glyph.changed()
 
 def round_anchors(glyph, (sizeX, sizeY)):
     '''Round the position of all ``anchors`` in ``glyph`` to the gridsize ``(sizeX,sizeY)``.'''
@@ -96,7 +96,7 @@ def round_anchors(glyph, (sizeX, sizeY)):
             x_delta = x_new - anchor.x
             y_delta = y_new - anchor.y
             anchor.moveBy((x_delta, y_delta))
-        glyph.changed()
+        # glyph.changed()
 
 #---------------
 # select points
@@ -114,7 +114,11 @@ def select_points_x(glyph, linePos, side='left'):
             else:
                 if p.x >= linePos:
                     p.selected = True
-    glyph.changed()
+    # done
+    try:
+        glyph.changed()
+    except:
+        glyph.update()
 
 def select_points_y(glyph, linePos, side='top'):
     '''Select all points in ``glyph`` above/below the ``linePos(y)``.'''
@@ -128,20 +132,28 @@ def select_points_y(glyph, linePos, side='top'):
             else:
                 if p.y <= linePos:
                     p.selected = True
-    glyph.changed()
+    # done
+    try:
+        glyph.changed()
+    except:
+        glyph.update()
 
 def deselect_points(glyph):
     '''Deselect any selected point in glyph.'''
     for c in glyph.contours:
         for p in c.points:
             p.selected = False
-    glyph.changed()
+    # done
+    try:
+        glyph.changed()
+    except:
+        glyph.update()
 
 #--------------
 # shift points
 #--------------
 
-def shift_selected_points_x(glyph, delta, anchors=False, bPoints=True):
+def shift_selected_points_x(glyph, delta, anchors=False, bPoints=False):
     '''Shift the selected points in ``glyph`` horizontally by ``delta`` units.'''
     # shift bPoints
     if bPoints:
@@ -176,9 +188,12 @@ def shift_selected_points_x(glyph, delta, anchors=False, bPoints=True):
                     if a.x <= linePos:
                         a.x = a.x + delta
     # done
-    glyph.changed()
+    try:
+        glyph.changed()
+    except:
+        glyph.update()
 
-def shift_selected_points_y(glyph, delta, anchors=False, bPoints=True):
+def shift_selected_points_y(glyph, delta, anchors=False, bPoints=False):
     '''Shift the selected points in ``glyph`` vertically by ``delta`` units.'''
     # shift bPoints
     if bPoints:
@@ -213,7 +228,10 @@ def shift_selected_points_y(glyph, delta, anchors=False, bPoints=True):
                     if a.y <= linePos:
                         a.y = a.y + delta
     # done
-    glyph.changed()
+    try:
+        glyph.changed()
+    except:
+        glyph.update()
 
 #---------------
 # center glyphs
@@ -229,7 +247,7 @@ def draw_bounds(g, (x1, y1, x2, y2), (x3, y3)):
     g.addGuide((0, y2), 0, name="y_max")
     g.addGuide((0, y3), 0, name="y_mid")
     # done
-    g.changed()
+    # g.changed()
 
 def get_bounds(g, layer_names):
     lowest_x = False
@@ -286,7 +304,7 @@ def center_layers(g, layer_names, (middle_x, middle_y)):
             shift_x  = middle_x - center_x
             shift_y  = middle_y - center_y
             glyph.moveBy((shift_x, shift_y))
-        g.changed()
+        # g.changed()
 
 def center_glyph_layers(g, layers, guides=True):
     _bounds = get_bounds(g, layers)
@@ -315,7 +333,7 @@ def clear_glyph_libs(glyph):
     if check_lib(glyph) is True:
         for k in glyph.lib.keys():
             del glyph.lib[k]
-        glyph.changed()
+        # glyph.changed()
 
 #------------
 # guidelines
@@ -324,7 +342,7 @@ def clear_glyph_libs(glyph):
 def clear_guides(glyph):
     for guide in glyph.guidelines:
         glyph.removeGuideline(guide)
-    glyph.changed()
+    # glyph.changed()
 
 #------
 # bcps
@@ -348,4 +366,4 @@ def remove_components(glyph):
     if len(glyph.components) > 0:
         for component in glyph.components:
             glyph.removeComponent(component)
-        glyph.update()
+        # glyph.update()

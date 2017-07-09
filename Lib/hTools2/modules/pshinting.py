@@ -11,36 +11,31 @@ def get_vstems(font, glyphs=['l', 'I']):
     for glyph_name in glyphs:
         if font.has_key(glyph_name):
             g = font[glyph_name]
-            try:
+            if len(g):
                 # get margins
-                left_edge, right_edge = IntersectGlyphWithLine(glyph,
-                        ((0, ref_y), (700, ref_y)),
+                left_edge, right_edge = IntersectGlyphWithLine(g,
+                        ((0, ref_y), (g.width, ref_y)),
                         canHaveComponent=False, addSideBearings=False)
                 # calculate stem from margins
-                stem = int(right_edge - left_edge)
+                stem = abs(int(right_edge[0] - left_edge[0]))
                 stems.append(stem)
-            except:
-                # glyph is empty
-                pass
     return stems
 
 def get_hstems(font, glyphs=['H']):
+    from mojo.tools import IntersectGlyphWithLine
     stems = []
     for glyph_name in glyphs:
         if font.has_key(glyph_name):
             g = font[glyph_name]
             ref_x = g.width / 2.0
-            try:
+            if len(g):
                 # get margins
-                bottom_edge, top_edge = IntersectGlyphWithLine(glyph,
-                        ((ref_x, 0), (ref_x, 700)),
+                bottom_edge, top_edge = IntersectGlyphWithLine(g,
+                        ((ref_x, 0), (ref_x, font.info.capHeight)),
                         canHaveComponent=False, addSideBearings=False)
                 # calculate stem from margins
-                stem = int(top_edge - bottom_edge)
+                stem = int(top_edge[1] - bottom_edge[1])
                 stems.append(stem)
-            except:
-                # glyph is empty
-                pass
     return stems
 
 def set_vstems(font, stems):

@@ -1,6 +1,6 @@
 # [h] paint and select glyphs by color
 
-from mojo.roboFont import CurrentFont, CurrentGlyph
+from mojo.roboFont import CurrentFont, CurrentGlyph, version
 from vanilla import *
 from AppKit import NSColor
 from hTools2 import hDialog
@@ -21,7 +21,7 @@ class paintGlyphsDialog(hDialog):
     def __init__(self):
         self.title = 'color'
         self.height = self.button_height*5 + self.padding*5 - 1
-        self.w = FloatingWindow((self.width, self.height), self.title)
+        self.w = HUDFloatingWindow((self.width, self.height), self.title)
         x = y = p = self.padding
         # get color
         self.w.button_get = SquareButton(
@@ -64,7 +64,7 @@ class paintGlyphsDialog(hDialog):
         f = CurrentFont()
         if f is not None:
             glyph_names = get_glyphs(f)
-            if len(glyph_names) > 0:
+            if len(glyph_names):
                 g = f[glyph_names[0]]
                 # get glyph color
                 color = g.mark
@@ -99,7 +99,17 @@ class paintGlyphsDialog(hDialog):
                 for glyph_name in glyph_names:
                     print glyph_name,
                     f[glyph_name].prepareUndo('paint glyph')
-                    f[glyph_name].markColor = _mark_color
+
+                    # RF 2.0
+                    if version[0] == '2':
+                        f[glyph_name].markColor = _mark_color
+                        f[glyph_name].changed()
+
+                    # RF 1.8.X
+                    else:
+                        f[glyph_name].mark = _mark_color
+                        f[glyph_name].update()
+
                     f[glyph_name].performUndo()
                 print
                 print '\n...done.\n'
@@ -116,14 +126,30 @@ class paintGlyphsDialog(hDialog):
             glyph_names = get_glyphs(f)
             if len(glyph_names) > 0:
                 glyph_name = get_glyphs(f)[0]
-                color = f[glyph_name].markColor
+
+                # RF 2.0
+                if version[0] == '2':
+                    color = f[glyph_name].markColor
+                # RF 1.8.X
+                else:
+                    color = f[glyph_name].mark
+
                 print 'selecting glyphs:\n'
                 print '\t',
                 glyph_names = []
                 for glyph in f:
-                    if glyph.markColor == color:
-                        print glyph.name,
-                        glyph_names.append(glyph.name)
+
+                    # RF 2.0
+                    if version[0] == '2':
+                        if glyph.markColor == color:
+                            print glyph.name,
+                            glyph_names.append(glyph.name)
+                    # RF 1.8.X
+                    else:
+                        if glyph.mark == color:
+                            print glyph.name,
+                            glyph_names.append(glyph.name)
+
                 f.selection = glyph_names
                 print
                 print '\n...done.\n'

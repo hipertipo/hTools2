@@ -25,8 +25,15 @@ def clear_colors(font):
 
 def clear_color(glyph):
     '''Clear the color of a glyph cell.'''
-    glyph.markColor = None
-    glyph.changed()
+    from mojo.roboFont import version
+    # RF 2.0
+    if version[0] == '2':
+        glyph.markColor = None
+        glyph.changed()
+    # RF 1.8.X
+    else:
+        glyph.mark = None
+        glyph.update()
 
 def convert_to_1(R, G, B, A=None):
     r = R / 255.0

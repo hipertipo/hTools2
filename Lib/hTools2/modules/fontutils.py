@@ -66,14 +66,26 @@ def parse_glyphs_groups(names, groups):
 
 def mark_composed_glyphs(font, color='Orange', alpha=.35):
     '''Mark all composed glyphs in the font.'''
+    from mojo.roboFont import version
     R, G, B = x11_colors[color]
     mark_color = convert_to_1(R, G, B)
     mark_color += (alpha,)
     for glyph in font:
         if len(glyph.components) > 0:
-            glyph.mark = mark_color
-            glyph.changed()
-    font.changed()
+            # RF 2.0
+            if version[0] == '2':
+                glyph.markColor = mark_color
+                glyph.changed()
+            # RF 1.8.X
+            else:
+                glyph.mark = mark_color
+                glyph.update()
+    # RF 2.0
+    if version[0] == '2':
+        font.changed()
+    # RF 1.8.X
+    else:
+        font.update()
 
 #-----------------
 # renaming glyphs
