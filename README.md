@@ -1,5 +1,7 @@
 # hTools2
 
+**WARNING: hTools2 is no longer maintained… hTools3 is coming soon!**
+
 hTools2 is a [UFO](http://unifiedfontobject.org/)-based [Python](http://python.org/)-powered font-production toolkit.
 
 It is built with [RoboFab](http://robofab.org) & [vanilla](http://code.typesupply.com/wiki/Vanilla) for use with [RoboFont](http://robofont.com/).
